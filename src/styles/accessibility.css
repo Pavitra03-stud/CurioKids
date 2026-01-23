@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  font-family: "Lexend", sans-serif;
+  background: linear-gradient(180deg, #cfe9ff, #eaf7e1);
+  min-height: 100vh;
+}
+body {
+  margin: 0;
+  font-family: "Lexend", sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #a8d8ff 0%,
+    #cdeffd 35%,
+    #e8f5e9 70%,
+    #c8e6c9 100%
+  );
+  overflow-x: hidden;
+}

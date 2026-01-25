@@ -16,7 +16,7 @@ export default function ChooseFriend({ onComplete }) {
 
   const current = friends[index];
 
-  // Typing effect
+  /* ⌨️ Typing effect */
   useEffect(() => {
     if (!showIntro || !current) return;
 
@@ -33,6 +33,22 @@ export default function ChooseFriend({ onComplete }) {
     return () => clearInterval(timer);
   }, [showIntro, current]);
 
+  /* ✅ SAVE FRIEND TO LOCAL STORAGE */
+  const handleBegin = () => {
+    if (!current) return;
+
+    const selectedFriend = {
+      id: current.id,
+      name: current.name,
+      image: current.image,
+    };
+
+    localStorage.setItem("jungleFriend", JSON.stringify(selectedFriend));
+    localStorage.setItem("appProgress", "friend-chosen");
+
+    onComplete();
+  };
+
   if (!friends.length) return <h2>🌱 Loading jungle friends...</h2>;
 
   return (
@@ -42,13 +58,21 @@ export default function ChooseFriend({ onComplete }) {
           <h1>🐾 Choose Your Jungle Friend</h1>
 
           <div className="carousel">
-            <button onClick={() => setIndex((i) => (i - 1 + friends.length) % friends.length)}>
+            <button
+              onClick={() =>
+                setIndex((i) => (i - 1 + friends.length) % friends.length)
+              }
+            >
               ◀
             </button>
 
             <img src={current.image} alt={current.name} />
 
-            <button onClick={() => setIndex((i) => (i + 1) % friends.length)}>
+            <button
+              onClick={() =>
+                setIndex((i) => (i + 1) % friends.length)
+              }
+            >
               ▶
             </button>
           </div>
@@ -71,7 +95,7 @@ export default function ChooseFriend({ onComplete }) {
             <p className="typing">{text}</p>
           </div>
 
-          <button className="start big" onClick={onComplete}>
+          <button className="start big" onClick={handleBegin}>
             Let’s Begin 🌈
           </button>
         </div>

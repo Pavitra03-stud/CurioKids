@@ -1,12 +1,31 @@
+import { useEffect, useState } from "react";
+
 export default function FriendIntro({ onComplete }) {
+  const [friend, setFriend] = useState(null);
+
+  /* ✅ LOAD FRIEND FROM LOCAL STORAGE */
+  useEffect(() => {
+    const savedFriend = localStorage.getItem("jungleFriend");
+    if (savedFriend) {
+      setFriend(JSON.parse(savedFriend));
+    }
+  }, []);
+
+  const handleEnter = () => {
+    localStorage.setItem("appProgress", "entered-jungle-home");
+    onComplete();
+  };
+
+  if (!friend) return null; // safety
+
   return (
     <div style={styles.overlay}>
       <div style={styles.container}>
         {/* 🦊 CHARACTER SIDE */}
         <div style={styles.characterWrap}>
           <img
-            src="/friends/fox.png"
-            alt="Jungle Friend"
+            src={friend.image}
+            alt={friend.name}
             style={styles.character}
           />
         </div>
@@ -18,8 +37,8 @@ export default function FriendIntro({ onComplete }) {
           <p style={styles.text}>
             Hi there! 👋  
             <br /><br />
-            I’m your jungle friend, and I’m *so proud of you* for starting this
-            learning adventure 🌈  
+            I’m <strong>{friend.name}</strong>, your jungle friend, and I’m
+            *so proud of you* for starting this learning adventure 🌈  
             <br /><br />
             We’ll play fun games 🎮, solve puzzles 🧩, and grow smarter every
             single day 🌱  
@@ -27,7 +46,7 @@ export default function FriendIntro({ onComplete }) {
             Are you ready to explore the jungle with me? 🐾
           </p>
 
-          <button style={styles.button} onClick={onComplete}>
+          <button style={styles.button} onClick={handleEnter}>
             Enter Jungle Home 🌴
           </button>
         </div>
@@ -36,7 +55,7 @@ export default function FriendIntro({ onComplete }) {
   );
 }
 
-/* 🎨 STYLES */
+/* 🎨 STYLES (UNCHANGED) */
 const styles = {
   overlay: {
     height: "100vh",
@@ -58,7 +77,6 @@ const styles = {
     maxWidth: "900px",
   },
 
-  /* 🦊 CHARACTER */
   characterWrap: {
     animation: "slideIn 0.8s ease-out",
   },
@@ -70,7 +88,6 @@ const styles = {
     filter: "drop-shadow(0 12px 20px rgba(0,0,0,0.25))",
   },
 
-  /* 💬 MESSAGE */
   messageBox: {
     background: "#ffffff",
     borderRadius: "22px",

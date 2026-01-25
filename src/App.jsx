@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 /* 🔒 Public / Locked screens */
 import PublicHome from "./features/PublicHome";
@@ -8,6 +8,7 @@ import ParentRegister from "./features/ParentRegister";
 /* 🌱 Onboarding */
 import ChooseFriend from "./features/ChooseFriend";
 import FriendIntro from "./features/friendIntro";
+import JungleHero from "./features/JungleHero";
 
 /* 🌴 Main App Screens */
 import KidsHome from "./features/KidsHome";
@@ -21,6 +22,18 @@ export default function App() {
     friendChosen: false,
   });
 
+  useEffect(() => {
+  const progress = localStorage.getItem("appProgress");
+
+  if (progress === "friend-chosen") {
+    setAppState((prev) => ({ ...prev, screen: "friend-intro" }));
+  } else if (progress === "parent-created") {
+    setAppState((prev) => ({ ...prev, screen: "choose-friend" }));
+  } else if (progress === "child-created") {
+    setAppState((prev) => ({ ...prev, screen: "parent-register" }));
+  }
+}, []);
+  /* 🔁 Navigation helper */
   const goTo = (screen) => {
     setAppState((prev) => ({ ...prev, screen }));
   };
@@ -66,17 +79,25 @@ export default function App() {
             setAppState((prev) => ({
               ...prev,
               friendChosen: true,
-              screen: "friend-intro", // ✅ CHANGED HERE
+              screen: "friend-intro",
             }))
           }
         />
       );
 
-    /* 🌟 FRIEND INTRO POPUP */
+    /* 🌟 FRIEND INTRO (Let’s Begin) */
     case "friend-intro":
       return (
         <FriendIntro
-          onComplete={() => goTo("kids-home")}
+          onComplete={() => goTo("jungle-hero")} // ✅ FIXED
+        />
+      );
+
+    /* 🌿 JUNGLE HERO (Enter Jungle Home) */
+    case "jungle-hero":
+      return (
+        <JungleHero
+          onEnter={() => goTo("kids-home")} // ✅ ONLY HERE kids-home is allowed
         />
       );
 
@@ -88,6 +109,7 @@ export default function App() {
     case "parent-dashboard":
       return <ParentDashboard />;
 
+    /* 🛟 FALLBACK */
     default:
       return <PublicHome goTo={goTo} />;
   }

@@ -6,7 +6,7 @@ export default function JungleHero({ goTo }) {
   useEffect(() => {
     const savedFriend = localStorage.getItem("jungleFriend");
     if (savedFriend) {
-      setFriend(JSON.parse(savedFriend)); // ✅ parse JSON
+      setFriend(JSON.parse(savedFriend));
     }
   }, []);
 
@@ -35,14 +35,30 @@ export default function JungleHero({ goTo }) {
         </p>
 
         <div style={{ marginTop: "30px" }}>
+          {/* ✅ STUDENT → KidsHome */}
           <button
             onClick={() => goTo("kids-home")}
-            style={{ marginRight: "20px" }}
+            style={{
+              marginRight: "20px",
+              padding: "12px 24px",
+              fontSize: "16px",
+              borderRadius: "12px",
+              cursor: "pointer",
+            }}
           >
             STUDENT 🌱
           </button>
 
-          <button onClick={() => goTo("parent-dashboard")}>
+          {/* ✅ PARENT → ParentDashboard */}
+          <button
+            onClick={() => goTo("parent-dashboard")}
+            style={{
+              padding: "12px 24px",
+              fontSize: "16px",
+              borderRadius: "12px",
+              cursor: "pointer",
+            }}
+          >
             PARENT 👨‍👩‍👧
           </button>
         </div>
@@ -52,7 +68,7 @@ export default function JungleHero({ goTo }) {
       {friend && (
         <div style={{ textAlign: "center" }}>
           <img
-            src={friend.image}   // ✅ correct
+            src={friend.image}
             alt={friend.name}
             style={{ width: "300px" }}
           />

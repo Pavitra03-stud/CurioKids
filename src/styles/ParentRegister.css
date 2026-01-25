@@ -1,0 +1,32 @@
+.parent-register {
+  min-height: 100vh;
+  background: linear-gradient(#eef2f3, #d9e4ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.parent-card {
+  background: white;
+  padding: 42px;
+  border-radius: 20px;
+  width: 420px;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.parent-card h1 {
+  font-size: 26px;
+  color: #1b4332;
+}
+
+.parent-card p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.note {
+  font-size: 13px;
+  color: #666;
+  margin-top: 12px;
+}

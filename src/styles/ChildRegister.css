@@ -1,0 +1,43 @@
+.child-register {
+  min-height: 100vh;
+  background: linear-gradient(#c8f2c2, #7ccf91);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.register-card {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 40px;
+  border-radius: 24px;
+  width: 380px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+.register-card h1 {
+  font-size: 28px;
+  color: #2d6a4f;
+}
+
+.register-card p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border-radius: 14px;
+  border: 2px solid #cde8d5;
+  font-size: 16px;
+}
+
+.note {
+  font-size: 13px;
+  color: #777;
+  margin-top: 10px;
+}

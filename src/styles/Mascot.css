@@ -1,0 +1,44 @@
+.mascot {
+  position: absolute;
+  bottom: -2%;          /* ⬅ MOVE DOWN */
+  left: 2%;
+  width: 360px;
+  z-index: 20;          /* stays in front of ground */
+  pointer-events: none;
+}
+
+.mascot img {
+  width: 150%;
+  height: 100%;
+  filter: drop-shadow(0 22px 30px rgba(0,0,0,0.4));
+}
+
+
+/* Natural breathing + tiny sway */
+@keyframes mascotIdle {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}.mascot {
+  position: absolute;
+  bottom: -40px;          /* 👈 mascot comes DOWN */
+  left: 40px;
+
+  width: 360px;           /* BIG mascot */
+  z-index: 10;            /* ABOVE ground */
+  pointer-events: none;
+}
+
+.mascot img {
+  width: 100%;
+  height: auto;
+
+  /* Makes it feel in front */
+  filter: drop-shadow(0 25px 30px rgba(0, 0, 0, 0.4));
+}

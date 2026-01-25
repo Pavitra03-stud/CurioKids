@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Foxy",
+    "type": "animal",
+    "image": "/friends/fox.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 2,
+    "name": "Momo",
+    "type": "animal",
+    "image": "/friends/monkey.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 3,
+    "name": "Bunny",
+    "type": "animal",
+    "image": "/friends/rabbit.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 4,
+    "name": "Leo",
+    "type": "animal",
+    "image": "/friends/lion.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 5,
+    "name": "Ellie",
+    "type": "animal",
+    "image": "/friends/elephant.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 6,
+    "name": "Panda",
+    "type": "animal",
+    "image": "/friends/panda.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 7,
+    "name": "Tiger",
+    "type": "animal",
+    "image": "/friends/tiger.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 8,
+    "name": "Koala",
+    "type": "animal",
+    "image": "/friends/koala.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  },
+  {
+    "id": 10,
+    "name": "Zippy",
+    "type": "animal",
+    "image": "/friends/zebra.png",
+    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
+  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+  }
+]

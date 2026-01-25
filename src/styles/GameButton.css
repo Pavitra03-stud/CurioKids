@@ -1,23 +1,24 @@
-.game-btn {
-  padding: 18px;
-  font-size: 20px;
-  font-weight: 600;
-  border-radius: 28px;
+.game-button {
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 999px;
   border: none;
   cursor: pointer;
-  background: linear-gradient(135deg, #ff7a7a, #ffb26b);
-  color: white;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  color: #fff;
+
+  box-shadow: 0 8px 0 #d97706;
+  transition: all 0.15s ease;
 }
 
-/* hover */
-.game-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+.game-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 0 #b45309;
 }
 
-/* click */
-.game-btn:active {
-  transform: scale(0.96);
+.game-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 #92400e;
 }

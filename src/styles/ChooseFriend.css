@@ -24,8 +24,10 @@
 }
 
 .carousel img {
-  width: 220px;
+  max-width: 3000px;
+  max-height:300px;
   animation: float 2s ease-in-out infinite;
+  border-radius:50%;
 }
 
 @keyframes float {

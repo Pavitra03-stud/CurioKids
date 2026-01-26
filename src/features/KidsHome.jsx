@@ -15,13 +15,6 @@ export default function KidsHome() {
           <span className="logo">🌴 CurioKids</span>
         </div>
 
-        <div className="nav-center">
-          <button>🎮 Games</button>
-          <button>🧠 Practice</button>
-          <button>🔤 Letters</button>
-          <button>🔢 Numbers</button>
-        </div>
-
         <div className="nav-right">
           <button className="pill">🏆 Rewards</button>
           <button className="pill">📊 Progress</button>
@@ -36,35 +29,37 @@ export default function KidsHome() {
       </section>
 
       {/* 🧩 CARDS */}
-      <section className="card-grid">
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Let’s play fun games!")}
-        >
-          🎮 Games
-        </div>
+<section className="card-grid">
+  <div className="jungle-card" onMouseEnter={() => speakText("Let’s play fun games!")}>
+    <div className="card-content">
+      <span className="card-icon">🎮</span>
+      <span className="card-text">Games</span>
+    </div>
+  </div>
 
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Practice makes you stronger!")}
-        >
-          🧠 Practice
-        </div>
+  <div className="jungle-card" onMouseEnter={() => speakText("Let’s learn letters together!")}>
+    <div className="card-content">
+      <span className="card-icon">🔤</span>
+      <span className="card-text">Letters</span>
+    </div>
+  </div>
 
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Let’s learn letters together!")}
-        >
-          🔤 Letters
-        </div>
+  <div className="jungle-card" onMouseEnter={() => speakText("Numbers are fun to learn!")}>
+    <div className="card-content">
+      <span className="card-icon">🔢</span>
+      <span className="card-text">Numbers</span>
+    </div>
+  </div>
 
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Numbers are fun to learn!")}
-        >
-          🔢 Numbers
-        </div>
-      </section>
+  <div className="jungle-card" onMouseEnter={() => speakText("Practice makes you stronger!")}>
+    <div className="card-content">
+      <span className="card-icon">🧠</span>
+      <span className="card-text">Practice</span>
+    </div>
+  </div>
+</section>
+
+
 
       {/* 🦊 MASCOT */}
       <div className="mascot-container">

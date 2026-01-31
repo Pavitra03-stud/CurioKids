@@ -1,6 +1,11 @@
+
 .child-register {
-  min-height: 100vh;
-  background: linear-gradient(#c8f2c2, #7ccf91);
+  width: 100vw;
+  height: 100vh;
+  background-image: url("src/assets/login.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,12 +13,11 @@
 }
 
 .register-card {
-  background: rgba(255, 255, 255, 0.92);
-  padding: 40px;
+  padding-top: 45px;
+   padding-right: 45px;
   border-radius: 24px;
   width: 380px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   z-index: 2;
 }
 
@@ -41,3 +45,10 @@
   color: #777;
   margin-top: 10px;
 }
+.register-card button {
+  width: 80%;
+  padding: 18px 28px;
+  font-size: 1.2rem;
+  border-radius: 999px;
+}
+

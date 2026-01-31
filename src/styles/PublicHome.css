@@ -1,128 +1,125 @@
-/* ===== FULL PAGE SETUP ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  background: #1f3d2b; /* jungle fallback */
+}
+
+/* ===== PAGE ===== */
 .public-home {
-  position: relative;
   width: 100vw;
   height: 100vh;
 
-  /* 🔥 IMPORTANT: HD background clarity */
-  background-image: url("/assets/jungle-water-hd.jpg"); /* put image in public/assets */
-  background-size: cover;        /* do NOT use contain */
-  background-position: center;
+  background-image: url("src/assets/kidshome.png");
+  background-size: cover;
+  background-position: center center;
   background-repeat: no-repeat;
-
-  /* Prevent blur on scaling */
-  image-rendering: auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  overflow: hidden;
+  position: relative;
 }
 
-/* ===== DARK SOFT OVERLAY (for readability) ===== */
+/* ===== SOFT DARK OVERLAY ===== */
 .public-home::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    rgba(0, 0, 0, 0.15),
-    rgba(0, 0, 0, 0.25)
+  background: radial-gradient(
+    circle at center,
+    rgba(0,0,0,0.1),
+    rgba(0,0,0,0.35)
   );
   z-index: 1;
 }
 
-/* ===== CENTER CONTENT ===== */
+/* ===== CENTER WRAPPER ===== */
 .center-content {
   position: relative;
-  z-index: 3;
-
-  text-align: center;
-  max-width: 520px;
-  padding: 40px;
-
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 28px;
-
-  box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.25);
+  width: 840px;          /* adjust if needed */
+  height: 750px;         /* 👈 IMPORTANT */
+  max-width: 90%;
+   position: relative;
+  z-index: 2; 
 }
+
+
+
+/* ===== BOARD IMAGE ===== */
+.board-img {
+   position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: fill;     /* 🔥 stretch to container */
+  pointer-events: none;
+}
+
+/* ===== CONTENT ON BOARD ===== */
+.board-content {
+  position: absolute;
+  inset: 0;                /* fills the board */
+  padding: 60px 50px ;      /* 🔥 space inside board */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  text-align: center;
+  position: absolute;
+  inset: 0;
+  z-index: 3;  
+}
+
 
 /* ===== TITLE ===== */
 .title {
-  font-size: 3.2rem;
-  font-weight: 900;
-
-  /* Qubic / Storybook feel */
-  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 3.1rem;
+  font-weight: 800;
+  font-family: "Georgia", serif;
 
   color: #134e2a;
   letter-spacing: 1px;
 
-  text-shadow:
-    2px 2px 0 #e6ffe6;
-
-  margin-bottom: 10px;
+  text-shadow: 2px 2px 0 #e9ffe9;
 }
 
 /* ===== SUBTITLE ===== */
 .subtitle {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #2f6b3f;
-  margin-bottom: 28px;
+  margin-bottom: 26px;
 }
 
 /* ===== LOCK NOTE ===== */
 .lock-note {
-  margin-top: 14px;
+  margin-top: 16px;
   font-size: 0.9rem;
-  color: #444;
+  color: #2f6b3f;
+
 }
 
-/* ===== GAME BUTTON OVERRIDES ===== */
+/* ===== BUTTON ===== */
 .game-button {
-  width: 100%;
+  width: 60%;
   margin: 12px 0;
-}
-
-/* ===== MASCOT ===== */
-.mascot {
-  position: absolute;
-  bottom: -20px;   /* comes DOWN like standing on ground */
-  left: 30px;
-
-  width: 320px;    /* BIG mascot */
-  z-index: 4;
-
-  animation: mascotFloat 4s ease-in-out infinite;
-}
-
-/* ===== FLOAT ANIMATION ===== */
-@keyframes mascotFloat {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .center-content {
-    width: 90%;
-    padding: 28px;
-  }
-
   .title {
     font-size: 2.4rem;
   }
 
-  .mascot {
-    width: 220px;
-    left: 10px;
+  .board-content {
+    width: 85%;
   }
 }

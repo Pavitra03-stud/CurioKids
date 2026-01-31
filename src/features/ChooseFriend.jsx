@@ -55,7 +55,7 @@ export default function ChooseFriend({ onComplete }) {
     <div className="choose-container">
       {!showIntro ? (
         <div className="board">
-          <h1>🐾 Choose Your Jungle Friend</h1>
+          <h1></h1>
 
           <div className="carousel">
             <button

@@ -55,8 +55,6 @@ export default function ChildRegister({ onComplete }) {
 
         <p className="note">No email. No passwords. Just play.</p>
       </div>
-
-      <Mascot />
     </div>
   );
 }

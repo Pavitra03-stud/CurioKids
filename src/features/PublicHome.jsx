@@ -5,28 +5,34 @@ import "../styles/PublicHome.css";
 export default function PublicHome({ goTo }) {
   return (
     <div className="public-home">
+      
       <div className="center-content">
-        <h1 className="title">CurioKids</h1>
-        <p className="subtitle">
-          A jungle world where learning grows through play 🌱
-        </p>
-
-        <GameButton
-          text="👶 I am a Child"
-          onClick={() => goTo("child-register")}
+        <img
+          src="src/assets/board.png"
+          className="board-img"
+          alt="wooden board"
         />
 
-        <GameButton
-          text="👨‍👩‍👧 I am a Parent"
-          onClick={() => goTo("parent-register")}
-        />
+        <div className="board-content">
+          <h1 className="title">CurioKids</h1>
 
-        <p className="lock-note">
-          🔒 The jungle unlocks only when a child and parent join together
-        </p>
+          <p className="subtitle">
+            A jungle world where learning grows through play 🌱
+          </p>
+
+          <GameButton
+            text="Register to Enter the Jungle 🌷"
+            onClick={() => goTo("child-register")}
+          />
+
+          <p className="lock-note">
+            🔒 Unlock the dream jungle of Exploration 🍁
+          </p>
+        </div>
       </div>
 
-      <Mascot />
+      
+
     </div>
   );
 }

@@ -52,3 +52,9 @@
   border-radius: 999px;
 }
 
+.error-text {
+  color: #d32f2f;
+  font-size: 14px;
+  margin: 8px 0;
+  text-align: center;
+}

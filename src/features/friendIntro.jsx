@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import BackIcon from "../components/BackIcon";
 
-export default function FriendIntro({ onComplete }) {
+export default function FriendIntro({ navigate, goBack }) {
   const [friend, setFriend] = useState(null);
 
-  /* ✅ LOAD FRIEND FROM LOCAL STORAGE */
+  // 🔁 Load selected friend
   useEffect(() => {
     const savedFriend = localStorage.getItem("jungleFriend");
     if (savedFriend) {
@@ -11,39 +12,31 @@ export default function FriendIntro({ onComplete }) {
     }
   }, []);
 
+  // ✅ ENTER JUNGLE HERO (ONLY NAVIGATION)
   const handleEnter = () => {
-    localStorage.setItem("appProgress", "entered-jungle-home");
-    onComplete();
+    localStorage.setItem("appProgress", "entered-jungle");
+    navigate("jungle-hero"); // ✅ WORKS
   };
 
-  if (!friend) return null; // safety
+  if (!friend) {
+    return <h2 style={{ padding: "40px" }}>Loading jungle friend… 🌱</h2>;
+  }
 
   return (
     <div style={styles.overlay}>
+      {/* 🔙 Global Back Button */}
+      <BackIcon goBack={goBack} />
+
       <div style={styles.container}>
-        {/* 🦊 CHARACTER SIDE */}
-        <div style={styles.characterWrap}>
-          <img
-            src={friend.image}
-            alt={friend.name}
-            style={styles.character}
-          />
-        </div>
+        <img src={friend.image} alt={friend.name} style={styles.image} />
 
-        {/* 💬 MESSAGE SIDE */}
-        <div style={styles.messageBox}>
-          <h2 style={styles.title}>🌟 Welcome to CurioKids!</h2>
+        <div style={styles.box}>
+          <h2>🌟 Welcome to CurioKids!</h2>
 
-          <p style={styles.text}>
-            Hi there! 👋  
-            <br /><br />
-            I’m <strong>{friend.name}</strong>, your jungle friend, and I’m
-            *so proud of you* for starting this learning adventure 🌈  
-            <br /><br />
-            We’ll play fun games 🎮, solve puzzles 🧩, and grow smarter every
-            single day 🌱  
-            <br /><br />
-            Are you ready to explore the jungle with me? 🐾
+          <p>
+            Hi there! 👋 <br /><br />
+            I’m <b>{friend.name}</b>, your jungle friend 🐾 <br /><br />
+            Ready to explore the jungle with me?
           </p>
 
           <button style={styles.button} onClick={handleEnter}>
@@ -55,66 +48,37 @@ export default function FriendIntro({ onComplete }) {
   );
 }
 
-/* 🎨 STYLES (UNCHANGED) */
 const styles = {
   overlay: {
     height: "100vh",
-    width: "100vw",
-    background: "linear-gradient(135deg, #1b5e20, #43a047)",
+    background: "linear-gradient(#1b5e20, #43a047)",
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-  },
-
-  container: {
-    display: "flex",
     alignItems: "center",
-    gap: "40px",
-    background: "#fff3d6",
-    padding: "40px 50px",
-    borderRadius: "30px",
-    boxShadow: "0 25px 50px rgba(0,0,0,0.35)",
-    maxWidth: "900px",
-  },
-
-  characterWrap: {
-    animation: "slideIn 0.8s ease-out",
-  },
-
-  character: {
-    width: "240px",
-    height: "240px",
-    objectFit: "contain",
-    filter: "drop-shadow(0 12px 20px rgba(0,0,0,0.25))",
-  },
-
-  messageBox: {
-    background: "#ffffff",
-    borderRadius: "22px",
-    padding: "28px",
-    maxWidth: "420px",
     position: "relative",
   },
-
-  title: {
-    marginBottom: "12px",
-    color: "#2e7d32",
+  container: {
+    background: "#fff3d6",
+    padding: "40px",
+    borderRadius: "24px",
+    display: "flex",
+    gap: "30px",
+    alignItems: "center",
   },
-
-  text: {
-    fontSize: "15.5px",
-    lineHeight: "1.6",
-    color: "#333",
-    marginBottom: "20px",
+  image: {
+    width: "220px",
   },
-
+  box: {
+    maxWidth: "420px",
+  },
   button: {
+    marginTop: "20px",
+    padding: "14px 26px",
+    fontSize: "16px",
+    borderRadius: "12px",
+    border: "none",
     background: "#ff9800",
     color: "#fff",
-    border: "none",
-    padding: "14px 26px",
-    borderRadius: "14px",
-    fontSize: "16px",
     cursor: "pointer",
   },
 };

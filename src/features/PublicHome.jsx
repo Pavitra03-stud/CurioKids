@@ -2,10 +2,9 @@ import GameButton from "../components/Gamebutton";
 import Mascot from "../components/Mascot";
 import "../styles/PublicHome.css";
 
-export default function PublicHome({ goTo }) {
+export default function PublicHome({ onComplete }) {
   return (
     <div className="public-home">
-      
       <div className="center-content">
         <img
           src="src/assets/board.png"
@@ -20,9 +19,10 @@ export default function PublicHome({ goTo }) {
             A jungle world where learning grows through play 🌱
           </p>
 
+          {/* ✅ CORRECT: call onComplete */}
           <GameButton
             text="Register to Enter the Jungle 🌷"
-            onClick={() => goTo("child-register")}
+            onClick={onComplete}
           />
 
           <p className="lock-note">
@@ -31,8 +31,7 @@ export default function PublicHome({ goTo }) {
         </div>
       </div>
 
-      
-
+      <Mascot />
     </div>
   );
 }

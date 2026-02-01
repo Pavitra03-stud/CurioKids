@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import BackIcon from "../components/BackIcon";
 
-export default function JungleHero({ goTo }) {
+export default function JungleHero({ onComplete, goBack }) {
   const [friend, setFriend] = useState(null);
 
+  // 🌿 Load selected jungle friend
   useEffect(() => {
     const savedFriend = localStorage.getItem("jungleFriend");
     if (savedFriend) {
@@ -20,8 +22,12 @@ export default function JungleHero({ goTo }) {
         justifyContent: "space-between",
         padding: "60px",
         color: "white",
+        position: "relative",
       }}
     >
+      {/* 🔙 GLOBAL BACK ICON */}
+      <BackIcon goBack={goBack} />
+
       {/* LEFT CONTENT */}
       <div>
         <h1>
@@ -35,29 +41,18 @@ export default function JungleHero({ goTo }) {
         </p>
 
         <div style={{ marginTop: "30px" }}>
-          {/* ✅ STUDENT → KidsHome */}
+          {/* 🧒 STUDENT → KidsHome */}
           <button
-            onClick={() => goTo("kids-home")}
-            style={{
-              marginRight: "20px",
-              padding: "12px 24px",
-              fontSize: "16px",
-              borderRadius: "12px",
-              cursor: "pointer",
-            }}
+            onClick={() => onComplete("kids-home")}
+            style={buttonStyle("#FFD54F")}
           >
             STUDENT 🌱
           </button>
 
-          {/* ✅ PARENT → ParentDashboard */}
+          {/* 👨‍👩‍👧 PARENT → ParentDashboard */}
           <button
-            onClick={() => goTo("parent-dashboard")}
-            style={{
-              padding: "12px 24px",
-              fontSize: "16px",
-              borderRadius: "12px",
-              cursor: "pointer",
-            }}
+            onClick={() => onComplete("parent-dashboard")}
+            style={buttonStyle("#ffffff")}
           >
             PARENT 👨‍👩‍👧
           </button>
@@ -80,3 +75,13 @@ export default function JungleHero({ goTo }) {
     </div>
   );
 }
+
+const buttonStyle = (bg) => ({
+  marginRight: "20px",
+  padding: "14px 28px",
+  fontSize: "16px",
+  borderRadius: "14px",
+  border: "none",
+  cursor: "pointer",
+  background: bg,
+});

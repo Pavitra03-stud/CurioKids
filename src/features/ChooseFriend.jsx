@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import BackIcon from "../components/BackIcon";
 import "../styles/ChooseFriend.css";
 
-export default function ChooseFriend({ onComplete }) {
+export default function ChooseFriend({ onComplete, goBack }) {
   const [friends, setFriends] = useState([]);
   const [index, setIndex] = useState(0);
   const [showIntro, setShowIntro] = useState(false);
@@ -10,13 +11,11 @@ export default function ChooseFriend({ onComplete }) {
   useEffect(() => {
     fetch("/friends.json")
       .then((res) => res.json())
-      .then((data) => setFriends(data))
-      .catch(() => alert("Failed to load friends"));
+      .then(setFriends);
   }, []);
 
   const current = friends[index];
 
-  /* ⌨️ Typing effect */
   useEffect(() => {
     if (!showIntro || !current) return;
 
@@ -28,53 +27,37 @@ export default function ChooseFriend({ onComplete }) {
       setText((prev) => prev + fullText[i]);
       i++;
       if (i >= fullText.length) clearInterval(timer);
-    }, 35);
+    }, 30);
 
     return () => clearInterval(timer);
   }, [showIntro, current]);
 
-  /* ✅ SAVE FRIEND TO LOCAL STORAGE */
   const handleBegin = () => {
-    if (!current) return;
+    localStorage.setItem(
+      "jungleFriend",
+      JSON.stringify({
+        id: current.id,
+        name: current.name,
+        image: current.image,
+      })
+    );
 
-    const selectedFriend = {
-      id: current.id,
-      name: current.name,
-      image: current.image,
-    };
-
-    localStorage.setItem("jungleFriend", JSON.stringify(selectedFriend));
     localStorage.setItem("appProgress", "friend-chosen");
-
-    onComplete();
+    onComplete(); // ✅ ONLY THIS
   };
 
-  if (!friends.length) return <h2>🌱 Loading jungle friends...</h2>;
+  if (!friends.length) return <h2>Loading jungle friends… 🌱</h2>;
 
   return (
     <div className="choose-container">
+      <BackIcon goBack={goBack} />
+
       {!showIntro ? (
         <div className="board">
-          <h1></h1>
-
           <div className="carousel">
-            <button
-              onClick={() =>
-                setIndex((i) => (i - 1 + friends.length) % friends.length)
-              }
-            >
-              ◀
-            </button>
-
+            <button onClick={() => setIndex((i) => (i - 1 + friends.length) % friends.length)}>◀</button>
             <img src={current.image} alt={current.name} />
-
-            <button
-              onClick={() =>
-                setIndex((i) => (i + 1) % friends.length)
-              }
-            >
-              ▶
-            </button>
+            <button onClick={() => setIndex((i) => (i + 1) % friends.length)}>▶</button>
           </div>
 
           <h2>{current.name}</h2>
@@ -86,14 +69,8 @@ export default function ChooseFriend({ onComplete }) {
       ) : (
         <div className="intro-board">
           <h1>Meet {current.name}</h1>
-
-          <div className="character-frame">
-            <img src={current.image} alt={current.name} />
-          </div>
-
-          <div className="speech">
-            <p className="typing">{text}</p>
-          </div>
+          <img src={current.image} alt={current.name} />
+          <p className="typing">{text}</p>
 
           <button className="start big" onClick={handleBegin}>
             Let’s Begin 🌈

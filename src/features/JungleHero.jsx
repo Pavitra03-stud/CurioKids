@@ -17,7 +17,6 @@ export default function JungleHero({ onComplete, goBack }) {
       width: "100%",
       overflowY: "auto",
       overflowX: "hidden",
-      background: "linear-gradient(#1b5e20, #43a047)",
     }}>
       <BackIcon goBack={goBack} />
 
@@ -113,7 +112,7 @@ export default function JungleHero({ onComplete, goBack }) {
         {/* 🌿 FOOTER */}
 <footer
   style={{
-    background: "#1b5e20",
+    //background: "#1b5e20",
     color: "#e8f5e9",
     padding: "50px 60px",
     marginTop: "80px",
@@ -186,23 +185,44 @@ export default function JungleHero({ onComplete, goBack }) {
   );
 }
 
-function InfoCard({ title, text }) {
+function InfoCard({ icon, title, text }) {
   return (
-    <div className="info-card">
-      <h3>{title}</h3>
-      <p>{text}</p>
+    <div
+      style={{
+       // background: "#ffffff",
+        padding: "28px",
+        borderRadius: "20px",
+        boxShadow: "0 12px 30px rgba(0,0,0,0.12)",
+        transition: "transform 0.3s",
+      }}
+    >
+      <h3 style={{ marginBottom: "10px", fontSize: "20px" }}>
+        {icon} {title}
+      </h3>
+      <p style={{ lineHeight: "1.7", color: "#33691e" }}>{text}</p>
     </div>
   );
 }
 
-function Step({ number, text }) {
+function Step({ number, title, text }) {
   return (
-    <div className="step">
-      <div className="step-number">{number}</div>
-      <p>{text}</p>
+    <div
+      style={{
+        //background: "#ffffff",
+        padding: "26px",
+        borderRadius: "18px",
+        borderLeft: "6px solid #81c784",
+        boxShadow: "0 10px 24px rgba(0,0,0,0.1)",
+      }}
+    >
+      <h4 style={{ fontSize: "22px", marginBottom: "8px" }}>
+        {number}. {title}
+      </h4>
+      <p style={{ lineHeight: "1.6", color: "#fefefe" }}>{text}</p>
     </div>
   );
 }
+
 
 const listStyle = {
   listStyle: "none",

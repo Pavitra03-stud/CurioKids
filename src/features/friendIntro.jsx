@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import BackIcon from "../components/BackIcon";
 
-export default function FriendIntro({ navigate, goBack }) {
+export default function FriendIntro({ onComplete, goBack }) {
   const [friend, setFriend] = useState(null);
 
-  // 🔁 Load selected friend
   useEffect(() => {
     const savedFriend = localStorage.getItem("jungleFriend");
     if (savedFriend) {
@@ -12,10 +11,10 @@ export default function FriendIntro({ navigate, goBack }) {
     }
   }, []);
 
-  // ✅ ENTER JUNGLE HERO (ONLY NAVIGATION)
+  // ✅ ONLY onComplete
   const handleEnter = () => {
-    localStorage.setItem("appProgress", "entered-jungle");
-    navigate("jungle-hero"); // ✅ WORKS
+    localStorage.setItem("appProgress", "jungle-hero");
+    onComplete(); // <-- THIS triggers App.jsx navigation
   };
 
   if (!friend) {
@@ -24,7 +23,6 @@ export default function FriendIntro({ navigate, goBack }) {
 
   return (
     <div style={styles.overlay}>
-      {/* 🔙 Global Back Button */}
       <BackIcon goBack={goBack} />
 
       <div style={styles.container}>

@@ -15,6 +15,7 @@ import FriendIntro from "./features/FriendIntro";
 import JungleHero from "./features/JungleHero";
 import KidsHome from "./features/KidsHome";
 import ParentDashboard from "./features/ParentDashboard";
+import "./index.css";
 
 export default function App() {
 const[screen, setScreen] = useState("public-home");

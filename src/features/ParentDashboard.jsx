@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import BackIcon from "../components/BackIcon";
 
-export default function ParentDashboard() {
+export default function ParentDashboard({ navigate }) {
   const [parent, setParent] = useState(null);
   const [child, setChild] = useState(null);
 
@@ -18,6 +19,9 @@ export default function ParentDashboard() {
 
   return (
     <div style={styles.page}>
+      {/* 🔙 BACK → ALWAYS JUNGLE HERO */}
+      <BackIcon goBack={() => navigate("jungle-hero")} />
+
       <h1 style={styles.heading}>📊 Parent Dashboard</h1>
 
       <div style={styles.card}>
@@ -46,11 +50,13 @@ export default function ParentDashboard() {
   );
 }
 
+/* 🎨 STYLES */
 const styles = {
   page: {
     minHeight: "100vh",
     background: "#f1f8e9",
     padding: "40px",
+    position: "relative",
   },
   heading: {
     marginBottom: "30px",

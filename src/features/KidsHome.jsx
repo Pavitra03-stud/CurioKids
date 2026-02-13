@@ -15,6 +15,7 @@ export default function KidsHome() {
           <span className="logo">🌴 CurioKids</span>
         </div>
 
+
         <div className="nav-right">
           <button className="pill">🏆 Rewards</button>
           <button className="pill">📊 Progress</button>

@@ -1,0 +1,120 @@
+.confusing-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #b7e77a, #5bbd3e);
+  font-family: 'Comic Sans MS', sans-serif;
+}
+
+/* NAVBAR */
+.confusing-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: #1b4332;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.navbar-left {
+  position: absolute;
+  left: 20px;
+}
+
+.navbar-title {
+  font-weight: bold;
+}
+
+/* CONTENT */
+.confusing-content {
+  padding-top: 110px;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.instruction {
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+.target {
+  font-size: 40px;
+  margin-left: 10px;
+  color: #1b4332;
+}
+
+/* GRID */
+.letters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.letter-box {
+  background: #fff8dc;
+  font-size: 36px;
+  padding: 25px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.letter-box:hover {
+  transform: scale(1.1);
+  background: #ffefb0;
+}
+
+/* FEEDBACK */
+.feedback {
+  margin-top: 20px;
+  font-size: 22px;
+  min-height: 30px;
+}
+
+.score {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.next-btn {
+  margin-top: 25px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #1b4332;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.next-btn:hover {
+  transform: scale(1.05);
+}
+.level-up-banner {
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffd166;
+  color: #1b4332;
+  padding: 20px 40px;
+  border-radius: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  animation: popUp 0.5s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 9999;
+}
+
+@keyframes popUp {
+  0% { transform: translateX(-50%) scale(0.5); opacity: 0; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}

@@ -1,0 +1,152 @@
+/* 🌿 PAGE BACKGROUND */
+.parent-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* 🌴 NAVBAR */
+.parent-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65px;
+  background: #1b4332;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.navbar-left {
+  position: absolute;
+  left: 20px;
+}
+
+.navbar-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* 🌿 CONTENT WRAPPER */
+.parent-content {
+  padding-top: 100px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 60px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 30px;
+}
+
+/* 🧾 CARD STYLE */
+.parent-card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px 30px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.parent-card:hover {
+  transform: translateY(-5px);
+}
+
+/* 🎯 HEADINGS */
+.parent-card h2 {
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+/* 📊 PROGRESS BAR */
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #eeeeee;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #4caf50, #81c784);
+  transition: width 1s ease-in-out;
+}
+
+.progress-fill.score {
+  background: linear-gradient(to right, #ff9800, #ffc107);
+}
+
+.progress-fill.badge {
+  background: linear-gradient(to right, #3f51b5, #7986cb);
+}
+
+/* 🏅 BADGE GRID */
+.badge-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.badge-item {
+  font-size: 26px;
+  background: #fff8e1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* 📊 WEEKLY CHART */
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 120px;
+  margin-top: 10px;
+}
+
+.chart-bar {
+  width: 22px;
+  background: #4caf50;
+  border-radius: 6px;
+  transition: height 0.6s ease;
+}
+
+/* 📈 DIFFICULTY LETTER */
+.difficulty-box {
+  text-align: center;
+}
+
+.difficulty-letter {
+  font-size: 55px;
+  font-weight: bold;
+  color: #d32f2f;
+  margin-top: 10px;
+}
+
+/* 🌱 FOOTER NOTE */
+.growth-note {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-style: italic;
+  color: #2e7d32;
+  margin-top: 10px;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .parent-content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

@@ -7,11 +7,34 @@ export default function ChildRegister({ onComplete, goBack }) {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
 
-  const saveChild = () => {
-    if (!name.trim() || !age) {
-      alert("Please enter your name and age 😊");
-      return;
+  const [errors, setErrors] = useState({});
+
+  // 🔹 Validation function
+  const validateForm = () => {
+    let newErrors = {};
+
+    // Name validation
+    if (!name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (!/^[A-Za-z\s]+$/.test(name)) {
+      newErrors.name = "Only letters are allowed";
+    } else if (name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
     }
+
+    // Age validation
+    if (!age) {
+      newErrors.age = "Please select age";
+    }
+
+    setErrors(newErrors);
+
+    // if no errors → valid
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const saveChild = () => {
+    if (!validateForm()) return;
 
     const childProfile = {
       name: name.trim(),
@@ -22,7 +45,7 @@ export default function ChildRegister({ onComplete, goBack }) {
     localStorage.setItem("childProfile", JSON.stringify(childProfile));
     localStorage.setItem("appProgress", "child-created");
 
-    onComplete(); // ✅ ONLY THIS
+    onComplete();
   };
 
   return (
@@ -40,6 +63,7 @@ export default function ChildRegister({ onComplete, goBack }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        {errors.name && <p className="error">{errors.name}</p>}
 
         <select
           className="input"
@@ -52,6 +76,7 @@ export default function ChildRegister({ onComplete, goBack }) {
           <option value="7-8">7 – 8 years</option>
           <option value="9-10">9 – 10 years</option>
         </select>
+        {errors.age && <p className="error">{errors.age}</p>}
 
         <GameButton text="🌱 Save My Profile" onClick={saveChild} />
         <p className="note">No email. No passwords. Just play.</p>

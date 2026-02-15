@@ -296,3 +296,33 @@
   border: 1px solid rgba(255,255,255,0.15);
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
 }
+/* 🌴 FIXED NAVBAR */
+.hero-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65px;
+  background: #1b4332;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.navbar-left {
+  position: absolute;
+  left: 20px;
+}
+
+.navbar-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* CONTENT OFFSET */
+.hero-content-wrapper {
+  padding-top: 90px;
+}

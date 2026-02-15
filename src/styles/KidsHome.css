@@ -8,15 +8,15 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  overflow: hidden; /* no scroll */
+  overflow-y: auto; /* no scroll */
 }
 
 /* =========================
    🌴 PAGE BACKGROUND
    ========================= */
 .kids-home {
-  height: 100vh;
+  min-height: 100vh;
+  overflow-x:hidden;
   width: 100vw;
 
   background-image: url("src/assets/home.jpg");

@@ -68,12 +68,47 @@ export default function KidsHome({ goBack }) {
       </section>
 
       {/* 🦊 MASCOT */}
-      <div className="mascot-container">
+      {/*<div className="mascot-container">
         <img src={foxy} alt="Jungle Friend" className="mascot-img mascot-enter" />
         <div className="mascot-bubble">
           <strong>Let’s start learning!!!</strong>
         </div>
       </div>
+      */}
+      <div className="games-topic">
+          <span className="card-text">Games</span>
+          <ul>
+            <li>Decoding practice</li>
+            <li>Indentifying concepts</li>
+           <li>Isolating speech sounds</li>
+          </ul>
+      </div>
+      <div className="games-topic">
+          <span className="card-text">Practice</span>
+          <ul>
+            <li>Reading comprehension</li>
+            <li>Spelling syllables and sounds</li>
+           <li>Reviewing concepts</li>
+          </ul>
+      </div>
+      <div className="games-topic">
+          <span className="card-text">Letters</span>
+          <ul>
+            <li>Letter writing practice</li>
+            <li>spelling practice</li>
+           <li>Focused spelling</li>
+          </ul>
+      </div>
+      <div className="games-topic">
+          <span className="card-text">Numbers</span>
+          <ul>
+            <li>Numbers practice</li>
+            <li>Spelling practice</li>
+           <li>Counting</li>
+          </ul>
+      </div>
     </div>
+
+    
   );
 }

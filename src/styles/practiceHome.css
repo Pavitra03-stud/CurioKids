@@ -1,0 +1,301 @@
+/* 🌿 MAIN PAGE */
+.practice-home {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #b7e77a, #5bbd3e);
+  font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+  padding-bottom: 80px;
+}
+
+/* 🌴 NAVBAR */
+.practice-navbar {
+  display: flex;
+  align-items: center;
+  padding: 18px 40px;
+  background: #1b4332;
+  color: white;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.practice-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* 🌱 SUBTITLE */
+.practice-subtitle {
+  padding: 25px 40px;
+  font-size: 18px;
+  color: #184e3b;
+}
+
+/* 🌟 SECTION TITLES */
+.section-title {
+  margin: 40px 40px 15px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1b4332;
+  border-left: 6px solid #ffd166;
+  padding-left: 10px;
+}
+
+/* 🧩 GRID */
+.practice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  padding: 0 40px;
+}
+
+/* 🎯 CARD */
+.practice-card {
+  background: #fff8dc;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.practice-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: #fff3c4;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.practice-card .emoji {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.practice-card h3 {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .practice-navbar {
+    padding: 15px 20px;
+  }
+
+  .practice-grid {
+    padding: 0 20px;
+  }
+
+  .section-title {
+    margin: 30px 20px 15px 20px;
+  }
+
+  .practice-subtitle {
+    padding: 20px;
+  }
+}
+/* 🌿 PAGE */
+.practice-home {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #b7e77a, #5bbd3e);
+  font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+}
+
+/* 🌴 NAVBAR */
+.practice-navbar {
+  display: flex;
+  align-items: center;
+  padding: 18px 40px;
+  background: #1b4332;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.practice-navbar h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+/* 🔙 BACK BUTTON */
+.back-btn {
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.1);
+}
+
+/* 🌱 SUBTITLE */
+.practice-subtitle {
+  padding: 25px 40px;
+  font-size: 18px;
+  color: #184e3b;
+}
+
+/* 🌟 SECTION TITLE */
+.section-title {
+  margin: 40px 40px 15px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1b4332;
+}
+
+/* 🧩 GRID */
+.practice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  padding: 0 40px;
+}
+
+/* 🎯 CARD */
+.practice-card {
+  background: #fff8dc;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.practice-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: #fff3c4;
+}
+
+.practice-card .emoji {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.practice-card h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .practice-navbar {
+    padding: 15px 20px;
+  }
+
+  .practice-grid {
+    padding: 0 20px;
+  }
+
+  .section-title {
+    margin: 30px 20px 15px 20px;
+  }
+
+  .practice-subtitle {
+    padding: 20px;
+  }
+}
+/* 🌿 PAGE */
+.practice-home {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #b7e77a, #5bbd3e);
+  font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+}
+
+/* 🌴 FIXED NAVBAR */
+.practice-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65px;
+  background: #1b4332;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* LEFT SIDE BACK BUTTON */
+.navbar-left {
+  position: absolute;
+  left: 20px;
+}
+
+/* CENTER TITLE */
+.navbar-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* CONTENT BELOW NAVBAR */
+.practice-content {
+  padding-top: 90px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.practice-intro {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #184e3b;
+}
+
+.practice-section {
+  margin-bottom: 50px;
+}
+.practice-card {
+  background: #fff8dc;
+  border-radius: 18px;
+  padding: 25px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.practice-card:hover {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card-emoji {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card-lock {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #d62828;
+  font-weight: bold;
+}

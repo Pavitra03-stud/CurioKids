@@ -25,6 +25,7 @@ export default function KidsHome({ navigate, goBack }) {
           🌴 CurioKids
         </div>
 
+
         {/* RIGHT - ACTION BUTTONS */}
         <div className="navbar-right">
           <button 

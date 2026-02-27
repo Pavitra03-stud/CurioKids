@@ -11,17 +11,17 @@ export default function KidsHome({ navigate, goBack }) {
 
   return (
     <div className="kids-home">
-        {/* 🦊 MASCOT */}
-        <div className="mascot-container">
-          <img src={foxy} alt="Jungle Friend" className="mascot-img" />
-          <div className="mascot-bubble">
-            <strong>Let’s start learning!!!</strong>
-          </div>
+
+      {/* 🦊 MASCOT */}
+      <div className="mascot-container">
+        <img src={foxy} alt="Jungle Friend" className="mascot-img" />
+        <div className="mascot-bubble">
+          <strong>Let’s start learning!!!</strong>
         </div>
+      </div>
 
       {/* 🌴 NAVBAR */}
       <div className="kids-navbar">
-        
         <div className="navbar-left">
           <BackIcon goBack={goBack} />
         </div>
@@ -52,6 +52,7 @@ export default function KidsHome({ navigate, goBack }) {
         {/* 🧩 MAIN CARDS */}
         <section className="card-grid">
 
+          {/* ===== GAMES ===== */}
           <div
             className="jungle-card"
             onClick={() => navigate("practice-home")}
@@ -60,15 +61,17 @@ export default function KidsHome({ navigate, goBack }) {
             <span className="card-icon">🎮</span>
             <span className="card-text">Games</span>
           </div>
+
           <div className="games-topic">
             <span className="card-text">Games</span>
             <ul>
-              <li>Decoding practice</li>
-              <li>Identifying concepts</li>
-              <li>Isolating speech sounds</li>
+              <li className="topic-link">Decoding Practice</li>
+              <li className="topic-link">Identifying Concepts</li>
+              <li className="topic-link">Isolating Speech Sounds</li>
             </ul>
           </div>
 
+          {/* ===== LETTERS ===== */}
           <div
             className="jungle-card"
             onClick={() => navigate("letters")}
@@ -77,18 +80,18 @@ export default function KidsHome({ navigate, goBack }) {
             <span className="card-icon">🔤</span>
             <span className="card-text">Letters</span>
           </div>
-           <div className="games-topic">
+
+          <div className="games-topic">
             <span className="card-text">Letters</span>
             <ul>
-              <li>Alphabet Explorer Zone</li>
-              <li>Letter Detective zone</li>
-              <li>Writing & shape Zone</li>
-              <li>Letter challenge Arena</li>
+              <li className="topic-link">Alphabet Explorer Zone</li>
+              <li className="topic-link">Letter Detective Zone</li>
+              <li className="topic-link">Writing & Shape Zone</li>
+              <li className="topic-link">Letter Challenge Arena</li>
             </ul>
           </div>
-        
-          
 
+          {/* ===== NUMBERS ===== */}
           <div
             className="jungle-card"
             onClick={() => navigate("numbers")}
@@ -97,16 +100,17 @@ export default function KidsHome({ navigate, goBack }) {
             <span className="card-icon">🔢</span>
             <span className="card-text">Numbers</span>
           </div>
-           <div className="games-topic">
+
+          <div className="games-topic">
             <span className="card-text">Numbers</span>
             <ul>
-              <li>Letter writing</li>
-              <li>Spelling practice</li>
-              <li>Focused spelling</li>
+              <li className="topic-link">Number Writing</li>
+              <li className="topic-link">Spelling Practice</li>
+              <li className="topic-link">Focused Spelling</li>
             </ul>
           </div>
-          
 
+          {/* ===== PRACTICE ===== */}
           <div
             className="jungle-card"
             onClick={() => navigate("practice-home")}
@@ -115,21 +119,65 @@ export default function KidsHome({ navigate, goBack }) {
             <span className="card-icon">🧠</span>
             <span className="card-text">Practice</span>
           </div>
-           <div className="games-topic">
+
+          <div className="games-topic">
             <span className="card-text">Practice</span>
             <ul>
-              <li>Letter Mastery Zone</li>
-              <li>Phonics power Zone</li>
-              <li>Word Builder Zone</li>
-              <li>Memory & visual skills</li>
-              <li>Confidence Boost Zone</li>
+
+              <li
+                className="topic-link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("practice-letter-mastery");
+                }}
+              >
+                Letter Mastery Zone
+              </li>
+
+              <li
+                className="topic-link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("practice-phonics");
+                }}
+              >
+                Phonics Power Zone
+              </li>
+
+              <li
+                className="topic-link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("practice-word-builder");
+                }}
+              >
+                Word Builder Zone
+              </li>
+
+              <li
+                className="topic-link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("practice-memory");
+                }}
+              >
+                Memory & Visual Skills
+              </li>
+
+              <li
+                className="topic-link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("practice-confidence");
+                }}
+              >
+                Confidence Boost Zone
+              </li>
+
             </ul>
           </div>
-          
 
         </section>
-
-        
 
       </div>
     </div>

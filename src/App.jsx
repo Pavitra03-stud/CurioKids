@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 /* 🌱 Entry */
 import PublicHome from "./features/PublicHome";
@@ -17,17 +17,9 @@ import KidsHome from "./features/KidsHome";
 import PracticeHome from "./features/PracticeHome";
 import NumbersHome from "./features/NumbersHome";
 import ParentDashboard from "./features/ParentDashboard";
+import PracticeHome from "./features/PracticeHome";
 
-/* 🍓 Number Games */
-import StrawberryCount from "./features/StrawberryCount";
-import MissingNumber from "./features/MissingNumber";
-import NumberTrail from "./features/NumberTrail";
-import FrogJumpMath from "./features/FrogJumpMath";
-import CompareSafari from "./features/CompareSafari";
-import SkipCounting from "./features/SkipCounting";
-import NumberLineMove from "./features/NumberLineMove";
-
-/* 🧠 Practice */
+/* 🧠 Practice Sessions (create later) */
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
@@ -35,16 +27,39 @@ import LetterRecognition from "./features/LetterRecognizition";
 import "./index.css";
 
 export default function App() {
-
-  const [screen, setScreen] = useState(
-    localStorage.getItem("currentScreen") || "public-home"
-  );
+  const [screen, setScreen] = useState(localStorage.getItem("currentScreen") || "public-home");
 
   const navigate = (next) => {
     setScreen(next);
     localStorage.setItem("currentScreen", next);
   };
 
+  /* 🔙 BACK NAVIGATION SYSTEM */
+  const goBack = () => {
+  const flow = [
+    "public-home",
+    "child-register",
+    "parent-register",
+    "choose-friend",
+    "friend-intro",
+    "jungle-hero",
+    "kids-home",
+    "practice-home",
+    "letter-tracing",
+    "confusing-letters",
+    "memory-match",
+    "parent-dashboard",
+  ];
+
+    const currentIndex = flow.indexOf(screen);
+    if (currentIndex > 0) {
+      const previous = flow[currentIndex - 1];
+      setScreen(previous);
+      localStorage.setItem("currentScreen", previous);
+    }
+  };
+
+  /* 🧭 SCREEN SWITCH CONTROLLER */
   switch (screen) {
 
     case "public-home":
@@ -73,37 +88,53 @@ export default function App() {
 
     case "numbers":
       return (
-        <NumbersHome
-          navigate={navigate}
-          goBack={() => navigate("kids-home")}
+        <ChildRegister
+          onComplete={() => {
+            localStorage.setItem("appProgress", "child-register");
+            navigate("parent-register");
+          }}
+          goBack={goBack}
         />
       );
 
     case "strawberry-count":
       return (
-        <StrawberryCount
-          goBack={() => navigate("numbers")}
+        <ParentRegister
+          onComplete={() => {
+            localStorage.setItem("appProgress", "parent-register");
+            navigate("choose-friend");
+          }}
+          goBack={goBack}
         />
       );
 
     case "number-trail":
       return (
-        <NumberTrail
-          goBack={() => navigate("numbers")}
+        <ChooseFriend
+          onComplete={() => {
+            localStorage.setItem("appProgress", "choose-friend");
+            navigate("friend-intro");
+          }}
+          goBack={goBack}
         />
       );
 
     case "frog-jump":
       return (
-        <FrogJumpMath
-          goBack={() => navigate("numbers")}
+        <FriendIntro
+          onComplete={() => {
+            localStorage.setItem("appProgress", "friend-intro");
+            navigate("jungle-hero");
+          }}
+          goBack={goBack}
         />
       );
 
     case "missing-number":
       return (
-        <MissingNumber
-          goBack={() => navigate("numbers")}
+        <JungleHero
+          onComplete={navigate}   // student / parent selection
+          goBack={goBack}
         />
       );
 
@@ -114,27 +145,28 @@ export default function App() {
         />
       );
 
-    case "skip-count":
+    case "practice-home":
       return (
         <SkipCounting
           goBack={() => navigate("numbers")}
         />
       );
-      case "number-line":
-  return (
-    <NumberLineMove
-      goBack={() => navigate("numbers")}
-    />
-  );
 
-    case "letter-tracing":
-      return <LetterTracing goBack={() => navigate("practice-home")} />;
-
+    /* 🧠 PRACTICE SUB-SCREENS (Enable Later) */
     case "confusing-letters":
       return <ConfusingLetters goBack={() => navigate("practice-home")} />;
 
     case "letter-recognition":
-      return <LetterRecognition goBack={() => navigate("practice-home")} />;
+  return <LetterRecognition goBack={() => navigate("practice-home")} />;
+  
+      
+    case "letter-tracing":
+      return <LetterTracing goBack={goBack} />;
+
+
+   /* case "memory-match":
+      return <MemoryMatch goBack={goBack} />;
+      */
 
     case "parent-dashboard":
       return <ParentDashboard navigate={navigate} />;

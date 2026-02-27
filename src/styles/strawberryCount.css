@@ -1,0 +1,67 @@
+/* PAGE */
+.strawberry-page {
+  min-height: 100vh;
+  background: #a6e57a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 70px;
+}
+
+/* WHITE STRAWBERRY BOX */
+.strawberry-box {
+  width: 420px;
+  min-height: 280px;
+  background: white;
+  border-radius: 24px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 90px;      /* 🍓 size */
+  gap: 18px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  margin-bottom: 25px;
+}
+
+/* QUESTION TEXT */
+.question-text {
+  font-size: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+/* OPTIONS ROW */
+.option-row {
+  display: flex;
+  gap: 32px;
+}
+
+/* OPTION BUTTONS */
+.option-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: none;
+  background: #1b5e20;
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.option-btn:hover {
+  transform: scale(1.1);
+}
+
+/* RESULT MESSAGE */
+.result-text {
+  margin-top: 22px;
+  font-size: 32px;
+  font-weight: bold;
+}

@@ -12,55 +12,46 @@ export default function KidsHome({ navigate, goBack }) {
   return (
     <div className="kids-home">
 
-      {/* 🌴 FIXED NAVBAR */}
+      {/* 🌴 NAVBAR */}
       <div className="kids-navbar">
-        
-        {/* LEFT - BACK BUTTON */}
+
         <div className="navbar-left">
           <BackIcon goBack={goBack} />
         </div>
 
-        {/* CENTER - TITLE */}
         <div className="navbar-title">
           🌴 CurioKids
         </div>
 
-
-        {/* RIGHT - ACTION BUTTONS */}
         <div className="navbar-right">
-          <button 
-            className="pill"
-            onClick={() => navigate("rewards")}
-          >
+          <button className="pill" onClick={() => navigate("rewards")}>
             🏆 Rewards
           </button>
 
-          <button 
-            className="pill"
-            onClick={() => navigate("progress")}
-          >
+          <button className="pill" onClick={() => navigate("progress")}>
             📊 Progress
           </button>
         </div>
+
       </div>
 
-      {/* 🌿 PAGE CONTENT */}
+      {/* 🌿 CONTENT */}
       <div className="kids-content">
 
         {/* 🌱 WELCOME */}
         <section className="welcome-section">
           <h1>Welcome to the Jungle 🌿</h1>
-          <p>Let’s play, learn, and grow together!</p>
+          <p>Let's play, learn, and grow together!</p>
         </section>
 
         {/* 🧩 CARDS */}
         <section className="card-grid">
 
-          {/* 🎮 GAMES */}
+          {/* 🎮 PRACTICE */}
           <div
             className="jungle-card"
-            onClick={() => navigate("games")}
-            onMouseEnter={() => speakText("Let’s play fun games!")}
+            onClick={() => navigate("practice-home")}
+            onMouseEnter={() => speakText("Let's play fun games!")}
           >
             <span className="card-icon">🎮</span>
             <span className="card-text">Games</span>
@@ -70,7 +61,7 @@ export default function KidsHome({ navigate, goBack }) {
           <div
             className="jungle-card"
             onClick={() => navigate("letters")}
-            onMouseEnter={() => speakText("Let’s learn letters together!")}
+            onMouseEnter={() => speakText("Let's learn letters together!")}
           >
             <span className="card-icon">🔤</span>
             <span className="card-text">Letters</span>
@@ -100,86 +91,17 @@ export default function KidsHome({ navigate, goBack }) {
 
         {/* 🦊 MASCOT */}
         <div className="mascot-container">
-          <img 
-            src={foxy} 
-            alt="Jungle Friend" 
-            className="mascot-img mascot-enter" 
+          <img
+            src={foxy}
+            alt="Jungle Friend"
+            className="mascot-img mascot-enter"
           />
           <div className="mascot-bubble">
-            <strong>Let’s start learning!!!</strong>
+            <strong>Let's start learning!!!</strong>
           </div>
         </div>
 
-<<<<<<< HEAD
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Let’s learn letters together!")}
-        >
-          <span className="card-icon">🔤</span>
-          <span className="card-text">Letters</span>
-        </div>
-
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Numbers are fun to learn!")}
-        >
-          <span className="card-icon">🔢</span>
-          <span className="card-text">Numbers</span>
-        </div>
-
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Practice makes you stronger!")}
-        >
-          <span className="card-icon">🧠</span>
-          <span className="card-text">Practice</span>
-        </div>
-      </section>
-
-      {/* 🦊 MASCOT */}
-      {/*<div className="mascot-container">
-        <img src={foxy} alt="Jungle Friend" className="mascot-img mascot-enter" />
-        <div className="mascot-bubble">
-          <strong>Let’s start learning!!!</strong>
-        </div>
-=======
->>>>>>> c36adf6d5c1cd53aada627ce026f71e55fa09d03
-      </div>
-      */}
-      <div className="games-topic">
-          <span className="card-text">Games</span>
-          <ul>
-            <li>Decoding practice</li>
-            <li>Indentifying concepts</li>
-           <li>Isolating speech sounds</li>
-          </ul>
-      </div>
-      <div className="games-topic">
-          <span className="card-text">Practice</span>
-          <ul>
-            <li>Reading comprehension</li>
-            <li>Spelling syllables and sounds</li>
-           <li>Reviewing concepts</li>
-          </ul>
-      </div>
-      <div className="games-topic">
-          <span className="card-text">Letters</span>
-          <ul>
-            <li>Letter writing practice</li>
-            <li>spelling practice</li>
-           <li>Focused spelling</li>
-          </ul>
-      </div>
-      <div className="games-topic">
-          <span className="card-text">Numbers</span>
-          <ul>
-            <li>Numbers practice</li>
-            <li>Spelling practice</li>
-           <li>Counting</li>
-          </ul>
       </div>
     </div>
-
-    
   );
 }

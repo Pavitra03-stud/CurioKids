@@ -19,7 +19,7 @@ import NumbersHome from "./features/NumbersHome";
 import ParentDashboard from "./features/ParentDashboard";
 import PracticeHome from "./features/PracticeHome";
 
-/* 🧠 Practice Sessions (create later) */
+/* 🧠 Practice Sessions */
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
@@ -27,15 +27,47 @@ import LetterRecognition from "./features/LetterRecognizition";
 import "./index.css";
 
 export default function App() {
-  const [screen, setScreen] = useState(localStorage.getItem("currentScreen") || "public-home");
+
+  const [screen, setScreen] = useState(
+    localStorage.getItem("currentScreen") || "public-home"
+  );
+
+  /* 🔥 Scroll fix (kept) */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [screen]);
 
   const navigate = (next) => {
     setScreen(next);
     localStorage.setItem("currentScreen", next);
   };
 
-  /* 🔙 BACK NAVIGATION SYSTEM */
-  const goBack = () => {
+  /* 🔙 BACK NAVIGATION (UNCHANGED) */
+const goBack = () => {
+
+  // If inside a practice zone → go to practice-home
+  if (
+    screen === "practice-letter-mastery" ||
+    screen === "practice-phonics" ||
+    screen === "practice-word-builder" ||
+    screen === "practice-memory" ||
+    screen === "practice-confidence"
+  ) {
+    navigate("practice-home");
+    return;
+  }
+
+  // If inside a practice game → go to practice-home
+  if (
+    screen === "letter-tracing" ||
+    screen === "letter-recognition" ||
+    screen === "confusing-letters"
+  ) {
+    navigate("practice-home");
+    return;
+  }
+
+  // Normal backward flow
   const flow = [
     "public-home",
     "child-register",
@@ -45,21 +77,18 @@ export default function App() {
     "jungle-hero",
     "kids-home",
     "practice-home",
-    "letter-tracing",
-    "confusing-letters",
-    "memory-match",
     "parent-dashboard",
   ];
 
-    const currentIndex = flow.indexOf(screen);
-    if (currentIndex > 0) {
-      const previous = flow[currentIndex - 1];
-      setScreen(previous);
-      localStorage.setItem("currentScreen", previous);
-    }
-  };
+  const currentIndex = flow.indexOf(screen);
 
-  /* 🧭 SCREEN SWITCH CONTROLLER */
+  if (currentIndex > 0) {
+    const previous = flow[currentIndex - 1];
+    navigate(previous);
+  }
+};
+
+  /* 🧭 SCREEN SWITCH */
   switch (screen) {
 
     case "public-home":
@@ -89,10 +118,7 @@ export default function App() {
     case "numbers":
       return (
         <ChildRegister
-          onComplete={() => {
-            localStorage.setItem("appProgress", "child-register");
-            navigate("parent-register");
-          }}
+          onComplete={() => navigate("parent-register")}
           goBack={goBack}
         />
       );
@@ -100,10 +126,7 @@ export default function App() {
     case "strawberry-count":
       return (
         <ParentRegister
-          onComplete={() => {
-            localStorage.setItem("appProgress", "parent-register");
-            navigate("choose-friend");
-          }}
+          onComplete={() => navigate("choose-friend")}
           goBack={goBack}
         />
       );
@@ -111,10 +134,7 @@ export default function App() {
     case "number-trail":
       return (
         <ChooseFriend
-          onComplete={() => {
-            localStorage.setItem("appProgress", "choose-friend");
-            navigate("friend-intro");
-          }}
+          onComplete={() => navigate("friend-intro")}
           goBack={goBack}
         />
       );
@@ -122,10 +142,7 @@ export default function App() {
     case "frog-jump":
       return (
         <FriendIntro
-          onComplete={() => {
-            localStorage.setItem("appProgress", "friend-intro");
-            navigate("jungle-hero");
-          }}
+          onComplete={() => navigate("jungle-hero")}
           goBack={goBack}
         />
       );
@@ -133,7 +150,7 @@ export default function App() {
     case "missing-number":
       return (
         <JungleHero
-          onComplete={navigate}   // student / parent selection
+          onComplete={navigate}
           goBack={goBack}
         />
       );
@@ -145,6 +162,7 @@ export default function App() {
         />
       );
 
+    /* PRACTICE MAIN */
     case "practice-home":
       return (
         <SkipCounting
@@ -152,21 +170,61 @@ export default function App() {
         />
       );
 
-    /* 🧠 PRACTICE SUB-SCREENS (Enable Later) */
-    case "confusing-letters":
-      return <ConfusingLetters goBack={() => navigate("practice-home")} />;
+    /* PRACTICE ZONES — pass initialZone */
+    case "practice-letter-mastery":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="letterMastery"
+        />
+      );
 
-    case "letter-recognition":
-  return <LetterRecognition goBack={() => navigate("practice-home")} />;
-  
-      
+    case "practice-phonics":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="phonics"
+        />
+      );
+
+    case "practice-word-builder":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="wordBuilder"
+        />
+      );
+
+    case "practice-memory":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="memory"
+        />
+      );
+
+    case "practice-confidence":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="confidence"
+        />
+      );
+
+    /* PRACTICE GAMES */
     case "letter-tracing":
       return <LetterTracing goBack={goBack} />;
 
+    case "letter-recognition":
+      return <LetterRecognition goBack={goBack} />;
 
-   /* case "memory-match":
-      return <MemoryMatch goBack={goBack} />;
-      */
+    case "confusing-letters":
+      return <ConfusingLetters goBack={goBack} />;
 
     case "parent-dashboard":
       return <ParentDashboard navigate={navigate} />;

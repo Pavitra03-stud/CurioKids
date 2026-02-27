@@ -17,7 +17,7 @@ import KidsHome from "./features/KidsHome";
 import PracticeHome from "./features/PracticeHome";
 import NumbersHome from "./features/NumbersHome";
 import ParentDashboard from "./features/ParentDashboard";
-import PracticeHome from "./features/PracticeHome";
+
 
 /* 🧠 Practice Sessions */
 import LetterTracing from "./features/LetterTracing";

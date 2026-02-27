@@ -1,22 +1,93 @@
+import { useEffect, useRef } from "react";
 import "../styles/practiceHome.css";
 import BackIcon from "../components/BackIcon";
 import { speak } from "../utils/speak";
 
-export default function PracticeHome({ navigate, goBack }) {
+export default function PracticeHome({ navigate, goBack, initialZone }) {
 
   const speakText = (text) => {
     speak(text);
   };
 
+  /* 🔥 Section Refs */
+  const letterRef = useRef(null);
+  const phonicsRef = useRef(null);
+  const wordRef = useRef(null);
+  const memoryRef = useRef(null);
+  const confidenceRef = useRef(null);
+
+  /* 🔥 Auto-scroll when coming from KidsHome */
+  useEffect(() => {
+    if (!initialZone) return;
+
+    const sectionMap = {
+      letterMastery: letterRef,
+      phonics: phonicsRef,
+      wordBuilder: wordRef,
+      memory: memoryRef,
+      confidence: confidenceRef,
+    };
+
+    const targetRef = sectionMap[initialZone];
+
+    if (targetRef && targetRef.current) {
+      targetRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [initialZone]);
+
+  const zones = {
+    letterMastery: [
+      { title: "Letter Tracing", route: "letter-tracing" },
+      { title: "Letter Recognition", route: "letter-recognition" },
+      { title: "Uppercase vs Lowercase", route: "uppercase-lowercase" },
+      { title: "Find the Correct Letter", route: "find-letter" },
+      { title: "Confusing Letters (b/d/p/q)", route: "confusing-letters" },
+      { title: "Letter Recognition Challenge", route: "letter-recognition-challenge" }
+    ],
+    phonics: [
+      { title: "Beginning Sounds", route: "beginning-sounds" },
+      { title: "Ending Sounds", route: "ending-sounds" },
+      { title: "Sound Matching", route: "sound-matching" },
+      { title: "Rhyming Words", route: "rhyming-words" },
+      { title: "Blend Sounds", route: "blend-sounds" },
+      { title: "Break the Word", route: "break-word" }
+    ],
+    wordBuilder: [
+      { title: "Build the Word", route: "build-word" },
+      { title: "Missing Letter", route: "missing-letter" },
+      { title: "Sight Words", route: "sight-words" },
+      { title: "Word Scramble", route: "word-scramble" },
+      { title: "Match Word to Picture", route: "match-word-picture" },
+      { title: "Sentence Builder", route: "sentence-builder" }
+    ],
+    memory: [
+      { title: "Memory Match", route: "memory-match" },
+      { title: "Spot the Difference", route: "spot-difference" },
+      { title: "Find Hidden Letter", route: "find-hidden-letter" },
+      { title: "Left / Right Practice", route: "left-right-practice" },
+      { title: "Pattern Matching", route: "pattern-matching" },
+      { title: "Sequence Builder", route: "sequence-builder" }
+    ],
+    confidence: [
+      { title: "Read Aloud", route: "read-aloud" },
+      { title: "Timed Challenge", route: "timed-challenge" },
+      { title: "Daily Practice Goal", route: "daily-practice-goal" },
+      { title: "Reward Challenge", route: "reward-challenge" },
+      { title: "Progress Stars", route: "progress-stars" }
+    ]
+  };
+
   return (
     <div className="practice-home">
 
-      {/* 🌴 FIXED NAVBAR */}
+      {/* 🌴 NAVBAR */}
       <div className="practice-navbar">
         <div className="navbar-left">
           <BackIcon goBack={goBack} />
         </div>
-
         <div className="navbar-title">
           🌟 Jungle Practice Camp
         </div>
@@ -28,119 +99,83 @@ export default function PracticeHome({ navigate, goBack }) {
           Choose your learning zone and grow stronger every day 💪🌿
         </p>
 
-        {/* 🔤 LETTER MASTERY */}
-        <Section title="🔤 Letter Mastery Zone">
-
-          <Card
-            title="Letter Tracing"
+        <div ref={letterRef}>
+          <Section
+            title="🔤 Letter Mastery Zone"
+            games={zones.letterMastery}
+            navigate={navigate}
             speakText={speakText}
-            onClick={() => navigate("letter-tracing")}
           />
+        </div>
 
-          <Card
-            title="Letter Recognition"
+        <div ref={phonicsRef}>
+          <Section
+            title="🔊 Phonics Power Zone"
+            games={zones.phonics}
+            navigate={navigate}
             speakText={speakText}
-            onClick={() => navigate("letter-recognition")}
           />
+        </div>
 
-          <Card
-            title="Uppercase vs Lowercase"
+        <div ref={wordRef}>
+          <Section
+            title="🧩 Word Builder Zone"
+            games={zones.wordBuilder}
+            navigate={navigate}
             speakText={speakText}
-            onClick={() => navigate("uppercase-lowercase")}
           />
+        </div>
 
-          <Card
-            title="Find the Correct Letter"
+        <div ref={memoryRef}>
+          <Section
+            title="🧠 Memory & Visual Skills"
+            games={zones.memory}
+            navigate={navigate}
             speakText={speakText}
-            onClick={() => navigate("find-letter")}
           />
+        </div>
 
-          <Card
-            title="Confusing Letters (b/d/p/q)"
+        <div ref={confidenceRef}>
+          <Section
+            title="⭐ Confidence Boost Zone"
+            games={zones.confidence}
+            navigate={navigate}
             speakText={speakText}
-            onClick={() => navigate("confusing-letters")}
           />
-
-          <Card
-            title="Letter Recognition Challenge"
-            speakText={speakText}
-            onClick={() => navigate("letter-recognition-challenge")}
-          />
-
-        </Section>
-
-        {/* 🔊 PHONICS */}
-        <Section title="🔊 Phonics Power Zone">
-
-          <Card title="Beginning Sounds" speakText={speakText} />
-          <Card title="Ending Sounds" speakText={speakText} />
-          <Card title="Sound Matching" speakText={speakText} />
-          <Card title="Rhyming Words" speakText={speakText} />
-          <Card title="Blend Sounds" speakText={speakText} />
-          <Card title="Break the Word" speakText={speakText} />
-
-        </Section>
-
-        {/* 🧩 WORD BUILDER */}
-        <Section title="🧩 Word Builder Zone">
-
-          <Card title="Build the Word" speakText={speakText} />
-          <Card title="Missing Letter" speakText={speakText} />
-          <Card title="Sight Words" speakText={speakText} />
-          <Card title="Word Scramble" speakText={speakText} />
-          <Card title="Match Word to Picture" speakText={speakText} />
-          <Card title="Sentence Builder" speakText={speakText} />
-
-        </Section>
-
-        {/* 🧠 MEMORY */}
-        <Section title="🧠 Memory & Visual Skills">
-
-          <Card title="Memory Match" speakText={speakText} />
-          <Card title="Spot the Difference" speakText={speakText} />
-          <Card title="Find Hidden Letter" speakText={speakText} />
-          <Card title="Left / Right Practice" speakText={speakText} />
-          <Card title="Pattern Matching" speakText={speakText} />
-          <Card title="Sequence Builder" speakText={speakText} />
-
-        </Section>
-
-        {/* ⭐ CONFIDENCE */}
-        <Section title="⭐ Confidence Boost Zone">
-
-          <Card title="Read Aloud" speakText={speakText} />
-          <Card title="Timed Challenge" speakText={speakText} />
-          <Card title="Daily Practice Goal" speakText={speakText} />
-          <Card title="Reward Challenge" speakText={speakText} />
-          <Card title="Progress Stars" speakText={speakText} />
-
-        </Section>
+        </div>
 
       </div>
     </div>
   );
 }
 
-/* 🔹 SECTION */
-function Section({ title, children }) {
+/* ================= SECTION ================= */
+function Section({ title, games, navigate, speakText }) {
   return (
     <div className="practice-section">
       <h2 className="section-title">{title}</h2>
       <div className="practice-grid">
-        {children}
+        {games.map((game, index) => (
+          <Card
+            key={index}
+            title={game.title}
+            onClick={() => navigate(game.route)}
+            speakText={speakText}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
-/* 🔹 CARD */
+/* ================= CARD ================= */
 function Card({ title, onClick, speakText }) {
   return (
     <div
       className="practice-card"
       onClick={onClick}
       onMouseEnter={() => speakText(title)}
-      style={{ cursor: onClick ? "pointer" : "default" }}
+      style={{ cursor: "pointer" }}
     >
       {title}
     </div>

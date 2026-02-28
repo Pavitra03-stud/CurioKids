@@ -254,6 +254,7 @@ import SkipCounting from "./features/SkipCounting";
 import NumberLineMove from "./features/NumberLineMove";
 import NumbersLearningHome from "./features/NumbersLearningHome";
 import NumbersGameHome from "./features/NumbersGameHome";
+import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
 // import ConceptNumber from "./features/ConceptNumber";
 // /* 🧠 Practice Games */
 import LetterTracing from "./features/LetterTracing";
@@ -399,9 +400,9 @@ case "numbers-game-home":
     />
   );
 
-case "concept-number":
+  case "concept-what-is-a-number":
   return (
-    <ConceptNumber
+    <ConceptWhatIsANumber
       goBack={() => navigate("numbers-learning-home")}
     />
   );

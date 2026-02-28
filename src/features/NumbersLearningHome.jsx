@@ -19,7 +19,7 @@ export default function NumbersLearningHome({ navigate, goBack }) {
 
         <div
           className="zone-card"
-          onClick={() => navigate("concept-number")}
+          onClick={() => navigate("concept-what-is-a-number")}
         >
           🔢 What is a Number?
         </div>

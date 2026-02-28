@@ -18,8 +18,16 @@ import PracticeHome from "./features/PracticeHome";
 import NumbersHome from "./features/NumbersHome";
 import ParentDashboard from "./features/ParentDashboard";
 
+/* 🔢 Number Games */
+import StrawberryCount from "./features/StrawberryCount";
+import NumberTrail from "./features/NumberTrail";
+import FrogJumpMath from "./features/FrogJumpMath";
+import MissingNumber from "./features/MissingNumber";
+import CompareSafari from "./features/CompareSafari";
+import SkipCounting from "./features/SkipCounting";
+import NumberLineMove from "./features/NumberLineMove";
 
-/* 🧠 Practice Sessions */
+/* 🧠 Practice */
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
@@ -32,7 +40,7 @@ export default function App() {
     localStorage.getItem("currentScreen") || "public-home"
   );
 
-  /* 🔥 Scroll fix (kept) */
+  /* 🔥 Scroll to top on screen change */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [screen]);
@@ -42,55 +50,55 @@ export default function App() {
     localStorage.setItem("currentScreen", next);
   };
 
-  /* 🔙 BACK NAVIGATION (UNCHANGED) */
-const goBack = () => {
+  /* 🔙 Smart Back Navigation */
+  const goBack = () => {
 
-  // If inside a practice zone → go to practice-home
-  if (
-    screen === "practice-letter-mastery" ||
-    screen === "practice-phonics" ||
-    screen === "practice-word-builder" ||
-    screen === "practice-memory" ||
-    screen === "practice-confidence"
-  ) {
-    navigate("practice-home");
-    return;
-  }
+    // Practice games go back to practice-home
+    if (
+      screen === "letter-tracing" ||
+      screen === "letter-recognition" ||
+      screen === "confusing-letters"
+    ) {
+      navigate("practice-home");
+      return;
+    }
 
-  // If inside a practice game → go to practice-home
-  if (
-    screen === "letter-tracing" ||
-    screen === "letter-recognition" ||
-    screen === "confusing-letters"
-  ) {
-    navigate("practice-home");
-    return;
-  }
+    // Number games go back to numbers
+    if (
+      screen === "strawberry-count" ||
+      screen === "number-trail" ||
+      screen === "frog-jump" ||
+      screen === "missing-number" ||
+      screen === "compare-safari" ||
+      screen === "skip-count" ||
+      screen === "number-line"
+    ) {
+      navigate("numbers");
+      return;
+    }
 
-  // Normal backward flow
-  const flow = [
-    "public-home",
-    "child-register",
-    "parent-register",
-    "choose-friend",
-    "friend-intro",
-    "jungle-hero",
-    "kids-home",
-    "practice-home",
-    "parent-dashboard",
-  ];
+    const flow = [
+      "public-home",
+      "child-register",
+      "parent-register",
+      "choose-friend",
+      "friend-intro",
+      "jungle-hero",
+      "kids-home",
+      "practice-home",
+      "parent-dashboard",
+    ];
 
-  const currentIndex = flow.indexOf(screen);
+    const currentIndex = flow.indexOf(screen);
 
-  if (currentIndex > 0) {
-    const previous = flow[currentIndex - 1];
-    navigate(previous);
-  }
-};
+    if (currentIndex > 0) {
+      navigate(flow[currentIndex - 1]);
+    }
+  };
 
-  /* 🧭 SCREEN SWITCH */
   switch (screen) {
 
+    /* ENTRY FLOW */
     case "public-home":
       return <PublicHome onComplete={() => navigate("child-register")} />;
 
@@ -109,6 +117,7 @@ const goBack = () => {
     case "jungle-hero":
       return <JungleHero onComplete={navigate} />;
 
+    /* MAIN HUBS */
     case "kids-home":
       return <KidsHome navigate={navigate} />;
 
@@ -117,104 +126,33 @@ const goBack = () => {
 
     case "numbers":
       return (
-        <ChildRegister
-          onComplete={() => navigate("parent-register")}
-          goBack={goBack}
+        <NumbersHome
+          navigate={navigate}
+          goBack={() => navigate("kids-home")}
         />
       );
 
+    /* NUMBER GAMES */
     case "strawberry-count":
-      return (
-        <ParentRegister
-          onComplete={() => navigate("choose-friend")}
-          goBack={goBack}
-        />
-      );
+      return <StrawberryCount goBack={goBack} />;
 
     case "number-trail":
-      return (
-        <ChooseFriend
-          onComplete={() => navigate("friend-intro")}
-          goBack={goBack}
-        />
-      );
+      return <NumberTrail goBack={goBack} />;
 
     case "frog-jump":
-      return (
-        <FriendIntro
-          onComplete={() => navigate("jungle-hero")}
-          goBack={goBack}
-        />
-      );
+      return <FrogJumpMath goBack={goBack} />;
 
     case "missing-number":
-      return (
-        <JungleHero
-          onComplete={navigate}
-          goBack={goBack}
-        />
-      );
+      return <MissingNumber goBack={goBack} />;
 
     case "compare-safari":
-      return (
-        <CompareSafari
-          goBack={() => navigate("numbers")}
-        />
-      );
+      return <CompareSafari goBack={goBack} />;
 
-    /* PRACTICE MAIN */
-    case "practice-home":
-      return (
-        <SkipCounting
-          goBack={() => navigate("numbers")}
-        />
-      );
+    case "skip-count":
+      return <SkipCounting goBack={goBack} />;
 
-    /* PRACTICE ZONES — pass initialZone */
-    case "practice-letter-mastery":
-      return (
-        <PracticeHome
-          navigate={navigate}
-          goBack={goBack}
-          initialZone="letterMastery"
-        />
-      );
-
-    case "practice-phonics":
-      return (
-        <PracticeHome
-          navigate={navigate}
-          goBack={goBack}
-          initialZone="phonics"
-        />
-      );
-
-    case "practice-word-builder":
-      return (
-        <PracticeHome
-          navigate={navigate}
-          goBack={goBack}
-          initialZone="wordBuilder"
-        />
-      );
-
-    case "practice-memory":
-      return (
-        <PracticeHome
-          navigate={navigate}
-          goBack={goBack}
-          initialZone="memory"
-        />
-      );
-
-    case "practice-confidence":
-      return (
-        <PracticeHome
-          navigate={navigate}
-          goBack={goBack}
-          initialZone="confidence"
-        />
-      );
+    case "number-line":
+      return <NumberLineMove goBack={goBack} />;
 
     /* PRACTICE GAMES */
     case "letter-tracing":

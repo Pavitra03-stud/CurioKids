@@ -26,7 +26,34 @@ export default function LetterTracing({ goBack }) {
     ctx.strokeStyle = "#1b4332";
 
     ctxRef.current = ctx;
+
+    drawGuideLetter(uppercaseLetters[currentIndex]);
   }, []);
+
+  /* ------------------ DRAW GUIDE LETTER ------------------ */
+  const drawGuideLetter = (letter) => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "250px Arial";
+    ctx.fillStyle = "rgba(0,0,0,0.15)";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(letter, canvas.width / 2, canvas.height / 2);
+
+    ctx.strokeStyle = "#1b4332";
+    ctx.lineWidth = 10;
+  };
+
+  /* Redraw guide when letter changes */
+  useEffect(() => {
+    if (ctxRef.current) {
+      drawGuideLetter(uppercaseLetters[currentIndex]);
+    }
+  }, [currentIndex]);
 
   /* ------------------ DRAWING ------------------ */
   const startDrawing = (e) => {
@@ -56,8 +83,7 @@ export default function LetterTracing({ goBack }) {
   };
 
   const clearCanvas = () => {
-    const canvas = canvasRef.current;
-    ctxRef.current.clearRect(0, 0, canvas.width, canvas.height);
+    drawGuideLetter(uppercaseLetters[currentIndex]);
     setHasDrawn(false);
   };
 
@@ -100,12 +126,11 @@ export default function LetterTracing({ goBack }) {
       [currentLetter]: grade,
     }));
 
-    clearCanvas();
-
     if (currentIndex === 25) {
       setShowResultCard(true);
     } else {
       setCurrentIndex((prev) => prev + 1);
+      setHasDrawn(false);
     }
   };
 
@@ -128,10 +153,7 @@ export default function LetterTracing({ goBack }) {
               const grade = results[letter];
 
               return (
-                <div
-                  key={letter}
-                  className={`result-box ${grade}`}
-                >
+                <div key={letter} className={`result-box ${grade}`}>
                   {letter}
                 </div>
               );
@@ -151,7 +173,6 @@ export default function LetterTracing({ goBack }) {
   /* ------------------ MAIN SCREEN ------------------ */
   return (
     <div className="letter-page">
-
       <div className="letter-navbar">
         <div className="navbar-left">
           <BackIcon goBack={goBack} />

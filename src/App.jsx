@@ -122,7 +122,7 @@ export default function App() {
       return <KidsHome navigate={navigate} />;
 
     case "practice-home":
-      return <PracticeHome navigate={navigate} />;
+      return <PracticeHome navigate={navigate} goBack={goBack} />;
 
     case "numbers":
       return (

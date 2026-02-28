@@ -110,42 +110,7 @@ export default function KidsHome({ navigate, goBack }) {
           </div>
         </div>
 
-<<<<<<< HEAD
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Let’s learn letters together!")}
-        >
-          <span className="card-icon">🔤</span>
-          <span className="card-text">Letters</span>
-        </div>
-
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Numbers are fun to learn!")}
-        >
-          <span className="card-icon">🔢</span>
-          <span className="card-text">Numbers</span>
-        </div>
-
-        <div
-          className="jungle-card"
-          onMouseEnter={() => speakText("Practice makes you stronger!")}
-        >
-          <span className="card-icon">🧠</span>
-          <span className="card-text">Practice</span>
-        </div>
-      </section>
-
-      {/* 🦊 MASCOT */}
-      {/*<div className="mascot-container">
-        <img src={foxy} alt="Jungle Friend" className="mascot-img mascot-enter" />
-        <div className="mascot-bubble">
-          <strong>Let’s start learning!!!</strong>
-        </div>
-=======
->>>>>>> c36adf6d5c1cd53aada627ce026f71e55fa09d03
       </div>
-      */}
       <div className="games-topic">
           <span className="card-text">Games</span>
           <ul>

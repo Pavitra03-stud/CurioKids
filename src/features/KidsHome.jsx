@@ -178,7 +178,6 @@ export default function KidsHome({ navigate, goBack }) {
           </div>
 
         </section>
-
       </div>
     </div>
   );

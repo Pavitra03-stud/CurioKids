@@ -53,11 +53,17 @@ export default function App() {
   /* 🔙 Smart Back Navigation */
   const goBack = () => {
 
-    // Practice games go back to practice-home
+    // ✅ FIXED: Practice games + practice zones go back to practice-home
     if (
       screen === "letter-tracing" ||
       screen === "letter-recognition" ||
-      screen === "confusing-letters"
+      screen === "confusing-letters" ||
+
+      screen === "practice-letter-mastery" ||
+      screen === "practice-phonics" ||
+      screen === "practice-word-builder" ||
+      screen === "practice-memory" ||
+      screen === "practice-confidence"
     ) {
       navigate("practice-home");
       return;
@@ -119,10 +125,55 @@ export default function App() {
 
     /* MAIN HUBS */
     case "kids-home":
-      return <KidsHome navigate={navigate} />;
+      return <KidsHome navigate={navigate} goBack={goBack} />;
 
     case "practice-home":
       return <PracticeHome navigate={navigate} goBack={goBack} />;
+
+    case "practice-letter-mastery":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="letterMastery"
+        />
+      );
+
+    case "practice-phonics":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="phonics"
+        />
+      );
+
+    case "practice-word-builder":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="wordBuilder"
+        />
+      );
+
+    case "practice-memory":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="memory"
+        />
+      );
+
+    case "practice-confidence":
+      return (
+        <PracticeHome
+          navigate={navigate}
+          goBack={goBack}
+          initialZone="confidence"
+        />
+      );
 
     case "numbers":
       return (

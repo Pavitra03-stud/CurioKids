@@ -252,8 +252,10 @@ import MissingNumber from "./features/MissingNumber";
 import CompareSafari from "./features/CompareSafari";
 import SkipCounting from "./features/SkipCounting";
 import NumberLineMove from "./features/NumberLineMove";
-
-/* 🧠 Practice Games */
+import NumbersLearningHome from "./features/NumbersLearningHome";
+import NumbersGameHome from "./features/NumbersGameHome";
+// import ConceptNumber from "./features/ConceptNumber";
+// /* 🧠 Practice Games */
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
@@ -381,6 +383,28 @@ export default function App() {
 
     case "number-line":
       return <NumberLineMove goBack={goBack} />;
+      case "numbers-learning-home":
+  return (
+    <NumbersLearningHome
+      navigate={navigate}
+      goBack={() => navigate("numbers")}
+    />
+  );
+
+case "numbers-game-home":
+  return (
+    <NumbersGameHome
+      navigate={navigate}
+      goBack={() => navigate("numbers")}
+    />
+  );
+
+case "concept-number":
+  return (
+    <ConceptNumber
+      goBack={() => navigate("numbers-learning-home")}
+    />
+  );
 
     /* PRACTICE GAMES */
     case "letter-tracing":

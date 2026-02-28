@@ -48,21 +48,39 @@ export default function LetterTracing({ goBack }) {
     ctx.lineWidth = 10;
   };
 
-  /* Redraw guide when letter changes */
   useEffect(() => {
     if (ctxRef.current) {
       drawGuideLetter(uppercaseLetters[currentIndex]);
     }
   }, [currentIndex]);
 
-  /* ------------------ DRAWING ------------------ */
-  const startDrawing = (e) => {
-    setDrawing(true);
-    setHasDrawn(true);
-    draw(e);
+  /* ------------------ GET POSITION (MOUSE + TOUCH) ------------------ */
+  const getPosition = (event) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+
+    if (event.touches) {
+      return {
+        x: event.touches[0].clientX - rect.left,
+        y: event.touches[0].clientY - rect.top,
+      };
+    } else {
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+      };
+    }
   };
 
-  const endDrawing = () => {
+  /* ------------------ DRAWING ------------------ */
+  const startDrawing = (e) => {
+    e.preventDefault();
+    setDrawing(true);
+    setHasDrawn(true);
+  };
+
+  const endDrawing = (e) => {
+    e.preventDefault();
     setDrawing(false);
     ctxRef.current.beginPath();
   };
@@ -70,11 +88,9 @@ export default function LetterTracing({ goBack }) {
   const draw = (e) => {
     if (!drawing) return;
 
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
+    e.preventDefault();
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const { x, y } = getPosition(e);
 
     ctxRef.current.lineTo(x, y);
     ctxRef.current.stroke();
@@ -149,15 +165,11 @@ export default function LetterTracing({ goBack }) {
           <h2>Writing Test Result</h2>
 
           <div className="result-grid">
-            {uppercaseLetters.map((letter) => {
-              const grade = results[letter];
-
-              return (
-                <div key={letter} className={`result-box ${grade}`}>
-                  {letter}
-                </div>
-              );
-            })}
+            {uppercaseLetters.map((letter) => (
+              <div key={letter} className={`result-box ${results[letter]}`}>
+                {letter}
+              </div>
+            ))}
           </div>
 
           <div className="legend">
@@ -195,6 +207,9 @@ export default function LetterTracing({ goBack }) {
           onMouseUp={endDrawing}
           onMouseMove={draw}
           onMouseLeave={endDrawing}
+          onTouchStart={startDrawing}
+          onTouchEnd={endDrawing}
+          onTouchMove={draw}
         />
 
         <div className="button-row">

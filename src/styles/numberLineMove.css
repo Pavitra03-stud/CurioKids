@@ -1,0 +1,67 @@
+.numberline-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f3d2e, #2e7d32);
+  padding: 30px 20px;
+  text-align: center;
+  color: white;
+}
+
+/* Number Line */
+.number-line {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 40px 0;
+}
+
+/* Nodes */
+.number-node {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  padding: 12px;
+  width: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.number-node:hover {
+  transform: scale(1.1);
+}
+
+.start {
+  background: #ffd600;
+  color: black;
+}
+
+.correct {
+  background: #43a047 !important;
+  color: white;
+}
+
+.wrong {
+  background: #e53935 !important;
+  color: white;
+}
+
+.result-text {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.round-text {
+  margin-top: 10px;
+}
+
+.play-btn {
+  padding: 12px 30px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  background: #ffd600;
+  font-size: 18px;
+  margin-top: 20px;
+}

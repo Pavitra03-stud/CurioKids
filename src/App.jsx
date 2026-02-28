@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 /* 🌱 Entry */
 import PublicHome from "./features/PublicHome";
 
-/* 🧒👨‍👩‍👧 Registration */
+/* 🧒 Registration */
 import ChildRegister from "./features/ChildRegister";
 import ParentRegister from "./features/ParentRegister";
 
@@ -14,149 +14,158 @@ import FriendIntro from "./features/FriendIntro";
 /* 🌴 Main Screens */
 import JungleHero from "./features/JungleHero";
 import KidsHome from "./features/KidsHome";
-import ParentDashboard from "./features/ParentDashboard";
 import PracticeHome from "./features/PracticeHome";
+import NumbersHome from "./features/NumbersHome";
+import ParentDashboard from "./features/ParentDashboard";
 
-/* 🧠 Practice Sessions (create later) */
+/* 🔢 Number Games */
+import StrawberryCount from "./features/StrawberryCount";
+import NumberTrail from "./features/NumberTrail";
+import FrogJumpMath from "./features/FrogJumpMath";
+import MissingNumber from "./features/MissingNumber";
+import CompareSafari from "./features/CompareSafari";
+import SkipCounting from "./features/SkipCounting";
+import NumberLineMove from "./features/NumberLineMove";
+
+/* 🧠 Practice */
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
-// import MemoryMatch from "./features/MemoryMatch";
 
 import "./index.css";
 
 export default function App() {
-  const [screen, setScreen] = useState(localStorage.getItem("currentScreen") || "public-home");
 
-  /* 🌿 CENTRAL NAVIGATION */
+  const [screen, setScreen] = useState(
+    localStorage.getItem("currentScreen") || "public-home"
+  );
+
+  /* 🔥 Scroll to top on screen change */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [screen]);
+
   const navigate = (next) => {
-    console.log("Navigating to:", next);
     setScreen(next);
     localStorage.setItem("currentScreen", next);
   };
 
-  /* 🔙 BACK NAVIGATION SYSTEM */
+  /* 🔙 Smart Back Navigation */
   const goBack = () => {
-  const flow = [
-    "public-home",
-    "child-register",
-    "parent-register",
-    "choose-friend",
-    "friend-intro",
-    "jungle-hero",
-    "kids-home",
-    "practice-home",
-    "letter-tracing",
-    "confusing-letters",
-    "memory-match",
-    "parent-dashboard",
-  ];
+
+    // Practice games go back to practice-home
+    if (
+      screen === "letter-tracing" ||
+      screen === "letter-recognition" ||
+      screen === "confusing-letters"
+    ) {
+      navigate("practice-home");
+      return;
+    }
+
+    // Number games go back to numbers
+    if (
+      screen === "strawberry-count" ||
+      screen === "number-trail" ||
+      screen === "frog-jump" ||
+      screen === "missing-number" ||
+      screen === "compare-safari" ||
+      screen === "skip-count" ||
+      screen === "number-line"
+    ) {
+      navigate("numbers");
+      return;
+    }
+
+    const flow = [
+      "public-home",
+      "child-register",
+      "parent-register",
+      "choose-friend",
+      "friend-intro",
+      "jungle-hero",
+      "kids-home",
+      "practice-home",
+      "parent-dashboard",
+    ];
 
     const currentIndex = flow.indexOf(screen);
+
     if (currentIndex > 0) {
-      const previous = flow[currentIndex - 1];
-      setScreen(previous);
-      localStorage.setItem("currentScreen", previous);
+      navigate(flow[currentIndex - 1]);
     }
   };
 
-  /* 🧭 SCREEN SWITCH CONTROLLER */
   switch (screen) {
 
+    /* ENTRY FLOW */
     case "public-home":
       return <PublicHome onComplete={() => navigate("child-register")} />;
 
     case "child-register":
-      return (
-        <ChildRegister
-          onComplete={() => {
-            localStorage.setItem("appProgress", "child-register");
-            navigate("parent-register");
-          }}
-          goBack={goBack}
-        />
-      );
+      return <ChildRegister onComplete={() => navigate("parent-register")} />;
 
     case "parent-register":
-      return (
-        <ParentRegister
-          onComplete={() => {
-            localStorage.setItem("appProgress", "parent-register");
-            navigate("choose-friend");
-          }}
-          goBack={goBack}
-        />
-      );
+      return <ParentRegister onComplete={() => navigate("choose-friend")} />;
 
     case "choose-friend":
-      return (
-        <ChooseFriend
-          onComplete={() => {
-            localStorage.setItem("appProgress", "choose-friend");
-            navigate("friend-intro");
-          }}
-          goBack={goBack}
-        />
-      );
+      return <ChooseFriend onComplete={() => navigate("friend-intro")} />;
 
     case "friend-intro":
-      return (
-        <FriendIntro
-          onComplete={() => {
-            localStorage.setItem("appProgress", "friend-intro");
-            navigate("jungle-hero");
-          }}
-          goBack={goBack}
-        />
-      );
+      return <FriendIntro onComplete={() => navigate("jungle-hero")} />;
 
     case "jungle-hero":
-      return (
-        <JungleHero
-          onComplete={navigate}   // student / parent selection
-          goBack={goBack}
-        />
-      );
+      return <JungleHero onComplete={navigate} />;
 
+    /* MAIN HUBS */
     case "kids-home":
-      return (
-        <KidsHome
-          navigate={navigate}
-          goBack={goBack}
-        />
-      );
+      return <KidsHome navigate={navigate} />;
 
     case "practice-home":
+      return <PracticeHome navigate={navigate} />;
+
+    case "numbers":
       return (
-        <PracticeHome
+        <NumbersHome
           navigate={navigate}
-          goBack={goBack}
+          goBack={() => navigate("kids-home")}
         />
       );
 
-    /* 🧠 PRACTICE SUB-SCREENS (Enable Later) */
-    case "confusing-letters":
-      return <ConfusingLetters goBack={() => navigate("practice-home")} />;
+    /* NUMBER GAMES */
+    case "strawberry-count":
+      return <StrawberryCount goBack={goBack} />;
 
-    case "letter-recognition":
-  return <LetterRecognition goBack={() => navigate("practice-home")} />;
-  
-      
+    case "number-trail":
+      return <NumberTrail goBack={goBack} />;
+
+    case "frog-jump":
+      return <FrogJumpMath goBack={goBack} />;
+
+    case "missing-number":
+      return <MissingNumber goBack={goBack} />;
+
+    case "compare-safari":
+      return <CompareSafari goBack={goBack} />;
+
+    case "skip-count":
+      return <SkipCounting goBack={goBack} />;
+
+    case "number-line":
+      return <NumberLineMove goBack={goBack} />;
+
+    /* PRACTICE GAMES */
     case "letter-tracing":
       return <LetterTracing goBack={goBack} />;
 
+    case "letter-recognition":
+      return <LetterRecognition goBack={goBack} />;
 
-   /* case "memory-match":
-      return <MemoryMatch goBack={goBack} />;
-      */
+    case "confusing-letters":
+      return <ConfusingLetters goBack={goBack} />;
 
     case "parent-dashboard":
-      return (
-        <ParentDashboard
-          navigate={navigate}
-          goBack={goBack}
-        />
-      );
+      return <ParentDashboard navigate={navigate} />;
 
     default:
       return <PublicHome onComplete={() => navigate("child-register")} />;

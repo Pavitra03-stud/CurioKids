@@ -1,0 +1,27 @@
+.numbers-zone-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #004d40, #2e7d32);
+  padding: 30px;
+  color: white;
+  text-align: center;
+}
+
+.zone-container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.zone-card {
+  background: rgba(255,255,255,0.15);
+  padding: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.zone-card:hover {
+  transform: scale(1.05);
+}

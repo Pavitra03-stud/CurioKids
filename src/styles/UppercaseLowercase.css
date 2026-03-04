@@ -1,0 +1,92 @@
+.case-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #e9f5db, #b7e4c7);
+  padding: 20px;
+  text-align: center;
+}
+
+/* NAVBAR spacing */
+.letter-navbar {
+  background: #1b4332;
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+/* Instruction text */
+.instruction {
+  font-size: 22px;
+  margin-top: 30px;
+  color: #2d6a4f;
+}
+
+/* Big uppercase letter */
+.big-letter {
+  font-size: 140px;
+  margin: 40px 0;
+  color: #1b4332;
+  font-weight: bold;
+}
+
+/* Options layout */
+.options-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Option buttons */
+.option-btn {
+  font-size: 42px;
+  padding: 20px 35px;
+  border-radius: 18px;
+  border: none;
+  background: #f3e9dc;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+  transform: translateY(-4px);
+  background: #e9d8a6;
+}
+
+/* Feedback box (instead of full red bar) */
+.feedback {
+  margin: 40px auto 0;
+  padding: 15px 25px;
+  width: fit-content;
+  border-radius: 12px;
+  font-size: 22px;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Success */
+.good {
+  background-color: #d8f3dc;
+  color: #2d6a4f;
+  border: 2px solid #52b788;
+}
+
+/* Error */
+.wrong {
+  background-color: #ffe5e5;
+  color: #f1f1f1;
+  border: 2px solid #ff6b6b;
+}
+
+/* Smooth fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

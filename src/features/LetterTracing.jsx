@@ -26,16 +26,61 @@ export default function LetterTracing({ goBack }) {
     ctx.strokeStyle = "#1b4332";
 
     ctxRef.current = ctx;
+
+    drawGuideLetter(uppercaseLetters[currentIndex]);
   }, []);
+
+  /* ------------------ DRAW GUIDE LETTER ------------------ */
+  const drawGuideLetter = (letter) => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "250px Arial";
+    ctx.fillStyle = "rgba(0,0,0,0.15)";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(letter, canvas.width / 2, canvas.height / 2);
+
+    ctx.strokeStyle = "#1b4332";
+    ctx.lineWidth = 10;
+  };
+
+  useEffect(() => {
+    if (ctxRef.current) {
+      drawGuideLetter(uppercaseLetters[currentIndex]);
+    }
+  }, [currentIndex]);
+
+  /* ------------------ GET POSITION (MOUSE + TOUCH) ------------------ */
+  const getPosition = (event) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+
+    if (event.touches) {
+      return {
+        x: event.touches[0].clientX - rect.left,
+        y: event.touches[0].clientY - rect.top,
+      };
+    } else {
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+      };
+    }
+  };
 
   /* ------------------ DRAWING ------------------ */
   const startDrawing = (e) => {
+    e.preventDefault();
     setDrawing(true);
     setHasDrawn(true);
-    draw(e);
   };
 
-  const endDrawing = () => {
+  const endDrawing = (e) => {
+    e.preventDefault();
     setDrawing(false);
     ctxRef.current.beginPath();
   };
@@ -43,11 +88,9 @@ export default function LetterTracing({ goBack }) {
   const draw = (e) => {
     if (!drawing) return;
 
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
+    e.preventDefault();
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const { x, y } = getPosition(e);
 
     ctxRef.current.lineTo(x, y);
     ctxRef.current.stroke();
@@ -56,8 +99,7 @@ export default function LetterTracing({ goBack }) {
   };
 
   const clearCanvas = () => {
-    const canvas = canvasRef.current;
-    ctxRef.current.clearRect(0, 0, canvas.width, canvas.height);
+    drawGuideLetter(uppercaseLetters[currentIndex]);
     setHasDrawn(false);
   };
 
@@ -100,12 +142,11 @@ export default function LetterTracing({ goBack }) {
       [currentLetter]: grade,
     }));
 
-    clearCanvas();
-
     if (currentIndex === 25) {
       setShowResultCard(true);
     } else {
       setCurrentIndex((prev) => prev + 1);
+      setHasDrawn(false);
     }
   };
 
@@ -124,18 +165,11 @@ export default function LetterTracing({ goBack }) {
           <h2>Writing Test Result</h2>
 
           <div className="result-grid">
-            {uppercaseLetters.map((letter) => {
-              const grade = results[letter];
-
-              return (
-                <div
-                  key={letter}
-                  className={`result-box ${grade}`}
-                >
-                  {letter}
-                </div>
-              );
-            })}
+            {uppercaseLetters.map((letter) => (
+              <div key={letter} className={`result-box ${results[letter]}`}>
+                {letter}
+              </div>
+            ))}
           </div>
 
           <div className="legend">
@@ -151,7 +185,6 @@ export default function LetterTracing({ goBack }) {
   /* ------------------ MAIN SCREEN ------------------ */
   return (
     <div className="letter-page">
-
       <div className="letter-navbar">
         <div className="navbar-left">
           <BackIcon goBack={goBack} />
@@ -174,6 +207,9 @@ export default function LetterTracing({ goBack }) {
           onMouseUp={endDrawing}
           onMouseMove={draw}
           onMouseLeave={endDrawing}
+          onTouchStart={startDrawing}
+          onTouchEnd={endDrawing}
+          onTouchMove={draw}
         />
 
         <div className="button-row">

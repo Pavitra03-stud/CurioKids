@@ -1,0 +1,43 @@
+.find-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #e9f5db, #b7e4c7);
+  padding: 20px;
+  text-align: center;
+}
+
+.target-text {
+  margin-top: 30px;
+  font-size: 28px;
+  color: #1b4332;
+}
+
+.target-text span {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.letter-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grid-letter {
+  font-size: 32px;
+  padding: 20px;
+  border-radius: 15px;
+  border: none;
+  background: #f3e9dc;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  transition: 0.2s;
+}
+
+.grid-letter:hover {
+  transform: scale(1.1);
+  background: #e9d8a6;
+}

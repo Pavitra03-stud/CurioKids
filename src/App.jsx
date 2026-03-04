@@ -260,7 +260,8 @@ import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
-import UppercaseLowercase from "./features/UppercaseLowercase"; // 🔥 NEW
+import UppercaseLowercase from "./features/UppercaseLowercase"; 
+import RhymingWords from "./features/RhymingWords"; // 🔥 NEW
 
 import "./index.css";
 
@@ -288,7 +289,8 @@ export default function App() {
       screen === "letter-tracing" ||
       screen === "letter-recognition" ||
       screen === "confusing-letters" ||
-      screen === "uppercase-lowercase" // 🔥 added
+      screen === "uppercase-lowercase" ||
+      screen === "rhyming-words" // 🔥 added
     ) {
       navigate("practice-home");
       return;
@@ -419,6 +421,9 @@ case "numbers-game-home":
 
     case "uppercase-lowercase":   // 🔥 NEW SCREEN
       return <UppercaseLowercase goBack={goBack} />;
+      case "rhyming-words":   // 🔥 NEW SCREEN
+      return <RhymingWords goBack={goBack} />;
+
 
     case "parent-dashboard":
       return <ParentDashboard navigate={navigate} />;

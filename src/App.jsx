@@ -240,6 +240,8 @@ import FriendIntro from "./features/FriendIntro";
 /* 🌴 Main Screens */
 import JungleHero from "./features/JungleHero";
 import KidsHome from "./features/KidsHome";
+import LettersHome from "./features/LettersHome";
+import LettersLearningHome from "./features/LettersLearningHome";
 import PracticeHome from "./features/PracticeHome";
 import NumbersHome from "./features/NumbersHome";
 import ParentDashboard from "./features/ParentDashboard";
@@ -355,6 +357,21 @@ export default function App() {
     case "kids-home":
       return <KidsHome navigate={navigate} />;
 
+    case "letters-home":
+      return (
+        <LettersHome
+        navigate={navigate}
+        goBack={() => navigate("kids-home")}
+       />
+      );
+      
+      case "letters-learning-home":
+        return(
+          <LettersLearningHome
+          navigate={navigate}
+          goBack={() => navigate("letters-home")}
+          />
+        );
     case "practice-home":
       return <PracticeHome navigate={navigate} goBack={goBack} />;
 

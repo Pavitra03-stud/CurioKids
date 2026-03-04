@@ -249,7 +249,7 @@ export default function KidsHome({ navigate, goBack }) {
           {/* ===== LETTERS ===== */}
           <div
             className="jungle-card"
-            onClick={() => navigate("letters")}
+            onClick={() => navigate("letters-home")}
             onMouseEnter={() => speakText("Let's learn letters together!")}
           >
             <span className="card-icon">🔤</span>

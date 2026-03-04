@@ -255,6 +255,7 @@ import NumberLineMove from "./features/NumberLineMove";
 import NumbersLearningHome from "./features/NumbersLearningHome";
 import NumbersGameHome from "./features/NumbersGameHome";
 import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
+import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
 // import ConceptNumber from "./features/ConceptNumber";
 // /* 🧠 Practice Games */
 import LetterTracing from "./features/LetterTracing";
@@ -405,6 +406,12 @@ case "numbers-game-home":
   case "concept-what-is-a-number":
   return (
     <ConceptWhatIsANumber
+      goBack={() => navigate("numbers-learning-home")}
+    />
+  );
+  case "concept-bigger-smaller":
+  return (
+    <ConceptBiggerSmaller
       goBack={() => navigate("numbers-learning-home")}
     />
   );

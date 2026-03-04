@@ -1,0 +1,57 @@
+.concept-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2e7d32, #66bb6a);
+  padding: 30px;
+  text-align: center;
+  color: white;
+}
+
+.lesson-block {
+  margin-top: 40px;
+}
+
+.objects {
+  font-size: 70px;
+  margin: 20px 0;
+}
+
+.compare-row {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin: 30px 0;
+}
+
+.group {
+  font-size: 60px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.group:hover {
+  transform: scale(1.1);
+}
+
+.group.selected {
+  transform: scale(1.2);
+}
+
+.lesson-controls {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.lesson-controls button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #ffd600;
+}
+
+.feedback {
+  margin-top: 20px;
+  font-size: 20px;
+}

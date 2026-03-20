@@ -1,0 +1,62 @@
+.game-page {
+  min-height: 100vh;
+  padding: 20px;
+  background: #f5f7fa;
+}
+
+.game-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.game-list {
+  max-width: 600px;
+  margin: auto;
+}
+
+.game-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 16px;
+  margin-bottom: 10px;
+
+  background: white;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.game-item:hover {
+  background: #eef3ff;
+}
+
+.icon {
+  font-size: 22px;
+  margin-right: 10px;
+}
+
+.text {
+  flex: 1;
+}
+
+.text h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #ff6600;
+}
+
+.text p {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.arrow {
+  font-size: 20px;
+  color: #999;
+}

@@ -242,6 +242,7 @@ import JungleHero from "./features/JungleHero";
 import KidsHome from "./features/KidsHome";
 import LettersHome from "./features/LettersHome";
 import LettersLearningHome from "./features/LettersLearningHome";
+import LettersGameHome from "./features/LettersGameHome";
 import PracticeHome from "./features/PracticeHome";
 import NumbersHome from "./features/NumbersHome";
 import ParentDashboard from "./features/ParentDashboard";
@@ -263,6 +264,7 @@ import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
+import AlphabetFlashCard from "./features/AlphabetFlashCard";
 import UppercaseLowercase from "./features/UppercaseLowercase"; 
 import RhymingWords from "./features/RhymingWords"; // 🔥 NEW
 
@@ -372,6 +374,13 @@ export default function App() {
           goBack={() => navigate("letters-home")}
           />
         );
+      case "letters-game-home":
+        return (
+          <LettersGameHome
+          navigate={navigate}
+          goBack={() => navigate("letters-home")}
+          />
+      );  
     case "practice-home":
       return <PracticeHome navigate={navigate} goBack={goBack} />;
 
@@ -451,7 +460,7 @@ case "numbers-game-home":
 
     case "parent-dashboard":
       return <ParentDashboard navigate={navigate} />;
-
+        
     default:
       return <PublicHome onComplete={() => navigate("child-register")} />;
   }

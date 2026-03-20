@@ -38,7 +38,11 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
     }
   }, [initialZone]);
 
+  /* ================= ZONES ================= */
+
   const zones = {
+
+    /* 🔤 LETTER ZONE */
     letterMastery: [
       { title: "Letter Tracing", route: "letter-tracing" },
       { title: "Letter Recognition", route: "letter-recognition" },
@@ -47,6 +51,8 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
       { title: "Confusing Letters (b/d/p/q)", route: "confusing-letters" },
       { title: "Letter Recognition Challenge", route: "letter-recognition-challenge" }
     ],
+
+    /* 🔊 PHONICS ZONE */
     phonics: [
       { title: "Beginning Sounds", route: "beginning-sounds" },
       { title: "Ending Sounds", route: "ending-sounds" },
@@ -55,6 +61,8 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
       { title: "Blend Sounds", route: "blend-sounds" },
       { title: "Break the Word", route: "break-word" }
     ],
+
+    /* 🧩 WORD BUILDER */
     wordBuilder: [
       { title: "Build the Word", route: "build-word" },
       { title: "Missing Letter", route: "missing-letter" },
@@ -63,6 +71,8 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
       { title: "Match Word to Picture", route: "match-word-picture" },
       { title: "Sentence Builder", route: "sentence-builder" }
     ],
+
+    /* 🧠 MEMORY */
     memory: [
       { title: "Memory Match", route: "memory-match" },
       { title: "Spot the Difference", route: "spot-difference" },
@@ -71,6 +81,8 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
       { title: "Pattern Matching", route: "pattern-matching" },
       { title: "Sequence Builder", route: "sequence-builder" }
     ],
+
+    /* ⭐ CONFIDENCE */
     confidence: [
       { title: "Read Aloud", route: "read-aloud" },
       { title: "Timed Challenge", route: "timed-challenge" },
@@ -85,12 +97,15 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
 
       {/* 🌴 NAVBAR */}
       <div className="practice-navbar">
+
         <div className="navbar-left">
           <BackIcon goBack={goBack} />
         </div>
+
         <div className="navbar-title">
           🌟 Jungle Practice Camp
         </div>
+
       </div>
 
       <div className="practice-content">
@@ -99,6 +114,7 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
           Choose your learning zone and grow stronger every day 💪🌿
         </p>
 
+        {/* 🔤 LETTER MASTERY */}
         <div ref={letterRef}>
           <Section
             title="🔤 Letter Mastery Zone"
@@ -108,6 +124,7 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
           />
         </div>
 
+        {/* 🔊 PHONICS */}
         <div ref={phonicsRef}>
           <Section
             title="🔊 Phonics Power Zone"
@@ -117,6 +134,7 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
           />
         </div>
 
+        {/* 🧩 WORD BUILDER */}
         <div ref={wordRef}>
           <Section
             title="🧩 Word Builder Zone"
@@ -126,6 +144,7 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
           />
         </div>
 
+        {/* 🧠 MEMORY */}
         <div ref={memoryRef}>
           <Section
             title="🧠 Memory & Visual Skills"
@@ -135,6 +154,7 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
           />
         </div>
 
+        {/* ⭐ CONFIDENCE */}
         <div ref={confidenceRef}>
           <Section
             title="⭐ Confidence Boost Zone"
@@ -145,15 +165,19 @@ export default function PracticeHome({ navigate, goBack, initialZone }) {
         </div>
 
       </div>
+
     </div>
   );
 }
 
 /* ================= SECTION ================= */
+
 function Section({ title, games, navigate, speakText }) {
   return (
     <div className="practice-section">
+
       <h2 className="section-title">{title}</h2>
+
       <div className="practice-grid">
         {games.map((game, index) => (
           <Card
@@ -164,11 +188,13 @@ function Section({ title, games, navigate, speakText }) {
           />
         ))}
       </div>
+
     </div>
   );
 }
 
 /* ================= CARD ================= */
+
 function Card({ title, onClick, speakText }) {
   return (
     <div

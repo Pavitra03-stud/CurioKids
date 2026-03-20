@@ -1,0 +1,114 @@
+/* ===============================
+   PAGE BACKGROUND
+================================ */
+
+.rhyming-container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #d7f0dc, #b8d8c0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  font-family: "Comic Sans MS", "Poppins", sans-serif;
+}
+
+/* ===============================
+   HEADER BAR
+================================ */
+
+.rhyming-header {
+  width: 90%;
+  background: #1f4f36;
+  color: white;
+  border-radius: 12px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* back button */
+
+.back-button {
+  position: absolute;
+  left: 60px;
+  background: white;
+  color: black;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ===============================
+   GAME INFO
+================================ */
+
+.game-info {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+/* ===============================
+   WORD DISPLAY
+================================ */
+
+.word-emoji {
+  font-size: 80px;
+  margin-top: 40px;
+}
+
+.word-text {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* ===============================
+   QUESTION
+================================ */
+
+.question {
+  margin-top: 25px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ===============================
+   OPTIONS
+================================ */
+
+.options {
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.option-btn {
+  background: #d8cec2;
+  border: none;
+  border-radius: 14px;
+  padding: 18px 28px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.option-btn:hover {
+  transform: scale(1.08);
+  background: #f1e4d7;
+}
+
+.option-btn:active {
+  transform: scale(0.95);
+}

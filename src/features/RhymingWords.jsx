@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BackIcon from "../components/BackIcon";
-import "../styles/BeginningSounds.css"; // reuse phonics styling
+import "../styles/RhymingSound.css"; // reuse phonics styling
 
 const rhymeBank = [
   { word: "Cat", rhyme: "Hat", emoji: "🐱" },

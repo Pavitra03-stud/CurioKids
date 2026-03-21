@@ -1,8 +1,11 @@
 import "../styles/BackIcon.css";
 
-export default function BackIcon({ goBack }) {
+export default function BackIcon({ goBack, onClick }) {
   return (
-    <button className="back-btn" onClick={goBack}>
+    <button
+      className="back-btn"
+      onClick={onClick || goBack}
+    >
       ←
     </button>
   );

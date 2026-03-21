@@ -1,72 +1,84 @@
-import { useState } from "react";
+import "../styles/LettersLearningHome.css";
 import BackIcon from "../components/BackIcon";
 
-export default function LettersLearningHome({ goBack }) {
-
-  const alphabet = [
-    { letter: "A", word: "Apple", emoji: "🍎" },
-    { letter: "B", word: "Ball", emoji: "⚽" },
-    { letter: "C", word: "Cat", emoji: "🐱" },
-    { letter: "D", word: "Dog", emoji: "🐶" },
-    { letter: "E", word: "Elephant", emoji: "🐘" },
-    { letter: "F", word: "Fish", emoji: "🐟" },
-    { letter: "G", word: "Grapes", emoji: "🍇" },
-    { letter: "H", word: "Hat", emoji: "🎩" },
-    { letter: "I", word: "Ice Cream", emoji: "🍦" },
-    { letter: "J", word: "Juice", emoji: "🧃" }
+export default function LettersLearningHome({ navigate, goBack }) {
+  const options = [
+    {
+      title: "E-Learning",
+      subtitle: "Learn A to Z with pictures",
+      screen: "alphabet-learning",
+      animal: "🦊",
+    },
+    {
+      title: "Flash Cards",
+      subtitle: "Learn letters using cards",
+      screen: "alphabet-flashcard",
+      animal: "🐼",
+    },
+    {
+      title: "Uppercase & Lowercase",
+      subtitle: "Match capital and small letters",
+      screen: "uppercase-lowercase",
+      animal: "🦁",
+    },
+    {
+      title: "Confusing Letters",
+      subtitle: "Practice b, d, p, q",
+      screen: "confusing-letters",
+      animal: "🐵",
+    },
+    {
+      title: "Letter Tracing",
+      subtitle: "Trace and write letters",
+      screen: "letter-tracing",
+      animal: "🐰",
+    },
   ];
 
-  const [index, setIndex] = useState(0);
-
-  const speak = () => {
-    const text = `${alphabet[index].letter} for ${alphabet[index].word}`;
-    const speech = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(speech);
-  };
-
-  const nextLetter = () => {
-    if (index < alphabet.length - 1) {
-      setIndex(index + 1);
-    }
-  };
-
-  const prevLetter = () => {
-    if (index > 0) {
-      setIndex(index - 1);
-    }
-  };
-
   return (
-    <div style={{ textAlign: "center", padding: "40px" }}>
+    <div className="letters-learning-page">
+      <div className="floating-bg bubble1"></div>
+      <div className="floating-bg bubble2"></div>
+      <div className="floating-bg bubble3"></div>
 
       <BackIcon goBack={goBack} />
 
-      <h1>📘 Learn Letters</h1>
+      <div className="letters-learning-header">
+        <div className="header-mascots">
+          <span>🦒</span>
+          <span>🐘</span>
+          <span>🦜</span>
+        </div>
+        <h1>Letters Learning</h1>
+        <p>Choose a fun animal learning activity</p>
+      </div>
 
-      <h2 style={{ fontSize: "80px" }}>
-        {alphabet[index].letter}
-      </h2>
+      <div className="letters-learning-container">
+        {options.map((item, index) => (
+          <div
+            key={index}
+            className="learning-card"
+            onClick={() => navigate(item.screen)}
+          >
+            <div className="card-left">
+              <div className="animal-icon">{item.animal}</div>
 
-      <h3 style={{ fontSize: "30px" }}>
-        {alphabet[index].emoji} {alphabet[index].word}
-      </h3>
+              <div className="card-text">
+                <h2>{item.title}</h2>
+                <p>{item.subtitle}</p>
+              </div>
+            </div>
 
-      <br />
+            <span className="arrow">➜</span>
+          </div>
+        ))}
+      </div>
 
-      <button onClick={speak}>
-        🔊 Hear
-      </button>
-
-      <br /><br />
-
-      <button onClick={prevLetter}>
-        ⬅ Previous
-      </button>
-
-      <button onClick={nextLetter} style={{ marginLeft: "10px" }}>
-        Next ➡
-      </button>
-
+      <div className="bottom-animals">
+        <span>🐯</span>
+        <span>🐻</span>
+        <span>🦓</span>
+      </div>
     </div>
   );
 }

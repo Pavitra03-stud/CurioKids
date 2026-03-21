@@ -1,0 +1,250 @@
+.letters-learning-page {
+  min-height: 100vh;
+  padding: 30px 20px 60px;
+  background: linear-gradient(to bottom, #c9f2ff, #fff4c2);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating background bubbles */
+.floating-bg {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.35;
+  animation: floatUpDown 4s ease-in-out infinite;
+}
+
+.bubble1 {
+  width: 120px;
+  height: 120px;
+  background: #ffd6e7;
+  top: 90px;
+  left: 40px;
+}
+
+.bubble2 {
+  width: 90px;
+  height: 90px;
+  background: #d6ffd9;
+  top: 220px;
+  right: 60px;
+  animation-delay: 1s;
+}
+
+.bubble3 {
+  width: 140px;
+  height: 140px;
+  background: #d8d6ff;
+  bottom: 80px;
+  left: 70px;
+  animation-delay: 2s;
+}
+
+/* Header */
+.letters-learning-header {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.header-mascots {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.header-mascots span {
+  display: inline-block;
+  animation: bounceAnimal 2s infinite;
+}
+
+.header-mascots span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.header-mascots span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.letters-learning-header h1 {
+  font-size: 40px;
+  color: #1f3c88;
+  margin: 0;
+  font-weight: 800;
+}
+
+.letters-learning-header p {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #5b5b5b;
+}
+
+/* Cards container */
+.letters-learning-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Card */
+.learning-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.learning-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+}
+
+.card-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.animal-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #fff0d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  box-shadow: inset 0 0 0 3px #ffd18a;
+  animation: wiggle 2.5s ease-in-out infinite;
+}
+
+.card-text h2 {
+  margin: 0 0 5px;
+  font-size: 26px;
+  color: #ff7a00;
+}
+
+.card-text p {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.arrow {
+  font-size: 30px;
+  font-weight: bold;
+  color: #1f3c88;
+  animation: arrowMove 1.2s infinite;
+}
+
+/* Bottom animals */
+.bottom-animals {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.bottom-animals span {
+  animation: bounceAnimal 2.2s infinite;
+}
+
+.bottom-animals span:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.bottom-animals span:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+/* Animations */
+@keyframes bounceAnimal {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-6deg);
+  }
+  75% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes arrowMove {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .letters-learning-header h1 {
+    font-size: 30px;
+  }
+
+  .letters-learning-header p {
+    font-size: 16px;
+  }
+
+  .learning-card {
+    padding: 16px 18px;
+  }
+
+  .animal-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+  }
+
+  .card-text h2 {
+    font-size: 21px;
+  }
+
+  .card-text p {
+    font-size: 14px;
+  }
+
+  .arrow {
+    font-size: 24px;
+  }
+
+  .header-mascots,
+  .bottom-animals {
+    font-size: 32px;
+  }
+}

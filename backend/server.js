@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import childRoutes from "./routes/childRoutes.js";
+import progressRoutes from "./routes/progressRoutes.js";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api/child", childRoutes);
+app.use("/api/progress", progressRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

@@ -2,10 +2,18 @@ import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    console.log("HEADERS:", req.headers); // 👈 debug
+
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      return res.status(401).json({ message: "No token ❌" });
+    }
+
+    const token = authHeader.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ message: "No token ❌" });
+      return res.status(401).json({ message: "Invalid token ❌" });
     }
 
     const decoded = jwt.verify(token, "secretkey");
@@ -13,6 +21,7 @@ const authMiddleware = (req, res, next) => {
 
     next();
   } catch (error) {
+    console.log("JWT ERROR:", error);
     res.status(401).json({ message: "Invalid token ❌" });
   }
 };

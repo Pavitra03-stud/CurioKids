@@ -34,6 +34,7 @@ import NumbersLearningHome from "./features/NumbersLearningHome";
 import NumbersGameHome from "./features/NumbersGameHome";
 import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
 import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
+<<<<<<< HEAD
 
 /* 🧠 Practice */
 import LetterTracing from "./features/LetterTracing";
@@ -41,6 +42,17 @@ import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
 import UppercaseLowercase from "./features/UppercaseLowercase";
 import RhymingWords from "./features/RhymingWords";
+=======
+// import ConceptNumber from "./features/ConceptNumber";
+import AlphabetLearning from "./features/AlphabetLearning";
+import AlphabetFlashCard from "./features/AlphabetFlashCard";
+// /* 🧠 Practice Games */
+import LetterTracing from "./features/LetterTracing";
+import ConfusingLetters from "./features/ConfusingLetters";
+import LetterRecognition from "./features/LetterRecognizition";
+import UppercaseLowercase from "./features/UppercaseLowercase"; 
+import RhymingWords from "./features/RhymingWords"; // 🔥 NEW
+>>>>>>> 6f9b116 (frontend changes)
 
 import "./index.css";
 
@@ -60,8 +72,21 @@ export default function App() {
 
   /* 🔙 GLOBAL BACK */
   const goBack = () => {
+ /* FIX FOR E-LEARNING PAGE */
+  if (screen === "alphabet-learning") {
+    navigate("letters-learning-home");
+    return;
+  }
 
+<<<<<<< HEAD
     // Practice
+=======
+  if (screen === "alphabet-flashcard") {
+    navigate("letters-learning-home");
+    return;
+  }
+    /* Practice games go back to practice-home */
+>>>>>>> 6f9b116 (frontend changes)
     if (
       screen === "letter-tracing" ||
       screen === "letter-recognition" ||
@@ -199,9 +224,20 @@ export default function App() {
         <LettersGameHome
           navigate={navigate}
           goBack={() => navigate("letters-home")}
+<<<<<<< HEAD
         />
       );
 
+=======
+          />
+      );  
+      case "alphabet-learning":
+        return<AlphabetLearning goBack={goBack}
+        />;
+      case "alphabet-flashcard":
+        return<AlphabetFlashCard goBack={goBack}
+        />;
+>>>>>>> 6f9b116 (frontend changes)
     case "practice-home":
       return <PracticeHome navigate={navigate} goBack={goBack} />;
 

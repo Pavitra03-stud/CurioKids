@@ -260,11 +260,12 @@ import NumbersGameHome from "./features/NumbersGameHome";
 import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
 import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
 // import ConceptNumber from "./features/ConceptNumber";
+import AlphabetLearning from "./features/AlphabetLearning";
+import AlphabetFlashCard from "./features/AlphabetFlashCard";
 // /* 🧠 Practice Games */
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
-import AlphabetFlashCard from "./features/AlphabetFlashCard";
 import UppercaseLowercase from "./features/UppercaseLowercase"; 
 import RhymingWords from "./features/RhymingWords"; // 🔥 NEW
 
@@ -288,7 +289,16 @@ export default function App() {
 
   /* 🔙 Smart Back Navigation */
   const goBack = () => {
+ /* FIX FOR E-LEARNING PAGE */
+  if (screen === "alphabet-learning") {
+    navigate("letters-learning-home");
+    return;
+  }
 
+  if (screen === "alphabet-flashcard") {
+    navigate("letters-learning-home");
+    return;
+  }
     /* Practice games go back to practice-home */
     if (
       screen === "letter-tracing" ||
@@ -381,6 +391,12 @@ export default function App() {
           goBack={() => navigate("letters-home")}
           />
       );  
+      case "alphabet-learning":
+        return<AlphabetLearning goBack={goBack}
+        />;
+      case "alphabet-flashcard":
+        return<AlphabetFlashCard goBack={goBack}
+        />;
     case "practice-home":
       return <PracticeHome navigate={navigate} goBack={goBack} />;
 

@@ -1,250 +1,162 @@
 .letters-learning-page {
   min-height: 100vh;
-  padding: 30px 20px 60px;
-  background: linear-gradient(to bottom, #c9f2ff, #fff4c2);
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
+  background: linear-gradient(to bottom, #a8db68, #7ec850);
+  font-family: "Comic Sans MS", "Segoe UI", sans-serif;
 }
 
-/* Floating background bubbles */
-.floating-bg {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.35;
-  animation: floatUpDown 4s ease-in-out infinite;
-}
-
-.bubble1 {
-  width: 120px;
-  height: 120px;
-  background: #ffd6e7;
-  top: 90px;
-  left: 40px;
-}
-
-.bubble2 {
-  width: 90px;
-  height: 90px;
-  background: #d6ffd9;
-  top: 220px;
-  right: 60px;
-  animation-delay: 1s;
-}
-
-.bubble3 {
-  width: 140px;
-  height: 140px;
-  background: #d8d6ff;
-  bottom: 80px;
-  left: 70px;
-  animation-delay: 2s;
-}
-
-/* Header */
-.letters-learning-header {
-  text-align: center;
-  margin-bottom: 30px;
-  position: relative;
-  z-index: 2;
-}
-
-.header-mascots {
+/* top bar */
+.letters-learning-navbar {
+  height: 65px;
+  background: #174d36;
+  color: white;
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 38px;
-  margin-bottom: 10px;
-}
-
-.header-mascots span {
-  display: inline-block;
-  animation: bounceAnimal 2s infinite;
-}
-
-.header-mascots span:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.header-mascots span:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.letters-learning-header h1 {
-  font-size: 40px;
-  color: #1f3c88;
-  margin: 0;
-  font-weight: 800;
-}
-
-.letters-learning-header p {
-  margin-top: 8px;
-  font-size: 18px;
-  color: #5b5b5b;
-}
-
-/* Cards container */
-.letters-learning-container {
-  max-width: 900px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
-/* Card */
-.learning-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 24px;
-  padding: 20px 24px;
-  margin-bottom: 18px;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-left {
+  position: absolute;
+  left: 20px;
+}
+
+.letters-learning-navbar h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* content */
+.letters-learning-content {
+  padding: 35px 20px 40px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #184e3b;
+  margin-bottom: 30px;
+}
+
+/* cards */
+.learning-container {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.learning-card {
+  background: #b9de84;
+  border-radius: 22px;
+  padding: 24px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  transition: 0.3s ease;
 }
 
 .learning-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+  transform: translateY(-5px) scale(1.02);
+  background: #c6e796;
 }
 
+/* left side */
 .card-left {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
 }
 
 .animal-icon {
-  width: 68px;
-  height: 68px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  background: #fff0d9;
+  background: #f4ecd3;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 34px;
-  box-shadow: inset 0 0 0 3px #ffd18a;
-  animation: wiggle 2.5s ease-in-out infinite;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.card-text {
+  text-align: left;
 }
 
 .card-text h2 {
-  margin: 0 0 5px;
-  font-size: 26px;
-  color: #ff7a00;
+  margin: 0 0 4px;
+  font-size: 22px;
+  color: #111;
+  font-weight: bold;
 }
 
 .card-text p {
   margin: 0;
-  font-size: 16px;
-  color: #666;
+  font-size: 14px;
+  color: #2f4f2f;
 }
 
+/* arrow */
 .arrow {
-  font-size: 30px;
+  font-size: 24px;
+  color: #173b2d;
   font-weight: bold;
-  color: #1f3c88;
-  animation: arrowMove 1.2s infinite;
 }
 
-/* Bottom animals */
-.bottom-animals {
-  margin-top: 25px;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  font-size: 40px;
-  position: relative;
-  z-index: 2;
+/* back button */
+.back-btn {
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
-.bottom-animals span {
-  animation: bounceAnimal 2.2s infinite;
+.back-btn:hover {
+  transform: scale(1.08);
 }
 
-.bottom-animals span:nth-child(2) {
-  animation-delay: 0.4s;
-}
-
-.bottom-animals span:nth-child(3) {
-  animation-delay: 0.8s;
-}
-
-/* Animations */
-@keyframes bounceAnimal {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes wiggle {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-6deg);
-  }
-  75% {
-    transform: rotate(6deg);
-  }
-}
-
-@keyframes arrowMove {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(6px);
-  }
-}
-
-@keyframes floatUpDown {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-14px);
-  }
-}
-
-/* Responsive */
+/* responsive */
 @media (max-width: 768px) {
-  .letters-learning-header h1 {
-    font-size: 30px;
+  .letters-learning-content {
+    padding: 25px 15px 30px;
   }
 
-  .letters-learning-header p {
+  .letters-learning-navbar h1 {
+    font-size: 18px;
+  }
+
+  .subtitle {
     font-size: 16px;
   }
 
   .learning-card {
-    padding: 16px 18px;
+    padding: 18px 16px;
   }
 
   .animal-icon {
-    width: 56px;
-    height: 56px;
-    font-size: 28px;
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
   }
 
   .card-text h2 {
-    font-size: 21px;
+    font-size: 18px;
   }
 
   .card-text p {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .arrow {
-    font-size: 24px;
-  }
-
-  .header-mascots,
-  .bottom-animals {
-    font-size: 32px;
+    font-size: 20px;
   }
 }

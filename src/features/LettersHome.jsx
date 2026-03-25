@@ -1,63 +1,46 @@
+import "../styles/LettersHome.css";
 import BackIcon from "../components/BackIcon";
 
 export default function LettersHome({ navigate, goBack }) {
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="letters-home">
 
-      {/* 🔝 NAVBAR */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "60px",
-          background: "#1b4332",
-          color: "white",
-          borderRadius: "8px",
-          position: "relative",
-          marginBottom: "30px"
-        }}
-      >
-        <div style={{ position: "absolute", left: "15px" }}>
+      {/* Navbar */}
+      <div className="letters-navbar">
+        <div className="nav-left">
           <BackIcon goBack={goBack} />
         </div>
+        <h1>🌿 Letters Home</h1>
+      </div>
 
-        <div style={{ fontSize: "20px", fontWeight: "bold" }}>
-          🔤 Letters
+      {/* Content */}
+      <div className="letters-content">
+
+        <p className="subtitle">
+          Choose your zone and start learning ✨
+        </p>
+
+        <div className="zone-container">
+
+          {/* Learning Zone */}
+          <div
+            className="zone-card"
+            onClick={() => navigate("letters-learning-home")}
+          >
+            📚 Letter Learning Zone
+          </div>
+
+          {/* Gaming Zone */}
+          <div
+            className="zone-card"
+            onClick={() => navigate("letters-game-home")}
+          >
+            🎮 Letter Gaming Zone
+          </div>
+
         </div>
-      </div>
 
-      {/* 📘 LEARNING ZONE */}
-      <div
-        onClick={() => navigate("letters-learning-home")}
-        style={{
-          background: "#2d6a4f",
-          padding: "25px",
-          borderRadius: "12px",
-          color: "white",
-          fontSize: "18px",
-          marginBottom: "20px",
-          cursor: "pointer"
-        }}
-      >
-        📘 Learning Zone
       </div>
-
-      {/* 🎮 GAME ZONE */}
-      <div
-        onClick={() => navigate("letters-game-home")}
-        style={{
-          background: "#40916c",
-          padding: "25px",
-          borderRadius: "12px",
-          color: "white",
-          fontSize: "18px",
-          cursor: "pointer"
-        }}
-      >
-        🎮 Game Zone
-      </div>
-
     </div>
   );
 }

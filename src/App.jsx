@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 /* 🌱 Entry */
@@ -34,7 +33,6 @@ import NumbersLearningHome from "./features/NumbersLearningHome";
 import NumbersGameHome from "./features/NumbersGameHome";
 import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
 import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
-<<<<<<< HEAD
 
 /* 🧠 Practice */
 import LetterTracing from "./features/LetterTracing";
@@ -42,17 +40,8 @@ import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
 import UppercaseLowercase from "./features/UppercaseLowercase";
 import RhymingWords from "./features/RhymingWords";
-=======
-// import ConceptNumber from "./features/ConceptNumber";
 import AlphabetLearning from "./features/AlphabetLearning";
 import AlphabetFlashCard from "./features/AlphabetFlashCard";
-// /* 🧠 Practice Games */
-import LetterTracing from "./features/LetterTracing";
-import ConfusingLetters from "./features/ConfusingLetters";
-import LetterRecognition from "./features/LetterRecognizition";
-import UppercaseLowercase from "./features/UppercaseLowercase"; 
-import RhymingWords from "./features/RhymingWords"; // 🔥 NEW
->>>>>>> 6f9b116 (frontend changes)
 
 import "./index.css";
 
@@ -70,23 +59,17 @@ export default function App() {
     localStorage.setItem("currentScreen", next);
   };
 
-  /* 🔙 GLOBAL BACK */
   const goBack = () => {
- /* FIX FOR E-LEARNING PAGE */
-  if (screen === "alphabet-learning") {
-    navigate("letters-learning-home");
-    return;
-  }
+    if (screen === "alphabet-learning") {
+      navigate("letters-learning-home");
+      return;
+    }
 
-<<<<<<< HEAD
-    // Practice
-=======
-  if (screen === "alphabet-flashcard") {
-    navigate("letters-learning-home");
-    return;
-  }
-    /* Practice games go back to practice-home */
->>>>>>> 6f9b116 (frontend changes)
+    if (screen === "alphabet-flashcard") {
+      navigate("letters-learning-home");
+      return;
+    }
+
     if (
       screen === "letter-tracing" ||
       screen === "letter-recognition" ||
@@ -98,7 +81,6 @@ export default function App() {
       return;
     }
 
-    // Numbers
     if (
       screen === "strawberry-count" ||
       screen === "number-trail" ||
@@ -112,16 +94,11 @@ export default function App() {
       return;
     }
 
-    // Letters flow
-    if (
-      screen === "letters-learning-home" ||
-      screen === "letters-game-home"
-    ) {
+    if (screen === "letters-learning-home" || screen === "letters-game-home") {
       navigate("letters-home");
       return;
     }
 
-    // Number concepts
     if (
       screen === "concept-what-is-a-number" ||
       screen === "concept-bigger-smaller"
@@ -130,7 +107,6 @@ export default function App() {
       return;
     }
 
-    // Default flow
     const flow = [
       "public-home",
       "child-register",
@@ -151,14 +127,13 @@ export default function App() {
   };
 
   switch (screen) {
-
     case "public-home":
-  return (
-    <PublicHome
-      onComplete={() => navigate("child-register")}
-      goBack={() => navigate("kids-home")} // or any screen
-    />
-  );
+      return (
+        <PublicHome
+          onComplete={() => navigate("child-register")}
+          goBack={() => navigate("kids-home")}
+        />
+      );
 
     case "child-register":
       return (
@@ -180,7 +155,7 @@ export default function App() {
       return (
         <ChooseFriend
           onComplete={() => navigate("friend-intro")}
-          goBack={goBack}   // 🔥 FIXED
+          goBack={goBack}
         />
       );
 
@@ -188,7 +163,7 @@ export default function App() {
       return (
         <FriendIntro
           onComplete={() => navigate("jungle-hero")}
-          goBack={goBack}   // 🔥 FIXED
+          goBack={goBack}
         />
       );
 
@@ -196,12 +171,12 @@ export default function App() {
       return <JungleHero onComplete={navigate} />;
 
     case "kids-home":
-  return (
-    <KidsHome
-      navigate={navigate}
-      goBack={() => navigate("jungle-hero")}
-    />
-  );
+      return (
+        <KidsHome
+          navigate={navigate}
+          goBack={() => navigate("jungle-hero")}
+        />
+      );
 
     case "letters-home":
       return (
@@ -224,20 +199,15 @@ export default function App() {
         <LettersGameHome
           navigate={navigate}
           goBack={() => navigate("letters-home")}
-<<<<<<< HEAD
         />
       );
 
-=======
-          />
-      );  
-      case "alphabet-learning":
-        return<AlphabetLearning goBack={goBack}
-        />;
-      case "alphabet-flashcard":
-        return<AlphabetFlashCard goBack={goBack}
-        />;
->>>>>>> 6f9b116 (frontend changes)
+    case "alphabet-learning":
+      return <AlphabetLearning goBack={goBack} />;
+
+    case "alphabet-flashcard":
+      return <AlphabetFlashCard goBack={goBack} />;
+
     case "practice-home":
       return <PracticeHome navigate={navigate} goBack={goBack} />;
 
@@ -322,7 +292,6 @@ export default function App() {
       return <PublicHome onComplete={() => navigate("child-register")} />;
   }
 }
-
 
 // import { useState, useEffect } from "react";
 

@@ -245,6 +245,8 @@ import LettersLearningHome from "./features/LettersLearningHome";
 import LettersGameHome from "./features/LettersGameHome";
 import PracticeHome from "./features/PracticeHome";
 import NumbersHome from "./features/NumbersHome";
+import GamesHome from "./features/GamesHome";
+
 import ParentDashboard from "./features/ParentDashboard";
 
 /* 🔢 Number Games */
@@ -268,6 +270,16 @@ import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognition from "./features/LetterRecognizition";
 import UppercaseLowercase from "./features/UppercaseLowercase"; 
 import RhymingWords from "./features/RhymingWords"; // 🔥 NEW
+
+/*games*/
+import GamesPlayHome from "./features/GamesPlayHome";
+import SoundTap from "./features/SoundTap";
+import PatternCopy from "./features/PatternCopy";
+import FindFriend from "./features/FindFriend";
+import MemoryMatch from "./features/MemoryMatch";
+import CatchWord from "./features/CatchWord";
+import FillBucket from "./features/FillBucket";
+import LetterBlast from "./features/LetterBlast";
 
 import "./index.css";
 
@@ -325,6 +337,37 @@ export default function App() {
       return;
     }
 
+
+    // Letters flow
+    if (
+      screen === "letters-learning-home" ||
+      screen === "letters-game-home"
+    ) {
+      navigate("letters-home");
+      return;
+    }
+
+    // Number concepts
+    if (
+      screen === "concept-what-is-a-number" ||
+      screen === "concept-bigger-smaller"
+    ) {
+      navigate("numbers-learning-home");
+      return;
+    }
+    if (
+  screen === "sound-tap" ||
+  screen === "pattern-copy" ||
+  screen === "find-friend" ||
+  screen === "memory-match" ||
+  screen === "catch-word" ||
+  screen === "fill-bucket" ||
+  screen === "letter-blast"
+) {
+  navigate("games-play");
+  return;
+}
+   
     const flow = [
       "public-home",
       "child-register",
@@ -408,7 +451,69 @@ export default function App() {
         />
       );
 
-    /* NUMBER GAMES */
+
+    case "numbers-learning-home":
+      return (
+        <NumbersLearningHome
+          navigate={navigate}
+          goBack={() => navigate("numbers")}
+        />
+      );
+
+    case "numbers-game-home":
+      return (
+        <NumbersGameHome
+          navigate={navigate}
+          goBack={() => navigate("numbers")}
+        />
+      );
+
+    case "concept-what-is-a-number":
+      return (
+        <ConceptWhatIsANumber
+          goBack={() => navigate("numbers-learning-home")}
+        />
+      );
+
+    case "concept-bigger-smaller":
+      return (
+        <ConceptBiggerSmaller
+          goBack={() => navigate("numbers-learning-home")}
+        />
+      );
+
+      case "games-home":
+  return (
+    <GamesHome
+      navigate={navigate}
+      goBack={() => navigate("kids-home")}
+    />
+  );
+  case "games-play":
+  return (
+    <GamesPlayHome
+      navigate={navigate}
+      goBack={() => navigate("games-home")}
+    />
+  );
+  case "pattern-copy":
+  return <PatternCopy goBack={() => navigate("games-play")} />;
+
+  case "find-friend":
+  return <FindFriend goBack={() => navigate("games-play")} />;
+
+  case "memory-match":
+  return <MemoryMatch goBack={() => navigate("games-play")} />;
+
+  case "catch-word":
+  return <CatchWord goBack={() => navigate("games-play")} />;
+
+case "fill-bucket":
+  return <FillBucket goBack={() => navigate("games-play")} />;
+
+case "letter-blast":
+  return <LetterBlast goBack={() => navigate("games-play")} />;
+  
     case "strawberry-count":
       return <StrawberryCount goBack={goBack} />;
 
@@ -473,6 +578,8 @@ case "numbers-game-home":
       case "rhyming-words":   // 🔥 NEW SCREEN
       return <RhymingWords goBack={goBack} />;
 
+      case "sound-tap":
+  return <SoundTap goBack={goBack} />;
 
     case "parent-dashboard":
       return <ParentDashboard navigate={navigate} />;

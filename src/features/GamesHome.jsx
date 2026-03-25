@@ -1,35 +1,37 @@
-import "./GamesHome.css";
+import "../styles/GamesHome.css";
+import BackIcon from "../components/BackIcon";
 
 export default function GamesHome({ navigate, goBack }) {
   return (
-    <div className="games-home-container">
+    <div className="games-page">
+
+      {/* Header */}
+      <div className="games-header">
+        <h1>🎮 Games</h1>
+      </div>
 
       {/* Back Button */}
-      <button className="games-back-btn" onClick={goBack}>
-        ⬅ Back
-      </button>
+      <div className="games-back">
+        <BackIcon goBack={goBack} />
+      </div>
 
-      {/* Title */}
-      <h1 className="games-home-title">🎮 Games Zone</h1>
+      {/* Sections */}
+      <div className="games-container">
 
-      {/* Games Grid */}
-      <div className="games-grid">
-
-        {/* Sound Tap Game */}
+        {/* 📘 Learning Zone */}
         <div
-          className="game-card"
-          onClick={() => navigate("sound-tap")}
+          className="games-card learning"
+          onClick={() => navigate("games-learning")}
         >
-          <div className="game-icon">🔊</div>
-          <h2>Sound Tap</h2>
-          <p>Listen and tap the number of sounds</p>
+          📘 Learning Zone
         </div>
 
-        {/* Placeholder for future games */}
-        <div className="game-card disabled">
-          <div className="game-icon">🧩</div>
-          <h2>Coming Soon</h2>
-          <p>More fun learning games!</p>
+        {/* 🎮 Game Zone */}
+        <div
+          className="games-card play"
+          onClick={() => navigate("games-play")}
+        >
+          🎮 Game Zone
         </div>
 
       </div>

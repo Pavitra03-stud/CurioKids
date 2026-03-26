@@ -7,30 +7,47 @@ import sendEmail from "../utils/sendEmail.js";
 const router = express.Router();
 
 
-// ================= REGISTER =================
+// ================= REGISTER (SEND OTP) =================
 router.post("/register", async (req, res) => {
   try {
     console.log("Register API hit 🔥");
 
     const { name, email, password } = req.body;
 
-    console.log(name, email, password);
+    // 🔍 Check if user already exists
+    let user = await User.findOne({ email });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // 🔐 Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    const user = new User({
-      name,
-      email,
-      password: hashedPassword
-    });
+    if (user) {
+      // 🔁 Update existing user OTP
+      user.otp = otp;
+      user.otpExpires = Date.now() + 5 * 60 * 1000;
+    } else {
+      // 🔒 Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      user = new User({
+        name,
+        email,
+        password: hashedPassword,
+        otp,
+        otpExpires: Date.now() + 5 * 60 * 1000,
+        isVerified: false
+      });
+    }
 
     await user.save();
-    console.log("User saved ✅");
+    console.log("User saved / updated ✅");
 
-    await sendEmail(email, "Welcome to CurioKids 🎉", name);
-    console.log("Email function called 📧");
+    // 📧 Send OTP email
+    await sendEmail(email, name, otp);
+    console.log("OTP Email sent 📧");
 
-    res.status(201).json({ message: "User registered successfully ✅" });
+    res.status(200).json({
+      message: "OTP sent to email 📧"
+    });
 
   } catch (error) {
     console.log("Register error:", error);
@@ -38,24 +55,66 @@ router.post("/register", async (req, res) => {
   }
 });
 
+
+// ================= VERIFY OTP =================
+router.post("/verify-otp", async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found ❌" });
+    }
+
+    if (user.otp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP ❌" });
+    }
+
+    if (user.otpExpires < Date.now()) {
+      return res.status(400).json({ message: "OTP expired ⏰" });
+    }
+
+    user.isVerified = true;
+    user.otp = null;
+    user.otpExpires = null;
+
+    await user.save();
+
+    res.json({
+      message: "Email verified successfully ✅"
+    });
+
+  } catch (error) {
+    console.log("OTP error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 // ================= LOGIN =================
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 🔍 Check if user exists
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(400).json({ message: "User not found ❌" });
     }
 
-    // 🔐 Compare password
+    // ❌ BLOCK if not verified
+    if (!user.isVerified) {
+      return res.status(400).json({
+        message: "Please verify your email first 📧"
+      });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password ❌" });
     }
 
-    // 🔐 Generate token (NOW user is defined ✅)
     const token = jwt.sign(
       { id: user._id },
       "secretkey",
@@ -68,6 +127,7 @@ router.post("/login", async (req, res) => {
     });
 
   } catch (error) {
+    console.log("Login error:", error);
     res.status(500).json({ error: error.message });
   }
 });

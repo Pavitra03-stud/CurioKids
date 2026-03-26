@@ -1,53 +1,31 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (to, subject, name) => {
+const sendEmail = async (to, name) => {
   try {
-    // ✅ Create transporter
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS
-}
+        user: "curiokids25@gmail.com",
+        pass: "emawcoxylkqiimhc", // 🔐 paste app password here
+      },
     });
 
-    // ✅ Send email
-    await transporter.sendMail({
-      from: "CurioKids <gvpavitraganesh@gmail.com>",
-      to,
-      subject,
-
-      // ✅ HTML Professional Email
+    const mailOptions = {
+      from: "curiokids25@gmail.com",
+      to: to, // ✅ dynamic user email
+      subject: "Welcome to CurioKids 🌱",
       html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.6;">
-          
-          <h2 style="color: #4CAF50;">Welcome to CurioKids 🎉</h2>
-          
-          <p>Hi <b>${name}</b> 👋,</p>
-          
-          <p>
-            Welcome to <b>CurioKids</b> — where learning becomes fun and interactive for children! 🚀
-          </p>
-          
-          <p>
-            We’re excited to have you on board. Your child’s learning journey starts here ✨
-          </p>
+        <h2>Hi ${name} 👋</h2>
+        <p>Welcome to <b>CurioKids</b> 🎉</p>
+        <p>Your child’s learning journey starts now 🚀</p>
+      `,
+    };
 
-          <hr style="margin: 20px 0;" />
+    await transporter.sendMail(mailOptions);
 
-          <p style="font-size: 14px; color: gray;">
-            If you have any questions, feel free to reach out anytime.
-          </p>
-
-          <p><b>– Team CurioKids 💛</b></p>
-        </div>
-      `
-    });
-
-    console.log("Email sent ✅");
-
+    console.log("✅ Email sent!");
   } catch (error) {
-    console.log("Email error:", error);
+    console.log("❌ Email error:", error);
   }
 };
 

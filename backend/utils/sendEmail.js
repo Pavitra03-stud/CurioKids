@@ -1,32 +1,47 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (to, name) => {
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // 🔥 VERY IMPORTANT
+  auth: {
+    user: "curiokids25@gmail.com",
+    pass: "lyqonrzxpsaltmhu",
+  },
+});
+
+// 🔐 Send OTP
+export const sendOtpEmail = async (to, otp) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "curiokids25@gmail.com",
-        pass: "emawcoxylkqiimhc", // 🔐 paste app password here
-      },
+    await transporter.sendMail({
+      from: "curiokids25@gmail.com",
+      to,
+      subject: "Your OTP Code 🔐",
+      text: `Your OTP is ${otp}. It expires in 2 minutes.`,
     });
 
-    const mailOptions = {
+    console.log("✅ OTP Email sent!");
+  } catch (error) {
+    console.log("❌ OTP Email error:", error);
+  }
+};
+
+// 🎉 Send Welcome Mail
+export const sendWelcomeEmail = async (to, name) => {
+  try {
+    await transporter.sendMail({
       from: "curiokids25@gmail.com",
-      to: to, // ✅ dynamic user email
+      to,
       subject: "Welcome to CurioKids 🌱",
       html: `
         <h2>Hi ${name} 👋</h2>
         <p>Welcome to <b>CurioKids</b> 🎉</p>
         <p>Your child’s learning journey starts now 🚀</p>
       `,
-    };
+    });
 
-    await transporter.sendMail(mailOptions);
-
-    console.log("✅ Email sent!");
+    console.log("✅ Welcome Email sent!");
   } catch (error) {
-    console.log("❌ Email error:", error);
+    console.log("❌ Welcome Email error:", error);
   }
 };
-
-export default sendEmail;

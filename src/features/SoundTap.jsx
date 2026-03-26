@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./SoundTapGame.css";
+import "../styles/SoundTap.css";
 
 const wordsData = [
   { word: "cat", sounds: 3 },
@@ -9,7 +9,7 @@ const wordsData = [
   { word: "fish", sounds: 3 }
 ];
 
-export default function SoundTapGame() {
+export default function SoundTapGame({ goBack }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [feedback, setFeedback] = useState("");
@@ -41,6 +41,9 @@ export default function SoundTapGame() {
 
   return (
     <div className="soundtap-container">
+       <button className="back-btn" onClick={goBack}>
+      ⬅ Back
+    </button>
       <h1 className="soundtap-title">Sound Tap Game</h1>
 
       <div className="soundtap-card">

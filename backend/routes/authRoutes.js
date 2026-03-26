@@ -2,10 +2,9 @@ import express from "express";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import sendEmail from "../utils/sendEmail.js";
+import { sendOtpEmail, sendWelcomeEmail } from "../utils/sendEmail.js";
 
 const router = express.Router();
-
 
 // ================= REGISTER (SEND OTP) =================
 router.post("/register", async (req, res) => {
@@ -14,14 +13,19 @@ router.post("/register", async (req, res) => {
 
     const { name, email, password } = req.body;
 
-    // 🔍 Check if user already exists
+    if (!email || !name || !password) {
+      return res.status(400).json({ message: "All fields required ❌" });
+    }
+
+    // 🔍 Check if user exists
     let user = await User.findOne({ email });
 
     // 🔐 Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     if (user) {
-      // 🔁 Update existing user OTP
+      // 🔁 Update existing user
+      user.name = name;
       user.otp = otp;
       user.otpExpires = Date.now() + 5 * 60 * 1000;
     } else {
@@ -34,7 +38,7 @@ router.post("/register", async (req, res) => {
         password: hashedPassword,
         otp,
         otpExpires: Date.now() + 5 * 60 * 1000,
-        isVerified: false
+        isVerified: false,
       });
     }
 
@@ -42,11 +46,11 @@ router.post("/register", async (req, res) => {
     console.log("User saved / updated ✅");
 
     // 📧 Send OTP email
-    await sendEmail(email, name, otp);
+    await sendOtpEmail(email, otp);
     console.log("OTP Email sent 📧");
 
     res.status(200).json({
-      message: "OTP sent to email 📧"
+      message: "OTP sent to email 📧",
     });
 
   } catch (error) {
@@ -55,11 +59,13 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
+// ================= VERIFY OTP =================
 // ================= VERIFY OTP =================
 router.post("/verify-otp", async (req, res) => {
   try {
     const { email, otp } = req.body;
+
+    console.log("Incoming body:", req.body); // 🔍 DEBUG
 
     const user = await User.findOne({ email });
 
@@ -67,7 +73,18 @@ router.post("/verify-otp", async (req, res) => {
       return res.status(400).json({ message: "User not found ❌" });
     }
 
-    if (user.otp !== otp) {
+    if (!user.otp) {
+      return res.status(400).json({ message: "No OTP found ❌" });
+    }
+
+    // 🔥 FORCE STRING (IMPORTANT)
+    const enteredOtp = String(otp).trim();
+    const storedOtp = String(user.otp).trim();
+
+    console.log("Entered OTP:", enteredOtp);
+    console.log("Stored OTP:", storedOtp);
+
+    if (storedOtp !== enteredOtp) {
       return res.status(400).json({ message: "Invalid OTP ❌" });
     }
 
@@ -75,14 +92,17 @@ router.post("/verify-otp", async (req, res) => {
       return res.status(400).json({ message: "OTP expired ⏰" });
     }
 
+    // ✅ Mark verified
     user.isVerified = true;
     user.otp = null;
     user.otpExpires = null;
 
     await user.save();
 
+    await sendWelcomeEmail(email, user.name);
+
     res.json({
-      message: "Email verified successfully ✅"
+      message: "Email verified successfully ✅",
     });
 
   } catch (error) {
@@ -90,8 +110,6 @@ router.post("/verify-otp", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
 // ================= LOGIN =================
 router.post("/login", async (req, res) => {
   try {
@@ -103,14 +121,15 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "User not found ❌" });
     }
 
-    // ❌ BLOCK if not verified
+    // ❌ Block if not verified
     if (!user.isVerified) {
       return res.status(400).json({
-        message: "Please verify your email first 📧"
+        message: "Please verify your email first 📧",
       });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password ❌" });
     }
@@ -123,7 +142,7 @@ router.post("/login", async (req, res) => {
 
     res.status(200).json({
       message: "Login successful ✅",
-      token
+      token,
     });
 
   } catch (error) {

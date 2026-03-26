@@ -2,7 +2,6 @@ import { useState } from "react";
 import GameButton from "../components/Gamebutton";
 import BackIcon from "../components/BackIcon";
 import "../styles/ParentRegister.css";
-import { registerUser, loginUser } from "../services/api";
 
 export default function ParentRegister({ onComplete, goBack }) {
   const [parentName, setParentName] = useState("");
@@ -10,12 +9,14 @@ export default function ParentRegister({ onComplete, goBack }) {
   const [timeLimit, setTimeLimit] = useState("");
   const [error, setError] = useState("");
 
-  // ✅ Validations
+  // ✅ Name validation
   const isValidName = (value) => /^[A-Za-z\s]+$/.test(value);
+
+  // ✅ Email validation
   const isValidEmail = (value) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  // 🚀 FINAL FUNCTION
+  // 🚀 MAIN FUNCTION (REGISTER + SEND OTP)
   const saveParent = async () => {
     setError("");
 
@@ -53,42 +54,39 @@ export default function ParentRegister({ onComplete, goBack }) {
     }
 
     try {
-      // 🟢 1. REGISTER USER
-      const registerRes = await registerUser({
-        name: parentName,
-        email,
-        password: "123456"
+      // 🔥 REGISTER (this sends OTP from backend)
+      const res = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: parentName.trim(),
+          email: email.trim(),
+          password: "123456", // temp password
+        }),
       });
 
-      console.log("Register:", registerRes);
+      const data = await res.json();
 
-      // 🔴 If error
-      if (registerRes.error) {
-        setError(registerRes.error);
+      if (!res.ok) {
+        setError(data.message || "Failed to send OTP");
         return;
       }
 
-      // 🟢 2. LOGIN USER → GET TOKEN
-      const loginRes = await loginUser({
-        email,
-        password: "123456"
-      });
-
-      console.log("Login:", loginRes);
-
-      // 🔐 SAVE TOKEN
-      localStorage.setItem("token", loginRes.token);
-
-      // 🟢 3. OPTIONAL: SAVE UI DATA
-      const parentProfile = {
+      // 💾 Store temp data
+      const parentData = {
         parentName: parentName.trim(),
         email: email.trim(),
         timeLimit,
       };
 
-      localStorage.setItem("parentProfile", JSON.stringify(parentProfile));
+      localStorage.setItem("tempParent", JSON.stringify(parentData));
 
-      // 👉 NEXT SCREEN
+      // 🎉 Success
+      alert("OTP sent to your email 📧");
+
+      // 👉 Move to OTP screen
       onComplete();
 
     } catch (err) {
@@ -105,6 +103,7 @@ export default function ParentRegister({ onComplete, goBack }) {
         <h1>Parent Registration</h1>
         <p>Help guide your child’s jungle journey</p>
 
+        {/* 👤 Parent Name */}
         <input
           type="text"
           placeholder="Parent Name"
@@ -113,6 +112,7 @@ export default function ParentRegister({ onComplete, goBack }) {
           onChange={(e) => setParentName(e.target.value)}
         />
 
+        {/* 📧 Email */}
         <input
           type="email"
           placeholder="Email Address"
@@ -121,6 +121,7 @@ export default function ParentRegister({ onComplete, goBack }) {
           onChange={(e) => setEmail(e.target.value)}
         />
 
+        {/* ⏱️ Time Limit */}
         <select
           className="input"
           value={timeLimit}
@@ -132,8 +133,10 @@ export default function ParentRegister({ onComplete, goBack }) {
           <option value="45">45 minutes</option>
         </select>
 
+        {/* ❌ Error */}
         {error && <p className="error-text">{error}</p>}
 
+        {/* 🔐 Button */}
         <GameButton
           text="🔐 Link & Unlock Jungle"
           onClick={saveParent}

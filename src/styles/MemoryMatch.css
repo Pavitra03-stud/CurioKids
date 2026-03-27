@@ -1,0 +1,94 @@
+/* 🌿 Page */
+.memory-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #a8e063, #56ab2f);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  padding: 20px;
+}
+
+/* 🌴 Header */
+.memory-header {
+  width: 100%;
+  background: #184d36;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.memory-header h1 {
+  font-size: 1.3rem;
+}
+
+/* 🔙 Back */
+.back-btn {
+  position: absolute;
+  left: 10px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+/* 🧠 Text */
+.memory-text {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #1b4332;
+}
+
+/* 🧩 Grid */
+.memory-grid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  gap: 15px;
+}
+
+/* 🃏 Card */
+.memory-card {
+  background: white;
+  border-radius: 15px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.memory-card:hover {
+  transform: scale(1.05);
+}
+
+.memory-card.flipped {
+  background: #e0ffe0;
+}
+
+/* 💬 Feedback */
+.feedback {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  color: #1b4332;
+}
+
+/* ➡ Button */
+.next-btn {
+  margin-top: 20px;
+  background: #00c9a7;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}

@@ -1,0 +1,50 @@
+/* Page */
+.games-play-page {
+  background: #f5f5f5;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Top */
+.top-bar {
+  margin-bottom: 10px;
+}
+
+/* Title */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+}
+
+/* List */
+.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Item */
+.game-item {
+  background: #eaeaea;
+  padding: 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.game-item h2 {
+  color: #ff5a00;
+  margin-bottom: 5px;
+}
+
+.game-item p {
+  color: #555;
+}
+
+/* Hover */
+.game-item:hover {
+  transform: scale(1.02);
+  background: #e0e0e0;
+}

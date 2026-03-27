@@ -230,7 +230,7 @@ export default function KidsHome({ navigate, goBack }) {
           {/* ===== GAMES ===== */}
           <div
             className="jungle-card"
-            onClick={() => navigate("practice-home")}
+            onClick={() => navigate("games-home")}
             onMouseEnter={() => speakText("Let's play fun games!")}
           >
             <span className="card-icon">🎮</span>

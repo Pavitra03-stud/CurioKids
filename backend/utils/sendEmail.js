@@ -1,54 +1,47 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (to, subject, name) => {
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // 🔥 VERY IMPORTANT
+  auth: {
+    user: "curiokids25@gmail.com",
+    pass: "lyqonrzxpsaltmhu",
+  },
+});
+
+// 🔐 Send OTP
+export const sendOtpEmail = async (to, otp) => {
   try {
-    // ✅ Create transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS
-}
-    });
-
-    // ✅ Send email
     await transporter.sendMail({
-      from: "CurioKids <gvpavitraganesh@gmail.com>",
+      from: "curiokids25@gmail.com",
       to,
-      subject,
-
-      // ✅ HTML Professional Email
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.6;">
-          
-          <h2 style="color: #4CAF50;">Welcome to CurioKids 🎉</h2>
-          
-          <p>Hi <b>${name}</b> 👋,</p>
-          
-          <p>
-            Welcome to <b>CurioKids</b> — where learning becomes fun and interactive for children! 🚀
-          </p>
-          
-          <p>
-            We’re excited to have you on board. Your child’s learning journey starts here ✨
-          </p>
-
-          <hr style="margin: 20px 0;" />
-
-          <p style="font-size: 14px; color: gray;">
-            If you have any questions, feel free to reach out anytime.
-          </p>
-
-          <p><b>– Team CurioKids 💛</b></p>
-        </div>
-      `
+      subject: "Your OTP Code 🔐",
+      text: `Your OTP is ${otp}. It expires in 2 minutes.`,
     });
 
-    console.log("Email sent ✅");
-
+    console.log("✅ OTP Email sent!");
   } catch (error) {
-    console.log("Email error:", error);
+    console.log("❌ OTP Email error:", error);
   }
 };
 
-export default sendEmail;
+// 🎉 Send Welcome Mail
+export const sendWelcomeEmail = async (to, name) => {
+  try {
+    await transporter.sendMail({
+      from: "curiokids25@gmail.com",
+      to,
+      subject: "Welcome to CurioKids 🌱",
+      html: `
+        <h2>Hi ${name} 👋</h2>
+        <p>Welcome to <b>CurioKids</b> 🎉</p>
+        <p>Your child’s learning journey starts now 🚀</p>
+      `,
+    });
+
+    console.log("✅ Welcome Email sent!");
+  } catch (error) {
+    console.log("❌ Welcome Email error:", error);
+  }
+};

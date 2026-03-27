@@ -9,6 +9,11 @@ export default function ParentDashboard({ navigate }) {
   const [aiData, setAiData] = useState(null);
   const [practiceRewards, setPracticeRewards] = useState(null);
 
+  // 🤖 AI CHAT STATES (NEW)
+  const [question, setQuestion] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const savedParent = localStorage.getItem("parentProfile");
     const savedChild = localStorage.getItem("childProfile");
@@ -20,6 +25,44 @@ export default function ParentDashboard({ navigate }) {
     if (savedAI) setAiData(JSON.parse(savedAI));
     if (savedRewards) setPracticeRewards(JSON.parse(savedRewards));
   }, []);
+
+  // 🤖 SEND MESSAGE FUNCTION (NEW)
+  const sendMessage = async () => {
+    if (!question.trim()) return;
+
+    const userMessage = { type: "user", text: question };
+    setMessages(prev => [...prev, userMessage]);
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:5000/api/ai/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          childId: child?._id || "69be509b3193e4d163dd7885",
+          question,
+        }),
+      });
+
+      const data = await res.json();
+
+      const botMessage = {
+        type: "bot",
+        text: data.answer,
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+      setQuestion("");
+
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoading(false);
+  };
 
   if (!parent || !child) {
     return (
@@ -105,7 +148,7 @@ export default function ParentDashboard({ navigate }) {
           )}
         </div>
 
-        {/* 🏆 REWARDS SECTION */}
+        {/* 🏆 REWARDS */}
         <div className="parent-card">
           <h2>🏆 Rewards & Achievements</h2>
 
@@ -113,57 +156,54 @@ export default function ParentDashboard({ navigate }) {
             <>
               <p><b>Total Rounds:</b> {practiceRewards.totalRounds}</p>
               <p><b>Total Stars:</b> ⭐ {practiceRewards.totalStars}</p>
-              <p><b>Badges Earned:</b></p>
 
               <div className="badge-grid">
                 {Array.from({ length: practiceRewards.badges }).map((_, index) => (
-                  <div key={index} className="badge-item">
-                    🏅
-                  </div>
+                  <div key={index} className="badge-item">🏅</div>
                 ))}
-              </div>
-
-              <div className="progress-bar">
-                <div
-                  className="progress-fill badge"
-                  style={{
-                    width: `${Math.min((practiceRewards.totalRounds / 9) * 100, 100)}%`
-                  }}
-                />
               </div>
             </>
           ) : (
-            <p>No rewards yet. Let your child start practicing 🌱</p>
+            <p>No rewards yet 🌱</p>
           )}
         </div>
 
-        {/* 📊 WEEKLY ACTIVITY CHART */}
+        {/* 🤖 AI CHATBOT (NEW SECTION) */}
         <div className="parent-card">
-          <h2>📊 Weekly Activity</h2>
-          <div className="chart">
-            {weeklyData.map((value, index) => (
+          <h2>🤖 AI Assistant</h2>
+
+          <div style={{ maxHeight: "200px", overflowY: "auto", marginBottom: "10px" }}>
+            {messages.map((msg, i) => (
               <div
-                key={index}
-                className="chart-bar"
-                style={{ height: `${value * 10}px` }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* 📈 LETTER INSIGHT */}
-        <div className="parent-card">
-          <h2>📈 Letter Difficulty Insight</h2>
-          {aiData ? (
-            <div className="difficulty-box">
-              <p>Most Challenging Letter</p>
-              <div className="difficulty-letter">
-                {aiData.mostDifficultLetter}
+                key={i}
+                style={{
+                  background: msg.type === "user" ? "#4caf50" : "#eee",
+                  color: msg.type === "user" ? "white" : "black",
+                  padding: "8px",
+                  margin: "5px",
+                  borderRadius: "8px",
+                  textAlign: msg.type === "user" ? "right" : "left"
+                }}
+              >
+                {msg.text}
               </div>
-            </div>
-          ) : (
-            <p>No data yet</p>
-          )}
+            ))}
+
+            {loading && <p>AI is typing...</p>}
+          </div>
+
+          <div style={{ display: "flex" }}>
+            <input
+              type="text"
+              placeholder="Ask about your child..."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              style={{ flex: 1, padding: "8px" }}
+            />
+            <button onClick={sendMessage} style={{ marginLeft: "5px" }}>
+              Send
+            </button>
+          </div>
         </div>
 
         <p className="growth-note">

@@ -1,0 +1,72 @@
+/* PAGE */
+.letters-home {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a8db68, #7ec850);
+  font-family: "Comic Sans MS", "Segoe UI", sans-serif;
+}
+
+/* NAVBAR */
+.letters-navbar {
+  height: 65px;
+  background: #174d36;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.nav-left {
+  position: absolute;
+  left: 20px;
+}
+
+/* CONTENT */
+.letters-content {
+  padding: 40px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 18px;
+  margin-bottom: 40px;
+  color: #184e3b;
+}
+
+/* ZONE CONTAINER */
+.zone-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* BIG CARDS */
+.zone-card {
+  background: #f4ecd3;
+  border-radius: 20px;
+  padding: 30px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  transition: 0.3s ease;
+}
+
+.zone-card:hover {
+  transform: translateY(-6px) scale(1.05);
+  background: #f8f0dc;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .letters-content {
+    padding: 25px;
+  }
+
+  .zone-card {
+    font-size: 18px;
+    padding: 25px;
+  }
+}

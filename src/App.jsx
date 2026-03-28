@@ -286,6 +286,7 @@ import MemoryMatch from "./features/MemoryMatch";
 import CatchWord from "./features/CatchWord";
 import FillBucket from "./features/FillBucket";
 import LetterBlast from "./features/LetterBlast";
+import Login from "./features/Login";
 
 import "./index.css";
 
@@ -417,8 +418,20 @@ export default function App() {
 
   switch (screen) {
     /* ENTRY FLOW */
-    case "public-home":
-      return <PublicHome onComplete={() => navigate("child-register")} />;
+   case "public-home":
+  return (
+    <PublicHome
+      onComplete={() => navigate("child-register")}
+      goToLogin={() => navigate("login")}
+    />
+  );
+  case "login":
+  return (
+    <Login
+      onComplete={() => navigate("otp")}
+      goBack={goBack}
+    />
+  );
 
     case "child-register":
       return (

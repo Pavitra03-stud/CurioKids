@@ -114,3 +114,7 @@
     width: 85%;
   }
 }
+.secondary-btn {
+  margin-top: 12px;
+  background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
+}

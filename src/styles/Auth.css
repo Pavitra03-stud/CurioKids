@@ -1,0 +1,41 @@
+.auth-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom, #a8e063, #56ab2f);
+}
+
+.auth-container h2 {
+  margin-bottom: 20px;
+  color: #1b5e20;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input {
+  padding: 12px;
+  width: 250px;
+  border-radius: 10px;
+  border: none;
+}
+
+button {
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  background: orange;
+  color: white;
+  cursor: pointer;
+}
+
+.switch-text {
+  margin-top: 15px;
+  cursor: pointer;
+  color: #1b5e20;
+}

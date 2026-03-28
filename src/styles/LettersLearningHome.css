@@ -1,162 +1,280 @@
 .letters-learning-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a8db68, #7ec850);
-  font-family: "Comic Sans MS", "Segoe UI", sans-serif;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 40px;
 }
 
 /* top bar */
-.letters-learning-navbar {
-  height: 65px;
-  background: #174d36;
+.letters-learning-topbar {
+  background: #184c35;
   color: white;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 14px 14px;
 }
 
-.nav-left {
-  position: absolute;
-  left: 20px;
-}
-
-.letters-learning-navbar h1 {
+.letters-learning-topbar h1 {
   margin: 0;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* content */
-.letters-learning-content {
-  padding: 35px 20px 40px;
-  text-align: center;
-}
-
-.subtitle {
-  font-size: 18px;
-  color: #184e3b;
-  margin-bottom: 30px;
-}
-
-/* cards */
-.learning-container {
-  max-width: 700px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-.learning-card {
-  background: #b9de84;
-  border-radius: 22px;
-  padding: 24px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-  transition: 0.3s ease;
-}
-
-.learning-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  background: #c6e796;
-}
-
-/* left side */
-.card-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.animal-icon {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: #f4ecd3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  flex-shrink: 0;
-}
-
-.card-text {
-  text-align: left;
-}
-
-.card-text h2 {
-  margin: 0 0 4px;
-  font-size: 22px;
-  color: #111;
-  font-weight: bold;
-}
-
-.card-text p {
-  margin: 0;
-  font-size: 14px;
-  color: #2f4f2f;
-}
-
-/* arrow */
-.arrow {
-  font-size: 24px;
-  color: #173b2d;
+  font-size: 20px;
   font-weight: bold;
 }
 
 /* back button */
-.back-btn {
-  background: white;
+.letters-learning-back {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
-  width: 38px;
-  height: 38px;
+  background: #f5f5f5;
+  color: #222;
   font-size: 20px;
   cursor: pointer;
-  transition: 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.back-btn:hover {
-  transform: scale(1.08);
+.letters-learning-back:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* decorations */
+.letters-learning-decor {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 0;
+}
+
+.decor-top-left {
+  width: 130px;
+  height: 130px;
+  top: 90px;
+  left: -35px;
+}
+
+.decor-middle-right {
+  width: 180px;
+  height: 180px;
+  top: 330px;
+  right: -60px;
+}
+
+.decor-bottom-left {
+  width: 150px;
+  height: 150px;
+  bottom: 120px;
+  left: -50px;
+}
+
+/* animals */
+.letters-learning-animals {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.top-animals {
+  margin-top: 22px;
+  font-size: 28px;
+}
+
+.bottom-animals {
+  margin-top: 18px;
+  font-size: 26px;
+}
+
+/* header */
+.letters-learning-header {
+  text-align: center;
+  padding: 18px 20px 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.letters-learning-header p {
+  margin: 0;
+  font-size: 22px;
+  color: #173b33;
+  font-weight: 700;
+}
+
+/* cards list */
+.letters-learning-list {
+  max-width: 850px;
+  margin: 28px auto 0;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.letters-learning-card {
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: 22px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+  transition: all 0.25s ease;
+  min-height: 120px;
+}
+
+.letters-learning-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.33);
+}
+
+/* icon */
+.letters-learning-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.yellow {
+  background: #ffe082;
+}
+
+.blue {
+  background: #bbdefb;
+}
+
+.pink {
+  background: #f8bbd0;
+}
+
+.purple {
+  background: #e1bee7;
+}
+
+.green {
+  background: #c8e6c9;
+}
+
+.cyan {
+  background: #b2ebf2;
+}
+
+/* text */
+.letters-learning-text {
+  flex: 1;
+  text-align: left;
+}
+
+.letters-learning-text h2 {
+  margin: 0 0 6px;
+  font-size: 21px;
+  color: #111;
+  font-weight: bold;
+}
+
+.letters-learning-text p {
+  margin: 0;
+  font-size: 15px;
+  color: #234236;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* arrow */
+.letters-learning-arrow {
+  font-size: 28px;
+  font-weight: bold;
+  color: #184c35;
+  flex-shrink: 0;
+}
+
+/* footer */
+.letters-learning-footer {
+  max-width: 850px;
+  margin: 34px auto 0;
+  padding: 0 20px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.letters-learning-progress {
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.letters-learning-progress h3 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  color: #173b33;
+}
+
+.letters-learning-progress p {
+  margin: 0;
+  font-size: 16px;
+  color: #234236;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 /* responsive */
 @media (max-width: 768px) {
-  .letters-learning-content {
-    padding: 25px 15px 30px;
+  .letters-learning-list {
+    grid-template-columns: 1fr;
   }
 
-  .letters-learning-navbar h1 {
-    font-size: 18px;
+  .letters-learning-header p {
+    font-size: 19px;
   }
 
-  .subtitle {
-    font-size: 16px;
-  }
-
-  .learning-card {
+  .letters-learning-card {
     padding: 18px 16px;
+    min-height: 110px;
   }
 
-  .animal-icon {
-    width: 46px;
-    height: 46px;
-    font-size: 22px;
+  .letters-learning-icon {
+    width: 62px;
+    height: 62px;
+    font-size: 28px;
   }
 
-  .card-text h2 {
+  .letters-learning-text h2 {
     font-size: 18px;
   }
 
-  .card-text p {
-    font-size: 13px;
+  .letters-learning-text p {
+    font-size: 14px;
   }
 
-  .arrow {
-    font-size: 20px;
+  .letters-learning-arrow {
+    font-size: 24px;
+  }
+
+  .letters-learning-progress h3 {
+    font-size: 21px;
+  }
+
+  .letters-learning-progress p {
+    font-size: 14px;
   }
 }

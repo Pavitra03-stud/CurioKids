@@ -269,6 +269,7 @@ import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
 import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
 
 /* 🔤 Letters / Practice */
+import AIWritingTest from "./features/AIWritingTest";
 import AlphabetLearning from "./features/AlphabetLearning";
 import AlphabetFlashCard from "./features/AlphabetFlashCard";
 import LetterTracing from "./features/LetterTracing";
@@ -465,8 +466,9 @@ export default function App() {
     case "letters-home":
       return (
         <LettersHome
-          navigate={navigate}
-          goBack={() => navigate("kids-home")}
+           onBack={() => navigate("kids-home")}
+           onLearningZone={() => navigate("letters-learning-home")}
+           onGamingZone={() => navigate("letters-game-home")}
         />
       );
 
@@ -483,6 +485,13 @@ export default function App() {
         <LettersGameHome
           navigate={navigate}
           goBack={() => navigate("letters-home")}
+        />
+      );
+      case "ai-writing-test":
+      return (
+        <AIWritingTest
+          navigate={navigate}
+          goBack={() => navigate("letters-learning-home")}
         />
       );
 

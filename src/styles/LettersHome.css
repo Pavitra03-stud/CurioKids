@@ -1,72 +1,148 @@
-/* PAGE */
-.letters-home {
+.letters-home-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a8db68, #7ec850);
-  font-family: "Comic Sans MS", "Segoe UI", sans-serif;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
 }
 
-/* NAVBAR */
-.letters-navbar {
-  height: 65px;
-  background: #174d36;
+.letters-home-header {
+  background: #184c35;
   color: white;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  border-radius: 0 0 14px 14px;
 }
 
-.nav-left {
+.letters-home-header h1 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.letters-back-btn {
   position: absolute;
-  left: 20px;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #222;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* CONTENT */
-.letters-content {
-  padding: 40px;
+.letters-home-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 20px 50px;
   text-align: center;
 }
 
-.subtitle {
-  font-size: 18px;
+.letters-home-subtitle {
+  font-size: 20px;
+  color: #173b33;
   margin-bottom: 40px;
-  color: #184e3b;
+  font-weight: 600;
 }
 
-/* ZONE CONTAINER */
-.zone-container {
+.letters-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  justify-content: center;
+}
+
+.letters-feature-card {
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 28px;
+  padding: 38px 28px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+  min-height: 260px;
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  max-width: 500px;
-  margin: auto;
+  align-items: center;
+  justify-content: center;
 }
 
-/* BIG CARDS */
-.zone-card {
-  background: #f4ecd3;
-  border-radius: 20px;
-  padding: 30px;
+.letters-feature-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.letters-feature-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  margin-bottom: 24px;
+}
+
+.learning-icon {
+  background: #efe3b8;
+}
+
+.gaming-icon {
+  background: #e7dff7;
+}
+
+.letters-feature-card h2 {
   font-size: 22px;
+  color: #111;
+  margin: 0 0 16px;
   font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  transition: 0.3s ease;
 }
 
-.zone-card:hover {
-  transform: translateY(-6px) scale(1.05);
-  background: #f8f0dc;
+.letters-feature-card p {
+  font-size: 18px;
+  color: #234236;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 300px;
 }
 
-/* RESPONSIVE */
+.letters-back-btn:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
 @media (max-width: 768px) {
-  .letters-content {
-    padding: 25px;
+  .letters-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .zone-card {
+  .letters-feature-card {
+    min-height: 220px;
+    padding: 30px 20px;
+  }
+
+  .letters-feature-icon {
+    width: 74px;
+    height: 74px;
+    font-size: 32px;
+    margin-bottom: 18px;
+  }
+
+  .letters-feature-card h2 {
+    font-size: 20px;
+  }
+
+  .letters-feature-card p {
+    font-size: 16px;
+  }
+
+  .letters-home-subtitle {
     font-size: 18px;
-    padding: 25px;
   }
 }

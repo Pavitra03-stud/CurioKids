@@ -1,46 +1,56 @@
+import React from "react";
 import "../styles/LettersHome.css";
-import BackIcon from "../components/BackIcon";
 
-export default function LettersHome({ navigate, goBack }) {
+function LettersHome({ onBack, onLearningZone, onGamingZone }) {
   return (
-    <div className="letters-home">
+    <div className="letters-home-page">
+      <div className="letters-home-header">
+        <button
+          className="letters-back-btn"
+          onClick={() => {
+            console.log("Back clicked");
+            onBack && onBack();
+          }}
+        >
+          ←
+        </button>
 
-      {/* Navbar */}
-      <div className="letters-navbar">
-        <div className="nav-left">
-          <BackIcon goBack={goBack} />
-        </div>
         <h1>🌿 Letters Home</h1>
       </div>
 
-      {/* Content */}
-      <div className="letters-content">
-
-        <p className="subtitle">
+      <div className="letters-home-content">
+        <p className="letters-home-subtitle">
           Choose your zone and start learning ✨
         </p>
 
-        <div className="zone-container">
-
-          {/* Learning Zone */}
+        <div className="letters-cards-grid">
           <div
-            className="zone-card"
-            onClick={() => navigate("letters-learning-home")}
+            className="letters-feature-card"
+            onClick={() => {
+              console.log("Learning clicked");
+              onLearningZone && onLearningZone();
+            }}
           >
-            📚 Letter Learning Zone
+            <div className="letters-feature-icon learning-icon">📚</div>
+            <h2>Letter Learning Zone</h2>
+            <p>Practice letters, tracing, flashcards and more in a fun way.</p>
           </div>
 
-          {/* Gaming Zone */}
           <div
-            className="zone-card"
-            onClick={() => navigate("letters-game-home")}
+            className="letters-feature-card"
+            onClick={() => {
+              console.log("Gaming clicked");
+              onGamingZone && onGamingZone();
+            }}
           >
-            🎮 Letter Gaming Zone
+            <div className="letters-feature-icon gaming-icon">🎮</div>
+            <h2>Letter Gaming Zone</h2>
+            <p>Play fun letter games and improve quickly.</p>
           </div>
-
         </div>
-
       </div>
     </div>
   );
 }
+
+export default LettersHome;

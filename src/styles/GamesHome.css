@@ -1,57 +1,126 @@
 /* 🌿 Page */
 .games-page {
-  background: #f4f4f4;
   min-height: 100vh;
-  padding: 20px;
-  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
 }
 
 /* 🌴 Header */
 .games-header {
-  background: #184d36;
+  background: #184c35;
   color: white;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 1.5rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 14px 14px;
+}
+
+.games-header h1 {
+  margin: 0;
+  font-size: 20px;
   font-weight: bold;
 }
 
 /* 🔙 Back */
 .games-back {
-  margin-top: -20px;
-  margin-left: 10px;
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* 📦 Container */
 .games-container {
-  margin-top: 30px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+/* 🎯 Card */
+.games-card {
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 28px;
+  padding: 36px 28px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+  min-height: 240px;
+
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 🎯 Base Card */
-.games-card {
-  padding: 25px;
-  border-radius: 15px;
-  font-size: 1.3rem;
-  cursor: pointer;
-  color: white;
-  transition: 0.2s;
-}
-
-/* 📘 Learning */
-.games-card.learning {
-  background: #2d6a4f;
-}
-
-/* 🎮 Game */
-.games-card.play {
-  background: #40916c;
-}
-
-/* Hover */
 .games-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 🎨 Icon circle */
+.games-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #efe3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  margin-bottom: 24px;
+}
+
+/* different color for second card */
+.games-card.play .games-icon {
+  background: #e7dff7;
+}
+
+/* 📝 Text */
+.games-card h2 {
+  font-size: 22px;
+  color: #111;
+  margin: 0 0 16px;
+  font-weight: bold;
+}
+
+.games-card p {
+  font-size: 18px;
+  color: #234236;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 280px;
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .games-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .games-card {
+    min-height: 220px;
+    padding: 30px 20px;
+  }
+
+  .games-icon {
+    width: 74px;
+    height: 74px;
+    font-size: 32px;
+    margin-bottom: 18px;
+  }
+
+  .games-card h2 {
+    font-size: 20px;
+  }
+
+  .games-card p {
+    font-size: 16px;
+  }
 }

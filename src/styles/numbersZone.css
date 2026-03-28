@@ -1,27 +1,124 @@
 .numbers-zone-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #004d40, #2e7d32);
-  padding: 30px;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+}
+
+.numbers-zone-header {
+  background: #184c35;
   color: white;
-  text-align: center;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 14px 14px;
+}
+
+.numbers-zone-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.navbar-left {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .zone-container {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
 }
 
 .zone-card {
-  background: rgba(255,255,255,0.15);
-  padding: 20px;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 28px;
+  padding: 36px 28px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
   cursor: pointer;
-  font-size: 20px;
-  transition: transform 0.3s ease;
+  transition: all 0.25s ease;
+  text-align: center;
+  min-height: 245px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .zone-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.zone-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #efe3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  margin-bottom: 24px;
+}
+
+.zone-card:nth-child(2) .zone-icon {
+  background: #e7dff7;
+}
+
+.zone-text {
+  text-align: center;
+}
+
+.zone-text h2 {
+  font-size: 22px;
+  color: #111;
+  margin: 0 0 16px;
+  font-weight: bold;
+}
+
+.zone-text p {
+  font-size: 18px;
+  color: #234236;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 280px;
+}
+
+.zone-arrow {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .zone-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .zone-card {
+    min-height: 220px;
+    padding: 30px 20px;
+  }
+
+  .zone-icon {
+    width: 74px;
+    height: 74px;
+    font-size: 32px;
+    margin-bottom: 18px;
+  }
+
+  .zone-text h2 {
+    font-size: 20px;
+  }
+
+  .zone-text p {
+    font-size: 16px;
+  }
 }

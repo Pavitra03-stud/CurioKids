@@ -6,6 +6,7 @@ import { sendOtpEmail, sendWelcomeEmail } from "../utils/sendEmail.js";
 
 const router = express.Router();
 
+
 // ================= REGISTER (SEND OTP) =================
 router.post("/register", async (req, res) => {
   try {
@@ -17,35 +18,30 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "All fields required ❌" });
     }
 
-    // 🔍 Check if user exists
-    let user = await User.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
-    // 🔐 Generate OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    if (user) {
-      // 🔁 Update existing user
-      user.name = name;
-      user.otp = otp;
-      user.otpExpires = Date.now() + 5 * 60 * 1000;
-    } else {
-      // 🔒 Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      user = new User({
-        name,
-        email,
-        password: hashedPassword,
-        otp,
-        otpExpires: Date.now() + 5 * 60 * 1000,
-        isVerified: false,
+    if (existingUser) {
+      return res.status(400).json({
+        message: "User already exists, please login 🔐",
       });
     }
 
-    await user.save();
-    console.log("User saved / updated ✅");
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 📧 Send OTP email
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      otp,
+      otpExpires: Date.now() + 5 * 60 * 1000,
+      isVerified: false,
+    });
+
+    await user.save();
+    console.log("User created ✅");
+
     await sendOtpEmail(email, otp);
     console.log("OTP Email sent 📧");
 
@@ -59,13 +55,58 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// ================= VERIFY OTP =================
+
+// ================= LOGIN (SEND OTP ONLY) =================
+router.post("/send-otp", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    console.log("Login OTP request 🔐", email);
+
+    if (!email) {
+      return res.status(400).json({
+        message: "Email is required 📧",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "User not found. Please register 🌱",
+      });
+    }
+
+    // ✅ IMPORTANT: NO isVerified check here
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    user.otp = otp;
+    user.otpExpires = Date.now() + 5 * 60 * 1000;
+
+    await user.save();
+
+    console.log("LOGIN OTP:", otp);
+
+    await sendOtpEmail(email, otp);
+
+    res.status(200).json({
+      message: "OTP sent for login 🔐",
+    });
+
+  } catch (error) {
+    console.log("Login OTP error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 // ================= VERIFY OTP =================
 router.post("/verify-otp", async (req, res) => {
   try {
     const { email, otp } = req.body;
 
-    console.log("Incoming body:", req.body); // 🔍 DEBUG
+    console.log("Incoming body:", req.body);
 
     const user = await User.findOne({ email });
 
@@ -77,7 +118,6 @@ router.post("/verify-otp", async (req, res) => {
       return res.status(400).json({ message: "No OTP found ❌" });
     }
 
-    // 🔥 FORCE STRING (IMPORTANT)
     const enteredOtp = String(otp).trim();
     const storedOtp = String(user.otp).trim();
 
@@ -101,52 +141,19 @@ router.post("/verify-otp", async (req, res) => {
 
     await sendWelcomeEmail(email, user.name);
 
-    res.json({
-      message: "Email verified successfully ✅",
-    });
-
-  } catch (error) {
-    console.log("OTP error:", error);
-    res.status(500).json({ error: error.message });
-  }
-});
-// ================= LOGIN =================
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(400).json({ message: "User not found ❌" });
-    }
-
-    // ❌ Block if not verified
-    if (!user.isVerified) {
-      return res.status(400).json({
-        message: "Please verify your email first 📧",
-      });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid password ❌" });
-    }
-
     const token = jwt.sign(
       { id: user._id },
       "secretkey",
       { expiresIn: "1d" }
     );
 
-    res.status(200).json({
-      message: "Login successful ✅",
+    res.json({
+      message: "Login successful 🎉",
       token,
     });
 
   } catch (error) {
-    console.log("Login error:", error);
+    console.log("OTP error:", error);
     res.status(500).json({ error: error.message });
   }
 });

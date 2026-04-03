@@ -287,6 +287,9 @@ import MemoryMatch from "./features/MemoryMatch";
 import CatchWord from "./features/CatchWord";
 import FillBucket from "./features/FillBucket";
 import LetterBlast from "./features/LetterBlast";
+import NumberNinja from "./features/NumberNinja";
+import GamesLearningHome from "./features/GamesLearningHome";
+import WeatherClothesGame from "./features/WeatherClothesGame";
 import Login from "./features/Login";
 
 import "./index.css";
@@ -391,11 +394,25 @@ export default function App() {
       screen === "memory-match" ||
       screen === "catch-word" ||
       screen === "fill-bucket" ||
-      screen === "letter-blast-game"
+      screen === "letter-blast-game"||
+      screen === "number-ninja"
     ) {
       navigate("games-play");
       return;
     }
+
+    if (screen === "games-learn") {
+      navigate("games-home");
+      return;
+    }
+    if (
+      screen === "sound-tap" ||
+      screen === "weather-clothes"
+    ) {
+      navigate("games-learn");
+      return;
+    }
+
 
     const flow = [
       "public-home",
@@ -664,6 +681,14 @@ export default function App() {
         />
       );
 
+    case "games-learning":
+  return (
+    <GamesLearningHome
+      navigate={navigate}
+      goBack={() => navigate("games-home")}
+    />
+  );
+
     case "sound-tap":
       return <SoundTap goBack={goBack} />;
 
@@ -684,6 +709,12 @@ export default function App() {
 
     case "letter-blast-game":
       return <LetterBlast goBack={goBack} />;
+    
+    case "number-ninja":
+  return <NumberNinja goBack={() => navigate("games-play")} />;
+   
+    case "weather-clothes":
+  return <WeatherClothesGame goBack={goBack} />;
 
     case "parent-dashboard":
       return <ParentDashboard navigate={navigate} goBack={goBack} />;

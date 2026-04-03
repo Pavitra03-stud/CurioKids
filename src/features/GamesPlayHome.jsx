@@ -86,6 +86,16 @@ export default function GamesPlayHome({ navigate, goBack }) {
   </div>
 </div>
 
+<div
+  className="game-item"
+  onClick={() => navigate("number-ninja")}
+>
+  <div>
+    <h2>🔢 Number Ninja</h2>
+    <p>Slice the correct number</p>
+  </div>
+</div>
+
       </div>
     </div>
   );

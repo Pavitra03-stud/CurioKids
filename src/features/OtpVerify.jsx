@@ -33,7 +33,7 @@ export default function OtpVerify({ onSuccess }) {
     }
   };
 
-  // 🔐 VERIFY OTP (BACKEND)
+  // 🔐 VERIFY OTP
   const verifyOtp = async () => {
     setError("");
 
@@ -47,7 +47,7 @@ export default function OtpVerify({ onSuccess }) {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/verify-otp", {
+      const res = await fetch("http://localhost:5000/api/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,6 @@ export default function OtpVerify({ onSuccess }) {
 
       alert("Login successful 🎉");
 
-      // 🧹 Clear temp data
       localStorage.removeItem("loginEmail");
 
       if (typeof onSuccess === "function") {
@@ -87,7 +86,7 @@ export default function OtpVerify({ onSuccess }) {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/verify-otp", {
+      const res = await fetch("http://localhost:5000/api/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +116,6 @@ export default function OtpVerify({ onSuccess }) {
         <h2>🔐 Enter OTP</h2>
         <p>Sent to {email}</p>
 
-        {/* OTP BOXES */}
         <div style={styles.otpContainer}>
           {otp.map((digit, index) => (
             <input
@@ -132,11 +130,7 @@ export default function OtpVerify({ onSuccess }) {
           ))}
         </div>
 
-        <button
-          onClick={verifyOtp}
-          style={styles.button}
-          disabled={loading}
-        >
+        <button onClick={verifyOtp} style={styles.button} disabled={loading}>
           {loading ? "Verifying..." : "Verify OTP"}
         </button>
 

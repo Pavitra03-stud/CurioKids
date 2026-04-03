@@ -9,6 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ================= DEBUG =================
+console.log("🔥 SERVER FILE LOADED");
+
 // ================= EMAIL SETUP =================
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -26,10 +29,34 @@ app.get("/", (req, res) => {
   res.send("Backend is working 🚀");
 });
 
+// ================= REGISTER =================
+app.post("/api/register", (req, res) => {
+  try {
+    const { name, email, time } = req.body;
+
+    console.log("REGISTER:", name, email, time);
+
+    if (!name || !email) {
+      return res.status(400).json({ message: "Missing fields" });
+    }
+
+    res.json({
+      success: true,
+      message: "Registered successfully 🎉",
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Register failed" });
+  }
+});
+
 // ================= SEND OTP =================
 app.post("/api/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
+
+    console.log("📧 Sending OTP to:", email);
 
     if (!email) {
       return res.status(400).json({ message: "Email required" });
@@ -37,40 +64,48 @@ app.post("/api/send-otp", async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000);
 
+    console.log("🔐 OTP generated:", otp);
+
     // 💾 Save OTP
     otpStore[email] = otp;
 
-    console.log("📧 OTP:", otp);
-
     // 📧 Send Email
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"CurioKids" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Your OTP Code",
       html: `<h2>Your OTP is: ${otp}</h2>`,
     });
 
+    console.log("✅ EMAIL SENT SUCCESSFULLY");
+
     res.json({ success: true });
 
   } catch (error) {
-    console.error("EMAIL ERROR:", error);
+    console.error("❌ EMAIL ERROR:", error);
     res.status(500).json({ message: "Failed to send OTP" });
   }
 });
 
 // ================= VERIFY OTP =================
 app.post("/api/verify-otp", (req, res) => {
-  const { email, otp } = req.body;
+  try {
+    const { email, otp } = req.body;
 
-  console.log("VERIFY:", email, otp);
-  console.log("STORED:", otpStore[email]);
+    console.log("VERIFY:", email, otp);
+    console.log("STORED OTP:", otpStore[email]);
 
-  if (otpStore[email] == otp) {
-    delete otpStore[email]; // remove after success
-    return res.json({ success: true });
+    if (otpStore[email] == otp) {
+      delete otpStore[email];
+      return res.json({ success: true });
+    }
+
+    return res.status(400).json({ message: "Invalid OTP ❌" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Verification failed" });
   }
-
-  return res.status(400).json({ message: "Invalid OTP ❌" });
 });
 
 // ================= CHAT API =================
@@ -100,36 +135,12 @@ app.post("/api/chat", async (req, res) => {
     res.json({ reply });
 
   } catch (error) {
-    console.error(error);
+    console.error("CHAT ERROR:", error);
     res.status(500).json({ reply: "AI error" });
   }
 });
 
-// ================= REGISTER =================
-app.post("/api/register", (req, res) => {
-  try {
-    const { name, email, time } = req.body;
-
-    console.log("REGISTER:", name, email, time);
-
-    if (!name || !email) {
-      return res.status(400).json({ message: "Missing fields" });
-    }
-
-    // 👉 For now just success (no DB yet)
-    res.json({
-      success: true,
-      message: "Registered successfully 🎉"
-    });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Register failed" });
-  }
-});
-console.log("✅ SERVER FILE LOADED");
-
-// ================= SERVER =================
+// ================= START SERVER =================
 app.listen(5000, () => {
   console.log("🚀 Server running on http://localhost:5000");
 });

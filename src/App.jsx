@@ -28,13 +28,11 @@ import GamesPlayHome from "./features/GamesPlayHome";
 import ParentDashboard from "./features/ParentDashboard";
 
 /* 🔤 Letters */
-import AlphabetLearning from "./features/AlphabetLearning";
-import AlphabetFlashCard from "./features/AlphabetFlashCard";
-import LetterTracing from "./features/LetterTracing";
-import ConfusingLetters from "./features/ConfusingLetters";
-import LetterRecognizition from "./features/LetterRecognizition";
-import UppercaseLowercase from "./features/UppercaseLowercase";
-import RhymingWords from "./features/RhymingWords";
+//import LetterTracing from "./features/LetterTracing";
+//import ConfusingLetters from "./features/ConfusingLetters";
+//import LetterRecognizition from "./features/LetterRecognizition";
+//import UppercaseLowercase from "./features/UppercaseLowercase";
+//import RhymingWords from "./features/RhymingWords";
 
 /* 🔢 Numbers */
 import StrawberryCount from "./features/StrawberryCount";

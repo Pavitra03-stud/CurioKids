@@ -1,76 +1,7 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "../styles/Auth.css";
-
-// export default function Login() {
-//   const navigate = useNavigate();
-
-//   const [form, setForm] = useState({
-//     email: "",
-//     password: ""
-//   });
-
-//   const handleLogin = (e) => {
-//     e.preventDefault();
-
-//     // 🔐 Get user from localStorage
-//     const savedUser = JSON.parse(localStorage.getItem("user"));
-
-//     if (!savedUser) {
-//       alert("User not found. Please register first 🌱");
-//       return;
-//     }
-
-//     if (
-//       savedUser.email === form.email &&
-//       savedUser.password === form.password
-//     ) {
-//       alert("Login successful 🎉");
-//       navigate("/dashboard"); // change if needed
-//     } else {
-//       alert("Invalid credentials ❌");
-//     }
-//   };
-
-//   return (
-//     <div className="auth-container">
-//       <h2>🔐 Welcome Back</h2>
-
-//       <form onSubmit={handleLogin}>
-//         <input
-//           type="email"
-//           placeholder="Enter your email"
-//           required
-//           onChange={(e) =>
-//             setForm({ ...form, email: e.target.value })
-//           }
-//         />
-
-//         <input
-//           type="password"
-//           placeholder="Enter your password"
-//           required
-//           onChange={(e) =>
-//             setForm({ ...form, password: e.target.value })
-//           }
-//         />
-
-//         <button type="submit">Login</button>
-//       </form>
-
-//       <p onClick={() => navigate("/register")} className="switch-text">
-//         New here? Register 🌱
-//       </p>
-//     </div>
-//   );
-// }
-
-
-
 import { useState } from "react";
 import "../styles/Auth.css";
 
-export default function Login({ onComplete }) {
+export default function Login({ onComplete, goToRegister }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -88,6 +19,7 @@ export default function Login({ onComplete }) {
     try {
       console.log("Sending login OTP... 🔐");
 
+      // ✅ FIXED URL HERE
       const res = await fetch("http://localhost:5000/api/send-otp", {
         method: "POST",
         headers: {
@@ -97,7 +29,6 @@ export default function Login({ onComplete }) {
       });
 
       const data = await res.json();
-
       console.log("Response:", data);
 
       if (!res.ok) {
@@ -141,7 +72,11 @@ export default function Login({ onComplete }) {
         {loading ? "Sending OTP..." : "Send OTP"}
       </button>
 
-      <p className="switch-text">
+      <p
+        className="switch-text"
+        onClick={goToRegister}
+        style={{ cursor: "pointer" }}
+      >
         New here? Register 🌱
       </p>
     </div>

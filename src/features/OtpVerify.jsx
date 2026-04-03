@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import {db} from "../firebase";
+import {doc,setDoc} from "firebase/firestore";
 
 export default function OtpVerify({ onSuccess }) {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -65,7 +67,13 @@ export default function OtpVerify({ onSuccess }) {
         return;
       }
 
-      alert("Login successful 🎉");
+      await setDoc(doc(db, "users", email), {
+  email,
+  verified: true,
+  createdAt: new Date()
+});
+
+alert("Login successful 🎉");
 
       localStorage.removeItem("loginEmail");
 

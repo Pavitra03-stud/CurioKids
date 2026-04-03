@@ -47,6 +47,19 @@ import NumberLineMove from "./features/NumberLineMove";
 import NumbersLearningHome from "./features/NumbersLearningHome";
 import NumbersGameHome from "./features/NumbersGameHome";
 
+import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
+import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
+
+/* 🔤 Letters / Practice */
+import AIWritingTest from "./features/AIWritingTest";
+import AlphabetLearning from "./features/AlphabetLearning";
+import AlphabetFlashCard from "./features/AlphabetFlashCard";
+import LetterTracing from "./features/LetterTracing";
+import ConfusingLetters from "./features/ConfusingLetters";
+import LetterRecognizition from "./features/LetterRecognizition";
+import UppercaseLowercase from "./features/UppercaseLowercase";
+import RhymingWords from "./features/RhymingWords";
+
 /* 🎮 Games */
 import SoundTap from "./features/SoundTap";
 import PatternCopy from "./features/PatternCopy";

@@ -1,0 +1,156 @@
+.ai-writing-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+}
+
+.ai-writing-header {
+  background: #184c35;
+  color: white;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 14px 14px;
+}
+
+.ai-writing-header h1 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.ai-back-btn {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #222;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.ai-writing-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 40px;
+}
+
+.write-text {
+  font-size: 26px;
+  color: #000;
+  margin: 10px 0 30px;
+}
+
+.big-letter {
+  font-size: 110px;
+  font-weight: 900;
+  color: #173b33;
+  margin-bottom: 26px;
+  line-height: 1;
+}
+
+.writing-card {
+  width: 400px;
+  height: 400px;
+  background: #ececec;
+  border-radius: 22px;
+  position: relative;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.letter-guide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 170px;
+  color: rgba(120, 120, 120, 0.2);
+  font-weight: 900;
+  pointer-events: none;
+  user-select: none;
+}
+
+.writing-canvas {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  touch-action: none;
+  cursor: crosshair;
+  background: transparent;
+}
+
+.ai-writing-buttons {
+  margin-top: 26px;
+  display: flex;
+  gap: 20px;
+}
+
+.clear-btn,
+.next-btn {
+  border: none;
+  padding: 14px 30px;
+  border-radius: 18px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.clear-btn {
+  background: #ffb300;
+  color: #111;
+}
+
+.next-btn {
+  background: #11c7c7;
+  color: white;
+}
+
+.clear-btn:hover,
+.next-btn:hover,
+.ai-back-btn:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .ai-writing-header h1 {
+    font-size: 17px;
+  }
+
+  .write-text {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .big-letter {
+    font-size: 90px;
+  }
+
+  .writing-card {
+    width: 300px;
+    height: 300px;
+  }
+
+  .letter-guide {
+    font-size: 130px;
+  }
+
+  .clear-btn,
+  .next-btn {
+    font-size: 18px;
+    padding: 12px 22px;
+  }
+}

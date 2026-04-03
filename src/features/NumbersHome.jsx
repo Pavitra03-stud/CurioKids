@@ -2,33 +2,48 @@ import BackIcon from "../components/BackIcon";
 import "../styles/numbersZone.css";
 
 export default function NumbersHome({ navigate, goBack }) {
-
   return (
     <div className="numbers-zone-page">
 
-      <div className="practice-navbar">
+      {/* Header */}
+      <div className="numbers-zone-header">
         <div className="navbar-left">
           <BackIcon goBack={goBack} />
         </div>
-        <div className="navbar-title">
-          🔢 Numbers
-        </div>
+        <h1>🔢 Numbers</h1>
       </div>
 
+      {/* Cards */}
       <div className="zone-container">
 
+        {/* Learning */}
         <div
           className="zone-card"
           onClick={() => navigate("numbers-learning-home")}
         >
-          📚 Learning Zone
+          <div className="zone-icon">📚</div>
+
+          <div className="zone-text">
+            <h2>Learning Zone</h2>
+            <p>Learn numbers with fun concepts</p>
+          </div>
+
+          <div className="zone-arrow">→</div>
         </div>
 
+        {/* Gaming */}
         <div
           className="zone-card"
           onClick={() => navigate("numbers-game-home")}
         >
-          🎮 Game Zone
+          <div className="zone-icon">🎮</div>
+
+          <div className="zone-text">
+            <h2>Game Zone</h2>
+            <p>Play games and improve your skills</p>
+          </div>
+
+          <div className="zone-arrow">→</div>
         </div>
 
       </div>

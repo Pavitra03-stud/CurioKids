@@ -1,42 +1,45 @@
 import "../styles/LettersLearningHome.css";
+import { useNavigate } from "react-router-dom";
 
-export default function LettersLearningHome({ navigate, goBack }) {
+export default function LettersLearningHome() {
+  const navigate = useNavigate();
+
   const learningCards = [
     {
       icon: "🦊",
       title: "E-Learning",
       subtitle: "Learn A to Z with pictures",
-      screen: "alphabet-learning",
+      path: "/alphabet-learning",
     },
     {
       icon: "🐨",
       title: "Flash Cards",
       subtitle: "Learn letters using cards",
-      screen: "alphabet-flashcard",
+      path: "/alphabet-flashcard",
     },
     {
       icon: "🦁",
       title: "Uppercase & Lowercase",
       subtitle: "Match capital and small letters",
-      screen: "uppercase-lowercase",
+      path: "/uppercase-lowercase",
     },
     {
       icon: "🐵",
       title: "Confusing Letters",
       subtitle: "Practice b, d, p, q",
-      screen: "confusing-letters",
+      path: "/confusing-letters",
     },
     {
       icon: "🐰",
       title: "Letter Tracing",
       subtitle: "Trace and write letters",
-      screen: "letter-tracing",
+      path: "/letter-tracing",
     },
     {
       icon: "✏️",
       title: "AI Writing Test",
       subtitle: "Write A to Z on the board",
-      screen: "ai-writing-test",
+      path: "/ai-writing-test",
     },
   ];
 
@@ -46,7 +49,11 @@ export default function LettersLearningHome({ navigate, goBack }) {
       <div className="letters-learning-decor decor-middle-right"></div>
       <div className="letters-learning-decor decor-bottom-left"></div>
 
-      <button className="letters-learning-back" onClick={goBack}>
+      {/* ✅ FIXED BACK BUTTON */}
+      <button
+        className="letters-learning-back"
+        onClick={() => navigate(-1)}
+      >
         ←
       </button>
 
@@ -66,7 +73,7 @@ export default function LettersLearningHome({ navigate, goBack }) {
           <div
             key={index}
             className="letters-learning-card"
-            onClick={() => navigate(card.screen)}
+            onClick={() => navigate(card.path)} // ✅ FIXED
           >
             <div className="letters-learning-icon">{card.icon}</div>
 

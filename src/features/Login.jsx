@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Auth.css";
 
-export default function Login({ onComplete, goToRegister }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate(); // ✅ NEW
 
   const handleLogin = async () => {
     setError("");
@@ -19,7 +22,6 @@ export default function Login({ onComplete, goToRegister }) {
     try {
       console.log("Sending login OTP... 🔐");
 
-      // ✅ FIXED URL HERE
       const res = await fetch("http://localhost:5000/api/send-otp", {
         method: "POST",
         headers: {
@@ -42,10 +44,8 @@ export default function Login({ onComplete, goToRegister }) {
 
       alert("OTP sent to your email 📧");
 
-      // 👉 Go to OTP screen
-      if (typeof onComplete === "function") {
-        onComplete();
-      }
+      // ✅ FIXED NAVIGATION
+      navigate("/otp");
 
     } catch (err) {
       console.log("Login error:", err);
@@ -72,9 +72,10 @@ export default function Login({ onComplete, goToRegister }) {
         {loading ? "Sending OTP..." : "Send OTP"}
       </button>
 
+      {/* ✅ FIXED REGISTER NAVIGATION */}
       <p
         className="switch-text"
-        onClick={goToRegister}
+        onClick={() => navigate("/child-register")}
         style={{ cursor: "pointer" }}
       >
         New here? Register 🌱

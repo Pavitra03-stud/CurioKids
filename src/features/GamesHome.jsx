@@ -1,7 +1,9 @@
 import "../styles/GamesHome.css";
-import BackIcon from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
 
-export default function GamesHome({ navigate, goBack }) {
+export default function GamesHome() {
+  const navigate = useNavigate(); // ✅ NEW
+
   return (
     <div className="games-page">
 
@@ -10,10 +12,7 @@ export default function GamesHome({ navigate, goBack }) {
         <h1>🎮 Games</h1>
       </div>
 
-      {/* Back Button */}
-      <div className="games-back">
-        <BackIcon goBack={goBack} />
-      </div>
+      {/* ❌ REMOVED BACK BUTTON */}
 
       {/* Sections */}
       <div className="games-container">
@@ -21,7 +20,8 @@ export default function GamesHome({ navigate, goBack }) {
         {/* 📘 Learning Zone */}
         <div
           className="games-card learning"
-          onClick={() => navigate("games-learning")}
+          onClick={() => navigate("/games-learning")}
+          style={{ cursor: "pointer" }}
         >
           📘 Learning Zone
         </div>
@@ -29,7 +29,8 @@ export default function GamesHome({ navigate, goBack }) {
         {/* 🎮 Game Zone */}
         <div
           className="games-card play"
-          onClick={() => navigate("games-play")}
+          onClick={() => navigate("/games-play")}
+          style={{ cursor: "pointer" }}
         >
           🎮 Game Zone
         </div>

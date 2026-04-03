@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 /* 🌱 Entry */
 import PublicHome from "./features/PublicHome";
@@ -27,13 +27,6 @@ import GamesHome from "./features/GamesHome";
 import GamesPlayHome from "./features/GamesPlayHome";
 import ParentDashboard from "./features/ParentDashboard";
 
-/* 🔤 Letters */
-//import LetterTracing from "./features/LetterTracing";
-//import ConfusingLetters from "./features/ConfusingLetters";
-//import LetterRecognizition from "./features/LetterRecognizition";
-//import UppercaseLowercase from "./features/UppercaseLowercase";
-//import RhymingWords from "./features/RhymingWords";
-
 /* 🔢 Numbers */
 import StrawberryCount from "./features/StrawberryCount";
 import NumberTrail from "./features/NumberTrail";
@@ -45,10 +38,7 @@ import NumberLineMove from "./features/NumberLineMove";
 import NumbersLearningHome from "./features/NumbersLearningHome";
 import NumbersGameHome from "./features/NumbersGameHome";
 
-import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
-import ConceptBiggerSmaller from "./features/ConceptBiggerSmaller";
-
-/* 🔤 Letters / Practice */
+/* 🔤 Letters */
 import AIWritingTest from "./features/AIWritingTest";
 import AlphabetLearning from "./features/AlphabetLearning";
 import AlphabetFlashCard from "./features/AlphabetFlashCard";
@@ -66,8 +56,6 @@ import MemoryMatch from "./features/MemoryMatch";
 import CatchWord from "./features/CatchWord";
 import FillBucket from "./features/FillBucket";
 import LetterBlast from "./features/LetterBlast";
-
-import NumberNinja from "./features/NumberNinja";
 import GamesLearningHome from "./features/GamesLearningHome";
 import WeatherClothesGame from "./features/WeatherClothesGame";
 
@@ -75,266 +63,81 @@ import WeatherClothesGame from "./features/WeatherClothesGame";
 import AIChat from "./features/AIChat";
 import AIButton from "./features/AIButton";
 
+import GamesLearning from "./features/GamesLearningHome";
+import GamesPlay from "./features/GamesPlayHome";
+
 import "./index.css";
 
 export default function App() {
-  const [screen, setScreen] = useState(
-    localStorage.getItem("currentScreen") || "public-home"
-  );
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [screen]);
-
-  const navigate = (next) => {
-    setScreen(next);
-    localStorage.setItem("currentScreen", next);
-  };
-
-  /* 🔥 FULL BACK LOGIC (MERGED) */
-  const goBack = () => {
-    const map = {
-      "letters-home": "kids-home",
-      "letters-learning-home": "letters-home",
-      "letters-game-home": "letters-home",
-
-      "alphabet-learning": "letters-learning-home",
-      "alphabet-flashcard": "letters-learning-home",
-
-      "letter-tracing": "practice-home",
-      "letter-recognition": "practice-home",
-      "confusing-letters": "practice-home",
-      "uppercase-lowercase": "practice-home",
-      "rhyming-words": "practice-home",
-
-      "numbers-learning-home": "numbers",
-      "numbers-game-home": "numbers",
-
-      "strawberry-count": "numbers-game-home",
-      "number-trail": "numbers-game-home",
-      "frog-jump": "numbers-game-home",
-      "missing-number": "numbers-game-home",
-      "compare-safari": "numbers-game-home",
-      "skip-count": "numbers-game-home",
-      "number-line": "numbers-game-home",
-
-      "games-play": "games-home",
-
-      "sound-tap": "games-play",
-      "pattern-copy": "games-play",
-      "find-friend": "games-play",
-      "memory-match": "games-play",
-      "catch-word": "games-play",
-      "fill-bucket": "games-play",
-      "letter-blast-game": "games-play",
-
-      "ai-chat": "kids-home",
-    };
-
-
-    if (screen === "games-play") {
-      navigate("games-home");
-      return;
-    }
-
-    if (
-      screen === "sound-tap" ||
-      screen === "pattern-copy" ||
-      screen === "find-friend" ||
-      screen === "memory-match" ||
-      screen === "catch-word" ||
-      screen === "fill-bucket" ||
-      screen === "letter-blast-game"||
-      screen === "number-ninja"
-    ) {
-      navigate("games-play");
-      return;
-    }
-    if (map[screen]) {
-      navigate(map[screen]);
-      return;
-    }
-
-    if (screen === "games-learning") {
-      navigate("games-home");
-      return;
-    }
-    if (
-      screen === "sound-tap" ||
-      screen === "weather-clothes"
-    ) {
-      navigate("games-learning");
-      return;
-    }
-
-
-    const flow = [
-      "public-home",
-      "child-register",
-      "parent-register",
-      "otp",
-      "choose-friend",
-      "friend-intro",
-      "jungle-hero",
-      "kids-home",
-      "practice-home",
-      "parent-dashboard",
-    ];
-
-    const i = flow.indexOf(screen);
-    if (i > 0) navigate(flow[i - 1]);
-  };
-
-  const renderScreen = () => {
-    switch (screen) {
-
-      case "public-home":
-        return (
-          <PublicHome
-            onComplete={() => navigate("child-register")}
-            goToLogin={() => navigate("login")}
-          />
-        );
-
-      case "login":
-        return <Login onComplete={() => navigate("otp")} goBack={goBack} />;
-
-      case "child-register":
-        return <ChildRegister onComplete={() => navigate("parent-register")} goBack={goBack} />;
-
-      case "parent-register":
-        return <ParentRegister onComplete={() => navigate("otp")} goBack={goBack} />;
-
-      case "otp":
-        return <OtpVerify onSuccess={() => navigate("choose-friend")} />;
-
-      case "choose-friend":
-        return <ChooseFriend onComplete={() => navigate("friend-intro")} goBack={goBack} />;
-
-      case "friend-intro":
-        return <FriendIntro onComplete={() => navigate("jungle-hero")} goBack={goBack} />;
-
-      case "jungle-hero":
-        return <JungleHero onComplete={navigate} />;
-
-      case "kids-home":
-        return <KidsHome navigate={navigate} goBack={goBack} />;
-
-      case "letters-home":
-        return <LettersHome navigate={navigate} goBack={() => navigate("kids-home")} />;
-
-      case "letters-learning-home":
-        return <LettersLearningHome navigate={navigate} goBack={() => navigate("letters-home")} />;
-
-      case "letters-game-home":
-        return <LettersGameHome navigate={navigate} goBack={() => navigate("letters-home")} />;
-
-      case "alphabet-learning":
-        return <AlphabetLearning goBack={goBack} />;
-
-      case "alphabet-flashcard":
-        return <AlphabetFlashCard goBack={goBack} />;
-
-      case "letter-tracing":
-        return <LetterTracing goBack={goBack} />;
-
-      case "confusing-letters":
-        return <ConfusingLetters goBack={goBack} />;
-
-      case "letter-recognition":
-        return <LetterRecognizition goBack={goBack} />;
-
-      case "uppercase-lowercase":
-        return <UppercaseLowercase goBack={goBack} />;
-
-      case "rhyming-words":
-        return <RhymingWords goBack={goBack} />;
-
-      case "practice-home":
-        return <PracticeHome navigate={navigate} goBack={goBack} />;
-
-      case "numbers":
-        return <NumbersHome navigate={navigate} goBack={() => navigate("kids-home")} />;
-
-      case "numbers-learning-home":
-        return <NumbersLearningHome navigate={navigate} goBack={() => navigate("numbers")} />;
-
-      case "numbers-game-home":
-        return <NumbersGameHome navigate={navigate} goBack={() => navigate("numbers")} />;
-
-      case "strawberry-count":
-        return <StrawberryCount goBack={goBack} />;
-
-      case "number-trail":
-        return <NumberTrail goBack={goBack} />;
-
-      case "frog-jump":
-        return <FrogJumpMath goBack={goBack} />;
-
-      case "missing-number":
-        return <MissingNumber goBack={goBack} />;
-
-      case "compare-safari":
-        return <CompareSafari goBack={goBack} />;
-
-      case "skip-count":
-        return <SkipCounting goBack={goBack} />;
-
-      case "number-line":
-        return <NumberLineMove goBack={goBack} />;
-
-      case "games-home":
-        return <GamesHome navigate={navigate} goBack={() => navigate("kids-home")} />;
-
-      case "games-play":
-        return <GamesPlayHome navigate={navigate} goBack={() => navigate("games-home")} />;
-        case "games-learning":
-  return (
-    <GamesLearningHome
-      navigate={navigate}
-      goBack={() => navigate("games-home")}
-    />
-  );
-
-      case "sound-tap":
-        return <SoundTap goBack={goBack} />;
-
-      case "pattern-copy":
-        return <PatternCopy goBack={goBack} />;
-
-      case "find-friend":
-        return <FindFriend goBack={goBack} />;
-
-      case "memory-match":
-        return <MemoryMatch goBack={goBack} />;
-
-      case "catch-word":
-        return <CatchWord goBack={goBack} />;
-
-      case "fill-bucket":
-        return <FillBucket goBack={goBack} />;
-
-      case "letter-blast-game":
-        return <LetterBlast goBack={goBack} />;
-
-      case "weather-clothes":
-  return <WeatherClothesGame goBack={goBack} />;
-
-      case "parent-dashboard":
-        return <ParentDashboard navigate={navigate} goBack={goBack} />;
-
-      case "ai-chat":
-        return <AIChat goBack={goBack} />;
-
-      default:
-        return <PublicHome onComplete={() => navigate("child-register")} />;
-    }
-  };
-
   return (
     <>
-      {renderScreen()}
-      <AIButton navigate={navigate} />
+      <Routes>
+
+        {/* 🌱 Entry */}
+        <Route path="/" element={<PublicHome />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/child-register" element={<ChildRegister />} />
+        <Route path="/parent-register" element={<ParentRegister />} />
+        <Route path="/otp" element={<OtpVerify />} />
+
+        {/* 🐾 Onboarding */}
+        <Route path="/choose-friend" element={<ChooseFriend />} />
+        <Route path="/friend-intro" element={<FriendIntro />} />
+        <Route path="/jungle-hero" element={<JungleHero />} />
+
+        {/* 🌴 Main */}
+        <Route path="/kids-home" element={<KidsHome />} />
+        <Route path="/letters-home" element={<LettersHome />} />
+        <Route path="/letters-learning-home" element={<LettersLearningHome />} />
+        <Route path="/letters-game-home" element={<LettersGameHome />} />
+        <Route path="/practice-home" element={<PracticeHome />} />
+        <Route path="/numbers" element={<NumbersHome />} />
+
+        {/* 🔤 Letters */}
+        <Route path="/alphabet-learning" element={<AlphabetLearning />} />
+        <Route path="/alphabet-flashcard" element={<AlphabetFlashCard />} />
+        <Route path="/letter-tracing" element={<LetterTracing />} />
+        <Route path="/confusing-letters" element={<ConfusingLetters />} />
+        <Route path="/letter-recognition" element={<LetterRecognizition />} />
+        <Route path="/uppercase-lowercase" element={<UppercaseLowercase />} />
+        <Route path="/rhyming-words" element={<RhymingWords />} />
+        <Route path="/ai-writing-test" element={<AIWritingTest />} />
+
+        {/* 🔢 Numbers */}
+        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
+        <Route path="/numbers-game-home" element={<NumbersGameHome />} />
+        <Route path="/strawberry-count" element={<StrawberryCount />} />
+        <Route path="/number-trail" element={<NumberTrail />} />
+        <Route path="/frog-jump" element={<FrogJumpMath />} />
+        <Route path="/missing-number" element={<MissingNumber />} />
+        <Route path="/compare-safari" element={<CompareSafari />} />
+        <Route path="/skip-count" element={<SkipCounting />} />
+        <Route path="/number-line" element={<NumberLineMove />} />
+
+        {/* 🎮 Games */}
+        <Route path="/games-home" element={<GamesHome />} />
+        <Route path="/games-play" element={<GamesPlayHome />} />
+        <Route path="/games-learning" element={<GamesLearningHome />} />
+        <Route path="/sound-tap" element={<SoundTap />} />
+        <Route path="/pattern-copy" element={<PatternCopy />} />
+        <Route path="/find-friend" element={<FindFriend />} />
+        <Route path="/memory-match" element={<MemoryMatch />} />
+        <Route path="/catch-word" element={<CatchWord />} />
+        <Route path="/fill-bucket" element={<FillBucket />} />
+        <Route path="/letter-blast-game" element={<LetterBlast />} />
+        <Route path="/weather-clothes" element={<WeatherClothesGame />} />
+        <Route path="/games-learning" element={<GamesLearning />} />
+        <Route path="/games-play" element={<GamesPlay />} />
+        {/* 👨‍👩‍👧 Parent */}
+        <Route path="/parent-dashboard" element={<ParentDashboard />} />
+
+        {/* 🤖 AI */}
+        <Route path="/ai-chat" element={<AIChat />} />
+        
+      </Routes>
+
+      {/* 🤖 Floating AI Button */}
+      <AIButton />
     </>
   );
 }

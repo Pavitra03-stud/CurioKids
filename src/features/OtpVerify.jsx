@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect } from "react";
-import {db} from "../firebase";
-import {doc,setDoc} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
-export default function OtpVerify({ onSuccess }) {
+export default function OtpVerify() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(30);
   const [loading, setLoading] = useState(false);
 
   const inputsRef = useRef([]);
+  const navigate = useNavigate(); // ✅ NEW
 
   const email = localStorage.getItem("loginEmail");
 
@@ -67,19 +69,19 @@ export default function OtpVerify({ onSuccess }) {
         return;
       }
 
+      // ✅ FIXED FIREBASE SAVE (NO UNDEFINED VARIABLES)
       await setDoc(doc(db, "users", email), {
-  email,
-  verified: true,
-  createdAt: new Date()
-});
+        email,
+        verified: true,
+        createdAt: new Date(),
+      });
 
-alert("Login successful 🎉");
+      alert("Login successful 🎉");
 
       localStorage.removeItem("loginEmail");
 
-      if (typeof onSuccess === "function") {
-        onSuccess();
-      }
+      // ✅ REDIRECT AFTER SUCCESS
+      navigate("/kids-home");
 
     } catch (err) {
       console.error(err);
@@ -155,8 +157,6 @@ alert("Login successful 🎉");
     </div>
   );
 }
-
-// 🎨 STYLES
 const styles = {
   container: {
     height: "100vh",

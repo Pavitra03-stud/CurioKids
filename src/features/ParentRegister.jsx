@@ -14,6 +14,9 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
   const isValidEmail = (value) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
+
+  localStorage.setItem("userName", parentName.trim());
+  localStorage.setItem("userTime", timeLimit);
   const saveParent = async () => {
     setError("");
 

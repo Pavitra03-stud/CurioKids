@@ -1,56 +1,263 @@
-import { useState } from "react";
-import BackIcon from "../components/BackIcon";
+import { useEffect, useMemo, useState } from "react";
+import "../styles/AlphabetUppercaseLowercase.css";
 
-export default function UppercaseLowercase({ goBack }) {
+const letterData = [
+  { upper: "A", lower: "a", word: "Apple", image: "🍎", color: "#ff8a3d" },
+  { upper: "B", lower: "b", word: "Bread", image: "🍞", color: "#28c7d9" },
+  { upper: "C", lower: "c", word: "Car", image: "🚕", color: "#ffcc33" },
+  { upper: "D", lower: "d", word: "Dinosaur", image: "🦎", color: "#6dcf63" },
+  { upper: "E", lower: "e", word: "Elephant", image: "🐘", color: "#8f8f8f" },
+  { upper: "F", lower: "f", word: "Flower", image: "🌸", color: "#ff6fa8" },
+  { upper: "G", lower: "g", word: "Goat", image: "🐐", color: "#57b85a" },
+  { upper: "H", lower: "h", word: "Horse", image: "🐎", color: "#b8804d" },
+  { upper: "I", lower: "i", word: "Igloo", image: "🧊", color: "#84d8ff" },
+  { upper: "J", lower: "j", word: "Jelly", image: "🍮", color: "#ff7b7b" },
+  { upper: "K", lower: "k", word: "Kite", image: "🪁", color: "#7f9cff" },
+  { upper: "L", lower: "l", word: "Leaf", image: "🍃", color: "#6fcf5c" },
+  { upper: "M", lower: "m", word: "Moon", image: "🌙", color: "#b9b9d9" },
+  { upper: "N", lower: "n", word: "Nail", image: "📌", color: "#b0b0b0" },
+  { upper: "O", lower: "o", word: "Orange", image: "🍊", color: "#ff9d2f" },
+  { upper: "P", lower: "p", word: "Puppet", image: "🪆", color: "#f08b5b" },
+  { upper: "Q", lower: "q", word: "Queen", image: "👑", color: "#d8b04b" },
+  { upper: "R", lower: "r", word: "Robot", image: "🤖", color: "#8ba5c9" },
+  { upper: "S", lower: "s", word: "Sock", image: "🧦", color: "#5ba7ff" },
+  { upper: "T", lower: "t", word: "Umbrella", image: "☂️", color: "#9a75ff" },
+  { upper: "U", lower: "u", word: "Unicorn", image: "🦄", color: "#ff9be6" },
+  { upper: "V", lower: "v", word: "Van", image: "🚐", color: "#70b6ff" },
+  { upper: "W", lower: "w", word: "Windmill", image: "🌬️", color: "#8ad4d0" },
+  { upper: "X", lower: "x", word: "Box", image: "📦", color: "#c59263" },
+  { upper: "Y", lower: "y", word: "Yarn", image: "🧶", color: "#ff7fa0" },
+  { upper: "Z", lower: "z", word: "Zebra", image: "🦓", color: "#999999" },
+];
 
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+function shuffleArray(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
 
-  const [index, setIndex] = useState(0);
-  const [message, setMessage] = useState("");
+export default function UppercaseLowercasePuzzle({ goBack }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedTile, setSelectedTile] = useState(null);
+  const [placedUpper, setPlacedUpper] = useState(false);
+  const [placedLower, setPlacedLower] = useState(false);
+  const [message, setMessage] = useState("Tap the correct tiles");
+  const [stars, setStars] = useState(0);
+  const [shakeUpper, setShakeUpper] = useState(false);
+  const [shakeLower, setShakeLower] = useState(false);
 
-  const options = letters
-    .map(l => l.toLowerCase())
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 4);
+  const current = letterData[currentIndex];
 
-  const correct = letters[index].toLowerCase();
+  const gridTiles = useMemo(() => {
+    const wrongUpper = shuffleArray(
+      letterData.filter((item) => item.upper !== current.upper)
+    )
+      .slice(0, 5)
+      .map((item) => ({
+        id: `u-${item.upper}`,
+        type: "upper",
+        value: item.upper,
+      }));
 
-  const check = (choice) => {
-    if (choice === correct) {
-      setMessage("Correct ✅");
-      setTimeout(() => {
-        setIndex((prev) => (prev + 1) % letters.length);
-        setMessage("");
-      }, 1000);
+    const wrongLower = shuffleArray(
+      letterData.filter((item) => item.lower !== current.lower)
+    )
+      .slice(0, 5)
+      .map((item) => ({
+        id: `l-${item.lower}`,
+        type: "lower",
+        value: item.lower,
+      }));
+
+    const correctTiles = [
+      { id: `u-${current.upper}`, type: "upper", value: current.upper },
+      { id: `l-${current.lower}`, type: "lower", value: current.lower },
+    ];
+
+    return shuffleArray([...wrongUpper, ...wrongLower, ...correctTiles]);
+  }, [current]);
+
+  useEffect(() => {
+    setSelectedTile(null);
+    setPlacedUpper(false);
+    setPlacedLower(false);
+    setMessage("Tap the correct tiles");
+
+    const speech = new SpeechSynthesisUtterance(
+      `${current.upper} for ${current.word}`
+    );
+    speech.rate = 0.85;
+    speech.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
+
+    return () => window.speechSynthesis.cancel();
+  }, [current]);
+
+  const speakAgain = () => {
+    const speech = new SpeechSynthesisUtterance(
+      `${current.upper} for ${current.word}`
+    );
+    speech.rate = 0.85;
+    speech.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
+  };
+
+  const handleTileClick = (tile) => {
+    setSelectedTile(tile);
+    setMessage(`Selected ${tile.value}. Now tap the matching puzzle box.`);
+  };
+
+  const handleDropBoxClick = (boxType) => {
+    if (!selectedTile) {
+      setMessage("First tap a tile from the grid");
+      return;
+    }
+
+    if (boxType === "upper") {
+      if (selectedTile.type === "upper" && selectedTile.value === current.upper) {
+        setPlacedUpper(true);
+        setSelectedTile(null);
+        setMessage("Great! Now find the lowercase letter");
+      } else {
+        setShakeUpper(true);
+        setMessage("Oops! That is not the correct uppercase letter");
+        setTimeout(() => setShakeUpper(false), 400);
+      }
+    }
+
+    if (boxType === "lower") {
+      if (selectedTile.type === "lower" && selectedTile.value === current.lower) {
+        setPlacedLower(true);
+        setSelectedTile(null);
+        setMessage("Nice! You found the lowercase letter");
+      } else {
+        setShakeLower(true);
+        setMessage("Oops! That is not the correct lowercase letter");
+        setTimeout(() => setShakeLower(false), 400);
+      }
+    }
+  };
+
+  const isComplete = placedUpper && placedLower;
+
+  useEffect(() => {
+    if (isComplete) {
+      setStars((prev) => prev + 1);
+      setMessage(`Awesome! ${current.upper} and ${current.lower} matched`);
+
+      const successSpeech = new SpeechSynthesisUtterance(
+        `Excellent! ${current.upper} and ${current.lower}. ${current.upper} for ${current.word}`
+      );
+      successSpeech.rate = 0.9;
+      successSpeech.pitch = 1.1;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(successSpeech);
+    }
+  }, [isComplete, current]);
+
+  const nextLetter = () => {
+    if (currentIndex < letterData.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
     } else {
-      setMessage("Try Again ❌");
+      setMessage("Yay! You finished all letters");
     }
   };
 
   return (
-    <div style={styles.page}>
-      <BackIcon goBack={goBack} />
-
-      <h1>Match Uppercase & Lowercase</h1>
-
-      <div style={styles.big}>{letters[index]}</div>
-
-      <div style={styles.options}>
-        {[correct, ...options].slice(0, 4).map((opt, i) => (
-          <button key={i} style={styles.btn} onClick={() => check(opt)}>
-            {opt}
-          </button>
-        ))}
+    <div className="ul-puzzle-page">
+      <div className="ul-puzzle-header">
+        <button className="ul-back-btn" onClick={goBack}>←</button>
+        <h1>Uppercase & Lowercase Puzzle</h1>
       </div>
 
-      <p>{message}</p>
+      <div className="ul-puzzle-content">
+        <div className="ul-top-row">
+          <div className="ul-big-card" style={{ borderColor: current.color }}>
+            <div className="ul-card-letter upper">{current.upper}</div>
+            <div className="ul-card-image">{current.image}</div>
+            <div className="ul-card-divider" />
+            <div className="ul-card-letter lower">{current.lower}</div>
+            <div className="ul-card-word">{current.word}</div>
+          </div>
+
+          <div className="ul-grid-panel">
+            <div className="ul-grid-title">Choose the correct letters</div>
+            <div className="ul-grid">
+              {gridTiles.map((tile) => (
+                <button
+                  key={tile.id}
+                  className={`ul-grid-tile ${
+                    selectedTile?.id === tile.id ? "selected" : ""
+                  }`}
+                  onClick={() => handleTileClick(tile)}
+                >
+                  <span className="tile-main">{tile.value}</span>
+                  <span className="tile-type">
+                    {tile.type === "upper" ? "BIG" : "small"}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="ul-bottom-row">
+          <div className="ul-puzzle-area">
+            <div className="ul-puzzle-title">Complete the puzzle</div>
+
+            <div className="ul-puzzle-visual">
+              <div className="ul-split-piece left-piece" style={{ borderColor: current.color }}>
+                <div className="piece-letter">{placedUpper ? current.upper : "?"}</div>
+                <div className="piece-image">{current.image}</div>
+              </div>
+
+              <div className="ul-split-piece right-piece" style={{ borderColor: current.color }}>
+                <div className="piece-image">{current.image}</div>
+                <div className="piece-letter">{placedLower ? current.lower : "?"}</div>
+              </div>
+            </div>
+
+            <div className="ul-drop-zones">
+              <button
+                className={`ul-drop-box ${placedUpper ? "done" : ""} ${shakeUpper ? "shake" : ""}`}
+                onClick={() => handleDropBoxClick("upper")}
+              >
+                {placedUpper ? current.upper : "Place UPPERCASE"}
+              </button>
+
+              <button
+                className={`ul-drop-box ${placedLower ? "done" : ""} ${shakeLower ? "shake" : ""}`}
+                onClick={() => handleDropBoxClick("lower")}
+              >
+                {placedLower ? current.lower : "Place lowercase"}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="ul-info-row">
+          <div className="ul-message">{message}</div>
+          <div className="ul-score">⭐ Stars: {stars}</div>
+        </div>
+
+        <div className="ul-actions">
+          <button className="ul-action-btn speak" onClick={speakAgain}>
+            🔊 Speak
+          </button>
+
+          <button
+            className="ul-action-btn next"
+            onClick={nextLetter}
+            disabled={!isComplete}
+          >
+            Next Letter
+          </button>
+        </div>
+
+        <div className="ul-progress">
+          {currentIndex + 1} / {letterData.length}
+        </div>
+      </div>
     </div>
   );
 }
-
-const styles = {
-  page: { textAlign: "center", padding: "20px" },
-  big: { fontSize: "80px", margin: "20px" },
-  options: { marginTop: "20px" },
-  btn: { padding: "10px 20px", margin: "5px", fontSize: "20px" }
-};

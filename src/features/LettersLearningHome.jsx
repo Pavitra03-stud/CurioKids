@@ -46,9 +46,15 @@ export default function LettersLearningHome({ navigate, goBack }) {
       <div className="letters-learning-decor decor-middle-right"></div>
       <div className="letters-learning-decor decor-bottom-left"></div>
 
-      <button className="letters-learning-back" onClick={goBack}>
-        ←
-      </button>
+     <header className="letters-learning-topbar">
+  <button className="letters-learning-back" onClick={goBack}>
+    ←
+  </button>
+
+  <h1 className="letters-learning-title">
+    🌿 Letters Learning
+  </h1>
+</header>
 
       <div className="letters-learning-animals top-animals">
         <span>🦒</span>
@@ -56,10 +62,6 @@ export default function LettersLearningHome({ navigate, goBack }) {
         <span>🐦</span>
       </div>
 
-      <div className="letters-learning-header">
-        <h1>Letters Learning</h1>
-        <p>Choose a fun animal learning activity</p>
-      </div>
 
       <div className="letters-learning-list">
         {learningCards.map((card, index) => (

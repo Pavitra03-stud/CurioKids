@@ -1,132 +1,111 @@
-import { useState } from "react";
-import BackIcon from "../components/BackIcon";
+import { useEffect, useState } from "react";
+import "../styles/AlphabetFlashCard.css";
 
-const alphabetData = [
-  { letter: "A", word: "Ant", emoji: "🐜" },
-  { letter: "B", word: "Bear", emoji: "🐻" },
-  { letter: "C", word: "Cat", emoji: "🐱" },
-  { letter: "D", word: "Dog", emoji: "🐶" },
-  { letter: "E", word: "Elephant", emoji: "🐘" },
-  { letter: "F", word: "Flamingo", emoji: "🦩" },
-  { letter: "G", word: "Giraffe", emoji: "🦒" },
-  { letter: "H", word: "Horse", emoji: "🐎" },
-  { letter: "I", word: "Iguana", emoji: "🦎" },
-  { letter: "J", word: "Jellyfish", emoji: "🪼" },
-  { letter: "K", word: "Kangaroo", emoji: "🦘" },
-  { letter: "L", word: "Lion", emoji: "🦁" },
-  { letter: "M", word: "Monkey", emoji: "🐒" },
-  { letter: "N", word: "Narwhal", emoji: "🐋" },
-  { letter: "O", word: "Owl", emoji: "🦉" },
-  { letter: "P", word: "Panda", emoji: "🐼" },
-  { letter: "Q", word: "Quail", emoji: "🐦" },
-  { letter: "R", word: "Rabbit", emoji: "🐰" },
-  { letter: "S", word: "Sheep", emoji: "🐑" },
-  { letter: "T", word: "Tiger", emoji: "🐯" },
-  { letter: "U", word: "Urchin", emoji: "🦔" },
-  { letter: "V", word: "Vulture", emoji: "🦅" },
-  { letter: "W", word: "Whale", emoji: "🐳" },
-  { letter: "X", word: "X-Ray Fish", emoji: "🐟" },
-  { letter: "Y", word: "Yak", emoji: "🐂" },
-  { letter: "Z", word: "Zebra", emoji: "🦓" }
+const cards = [
+  { letter: "A", word: "ANT", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41c.svg" },
+  { letter: "B", word: "BEAR", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f43b.svg" },
+  { letter: "C", word: "CAT", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg" },
+  { letter: "D", word: "DOG", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f436.svg" },
+  { letter: "E", word: "ELEPHANT", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f418.svg" },
+  { letter: "F", word: "FOX", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f98a.svg" },
+  { letter: "G", word: "GIRAFFE", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f992.svg" },
+  { letter: "H", word: "HORSE", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f434.svg" },
+  { letter: "I", word: "IGUANA", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f98e.svg" },
+  { letter: "J", word: "JELLYFISH", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1fabc.svg" },
+  { letter: "K", word: "KOALA", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f428.svg" },
+  { letter: "L", word: "LION", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f981.svg" },
+  { letter: "M", word: "MONKEY", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f435.svg" },
+  { letter: "N", word: "OWL", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f989.svg" },
+  { letter: "O", word: "OCTOPUS", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f419.svg" },
+  { letter: "P", word: "PENGUIN", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f427.svg" },
+  { letter: "Q", word: "QUAIL", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" },
+  { letter: "R", word: "RABBIT", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f430.svg" },
+  { letter: "S", word: "SNAKE", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40d.svg" },
+  { letter: "T", word: "TIGER", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f42f.svg" },
+  { letter: "U", word: "UNICORN", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f984.svg" },
+  { letter: "V", word: "VULTURE", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f986.svg" },
+  { letter: "W", word: "WHALE", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f40b.svg" },
+  { letter: "X", word: "FISH", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f41f.svg" },
+  { letter: "Y", word: "YAK", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f402.svg" },
+  { letter: "Z", word: "ZEBRA", image: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f993.svg" },
 ];
 
 export default function AlphabetFlashCard({ goBack }) {
-
   const [index, setIndex] = useState(0);
-  const item = alphabetData[index];
+  const [flipped, setFlipped] = useState(false);
+  const [slide, setSlide] = useState("");
+
+  const current = cards[index];
+
+  useEffect(() => {
+    return () => window.speechSynthesis.cancel();
+  }, []);
 
   const speak = () => {
-    const speech = new SpeechSynthesisUtterance(
-      `${item.letter} is for ${item.word}`
+    const msg = new SpeechSynthesisUtterance(
+      `${current.letter} for ${current.word}`
     );
-    speech.rate = 0.8;
-    window.speechSynthesis.speak(speech);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(msg);
+  };
+
+  const flip = () => {
+    setFlipped(!flipped);
+    if (!flipped) speak();
   };
 
   const next = () => {
-    if (index < alphabetData.length - 1) {
+    if (index === cards.length - 1) return;
+
+    setSlide("slide-out-left");
+    setTimeout(() => {
       setIndex(index + 1);
-    }
+      setFlipped(false);
+      setSlide("slide-in-right");
+    }, 300);
+
+    setTimeout(() => setSlide(""), 600);
   };
 
   const prev = () => {
-    if (index > 0) {
+    if (index === 0) return;
+
+    setSlide("slide-out-right");
+    setTimeout(() => {
       setIndex(index - 1);
-    }
+      setFlipped(false);
+      setSlide("slide-in-left");
+    }, 300);
+
+    setTimeout(() => setSlide(""), 600);
   };
 
   return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
+    <div className="flash-page">
+      <div className="flash-header">
+        <button className="back-btn" onClick={goBack}>←</button>
+        <h1>Alphabet Flash Cards</h1>
+      </div>
 
-      {/* TOP BAR */}
-      <div
-        style={{
-          background: "#1b4332",
-          color: "white",
-          height: "60px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "10px",
-          position: "relative",
-          marginBottom: "30px"
-        }}
-      >
-        <div style={{ position: "absolute", left: "15px" }}>
-          <BackIcon goBack={goBack} />
+      <div className="flash-wrapper">
+        <div className={`flash-card ${flipped ? "flipped" : ""} ${slide}`}>
+          <div className="flash-front" onClick={flip}>
+            <h2>{current.letter}</h2>
+            <p>Tap</p>
+          </div>
+
+          <div className="flash-back">
+            <img src={current.image} alt="" />
+            <h2>{current.word}</h2>
+          </div>
         </div>
-
-        <h2>🔤 Alphabet Learning</h2>
       </div>
 
-      {/* LETTER */}
-      <h1 style={{ fontSize: "90px" }}>
-        {item.letter} {item.letter.toLowerCase()}
-      </h1>
-
-      {/* ANIMAL */}
-      <div
-        onClick={speak}
-        style={{
-          fontSize: "150px",
-          cursor: "pointer",
-          margin: "20px"
-        }}
-      >
-        {item.emoji}
+      <div className="controls">
+        <button onClick={prev}>Prev</button>
+        <button onClick={speak}>🔊</button>
+        <button onClick={next}>Next</button>
       </div>
-
-      {/* WORD */}
-      <h2 style={{ fontSize: "40px" }}>
-        {item.word}
-      </h2>
-
-      <p>Tap the picture to hear the sound 🔊</p>
-
-      {/* NAVIGATION */}
-      <div style={{ marginTop: "30px" }}>
-
-        <button
-          onClick={prev}
-          style={{
-            padding: "10px 20px",
-            marginRight: "10px"
-          }}
-        >
-          ⬅ Previous
-        </button>
-
-        <button
-          onClick={next}
-          style={{
-            padding: "10px 20px"
-          }}
-        >
-          Next ➡
-        </button>
-
-      </div>
-
     </div>
   );
 }

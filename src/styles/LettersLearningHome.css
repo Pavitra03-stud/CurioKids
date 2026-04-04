@@ -11,18 +11,14 @@
 .letters-learning-topbar {
   background: #184c35;
   color: white;
-  height: 56px;
+  min-height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  border-radius: 0 0 14px 14px;
-}
-
-.letters-learning-topbar h1 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: bold;
+  border-radius: 0 0 18px 18px;
+  padding: 8px 18px;
+  z-index: 5;
 }
 
 /* back button */
@@ -31,15 +27,17 @@
   left: 18px;
   top: 50%;
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border: none;
   border-radius: 50%;
   background: #f5f5f5;
   color: #222;
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+  z-index: 10;
 }
 
 .letters-learning-back:hover {
@@ -57,7 +55,7 @@
 .decor-top-left {
   width: 130px;
   height: 130px;
-  top: 90px;
+  top: 110px;
   left: -35px;
 }
 
@@ -79,13 +77,14 @@
 .letters-learning-animals {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 16px;
   position: relative;
   z-index: 1;
 }
 
 .top-animals {
-  margin-top: 22px;
+  margin-top: 0;
   font-size: 28px;
 }
 
@@ -97,9 +96,16 @@
 /* header */
 .letters-learning-header {
   text-align: center;
-  padding: 18px 20px 10px;
+  padding: 22px 20px 10px;
   position: relative;
   z-index: 1;
+}
+
+.letters-learning-header h1 {
+  margin: 0 0 8px;
+  font-size: 34px;
+  color: #111;
+  font-weight: bold;
 }
 
 .letters-learning-header p {
@@ -150,6 +156,7 @@
   justify-content: center;
   font-size: 32px;
   flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.45);
 }
 
 .yellow {
@@ -239,12 +246,33 @@
 
 /* responsive */
 @media (max-width: 768px) {
-  .letters-learning-list {
-    grid-template-columns: 1fr;
+  .letters-learning-topbar {
+    min-height: 64px;
+    padding: 8px 14px;
+  }
+
+  .letters-learning-back {
+    left: 14px;
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .top-animals {
+    font-size: 24px;
+    gap: 12px;
+  }
+
+  .letters-learning-header h1 {
+    font-size: 28px;
   }
 
   .letters-learning-header p {
     font-size: 19px;
+  }
+
+  .letters-learning-list {
+    grid-template-columns: 1fr;
   }
 
   .letters-learning-card {
@@ -277,4 +305,54 @@
   .letters-learning-progress p {
     font-size: 14px;
   }
+}
+/* 🌿 HEADER BAR */
+.letters-learning-topbar {
+  background: #184c35;
+  color: white;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 20px 20px;
+  z-index: 5;
+}
+
+/* 📝 TITLE CENTER */
+.letters-learning-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* 🔙 BACK BUTTON (LIKE IMAGE 2) */
+.letters-learning-back {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+
+  background: #f2f2f2; /* light grey like image */
+  color: #222;
+  font-size: 22px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: 0.2s;
+}
+
+.letters-learning-back:hover {
+  transform: translateY(-50%) scale(1.08);
+  background: #ffffff;
 }

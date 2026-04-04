@@ -1,5 +1,4 @@
 import "../styles/LettersGameHome.css";
-import BackIcon from "../components/BackIcon";
 
 export default function LettersGameHome({ navigate, goBack }) {
   const games = [
@@ -30,28 +29,52 @@ export default function LettersGameHome({ navigate, goBack }) {
   ];
 
   return (
-    <div className="game-page">
-      <BackIcon goBack={goBack} />
+    <div className="letters-game-page">
+      <div className="floating-bg bubble1"></div>
+      <div className="floating-bg bubble2"></div>
+      <div className="floating-bg bubble3"></div>
 
-      <h1 className="game-title">Letters Games</h1>
+      <header className="letters-game-topbar">
+        <button className="letters-game-back" onClick={goBack}>
+          ←
+        </button>
+        <h1 className="letters-game-topbar-title">🎮 Letters Games</h1>
+      </header>
 
-      <div className="game-list">
+      <div className="letters-game-header">
+        <div className="header-mascots">
+          <span>🐯</span>
+          <span>🦊</span>
+          <span>🐻</span>
+        </div>
+        <p>Choose a fun game and start playing</p>
+      </div>
+
+      <div className="letters-game-container">
         {games.map((item, i) => (
           <div
             key={i}
-            className="game-item"
+            className="game-card"
             onClick={() => navigate(item.screen)}
           >
-            <span className="icon">{item.icon}</span>
+            <div className="card-left">
+              <div className="animal-icon">{item.icon}</div>
 
-            <div className="text">
-              <h2>{item.title}</h2>
-              <p>{item.subtitle}</p>
+              <div className="card-text">
+                <h2>{item.title}</h2>
+                <p>{item.subtitle}</p>
+              </div>
             </div>
 
-            <span className="arrow">›</span>
+            <div className="arrow">→</div>
           </div>
         ))}
+      </div>
+
+      <div className="bottom-animals">
+        <span>🦁</span>
+        <span>🐼</span>
+        <span>🐵</span>
       </div>
     </div>
   );

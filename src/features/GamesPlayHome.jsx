@@ -1,91 +1,98 @@
 import "../styles/GamesPlayHome.css";
-import BackIcon from "../components/BackIcon";
 
 export default function GamesPlayHome({ navigate, goBack }) {
+  const games = [
+    {
+      title: "Sound Tap",
+      subtitle: "Tap the number of sounds",
+      screen: "sound-tap",
+      icon: "🎧",
+    },
+    {
+      title: "Find the Friend",
+      subtitle: "Find the different one",
+      screen: "find-friend",
+      icon: "🐾",
+    },
+    {
+      title: "Pattern Game",
+      subtitle: "Follow the pattern",
+      screen: "pattern-copy",
+      icon: "🎯",
+    },
+    {
+      title: "Memory Match",
+      subtitle: "Match the pairs",
+      screen: "memory-match",
+      icon: "🧠",
+    },
+    {
+      title: "Catch the Word",
+      subtitle: "Catch the correct word",
+      screen: "catch-word",
+      icon: "🎯",
+    },
+    {
+      title: "Fill the Bucket",
+      subtitle: "Put the right number of items",
+      screen: "fill-bucket",
+      icon: "🧺",
+    },
+    {
+      title: "Letter Blast",
+      subtitle: "Tap the correct letter",
+      screen: "letter-blast",
+      icon: "💥",
+    },
+  ];
+
   return (
     <div className="games-play-page">
+      <div className="floating-bg bubble1"></div>
+      <div className="floating-bg bubble2"></div>
+      <div className="floating-bg bubble3"></div>
 
-      {/* Back */}
-      <div className="top-bar">
-        <BackIcon goBack={goBack} />
+      <header className="games-play-topbar">
+        <button className="games-play-back" onClick={goBack}>
+          ←
+        </button>
+        <h1 className="games-play-topbar-title">🎮 Games Zone</h1>
+      </header>
+
+      <div className="games-play-header">
+        <div className="header-mascots">
+          <span>🐯</span>
+          <span>🦊</span>
+          <span>🐻</span>
+        </div>
+        <p>Choose a fun game and start playing</p>
       </div>
 
-      {/* Title */}
-      <h1 className="title">Games Zone</h1>
-
-      {/* Game List */}
       <div className="game-list">
+        {games.map((item, i) => (
+          <div
+            key={i}
+            className="game-item"
+            onClick={() => navigate(item.screen)}
+          >
+            <div className="card-left">
+              <div className="animal-icon">{item.icon}</div>
 
-        <div
-          className="game-item"
-          onClick={() => navigate("sound-tap")}
-        >
-          <div>
-            <h2>🎧 Sound Tap</h2>
-            <p>Tap the number of sounds</p>
+              <div className="card-text">
+                <h2>{item.title}</h2>
+                <p>{item.subtitle}</p>
+              </div>
+            </div>
+
+            <div className="arrow">→</div>
           </div>
-        </div>
+        ))}
+      </div>
 
-                <div
-        className="game-item"
-        onClick={() => navigate("find-friend")}
-        >
-        <div>
-            <h2>🐾 Find the Friend</h2>
-            <p>Find the different one</p>
-        </div>
-        </div>
-
-                <div
-        className="game-item"
-        onClick={() => navigate("pattern-copy")}
-        >
-        <div>
-            <h2>🎯 Pattern Game</h2>
-            <p>Follow the pattern</p>
-        </div>
-        </div>
-        
-                <div
-        className="game-item"
-        onClick={() => navigate("memory-match")}
-        >
-        <div>
-            <h2>🧠 Memory Match</h2>
-            <p>Match the pairs</p>
-        </div>
-        </div>
-
-        <div
-  className="game-item"
-  onClick={() => navigate("catch-word")}
->
-  <div>
-    <h2>🎯 Catch the Word</h2>
-    <p>Catch the correct word</p>
-  </div>
-</div>
-
-<div
-  className="game-item"
-  onClick={() => navigate("fill-bucket")}
->
-  <div>
-    <h2>🧺 Fill the Bucket</h2>
-    <p>Put the right number of items</p>
-  </div>
-</div>
-
-<div
-  className="game-item"
-  onClick={() => navigate("letter-blast")}
->
-  <div>
-    <h2>💥 Letter Blast</h2>
-    <p>Tap the correct letter</p>
-  </div>
-</div>
-
+      <div className="bottom-animals">
+        <span>🦁</span>
+        <span>🐼</span>
+        <span>🐵</span>
       </div>
     </div>
   );

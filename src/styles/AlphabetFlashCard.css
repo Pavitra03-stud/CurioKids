@@ -1,0 +1,107 @@
+.flash-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+.flash-header {
+  background: #184c35;
+  color: white;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  left: 15px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+.flash-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  perspective: 1000px;
+}
+
+.flash-card {
+  width: 260px;
+  height: 360px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.flash-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.flash-front,
+.flash-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flash-back {
+  transform: rotateY(180deg);
+}
+
+.flash-front h2 {
+  font-size: 80px;
+}
+
+.flash-back img {
+  width: 120px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #11c7c7;
+  color: white;
+  font-size: 18px;
+}
+
+.slide-out-left {
+  animation: left 0.3s forwards;
+}
+.slide-in-right {
+  animation: right 0.3s forwards;
+}
+
+@keyframes left {
+  to {
+    transform: translateX(-150px);
+    opacity: 0;
+  }
+}
+
+@keyframes right {
+  from {
+    transform: translateX(150px);
+    opacity: 0;
+  }
+}

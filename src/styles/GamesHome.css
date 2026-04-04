@@ -1,126 +1,132 @@
-/* 🌿 Page */
-.games-page {
+.games-home-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  background: linear-gradient(to bottom, #a9d86e, #7ac943);
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 40px;
 }
 
-/* 🌴 Header */
-.games-header {
+.games-home-header {
   background: #184c35;
   color: white;
-  height: 56px;
+  height: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  border-radius: 0 0 14px 14px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.games-header h1 {
+.games-home-header h1 {
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
-/* 🔙 Back */
-.games-back {
+.games-back-btn {
   position: absolute;
   left: 18px;
   top: 50%;
   transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f2f2f2;
+  color: #184c35;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  transition: 0.2s ease;
 }
 
-/* 📦 Container */
-.games-container {
-  max-width: 980px;
+.games-back-btn:hover {
+  transform: translateY(-50%) scale(1.05);
+  background: #ffffff;
+}
+
+.games-home-content {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 32px 20px 50px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.games-home-subtitle {
+  font-size: 20px;
+  color: #173b2f;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.games-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
+  gap: 34px;
+  justify-content: center;
 }
 
-/* 🎯 Card */
-.games-card {
+.games-feature-card {
   background: rgba(255, 255, 255, 0.22);
-  border-radius: 28px;
-  padding: 36px 28px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(6px);
+  border-radius: 30px;
+  padding: 42px 28px;
+  min-height: 250px;
+  box-shadow: 0 10px 25px rgba(70, 130, 40, 0.22);
   cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: center;
-  min-height: 240px;
-
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.games-card:hover {
+.games-feature-card:hover {
   transform: translateY(-6px);
-  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 14px 30px rgba(70, 130, 40, 0.3);
 }
 
-/* 🎨 Icon circle */
-.games-icon {
-  width: 90px;
-  height: 90px;
+.games-feature-icon {
+  width: 98px;
+  height: 98px;
   border-radius: 50%;
-  background: #efe3b8;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 38px;
+  font-size: 42px;
   margin-bottom: 24px;
 }
 
-/* different color for second card */
-.games-card.play .games-icon {
-  background: #e7dff7;
+.learning-icon {
+  background: #eadfb8;
 }
 
-/* 📝 Text */
-.games-card h2 {
-  font-size: 22px;
-  color: #111;
+.gaming-icon {
+  background: #ddd0f1;
+}
+
+.games-feature-card h2 {
   margin: 0 0 16px;
-  font-weight: bold;
+  font-size: 24px;
+  color: #111;
 }
 
-.games-card p {
-  font-size: 18px;
-  color: #234236;
-  line-height: 1.6;
+.games-feature-card p {
   margin: 0;
-  max-width: 280px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #24362d;
+  max-width: 360px;
 }
 
-/* 📱 Mobile */
-@media (max-width: 768px) {
-  .games-container {
+@media (max-width: 900px) {
+  .games-cards-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
   }
 
-  .games-card {
+  .games-feature-card {
     min-height: 220px;
-    padding: 30px 20px;
-  }
-
-  .games-icon {
-    width: 74px;
-    height: 74px;
-    font-size: 32px;
-    margin-bottom: 18px;
-  }
-
-  .games-card h2 {
-    font-size: 20px;
-  }
-
-  .games-card p {
-    font-size: 16px;
   }
 }

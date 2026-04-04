@@ -1,53 +1,63 @@
-import BackIcon from "../components/BackIcon";
 import "../styles/numbersZone.css";
 
 export default function NumbersHome({ navigate, goBack }) {
   return (
-    <div className="numbers-zone-page">
+    <div className="numbers-home-page">
+      <div className="floating-bg bubble1"></div>
+      <div className="floating-bg bubble2"></div>
+      <div className="floating-bg bubble3"></div>
 
-      {/* Header */}
-      <div className="numbers-zone-header">
-        <div className="navbar-left">
-          <BackIcon goBack={goBack} />
+      <header className="numbers-home-topbar">
+        <button className="numbers-home-back" onClick={goBack}>
+          ←
+        </button>
+        <h1 className="numbers-home-topbar-title">🔢 Numbers</h1>
+      </header>
+
+      <div className="numbers-home-header">
+        <div className="header-mascots">
+          <span>1️⃣</span>
+          <span>2️⃣</span>
+          <span>3️⃣</span>
         </div>
-        <h1>🔢 Numbers</h1>
+        <p>Choose a fun zone and start learning</p>
       </div>
 
-      {/* Cards */}
-      <div className="zone-container">
-
-        {/* Learning */}
+      <div className="numbers-home-container">
         <div
-          className="zone-card"
+          className="numbers-home-card"
           onClick={() => navigate("numbers-learning-home")}
         >
-          <div className="zone-icon">📚</div>
-
-          <div className="zone-text">
-            <h2>Learning Zone</h2>
-            <p>Learn numbers with fun concepts</p>
+          <div className="card-left">
+            <div className="animal-icon">📚</div>
+            <div className="card-text">
+              <h2>Learning Zone</h2>
+              <p>Learn numbers with fun concepts</p>
+            </div>
           </div>
-
-          <div className="zone-arrow">→</div>
+          <div className="arrow">→</div>
         </div>
 
-        {/* Gaming */}
         <div
-          className="zone-card"
-          onClick={() => navigate("numbers-game-home")}
+          className="numbers-home-card"
+          onClick={() => navigate("numbers-games-home")}
         >
-          <div className="zone-icon">🎮</div>
-
-          <div className="zone-text">
-            <h2>Game Zone</h2>
-            <p>Play games and improve your skills</p>
+          <div className="card-left">
+            <div className="animal-icon">🎮</div>
+            <div className="card-text">
+              <h2>Game Zone</h2>
+              <p>Play games and improve your skills</p>
+            </div>
           </div>
-
-          <div className="zone-arrow">→</div>
+          <div className="arrow">→</div>
         </div>
-
       </div>
 
+      <div className="bottom-icons">
+        <span>🔢</span>
+        <span>🧮</span>
+        <span>✨</span>
+      </div>
     </div>
   );
 }

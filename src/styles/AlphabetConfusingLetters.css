@@ -1,0 +1,108 @@
+.conf-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+.conf-header {
+  background: #184c35;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.conf-back {
+  position: absolute;
+  left: 15px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+.conf-content {
+  text-align: center;
+  padding: 30px;
+}
+
+.conf-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.emoji {
+  font-size: 80px;
+}
+
+.question {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.question span {
+  color: #e53935;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.opt {
+  width: 70px;
+  height: 70px;
+  font-size: 28px;
+  border-radius: 15px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.opt:hover {
+  transform: scale(1.1);
+}
+
+.correct {
+  background: #2e7d32 !important;
+  color: white;
+  animation: bounce 0.3s;
+}
+
+.wrong {
+  background: #e53935 !important;
+  color: white;
+  animation: shake 0.3s;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 22px;
+}
+
+.score {
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}

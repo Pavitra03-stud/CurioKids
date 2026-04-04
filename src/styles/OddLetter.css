@@ -1,0 +1,332 @@
+.odd-letter-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
+
+/* topbar */
+.odd-letter-topbar {
+  background: #184c35;
+  color: white;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 18px 18px;
+  padding: 8px 18px;
+  z-index: 5;
+}
+
+.odd-letter-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.odd-letter-back {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #222;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.odd-letter-back:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* decor */
+.odd-letter-decor {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  z-index: 0;
+}
+
+.decor-one {
+  width: 130px;
+  height: 130px;
+  top: 120px;
+  left: -35px;
+}
+
+.decor-two {
+  width: 180px;
+  height: 180px;
+  top: 320px;
+  right: -55px;
+}
+
+.decor-three {
+  width: 150px;
+  height: 150px;
+  bottom: 90px;
+  left: -45px;
+}
+
+.odd-letter-content {
+  max-width: 850px;
+  margin: 28px auto 0;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.odd-letter-top-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.odd-score,
+.odd-progress {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  padding: 10px 16px;
+  border-radius: 16px;
+  font-weight: 700;
+  color: #173b33;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.odd-letter-card,
+.odd-letter-finish-card {
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  border-radius: 28px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  padding: 28px 22px;
+  text-align: center;
+}
+
+.odd-helper-animals {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  font-size: 30px;
+  margin-bottom: 16px;
+}
+
+.odd-letter-card h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  color: #173b33;
+}
+
+.odd-subtext {
+  margin: 0 0 22px;
+  font-size: 16px;
+  color: #234236;
+  font-weight: 700;
+}
+
+.odd-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 420px;
+  margin: 0 auto 22px;
+}
+
+.odd-letter-box {
+  height: 92px;
+  border: none;
+  border-radius: 22px;
+  background: #ffffff;
+  color: #184c35;
+  font-size: 38px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+}
+
+.odd-letter-box:hover {
+  transform: translateY(-3px);
+}
+
+.odd-letter-box.selected {
+  transform: scale(1.04);
+}
+
+.odd-letter-box.correct,
+.odd-letter-box.show-correct {
+  background: #c9f7c5;
+  color: #146b1e;
+}
+
+.odd-letter-box.wrong {
+  background: #ffd7d7;
+  color: #b42318;
+}
+
+.odd-feedback-area {
+  min-height: 48px;
+  margin-bottom: 16px;
+}
+
+.odd-hint,
+.odd-feedback {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.odd-hint {
+  color: #234236;
+}
+
+.correct-text {
+  color: #146b1e;
+}
+
+.wrong-text {
+  color: #b42318;
+}
+
+.odd-next-btn,
+.odd-primary-btn,
+.odd-secondary-btn {
+  border: none;
+  border-radius: 18px;
+  padding: 14px 24px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.odd-next-btn,
+.odd-primary-btn {
+  background: #184c35;
+  color: white;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+.odd-next-btn:hover,
+.odd-primary-btn:hover {
+  transform: translateY(-2px);
+}
+
+.odd-secondary-btn {
+  background: #ffffff;
+  color: #184c35;
+}
+
+.finish-emoji {
+  font-size: 74px;
+  margin-bottom: 14px;
+}
+
+.odd-letter-finish-card h2 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  color: #173b33;
+}
+
+.odd-letter-finish-card p {
+  margin: 0 0 22px;
+  font-size: 20px;
+  color: #234236;
+  font-weight: 700;
+}
+
+.odd-letter-finish-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.odd-bottom-animals {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-size: 30px;
+}
+
+@media (max-width: 768px) {
+  .odd-letter-topbar {
+    min-height: 64px;
+    padding: 8px 14px;
+  }
+
+  .odd-letter-back {
+    left: 14px;
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .odd-letter-title {
+    font-size: 20px;
+  }
+
+  .odd-letter-content {
+    padding: 0 14px;
+    margin-top: 22px;
+  }
+
+  .odd-letter-card,
+  .odd-letter-finish-card {
+    padding: 22px 16px;
+    border-radius: 24px;
+  }
+
+  .odd-letter-card h2 {
+    font-size: 24px;
+  }
+
+  .odd-subtext {
+    font-size: 14px;
+  }
+
+  .odd-grid {
+    gap: 12px;
+    max-width: 100%;
+  }
+
+  .odd-letter-box {
+    height: 74px;
+    font-size: 30px;
+    border-radius: 18px;
+  }
+
+  .odd-score,
+  .odd-progress {
+    font-size: 14px;
+    padding: 9px 12px;
+  }
+
+  .odd-feedback,
+  .odd-hint {
+    font-size: 14px;
+  }
+
+  .odd-next-btn,
+  .odd-primary-btn,
+  .odd-secondary-btn {
+    font-size: 15px;
+    padding: 12px 20px;
+  }
+}

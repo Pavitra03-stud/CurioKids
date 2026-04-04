@@ -1,128 +1,324 @@
-.alphabet-learning-page {
+.alphabet-video-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #a8d86a 0%, #84cf4f 100%);
-  padding: 20px;
-  position: relative;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  padding-bottom: 30px;
 }
 
-.alphabet-back-btn {
-  width: 42px;
-  height: 42px;
+.alphabet-video-header {
+  background: #184c35;
+  color: white;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 14px 14px;
+}
+
+.alphabet-video-header h1 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.alphabet-video-back-btn {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
-  background: #f4f4f4;
+  background: #f5f5f5;
   color: #222;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.alphabet-top-animals,
-.alphabet-animal-row {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  font-size: 32px;
-  margin: 10px 0 20px;
-}
-
-.alphabet-learning-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.alphabet-learning-header h1 {
-  margin: 0;
-  font-size: 34px;
-  color: #0f2d18;
-}
-
-.alphabet-learning-header p {
-  margin-top: 8px;
-  font-size: 18px;
-  color: #23452c;
-  font-weight: 600;
-}
-
-.alphabet-video-card {
-  max-width: 900px;
+.alphabet-video-content {
+  padding: 24px 16px 40px;
+  max-width: 1100px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.28);
+}
+
+.alphabet-video-stage {
+  min-height: 520px;
+  background: linear-gradient(180deg, #fffdf2 0%, #fff4dc 100%);
+  border: 4px solid #ff8a3d;
   border-radius: 24px;
-  padding: 22px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-}
-
-.alphabet-video-card h2 {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 16px;
-  font-size: 26px;
-  color: #ff6f00;
-}
-
-.alphabet-video,
-.alphabet-youtube {
-  width: 100%;
-  height: 480px;
-  border: none;
-  border-radius: 18px;
-  background: #000;
-  outline: none;
-}
-
-.alphabet-video-text {
-  text-align: center;
-  margin-top: 14px;
-  font-size: 17px;
-  color: #4f566b;
-  font-weight: 700;
-}
-
-.alphabet-letters-preview {
-  max-width: 900px;
-  margin: 20px auto 0;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  padding: 30px 20px;
+}
+
+.alphabet-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  animation: bubbleFloat 6s ease-in-out infinite;
+}
+
+.bubble-one {
+  width: 120px;
+  height: 120px;
+  top: 30px;
+  left: 40px;
+}
+
+.bubble-two {
+  width: 80px;
+  height: 80px;
+  top: 90px;
+  right: 70px;
+  animation-delay: 1s;
+}
+
+.bubble-three {
+  width: 140px;
+  height: 140px;
+  bottom: 30px;
+  left: 120px;
+  animation-delay: 2s;
+}
+
+.bubble-four {
+  width: 95px;
+  height: 95px;
+  bottom: 60px;
+  right: 90px;
+  animation-delay: 3s;
+}
+
+.alphabet-floating-letter {
+  font-size: 150px;
+  font-weight: bold;
+  color: #184c35;
+  line-height: 1;
+  animation: letterFloat 1.8s ease-in-out infinite;
+  z-index: 2;
+  text-shadow: 0 4px 0 rgba(255, 255, 255, 0.6);
+}
+
+.alphabet-animal-row {
+  margin-top: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.alphabet-animal {
+  font-size: 120px;
+  animation: animalDance 1.2s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 2;
+}
+
+.alphabet-animal-shadow {
+  width: 80px;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  margin: -8px auto 0;
+  filter: blur(1px);
+}
+
+.alphabet-animal-name {
+  margin-top: 16px;
+  font-size: 34px;
+  font-weight: bold;
+  color: #184c35;
+  z-index: 2;
+  text-align: center;
+}
+
+.alphabet-song-line {
+  margin-top: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 18px;
+  padding: 14px 24px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #184c35;
+  text-align: center;
+  z-index: 2;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.alphabet-progress-box {
+  margin-top: 22px;
+  background: #fff3bf;
+  color: #6b5600;
+  padding: 12px 18px;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.alphabet-audio-warning {
+  margin-top: 18px;
+  background: #fff1f1;
+  color: #a12b2b;
+  border: 2px solid #f0b7b7;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.alphabet-audio-warning span {
+  color: #184c35;
+}
+
+.alphabet-video-controls {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.alphabet-control-btn {
+  border: none;
+  padding: 14px 24px;
+  border-radius: 18px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
+}
+
+.alphabet-control-btn.play {
+  background: #11c7c7;
+}
+
+.alphabet-control-btn.restart {
+  background: #7b5cff;
+}
+
+.alphabet-control-btn.prev {
+  background: #5f7cfa;
+}
+
+.alphabet-control-btn.next {
+  background: #ff8a3d;
+}
+
+.alphabet-letter-strip {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 10px;
 }
 
 .alphabet-letter-chip {
-  background: rgba(255, 255, 255, 0.35);
-  color: #173b33;
-  font-weight: 800;
-  padding: 8px 14px;
+  border: none;
+  background: #ffffff;
+  color: #184c35;
   border-radius: 14px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 10px 0;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-@media (max-width: 768px) {
-  .alphabet-learning-header h1 {
-    font-size: 28px;
+.alphabet-letter-chip:hover {
+  transform: scale(1.05);
+}
+
+.alphabet-letter-chip.active {
+  background: #ff8a3d;
+  color: white;
+}
+
+@keyframes letterFloat {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes animalDance {
+  0% {
+    transform: translateX(-10px) rotate(-4deg);
+  }
+  100% {
+    transform: translateX(10px) rotate(4deg);
+  }
+}
+
+@keyframes bubbleFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 900px) {
+  .alphabet-letter-strip {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .alphabet-video-header h1 {
+    font-size: 17px;
   }
 
-  .alphabet-learning-header p {
-    font-size: 16px;
+  .alphabet-video-stage {
+    min-height: 470px;
+    padding: 20px 14px;
   }
 
-  .alphabet-video-card {
-    padding: 16px;
+  .alphabet-floating-letter {
+    font-size: 100px;
   }
 
-  .alphabet-video,
-  .alphabet-youtube {
-    height: 240px;
+  .alphabet-animal {
+    font-size: 84px;
   }
 
-  .alphabet-video-card h2 {
-    font-size: 22px;
+  .alphabet-animal-name {
+    font-size: 24px;
   }
 
-  .alphabet-top-animals,
-  .alphabet-animal-row {
-    font-size: 26px;
-    gap: 16px;
+  .alphabet-song-line {
+    font-size: 20px;
+    padding: 12px 14px;
+  }
+
+  .alphabet-control-btn {
+    font-size: 17px;
+    padding: 12px 18px;
+  }
+
+  .alphabet-letter-strip {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .alphabet-letter-chip {
+    font-size: 17px;
   }
 }

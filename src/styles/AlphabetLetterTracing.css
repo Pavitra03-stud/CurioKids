@@ -1,0 +1,350 @@
+.trace-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  padding-bottom: 30px;
+}
+
+.trace-header {
+  background: #184c35;
+  color: white;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+}
+
+.trace-header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.trace-back-btn {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f3f3;
+  color: #222;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.trace-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 26px 16px 40px;
+}
+
+.trace-main-card {
+  background: rgba(195, 229, 161, 0.55);
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+  margin-bottom: 26px;
+  position: relative;
+}
+
+.trace-animal-badge {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.trace-animal-face {
+  font-size: 56px;
+  animation: traceFloat 2.2s ease-in-out infinite;
+}
+
+.trace-animal-face.excited {
+  animation: traceExcited 0.45s ease-in-out infinite;
+}
+
+.trace-info {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.trace-big-letter {
+  font-size: 64px;
+  line-height: 1;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.trace-info h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #103f39;
+}
+
+.trace-info p {
+  margin: 8px 0 0;
+  font-size: 17px;
+  color: #264f3b;
+  font-weight: bold;
+}
+
+.trace-board-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.trace-board {
+  width: 460px;
+  height: 360px;
+  background: #e8e8e8;
+  border: 5px solid #ff8a3d;
+  border-radius: 24px;
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.trace-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.trace-guide-path {
+  fill: none;
+  stroke: #d9ebc8;
+  stroke-width: 26;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trace-guide-line {
+  stroke: #f0a02d;
+  stroke-width: 3;
+  stroke-dasharray: 6 6;
+}
+
+.trace-guide-arrow {
+  fill: #f0a02d;
+}
+
+.trace-dot {
+  stroke: #ffffff;
+  stroke-width: 4;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.trace-dot:hover {
+  transform: scale(1.05);
+}
+
+.trace-dot.active {
+  fill: #101010;
+  animation: pulseDot 1s infinite;
+}
+
+.trace-dot.done {
+  fill: #2fb34d;
+}
+
+.trace-dot.locked {
+  fill: rgba(90, 90, 90, 0.8);
+}
+
+.trace-dot-number {
+  fill: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.trace-status-row {
+  margin-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.trace-message {
+  flex: 1;
+  min-width: 260px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 16px 18px;
+  border-radius: 18px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #184c35;
+}
+
+.trace-score-box {
+  background: #fff3bf;
+  color: #6b5600;
+  padding: 16px 18px;
+  border-radius: 18px;
+  font-size: 20px;
+  font-weight: bold;
+  min-width: 190px;
+  text-align: center;
+}
+
+.trace-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.trace-action-btn {
+  border: none;
+  padding: 14px 28px;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
+}
+
+.trace-action-btn.speak {
+  background: #18bfd4;
+}
+
+.trace-action-btn.next {
+  background: #9f9f9f;
+}
+
+.trace-progress {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0d2f38;
+}
+
+.trace-letters-panel {
+  background: rgba(195, 229, 161, 0.55);
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+}
+
+.trace-letters-panel h3 {
+  text-align: center;
+  margin: 0 0 18px;
+  font-size: 22px;
+  color: #103f39;
+}
+
+.trace-letter-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(90px, 1fr));
+  gap: 14px;
+}
+
+.trace-letter-tile {
+  min-height: 82px;
+  border: none;
+  border-radius: 18px;
+  background: #efefef;
+  font-size: 30px;
+  font-weight: bold;
+  color: #111;
+  cursor: pointer;
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
+  font-family: inherit;
+}
+
+.trace-letter-tile:hover {
+  transform: scale(1.05);
+}
+
+.trace-letter-tile.selected {
+  background: #ffe08a;
+  color: #184c35;
+}
+
+@keyframes traceFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes traceExcited {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.05) rotate(-5deg); }
+  50% { transform: scale(1.08) rotate(5deg); }
+  75% { transform: scale(1.05) rotate(-4deg); }
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.13); }
+}
+
+@media (max-width: 900px) {
+  .trace-letter-grid {
+    grid-template-columns: repeat(4, minmax(80px, 1fr));
+  }
+
+  .trace-board {
+    width: 100%;
+    max-width: 460px;
+  }
+}
+
+@media (max-width: 600px) {
+  .trace-header h1 {
+    font-size: 18px;
+  }
+
+  .trace-main-card,
+  .trace-letters-panel {
+    padding: 16px;
+  }
+
+  .trace-board {
+    height: 300px;
+  }
+
+  .trace-big-letter {
+    font-size: 52px;
+  }
+
+  .trace-info h2 {
+    font-size: 18px;
+  }
+
+  .trace-info p,
+  .trace-message,
+  .trace-score-box {
+    font-size: 16px;
+  }
+
+  .trace-letter-grid {
+    grid-template-columns: repeat(3, minmax(70px, 1fr));
+  }
+
+  .trace-letter-tile {
+    min-height: 70px;
+    font-size: 24px;
+  }
+
+  .trace-action-btn {
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import BackIcon from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
 
-export default function FriendIntro({ onComplete, goBack }) {
+export default function FriendIntro() {
+  const navigate = useNavigate();
   const [friend, setFriend] = useState(null);
 
   useEffect(() => {
@@ -11,10 +12,11 @@ export default function FriendIntro({ onComplete, goBack }) {
     }
   }, []);
 
-  // ✅ ONLY onComplete
   const handleEnter = () => {
     localStorage.setItem("appProgress", "jungle-hero");
-    onComplete(); // <-- THIS triggers App.jsx navigation
+
+    // 👉 Navigate directly
+    navigate("/kids-home");
   };
 
   if (!friend) {
@@ -23,8 +25,6 @@ export default function FriendIntro({ onComplete, goBack }) {
 
   return (
     <div style={styles.overlay}>
-      <BackIcon goBack={goBack} />
-
       <div style={styles.container}>
         <img src={friend.image} alt={friend.name} style={styles.image} />
 
@@ -53,7 +53,6 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    position: "relative",
   },
   container: {
     background: "#fff3d6",

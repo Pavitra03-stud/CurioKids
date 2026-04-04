@@ -1,0 +1,80 @@
+.progress-page {
+  padding: 30px;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #56ab2f, #a8e063);
+  font-family: "Comic Sans MS", cursive;
+  text-align: center;
+}
+
+.title {
+  color: white;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 15px auto;
+  max-width: 400px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.big {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.skill {
+  margin: 10px 0;
+  text-align: left;
+}
+
+.bar {
+  width: 100%;
+  height: 10px;
+  background: #ddd;
+  border-radius: 10px;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(to right, #ffcc00, #ff6600);
+  border-radius: 10px;
+}
+
+.highlight {
+  background: #fff8c4;
+}
+.stats-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.graph {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  height: 200px;
+  margin-top: 20px;
+}
+
+.bar-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar-fill {
+  width: 25px;
+  background: linear-gradient(to top, #ff6600, #ffcc00);
+  border-radius: 10px;
+}
+
+.bar-box span {
+  margin-top: 5px;
+  font-size: 12px;
+}

@@ -1,204 +1,202 @@
 import { useEffect, useState } from "react";
-import BackIcon from "../components/BackIcon";
 import { speak } from "../utils/speak";
 import "../styles/ConfusingLetters.css";
 
-export default function ConfusingLetters({ goBack }) {
+// 🔥 Firebase
+import { db } from "../firebase";
+import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-  const levelSets = {
-    1: ["b", "d", "p", "q"],
-    2: ["m", "n", "u", "v", "i", "j"],
-    3: ["c", "k", "g", "j", "s", "z"],
-  };
+export default function ConfusingLetters() {
 
-  const [level, setLevel] = useState(1);
-  const [letters, setLetters] = useState(levelSets[1]);
+  const TOTAL_QUESTIONS = 5;
 
   const [target, setTarget] = useState("");
   const [options, setOptions] = useState([]);
 
-  const [totalScore, setTotalScore] = useState(0);
-  const [levelScore, setLevelScore] = useState(0);
+  const [score, setScore] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
 
   const [message, setMessage] = useState("");
-  const [previousTarget, setPreviousTarget] = useState("");
-
-  const [showLevelUp, setShowLevelUp] = useState(false);
 
   const [mistakes, setMistakes] = useState({});
+  const [locked, setLocked] = useState(false);
 
-  useEffect(() => {
-    initializeLevel(1);
-  }, []);
+  // 🤖 AI API CALL
+  const generateQuestionAI = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/generate-confusing-letter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ mistakes })
+      });
 
-  // 🔹 Initialize Level
-  const initializeLevel = (lvl) => {
-    const set = levelSets[lvl];
-    setLetters(set);
+      const data = await res.json();
 
-    const resetMistakes = {};
-    set.forEach(letter => {
-      resetMistakes[letter] = 0;
-    });
+      console.log("AI DATA:", data);
 
-    setMistakes(resetMistakes);
-    setLevelScore(0);
-
-    generateQuestion(set, resetMistakes);
-  };
-
-  // 🔹 Balanced Adaptive Generator
-  const generateQuestion = (letterSet = letters, mistakeData = mistakes) => {
-
-    const mostDifficult = Object.keys(mistakeData).reduce((a, b) =>
-      mistakeData[a] > mistakeData[b] ? a : b
-    );
-
-    let randomTarget;
-
-    // 30% chance reinforce weak letter
-    if (mistakeData[mostDifficult] >= 2 && Math.random() < 0.3) {
-      randomTarget = mostDifficult;
-    } else {
-      do {
-        randomTarget =
-          letterSet[Math.floor(Math.random() * letterSet.length)];
-      } while (randomTarget === previousTarget);
-    }
-
-    const shuffled = [...letterSet]
-      .sort(() => 0.5 - Math.random())
-      .concat([...letterSet].sort(() => 0.5 - Math.random()))
-      .slice(0, 8);
-
-    setTarget(randomTarget);
-    setPreviousTarget(randomTarget);
-    setOptions(shuffled);
-    setMessage("");
-
-    speak(`Find all the letter ${randomTarget}`);
-  };
-
-  // 🔹 Handle Click
-  const handleClick = (letter) => {
-
-    if (letter === target) {
-
-      const newLevelScore = levelScore + 1;
-      const newTotalScore = totalScore + 1;
-
-      setLevelScore(newLevelScore);
-      setTotalScore(newTotalScore);
-
-      setMessage("🎉 Correct! Great focus!");
-      speak("Great job!");
-
-      // 🌟 Level Up Condition
-      if (newLevelScore >= 5 && level < 3) {
-
-        const nextLevel = level + 1;
-
-        setShowLevelUp(true);
-        speak("Level Up!");
-
-        setTimeout(() => {
-          setShowLevelUp(false);
-          setLevel(nextLevel);
-          initializeLevel(nextLevel);
-        }, 2000);
-
-        return;
+      if (!data.target || !data.options) {
+        throw new Error("Invalid data");
       }
 
-    } else {
+      // ✅ FIX: avoid same letter
+      let newTarget = data.target;
 
-      setMessage("💛 Try again carefully.");
+      if (newTarget === target) {
+        const letters = ["b","d","p","q","m","n","u","v","c","k","g","j","s","z"];
+        newTarget = letters[Math.floor(Math.random() * letters.length)];
+      }
+
+      setTarget(newTarget);
+      setOptions(data.options);
+
+      speak(`Find the letter ${newTarget}`);
+
+    } catch (err) {
+      console.error("Frontend AI error:", err);
+
+      // 🔥 fallback
+      setTarget("b");
+      setOptions(["b","d","p","q","b","d","p","q"]);
+    }
+  };
+
+  useEffect(() => {
+    generateQuestionAI();
+  }, []);
+
+  // ☁️ Save to Firestore
+  const saveScoreToFirestore = async (finalScore) => {
+    try {
+      const userEmail = "demo_user";
+
+      const userRef = doc(db, "users", userEmail);
+      const gameResultsRef = collection(userRef, "game_results");
+
+      const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
+
+      await addDoc(gameResultsRef, {
+        score: finalScore,
+        totalQuestions: TOTAL_QUESTIONS,
+        accuracy: accuracy.toFixed(2),
+        createdAt: Timestamp.now(),
+        game: "ConfusingLetters_AI"
+      });
+
+      console.log("✅ Saved!");
+    } catch (error) {
+      console.error("❌ Error:", error);
+    }
+  };
+
+  // 🎯 Handle Click
+  const handleClick = (letter) => {
+
+    if (locked) return;
+    setLocked(true);
+
+    if (questionCount >= TOTAL_QUESTIONS) return;
+
+    const isCorrect = letter === target;
+    const updatedScore = isCorrect ? score + 1 : score;
+
+    if (isCorrect) {
+      setScore(updatedScore);
+      setMessage("🎉 Correct!");
+      speak("Great job!");
+    } else {
+      setMessage("💛 Try again");
       speak("Try again");
 
       setMistakes(prev => ({
         ...prev,
-        [target]: prev[target] + 1
+        [target]: (prev[target] || 0) + 1
       }));
     }
+
+    setTimeout(async () => {
+
+      setMessage("");
+      setLocked(false);
+
+      const nextCount = questionCount + 1;
+      setQuestionCount(nextCount);
+
+      // 🎯 END OF ROUND
+      if (nextCount === TOTAL_QUESTIONS) {
+
+        await saveScoreToFirestore(updatedScore);
+
+        alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
+
+        // 🔁 RESET
+        setScore(0);
+        setQuestionCount(0);
+        generateQuestionAI();
+
+      } else {
+        generateQuestionAI();
+      }
+
+    }, 800);
   };
 
-  // 🔹 Save AI Data for Parent Dashboard
-  useEffect(() => {
+  // 📊 AI Analysis
+  const getPerformanceMessage = () => {
+    if (questionCount === 0) return "";
 
-    const mostDifficult = Object.entries(mistakes || {}).length
-  ? Object.entries(mistakes).sort((a, b) => b[1] - a[1])[0][0]
-  : "b";
+    const accuracy = (score / questionCount) * 100;
 
-
-    const aiData = {
-      level,
-      totalScore,
-      mostDifficultLetter: mostDifficult,
-    };
-
-    localStorage.setItem("aiProgress", JSON.stringify(aiData));
-
-  }, [level, totalScore, mistakes]);
+    if (accuracy > 80) return "🌟 Excellent!";
+    if (accuracy > 50) return "👍 Good job!";
+    return "💡 Practice more!";
+  };
 
   return (
     <div className="confusing-page">
 
-      {/* 🌴 NAVBAR */}
       <div className="confusing-navbar">
-        <div className="navbar-left">
-          <BackIcon goBack={goBack} />
-        </div>
         <div className="navbar-title">
-          🔁 Adaptive Letter Trainer
+          🤖 AI Letter Trainer
         </div>
       </div>
 
       <div className="confusing-content">
 
-        {/* 🎉 LEVEL UP ANIMATION */}
-        {showLevelUp && (
-          <div className="level-up-banner">
-            🎉 LEVEL UP! 🎉
-          </div>
-        )}
-
-        <h3 className="level-indicator">
-          🌟 Level {level}
+        <h3>
+          Question {questionCount + 1} / {TOTAL_QUESTIONS}
         </h3>
 
         <h2 className="instruction">
-          Click all the letter:
-          <span className="target"> {target}</span>
+          Find: <span className="target"> {target || "..."}</span>
         </h2>
 
         <div className="letters-grid">
-          {options.map((letter, index) => (
-            <div
-              key={index}
-              className="letter-box"
-              onClick={() => handleClick(letter)}
-            >
-              {letter}
-            </div>
-          ))}
+          {options.length > 0 ? (
+            options.map((letter, index) => (
+              <div
+                key={index}
+                className="letter-box"
+                onClick={() => handleClick(letter)}
+              >
+                {letter}
+              </div>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
 
         <div className="feedback">{message}</div>
 
         <div className="score">
-          ⭐ Level Score: {levelScore} / 5
+          ⭐ Score: {score}
         </div>
 
-        <div className="score">
-          🏆 Total Score: {totalScore}
+        <div className="ai-analysis">
+          {getPerformanceMessage()}
         </div>
-
-        <button
-          className="next-btn"
-          onClick={() => generateQuestion()}
-        >
-          Next Round 🔄
-        </button>
 
       </div>
     </div>

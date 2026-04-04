@@ -32,6 +32,10 @@
   border-radius: 15px;
   border: none;
   background: #f3e9dc;
+
+  /* 🔥 ADD THIS */
+  color: #1b4332;  /* dark green (matches theme) */
+
   cursor: pointer;
   box-shadow: 0 8px 15px rgba(0,0,0,0.1);
   transition: 0.2s;
@@ -40,4 +44,5 @@
 .grid-letter:hover {
   transform: scale(1.1);
   background: #e9d8a6;
+  color: #081c15; /* darker on hover */
 }

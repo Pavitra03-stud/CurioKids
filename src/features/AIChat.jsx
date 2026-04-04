@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { chat } from "../services/aiEngine";
 import "../styles/AIChat.css";
+import { updateProgressFromAI } from "../services/progressEngine";
 
-export default function AIChat({ goBack }) {
+export default function AIChat() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [allChats, setAllChats] = useState([]);
   const [currentChatIndex, setCurrentChatIndex] = useState(null);
 
@@ -15,7 +17,13 @@ export default function AIChat({ goBack }) {
   useEffect(() => {
     const saved = localStorage.getItem("allChats");
     if (saved) {
-      setAllChats(JSON.parse(saved));
+      const parsed = JSON.parse(saved);
+      setAllChats(parsed);
+
+      if (parsed.length > 0) {
+        setChatHistory(parsed[parsed.length - 1]);
+        setCurrentChatIndex(parsed.length - 1);
+      }
     }
   }, []);
 
@@ -35,6 +43,7 @@ export default function AIChat({ goBack }) {
       const updated = [...allChats, chatHistory];
       setAllChats(updated);
     }
+
     setChatHistory([]);
     setCurrentChatIndex(null);
   };
@@ -49,12 +58,16 @@ export default function AIChat({ goBack }) {
   const sendMessage = async () => {
     if (!message.trim() || loading) return;
 
-    const newChat = [...chatHistory, { sender: "user", text: message }];
+    const userMsg = { sender: "user", text: message };
+    const newChat = [...chatHistory, userMsg];
+
     setChatHistory(newChat);
+    setMessage("");
     setLoading(true);
 
     try {
       const reply = await chat(message);
+    
 
       const updatedChat = [
         ...newChat,
@@ -76,11 +89,10 @@ export default function AIChat({ goBack }) {
     } catch {
       setChatHistory([
         ...newChat,
-        { sender: "ai", text: "⚠️ AI failed." }
+        { sender: "ai", text: "⚠️ AI failed. Try again." }
       ]);
     }
 
-    setMessage("");
     setLoading(false);
   };
 
@@ -96,31 +108,36 @@ export default function AIChat({ goBack }) {
         </button>
 
         <div className="chat-list">
-          {allChats.map((chat, i) => (
-            <div
-              key={i}
-              className="chat-item"
-              onClick={() => loadChat(i)}
-            >
-              Chat {i + 1}
-            </div>
-          ))}
+          {allChats.length === 0 ? (
+            <p style={{ padding: "10px" }}>No chats yet</p>
+          ) : (
+            allChats.map((_, i) => (
+              <div
+                key={i}
+                className="chat-item"
+                onClick={() => loadChat(i)}
+              >
+                Chat {i + 1}
+              </div>
+            ))
+          )}
         </div>
       </div>
 
       {/* 💬 CHAT AREA */}
       <div className="chat-section">
 
-        {/* 🔙 BACK BUTTON (FIXED) */}
-        <button className="back-btn" onClick={goBack}>
-          ←
-        </button>
-
         <div className="chat-header">
           Jungle AI Chat
         </div>
 
         <div className="chat-box">
+          {chatHistory.length === 0 && (
+            <p className="empty-chat">
+              👋 Hi! Ask me anything to start learning 🌱
+            </p>
+          )}
+
           {chatHistory.map((msg, i) => (
             <div
               key={i}
@@ -142,17 +159,15 @@ export default function AIChat({ goBack }) {
           <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type a message..."
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            placeholder="Ask me anything..."
+            onKeyDown={(e) =>
+              e.key === "Enter" && sendMessage()
+            }
           />
           <button onClick={sendMessage}>Send</button>
         </div>
 
       </div>
-
-      {/* 🤖 FLOATING BOT */}
-      <div className="bot-float">🤖</div>
-
     </div>
   );
 }

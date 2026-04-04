@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import BackIcon from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
 import "../styles/ChooseFriend.css";
 
-export default function ChooseFriend({ onComplete, goBack }) {
+export default function ChooseFriend() {
+  const navigate = useNavigate();
+
   const [friends, setFriends] = useState([]);
   const [index, setIndex] = useState(0);
   const [showIntro, setShowIntro] = useState(false);
@@ -43,26 +45,43 @@ export default function ChooseFriend({ onComplete, goBack }) {
     );
 
     localStorage.setItem("appProgress", "friend-chosen");
-    onComplete(); // ✅ ONLY THIS
+
+    navigate("/jungle-hero");
   };
 
   if (!friends.length) return <h2>Loading jungle friends… 🌱</h2>;
 
   return (
     <div className="choose-container">
-      <BackIcon goBack={goBack} />
 
       {!showIntro ? (
         <div className="board">
           <div className="carousel">
-            <button onClick={() => setIndex((i) => (i - 1 + friends.length) % friends.length)}>◀</button>
+            <button
+              onClick={() =>
+                setIndex((i) => (i - 1 + friends.length) % friends.length)
+              }
+            >
+              ◀
+            </button>
+
             <img src={current.image} alt={current.name} />
-            <button onClick={() => setIndex((i) => (i + 1) % friends.length)}>▶</button>
+
+            <button
+              onClick={() =>
+                setIndex((i) => (i + 1) % friends.length)
+              }
+            >
+              ▶
+            </button>
           </div>
 
           <h2>{current.name}</h2>
 
-          <button className="start" onClick={() => setShowIntro(true)}>
+          <button
+            className="start"
+            onClick={() => setShowIntro(true)}
+          >
             Start ▶
           </button>
         </div>

@@ -118,3 +118,37 @@
   margin-top: 12px;
   background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
 }
+.main-btn {
+  background: #ffcc00;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.main-btn:hover {
+  background: #ff9900;
+  transform: scale(1.05);
+}
+
+.secondary-btn {
+  background: #4caf50;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.secondary-btn:hover {
+  background: #2e7d32;
+  transform: scale(1.05);
+}

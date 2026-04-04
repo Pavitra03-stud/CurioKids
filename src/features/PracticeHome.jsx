@@ -49,8 +49,7 @@ export default function PracticeHome({ initialZone }) {
       { title: "Letter Recognition", route: "/letter-recognition" },
       { title: "Uppercase vs Lowercase", route: "/uppercase-lowercase" },
       { title: "Find the Correct Letter", route: "/find-letter" },
-      { title: "Confusing Letters (b/d/p/q)", route: "/confusing-letters" },
-      { title: "Letter Recognition Challenge", route: "/letter-recognition-challenge" }
+      { title: "Confusing Letters", route: "/confusing-letters" },
     ],
 
     phonics: [
@@ -71,18 +70,28 @@ export default function PracticeHome({ initialZone }) {
       { title: "Sentence Builder", route: "/sentence-builder" }
     ],
 
+    // 🔥 UPDATED MEMORY ZONE (LETTERS + NUMBERS)
     memory: [
-      { title: "Memory Match", route: "/memory-match" },
-      { title: "Spot the Difference", route: "/spot-difference" },
-      { title: "Find Hidden Letter", route: "/find-hidden-letter" },
-      { title: "Left / Right Practice", route: "/left-right-practice" },
+      { title: "Memory Match (Letters)", route: "/memory-match?mode=letters" },
+      { title: "Memory Match (Numbers)", route: "/memory-match?mode=numbers" },
+      { title: "Spot Difference (Letters)", route: "/spot-difference?mode=letters" },
+      { title: "Spot Difference (Numbers)", route: "/spot-difference?mode=numbers" },
+
+      // ✅ NEW
+      { title: "Find Hidden (Letters)", route: "/find-hidden?mode=letters" },
+      { title: "Find Hidden (Numbers)", route: "/find-hidden?mode=numbers" },
+
+      { title: "Left/Right (Letters)", route: "/left-right-practice?mode=letters" },
+      { title: "Left/Right (Numbers)", route: "/left-right-practice?mode=numbers" },
       { title: "Pattern Matching", route: "/pattern-matching" },
-      { title: "Sequence Builder", route: "/sequence-builder" }
+      { title: "Sequence Builder (Letters)", route: "/sequence-builder?mode=letters" },
+      { title: "Sequence Builder (Numbers)", route: "/sequence-builder?mode=numbers" },
     ],
 
     confidence: [
       { title: "Read Aloud", route: "/read-aloud" },
-      { title: "Timed Challenge", route: "/timed-challenge" },
+      { title: "Timed Challenge (Letters)", route: "/timed-challenge?mode=letters" },
+{ title: "Timed Challenge (Numbers)", route: "/timed-challenge?mode=numbers" },
       { title: "Daily Practice Goal", route: "/daily-practice-goal" },
       { title: "Reward Challenge", route: "/reward-challenge" },
       { title: "Progress Stars", route: "/progress-stars" }

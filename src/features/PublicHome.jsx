@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import GameButton from "../components/Gamebutton";
-import Mascot from "../components/Mascot";
 import "../styles/PublicHome.css";
 
 export default function PublicHome() {
@@ -23,25 +21,26 @@ export default function PublicHome() {
           </p>
 
           {/* 🌱 REGISTER */}
-          <GameButton
-            text="Register to Enter the Jungle 🌷"
+          <button
+            className="main-btn"
             onClick={() => navigate("/child-register")}
-          />
+          >
+            Register to Enter the Jungle 🌷
+          </button>
 
           {/* 🔐 LOGIN */}
-          <GameButton
-            text="Welcome Back (Login) 🔐"
-            onClick={() => navigate("/login")}
+          <button
             className="secondary-btn"
-          />
+            onClick={() => navigate("/login")}
+          >
+            Welcome Back (Login) 🔐
+          </button>
 
           <p className="lock-note">
             🔒 Unlock the dream jungle of Exploration 🍁
           </p>
         </div>
       </div>
-
-      <Mascot />
     </div>
   );
 }

@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/AnimalPathLetters.css";
+=======
+import { useState, useEffect } from "react";
+import BackIcon from "../components/BackIcon";
+import { generateLetterSet } from "../services/aiEngine"; // ✅ AI
+>>>>>>> 6f11679fda246b41747b24e2ee68a2d9e51a3dec
 
 const LETTERS = [
   { letter: "A", animal: "Ant", emoji: "🐜", sound: "A says /a/" },
@@ -30,6 +36,7 @@ const LETTERS = [
   { letter: "Z", animal: "Zebra", emoji: "🦓", sound: "Z says /z/" },
 ];
 
+<<<<<<< HEAD
 const createOptions = (correctLetter) => {
   const others = LETTERS.filter((item) => item.letter !== correctLetter);
   const shuffled = [...others].sort(() => Math.random() - 0.5).slice(0, 5);
@@ -91,6 +98,54 @@ export default function AnimalPathLetters({ goBack }) {
       speakText(`Great job! ${currentItem.animal} starts with ${currentItem.letter}`);
       setPathStep(6);
       setShowFinish(true);
+=======
+  const [letters, setLetters] = useState([]);
+  const [targetIndex, setTargetIndex] = useState(0);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // 🚀 LOAD AI QUESTIONS
+  useEffect(() => {
+    loadAI();
+  }, []);
+
+  const loadAI = async () => {
+    setLoading(true);
+
+    try {
+      const res = await generateLetterSet();
+
+      // 👉 convert "b,d,p,q" → ["b","d","p","q"]
+      const arr = res.replace(/\s/g, "").split(",");
+
+      setLetters(arr);
+      setTargetIndex(0);
+
+    } catch (err) {
+      console.log(err);
+
+      // fallback if AI fails
+      setLetters(["b", "d", "p", "q"]);
+    }
+
+    setLoading(false);
+  };
+
+  if (loading) {
+    return <h2 style={{ textAlign: "center" }}>Loading AI... 🤖</h2>;
+  }
+
+  const target = letters[targetIndex];
+
+  const check = (letter) => {
+    if (letter === target) {
+      setMessage("Correct 🎉");
+
+      setTimeout(() => {
+        setTargetIndex((prev) => (prev + 1) % letters.length);
+        setMessage("");
+      }, 1000);
+>>>>>>> 6f11679fda246b41747b24e2ee68a2d9e51a3dec
     } else {
       setMessage(`Oops! Try again. ${currentItem.animal} does not start with ${item.letter}`);
       setShakeTile(item.letter);
@@ -205,6 +260,42 @@ export default function AnimalPathLetters({ goBack }) {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
   );
 }
+=======
+
+      <p>{message}</p>
+
+      {/* 🔁 Reload AI Questions */}
+      <button style={styles.reload} onClick={loadAI}>
+        🔄 New AI Questions
+      </button>
+    </div>
+  );
+}
+
+const styles = {
+  page: { textAlign: "center", padding: "20px" },
+
+  grid: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "15px",
+    marginTop: "20px"
+  },
+
+  btn: {
+    fontSize: "30px",
+    padding: "15px",
+    cursor: "pointer"
+  },
+
+  reload: {
+    marginTop: "20px",
+    padding: "10px",
+    cursor: "pointer"
+  }
+};
+>>>>>>> 6f11679fda246b41747b24e2ee68a2d9e51a3dec

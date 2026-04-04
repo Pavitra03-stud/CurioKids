@@ -1,79 +1,13 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "../styles/Auth.css";
-
-// export default function Login() {
-//   const navigate = useNavigate();
-
-//   const [form, setForm] = useState({
-//     email: "",
-//     password: ""
-//   });
-
-//   const handleLogin = (e) => {
-//     e.preventDefault();
-
-//     // 🔐 Get user from localStorage
-//     const savedUser = JSON.parse(localStorage.getItem("user"));
-
-//     if (!savedUser) {
-//       alert("User not found. Please register first 🌱");
-//       return;
-//     }
-
-//     if (
-//       savedUser.email === form.email &&
-//       savedUser.password === form.password
-//     ) {
-//       alert("Login successful 🎉");
-//       navigate("/dashboard"); // change if needed
-//     } else {
-//       alert("Invalid credentials ❌");
-//     }
-//   };
-
-//   return (
-//     <div className="auth-container">
-//       <h2>🔐 Welcome Back</h2>
-
-//       <form onSubmit={handleLogin}>
-//         <input
-//           type="email"
-//           placeholder="Enter your email"
-//           required
-//           onChange={(e) =>
-//             setForm({ ...form, email: e.target.value })
-//           }
-//         />
-
-//         <input
-//           type="password"
-//           placeholder="Enter your password"
-//           required
-//           onChange={(e) =>
-//             setForm({ ...form, password: e.target.value })
-//           }
-//         />
-
-//         <button type="submit">Login</button>
-//       </form>
-
-//       <p onClick={() => navigate("/register")} className="switch-text">
-//         New here? Register 🌱
-//       </p>
-//     </div>
-//   );
-// }
-
-
-
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Auth.css";
 
-export default function Login({ onComplete }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate(); // ✅ NEW
 
   const handleLogin = async () => {
     setError("");
@@ -97,7 +31,6 @@ export default function Login({ onComplete }) {
       });
 
       const data = await res.json();
-
       console.log("Response:", data);
 
       if (!res.ok) {
@@ -111,10 +44,8 @@ export default function Login({ onComplete }) {
 
       alert("OTP sent to your email 📧");
 
-      // 👉 Go to OTP screen
-      if (typeof onComplete === "function") {
-        onComplete();
-      }
+      // ✅ FIXED NAVIGATION
+      navigate("/otp");
 
     } catch (err) {
       console.log("Login error:", err);
@@ -141,7 +72,12 @@ export default function Login({ onComplete }) {
         {loading ? "Sending OTP..." : "Send OTP"}
       </button>
 
-      <p className="switch-text">
+      {/* ✅ FIXED REGISTER NAVIGATION */}
+      <p
+        className="switch-text"
+        onClick={() => navigate("/child-register")}
+        style={{ cursor: "pointer" }}
+      >
         New here? Register 🌱
       </p>
     </div>

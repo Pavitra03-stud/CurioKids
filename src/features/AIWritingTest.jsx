@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "../styles/AIWritingTest.css";
 
 // 🔥 Generate A → Z automatically
@@ -8,16 +8,22 @@ const letters = Array.from({ length: 26 }, (_, i) =>
 
 export default function AIWritingTest({ goBack }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const [teaching, setTeaching] = useState("");
+  const canvasRef = useRef(null);
 
   const currentLetter = letters[currentIndex];
 
+  // 🧹 Clear canvas
   const handleClear = () => {
-    const canvas = document.getElementById("writingCanvas");
+    const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    setFeedback("");
   };
 
+  // 👉 Next letter
   const handleNext = () => {
     handleClear();
 
@@ -29,8 +35,9 @@ export default function AIWritingTest({ goBack }) {
     }
   };
 
+  // ✏️ Drawing logic
   const startDrawing = (e) => {
-    const canvas = document.getElementById("writingCanvas");
+    const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
     let drawing = true;
@@ -69,10 +76,60 @@ export default function AIWritingTest({ goBack }) {
     window.addEventListener("touchend", stop);
   };
 
+  // 🤖 Teach letter
+  const handleTeach = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/ai/teach", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          topic: `How to write letter ${currentLetter}`,
+        }),
+      });
+
+      const data = await res.json();
+      setTeaching(data.explanation);
+    } catch (err) {
+      console.error(err);
+      setTeaching("⚠️ AI not connected");
+    }
+  };
+
+  // 📊 Analyze drawing
+  const handleAnalyze = async () => {
+    try {
+      const canvas = canvasRef.current;
+
+      // Convert drawing to image
+      const imageData = canvas.toDataURL("image/png");
+
+      const res = await fetch("http://localhost:5000/ai/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          letter: currentLetter,
+          drawing: imageData,
+        }),
+      });
+
+      const data = await res.json();
+      setFeedback(data.analysis);
+    } catch (err) {
+      console.error(err);
+      setFeedback("⚠️ AI analysis failed");
+    }
+  };
+
   return (
     <div className="ai-writing-page">
       <div className="ai-writing-header">
-        <button className="ai-back-btn" onClick={goBack}>←</button>
+        <button className="ai-back-btn" onClick={() => NavigateEvent(-1)}>
+          ←
+        </button>
         <h1>✏ AI Letter Writing Test</h1>
       </div>
 
@@ -85,7 +142,7 @@ export default function AIWritingTest({ goBack }) {
           <div className="letter-guide">{currentLetter}</div>
 
           <canvas
-            id="writingCanvas"
+            ref={canvasRef}
             width="400"
             height="400"
             className="writing-canvas"
@@ -104,7 +161,38 @@ export default function AIWritingTest({ goBack }) {
           </button>
         </div>
 
-        {/* 🔥 Progress indicator */}
+        {/* 🤖 AI Actions */}
+        <div style={{ marginTop: "20px" }}>
+          <button className="clear-btn" onClick={handleTeach}>
+            📘 Teach Me
+          </button>
+
+          <button
+            className="next-btn"
+            onClick={handleAnalyze}
+            style={{ marginLeft: "10px" }}
+          >
+            📊 Check My Writing
+          </button>
+        </div>
+
+        {/* 📘 Teaching Output */}
+        {teaching && (
+          <div className="ai-output">
+            <h3>📘 How to write:</h3>
+            <p>{teaching}</p>
+          </div>
+        )}
+
+        {/* 📊 Feedback */}
+        {feedback && (
+          <div className="ai-output">
+            <h3>📊 Feedback:</h3>
+            <p>{feedback}</p>
+          </div>
+        )}
+
+        {/* 🔥 Progress */}
         <p style={{ marginTop: "15px", fontWeight: "bold" }}>
           Letter {currentIndex + 1} / {letters.length}
         </p>

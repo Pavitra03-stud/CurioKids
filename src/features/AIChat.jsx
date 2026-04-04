@@ -1,75 +1,158 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { chat } from "../services/aiEngine";
 import "../styles/AIChat.css";
 
-export default function AIChat({ childId }) {
-  const [question, setQuestion] = useState("");
-  const [messages, setMessages] = useState([]);
+export default function AIChat({ goBack }) {
+  const [message, setMessage] = useState("");
+  const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [allChats, setAllChats] = useState([]);
+  const [currentChatIndex, setCurrentChatIndex] = useState(null);
 
+  const chatEndRef = useRef(null);
+
+  // 📥 LOAD SAVED CHATS
+  useEffect(() => {
+    const saved = localStorage.getItem("allChats");
+    if (saved) {
+      setAllChats(JSON.parse(saved));
+    }
+  }, []);
+
+  // 💾 SAVE CHATS
+  useEffect(() => {
+    localStorage.setItem("allChats", JSON.stringify(allChats));
+  }, [allChats]);
+
+  // 🔽 AUTO SCROLL
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatHistory, loading]);
+
+  // 🆕 NEW CHAT
+  const startNewChat = () => {
+    if (chatHistory.length > 0) {
+      const updated = [...allChats, chatHistory];
+      setAllChats(updated);
+    }
+    setChatHistory([]);
+    setCurrentChatIndex(null);
+  };
+
+  // 📂 LOAD CHAT
+  const loadChat = (index) => {
+    setChatHistory(allChats[index]);
+    setCurrentChatIndex(index);
+  };
+
+  // 📤 SEND MESSAGE
   const sendMessage = async () => {
-    if (!question.trim()) return;
+    if (!message.trim() || loading) return;
 
-    const userMessage = { type: "user", text: question };
-    setMessages(prev => [...prev, userMessage]);
-
+    const newChat = [...chatHistory, { sender: "user", text: message }];
+    setChatHistory(newChat);
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/ai/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          childId,
-          question,
-        }),
-      });
+      const reply = await chat(message);
 
-      const data = await res.json();
+      const updatedChat = [
+        ...newChat,
+        { sender: "ai", text: reply }
+      ];
 
-      const botMessage = {
-        type: "bot",
-        text: data.answer,
-      };
+      setChatHistory(updatedChat);
 
-      setMessages(prev => [...prev, botMessage]);
-      setQuestion("");
+      let updatedChats = [...allChats];
 
-    } catch (err) {
-      console.log(err);
+      if (currentChatIndex !== null) {
+        updatedChats[currentChatIndex] = updatedChat;
+      } else {
+        updatedChats.push(updatedChat);
+        setCurrentChatIndex(updatedChats.length - 1);
+      }
+
+      setAllChats(updatedChats);
+    } catch {
+      setChatHistory([
+        ...newChat,
+        { sender: "ai", text: "⚠️ AI failed." }
+      ]);
     }
 
+    setMessage("");
     setLoading(false);
   };
 
   return (
-    <div className="chat-container">
-      <h2>🤖 AI Assistant</h2>
+    <div className="app-container">
 
-      <div className="chat-box">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={msg.type === "user" ? "user-msg" : "bot-msg"}
-          >
-            {msg.text}
-          </div>
-        ))}
+      {/* 📁 SIDEBAR */}
+      <div className="sidebar">
+        <h3>🤖 Jungle AI</h3>
 
-        {loading && <p className="bot-msg">Typing...</p>}
+        <button className="new-chat" onClick={startNewChat}>
+          + New Chat
+        </button>
+
+        <div className="chat-list">
+          {allChats.map((chat, i) => (
+            <div
+              key={i}
+              className="chat-item"
+              onClick={() => loadChat(i)}
+            >
+              Chat {i + 1}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="chat-input">
-        <input
-          type="text"
-          placeholder="Ask about your child..."
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
+      {/* 💬 CHAT AREA */}
+      <div className="chat-section">
 
-        <button onClick={sendMessage}>Send</button>
+        {/* 🔙 BACK BUTTON (FIXED) */}
+        <button className="back-btn" onClick={goBack}>
+          ←
+        </button>
+
+        <div className="chat-header">
+          Jungle AI Chat
+        </div>
+
+        <div className="chat-box">
+          {chatHistory.map((msg, i) => (
+            <div
+              key={i}
+              className={`msg-row ${
+                msg.sender === "user" ? "right" : "left"
+              }`}
+            >
+              <div className="msg">{msg.text}</div>
+            </div>
+          ))}
+
+          {loading && <div className="typing">🤖 Typing...</div>}
+
+          <div ref={chatEndRef} />
+        </div>
+
+        {/* 📝 INPUT */}
+        <div className="chat-input">
+          <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type a message..."
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          />
+          <button onClick={sendMessage}>Send</button>
+        </div>
+
       </div>
+
+      {/* 🤖 FLOATING BOT */}
+      <div className="bot-float">🤖</div>
+
     </div>
   );
 }

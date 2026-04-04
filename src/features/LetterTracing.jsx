@@ -1,8 +1,7 @@
 import { useRef, useState, useEffect } from "react";
-import BackIcon from "../components/BackIcon";
 import "../styles/LetterTracing.css";
 
-export default function LetterTracing({ goBack }) {
+export default function LetterTracing() {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
 
@@ -13,15 +12,16 @@ export default function LetterTracing({ goBack }) {
   const [drawing, setDrawing] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(false);
   const [showResultCard, setShowResultCard] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState("");
 
   /* ------------------ CANVAS SETUP ------------------ */
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 400;
-    canvas.height = 400;
+    canvas.width = 300;
+    canvas.height = 300;
 
     const ctx = canvas.getContext("2d");
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 8;
     ctx.lineCap = "round";
     ctx.strokeStyle = "#1b4332";
 
@@ -30,22 +30,19 @@ export default function LetterTracing({ goBack }) {
     drawGuideLetter(uppercaseLetters[currentIndex]);
   }, []);
 
-  /* ------------------ DRAW GUIDE LETTER ------------------ */
+  /* ------------------ GUIDE LETTER ------------------ */
   const drawGuideLetter = (letter) => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.font = "250px Arial";
+    ctx.font = "180px Arial";
     ctx.fillStyle = "rgba(0,0,0,0.15)";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
     ctx.fillText(letter, canvas.width / 2, canvas.height / 2);
-
-    ctx.strokeStyle = "#1b4332";
-    ctx.lineWidth = 10;
   };
 
   useEffect(() => {
@@ -54,25 +51,22 @@ export default function LetterTracing({ goBack }) {
     }
   }, [currentIndex]);
 
-  /* ------------------ GET POSITION (MOUSE + TOUCH) ------------------ */
+  /* ------------------ DRAW ------------------ */
   const getPosition = (event) => {
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
+    const rect = canvasRef.current.getBoundingClientRect();
 
     if (event.touches) {
       return {
         x: event.touches[0].clientX - rect.left,
         y: event.touches[0].clientY - rect.top,
       };
-    } else {
-      return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-      };
     }
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
   };
 
-  /* ------------------ DRAWING ------------------ */
   const startDrawing = (e) => {
     e.preventDefault();
     setDrawing(true);
@@ -88,8 +82,6 @@ export default function LetterTracing({ goBack }) {
   const draw = (e) => {
     if (!drawing) return;
 
-    e.preventDefault();
-
     const { x, y } = getPosition(e);
 
     ctxRef.current.lineTo(x, y);
@@ -103,7 +95,7 @@ export default function LetterTracing({ goBack }) {
     setHasDrawn(false);
   };
 
-  /* ------------------ EVALUATION ------------------ */
+  /* ------------------ SMART AI EVALUATION ------------------ */
   const evaluateDrawing = () => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
@@ -112,53 +104,101 @@ export default function LetterTracing({ goBack }) {
     const data = imageData.data;
 
     let drawnPixels = 0;
+    let correctZonePixels = 0;
 
     for (let i = 0; i < data.length; i += 4) {
-      if (data[i + 3] > 0) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const alpha = data[i + 3];
+
+      const isDrawn = r < 100 || g < 100 || b < 100;
+      const isGuide = r > 100 && r < 200 && alpha > 0;
+
+      if (isDrawn) {
         drawnPixels++;
+
+        if (isGuide) {
+          correctZonePixels++;
+        }
       }
     }
 
-    const totalPixels = canvas.width * canvas.height;
-    const coverage = drawnPixels / totalPixels;
+    const coverage = (drawnPixels / (canvas.width * canvas.height)) * 100;
+    const accuracy = (correctZonePixels / drawnPixels) * 100 || 0;
 
-    if (coverage >= 0.06) return "good";
-    if (coverage >= 0.03) return "practice";
+    console.log("Coverage:", coverage);
+    console.log("Accuracy:", accuracy);
+
+    if (coverage < 10) return "wrong";
+
+    if (accuracy > 70 && coverage > 40) return "good";
+    if (accuracy > 40) return "practice";
     return "wrong";
   };
 
-  /* ------------------ NEXT BUTTON ------------------ */
+  /* ------------------ FRIENDLY FEEDBACK ------------------ */
+  const getFriendlyFeedback = (grade) => {
+    if (grade === "good")
+      return "🌟 Great job! You followed the letter very well!";
+
+    if (grade === "practice")
+      return "💛 Nice try! Follow the letter shape more carefully.";
+
+    return "🧠 Let’s try again slowly. You can do it!";
+  };
+
+  /* ------------------ AI ANALYSIS ------------------ */
+  const analyzeWithAI = async (resultData) => {
+    try {
+      const res = await fetch("http://localhost:5000/ai/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: resultData }),
+      });
+
+      const data = await res.json();
+      setAiAnalysis(data.analysis);
+    } catch {
+      setAiAnalysis("✨ Keep practicing! You're improving!");
+    }
+  };
+
+  /* ------------------ NEXT ------------------ */
   const handleNext = () => {
     if (!hasDrawn) {
-      alert("Please write the letter before moving to next.");
+      alert("Write the letter first!");
       return;
     }
 
     const grade = evaluateDrawing();
-    const currentLetter = uppercaseLetters[currentIndex];
+    const letter = uppercaseLetters[currentIndex];
 
-    setResults((prev) => ({
-      ...prev,
-      [currentLetter]: grade,
-    }));
+    const updatedResults = {
+      ...results,
+      [letter]: grade,
+    };
+
+    setResults(updatedResults);
+
+    // 👇 immediate friendly feedback
+    setAiAnalysis(getFriendlyFeedback(grade));
 
     if (currentIndex === 25) {
       setShowResultCard(true);
+      analyzeWithAI(updatedResults);
     } else {
       setCurrentIndex((prev) => prev + 1);
       setHasDrawn(false);
     }
   };
 
-  /* ------------------ RESULT CARD ------------------ */
+  /* ------------------ RESULT ------------------ */
   if (showResultCard) {
     return (
       <div className="letter-page">
         <div className="letter-navbar">
-          <div className="navbar-left">
-            <BackIcon goBack={goBack} />
-          </div>
-          <div className="navbar-title">📊 Round Result</div>
+          <div className="navbar-title">📊 AI Result</div>
         </div>
 
         <div className="result-card">
@@ -172,30 +212,23 @@ export default function LetterTracing({ goBack }) {
             ))}
           </div>
 
-          <div className="legend">
-            <div><span className="good-dot"></span> Good</div>
-            <div><span className="practice-dot"></span> Needs Practice</div>
-            <div><span className="wrong-dot"></span> Wrong</div>
-          </div>
+          <h3 style={{ marginTop: "20px" }}>🤖 AI Feedback:</h3>
+          <p>{aiAnalysis}</p>
         </div>
       </div>
     );
   }
 
-  /* ------------------ MAIN SCREEN ------------------ */
+  /* ------------------ MAIN ------------------ */
   return (
     <div className="letter-page">
       <div className="letter-navbar">
-        <div className="navbar-left">
-          <BackIcon goBack={goBack} />
-        </div>
-        <div className="navbar-title">
-          ✏ AI Letter Writing Test
-        </div>
+        <div className="navbar-title">✏ AI Letter Writing Test</div>
       </div>
 
       <div className="letter-content">
         <h2>Write the letter:</h2>
+
         <div className="big-letter">
           {uppercaseLetters[currentIndex]}
         </div>

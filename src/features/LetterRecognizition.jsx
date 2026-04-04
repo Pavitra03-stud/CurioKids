@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import BackIcon from "../components/BackIcon";
 import { speak } from "../utils/speak";
 import "../styles/ConfusingLetters.css";
+import { db } from "../firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
-export default function LetterRecognition({ goBack }) {
+export default function LetterRecognition() {
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -11,6 +12,9 @@ export default function LetterRecognition({ goBack }) {
   const [options, setOptions] = useState([]);
   const [correctCount, setCorrectCount] = useState(0);
   const [roundCompleted, setRoundCompleted] = useState(false);
+
+  // ✅ Logged user
+  const userEmail = localStorage.getItem("loginEmail");
 
   useEffect(() => {
     generateQuestion();
@@ -43,7 +47,7 @@ export default function LetterRecognition({ goBack }) {
       speak("Great job!");
 
       if (newCount >= 5) {
-        completeRound();
+        completeRound(newCount);
       } else {
         generateQuestion();
       }
@@ -52,10 +56,50 @@ export default function LetterRecognition({ goBack }) {
     }
   };
 
-  const completeRound = () => {
+  /* 🔥 SAVE TO FIRESTORE */
+  const saveProgressToFirestore = async (score) => {
+    try {
+      if (!userEmail) {
+        console.log("❌ No user logged in");
+        return;
+      }
+
+      const userRef = doc(db, "users", userEmail);
+      const userSnap = await getDoc(userRef);
+
+      let previousScore = 0;
+
+      if (userSnap.exists()) {
+        previousScore = userSnap.data().score || 0;
+      }
+
+      await setDoc(
+        userRef,
+        {
+          email: userEmail,
+          score: previousScore + score,
+          lastGame: "Letter Recognition",
+          lastPlayed: new Date().toISOString()
+        },
+        { merge: true }
+      );
+
+      console.log("✅ Score saved for:", userEmail);
+
+    } catch (err) {
+      console.error("❌ Firestore Error:", err);
+    }
+  };
+
+  /* 🎉 COMPLETE ROUND */
+  const completeRound = (finalScore) => {
     setRoundCompleted(true);
     speak("Amazing! You completed this round!");
 
+    // 🔥 Save to Firebase
+    saveProgressToFirestore(finalScore);
+
+    // ✅ Local backup (optional)
     const existing = JSON.parse(localStorage.getItem("aiProgress")) || {
       roundsCompleted: 0,
       rewards: [],
@@ -76,10 +120,9 @@ export default function LetterRecognition({ goBack }) {
   return (
     <div className="confusing-page">
 
+      {/* ❌ BACK ICON REMOVED */}
+
       <div className="confusing-navbar">
-        <div className="navbar-left">
-          <BackIcon goBack={goBack} />
-        </div>
         <div className="navbar-title">
           🔤 Letter Recognition
         </div>
@@ -115,6 +158,8 @@ export default function LetterRecognition({ goBack }) {
             <h2 className="instruction">
               🎉 Round Complete!
             </h2>
+
+            <p>Score saved to leaderboard 🚀</p>
 
             <button className="next-btn" onClick={nextRound}>
               Next Round 🔄

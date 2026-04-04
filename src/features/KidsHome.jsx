@@ -1,184 +1,10 @@
-// import "../styles/KidsHome.css";
-// import { speak } from "../utils/speak";
-// import foxy from "../assets/foxy-cutout.png";
-// import BackIcon from "../components/BackIcon";
-
-// export default function KidsHome({ navigate, goBack }) {
-
-//   const speakText = (text) => {
-//     speak(text);
-//   };
-
-//   return (
-//     <div className="kids-home">
-
-//       {/* 🦊 MASCOT */}
-//       <div className="mascot-container">
-//         <img src={foxy} alt="Jungle Friend" className="mascot-img" />
-//         <div className="mascot-bubble">
-//           <strong>Let’s start learning!!!</strong>
-//         </div>
-//       </div>
-
-//       {/* 🌴 NAVBAR */}
-//       <div className="kids-navbar">
-//         <div className="navbar-left">
-//           <BackIcon goBack={goBack} />
-//         </div>
-
-//         <div className="navbar-title">🌴 CurioKids</div>
-
-//         <div className="navbar-right">
-//           <button className="pill" onClick={() => navigate("rewards")}>
-//             🏆 Rewards
-//           </button>
-
-//           <button className="pill" onClick={() => navigate("progress")}>
-//             📊 Progress
-//           </button>
-//         </div>
-
-//       </div>
-
-//       {/* 🌿 CONTENT */}
-//       <div className="kids-content">
-
-//         {/* 🌱 WELCOME */}
-//         <section className="welcome-section">
-//           <h1>Welcome to the Jungle 🌿</h1>
-//           <p>Let's play, learn, and grow together!</p>
-//         </section>
-
-//         {/* 🧩 MAIN CARDS */}
-//         <section className="card-grid">
-
-//           {/* ===== GAMES ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("practice-home")}
-//             onMouseEnter={() => speakText("Let's play fun games!")}
-//           >
-//             <span className="card-icon">🎮</span>
-//             <span className="card-text">Games</span>
-//           </div>
-
-//           <div className="games-topic">
-//             <span className="card-text">Games</span>
-//             <ul>
-//               <li className="topic-link">Decoding Practice</li>
-//               <li className="topic-link">Identifying Concepts</li>
-//               <li className="topic-link">Isolating Speech Sounds</li>
-//             </ul>
-//           </div>
-
-//           {/* ===== LETTERS ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("letters")}
-//             onMouseEnter={() => speakText("Let's learn letters together!")}
-//           >
-//             <span className="card-icon">🔤</span>
-//             <span className="card-text">Letters</span>
-//           </div>
-
-//           <div className="games-topic">
-//             <span className="card-text">Letters</span>
-//             <ul>
-//               <li className="topic-link">Alphabet Explorer Zone</li>
-//               <li className="topic-link">Letter Detective Zone</li>
-//               <li className="topic-link">Writing & Shape Zone</li>
-//               <li className="topic-link">Letter Challenge Arena</li>
-//             </ul>
-//           </div>
-
-//           {/* ===== NUMBERS ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("numbers")}
-//             onMouseEnter={() => speakText("Numbers are fun to learn!")}
-//           >
-//             <span className="card-icon">🔢</span>
-//             <span className="card-text">Numbers</span>
-//           </div>
-
-//           <div className="games-topic">
-//             <span className="card-text">Numbers</span>
-//             <ul>
-//               <li className="topic-link">Number Writing</li>
-//               <li className="topic-link">Spelling Practice</li>
-//               <li className="topic-link">Focused Spelling</li>
-//             </ul>
-//           </div>
-
-//           {/* ===== PRACTICE ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("practice-home")}
-//             onMouseEnter={() => speakText("Practice makes you stronger!")}
-//           >
-//             <span className="card-icon">🧠</span>
-//             <span className="card-text">Practice</span>
-//           </div>
-
-//         </section>
-
-//         {/* 🦊 MASCOT */}
-//         <div className="mascot-container">
-//           <img 
-//             src={foxy} 
-//             alt="Jungle Friend" 
-//             className="mascot-img mascot-enter" 
-//           />
-//           <div className="mascot-bubble">
-//             <strong>Let’s start learning!!!</strong>
-//           </div>
-//         </div>
-
-//       </div>
-      
-//       <div className="games-topic">
-//           <span className="card-text">Games</span>
-//           <ul>
-//             <li>Decoding practice</li>
-//             <li>Indentifying concepts</li>
-//            <li>Isolating speech sounds</li>
-//           </ul>
-//       </div>
-//       <div className="games-topic">
-//           <span className="card-text">Practice</span>
-//           <ul>
-//             <li>Reading comprehension</li>
-//             <li>Spelling syllables and sounds</li>
-//            <li>Reviewing concepts</li>
-//           </ul>
-//       </div>
-//       <div className="games-topic">
-//           <span className="card-text">Letters</span>
-//           <ul>
-//             <li>Letter writing practice</li>
-//             <li>spelling practice</li>
-//            <li>Focused spelling</li>
-//           </ul>
-//       </div>
-//       <div className="games-topic">
-//           <span className="card-text">Numbers</span>
-//           <ul>
-//             <li>Numbers practice</li>
-//             <li>Spelling practice</li>
-//            <li>Counting</li>
-//           </ul>
-//       </div>
-//     </div>
-//   );
-// }
-
-
 import "../styles/KidsHome.css";
 import { speak } from "../utils/speak";
 import foxy from "../assets/foxy-cutout.png";
-import BackIcon from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
 
-export default function KidsHome({ navigate, goBack }) {
+export default function KidsHome() {
+  const navigate = useNavigate(); // ✅ NEW
 
   const speakText = (text) => {
     speak(text);
@@ -197,18 +23,17 @@ export default function KidsHome({ navigate, goBack }) {
 
       {/* 🌴 NAVBAR */}
       <div className="kids-navbar">
-        <div className="navbar-left">
-          <BackIcon goBack={goBack} />
-        </div>
+
+        {/* ❌ REMOVED BACK BUTTON */}
 
         <div className="navbar-title">🌴 CurioKids</div>
 
         <div className="navbar-right">
-          <button className="pill" onClick={() => navigate("rewards")}>
+          <button className="pill" onClick={() => navigate("/rewards")}>
             🏆 Rewards
           </button>
 
-          <button className="pill" onClick={() => navigate("progress")}>
+          <button className="pill" onClick={() => navigate("/progress")}>
             📊 Progress
           </button>
         </div>
@@ -230,7 +55,7 @@ export default function KidsHome({ navigate, goBack }) {
           {/* ===== GAMES ===== */}
           <div
             className="jungle-card"
-            onClick={() => navigate("games-home")}
+            onClick={() => navigate("/games-home")}
             onMouseEnter={() => speakText("Let's play fun games!")}
           >
             <span className="card-icon">🎮</span>
@@ -249,7 +74,7 @@ export default function KidsHome({ navigate, goBack }) {
           {/* ===== LETTERS ===== */}
           <div
             className="jungle-card"
-            onClick={() => navigate("letters-home")}
+            onClick={() => navigate("/letters-home")}
             onMouseEnter={() => speakText("Let's learn letters together!")}
           >
             <span className="card-icon">🔤</span>
@@ -269,7 +94,7 @@ export default function KidsHome({ navigate, goBack }) {
           {/* ===== NUMBERS ===== */}
           <div
             className="jungle-card"
-            onClick={() => navigate("numbers")}
+            onClick={() => navigate("/numbers")}
             onMouseEnter={() => speakText("Numbers are fun to learn!")}
           >
             <span className="card-icon">🔢</span>
@@ -288,7 +113,7 @@ export default function KidsHome({ navigate, goBack }) {
           {/* ===== PRACTICE ===== */}
           <div
             className="jungle-card"
-            onClick={() => navigate("practice-home")}
+            onClick={() => navigate("/practice-home")}
             onMouseEnter={() => speakText("Practice makes you stronger!")}
           >
             <span className="card-icon">🧠</span>
@@ -303,7 +128,7 @@ export default function KidsHome({ navigate, goBack }) {
                 className="topic-link"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate("practice-letter-mastery");
+                  navigate("/practice-letter-mastery");
                 }}
               >
                 Letter Mastery Zone
@@ -313,7 +138,7 @@ export default function KidsHome({ navigate, goBack }) {
                 className="topic-link"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate("practice-phonics");
+                  navigate("/practice-phonics");
                 }}
               >
                 Phonics Power Zone
@@ -323,7 +148,7 @@ export default function KidsHome({ navigate, goBack }) {
                 className="topic-link"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate("practice-word-builder");
+                  navigate("/practice-word-builder");
                 }}
               >
                 Word Builder Zone
@@ -333,7 +158,7 @@ export default function KidsHome({ navigate, goBack }) {
                 className="topic-link"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate("practice-memory");
+                  navigate("/practice-memory");
                 }}
               >
                 Memory & Visual Skills
@@ -343,7 +168,7 @@ export default function KidsHome({ navigate, goBack }) {
                 className="topic-link"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate("practice-confidence");
+                  navigate("/practice-confidence");
                 }}
               >
                 Confidence Boost Zone

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export default function OtpVerify() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -10,7 +10,7 @@ export default function OtpVerify() {
   const [loading, setLoading] = useState(false);
 
   const inputsRef = useRef([]);
-  const navigate = useNavigate(); // ✅ NEW
+  const navigate = useNavigate();
 
   const email = localStorage.getItem("loginEmail");
 
@@ -69,18 +69,36 @@ export default function OtpVerify() {
         return;
       }
 
-      // ✅ FIXED FIREBASE SAVE (NO UNDEFINED VARIABLES)
-      await setDoc(doc(db, "users", email), {
-        email,
-        verified: true,
-        createdAt: new Date(),
-      });
+      // 🔥 CHECK IF USER EXISTS
+      const userRef = doc(db, "users", email);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        // 🆕 Create new user
+        await setDoc(userRef, {
+          email,
+          score: 0,
+          level: "easy",
+          createdAt: new Date().toISOString(),
+        });
+      } else {
+        // 🔄 Update existing user (keep score)
+        await setDoc(
+          userRef,
+          {
+            verified: true,
+            lastLogin: new Date().toISOString(),
+          },
+          { merge: true }
+        );
+      }
 
       alert("Login successful 🎉");
 
-      localStorage.removeItem("loginEmail");
+      // ❌ DO NOT REMOVE EMAIL
+      // localStorage.removeItem("loginEmail");
 
-      // ✅ REDIRECT AFTER SUCCESS
+      // ✅ Navigate
       navigate("/kids-home");
 
     } catch (err) {
@@ -157,6 +175,7 @@ export default function OtpVerify() {
     </div>
   );
 }
+
 const styles = {
   container: {
     height: "100vh",

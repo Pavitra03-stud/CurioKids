@@ -62,6 +62,7 @@ import WeatherClothesGame from "./features/WeatherClothesGame";
 /* 🤖 AI */
 import AIChat from "./features/AIChat";
 import AIButton from "./features/AIButton";
+import AdminDashboard from "./features/AdminDashboard";
 
 import GamesLearning from "./features/GamesLearningHome";
 import GamesPlay from "./features/GamesPlayHome";
@@ -130,6 +131,7 @@ export default function App() {
         <Route path="/games-play" element={<GamesPlay />} />
         {/* 👨‍👩‍👧 Parent */}
         <Route path="/parent-dashboard" element={<ParentDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
 
         {/* 🤖 AI */}
         <Route path="/ai-chat" element={<AIChat />} />

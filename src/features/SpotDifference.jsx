@@ -5,13 +5,21 @@ import "../styles/BlendSounds.css";
 import { db } from "../firebase";
 import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-export default function BlendSounds() {
+// 🔥 Router
+import { useLocation } from "react-router-dom";
+
+export default function SpotDifference() {
 
   const TOTAL_QUESTIONS = 5;
 
-  const [sounds, setSounds] = useState([]);
-  const [options, setOptions] = useState([]);
-  const [correctAnswer, setCorrectAnswer] = useState("");
+  // 🔥 MODE
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const mode = query.get("mode") || "letters";
+
+  const [row1, setRow1] = useState([]);
+  const [row2, setRow2] = useState([]);
+  const [answer, setAnswer] = useState("");
 
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
@@ -19,37 +27,42 @@ export default function BlendSounds() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // 🤖 AI QUESTION
-  const generateQuestionAI = async () => {
+  // 🤖 AI GENERATOR
+  const generateQuestionAI = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/generate-blend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      const base =
+        mode === "numbers"
+          ? ["1","2","3","4","5","6","7","8","9"]
+          : "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-      const data = await res.json();
+      const newRow1 = Array(4)
+        .fill(null)
+        .map(() => base[Math.floor(Math.random() * base.length)]);
 
-      console.log("AI DATA:", data);
+      const newRow2 = [...newRow1];
 
-      if (!data.sounds || !data.options || !data.answer) {
-        throw new Error("Invalid data");
-      }
+      const diffIndex = Math.floor(Math.random() * 4);
 
-      setSounds(data.sounds);
-      setOptions(data.options);
-      setCorrectAnswer(data.answer);
+      let different;
+      do {
+        different = base[Math.floor(Math.random() * base.length)];
+      } while (different === newRow1[diffIndex]);
+
+      newRow2[diffIndex] = different;
+
+      setRow1(newRow1);
+      setRow2(newRow2);
+      setAnswer(different);
 
     } catch (err) {
       console.error(err);
 
       // fallback
-      setSounds(["c","a","t"]);
-      setOptions(["cat","cap","can"]);
-      setCorrectAnswer("cat");
+      setRow1(["A","B","C","D"]);
+      setRow2(["A","B","X","D"]);
+      setAnswer("X");
     } finally {
       setLoading(false);
     }
@@ -57,7 +70,7 @@ export default function BlendSounds() {
 
   useEffect(() => {
     generateQuestionAI();
-  }, []);
+  }, [mode]);
 
   // ☁️ SAVE
   const saveScoreToFirestore = async (finalScore) => {
@@ -74,7 +87,7 @@ export default function BlendSounds() {
         totalQuestions: TOTAL_QUESTIONS,
         accuracy: accuracy.toFixed(2),
         createdAt: Timestamp.now(),
-        game: "BlendSounds_AI"
+        game: `SpotDifference_${mode}`
       });
 
     } catch (error) {
@@ -82,43 +95,39 @@ export default function BlendSounds() {
     }
   };
 
-  // 🎯 HANDLE CLICK
-  const checkAnswer = (option) => {
+  // 🎯 CLICK
+  const handleClick = (item) => {
 
     if (questionCount >= TOTAL_QUESTIONS) return;
 
-    const isCorrect = option === correctAnswer;
+    const isCorrect = item === answer;
     const updatedScore = isCorrect ? score + 1 : score;
 
-    if (isCorrect) {
-      setScore(updatedScore);
-      setMessage("✅ Correct!");
-    } else {
-      setMessage("❌ Try again!");
-    }
+    setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
 
     setTimeout(async () => {
 
       setMessage("");
 
-      const nextCount = questionCount + 1;
-      setQuestionCount(nextCount);
+      const next = questionCount + 1;
+      setQuestionCount(next);
 
-      if (nextCount === TOTAL_QUESTIONS) {
+      if (next === TOTAL_QUESTIONS) {
 
         await saveScoreToFirestore(updatedScore);
 
-        alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
+        alert(`🎯 Completed!\nScore: ${updatedScore}/5`);
 
         setScore(0);
         setQuestionCount(0);
         generateQuestionAI();
 
       } else {
+        setScore(updatedScore);
         generateQuestionAI();
       }
 
-    }, 900);
+    }, 800);
   };
 
   // 📊 ANALYSIS
@@ -127,52 +136,47 @@ export default function BlendSounds() {
 
     const accuracy = (score / questionCount) * 100;
 
-    if (accuracy > 80) return "🌟 Excellent blending!";
-    if (accuracy > 50) return "👍 Good job!";
-    return "💡 Practice blending sounds!";
+    if (accuracy > 80) return "🌟 Eagle Eyes!";
+    if (accuracy > 50) return "👍 Good spotting!";
+    return "💡 Focus more!";
   };
 
   return (
     <div className="blend-container">
 
-      <h2>🤖 AI Blend the Sounds</h2>
+      <h2>👀 Spot the Difference ({mode})</h2>
 
       <div className="game-info">
-        <span>Question: {questionCount + 1}/{TOTAL_QUESTIONS}</span>
-        <span>Score: {score}</span>
+        Question {questionCount + 1}/5 | Score: {score}
       </div>
 
-      {/* 🔊 SOUNDS */}
+      {/* ROW 1 */}
       <div className="sounds">
         {loading ? (
           <p>Loading...</p>
         ) : (
-          sounds.map((s, i) => (
+          row1.map((item, i) => (
             <span key={i} className="sound-box">
-              {s}
+              {item}
             </span>
           ))
         )}
       </div>
 
-      {/* OPTIONS */}
-      <div className="options">
+      {/* ROW 2 */}
+      <div className="sounds">
         {loading ? (
-          <p>Loading options...</p>
+          <p>Loading...</p>
         ) : (
-          options.map((opt, i) => (
-            <button
-              key={i}
-              className="option-btn"
-              onClick={() => checkAnswer(opt)}
-            >
-              {opt}
+          row2.map((item, i) => (
+            <button key={i} onClick={() => handleClick(item)}>
+              {item}
             </button>
           ))
         )}
       </div>
 
-      <p className="message">{message}</p>
+      <p>{message}</p>
 
       <div className="ai-analysis">
         <p>{getPerformanceMessage()}</p>

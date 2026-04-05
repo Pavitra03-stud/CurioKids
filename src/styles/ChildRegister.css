@@ -58,3 +58,31 @@
   margin: 8px 0;
   text-align: center;
 }
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-btn {
+  background: #ffcc00;
+  border: none;
+  padding: 12px;
+  border-radius: 25px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.save-btn:hover {
+  background: #ff9900;
+  transform: scale(1.05);
+}

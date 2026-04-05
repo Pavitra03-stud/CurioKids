@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
-import "../styles/BeginningSounds.css";
+import "../styles/BlendSounds.css";
 
 // 🔥 Firebase
 import { db } from "../firebase";
 import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-export default function SoundMatching() {
+export default function MissingLetter() {
 
   const TOTAL_QUESTIONS = 5;
 
-  const [currentSound, setCurrentSound] = useState("");
+  const [displayWord, setDisplayWord] = useState("");
   const [options, setOptions] = useState([]);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
 
-  const [feedback, setFeedback] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   // 🤖 AI QUESTION
@@ -23,7 +24,7 @@ export default function SoundMatching() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/generate-sound-matching", {
+      const res = await fetch("http://localhost:5000/api/generate-missing-letter", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -32,26 +33,20 @@ export default function SoundMatching() {
 
       const data = await res.json();
 
-      console.log("AI DATA:", data);
-
-      if (!data.sound || !data.options) {
+      if (!data.display || !data.options || !data.answer) {
         throw new Error("Invalid data");
       }
 
-      setCurrentSound(data.sound);
+      setDisplayWord(data.display);
       setOptions(data.options);
+      setCorrectAnswer(data.answer);
 
     } catch (err) {
       console.error(err);
 
-      // fallback
-      setCurrentSound("B");
-      setOptions([
-        { word: "Ball", sound: "B", emoji: "⚽" },
-        { word: "Cat", sound: "C", emoji: "🐱" },
-        { word: "Dog", sound: "D", emoji: "🐶" },
-        { word: "Sun", sound: "S", emoji: "☀️" }
-      ]);
+      setDisplayWord("C _ T");
+      setOptions(["a","e","i","o"]);
+      setCorrectAnswer("a");
     } finally {
       setLoading(false);
     }
@@ -76,7 +71,7 @@ export default function SoundMatching() {
         totalQuestions: TOTAL_QUESTIONS,
         accuracy: accuracy.toFixed(2),
         createdAt: Timestamp.now(),
-        game: "SoundMatching_AI"
+        game: "MissingLetter_AI"
       });
 
     } catch (error) {
@@ -85,28 +80,23 @@ export default function SoundMatching() {
   };
 
   // 🎯 HANDLE CLICK
-  const handleClick = (item) => {
+  const handleClick = (letter) => {
 
     if (questionCount >= TOTAL_QUESTIONS) return;
 
-    const isCorrect = item.sound === currentSound;
+    const isCorrect = letter === correctAnswer;
     const updatedScore = isCorrect ? score + 1 : score;
 
-    if (isCorrect) {
-      setScore(updatedScore);
-      setFeedback("correct");
-    } else {
-      setFeedback("wrong");
-    }
+    setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
 
     setTimeout(async () => {
 
-      setFeedback("");
+      setMessage("");
 
-      const nextCount = questionCount + 1;
-      setQuestionCount(nextCount);
+      const next = questionCount + 1;
+      setQuestionCount(next);
 
-      if (nextCount === TOTAL_QUESTIONS) {
+      if (next === TOTAL_QUESTIONS) {
 
         await saveScoreToFirestore(updatedScore);
 
@@ -117,10 +107,11 @@ export default function SoundMatching() {
         generateQuestionAI();
 
       } else {
+        setScore(updatedScore);
         generateQuestionAI();
       }
 
-    }, 700);
+    }, 800);
   };
 
   // 📊 ANALYSIS
@@ -135,46 +126,33 @@ export default function SoundMatching() {
   };
 
   return (
-    <div className="phonics-page">
+    <div className="blend-container">
 
-      <div className="letter-navbar">
-        <h2>🤖 AI Sound Matching</h2>
-      </div>
+      <h2>🤖 Missing Letter</h2>
 
       <div className="game-info">
-        <span>Question: {questionCount + 1}/{TOTAL_QUESTIONS}</span>
-        <span>Score: {score}</span>
+        Question {questionCount + 1}/5 | Score: {score}
       </div>
-
-      <h3>Which word starts with:</h3>
 
       <div className="big-letter">
-        {loading ? "..." : `/ ${currentSound} /`}
+        {loading ? "..." : displayWord}
       </div>
 
-      <div className="options-grid">
+      <h3>Fill the missing letter</h3>
+
+      <div className="options">
         {loading ? (
           <p>Loading...</p>
         ) : (
-          options.map((item, index) => (
-            <button
-              key={index}
-              className="option-btn"
-              onClick={() => handleClick(item)}
-            >
-              {item.emoji} {item.word}
+          options.map((l, i) => (
+            <button key={i} onClick={() => handleClick(l)}>
+              {l.toUpperCase()}
             </button>
           ))
         )}
       </div>
 
-      {feedback === "correct" && (
-        <div className="feedback good">🎉 Correct!</div>
-      )}
-
-      {feedback === "wrong" && (
-        <div className="feedback wrong">❌ Try Again</div>
-      )}
+      <p>{message}</p>
 
       <div className="ai-analysis">
         <p>{getPerformanceMessage()}</p>

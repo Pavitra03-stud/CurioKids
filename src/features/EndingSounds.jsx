@@ -1,131 +1,184 @@
-import { useState } from "react";
-import BackIcon from "../components/BackIcon";
-import "../styles/BeginningSounds.css"; // reuse same CSS
+import { useState, useEffect } from "react";
+import "../styles/BeginningSounds.css";
 
-const wordBank = [
-  { word: "Dog", sound: "G", emoji: "🐶" },
-  { word: "Cat", sound: "T", emoji: "🐱" },
-  { word: "Ball", sound: "L", emoji: "⚽" },
-  { word: "Fish", sound: "H", emoji: "🐟" },
-  { word: "Sun", sound: "N", emoji: "☀️" },
-  { word: "Book", sound: "K", emoji: "📘" },
-  { word: "Hat", sound: "T", emoji: "🎩" },
-  { word: "Cup", sound: "P", emoji: "☕" }
-];
+// 🔥 Firebase
+import { db } from "../firebase";
+import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-export default function EndingSounds({ goBack }) {
+export default function EndingSounds() {
 
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const TOTAL_QUESTIONS = 5;
 
-  const getRandomWord = () =>
-    wordBank[Math.floor(Math.random() * wordBank.length)];
+  const [currentWord, setCurrentWord] = useState({});
+  const [options, setOptions] = useState([]);
 
-  const [level, setLevel] = useState(1);
   const [score, setScore] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
+
   const [feedback, setFeedback] = useState("");
-  const [levelComplete, setLevelComplete] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const [currentWord, setCurrentWord] = useState(getRandomWord());
+  // 🤖 AI QUESTION
+  const generateQuestionAI = async () => {
+    try {
+      setLoading(true);
 
-  const generateOptions = (correct) => {
-    const wrong = letters
-      .filter((l) => l !== correct)
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-
-    return [...wrong, correct].sort(() => 0.5 - Math.random());
-  };
-
-  const [options, setOptions] = useState(
-    generateOptions(currentWord.sound)
-  );
-
-  const nextRound = () => {
-    const newWord = getRandomWord();
-    setCurrentWord(newWord);
-    setOptions(generateOptions(newWord.sound));
-    setFeedback("");
-  };
-
-  const handleClick = (letter) => {
-    if (letter === currentWord.sound) {
-      setFeedback("correct");
-      setScore((prev) => prev + 10);
-      setProgress((prev) => prev + 1);
-
-      setTimeout(() => {
-        if (progress + 1 >= 5) {
-          setLevelComplete(true);
-        } else {
-          nextRound();
+      const res = await fetch("http://localhost:5000/api/generate-ending-sound", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         }
-      }, 700);
-    } else {
-      setFeedback("wrong");
+      });
+
+      const data = await res.json();
+
+      console.log("AI DATA:", data);
+
+      if (!data.word || !data.sound || !data.options) {
+        throw new Error("Invalid data");
+      }
+
+      setCurrentWord({
+        word: data.word,
+        sound: data.sound,
+        emoji: data.emoji || "🔤"
+      });
+
+      setOptions(data.options);
+
+    } catch (err) {
+      console.error(err);
+
+      // fallback
+      const fallback = {
+        word: "Dog",
+        sound: "G",
+        emoji: "🐶",
+        options: ["G","D","M","S"]
+      };
+
+      setCurrentWord(fallback);
+      setOptions(fallback.options);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const startNextLevel = () => {
-    setLevel((prev) => prev + 1);
-    setProgress(0);
-    setLevelComplete(false);
-    nextRound();
+  // ✅ LOAD FIRST QUESTION
+  useEffect(() => {
+    generateQuestionAI();
+  }, []);
+
+  // ☁️ SAVE
+  const saveScoreToFirestore = async (finalScore) => {
+    try {
+      const userEmail = "demo_user";
+
+      const userRef = doc(db, "users", userEmail);
+      const gameResultsRef = collection(userRef, "game_results");
+
+      const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
+
+      await addDoc(gameResultsRef, {
+        score: finalScore,
+        totalQuestions: TOTAL_QUESTIONS,
+        accuracy: accuracy.toFixed(2),
+        createdAt: Timestamp.now(),
+        game: "EndingSounds_AI"
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  if (levelComplete) {
-    return (
-      <div className="phonics-page">
-        <div className="letter-navbar">
-          <BackIcon goBack={goBack} />
-          <h2>🎉 Level {level} Complete!</h2>
-        </div>
+  // 🎯 HANDLE CLICK
+  const handleClick = (letter) => {
 
-        <div className="level-card">
-          <h3>Your Score: {score}</h3>
+    if (questionCount >= TOTAL_QUESTIONS) return;
 
-          {level < 3 ? (
-            <button className="next-level-btn" onClick={startNextLevel}>
-              🚀 Start Level {level + 1}
-            </button>
-          ) : (
-            <h2>🏆 You Finished All Levels!</h2>
-          )}
-        </div>
-      </div>
-    );
-  }
+    const isCorrect = letter === currentWord.sound;
+    const updatedScore = isCorrect ? score + 1 : score;
+
+    if (isCorrect) {
+      setScore(updatedScore);
+      setFeedback("correct");
+    } else {
+      setFeedback("wrong");
+    }
+
+    setTimeout(async () => {
+
+      setFeedback("");
+
+      const nextCount = questionCount + 1;
+      setQuestionCount(nextCount);
+
+      if (nextCount === TOTAL_QUESTIONS) {
+
+        await saveScoreToFirestore(updatedScore);
+
+        alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
+
+        setScore(0);
+        setQuestionCount(0);
+        generateQuestionAI();
+
+      } else {
+        generateQuestionAI();
+      }
+
+    }, 700);
+  };
+
+  // 📊 ANALYSIS
+  const getPerformanceMessage = () => {
+    if (questionCount === 0) return "";
+
+    const accuracy = (score / questionCount) * 100;
+
+    if (accuracy > 80) return "🌟 Excellent!";
+    if (accuracy > 50) return "👍 Good job!";
+    return "💡 Practice more!";
+  };
 
   return (
     <div className="phonics-page">
+
       <div className="letter-navbar">
-        <BackIcon goBack={goBack} />
-        <h2>🔚 Ending Sounds</h2>
+        <h2>🤖 AI Ending Sounds</h2>
       </div>
 
       <div className="game-info">
-        <span>Level: {level}</span>
+        <span>Question: {questionCount + 1}/{TOTAL_QUESTIONS}</span>
         <span>Score: {score}</span>
-        <span>Progress: {progress}/5</span>
       </div>
 
       <div className="word-display">
-        <div className="emoji">{currentWord.emoji}</div>
-        <h2>{currentWord.word}</h2>
+        <div className="emoji">
+          {loading ? "⏳" : (currentWord?.emoji || "🔤")}
+        </div>
+        <h2>
+          {loading ? "Loading..." : (currentWord?.word || "Loading...")}
+        </h2>
       </div>
 
       <h3>What sound does it END with?</h3>
 
       <div className="options-grid">
-        {options.map((letter, index) => (
-          <button
-            key={index}
-            className="option-btn"
-            onClick={() => handleClick(letter)}
-          >
-            {letter}
-          </button>
-        ))}
+        {loading ? (
+          <p>Loading question...</p>
+        ) : (
+          options.map((letter, index) => (
+            <button
+              key={index}
+              className="option-btn"
+              onClick={() => handleClick(letter)}
+            >
+              {letter}
+            </button>
+          ))
+        )}
       </div>
 
       {feedback === "correct" && (
@@ -135,6 +188,11 @@ export default function EndingSounds({ goBack }) {
       {feedback === "wrong" && (
         <div className="feedback wrong">❌ Try Again</div>
       )}
+
+      <div className="ai-analysis">
+        <p>{getPerformanceMessage()}</p>
+      </div>
+
     </div>
   );
 }

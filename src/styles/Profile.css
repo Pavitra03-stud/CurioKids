@@ -1,0 +1,112 @@
+.profile-page {
+  padding: 30px;
+  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #56ab2f, #a8e063);
+  font-family: "Comic Sans MS", cursive;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 20px auto;
+  max-width: 350px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.big {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+.save-btn {
+  margin-top: 10px;
+  background: #4caf50;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.friend-img {
+  width: 120px;
+  margin: 10px 0;
+}
+
+.change-btn {
+  background: orange;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.back-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+.profile-page {
+  text-align: center;
+  padding: 30px;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #56ab2f, #a8e063);
+  font-family: "Comic Sans MS", cursive;
+}
+
+.avatar-preview {
+  font-size: 80px;
+  margin: 20px;
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 15px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.avatar-card {
+  background: white;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.avatar-card:hover {
+  transform: scale(1.1);
+}
+
+.avatar-icon {
+  font-size: 40px;
+}
+
+.locked {
+  opacity: 0.5;
+}
+
+.unlocked {
+  border: 2px solid gold;
+}
+
+.stars-box {
+  margin-top: 20px;
+  background: white;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+}

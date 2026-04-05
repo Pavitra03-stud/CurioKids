@@ -5,13 +5,21 @@ import "../styles/BlendSounds.css";
 import { db } from "../firebase";
 import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-export default function BlendSounds() {
+// 🔥 Router
+import { useLocation } from "react-router-dom";
+
+export default function PatternMatching() {
 
   const TOTAL_QUESTIONS = 5;
 
-  const [sounds, setSounds] = useState([]);
+  // 🔥 MODE
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const mode = query.get("mode") || "letters";
+
+  const [pattern, setPattern] = useState([]);
   const [options, setOptions] = useState([]);
-  const [correctAnswer, setCorrectAnswer] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
@@ -19,37 +27,55 @@ export default function BlendSounds() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // 🤖 AI QUESTION
-  const generateQuestionAI = async () => {
+  // 🤖 AI GENERATOR
+  const generateQuestionAI = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/generate-blend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      const base =
+        mode === "numbers"
+          ? ["1","2","3","4","5","6","7","8","9"]
+          : "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-      const data = await res.json();
+      const a = base[Math.floor(Math.random() * base.length)];
+      let b;
 
-      console.log("AI DATA:", data);
+      do {
+        b = base[Math.floor(Math.random() * base.length)];
+      } while (b === a);
 
-      if (!data.sounds || !data.options || !data.answer) {
-        throw new Error("Invalid data");
+      const type = Math.random();
+
+      let newPattern, correct;
+
+      if (type < 0.5) {
+        // ABAB_
+        newPattern = [a, b, a, b, "?"];
+        correct = a;
+      } else {
+        // AABB_
+        newPattern = [a, a, b, b, "?"];
+        correct = b;
       }
 
-      setSounds(data.sounds);
-      setOptions(data.options);
-      setCorrectAnswer(data.answer);
+      const wrong = base
+        .filter((l) => l !== correct)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 2);
+
+      const opts = [correct, ...wrong].sort(() => 0.5 - Math.random());
+
+      setPattern(newPattern);
+      setAnswer(correct);
+      setOptions(opts);
 
     } catch (err) {
       console.error(err);
 
       // fallback
-      setSounds(["c","a","t"]);
-      setOptions(["cat","cap","can"]);
-      setCorrectAnswer("cat");
+      setPattern(["A","B","A","B","?"]);
+      setOptions(["A","C","D"]);
+      setAnswer("A");
     } finally {
       setLoading(false);
     }
@@ -57,7 +83,7 @@ export default function BlendSounds() {
 
   useEffect(() => {
     generateQuestionAI();
-  }, []);
+  }, [mode]);
 
   // ☁️ SAVE
   const saveScoreToFirestore = async (finalScore) => {
@@ -74,7 +100,7 @@ export default function BlendSounds() {
         totalQuestions: TOTAL_QUESTIONS,
         accuracy: accuracy.toFixed(2),
         createdAt: Timestamp.now(),
-        game: "BlendSounds_AI"
+        game: `PatternMatching_${mode}`
       });
 
     } catch (error) {
@@ -82,97 +108,90 @@ export default function BlendSounds() {
     }
   };
 
-  // 🎯 HANDLE CLICK
-  const checkAnswer = (option) => {
+  // 🎯 CLICK
+  const handleClick = (item) => {
 
     if (questionCount >= TOTAL_QUESTIONS) return;
 
-    const isCorrect = option === correctAnswer;
+    const isCorrect = item === answer;
     const updatedScore = isCorrect ? score + 1 : score;
 
-    if (isCorrect) {
-      setScore(updatedScore);
-      setMessage("✅ Correct!");
-    } else {
-      setMessage("❌ Try again!");
-    }
+    setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
 
     setTimeout(async () => {
 
       setMessage("");
 
-      const nextCount = questionCount + 1;
-      setQuestionCount(nextCount);
+      const next = questionCount + 1;
+      setQuestionCount(next);
 
-      if (nextCount === TOTAL_QUESTIONS) {
+      if (next === TOTAL_QUESTIONS) {
 
         await saveScoreToFirestore(updatedScore);
 
-        alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
+        alert(`🎯 Completed!\nScore: ${updatedScore}/5`);
 
         setScore(0);
         setQuestionCount(0);
         generateQuestionAI();
 
       } else {
+        setScore(updatedScore);
         generateQuestionAI();
       }
 
-    }, 900);
+    }, 800);
   };
 
-  // 📊 ANALYSIS
+  // 📊 AI ANALYSIS
   const getPerformanceMessage = () => {
     if (questionCount === 0) return "";
 
     const accuracy = (score / questionCount) * 100;
 
-    if (accuracy > 80) return "🌟 Excellent blending!";
-    if (accuracy > 50) return "👍 Good job!";
-    return "💡 Practice blending sounds!";
+    if (accuracy > 80) return "🌟 Pattern Genius!";
+    if (accuracy > 50) return "👍 Nice thinking!";
+    return "💡 Practice patterns!";
   };
 
   return (
     <div className="blend-container">
 
-      <h2>🤖 AI Blend the Sounds</h2>
+      <h2>🧠 Pattern Matching ({mode})</h2>
 
       <div className="game-info">
-        <span>Question: {questionCount + 1}/{TOTAL_QUESTIONS}</span>
-        <span>Score: {score}</span>
+        Question {questionCount + 1}/5 | Score: {score}
       </div>
 
-      {/* 🔊 SOUNDS */}
+      {/* PATTERN */}
       <div className="sounds">
         {loading ? (
           <p>Loading...</p>
         ) : (
-          sounds.map((s, i) => (
+          pattern.map((item, i) => (
             <span key={i} className="sound-box">
-              {s}
+              {item}
             </span>
           ))
         )}
       </div>
 
+      <h3>What comes next?</h3>
+
       {/* OPTIONS */}
       <div className="options">
         {loading ? (
-          <p>Loading options...</p>
+          <p>Loading...</p>
         ) : (
           options.map((opt, i) => (
-            <button
-              key={i}
-              className="option-btn"
-              onClick={() => checkAnswer(opt)}
-            >
+            <button key={i} onClick={() => handleClick(opt)}>
               {opt}
             </button>
           ))
         )}
       </div>
 
-      <p className="message">{message}</p>
+      <p>{message}</p>
 
       <div className="ai-analysis">
         <p>{getPerformanceMessage()}</p>

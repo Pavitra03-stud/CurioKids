@@ -1,252 +1,173 @@
-// import { useState } from "react";
-// import BackIcon from "../components/BackIcon";
-// import "../styles/FindCorrectLetter.css";
-
-// export default function FindCorrectLetter({ goBack }) {
-//   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-//   const getRandomLetter = () =>
-//     letters[Math.floor(Math.random() * letters.length)];
-
-//   const [targetLetter, setTargetLetter] = useState(getRandomLetter());
-//   const [options, setOptions] = useState(generateGrid(targetLetter));
-//   const [feedback, setFeedback] = useState("");
-//   const [score, setScore] = useState(0);
-//   const [level, setLevel] = useState(1);
-//   const [answered, setAnswered] = useState(0);
-//   const [levelComplete, setLevelComplete] = useState(false);
-
-//   function generateGrid(correct) {
-//     const gridSize = level === 1 ? 6 : level === 2 ? 9 : 12;
-
-//     const wrongLetters = letters
-//       .filter((l) => l !== correct)
-//       .sort(() => 0.5 - Math.random())
-//       .slice(0, gridSize - 1);
-
-//     return [...wrongLetters, correct].sort(() => 0.5 - Math.random());
-//   }
-
-//   const nextRound = () => {
-//     const newLetter = getRandomLetter();
-//     setTargetLetter(newLetter);
-//     setOptions(generateGrid(newLetter));
-//     setFeedback("");
-//   };
-
-//   const handleClick = (letter) => {
-//     if (letter === targetLetter) {
-//       setFeedback("correct");
-//       setScore((prev) => prev + 10);
-//       setAnswered((prev) => prev + 1);
-
-//       setTimeout(() => {
-//         if (answered + 1 >= 5) {
-//           setLevelComplete(true);
-//         } else {
-//           nextRound();
-//         }
-//       }, 700);
-//     } else {
-//       setFeedback("wrong");
-//     }
-//   };
-
-//   const startNextLevel = () => {
-//     setLevel((prev) => prev + 1);
-//     setAnswered(0);
-//     setLevelComplete(false);
-//     nextRound();
-//   };
-
-//   if (levelComplete) {
-//     return (
-//       <div className="find-page">
-//         <div className="letter-navbar">
-//           <BackIcon goBack={goBack} />
-//           <h2>🎉 Level {level} Complete!</h2>
-//         </div>
-
-//         <div className="level-card">
-//           <h3>Your Score: {score}</h3>
-
-//           {level < 3 ? (
-//             <button className="next-level-btn" onClick={startNextLevel}>
-//               🚀 Start Level {level + 1}
-//             </button>
-//           ) : (
-//             <h2>🏆 You Finished All Levels!</h2>
-//           )}
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="find-page">
-//       <div className="letter-navbar">
-//         <BackIcon goBack={goBack} />
-//         <h2>🔎 Find the Correct Letter</h2>
-//       </div>
-
-//       <div className="game-info">
-//         <span>Level: {level}</span>
-//         <span>Score: {score}</span>
-//         <span>Progress: {answered}/5</span>
-//       </div>
-
-//       <h2 className="target-text">
-//         Find the letter: <span>{targetLetter}</span>
-//       </h2>
-
-//       <div className="letter-grid">
-//         {options.map((letter, index) => (
-//           <button
-//             key={index}
-//             className="grid-letter"
-//             onClick={() => handleClick(letter)}
-//           >
-//             {letter}
-//           </button>
-//         ))}
-//       </div>
-
-//       {feedback === "correct" && (
-//         <div className="feedback good">🎉 Correct!</div>
-//       )}
-
-//       {feedback === "wrong" && (
-//         <div className="feedback wrong">❌ Try Again</div>
-//       )}
-//     </div>
-//   );
-// }
-
-
-import { useState } from "react";
-import BackIcon from "../components/BackIcon";
+import { useState, useEffect } from "react";
 import "../styles/FindCorrectLetter.css";
 
-export default function FindCorrectLetter({ goBack }) {
+// 🔥 Firebase
+import { db } from "../firebase";
+import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
+
+export default function FindCorrectLetter() {
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  const getRandomLetter = () =>
-    letters[Math.floor(Math.random() * letters.length)];
+  const TOTAL_QUESTIONS = 5;
 
-  const [level, setLevel] = useState(1);
-  const [score, setScore] = useState(0);
-  const [answered, setAnswered] = useState(0);
+  // 🤖 States
+  const [targetLetter, setTargetLetter] = useState("");
+  const [options, setOptions] = useState([]);
   const [feedback, setFeedback] = useState("");
-  const [levelComplete, setLevelComplete] = useState(false);
 
-  const [targetLetter, setTargetLetter] = useState(getRandomLetter());
+  const [score, setScore] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
 
-  /* FIXED: pass level as parameter */
-  const generateGrid = (correct, currentLevel) => {
-    const gridSize =
-      currentLevel === 1 ? 6 :
-      currentLevel === 2 ? 9 :
-      12;
+  // 🤖 AI Question Generator (SAFE VERSION)
+  const generateQuestionAI = () => {
+    if (!letters || letters.length === 0) {
+      return {
+        question: "A",
+        options: ["A", "B", "C", "D", "E", "F"],
+      };
+    }
 
-    const wrongLetters = letters
+    const correct =
+      letters[Math.floor(Math.random() * letters.length)];
+
+    const wrong = letters
       .filter((l) => l !== correct)
       .sort(() => 0.5 - Math.random())
-      .slice(0, gridSize - 1);
+      .slice(0, 5);
 
-    return [...wrongLetters, correct].sort(() => 0.5 - Math.random());
+    const options = [...wrong, correct].sort(
+      () => 0.5 - Math.random()
+    );
+
+    return {
+      question: correct,
+      options,
+    };
   };
 
-  const [options, setOptions] = useState(
-    generateGrid(targetLetter, level)
-  );
+  const loadNewQuestion = () => {
+    const q = generateQuestionAI();
 
-  const nextRound = () => {
-    const newLetter = getRandomLetter();
-    setTargetLetter(newLetter);
-    setOptions(generateGrid(newLetter, level));
-    setFeedback("");
+    // ✅ SAFETY CHECK (fix empty UI bug)
+    if (!q.question || !q.options || q.options.length === 0) {
+      setTargetLetter("A");
+      setOptions(["A", "B", "C", "D", "E", "F"]);
+      return;
+    }
+
+    setTargetLetter(q.question);
+    setOptions(q.options);
   };
 
-  const handleClick = (letter) => {
-    if (letter === targetLetter) {
-      setFeedback("correct");
-      setScore((prev) => prev + 10);
-      setAnswered((prev) => prev + 1);
+  useEffect(() => {
+    loadNewQuestion();
+  }, []);
 
-      setTimeout(() => {
-        if (answered + 1 >= 5) {
-          setLevelComplete(true);
-        } else {
-          nextRound();
-        }
-      }, 700);
-    } else {
-      setFeedback("wrong");
+  // 📊 Save to Firestore
+  const saveScoreToFirestore = async (finalScore) => {
+    try {
+      const userEmail = "demo_user"; // later replace with logged user
+
+      const userRef = doc(db, "users", userEmail);
+      const gameResultsRef = collection(userRef, "game_results");
+
+      const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
+
+      await addDoc(gameResultsRef, {
+        score: finalScore,
+        totalQuestions: TOTAL_QUESTIONS,
+        accuracy: accuracy.toFixed(2),
+        createdAt: Timestamp.now(),
+        game: "FindCorrectLetter",
+      });
+
+      console.log("✅ Saved result");
+    } catch (error) {
+      console.error("❌ Error:", error);
     }
   };
 
-  const startNextLevel = () => {
-    const newLevel = level + 1;
-    setLevel(newLevel);
-    setAnswered(0);
-    setLevelComplete(false);
+  // 🎯 Handle Answer
+  const handleClick = (letter) => {
+    if (questionCount >= TOTAL_QUESTIONS) return;
 
-    const newLetter = getRandomLetter();
-    setTargetLetter(newLetter);
-    setOptions(generateGrid(newLetter, newLevel));
-    setFeedback("");
+    const isCorrect = letter === targetLetter;
+
+    if (isCorrect) {
+      setScore((prev) => prev + 1);
+      setFeedback("correct");
+    } else {
+      setFeedback("wrong");
+    }
+
+    setTimeout(async () => {
+      setFeedback("");
+
+      const nextCount = questionCount + 1;
+      const finalScore = score + (isCorrect ? 1 : 0);
+
+      setQuestionCount(nextCount);
+
+      // 🎯 END OF ROUND
+      if (nextCount === TOTAL_QUESTIONS) {
+        await saveScoreToFirestore(finalScore);
+
+        alert(
+          `🎯 Round Completed!\nScore: ${finalScore}/${TOTAL_QUESTIONS}`
+        );
+
+        // 🔁 RESET
+        setScore(0);
+        setQuestionCount(0);
+        loadNewQuestion();
+      } else {
+        loadNewQuestion();
+      }
+    }, 800);
   };
 
-  if (levelComplete) {
-    return (
-      <div className="find-page">
-        <div className="letter-navbar">
-          <BackIcon goBack={goBack} />
-          <h2>🎉 Level {level} Complete!</h2>
-        </div>
+  // 📊 AI Analysis
+  const getPerformanceMessage = () => {
+    if (questionCount === 0) return "";
 
-        <div className="level-card">
-          <h3>Your Score: {score}</h3>
+    const accuracy = (score / questionCount) * 100;
 
-          {level < 3 ? (
-            <button className="next-level-btn" onClick={startNextLevel}>
-              🚀 Start Level {level + 1}
-            </button>
-          ) : (
-            <h2>🏆 You Finished All Levels!</h2>
-          )}
-        </div>
-      </div>
-    );
-  }
+    if (accuracy > 80) return "🌟 Excellent!";
+    if (accuracy > 50) return "👍 Good job!";
+    return "💡 Keep practicing!";
+  };
 
   return (
     <div className="find-page">
       <div className="letter-navbar">
-        <BackIcon goBack={goBack} />
-        <h2>🔎 Find the Correct Letter</h2>
+        <h2>🔎 AI Find the Correct Letter</h2>
       </div>
 
       <div className="game-info">
-        <span>Level: {level}</span>
+        <span>
+          Question: {questionCount + 1}/{TOTAL_QUESTIONS}
+        </span>
         <span>Score: {score}</span>
-        <span>Progress: {answered}/5</span>
       </div>
 
       <h2 className="target-text">
-        Find the letter: <span>{targetLetter}</span>
+        Find: <span>{targetLetter || "..."}</span>
       </h2>
 
       <div className="letter-grid">
-        {options.map((letter, index) => (
-          <button
-            key={index}
-            className="grid-letter"
-            onClick={() => handleClick(letter)}
-          >
-            {letter}
-          </button>
-        ))}
+        {options.length > 0 ? (
+          options.map((letter, index) => (
+            <button
+              key={index}
+              className="grid-letter"
+              onClick={() => handleClick(letter)}
+            >
+              {letter}
+            </button>
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
 
       {feedback === "correct" && (
@@ -256,6 +177,11 @@ export default function FindCorrectLetter({ goBack }) {
       {feedback === "wrong" && (
         <div className="feedback wrong">❌ Try Again</div>
       )}
+
+      {/* 📊 Analysis */}
+      <div className="ai-analysis">
+        <p>{getPerformanceMessage()}</p>
+      </div>
     </div>
   );
 }

@@ -30,6 +30,10 @@ import NumbersHome from "./features/NumbersHome";
 import GamesHome from "./features/GamesHome";
 import GamesPlayHome from "./features/GamesPlayHome";
 import ParentDashboard from "./features/ParentDashboard";
+import BeginningSounds from "./features/BeginningSounds";
+import EndingSounds from "./features/EndingSounds";
+import BuildWord from "./features/BuildWord";
+import FindHidden from "./features/FindHidden";
 
 /* 🔢 Numbers */
 import StrawberryCount from "./features/StrawberryCount";
@@ -54,7 +58,27 @@ import AlphabetLetterTracing from "./features/AlphabetLetterTracing";
 import LetterRecognizition from "./features/LetterRecognizition";
 import UppercaseLowercase from "./features/UppercaseLowercase";
 import RhymingWords from "./features/RhymingWords";
-
+import FindCorrectLetter from "./features/FindCorrectLetter";
+import SoundMatching from "./features/SoundMatching";
+import BlendSounds from "./features/BlendSounds";
+import BreakWord from "./features/BreakWord";
+import MissingLetter from "./features/MissingLetter";
+import SightWords from "./features/SightWords";
+import WordScramble from "./features/WordScramble";
+import SentenceBuilder from "./features/SentenceBuilder";
+import MatchWordToPicture from "./features/MatchWordToPicture";
+import SequenceBuilder from "./features/SequenceBuilder";
+import LeftRightPractice from "./features/LeftRightPractice";
+import PatternMatching from "./features/PatternMatching";
+import SpotDifference from "./features/SpotDifference";
+import MemoryMatching from "./features/MemoryMatching";
+import ReadAloud from "./features/ReadAloud";
+import TimedChallenge from "./features/TimedChallenge";
+import DailyPractice from "./features/DailyPractice";
+import RewardChallenge from "./features/RewardChallenge";
+import ProgressStars from "./features/ProgressStars";
+import Rewards from "./features/Reward";
+import Progress from "./features/Progress";
 /* 🎮 Games */
 import SoundTap from "./features/SoundTap";
 import PatternCopy from "./features/PatternCopy";
@@ -69,10 +93,12 @@ import WeatherClothesGame from "./features/WeatherClothesGame";
 /* 🤖 AI */
 import AIChat from "./features/AIChat";
 import AIButton from "./features/AIButton";
+import Profile from "./features/Profile";
 import AdminDashboard from "./features/AdminDashboard";
 
 import GamesLearning from "./features/GamesLearningHome";
 import GamesPlay from "./features/GamesPlayHome";
+import { GameProvider } from "./context/GameContext";
 
 import "./index.css";
 
@@ -543,7 +569,7 @@ export default function App() {
       return <PublicHome onComplete={() => navigate("child-register")} />;
   }
   return (
-    <>
+    <GameProvider>
       <Routes>
 
         {/* 🌱 Entry */}
@@ -565,6 +591,9 @@ export default function App() {
         <Route path="/letters-game-home" element={<LettersGameHome />} />
         <Route path="/practice-home" element={<PracticeHome />} />
         <Route path="/numbers" element={<NumbersHome />} />
+        <Route path="/rewards" element={<Rewards />} />
+        <Route path="/progress" element={<Progress />} />
+        
 
         {/* 🔤 Letters */}
         <Route path="/alphabet-learning" element={<AlphabetLearning />} />
@@ -575,6 +604,31 @@ export default function App() {
         <Route path="/uppercase-lowercase" element={<UppercaseLowercase />} />
         <Route path="/rhyming-words" element={<RhymingWords />} />
         <Route path="/ai-writing-test" element={<AIWritingTest />} />
+        <Route path="/find-letter" element={<FindCorrectLetter />} />
+        <Route path ="/beginning-sounds" element={<BeginningSounds/>}/>
+        <Route path ="/ending-sounds" element={<EndingSounds/>}/>
+        <Route path="/sound-matching" element={<SoundMatching />} />
+        <Route path="/blend-sounds" element={<BlendSounds />} />
+        <Route path="/break-word" element={<BreakWord />} />
+        <Route path="/build-word" element={<BuildWord />} />
+        <Route path="/missing-letter" element={<MissingLetter />} />
+        <Route path="/sight-words" element={<SightWords />} />
+        <Route path="/word-scramble" element={<WordScramble />} />
+        <Route path="/sentence-builder" element={<SentenceBuilder />} />
+        <Route path="/match-word-picture" element={<MatchWordToPicture />} />
+        <Route path="/find-hidden" element={<FindHidden/>}/>
+        <Route path="/sequence-builder" element={<SequenceBuilder />} />
+        <Route path="/left-right-practice" element={<LeftRightPractice />} />
+        <Route path="/pattern-matching" element={<PatternMatching />} />
+        <Route path="/spot-difference" element={<SpotDifference/>}/>
+        <Route path="/memory-match" element={<MemoryMatching />} />
+        <Route path="/read-aloud" element={<ReadAloud />} />
+        <Route path="/timed-challenge" element={<TimedChallenge />} />
+        <Route path="/daily-practice-goal" element={<DailyPractice />} />
+        <Route path="/reward-challenge" element={<RewardChallenge />} />
+        <Route path="/progress-stars" element={<ProgressStars />} />
+        <Route path="/profile" element={<Profile />} />
+        
 
         {/* 🔢 Numbers */}
         <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
@@ -611,8 +665,8 @@ export default function App() {
       </Routes>
 
       {/* 🤖 Floating AI Button */}
-      <AIButton />
-    </>
+    <AIButton/>
+    </GameProvider>
   );
 
 }

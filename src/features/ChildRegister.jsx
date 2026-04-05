@@ -1,19 +1,18 @@
 import { useState } from "react";
-import GameButton from "../components/Gamebutton";
-import BackIcon from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
 import "../styles/ChildRegister.css";
 
-export default function ChildRegister({ onComplete, goBack }) {
+export default function ChildRegister({ onComplete }) {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
-
   const [errors, setErrors] = useState({});
 
   // 🔹 Validation function
   const validateForm = () => {
     let newErrors = {};
 
-    // Name validation
     if (!name.trim()) {
       newErrors.name = "Name is required";
     } else if (!/^[A-Za-z\s]+$/.test(name)) {
@@ -22,14 +21,11 @@ export default function ChildRegister({ onComplete, goBack }) {
       newErrors.name = "Name must be at least 2 characters";
     }
 
-    // Age validation
     if (!age) {
       newErrors.age = "Please select age";
     }
 
     setErrors(newErrors);
-
-    // if no errors → valid
     return Object.keys(newErrors).length === 0;
   };
 
@@ -45,12 +41,17 @@ export default function ChildRegister({ onComplete, goBack }) {
     localStorage.setItem("childProfile", JSON.stringify(childProfile));
     localStorage.setItem("appProgress", "child-created");
 
-    onComplete();
+    // Navigate instead of onComplete
+    navigate("/choose-friend");
   };
 
   return (
     <div className="child-register">
-      <BackIcon goBack={goBack} />
+
+      {/* 🔙 SIMPLE BACK BUTTON */}
+      <button className="back-btn" onClick={() => navigate(-1)}>
+        ⬅ Back
+      </button>
 
       <div className="register-card">
         <h1>Hi there! 👋</h1>
@@ -78,7 +79,11 @@ export default function ChildRegister({ onComplete, goBack }) {
         </select>
         {errors.age && <p className="error">{errors.age}</p>}
 
-        <GameButton text="🌱 Save My Profile" onClick={saveChild} />
+        {/* 🌱 SAVE BUTTON */}
+        <button className="save-btn" onClick={saveChild}>
+          🌱 Save My Profile
+        </button>
+
         <p className="note">No email. No passwords. Just play.</p>
       </div>
     </div>

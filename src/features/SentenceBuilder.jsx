@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
-import "../styles/BeginningSounds.css";
+import "../styles/BlendSounds.css";
 
 // 🔥 Firebase
 import { db } from "../firebase";
 import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-export default function SoundMatching() {
+export default function SentenceBuilder() {
 
   const TOTAL_QUESTIONS = 5;
 
-  const [currentSound, setCurrentSound] = useState("");
+  const [shuffled, setShuffled] = useState([]);
   const [options, setOptions] = useState([]);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
   const [score, setScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
 
-  const [feedback, setFeedback] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   // 🤖 AI QUESTION
@@ -23,7 +24,7 @@ export default function SoundMatching() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/generate-sound-matching", {
+      const res = await fetch("http://localhost:5000/api/generate-sentence", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -32,26 +33,20 @@ export default function SoundMatching() {
 
       const data = await res.json();
 
-      console.log("AI DATA:", data);
-
-      if (!data.sound || !data.options) {
+      if (!data.shuffled || !data.options || !data.answer) {
         throw new Error("Invalid data");
       }
 
-      setCurrentSound(data.sound);
+      setShuffled(data.shuffled);
       setOptions(data.options);
+      setCorrectAnswer(data.answer);
 
     } catch (err) {
       console.error(err);
 
-      // fallback
-      setCurrentSound("B");
-      setOptions([
-        { word: "Ball", sound: "B", emoji: "⚽" },
-        { word: "Cat", sound: "C", emoji: "🐱" },
-        { word: "Dog", sound: "D", emoji: "🐶" },
-        { word: "Sun", sound: "S", emoji: "☀️" }
-      ]);
+      setShuffled(["the","cat","is"]);
+      setOptions(["the cat is","cat is the","is the cat"]);
+      setCorrectAnswer("the cat is");
     } finally {
       setLoading(false);
     }
@@ -76,7 +71,7 @@ export default function SoundMatching() {
         totalQuestions: TOTAL_QUESTIONS,
         accuracy: accuracy.toFixed(2),
         createdAt: Timestamp.now(),
-        game: "SoundMatching_AI"
+        game: "SentenceBuilder_AI"
       });
 
     } catch (error) {
@@ -85,28 +80,23 @@ export default function SoundMatching() {
   };
 
   // 🎯 HANDLE CLICK
-  const handleClick = (item) => {
+  const handleClick = (sentence) => {
 
     if (questionCount >= TOTAL_QUESTIONS) return;
 
-    const isCorrect = item.sound === currentSound;
+    const isCorrect = sentence === correctAnswer;
     const updatedScore = isCorrect ? score + 1 : score;
 
-    if (isCorrect) {
-      setScore(updatedScore);
-      setFeedback("correct");
-    } else {
-      setFeedback("wrong");
-    }
+    setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
 
     setTimeout(async () => {
 
-      setFeedback("");
+      setMessage("");
 
-      const nextCount = questionCount + 1;
-      setQuestionCount(nextCount);
+      const next = questionCount + 1;
+      setQuestionCount(next);
 
-      if (nextCount === TOTAL_QUESTIONS) {
+      if (next === TOTAL_QUESTIONS) {
 
         await saveScoreToFirestore(updatedScore);
 
@@ -117,10 +107,11 @@ export default function SoundMatching() {
         generateQuestionAI();
 
       } else {
+        setScore(updatedScore);
         generateQuestionAI();
       }
 
-    }, 700);
+    }, 900);
   };
 
   // 📊 ANALYSIS
@@ -129,52 +120,49 @@ export default function SoundMatching() {
 
     const accuracy = (score / questionCount) * 100;
 
-    if (accuracy > 80) return "🌟 Excellent!";
+    if (accuracy > 80) return "🌟 Excellent sentence building!";
     if (accuracy > 50) return "👍 Good job!";
-    return "💡 Practice more!";
+    return "💡 Practice sentence formation!";
   };
 
   return (
-    <div className="phonics-page">
+    <div className="blend-container">
 
-      <div className="letter-navbar">
-        <h2>🤖 AI Sound Matching</h2>
-      </div>
+      <h2>🤖 Sentence Builder</h2>
 
       <div className="game-info">
-        <span>Question: {questionCount + 1}/{TOTAL_QUESTIONS}</span>
-        <span>Score: {score}</span>
+        Question {questionCount + 1}/5 | Score: {score}
       </div>
 
-      <h3>Which word starts with:</h3>
-
-      <div className="big-letter">
-        {loading ? "..." : `/ ${currentSound} /`}
-      </div>
-
-      <div className="options-grid">
+      {/* 🔤 SHUFFLED WORDS */}
+      <div className="sounds">
         {loading ? (
           <p>Loading...</p>
         ) : (
-          options.map((item, index) => (
-            <button
-              key={index}
-              className="option-btn"
-              onClick={() => handleClick(item)}
-            >
-              {item.emoji} {item.word}
+          shuffled.map((w, i) => (
+            <span key={i} className="sound-box">
+              {w}
+            </span>
+          ))
+        )}
+      </div>
+
+      <h3>Choose the correct sentence</h3>
+
+      {/* OPTIONS */}
+      <div className="options">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          options.map((opt, i) => (
+            <button key={i} onClick={() => handleClick(opt)}>
+              {opt}
             </button>
           ))
         )}
       </div>
 
-      {feedback === "correct" && (
-        <div className="feedback good">🎉 Correct!</div>
-      )}
-
-      {feedback === "wrong" && (
-        <div className="feedback wrong">❌ Try Again</div>
-      )}
+      <p>{message}</p>
 
       <div className="ai-analysis">
         <p>{getPerformanceMessage()}</p>

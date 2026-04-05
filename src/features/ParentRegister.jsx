@@ -1,9 +1,9 @@
 import { useState } from "react";
-import GameButton from "../components/Gamebutton";
-import BackIcon from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
 import "../styles/ParentRegister.css";
 
-export default function ParentRegister({ onComplete, goBack, goToLogin }) {
+export default function ParentRegister() {
+  const navigate = useNavigate();
 
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,9 +14,6 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
   const isValidEmail = (value) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-
-  localStorage.setItem("userName", parentName.trim());
-  localStorage.setItem("userTime", timeLimit);
   const saveParent = async () => {
     setError("");
 
@@ -51,7 +48,11 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
     }
 
     try {
-      // ✅ STEP 1: REGISTER USER
+      // ✅ SAVE LOCALLY (FIXED)
+      localStorage.setItem("userName", parentName.trim());
+      localStorage.setItem("userTime", timeLimit);
+
+      // ✅ REGISTER
       const res = await fetch("http://localhost:5000/api/register", {
         method: "POST",
         headers: {
@@ -60,7 +61,7 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
         body: JSON.stringify({
           name: parentName.trim(),
           email: email.trim(),
-          time: timeLimit, // 🔥 FIXED (was missing)
+          time: timeLimit,
         }),
       });
 
@@ -76,7 +77,7 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
         return;
       }
 
-      // ✅ STEP 2: SEND OTP (🔥 THIS WAS MISSING)
+      // ✅ SEND OTP
       const otpRes = await fetch("http://localhost:5000/api/send-otp", {
         method: "POST",
         headers: {
@@ -94,7 +95,7 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
         return;
       }
 
-      // 💾 STORE DATA
+      // 💾 STORE TEMP DATA
       const parentData = {
         parentName: parentName.trim(),
         email: email.trim(),
@@ -102,12 +103,12 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
       };
 
       localStorage.setItem("tempParent", JSON.stringify(parentData));
-      localStorage.setItem("loginEmail", email.trim()); // for OTP screen
+      localStorage.setItem("loginEmail", email.trim());
 
       alert("OTP sent to your email 📧");
 
-      // 👉 Go to OTP screen
-      onComplete();
+      // 👉 Navigate to OTP screen
+      navigate("/otp");
 
     } catch (err) {
       console.log(err);
@@ -117,7 +118,11 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
 
   return (
     <div className="parent-register">
-      <BackIcon goBack={goBack} />
+
+      {/* 🔙 BACK BUTTON */}
+      <button className="back-btn" onClick={() => navigate(-1)}>
+        ⬅ Back
+      </button>
 
       <div className="parent-card">
         <h1>Parent Registration</h1>
@@ -152,14 +157,15 @@ export default function ParentRegister({ onComplete, goBack, goToLogin }) {
 
         {error && <p className="error-text">{error}</p>}
 
-        <GameButton
-          text="🔐 Link & Unlock Jungle"
-          onClick={saveParent}
-        />
+        {/* 🔐 BUTTON */}
+        <button className="save-btn" onClick={saveParent}>
+          🔐 Link & Unlock Jungle
+        </button>
 
+        {/* 🔗 LOGIN */}
         <p
           className="login-link"
-          onClick={goToLogin}
+          onClick={() => navigate("/login")}
           style={{ cursor: "pointer" }}
         >
           Already registered? Login 🔐

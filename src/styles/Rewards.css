@@ -1,0 +1,132 @@
+.rewards-page {
+  padding: 30px;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a8e063, #56ab2f);
+  text-align: center;
+  font-family: "Comic Sans MS", cursive;
+}
+
+.title {
+  font-size: 36px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.reward-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.reward-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  transition: transform 0.3s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.reward-card:hover {
+  transform: scale(1.05);
+}
+
+.reward-card.locked {
+  opacity: 0.7;
+}
+
+.reward-card.unlocked {
+  border: 3px solid gold;
+}
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #eee;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #ffcc00, #ff6600);
+  border-radius: 10px;
+}
+
+.unlock-btn {
+  background: orange;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.unlock-btn:hover {
+  background: #ff6600;
+  transform: scale(1.1);
+}
+
+.status {
+  font-weight: bold;
+}
+
+.unlocked-text {
+  color: green;
+}
+.star-box {
+  background: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.locked-text {
+  color: red;
+  font-weight: bold;
+}
+
+.unlocked-text {
+  color: green;
+  font-weight: bold;
+}
+
+.earn-btn {
+  margin-top: 30px;
+  padding: 12px 20px;
+  background: #ffcc00;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: gold;
+  padding: 15px 25px;
+  border-radius: 15px;
+  font-weight: bold;
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.claim-btn {
+  background: orange;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}

@@ -41,7 +41,7 @@ html, body {
   height: 70px;
 
   background: #1b4332;
-  color: white;
+  color: rgb(255, 255, 255);
 
   display: flex;
   align-items: center;
@@ -69,7 +69,7 @@ html, body {
 }
 
 .pill {
-  background: white;
+  background: rgb(0, 0, 0);
   border: none;
   padding: 6px 14px;
   border-radius: 20px;
@@ -296,6 +296,56 @@ html, body {
     padding: 45px 30px;
   }
 }
+.profile-container {
+  position: relative;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  background: #ffd93d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  color: black;
+  border-radius: 12px;
+  padding: 10px;
+  width: 180px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+
+.profile-dropdown button {
+  width: 100%;
+  text-align: left;
+  padding: 6px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.profile-dropdown button:hover {
+  background: #f0f0f0;
+}
+
+.logout-btn {
+  color: red;
+}
+
+.profile-name {
+  font-weight: bold;
+}
 
 @media (max-width: 600px) {
   .welcome-section h1 {
@@ -311,4 +361,5 @@ html, body {
     bottom: 90px;
     font-size: 0.8rem;
   }
+
 }

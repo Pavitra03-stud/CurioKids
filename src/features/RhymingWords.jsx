@@ -1,129 +1,179 @@
-import { useState } from "react";
-import BackIcon from "../components/BackIcon";
-import "../styles/RhymingSound.css"; // reuse phonics styling
+import { useState, useEffect } from "react";
+import "../styles/RhymingSound.css";
 
-const rhymeBank = [
-  { word: "Cat", rhyme: "Hat", emoji: "🐱" },
-  { word: "Dog", rhyme: "Log", emoji: "🐶" },
-  { word: "Sun", rhyme: "Fun", emoji: "☀️" },
-  { word: "Ball", rhyme: "Tall", emoji: "⚽" },
-  { word: "Fish", rhyme: "Dish", emoji: "🐟" },
-  { word: "Book", rhyme: "Cook", emoji: "📘" },
-  { word: "Car", rhyme: "Star", emoji: "🚗" }
-];
+// 🔥 Firebase
+import { db } from "../firebase";
+import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-export default function RhymingWords({ goBack }) {
+export default function RhymingWords() {
 
-  const getRandomPair = () =>
-    rhymeBank[Math.floor(Math.random() * rhymeBank.length)];
+  const TOTAL_QUESTIONS = 5;
 
-  const [level, setLevel] = useState(1);
+  const [currentWord, setCurrentWord] = useState({});
+  const [options, setOptions] = useState([]);
+
+  const [correctAnswer, setCorrectAnswer] = useState("");
+
   const [score, setScore] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
+
   const [feedback, setFeedback] = useState("");
-  const [levelComplete, setLevelComplete] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const [currentPair, setCurrentPair] = useState(getRandomPair());
+  // 🤖 AI QUESTION
+  const generateQuestionAI = async () => {
+    try {
+      setLoading(true);
 
-  const generateOptions = (correctRhyme) => {
-    const wrong = rhymeBank
-      .map(item => item.rhyme)
-      .filter(word => word !== correctRhyme)
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-
-    return [correctRhyme, ...wrong].sort(() => 0.5 - Math.random());
-  };
-
-  const [options, setOptions] = useState(
-    generateOptions(currentPair.rhyme)
-  );
-
-  const nextRound = () => {
-    const newPair = getRandomPair();
-    setCurrentPair(newPair);
-    setOptions(generateOptions(newPair.rhyme));
-    setFeedback("");
-  };
-
-  const handleClick = (selected) => {
-    if (selected === currentPair.rhyme) {
-      setFeedback("correct");
-      setScore(prev => prev + 10);
-      setProgress(prev => prev + 1);
-
-      setTimeout(() => {
-        if (progress + 1 >= 5) {
-          setLevelComplete(true);
-        } else {
-          nextRound();
+      const res = await fetch("http://localhost:5000/api/generate-rhyming", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         }
-      }, 700);
-    } else {
-      setFeedback("wrong");
+      });
+
+      const data = await res.json();
+
+      console.log("AI DATA:", data);
+
+      if (!data.word || !data.options || !data.answer) {
+        throw new Error("Invalid data");
+      }
+
+      setCurrentWord({
+        word: data.word,
+        emoji: data.emoji || "🔤"
+      });
+
+      setCorrectAnswer(data.answer);
+      setOptions(data.options);
+
+    } catch (err) {
+      console.error(err);
+
+      // fallback
+      setCurrentWord({ word: "Cat", emoji: "🐱" });
+      setCorrectAnswer("Hat");
+      setOptions(["Hat","Log","Fun","Tall"]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const startNextLevel = () => {
-    setLevel(prev => prev + 1);
-    setProgress(0);
-    setLevelComplete(false);
-    nextRound();
+  useEffect(() => {
+    generateQuestionAI();
+  }, []);
+
+  // ☁️ SAVE
+  const saveScoreToFirestore = async (finalScore) => {
+    try {
+      const userEmail = "demo_user";
+
+      const userRef = doc(db, "users", userEmail);
+      const gameResultsRef = collection(userRef, "game_results");
+
+      const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
+
+      await addDoc(gameResultsRef, {
+        score: finalScore,
+        totalQuestions: TOTAL_QUESTIONS,
+        accuracy: accuracy.toFixed(2),
+        createdAt: Timestamp.now(),
+        game: "RhymingWords_AI"
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  if (levelComplete) {
-    return (
-      <div className="phonics-page">
-        <div className="letter-navbar">
-          <BackIcon goBack={goBack} />
-          <h2>🎉 Level {level} Complete!</h2>
-        </div>
+  // 🎯 HANDLE CLICK
+  const handleClick = (selected) => {
 
-        <div className="level-card">
-          <h3>Your Score: {score}</h3>
+    if (questionCount >= TOTAL_QUESTIONS) return;
 
-          {level < 3 ? (
-            <button className="next-level-btn" onClick={startNextLevel}>
-              🚀 Start Level {level + 1}
-            </button>
-          ) : (
-            <h2>🏆 You Finished All Levels!</h2>
-          )}
-        </div>
-      </div>
-    );
-  }
+    const isCorrect = selected === correctAnswer;
+    const updatedScore = isCorrect ? score + 1 : score;
+
+    if (isCorrect) {
+      setScore(updatedScore);
+      setFeedback("correct");
+    } else {
+      setFeedback("wrong");
+    }
+
+    setTimeout(async () => {
+
+      setFeedback("");
+
+      const nextCount = questionCount + 1;
+      setQuestionCount(nextCount);
+
+      if (nextCount === TOTAL_QUESTIONS) {
+
+        await saveScoreToFirestore(updatedScore);
+
+        alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
+
+        setScore(0);
+        setQuestionCount(0);
+        generateQuestionAI();
+
+      } else {
+        generateQuestionAI();
+      }
+
+    }, 700);
+  };
+
+  // 📊 ANALYSIS
+  const getPerformanceMessage = () => {
+    if (questionCount === 0) return "";
+
+    const accuracy = (score / questionCount) * 100;
+
+    if (accuracy > 80) return "🌟 Excellent!";
+    if (accuracy > 50) return "👍 Good job!";
+    return "💡 Practice more!";
+  };
 
   return (
     <div className="phonics-page">
+
       <div className="letter-navbar">
-        <BackIcon goBack={goBack} />
-        <h2>🎵 Rhyming Words</h2>
+        <h2>🤖 AI Rhyming Words</h2>
       </div>
 
       <div className="game-info">
-        <span>Level: {level}</span>
+        <span>Question: {questionCount + 1}/{TOTAL_QUESTIONS}</span>
         <span>Score: {score}</span>
-        <span>Progress: {progress}/5</span>
       </div>
 
       <div className="word-display">
-        <div className="emoji">{currentPair.emoji}</div>
-        <h2>{currentPair.word}</h2>
+        <div className="emoji">
+          {loading ? "⏳" : (currentWord?.emoji || "🔤")}
+        </div>
+        <h2>
+          {loading ? "Loading..." : (currentWord?.word || "Loading...")}
+        </h2>
       </div>
 
       <h3>Which word rhymes with:</h3>
 
       <div className="options-grid">
-        {options.map((word, index) => (
-          <button
-            key={index}
-            className="option-btn"
-            onClick={() => handleClick(word)}
-          >
-            {word}
-          </button>
-        ))}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          options.map((word, index) => (
+            <button
+              key={index}
+              className="option-btn"
+              onClick={() => handleClick(word)}
+            >
+              {word}
+            </button>
+          ))
+        )}
       </div>
 
       {feedback === "correct" && (
@@ -133,6 +183,11 @@ export default function RhymingWords({ goBack }) {
       {feedback === "wrong" && (
         <div className="feedback wrong">❌ Try Again</div>
       )}
+
+      <div className="ai-analysis">
+        <p>{getPerformanceMessage()}</p>
+      </div>
+
     </div>
   );
 }

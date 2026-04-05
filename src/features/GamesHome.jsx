@@ -1,80 +1,52 @@
-import React from "react";
 import "../styles/GamesHome.css";
-function GamesHome({ navigate, goBack }) {
-import { useNavigate } from "react-router-dom";
+import BackIcon from "../components/BackIcon";
 
-export default function GamesHome() {
-  const navigate = useNavigate(); // ✅ NEW
-
+export default function GamesHome({ navigate, goBack }) {
   return (
-    <div className="games-home-page">
+    <div className="games-page">
+      <div className="floating-bg bubble1"></div>
+      <div className="floating-bg bubble2"></div>
+      <div className="floating-bg bubble3"></div>
 
-      {/* Header */}
-      <div className="games-home-header">
-        <button className="games-back-btn" onClick={goBack}>
+      <header className="games-topbar">
+        <button className="games-back" onClick={goBack}>
           ←
         </button>
+        <h1 className="games-topbar-title">🎮 Games</h1>
+      </header>
 
-        <h1>🎮 Games Home</h1>
+      <div className="games-header">
+        <div className="header-mascots">
+          <span>🐯</span>
+          <span>🦊</span>
+          <span>🐻</span>
+        </div>
+        <p>Choose a zone and start playing</p>
       </div>
 
-
-      {/* Content */}
-      <div className="games-home-content">
-        <p className="games-home-subtitle">
-          Choose your zone and start playing ✨
-        </p>
-
-      {/* ❌ REMOVED BACK BUTTON */}
-
-
-        <div className="games-cards-grid">
-
-          {/* Learning */}
-          <div
-            className="games-feature-card"
-            onClick={() => navigate("games-learning")}
-          >
-            <div className="games-feature-icon learning-icon">📘</div>
-            <h2>Games Learning Zone</h2>
-            <p>Practice fun activities and simple learning tasks.</p>
-          </div>
-
-          {/* Play */}
-          <div
-            className="games-feature-card"
-            onClick={() => navigate("games-play")}
-          >
-            <div className="games-feature-icon gaming-icon">🎮</div>
-            <h2>Games Play Zone</h2>
-            <p>Play exciting games and improve quickly.</p>
-          </div>
-
-
-        </div>
-
-        {/* 📘 Learning Zone */}
+      <div className="games-container">
         <div
           className="games-card learning"
-          onClick={() => navigate("/games-learning")}
+          onClick={() => navigate("games-learning-home")}
           style={{ cursor: "pointer" }}
         >
           📘 Learning Zone
         </div>
 
-        {/* 🎮 Game Zone */}
         <div
           className="games-card play"
-          onClick={() => navigate("/games-play")}
+          onClick={() => navigate("games-play-home")}
           style={{ cursor: "pointer" }}
         >
           🎮 Game Zone
         </div>
+      </div>
 
-
+      <div className="bottom-animals">
+        <span>🦁</span>
+        <span>🐼</span>
+        <span>🐵</span>
       </div>
     </div>
   );
 }
-
-export default GamesHome;

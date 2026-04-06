@@ -42,7 +42,7 @@ export default function ChildRegister({ onComplete }) {
     localStorage.setItem("appProgress", "child-created");
 
     // Navigate instead of onComplete
-    navigate("/choose-friend");
+    navigate("/parent-register");
   };
 
   return (

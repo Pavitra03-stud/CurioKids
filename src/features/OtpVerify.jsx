@@ -99,7 +99,7 @@ export default function OtpVerify() {
       // localStorage.removeItem("loginEmail");
 
       // ✅ Navigate
-      navigate("/kids-home");
+      navigate("/choose-friend");
 
     } catch (err) {
       console.error(err);

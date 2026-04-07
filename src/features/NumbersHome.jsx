@@ -1,14 +1,18 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";   // ✅ ADD THIS
 import BackIcon from "../components/BackIcon";
 import "../styles/numbersZone.css";
 
-export default function NumbersHome({ navigate, goBack }) {
+export default function NumbersHome({ goBack }) {
+  const navigate = useNavigate();   // ✅ ADD THIS
+
   return (
     <div className="numbers-zone-page">
 
       {/* Header */}
       <div className="numbers-zone-header">
         <div className="navbar-left">
-          <BackIcon goBack={goBack} />
+          <BackIcon goBack={goBack ? goBack : () => navigate(-1)} />
         </div>
         <h1>🔢 Numbers</h1>
       </div>
@@ -19,7 +23,10 @@ export default function NumbersHome({ navigate, goBack }) {
         {/* Learning */}
         <div
           className="zone-card"
-          onClick={() => navigate("numbers-learning-home")}
+          onClick={() => {
+            console.log("Numbers Learning clicked");
+            navigate("/numbers-learning-home");   // ✅ UPDATED
+          }}
         >
           <div className="zone-icon">📚</div>
 
@@ -34,7 +41,10 @@ export default function NumbersHome({ navigate, goBack }) {
         {/* Gaming */}
         <div
           className="zone-card"
-          onClick={() => navigate("numbers-game-home")}
+          onClick={() => {
+            console.log("Numbers Gaming clicked");
+            navigate("/numbers-game-home");   // ✅ UPDATED
+          }}
         >
           <div className="zone-icon">🎮</div>
 

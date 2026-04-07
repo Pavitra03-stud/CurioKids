@@ -47,12 +47,6 @@ export default function ChildRegister({ onComplete }) {
 
   return (
     <div className="child-register">
-
-      {/* 🔙 SIMPLE BACK BUTTON */}
-      <button className="back-btn" onClick={() => navigate(-1)}>
-        ⬅ Back
-      </button>
-
       <div className="register-card">
         <h1>Hi there! 👋</h1>
         <p>Let’s create your jungle profile</p>

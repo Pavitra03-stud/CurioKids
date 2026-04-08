@@ -119,11 +119,6 @@ export default function ParentRegister() {
   return (
     <div className="parent-register">
 
-      {/* 🔙 BACK BUTTON */}
-      <button className="back-btn" onClick={() => navigate(-1)}>
-        ⬅ Back
-      </button>
-
       <div className="parent-card">
         <h1>Parent Registration</h1>
         <p>Help guide your child’s jungle journey</p>

@@ -1,81 +1,55 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";   // ✅ ADD THIS
+import BackIcon from "../components/BackIcon";
 import "../styles/numbersZone.css";
 
-export default function NumbersLearningHome({ navigate, goBack }) {
-  const lessons = [
-    {
-      title: "What is a Number?",
-      subtitle: "Learn number basics",
-      screen: "concept-what-is-a-number",
-      icon: "🔢",
-    },
-    {
-      title: "Bigger & Smaller",
-      subtitle: "Compare numbers easily",
-      screen: "concept-bigger-smaller",
-      icon: "📏",
-    },
-    {
-      title: "Number Line Basics",
-      subtitle: "Learn number positions",
-      screen: "concept-number-line",
-      icon: "➡️",
-    },
-    {
-      title: "Skip Counting Concept",
-      subtitle: "Count by 2s, 5s, and 10s",
-      screen: "concept-skip-counting",
-      icon: "🔁",
-    },
-  ];
+export default function NumbersLearningHome({ goBack }) {
+  const navigate = useNavigate();   // ✅ ADD THIS
 
   return (
     <div className="numbers-zone-page">
-      <div className="floating-bg bubble1"></div>
-      <div className="floating-bg bubble2"></div>
-      <div className="floating-bg bubble3"></div>
 
-      <header className="numbers-zone-topbar">
-        <button className="numbers-zone-back" onClick={goBack}>
-          ←
-        </button>
-        <h1 className="numbers-zone-topbar-title">📚 Numbers Learning Zone</h1>
-      </header>
-
-      <div className="numbers-zone-header">
-        <div className="header-mascots">
-          <span>🔢</span>
-          <span>🧮</span>
-          <span>✨</span>
+      <div className="practice-navbar">
+        <div className="navbar-left">
+          <BackIcon goBack={goBack ? goBack : () => navigate(-1)} />
         </div>
-        <p>Choose a number lesson and start learning</p>
+        <div className="navbar-title">
+          📚 Numbers Learning Zone
+        </div>
       </div>
 
-      <div className="numbers-zone-container">
-        {lessons.map((item, i) => (
-          <div
-            key={i}
-            className="numbers-zone-card"
-            onClick={() => navigate(item.screen)}
-          >
-            <div className="card-left">
-              <div className="animal-icon">{item.icon}</div>
+      <div className="zone-container">
 
-              <div className="card-text">
-                <h2>{item.title}</h2>
-                <p>{item.subtitle}</p>
-              </div>
-            </div>
+        <div
+          className="zone-card"
+          onClick={() => navigate("/concept-what-is-a-number")}   // ✅ UPDATED
+        >
+          🔢 What is a Number?
+        </div>
 
-            <div className="arrow">→</div>
-          </div>
-        ))}
+        <div
+          className="zone-card"
+          onClick={() => navigate("/concept-bigger-smaller")}   // ✅ UPDATED
+        >
+          📏 Bigger & Smaller
+        </div>
+
+        <div
+          className="zone-card"
+          onClick={() => navigate("/concept-number-line")}   // ✅ UPDATED
+        >
+          ➡ Number Line Basics
+        </div>
+
+        <div
+          className="zone-card"
+          onClick={() => navigate("/concept-skip-counting")}   // ✅ UPDATED
+        >
+          🔁 Skip Counting Concept
+        </div>
+
       </div>
 
-      <div className="bottom-icons">
-        <span>1️⃣</span>
-        <span>2️⃣</span>
-        <span>3️⃣</span>
-      </div>
     </div>
   );
 }

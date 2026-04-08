@@ -1,63 +1,63 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";   // ✅ ADD THIS
+import BackIcon from "../components/BackIcon";
 import "../styles/numbersZone.css";
 
-export default function NumbersHome({ navigate, goBack }) {
+export default function NumbersHome({ goBack }) {
+  const navigate = useNavigate();   // ✅ ADD THIS
+
   return (
-    <div className="numbers-home-page">
-      <div className="floating-bg bubble1"></div>
-      <div className="floating-bg bubble2"></div>
-      <div className="floating-bg bubble3"></div>
+    <div className="numbers-zone-page">
 
-      <header className="numbers-home-topbar">
-        <button className="numbers-home-back" onClick={goBack}>
-          ←
-        </button>
-        <h1 className="numbers-home-topbar-title">🔢 Numbers</h1>
-      </header>
-
-      <div className="numbers-home-header">
-        <div className="header-mascots">
-          <span>1️⃣</span>
-          <span>2️⃣</span>
-          <span>3️⃣</span>
+      {/* Header */}
+      <div className="numbers-zone-header">
+        <div className="navbar-left">
+          <BackIcon goBack={goBack ? goBack : () => navigate(-1)} />
         </div>
-        <p>Choose a fun zone and start learning</p>
+        <h1>🔢 Numbers</h1>
       </div>
 
-      <div className="numbers-home-container">
+      {/* Cards */}
+      <div className="zone-container">
+
+        {/* Learning */}
         <div
-          className="numbers-home-card"
-          onClick={() => navigate("numbers-learning-home")}
+          className="zone-card"
+          onClick={() => {
+            console.log("Numbers Learning clicked");
+            navigate("/numbers-learning-home");   // ✅ UPDATED
+          }}
         >
-          <div className="card-left">
-            <div className="animal-icon">📚</div>
-            <div className="card-text">
-              <h2>Learning Zone</h2>
-              <p>Learn numbers with fun concepts</p>
-            </div>
+          <div className="zone-icon">📚</div>
+
+          <div className="zone-text">
+            <h2>Learning Zone</h2>
+            <p>Learn numbers with fun concepts</p>
           </div>
-          <div className="arrow">→</div>
+
+          <div className="zone-arrow">→</div>
         </div>
 
+        {/* Gaming */}
         <div
-          className="numbers-home-card"
-          onClick={() => navigate("numbers-games-home")}
+          className="zone-card"
+          onClick={() => {
+            console.log("Numbers Gaming clicked");
+            navigate("/numbers-game-home");   // ✅ UPDATED
+          }}
         >
-          <div className="card-left">
-            <div className="animal-icon">🎮</div>
-            <div className="card-text">
-              <h2>Game Zone</h2>
-              <p>Play games and improve your skills</p>
-            </div>
+          <div className="zone-icon">🎮</div>
+
+          <div className="zone-text">
+            <h2>Game Zone</h2>
+            <p>Play games and improve your skills</p>
           </div>
-          <div className="arrow">→</div>
+
+          <div className="zone-arrow">→</div>
         </div>
+
       </div>
 
-      <div className="bottom-icons">
-        <span>🔢</span>
-        <span>🧮</span>
-        <span>✨</span>
-      </div>
     </div>
   );
 }

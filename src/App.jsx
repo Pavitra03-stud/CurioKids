@@ -79,6 +79,7 @@ import RewardChallenge from "./features/RewardChallenge";
 import ProgressStars from "./features/ProgressStars";
 import Rewards from "./features/Reward";
 import Progress from "./features/Progress";
+//import LettersLearningHome from "./features/LettersLearningHome";
 /* 🎮 Games */
 import SoundTap from "./features/SoundTap";
 import PatternCopy from "./features/PatternCopy";
@@ -89,6 +90,9 @@ import FillBucket from "./features/FillBucket";
 import LetterBlast from "./features/LetterBlast";
 import GamesLearningHome from "./features/GamesLearningHome";
 import WeatherClothesGame from "./features/WeatherClothesGame";
+import NumberNinja from "./features/NumberNinja";
+import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
+
 
 /* 🤖 AI */
 import AIChat from "./features/AIChat";
@@ -587,8 +591,8 @@ export default function App() {
         {/* 🌴 Main */}
         <Route path="/kids-home" element={<KidsHome />} />
         <Route path="/letters-home" element={<LettersHome />} />
-        <Route path="/letters-learning-home" element={<LettersLearningHome />} />
-        <Route path="/letters-game-home" element={<LettersGameHome />} />
+        <Route path="/letter-learning" element={<LettersLearningHome />} />
+        <Route path="/letter-gaming" element={<LettersGameHome />} />
         <Route path="/practice-home" element={<PracticeHome />} />
         <Route path="/numbers" element={<NumbersHome />} />
         <Route path="/rewards" element={<Rewards />} />
@@ -628,6 +632,8 @@ export default function App() {
         <Route path="/reward-challenge" element={<RewardChallenge />} />
         <Route path="/progress-stars" element={<ProgressStars />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/number-ninja" element={<NumberNinja />} />
+
         
 
         {/* 🔢 Numbers */}
@@ -640,6 +646,7 @@ export default function App() {
         <Route path="/compare-safari" element={<CompareSafari />} />
         <Route path="/skip-count" element={<SkipCounting />} />
         <Route path="/number-line" element={<NumberLineMove />} />
+        <Route path="/concept-what-is-a-number" element={<ConceptWhatIsANumber/>}/>
 
         {/* 🎮 Games */}
         <Route path="/games-home" element={<GamesHome />} />
@@ -651,7 +658,7 @@ export default function App() {
         <Route path="/memory-match" element={<MemoryMatch />} />
         <Route path="/catch-word" element={<CatchWord />} />
         <Route path="/fill-bucket" element={<FillBucket />} />
-        <Route path="/letter-blast-game" element={<LetterBlast />} />
+        <Route path="/letter-blast" element={<LetterBlast />} />
         <Route path="/weather-clothes" element={<WeatherClothesGame />} />
         <Route path="/games-learning" element={<GamesLearning />} />
         <Route path="/games-play" element={<GamesPlay />} />

@@ -61,3 +61,366 @@
   margin-top: 25px;
   font-size: 18px;
 }
+.progress {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.objects {
+  font-size: 40px;
+  margin: 20px;
+}
+
+.clickable {
+  cursor: pointer;
+  margin: 10px;
+  transition: transform 0.2s;
+}
+
+.clickable:hover {
+  transform: scale(1.3);
+}
+
+.big-number {
+  font-size: 60px;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.bounce {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.option-btn {
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.correct {
+  background-color: green;
+  color: white;
+}
+
+.wrong {
+  background-color: red;
+  color: white;
+}
+
+.feedback {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.concept-page.fun {
+  background: linear-gradient(135deg, #6bcB77, #4d96ff);
+  min-height: 100vh;
+  color: white;
+  text-align: center;
+}
+
+/* Navbar */
+.fun-nav {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+}
+
+/* Card */
+.fun-card {
+  background: rgba(255,255,255,0.1);
+  padding: 30px;
+  border-radius: 20px;
+  margin: 40px auto;
+  width: 60%;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Title */
+.title {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Objects */
+.objects {
+  font-size: 50px;
+  margin: 20px;
+}
+
+/* Click animation */
+.clickable {
+  cursor: pointer;
+  margin: 10px;
+  transition: transform 0.2s;
+}
+
+.clickable:active {
+  transform: scale(1.4);
+}
+
+/* Number */
+.big-number {
+  font-size: 70px;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.glow {
+  text-shadow: 0 0 20px white;
+}
+
+/* Bounce */
+.bounce {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Buttons */
+.fun-buttons button {
+  background: orange;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  margin: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s;
+}
+
+.fun-buttons button:hover {
+  background: #ff7b00;
+  transform: scale(1.1);
+}
+
+/* Progress bar */
+.progress-bar-container {
+  width: 60%;
+  height: 10px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 10px;
+  margin: 20px auto;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: yellow;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+/* Quiz */
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.option-btn {
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.correct {
+  background-color: green;
+  color: white;
+}
+
+.wrong {
+  background-color: red;
+  color: white;
+}
+
+.feedback {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.concept-page.cartoon {
+  background: linear-gradient(to bottom, #87ceeb, #6bcB77);
+  min-height: 100vh;
+  text-align: center;
+  color: white;
+}
+
+/* Panda */
+.teacher {
+  font-size: 80px;
+  animation: float 2s infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Card */
+.card {
+  background: rgba(255,255,255,0.2);
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: 20px;
+  width: 60%;
+}
+
+/* Objects */
+.objects {
+  font-size: 50px;
+  margin: 20px;
+}
+
+/* Tap */
+.pop {
+  cursor: pointer;
+  margin: 10px;
+}
+
+.pop:active {
+  transform: scale(1.5);
+}
+
+/* Number */
+.big {
+  font-size: 60px;
+}
+
+.glow {
+  text-shadow: 0 0 20px white;
+}
+
+/* Options */
+.options button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  background: orange;
+  color: white;
+  cursor: pointer;
+}
+.concept-page.cartoon {
+  background: linear-gradient(to bottom, #87ceeb, #6bcB77);
+  min-height: 100vh;
+  text-align: center;
+  color: white;
+}
+
+.teacher {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.speech {
+  background: white;
+  color: black;
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.card {
+  background: rgba(255,255,255,0.2);
+  margin: 20px auto;
+  padding: 25px;
+  border-radius: 20px;
+  width: 60%;
+}
+
+.objects {
+  font-size: 50px;
+  margin: 20px;
+}
+
+.pop {
+  cursor: pointer;
+  margin: 10px;
+}
+
+.pop:active {
+  transform: scale(1.5);
+}
+
+.big {
+  font-size: 60px;
+}
+
+.glow {
+  text-shadow: 0 0 20px white;
+}
+
+.options button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  background: orange;
+  color: white;
+  cursor: pointer;
+}
+
+.feedback {
+  margin-top: 10px;
+  font-size: 20px;
+}
+.panda-img {
+  width: 150px;
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.fade {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.bounce {
+  animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.option-btn.correct {
+  background: green;
+  color: white;
+}
+
+.option-btn.wrong {
+  background: red;
+  color: white;
+}

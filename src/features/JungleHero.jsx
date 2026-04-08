@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import BackIcon from "../components/BackIcon";
+import { useNavigate } from "react-router-dom";
 import "../styles/JungleHero.css";
 
-export default function JungleHero({ onComplete, goBack }) {
+export default function JungleHero() {
+  const navigate = useNavigate();
   const [friend, setFriend] = useState(null);
 
   useEffect(() => {
@@ -15,9 +16,6 @@ export default function JungleHero({ onComplete, goBack }) {
 
       {/* 🌴 FIXED NAVBAR */}
       <div className="hero-navbar">
-        <div className="navbar-left">
-          <BackIcon goBack={goBack} />
-        </div>
 
         <div className="navbar-title">
           🌴 CurioKids
@@ -43,14 +41,14 @@ export default function JungleHero({ onComplete, goBack }) {
             <div className="hero-buttons">
               <button
                 className="hero-btn student"
-                onClick={() => onComplete("kids-home")}
+                onClick={() => navigate("/kids-home")}
               >
                 Student 🌱
               </button>
 
               <button
                 className="hero-btn parent"
-                onClick={() => onComplete("parent-dashboard")}
+                onClick={() => navigate("/parent-dashboard")}
               >
                 Parent 👨‍👩‍👧
               </button>

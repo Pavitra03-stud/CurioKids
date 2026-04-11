@@ -1,4 +1,4 @@
-.flash-page {
+ .flash-page {
   min-height: 100vh;
   background: linear-gradient(to bottom, #a9d86e, #73c943);
   font-family: "Comic Sans MS", sans-serif;
@@ -104,4 +104,5 @@ button {
     transform: translateX(150px);
     opacity: 0;
   }
-}
+} 
+

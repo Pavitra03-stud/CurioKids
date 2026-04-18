@@ -1,55 +1,100 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";   // ✅ ADD THIS
-import BackIcon from "../components/BackIcon";
-import "../styles/numbersZone.css";
+import { useNavigate } from "react-router-dom";
+import "../styles/NumbersLearningHome.css";
 
-export default function NumbersLearningHome({ goBack }) {
-  const navigate = useNavigate();   // ✅ ADD THIS
+export default function NumbersLearningHome() {
+  const navigate = useNavigate();
+
+  const learningCards = [
+    {
+      icon: "👀👂✋",
+      title: "Multi-Sensory",
+      subtitle: "See, hear and touch numbers",
+      path: "/multi-sensory-numbers",
+      color: "yellow",
+    },
+    {
+      icon: "📖",
+      title: "Story Based",
+      subtitle: "Learn numbers with stories",
+      path: "/story-based-numbers",
+      color: "blue",
+    },
+    {
+      icon: "🔁",
+      title: "Number Tracing",
+      subtitle: "Trace numbers with your finger",
+      path: "/number-tracing",
+      color: "pink",
+    },
+    {
+      icon: "🐢",
+      title: "Slow Step",
+      subtitle: "Learn step by step",
+      path: "/slow-step-numbers",
+      color: "purple",
+    },
+    {
+      icon: "😊",
+      title: "Safe Error",
+      subtitle: "Learn without fear",
+      path: "/safe-error-numbers",
+      color: "green",
+    },
+  ];
 
   return (
-    <div className="numbers-zone-page">
+    <div className="numbers-learning-page">
 
-      <div className="practice-navbar">
-        <div className="navbar-left">
-          <BackIcon goBack={goBack ? goBack : () => navigate(-1)} />
-        </div>
-        <div className="navbar-title">
-          📚 Numbers Learning Zone
+      {/* HEADER */}
+      <div className="numbers-learning-topbar">
+        <h1 className="numbers-learning-title">
+          🔢 Numbers Learning
+        </h1>
+      </div>
+
+      {/* DECOR */}
+      <div className="numbers-learning-decor decor-top-left"></div>
+      <div className="numbers-learning-decor decor-middle-right"></div>
+      <div className="numbers-learning-decor decor-bottom-left"></div>
+
+      {/* TOP ICONS */}
+      <div className="numbers-learning-header">
+        <div className="numbers-learning-animals top-animals">
+          <span>🔢</span>
+          <span>🧮</span>
+          <span>✨</span>
         </div>
       </div>
 
-      <div className="zone-container">
+      {/* CARDS */}
+      <div className="numbers-learning-list">
+        {learningCards.map((card, index) => (
+          <div
+            key={index}
+            className="numbers-learning-card"
+            onClick={() => navigate(card.path)}
+          >
+            <div className={`numbers-learning-icon ${card.color}`}>
+              {card.icon}
+            </div>
 
-        <div
-          className="zone-card"
-          onClick={() => navigate("/concept-what-is-a-number")}   // ✅ UPDATED
-        >
-          🔢 What is a Number?
-        </div>
+            <div className="numbers-learning-text">
+              <h2>{card.title}</h2>
+              <p>{card.subtitle}</p>
+            </div>
 
-        <div
-          className="zone-card"
-          onClick={() => navigate("/concept-bigger-smaller")}   // ✅ UPDATED
-        >
-          📏 Bigger & Smaller
-        </div>
-
-        <div
-          className="zone-card"
-          onClick={() => navigate("/concept-number-line")}   // ✅ UPDATED
-        >
-          ➡ Number Line Basics
-        </div>
-
-        <div
-          className="zone-card"
-          onClick={() => navigate("/concept-skip-counting")}   // ✅ UPDATED
-        >
-          🔁 Skip Counting Concept
-        </div>
-
+            <div className="numbers-learning-arrow">→</div>
+          </div>
+        ))}
       </div>
 
+      {/* FOOTER */}
+      <div className="numbers-learning-footer">
+        <div className="numbers-learning-progress">
+          <h3>Number Zone</h3>
+          <p>Learn numbers from 1 to 100 step by step.</p>
+        </div>
+      </div>
     </div>
   );
 }

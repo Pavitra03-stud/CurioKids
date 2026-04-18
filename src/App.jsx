@@ -247,20 +247,14 @@ import AlphabetUppercaseLowercase from "./features/AlphabetUppercaseLowercase";
 /* 🔤 Letters Games */
 import LearningLetterBlast from "./features/LearningLetterBlast";
 import OddLetter from "./features/OddLetter";
+import ConnectLetters from "./features/ConnectLetters";
 import WordBuilder from "./features/WordBuilder";
 
 /* 🔢 Numbers */
-import StrawberryCount from "./features/StrawberryCount";
-import NumberTrail from "./features/NumberTrail";
-import FrogJumpMath from "./features/FrogJumpMath";
-import MissingNumber from "./features/MissingNumber";
-import CompareSafari from "./features/CompareSafari";
-import SkipCounting from "./features/SkipCounting";
-import NumberLineMove from "./features/NumberLineMove";
 import NumbersLearningHome from "./features/NumbersLearningHome";
-import NumbersGameHome from "./features/NumbersGameHome";
-import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
-import NumberNinja from "./features/NumberNinja";
+import MultiSensoryNumbers from "./features/MultiSensoryNumbers";
+import StoryBasedNumbers from "./features/StoryBasedNumbers";
+import NumberTracing from "./features/NumberTracing";
 
 /* 🎮 Games */
 import SoundTap from "./features/SoundTap";
@@ -283,6 +277,8 @@ import Progress from "./features/Progress";
 import { GameProvider } from "./context/GameContext";
 
 import "./index.css";
+
+
 
 export default function App() {
   return (
@@ -338,23 +334,15 @@ export default function App() {
         {/* 🔤 Letters Game Pages */}
         <Route path="/learning-letter-blast" element={<LearningLetterBlast />} />
         <Route path="/odd-letter" element={<OddLetter />} />
+        <Route path="/connect-letters" element={<ConnectLetters />} />
         <Route path="/word-builder" element={<WordBuilder />} />
 
         {/* 🔢 Numbers */}
         <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
-        <Route path="/numbers-game-home" element={<NumbersGameHome />} />
-        <Route path="/strawberry-count" element={<StrawberryCount />} />
-        <Route path="/number-trail" element={<NumberTrail />} />
-        <Route path="/frog-jump" element={<FrogJumpMath />} />
-        <Route path="/missing-number" element={<MissingNumber />} />
-        <Route path="/compare-safari" element={<CompareSafari />} />
-        <Route path="/skip-count" element={<SkipCounting />} />
-        <Route path="/number-line" element={<NumberLineMove />} />
-        <Route
-          path="/concept-what-is-a-number"
-          element={<ConceptWhatIsANumber />}
-        />
-        <Route path="/number-ninja" element={<NumberNinja />} />
+        <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
+        <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
+        <Route path="/number-tracing" element={<NumberTracing />} />
+        
 
         {/* 🎮 General Games */}
         <Route path="/sound-tap" element={<SoundTap />} />

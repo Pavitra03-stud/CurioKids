@@ -1,0 +1,253 @@
+/* PAGE */
+.ms-home-page,
+.ms-level-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+}
+
+/* HEADER */
+.ms-home-header,
+.ms-level-header {
+  background: #184c35;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 0 0 16px 16px;
+}
+
+.ms-home-header h1,
+.ms-level-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* ========================= */
+/* LEVEL SELECTION PAGE */
+/* ========================= */
+
+.ms-home-content {
+  height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.ms-home-center-card {
+  width: 100%;
+  max-width: 650px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 28px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.ms-home-icon {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.ms-home-center-card h2 {
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.ms-home-center-card p {
+  font-size: 18px;
+  color: #234236;
+  margin-bottom: 30px;
+}
+
+/* LEVEL GRID */
+.ms-home-level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.ms-home-level-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  transition: 0.25s;
+}
+
+.ms-home-level-card:hover {
+  transform: translateY(-5px);
+  background: #ffe08a;
+}
+
+.ms-home-level-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #184c35;
+}
+
+.ms-home-level-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* ========================= */
+/* LEARNING PAGE */
+/* ========================= */
+
+.ms-level-content {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.ms-level-top-row {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+}
+
+/* LEFT CARD */
+.ms-level-big-card {
+  background: #f4f4f4;
+  border: 4px solid #ff8a3d;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.ms-level-badge {
+  background: #fff3bf;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.ms-level-number {
+  font-size: 70px;
+  font-weight: bold;
+}
+
+.ms-level-emoji {
+  font-size: 70px;
+  margin: 10px 0;
+}
+
+.ms-level-word {
+  font-size: 24px;
+  font-weight: bold;
+  color: #184c35;
+}
+
+.ms-level-desc {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+/* RIGHT PANEL */
+.ms-level-panel {
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.ms-level-panel-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* OBJECTS */
+.ms-level-objects-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 120px;
+}
+
+.ms-level-object-card {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+/* TEXT */
+.ms-level-example {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.ms-level-message {
+  margin-top: 20px;
+  background: rgba(255,255,255,0.8);
+  padding: 12px;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* BUTTONS */
+.ms-level-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.ms-level-btn {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.ms-level-btn.prev {
+  background: #7e57c2;
+}
+
+.ms-level-btn.repeat {
+  background: #11c7c7;
+}
+
+.ms-level-btn.next {
+  background: #ff8a3d;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 768px) {
+  .ms-home-level-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-level-top-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-level-big-card {
+    max-width: 300px;
+    margin: auto;
+  }
+}

@@ -30,7 +30,7 @@ export default function NumbersLearningHome() {
       icon: "🐢",
       title: "Slow Step",
       subtitle: "Learn step by step",
-      path: "/slow-step-numbers",
+      path: "/slow-learning",
       color: "purple",
     },
     {
@@ -72,7 +72,10 @@ export default function NumbersLearningHome() {
           <div
             key={index}
             className="numbers-learning-card"
-            onClick={() => navigate(card.path)}
+            onClick={() => {
+            console.log("Navigating to:", card.path);
+            navigate(card.path);
+          }}
           >
             <div className={`numbers-learning-icon ${card.color}`}>
               {card.icon}

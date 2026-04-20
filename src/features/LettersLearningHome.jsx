@@ -133,7 +133,7 @@ export default function LettersLearningHome() {
       icon: "🐵",
       title: "Animal Letter Path",
       subtitle: "Practice .",
-      path: "/alphabet-confusing-letters",
+      path: "/animal-letter-path",
       color: "purple",
     },
     {

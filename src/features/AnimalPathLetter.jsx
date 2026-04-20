@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/AnimalPathLetters.css";
 import BackIcon from "../components/BackIcon";
+import { trackActivity } from "../utils/trackActivity"; // 🔥 ADD
 
 const LETTERS = [
   { letter: "A", animal: "Ant", emoji: "🐜", sound: "A says /a/" },
@@ -51,6 +52,20 @@ export default function AnimalPathLetters({ goBack }) {
   const utteranceRef = useRef(null);
   const currentItem = LETTERS[currentIndex];
 
+  const userId = localStorage.getItem("userId"); // 🔥
+
+  // 🔥 TRACK GAME OPEN
+  useEffect(() => {
+    if (userId) {
+      trackActivity({
+        userId,
+        action: "open_game",
+        screen: "animal-path",
+        module: "letters",
+      });
+    }
+  }, [userId]);
+
   const pathDots = useMemo(() => {
     return Array.from({ length: 6 }, (_, i) => ({
       id: i + 1,
@@ -89,31 +104,43 @@ export default function AnimalPathLetters({ goBack }) {
     if (item.letter === currentItem.letter) {
       setMessage(`Super! ${currentItem.animal} starts with ${currentItem.letter}`);
       setScore((prev) => prev + 1);
-      speakText(`Great job! ${currentItem.animal} starts with ${currentItem.letter}`);
+      speakText(`Great job!`);
       setPathStep(6);
       setShowFinish(true);
     } else {
-      setMessage(`Oops! Try again. ${currentItem.animal} does not start with ${item.letter}`);
+      setMessage(`Oops! Try again.`);
       setShakeTile(item.letter);
       speakText("Try again");
-      setTimeout(() => {
-        setShakeTile("");
-      }, 400);
+      setTimeout(() => setShakeTile(""), 400);
     }
   };
 
   const handleStartPath = () => {
     if (!showFinish) return;
-    speakText(`Follow the animal path for ${currentItem.letter}`);
+    speakText(`Follow the animal path`);
   };
 
   const handleNext = () => {
     if (currentIndex < LETTERS.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
+      // 🔥 TRACK FINAL GAME RESULT
+      if (userId) {
+        trackActivity({
+          userId,
+          action: "game_play",
+          screen: "animal-path",
+          module: "letters",
+          score: score,
+          extraData: {
+            result: score > 15 ? "good" : "needs_practice",
+          },
+        });
+      }
+
       setCurrentIndex(0);
       setScore(0);
-      setMessage("Yay! You finished all animal letters. Let’s play again!");
+      setMessage("Game completed 🎉");
     }
   };
 
@@ -124,6 +151,7 @@ export default function AnimalPathLetters({ goBack }) {
         <h1>Animal Path Letters</h1>
       </header>
 
+      {/* UI unchanged below */}
       <div className="animal-path-content">
         <div className="animal-top-row">
           <div className="animal-big-card">
@@ -154,53 +182,18 @@ export default function AnimalPathLetters({ goBack }) {
 
         <div className="animal-bottom-row">
           <div className="animal-path-area">
-            <div className="animal-path-title">Follow the animal path</div>
-
-            <div className="animal-track-wrap">
-              <div className="animal-track-line"></div>
-
-              {pathDots.map((dot) => (
-                <div
-                  key={dot.id}
-                  className={`animal-track-dot ${dot.active ? "active" : ""}`}
-                >
-                  {dot.id}
-                </div>
-              ))}
-
-              <div className={`animal-friend ${showFinish ? "move-finish" : ""}`}>
-                {currentItem.emoji}
-              </div>
-            </div>
-
-            <div className="animal-drop-zones">
-              <button
-                className={`animal-drop-box ${showFinish ? "done" : ""}`}
-                onClick={handleStartPath}
-              >
-                {showFinish
-                  ? `Path complete for ${currentItem.letter}`
-                  : "Choose correct letter first"}
-              </button>
-            </div>
-
             <div className="animal-info-row">
               <div className="animal-message">{message}</div>
               <div className="animal-score">Score: {score}</div>
             </div>
 
-            <div className="animal-actions">
-              <button className="animal-action-btn speak" onClick={handleSpeakAnimal}>
-                🔊 Hear Sound
-              </button>
-              <button
-                className="animal-action-btn next"
-                onClick={handleNext}
-                disabled={!showFinish}
-              >
-                Next
-              </button>
-            </div>
+            <button
+              className="animal-action-btn next"
+              onClick={handleNext}
+              disabled={!showFinish}
+            >
+              Next
+            </button>
 
             <div className="animal-progress">
               Letter {currentIndex + 1} / {LETTERS.length}

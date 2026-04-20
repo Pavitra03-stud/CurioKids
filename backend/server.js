@@ -108,6 +108,33 @@ app.post("/ai/teach", async (req, res) => {
   }
 });
 
+app.post("/ai/analyze", async (req, res) => {
+  const { letter, drawing } = req.body;
+
+  // 🔥 YOUR AI LOGIC HERE (for now random example)
+  const score = Math.floor(Math.random() * 100);
+
+  let status = "";
+  let message = "";
+
+  if (score < 30) {
+    status = "wrong";
+    message = "❌ Incorrect letter";
+  } else if (score <= 60) {
+    status = "practice";
+    message = "⚠️ Needs practice";
+  } else {
+    status = "correct";
+    message = "✅ Good job!";
+  }
+
+  res.json({
+    score,
+    status,
+    message,
+  });
+});
+
 // ================= AI SOUND TAP =================
 app.post("/ai/generate-question", async (req, res) => {
   try {

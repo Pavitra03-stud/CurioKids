@@ -1,41 +1,115 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "../styles/AIWritingTest.css";
+import { trackActivity } from "../utils/trackActivity";
 
-// 🔥 Generate A → Z automatically
 const letters = Array.from({ length: 26 }, (_, i) =>
   String.fromCharCode(65 + i)
 );
 
-export default function AIWritingTest({ goBack }) {
+export default function AIWritingTest() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [feedback, setFeedback] = useState("");
-  const [teaching, setTeaching] = useState("");
+  const [results, setResults] = useState([]);
+  const [showResult, setShowResult] = useState(false);
+
   const canvasRef = useRef(null);
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+  console.warn("No userId found, using test_user");
+}
 
   const currentLetter = letters[currentIndex];
 
+  // 🔥 Track page open
+  useEffect(() => {
+    if (userId) {
+      trackActivity({
+        userId,
+        action: "open_page",
+        screen: "ai-writing-test",
+        module: "letters",
+      });
+    }
+  }, [userId]);
+
   // 🧹 Clear canvas
   const handleClear = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    setFeedback("");
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.clearRect(0, 0, 400, 400);
   };
 
-  // 👉 Next letter
-  const handleNext = () => {
-    handleClear();
+  // ✅ Check empty
+  const isCanvasEmpty = () => {
+    const canvas = canvasRef.current;
+    const blank = document.createElement("canvas");
+    blank.width = canvas.width;
+    blank.height = canvas.height;
+    return canvas.toDataURL() === blank.toDataURL();
+  };
 
-    if (currentIndex === letters.length - 1) {
-      alert("🎉 Completed all letters!");
-      setCurrentIndex(0);
-    } else {
-      setCurrentIndex((prev) => prev + 1);
+  // 🤖 AI analyze
+  const analyzeDrawing = async () => {
+    try {
+      const imageData = canvasRef.current.toDataURL("image/png");
+
+      const res = await fetch("http://localhost:5000/ai/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          letter: currentLetter,
+          drawing: imageData,
+        }),
+      });
+
+      const data = await res.json();
+
+      // 🔥 Save locally
+      setResults((prev) => [
+        ...prev,
+        {
+          letter: currentLetter,
+          score: data.score,
+          status: data.status,
+        },
+      ]);
+
+      // 🔥 Send to admin
+      trackActivity({
+        userId,
+        action: "ai_test",
+        screen: "ai-writing-test",
+        module: "letters",
+        score: data.score,
+        extraData: {
+          letter: currentLetter,
+          status: data.status,
+        },
+      });
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // ✏️ Drawing logic
+  // 👉 Next
+  const handleNext = async () => {
+    if (isCanvasEmpty()) {
+      alert("✏️ Please complete the letter!");
+      return;
+    }
+
+    await analyzeDrawing();
+    handleClear();
+
+    if (currentIndex === letters.length - 1) {
+      setShowResult(true);
+      return;
+    }
+
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  // ✏️ Drawing
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -76,70 +150,26 @@ export default function AIWritingTest({ goBack }) {
     window.addEventListener("touchend", stop);
   };
 
-  // 🤖 Teach letter
-  const handleTeach = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/ai/teach", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          topic: `How to write letter ${currentLetter}`,
-        }),
-      });
+  // 📊 Average
+  const average =
+    results.length > 0
+      ? (results.reduce((a, b) => a + b.score, 0) / results.length).toFixed(1)
+      : 0;
 
-      const data = await res.json();
-      setTeaching(data.explanation);
-    } catch (err) {
-      console.error(err);
-      setTeaching("⚠️ AI not connected");
-    }
-  };
-
-  // 📊 Analyze drawing
-  const handleAnalyze = async () => {
-    try {
-      const canvas = canvasRef.current;
-
-      // Convert drawing to image
-      const imageData = canvas.toDataURL("image/png");
-
-      const res = await fetch("http://localhost:5000/ai/analyze", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          letter: currentLetter,
-          drawing: imageData,
-        }),
-      });
-
-      const data = await res.json();
-      setFeedback(data.analysis);
-    } catch (err) {
-      console.error(err);
-      setFeedback("⚠️ AI analysis failed");
-    }
+  const getClass = (status) => {
+    if (status === "correct") return "green";
+    if (status === "practice") return "orange";
+    return "red";
   };
 
   return (
     <div className="ai-writing-page">
-      <div className="ai-writing-header">
-        <button className="ai-back-btn" onClick={() => NavigateEvent(-1)}>
-          ←
-        </button>
-        <h1>✏ AI Letter Writing Test</h1>
-      </div>
+      {!showResult ? (
+        <>
+          <h1>✏ AI Letter Writing Test</h1>
 
-      <div className="ai-writing-content">
-        <h2 className="write-text">Write the letter:</h2>
-
-        <div className="big-letter">{currentLetter}</div>
-
-        <div className="writing-card">
-          <div className="letter-guide">{currentLetter}</div>
+          <h2>Write the letter:</h2>
+          <div className="big-letter">{currentLetter}</div>
 
           <canvas
             ref={canvasRef}
@@ -149,54 +179,32 @@ export default function AIWritingTest({ goBack }) {
             onMouseDown={startDrawing}
             onTouchStart={startDrawing}
           />
-        </div>
 
-        <div className="ai-writing-buttons">
-          <button className="clear-btn" onClick={handleClear}>
-            Clear
-          </button>
-
-          <button className="next-btn" onClick={handleNext}>
-            Next →
-          </button>
-        </div>
-
-        {/* 🤖 AI Actions */}
-        <div style={{ marginTop: "20px" }}>
-          <button className="clear-btn" onClick={handleTeach}>
-            📘 Teach Me
-          </button>
-
-          <button
-            className="next-btn"
-            onClick={handleAnalyze}
-            style={{ marginLeft: "10px" }}
-          >
-            📊 Check My Writing
-          </button>
-        </div>
-
-        {/* 📘 Teaching Output */}
-        {teaching && (
-          <div className="ai-output">
-            <h3>📘 How to write:</h3>
-            <p>{teaching}</p>
+          <div className="ai-writing-buttons">
+            <button onClick={handleClear}>Clear</button>
+            <button onClick={handleNext}>Next →</button>
           </div>
-        )}
 
-        {/* 📊 Feedback */}
-        {feedback && (
-          <div className="ai-output">
-            <h3>📊 Feedback:</h3>
-            <p>{feedback}</p>
+          <p>Letter {currentIndex + 1} / 26</p>
+        </>
+      ) : (
+        <div className="result-box">
+          <h2>🎉 Results</h2>
+
+          <h3>Average Score: {average}%</h3>
+
+          <div className="result-grid">
+            {results.map((r, index) => (
+              <div
+                key={index}
+                className={`result-item ${getClass(r.status)}`}
+              >
+                {r.letter}
+              </div>
+            ))}
           </div>
-        )}
-
-        {/* 🔥 Progress */}
-        <p style={{ marginTop: "15px", fontWeight: "bold" }}>
-          Letter {currentIndex + 1} / {letters.length}
-        </p>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

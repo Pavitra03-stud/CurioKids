@@ -1,156 +1,126 @@
+/* 🌿 Page Layout */
 .ai-writing-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-}
-
-.ai-writing-header {
-  background: #184c35;
-  color: white;
-  height: 56px;
+  background: linear-gradient(135deg, #7ed957, #6cc24a);
   display: flex;
-  align-items: center;
   justify-content: center;
-  position: relative;
-  border-radius: 0 0 14px 14px;
-}
-
-.ai-writing-header h1 {
-  font-size: 20px;
-  margin: 0;
-  font-weight: bold;
-}
-
-.ai-back-btn {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  color: #222;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.ai-writing-content {
-  display: flex;
+  align-items: center;
   flex-direction: column;
-  align-items: center;
-  padding: 28px 16px 40px;
+  font-family: "Segoe UI", sans-serif;
 }
 
-.write-text {
-  font-size: 26px;
-  color: #000;
-  margin: 10px 0 30px;
+/* ✏️ Title */
+.ai-writing-page h1 {
+  color: #fff;
+  margin-bottom: 10px;
 }
 
+/* 🔤 Big Letter */
 .big-letter {
-  font-size: 110px;
-  font-weight: 900;
-  color: #173b33;
-  margin-bottom: 26px;
-  line-height: 1;
+  font-size: 80px;
+  font-weight: bold;
+  color: #1d3c34;
+  margin: 10px 0;
 }
 
-.writing-card {
-  width: 400px;
-  height: 400px;
-  background: #ececec;
-  border-radius: 22px;
-  position: relative;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
+/* 🎨 Canvas */
+.writing-canvas {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.letter-guide {
-  position: absolute;
-  inset: 0;
+/* 🔘 Buttons */
+.ai-writing-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.ai-writing-buttons button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.ai-writing-buttons button:hover {
+  transform: scale(1.05);
+}
+
+/* Clear Button */
+.ai-writing-buttons button:first-child {
+  background: #ffb703;
+  color: #000;
+}
+
+/* Next Button */
+.ai-writing-buttons button:last-child {
+  background: #1d7a46;
+  color: #fff;
+}
+
+/* 📊 RESULT BOX */
+.result-box {
+  background: white;
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 500px;
+}
+
+/* 🎉 Result Title */
+.result-box h2 {
+  margin-bottom: 10px;
+  color: #1d3c34;
+}
+
+/* 📈 Average Score */
+.result-box h3 {
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* 🔲 Grid */
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  justify-items: center;
+}
+
+/* 🔤 Each Letter Box */
+.result-item {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 170px;
-  color: rgba(120, 120, 120, 0.2);
-  font-weight: 900;
-  pointer-events: none;
-  user-select: none;
+  transition: transform 0.2s;
 }
 
-.writing-canvas {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  z-index: 2;
-  touch-action: none;
-  cursor: crosshair;
-  background: transparent;
+/* ✨ Hover Effect */
+.result-item:hover {
+  transform: scale(1.1);
 }
 
-.ai-writing-buttons {
-  margin-top: 26px;
-  display: flex;
-  gap: 20px;
+/* 🎨 COLORS */
+.result-item.green {
+  background: #2ecc71; /* correct */
 }
 
-.clear-btn,
-.next-btn {
-  border: none;
-  padding: 14px 30px;
-  border-radius: 18px;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: inherit;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.result-item.orange {
+  background: #f39c12; /* practice */
 }
 
-.clear-btn {
-  background: #ffb300;
-  color: #111;
-}
-
-.next-btn {
-  background: #11c7c7;
-  color: white;
-}
-
-.clear-btn:hover,
-.next-btn:hover,
-.ai-back-btn:hover {
-  transform: translateY(-1px);
-}
-
-@media (max-width: 600px) {
-  .ai-writing-header h1 {
-    font-size: 17px;
-  }
-
-  .write-text {
-    font-size: 22px;
-    text-align: center;
-  }
-
-  .big-letter {
-    font-size: 90px;
-  }
-
-  .writing-card {
-    width: 300px;
-    height: 300px;
-  }
-
-  .letter-guide {
-    font-size: 130px;
-  }
-
-  .clear-btn,
-  .next-btn {
-    font-size: 18px;
-    padding: 12px 22px;
-  }
+.result-item.red {
+  background: #e74c3c; /* wrong */
 }

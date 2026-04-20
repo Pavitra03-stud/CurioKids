@@ -1,0 +1,570 @@
+/* .number-trace-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  font-family: "Comic Sans MS", sans-serif;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.number-trace-header {
+  background: #184c35;
+  color: white;
+  text-align: center;
+  padding: 18px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.number-trace-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.number-trace-header p {
+  margin-top: 8px;
+  font-size: 18px;
+}
+
+.number-trace-card {
+  max-width: 700px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.number-info h2 {
+  color: #184c35;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.number-info p {
+  color: #444;
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.trace-board {
+  width: 350px;
+  height: 350px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 24px;
+  background: #f8fff2;
+  border: 4px solid #d9efc2;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.trace-board.active-glow {
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+  transform: scale(1.02);
+}
+
+.guide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.guide.dotted {
+  color: transparent;
+  -webkit-text-stroke: 2px #999;
+  opacity: 0.6;
+  text-shadow: 0 0 0 #999;
+}
+
+.guide.outline {
+  color: transparent;
+  -webkit-text-stroke: 3px #cfcfcf;
+  opacity: 0.9;
+}
+
+.guide.blank {
+  color: transparent;
+}
+
+.trace-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  touch-action: none;
+}
+
+.trace-stage-dots {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.trace-stage-dots span {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #d9efc2;
+  color: #184c35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.trace-stage-dots span.active {
+  background: #ffcf4d;
+  color: #222;
+  box-shadow: 0 0 12px rgba(255, 207, 77, 0.9);
+}
+
+.trace-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.trace-buttons button {
+  background: #184c35;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 22px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+.trace-buttons button:hover {
+  transform: translateY(-2px);
+  background: #226847;
+}
+
+.trace-floating {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
+  z-index: 1;
+  animation: floatBubble 6s infinite ease-in-out;
+}
+
+.bubble1 {
+  width: 140px;
+  height: 140px;
+  background: #ffffff;
+  top: 80px;
+  left: 40px;
+}
+
+.bubble2 {
+  width: 100px;
+  height: 100px;
+  background: #f7ffb8;
+  bottom: 120px;
+  right: 40px;
+}
+
+.bubble3 {
+  width: 120px;
+  height: 120px;
+  background: #ffffff;
+  top: 260px;
+  right: 140px;
+}
+
+@keyframes floatBubble {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 768px) {
+  .trace-board {
+    width: 300px;
+    height: 300px;
+  }
+
+  .trace-canvas {
+    width: 300px;
+    height: 300px;
+  }
+
+  .guide {
+    font-size: 180px;
+  }
+
+  .number-info h2 {
+    font-size: 22px;
+  }
+
+  .trace-buttons button {
+    font-size: 16px;
+    padding: 10px 18px;
+  }
+} */
+
+
+
+.number-tracing-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  padding: 20px;
+  font-family: "Comic Sans MS", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.number-tracing-header {
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto 20px;
+  background: #184c35;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 24px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.number-tracing-header h1 {
+  margin: 0;
+  font-size: 34px;
+}
+
+.number-tracing-header p {
+  margin: 8px 0 0;
+  font-size: 18px;
+}
+
+.number-tracing-card {
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  position: relative;
+  z-index: 2;
+}
+
+.number-top-section {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.number-display-box,
+.objects-display-box {
+  flex: 1;
+  min-width: 260px;
+  background: #f8fff2;
+  border-radius: 24px;
+  padding: 20px;
+  border: 3px solid #dcefc7;
+  text-align: center;
+}
+
+.main-number {
+  font-size: 90px;
+  font-weight: bold;
+  color: #184c35;
+  line-height: 1;
+}
+
+.main-word {
+  margin-top: 10px;
+  font-size: 30px;
+  color: #ff8b3d;
+  font-weight: bold;
+}
+
+.objects-display-box h3 {
+  margin: 0 0 16px;
+  color: #184c35;
+  font-size: 24px;
+}
+
+.objects-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.object-item {
+  font-size: 34px;
+}
+
+.practice-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.practice-header h2 {
+  margin: 0;
+  color: #184c35;
+  font-size: 30px;
+}
+
+.practice-header p {
+  margin-top: 8px;
+  color: #555;
+  font-size: 18px;
+}
+
+.trace-board {
+  width: 420px;
+  height: 320px;
+  margin: 0 auto;
+  position: relative;
+  background: #fffef8;
+  border: 4px solid #d9efc2;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+
+.board-glow {
+  box-shadow: 0 0 24px rgba(255, 212, 70, 0.9);
+  transform: scale(1.01);
+}
+
+.trace-guide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 220px;
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dotted-guide {
+  color: transparent;
+  -webkit-text-stroke: 2px #999999;
+  opacity: 0.55;
+}
+
+.outline-guide {
+  color: transparent;
+  -webkit-text-stroke: 3px #cfcfcf;
+  opacity: 0.9;
+}
+
+.free-guide {
+  display: none;
+}
+
+.free-write-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d5d5d5;
+  font-size: 44px;
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+}
+
+.trace-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  z-index: 3;
+}
+
+.step-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24px 0 22px;
+}
+
+.step-dot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #d9efc2;
+  color: #184c35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.25s ease;
+}
+
+.step-dot.active {
+  background: #ffcf4d;
+  box-shadow: 0 0 12px rgba(255, 207, 77, 0.9);
+}
+
+.step-dot.done {
+  background: #6fd16f;
+  color: white;
+}
+
+.step-line {
+  width: 60px;
+  height: 6px;
+  background: #d9efc2;
+  border-radius: 20px;
+  margin: 0 8px;
+}
+
+.done-line {
+  background: #6fd16f;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.trace-btn {
+  border: none;
+  background: #184c35;
+  color: white;
+  border-radius: 18px;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-family: "Comic Sans MS", sans-serif;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.trace-btn:hover {
+  transform: translateY(-2px);
+  background: #226847;
+}
+
+.repeat-btn {
+  background: #ff8b3d;
+}
+
+.repeat-btn:hover {
+  background: #f0741d;
+}
+
+.trace-bg {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.18;
+  z-index: 1;
+  animation: floatBubble 6s infinite ease-in-out;
+}
+
+.bubble1 {
+  width: 140px;
+  height: 140px;
+  background: white;
+  top: 70px;
+  left: 30px;
+}
+
+.bubble2 {
+  width: 100px;
+  height: 100px;
+  background: #f7ffb8;
+  bottom: 100px;
+  right: 40px;
+}
+
+.bubble3 {
+  width: 120px;
+  height: 120px;
+  background: white;
+  top: 260px;
+  right: 160px;
+}
+
+@keyframes floatBubble {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 768px) {
+  .number-tracing-card {
+    padding: 18px;
+  }
+
+  .number-tracing-header h1 {
+    font-size: 28px;
+  }
+
+  .main-number {
+    font-size: 72px;
+  }
+
+  .main-word {
+    font-size: 24px;
+  }
+
+  .practice-header h2 {
+    font-size: 24px;
+  }
+
+  .trace-board {
+    width: 100%;
+    max-width: 340px;
+    height: 260px;
+  }
+
+  .trace-guide {
+    font-size: 170px;
+  }
+
+  .free-write-placeholder {
+    font-size: 32px;
+  }
+
+  .step-line {
+    width: 35px;
+  }
+
+  .trace-btn {
+    font-size: 16px;
+    padding: 10px 18px;
+  }
+}

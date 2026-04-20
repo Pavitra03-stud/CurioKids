@@ -31,16 +31,30 @@ import EndingSounds from "./features/EndingSounds";
 import BuildWord from "./features/BuildWord";
 import FindHidden from "./features/FindHidden";
 
+/* 🔤 Letters Main */
+import LettersHome from "./features/LettersHome";
+import LettersLearningHome from "./features/LettersLearningHome";
+import LettersGameHome from "./features/LettersGameHome";
+
+/* 🔤 Letters Learning */
+import AlphabetLearning from "./features/AlphabetLearning";
+import AlphabetFlashCard from "./features/AlphabetFlashCard";
+import AlphabetConfusingLetters from "./features/AlphabetConfusingLetters";
+import AlphabetLetterTracing from "./features/AlphabetLetterTracing";
+import AlphabetUppercaseLowercase from "./features/AlphabetUppercaseLowercase";
+
+/* 🔤 Letters Games */
+import LearningLetterBlast from "./features/LearningLetterBlast";
+import OddLetter from "./features/OddLetter";
+import ConnectLetters from "./features/ConnectLetters";
+import WordBuilder from "./features/WordBuilder";
+
 /* 🔢 Numbers */
-import StrawberryCount from "./features/StrawberryCount";
-import NumberTrail from "./features/NumberTrail";
-import FrogJumpMath from "./features/FrogJumpMath";
-import MissingNumber from "./features/MissingNumber";
-import CompareSafari from "./features/CompareSafari";
-import SkipCounting from "./features/SkipCounting";
-import NumberLineMove from "./features/NumberLineMove";
 import NumbersLearningHome from "./features/NumbersLearningHome";
 import NumbersGameHome from "./features/NumbersGameHome";
+import MultiSensoryNumbers from "./features/MultiSensoryNumbers";
+import StoryBasedNumbers from "./features/StoryBasedNumbers";
+import NumberTracing from "./features/NumberTracing";
 
 /* 🔤 Letters */
 import AIWritingTest from "./features/AIWritingTest";
@@ -99,6 +113,8 @@ import GamesPlay from "./features/GamesPlayHome";
 import { GameProvider } from "./context/GameContext";
 
 import "./index.css";
+
+
 
 export default function App() {
   return (
@@ -163,9 +179,6 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/number-ninja" element={<NumberNinja />} />
         <Route path="/alphabet-confusing-letters" element={<AlphabetConfusingLetters />} />
-
-
-
         {/* 🔢 Numbers */}
         <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
         <Route path="/numbers-game-home" element={<NumbersGameHome />} />
@@ -177,6 +190,18 @@ export default function App() {
         <Route path="/skip-count" element={<SkipCounting />} />
         <Route path="/number-line" element={<NumberLineMove />} />
         <Route path="/concept-what-is-a-number" element={<ConceptWhatIsANumber/>}/>
+        {/* 🔤 Letters Game Pages */}
+        <Route path="/learning-letter-blast" element={<LearningLetterBlast />} />
+        <Route path="/odd-letter" element={<OddLetter />} />
+        <Route path="/connect-letters" element={<ConnectLetters />} />
+        <Route path="/word-builder" element={<WordBuilder />} />
+
+        {/* 🔢 Numbers */}
+        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
+        <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
+        <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
+        <Route path="/number-tracing" element={<NumberTracing />} />
+        
 
         {/* 🎮 Games */}
         <Route path="/games-home" element={<GamesHome />} />

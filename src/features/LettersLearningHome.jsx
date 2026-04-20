@@ -131,8 +131,8 @@ export default function LettersLearningHome() {
     },
     {
       icon: "🐵",
-      title: "Confusing Letters",
-      subtitle: "Practice b, d, p, q",
+      title: "Animal Letter Path",
+      subtitle: "Practice .",
       path: "/alphabet-confusing-letters",
       color: "purple",
     },

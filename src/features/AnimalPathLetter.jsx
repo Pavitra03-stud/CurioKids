@@ -217,6 +217,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "../styles/AlphabetConfusingLetters.css";
 import BackIcon from "../components/BackIcon";
+import { trackActivity } from "../utils/trackActivity"; // 🔥 ADD
 
 const LETTERS = [
   { letter: "a", compare: "o", emoji: "🍎" },
@@ -266,10 +267,33 @@ export default function ConfusingLetters({ goBack }) {
   const current = LETTERS[currentIndex];
   const currentTarget = targetStep === "main" ? current.letter : current.compare;
 
+<<<<<<< HEAD:src/features/AnimalPathLetter.jsx
+  const userId = localStorage.getItem("userId"); // 🔥
+
+  // 🔥 TRACK GAME OPEN
+  useEffect(() => {
+    if (userId) {
+      trackActivity({
+        userId,
+        action: "open_game",
+        screen: "animal-path",
+        module: "letters",
+      });
+    }
+  }, [userId]);
+
+  const pathDots = useMemo(() => {
+    return Array.from({ length: 6 }, (_, i) => ({
+      id: i + 1,
+      active: i < pathStep,
+    }));
+  }, [pathStep]);
+=======
   const options = useMemo(() => {
     const others = LETTERS.filter(
       (item) => item.letter !== current.letter && item.letter !== current.compare
     ).map((item) => item.letter);
+>>>>>>> 28ae20b70f81c37284ba5f712a11c5d6ca7daf57:src/features/AlphabetConfusingLetters.jsx
 
     const randomWrong = shuffleArray(others).slice(0, 4);
     return shuffleArray([current.letter, current.compare, ...randomWrong]);
@@ -322,6 +346,28 @@ export default function ConfusingLetters({ goBack }) {
     setMessage(`Selected ${value}. Now place it in the correct card.`);
   };
 
+<<<<<<< HEAD:src/features/AnimalPathLetter.jsx
+    if (item.letter === currentItem.letter) {
+      setMessage(`Super! ${currentItem.animal} starts with ${currentItem.letter}`);
+      setScore((prev) => prev + 1);
+      speakText(`Great job!`);
+      setPathStep(6);
+      setShowFinish(true);
+    } else {
+      setMessage(`Oops! Try again.`);
+      setShakeTile(item.letter);
+      speakText("Try again");
+      setTimeout(() => setShakeTile(""), 400);
+    }
+  };
+
+  const handleStartPath = () => {
+    if (!showFinish) return;
+    speakText(`Follow the animal path`);
+  };
+
+  const handleNext = () => {
+=======
   const handlePlaceLetter = (boxType) => {
     const expectedLetter = boxType === "main" ? current.letter : current.compare;
 
@@ -366,23 +412,106 @@ export default function ConfusingLetters({ goBack }) {
   };
 
   const nextLetter = () => {
+>>>>>>> 28ae20b70f81c37284ba5f712a11c5d6ca7daf57:src/features/AlphabetConfusingLetters.jsx
     if (currentIndex < LETTERS.length - 1) {
       setCurrentIndex((prev) => prev + 1);
       setPageMode("learn");
     } else {
+      // 🔥 TRACK FINAL GAME RESULT
+      if (userId) {
+        trackActivity({
+          userId,
+          action: "game_play",
+          screen: "animal-path",
+          module: "letters",
+          score: score,
+          extraData: {
+            result: score > 15 ? "good" : "needs_practice",
+          },
+        });
+      }
+
       setCurrentIndex(0);
       setPageMode("learn");
       setScore(0);
+<<<<<<< HEAD:src/features/AnimalPathLetter.jsx
+      setMessage("Game completed 🎉");
+=======
       setMessage("Yay! You finished all confusing letters");
+>>>>>>> 28ae20b70f81c37284ba5f712a11c5d6ca7daf57:src/features/AlphabetConfusingLetters.jsx
     }
   };
 
   return (
+<<<<<<< HEAD:src/features/AnimalPathLetter.jsx
+    <div className="animal-path-page">
+      <header className="animal-path-header">
+        <BackIcon goBack={goBack} />
+        <h1>Animal Path Letters</h1>
+      </header>
+
+      {/* UI unchanged below */}
+      <div className="animal-path-content">
+        <div className="animal-top-row">
+          <div className="animal-big-card">
+            <div className="animal-card-letter">{currentItem.letter}</div>
+            <div className="animal-card-emoji">{currentItem.emoji}</div>
+            <div className="animal-card-name">{currentItem.animal}</div>
+            <div className="animal-card-sound">{currentItem.sound}</div>
+          </div>
+
+          <div className="animal-grid-panel">
+            <div className="animal-grid-title">Choose the correct letter</div>
+            <div className="animal-grid">
+              {options.map((item) => (
+                <button
+                  key={item.letter}
+                  className={`animal-grid-tile ${
+                    selectedLetter === item.letter ? "selected" : ""
+                  } ${shakeTile === item.letter ? "shake" : ""}`}
+                  onClick={() => handleTileClick(item)}
+                >
+                  <span className="animal-tile-main">{item.letter}</span>
+                  <span className="animal-tile-sub">{item.animal}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+=======
     <div className="conf-page">
       <div className="conf-header">
+<<<<<<< HEAD:src/features/AlphabetConfusingLetters.jsx
+=======
+        <div className="conf-back">
+          <BackIcon goBack={goBack} />
+>>>>>>> 28ae20b70f81c37284ba5f712a11c5d6ca7daf57:src/features/AlphabetConfusingLetters.jsx
+        </div>
+>>>>>>> b60f63b904465d4dbc45566267a6ea18d068075d:src/features/AnimalPathLetter.jsx
         <h1>Confusing Letters</h1>
       </div>
 
+<<<<<<< HEAD:src/features/AnimalPathLetter.jsx
+        <div className="animal-bottom-row">
+          <div className="animal-path-area">
+            <div className="animal-info-row">
+              <div className="animal-message">{message}</div>
+              <div className="animal-score">Score: {score}</div>
+            </div>
+
+            <button
+              className="animal-action-btn next"
+              onClick={handleNext}
+              disabled={!showFinish}
+            >
+              Next
+            </button>
+
+            <div className="animal-progress">
+              Letter {currentIndex + 1} / {LETTERS.length}
+            </div>
+          </div>
+        </div>
+=======
       <div className="conf-content">
         {pageMode === "learn" && (
           <>
@@ -544,6 +673,7 @@ export default function ConfusingLetters({ goBack }) {
             </div>
           </>
         )}
+>>>>>>> 28ae20b70f81c37284ba5f712a11c5d6ca7daf57:src/features/AlphabetConfusingLetters.jsx
       </div>
     </div>
   );

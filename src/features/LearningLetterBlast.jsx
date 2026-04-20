@@ -100,9 +100,6 @@ export default function LearningLetterBlast({ goBack }) {
     return (
       <div className="learning-letter-blast-page">
         <header className="learning-letter-blast-topbar">
-          <button className="learning-letter-blast-back" onClick={goBack}>
-            ←
-          </button>
           <h1 className="learning-letter-blast-title">💥 Letter Blast</h1>
         </header>
 

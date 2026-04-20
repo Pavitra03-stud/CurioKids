@@ -380,9 +380,6 @@ export default function ConfusingLetters({ goBack }) {
   return (
     <div className="conf-page">
       <div className="conf-header">
-        <div className="conf-back">
-          <BackIcon goBack={goBack} />
-        </div>
         <h1>Confusing Letters</h1>
       </div>
 

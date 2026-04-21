@@ -252,9 +252,11 @@ import WordBuilder from "./features/WordBuilder";
 
 /* 🔢 Numbers */
 import NumbersLearningHome from "./features/NumbersLearningHome";
+import NumberGamesHome from "./features/NumberGamesHome";
 import MultiSensoryNumbers from "./features/MultiSensoryNumbers";
 import StoryBasedNumbers from "./features/StoryBasedNumbers";
 import NumberTracing from "./features/NumberTracing";
+import SlowLearning from "./features/SlowLearning";
 
 /* 🎮 Games */
 import SoundTap from "./features/SoundTap";
@@ -336,9 +338,13 @@ export default function App() {
 
         {/* 🔢 Numbers */}
         <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
+        <Route path="/number-games-home" element={<NumberGamesHome />} />
         <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
         <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
         <Route path="/number-tracing" element={<NumberTracing />} />
+        <Route path="/slow-learning" element={<SlowLearning />} />
+        <
+
         
 
         {/* 🎮 General Games */}

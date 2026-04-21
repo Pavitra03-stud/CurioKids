@@ -67,16 +67,6 @@ function LettersHome({ onBack }) {
   return (
     <div className="letters-home-page">
       <div className="letters-home-header">
-        <button
-          className="letters-back-btn"
-          onClick={() => {
-            console.log("Back clicked");
-            onBack ? onBack() : navigate(-1);   // ✅ UPDATED
-          }}
-        >
-          ←
-        </button>
-
         <h1>🌿 Letters Home</h1>
       </div>
 

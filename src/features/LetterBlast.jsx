@@ -52,7 +52,6 @@ export default function LetterBlast({ goBack }) {
 
       {/* Header */}
       <div className="header">
-        <button onClick={goBack}>⬅</button>
         <h1>Letter Blast</h1>
       </div>
 

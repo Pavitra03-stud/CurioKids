@@ -1237,7 +1237,6 @@ export default function AlphabetLetterTracing({ goBack }) {
   return (
     <div className="trace-page">
       <div className="trace-header">
-        <button className="trace-back-btn" onClick={goBack}>←</button>
         <h1>Letter Tracing</h1>
       </div>
 

@@ -32,6 +32,7 @@ import AIWritingTest from "./features/AIWritingTest";
 import AlphabetLearning from "./features/AlphabetLearning";
 import AlphabetFlashCard from "./features/AlphabetFlashCard";
 import AlphabetUppercaseLowercase from "./features/AlphabetUppercaseLowercase";
+import AnimalPathLetter from "./features/AnimalPathLetter"
 import LetterTracing from "./features/LetterTracing";
 import ConfusingLetters from "./features/ConfusingLetters";
 import LetterRecognizition from "./features/LetterRecognizition";
@@ -59,15 +60,19 @@ import RewardChallenge from "./features/RewardChallenge";
 import ProgressStars from "./features/ProgressStars";
 import Rewards from "./features/Reward";
 import Progress from "./features/Progress";
+import AlphabetLetterTracing from "./features/AlphabetLetterTracing"
+import NumbersLearningHome from "./features/NumbersLearningHome"
+import BeginningSounds from "./features/BeginningSounds"
+import EndingSounds from "./features/EndingSounds"
+import FindHidden from "./features/FindHidden"
+import LearningLetterBlast from "./features/LearningLetterBlast";
+import OddLetter from "./features/OddLetter"
+
 
 /* 🔢 Numbers */
-import StrawberryCount from "./features/StrawberryCount";
-import FrogJumpMath from "./features/FrogJumpMath";
-import CompareSafari from "./features/CompareSafari";
-import SkipCounting from "./features/SkipCounting";
-import NumbersLearningHome from "./features/NumbersLearningHome";
-import ConceptWhatIsANumber from "./features/ConceptWhatIsANumber";
-
+import MultiSensoryNumbers from "./features/MultiSensoryNumbers"
+import StoryBasedNumbers from "./features/StoryBasedNumbers"
+import NumberTracing from "./features/NumberTracing"
 /* 🎮 Games */
 import SoundTap from "./features/SoundTap";
 import PatternCopy from "./features/PatternCopy";
@@ -78,7 +83,8 @@ import FillBucket from "./features/FillBucket";
 import LetterBlast from "./features/LetterBlast";
 import WeatherClothesGame from "./features/WeatherClothesGame";
 import GamesLearningHome from "./features/GamesLearningHome"
-
+import ConnectLetters from "./features/ConnectLetters";
+import WordBuilder from "./features/WordBuilder";
 /* 🤖 AI */
 import AIChat from "./features/AIChat";
 import AIButton from "./features/AIButton";
@@ -116,11 +122,13 @@ export default function App() {
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/progress" element={<Progress />} />
         <Route path="/alphabet-uppercase-lowercase" element={<AlphabetUppercaseLowercase />} />
+        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />        
 
         {/* 🔤 Letters */}
         <Route path="/alphabet-learning" element={<AlphabetLearning />} />
         <Route path="/alphabet-flashcard" element={<AlphabetFlashCard />} />
         <Route path="/letter-tracing" element={<LetterTracing />} />
+        <Route path="/alphabet-letter-tracing" element={<AlphabetLetterTracing/>}/>
         <Route path="/confusing-letters" element={<ConfusingLetters />} />
         <Route path="/letter-recognition" element={<LetterRecognizition />} />
         <Route path="/uppercase-lowercase" element={<UppercaseLowercase />} />
@@ -147,14 +155,19 @@ export default function App() {
         <Route path="/reward-challenge" element={<RewardChallenge />} />
         <Route path="/progress-stars" element={<ProgressStars />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/beginning-sounds" element={<BeginningSounds />} />
+        <Route path="/ending-sounds" element={<EndingSounds />} />
+        <Route path="/find-hidden" element={<FindHidden />} />
+        <Route path="/animal-letter-path" element={<AnimalPathLetter />} />
+        <Route path="/learning-letter-blast" element={<LearningLetterBlast />} />
+        <Route path="/odd-letter" element={<OddLetter />} />
+        <Route path="/connect-letters" element={<ConnectLetters/>}/>
+        <Route path="/word-builder" element={<WordBuilder/>}/>
 
         {/* 🔢 Numbers */}
-        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
-        <Route path="/strawberry-count" element={<StrawberryCount />} />
-        <Route path="/frog-jump" element={<FrogJumpMath />} />
-        <Route path="/compare-safari" element={<CompareSafari />} />
-        <Route path="/skip-count" element={<SkipCounting />} />
-        <Route path="/concept-number" element={<ConceptWhatIsANumber />} />
+        <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
+        <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
+        <Route path="/number-tracing" element={<NumberTracing />} />
 
         {/* 🎮 Games */}
         <Route path="/games-home" element={<GamesHome />} />

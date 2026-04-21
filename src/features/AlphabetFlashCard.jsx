@@ -270,7 +270,6 @@ export default function AlphabetFlashCard() {
   return (
     <div className="flash-page">
       <div className="flash-header">
-        <button className="back-btn" onClick={handleBack}>←</button>
         <h1>Alphabet Flash Cards</h1>
       </div>
 

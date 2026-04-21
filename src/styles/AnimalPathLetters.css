@@ -410,3 +410,80 @@
     font-size: 42px;
   }
 }
+.path-container {
+  text-align: center;
+  padding: 20px;
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+/* PATH */
+.path {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.step {
+  position: relative;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ddd;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle.active {
+  background: #4caf50;
+}
+
+.animal {
+  font-size: 24px;
+  animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* CARD */
+.card {
+  background: #fff3cd;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 20px auto;
+  width: 200px;
+}
+
+.emoji {
+  font-size: 60px;
+}
+
+/* OPTIONS */
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.option-btn {
+  font-size: 28px;
+  padding: 15px 25px;
+  border-radius: 15px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.option-btn:hover {
+  background: #45a049;
+}

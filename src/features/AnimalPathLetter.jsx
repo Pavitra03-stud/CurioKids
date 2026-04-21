@@ -1,226 +1,99 @@
-import { useEffect, useMemo, useState } from "react";
-import "../styles/AlphabetConfusingLetters.css";
-import BackIcon from "../components/BackIcon";
-import { trackActivity } from "../utils/trackActivity";
+import { useState, useEffect } from "react";
+import "../styles/AnimalPathLetters.css";
 
-const LETTERS = [
-  { letter: "a", compare: "o", emoji: "🍎" },
-  { letter: "b", compare: "d", emoji: "⚽" },
-  { letter: "c", compare: "e", emoji: "🐱" },
-  { letter: "d", compare: "b", emoji: "🐶" },
-  { letter: "e", compare: "c", emoji: "🥚" },
-  { letter: "f", compare: "t", emoji: "🐟" },
-  { letter: "g", compare: "q", emoji: "🐐" },
-  { letter: "h", compare: "n", emoji: "🏠" },
-  { letter: "i", compare: "j", emoji: "🍦" },
-  { letter: "j", compare: "i", emoji: "🍓" },
-  { letter: "k", compare: "x", emoji: "🪁" },
-  { letter: "l", compare: "i", emoji: "🦁" },
-  { letter: "m", compare: "n", emoji: "🌙" },
-  { letter: "n", compare: "m", emoji: "🪺" },
-  { letter: "o", compare: "a", emoji: "🍊" },
-  { letter: "p", compare: "q", emoji: "🐼" },
-  { letter: "q", compare: "p", emoji: "👑" },
-  { letter: "r", compare: "n", emoji: "🤖" },
-  { letter: "s", compare: "z", emoji: "🐍" },
-  { letter: "t", compare: "f", emoji: "🌴" },
-  { letter: "u", compare: "v", emoji: "☂️" },
-  { letter: "v", compare: "u", emoji: "🚐" },
-  { letter: "w", compare: "v", emoji: "🌊" },
-  { letter: "x", compare: "k", emoji: "❌" },
-  { letter: "y", compare: "v", emoji: "🧶" },
-  { letter: "z", compare: "s", emoji: "🦓" }
+const DATA = [
+  { letter: "A", word: "Ant", emoji: "🐜" },
+  { letter: "B", word: "Bear", emoji: "🐻" },
+  { letter: "C", word: "Cat", emoji: "🐱" },
+  { letter: "D", word: "Dog", emoji: "🐶" },
+  { letter: "E", word: "Elephant", emoji: "🐘" }
 ];
 
-function shuffleArray(arr) {
+function shuffle(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
-export default function ConfusingLetters({ goBack }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [pageMode, setPageMode] = useState("learn");
-  const [message, setMessage] = useState("Learn the letters");
-  const [score, setScore] = useState(0);
-  const [targetStep, setTargetStep] = useState("main");
-  const [selectedValue, setSelectedValue] = useState("");
-  const [placedMain, setPlacedMain] = useState(false);
-  const [placedCompare, setPlacedCompare] = useState(false);
-  const [shakeValue, setShakeValue] = useState("");
-  const [shakeBox, setShakeBox] = useState("");
+export default function AnimalPathGame() {
+  const [step, setStep] = useState(0);
+  const [options, setOptions] = useState([]);
+  const [message, setMessage] = useState("Choose the correct letter");
 
-  const current = LETTERS[currentIndex];
-  const currentTarget =
-    targetStep === "main" ? current.letter : current.compare;
+  const current = DATA[step];
 
-  const userId = localStorage.getItem("userId");
-
-  useEffect(() => {
-    if (userId) {
-      trackActivity({
-        userId,
-        action: "open_game",
-        screen: "confusing-letters",
-        module: "letters",
-      });
-    }
-  }, [userId]);
-
-  const options = useMemo(() => {
-    const others = LETTERS.filter(
-      (item) =>
-        item.letter !== current.letter &&
-        item.letter !== current.compare
-    ).map((item) => item.letter);
-
-    const randomWrong = shuffleArray(others).slice(0, 4);
-    return shuffleArray([
-      current.letter,
-      current.compare,
-      ...randomWrong,
-    ]);
-  }, [current]);
-
+  // 🔊 Voice
   const speak = (text) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      window.speechSynthesis.speak(utterance);
-    }
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 0.8;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(speech);
   };
 
   useEffect(() => {
-    setSelectedValue("");
-    setPlacedMain(false);
-    setPlacedCompare(false);
-    setShakeValue("");
-    setShakeBox("");
+    const others = DATA.filter((d) => d.letter !== current.letter);
+    const random = shuffle(others).slice(0, 2);
+    setOptions(shuffle([current, ...random]));
 
-    if (pageMode === "learn") {
-      setMessage(`Learn ${current.letter} and ${current.compare}`);
-    }
+    speak(`${current.letter} for ${current.word}`);
+  }, [step]);
 
-    if (pageMode === "identify") {
-      setTargetStep("main");
-      setMessage(`Place ${current.letter}`);
-    }
+  const handleClick = (item) => {
+    if (item.letter === current.letter) {
+      setMessage("Yay! Move forward 🎉");
+      speak("Correct");
 
-    if (pageMode === "compare") {
-      setMessage(`Compare ${current.letter} and ${current.compare}`);
-    }
-  }, [currentIndex, pageMode, current]);
-
-  const handleTileClick = (value) => {
-    setSelectedValue(value);
-  };
-
-  const handlePlaceLetter = (boxType) => {
-    const expected =
-      boxType === "main" ? current.letter : current.compare;
-
-    if (selectedValue !== expected) {
-      setShakeValue(selectedValue);
-      setShakeBox(boxType);
       setTimeout(() => {
-        setShakeValue("");
-        setShakeBox("");
-      }, 400);
-      return;
-    }
-
-    if (boxType === "main") {
-      setPlacedMain(true);
-      setSelectedValue("");
-      setScore((s) => s + 1);
-      setTargetStep("compare");
-      return;
-    }
-
-    if (boxType === "compare") {
-      setPlacedCompare(true);
-      setSelectedValue("");
-      setScore((s) => s + 1);
-      setPageMode("compare");
-    }
-  };
-
-  const nextLetter = () => {
-    if (currentIndex < LETTERS.length - 1) {
-      setCurrentIndex((i) => i + 1);
-      setPageMode("learn");
+        if (step < DATA.length - 1) {
+          setStep(step + 1);
+        } else {
+          setMessage("You reached the end! 🏁");
+          speak("You finished");
+        }
+      }, 800);
     } else {
-      if (userId) {
-        trackActivity({
-          userId,
-          action: "game_play",
-          screen: "confusing-letters",
-          module: "letters",
-          score,
-        });
-      }
-      setCurrentIndex(0);
-      setScore(0);
-      setPageMode("learn");
+      setMessage("Try again 😊");
+      speak("Try again");
     }
   };
 
   return (
-    <div className="conf-page">
-      <div className="conf-header">
-        <BackIcon goBack={goBack} />
-        <h1>Confusing Letters</h1>
-      </div>
+    <div className="path-container">
 
-      <div className="conf-content">
-        {pageMode === "learn" && (
-          <>
-            <h2>
-              {current.letter} vs {current.compare}
-            </h2>
+      <h1>🐾 Animal Path Game</h1>
 
-            <button onClick={() => setPageMode("identify")}>
-              Start
-            </button>
-          </>
-        )}
-
-        {pageMode === "identify" && (
-          <>
-            <h2>Choose {currentTarget}</h2>
-
-            <div>
-              {options.map((value) => (
-                <button
-                  key={value}
-                  onClick={() => handleTileClick(value)}
-                >
-                  {value}
-                </button>
-              ))}
+      {/* 🛤️ PATH */}
+      <div className="path">
+        {DATA.map((_, index) => (
+          <div key={index} className="step">
+            <div className={`circle ${index <= step ? "active" : ""}`}>
+              {index === step && (
+                <span className="animal">🐜</span>
+              )}
             </div>
-
-            <button onClick={() => handlePlaceLetter("main")}>
-              Place Main
-            </button>
-
-            <button onClick={() => handlePlaceLetter("compare")}>
-              Place Compare
-            </button>
-          </>
-        )}
-
-        {pageMode === "compare" && (
-          <>
-            <h2>
-              {current.letter} vs {current.compare}
-            </h2>
-
-            <button onClick={nextLetter}>Next</button>
-          </>
-        )}
-
-        <p>{message}</p>
-        <p>Score: {score}</p>
+          </div>
+        ))}
       </div>
+
+      {/* 🎯 CURRENT CARD */}
+      <div className="card">
+        <div className="emoji">{current.emoji}</div>
+        <h2>{current.word}</h2>
+      </div>
+
+      {/* 🔘 OPTIONS */}
+      <div className="options">
+        {options.map((item) => (
+          <button
+            key={item.letter}
+            onClick={() => handleClick(item)}
+            className="option-btn"
+          >
+            {item.letter}
+          </button>
+        ))}
+      </div>
+
+      <p>{message}</p>
+
     </div>
   );
 }

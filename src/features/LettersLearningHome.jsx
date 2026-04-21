@@ -133,7 +133,7 @@ export default function LettersLearningHome() {
       icon: "🐵",
       title: "Animal Letter Path",
       subtitle: "Practice .",
-      path: "/alphabet-confusing-letters",
+      path: "/animal-letter-path",
       color: "purple",
     },
     {
@@ -148,12 +148,6 @@ export default function LettersLearningHome() {
   return (
     <div className="letters-learning-page">
       <div className="letters-learning-topbar">
-        <button
-          className="letters-learning-back"
-          onClick={() => navigate("/letters-home")}
-        >
-          ←
-        </button>
         <h1 className="letters-learning-title">🌿 Letters Learning</h1>
       </div>
 

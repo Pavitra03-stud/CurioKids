@@ -475,7 +475,6 @@ export default function AlphabetUppercaseLowercase({ goBack }) {
   return (
     <div className="ul-puzzle-page">
       <div className="ul-puzzle-header">
-        <button className="ul-back-btn" onClick={goBack}>←</button>
         <h1>Uppercase & Lowercase Learning</h1>
       </div>
 

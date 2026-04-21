@@ -121,12 +121,6 @@ export default function LettersGameHome() {
       <div className="floating-bg bubble3"></div>
 
       <header className="letters-game-topbar">
-        <button
-          className="letters-game-back"
-          onClick={() => navigate("/letters-home")}
-        >
-          ←
-        </button>
         <h1 className="letters-game-topbar-title">🎮 Letters Games</h1>
       </header>
 

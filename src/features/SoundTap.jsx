@@ -1,279 +1,364 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/SoundTap.css";
-import { db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
 
 const animalData = [
-  { animal: "🐶 Dog", sound: "/sounds/dog.mp3" },
-  { animal: "🐱 Cat", sound: "/sounds/cat.mp3" },
-  { animal: "🐮 Cow", sound: "/sounds/cow.mp3" },
+  { animal: "Dog", image: "/images/dog.png", sound: "/sounds/dog.mp3", correctIndex: 0, options: ["/sounds/dog.mp3","/sounds/cat.mp3","/sounds/cow.mp3","/sounds/lion.mp3"] },
+  { animal: "Cat", image: "/images/cat.png", sound: "/sounds/cat.mp3", correctIndex: 1, options: ["/sounds/dog.mp3","/sounds/cat.mp3","/sounds/duck.mp3","/sounds/lion.mp3"] },
+  { animal: "Cow", image: "/images/cow.png", sound: "/sounds/cow.mp3", correctIndex: 2, options: ["/sounds/dog.mp3","/sounds/cat.mp3","/sounds/cow.mp3","/sounds/horse.mp3"] },
+  { animal: "Duck", image: "/images/duck.png", sound: "/sounds/duck.mp3", correctIndex: 3, options: ["/sounds/lion.mp3","/sounds/cat.mp3","/sounds/dog.mp3","/sounds/duck.mp3"] },
+  { animal: "Lion", image: "/images/lion.png", sound: "/sounds/lion.mp3", correctIndex: 0, options: ["/sounds/lion.mp3","/sounds/dog.mp3","/sounds/cat.mp3","/sounds/cow.mp3"] },
+  { animal: "Horse", image: "/images/horse.png", sound: "/sounds/horse.mp3", correctIndex: 1, options: ["/sounds/dog.mp3","/sounds/horse.mp3","/sounds/cat.mp3","/sounds/duck.mp3"] },
+  { animal: "Sheep", image: "/images/sheep.png", sound: "/sounds/sheep.mp3", correctIndex: 2, options: ["/sounds/cow.mp3","/sounds/dog.mp3","/sounds/sheep.mp3","/sounds/cat.mp3"] },
+  { animal: "Frog", image: "/images/frog.png", sound: "/sounds/frog.mp3", correctIndex: 3, options: ["/sounds/dog.mp3","/sounds/cat.mp3","/sounds/lion.mp3","/sounds/frog.mp3"] },
+  { animal: "Elephant", image: "/images/elephant.png", sound: "/sounds/elephant.mp3", correctIndex: 0, options: ["/sounds/elephant.mp3","/sounds/cat.mp3","/sounds/dog.mp3","/sounds/cow.mp3"] },
+  { animal: "Pig", image: "/images/pig.png", sound: "/sounds/pig.mp3", correctIndex: 1, options: ["/sounds/cow.mp3","/sounds/pig.mp3","/sounds/dog.mp3","/sounds/cat.mp3"] },
+  { animal: "Chicken", image: "/images/chicken.png", sound: "/sounds/chicken.mp3", correctIndex: 2, options: ["/sounds/dog.mp3","/sounds/cat.mp3","/sounds/chicken.mp3","/sounds/lion.mp3"] },
+  { animal: "Goat", image: "/images/goat.png", sound: "/sounds/goat.mp3", correctIndex: 3, options: ["/sounds/cow.mp3","/sounds/dog.mp3","/sounds/cat.mp3","/sounds/goat.mp3"] }
 ];
 
-export default function SoundTapGame() {
-  const [mode, setMode] = useState("level");
-  const [level, setLevel] = useState("easy");
+export default function SoundTap({ goBack }) {
 
-  const [index, setIndex] = useState(0);
-  const [questionCount, setQuestionCount] = useState(1);
+  // FIRST-TIME LOGIC
+  const firstVisit = !localStorage.getItem("soundtapLearned");
 
+  const [mode, setMode] = useState(
+    firstVisit ? "learn" : "game"
+  );
+
+  // LEARNING STATE
+  const [learnIndex, setLearnIndex] = useState(0);
+
+  // GAME STATE
+  const [gameIndex, setGameIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [feedback, setFeedback] = useState("");
-  const [analysis, setAnalysis] = useState("");
-
   const [score, setScore] = useState(0);
-  const [round, setRound] = useState(1);
 
-  const [correctAnswer, setCorrectAnswer] = useState(null);
-  const [playing, setPlaying] = useState(false);
-  const hasSaved = useRef(false); // 🔥 NEW
-  const current = animalData[index];
+  // AI
+  const [aiMessage, setAiMessage] = useState("");
+  const [loadingAI, setLoadingAI] = useState(false);
 
-  // ✅ SAVE PROGRESS
-  const saveProgress = async () => {
+  const currentLearn = animalData[learnIndex];
+  const currentGame = animalData[gameIndex];
+
+  // VOICE
+  const speakAI = (text) => {
+    if (!text) return;
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = 0.85;
+    utter.pitch = 1.1;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utter);
+  };
+
+  const playAnimalSound = (sound) => {
+    new Audio(sound).play();
+  };
+
+  const playOptionSound = (sound) => {
+    new Audio(sound).play();
+  };
+
+  // AI TEACHER (works even if backend down)
+  const teachAI = async () => {
+    const fallback = `This is a ${currentLearn.animal}. Listen carefully to its sound. Try to remember how it sounds.`;
+
+    setAiMessage(fallback);
+    speakAI(fallback);
+
     try {
-      const email = localStorage.getItem("loginEmail");
+      setLoadingAI(true);
 
-      if (!email) return;
-
-      await setDoc(
-        doc(db, "users", email),
+      const res = await fetch(
+        "http://localhost:5000/ai/teach",
         {
-          email,
-          score,
-          level,
-          updatedAt: new Date(),
-        },
-        { merge: true }
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            topic: `Teach a child about ${currentLearn.animal} sound`
+          })
+        }
       );
 
-      console.log("✅ Progress saved");
-    } catch (err) {
-      console.log("❌ SAVE ERROR:", err);
+      if (!res.ok) throw new Error("AI server unavailable");
+
+      const data = await res.json();
+
+      if (data.explanation) {
+        setAiMessage(data.explanation);
+        speakAI(data.explanation);
+      }
+
+    } catch (e) {
+      console.log("Using fallback AI", e);
+    } finally {
+      setLoadingAI(false);
     }
   };
 
+  // Auto teach on each learning card
   useEffect(() => {
-  if (mode === "result" && !hasSaved.current) {
-    console.log("Result reached");
-    saveProgress();
-    hasSaved.current = true;
-  }
-}, [mode]);
-
-  // 🤖 AI TEACH
-  const teachAI = async () => {
-    const res = await fetch("http://localhost:5000/ai/teach", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        topic: `${level} jungle animal sound counting`,
-      }),
-    });
-
-    const data = await res.json();
-    setAnalysis(data.explanation);
-  };
-
-  useEffect(() => {
-    if (mode === "learn") teachAI();
-  }, [mode]);
-
-  // 🎧 PLAY SOUND
-  const playSound = async () => {
-    if (playing) return;
-
-    let max = 4;
-    if (level === "medium") max = 6;
-    if (level === "hard") max = 8;
-
-    const count = Math.floor(Math.random() * max) + 1;
-
-    console.log("🎯 Correct Answer:", count);
-
-    setCorrectAnswer(count);
-    setPlaying(true);
-    setSelected(null);
-    setFeedback("");
-
-    for (let i = 0; i < count; i++) {
-      await new Promise((resolve) => {
-        const audio = new Audio(current.sound);
-        audio.play();
-        audio.onended = resolve;
-      });
-
-      await new Promise((r) => setTimeout(r, 300));
+    if (mode === "learn") {
+      teachAI();
     }
+  }, [learnIndex, mode]);
 
-    setPlaying(false);
-  };
+  // GAME HINT AI
+  const getHint = async () => {
+    const hint = "Listen to the animal again, then hover over each option and compare the sounds.";
 
-  // 🤖 ANALYZE
-  const analyze = async (isCorrect) => {
-    const res = await fetch("http://localhost:5000/ai/analyze", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        answers: { correct: isCorrect, level },
-      }),
-    });
+    setAiMessage(hint);
+    speakAI(hint);
 
-    const data = await res.json();
-    setAnalysis(data.analysis);
-  };
+    try {
+      const res = await fetch(
+        "http://localhost:5000/ai/teach",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            topic: `Give listening hint for ${currentGame.animal}`
+          })
+        }
+      );
 
-  // 🎮 SELECT (🔥 FIXED)
-  const handleSelect = async (num) => {
-    // ❌ prevent clicking during sound
-    if (playing) return;
+      if (!res.ok) throw new Error("Hint AI unavailable");
 
-    // ❌ must play sound first
-    if (!correctAnswer) {
-      setFeedback("⚠️ Play the sound first!");
-      return;
+      const data = await res.json();
+
+      if (data.explanation) {
+        setAiMessage(data.explanation);
+        speakAI(data.explanation);
+      }
+
+    } catch (e) {
+      console.log(e);
     }
+  };
 
-    // ❌ prevent double click
+  const handleSelect = (i) => {
     if (selected !== null) return;
 
-    setSelected(num);
+    setSelected(i);
 
-    const isCorrect = num === correctAnswer;
-
-    if (isCorrect) {
+    if (i === currentGame.correctIndex) {
+      const msg = "Correct. Great listening.";
       setFeedback("Correct! 🎉");
-      setScore((prev) => prev + 1);
-    } else {
-      setFeedback(`Oops! Correct answer is ${correctAnswer}`);
+      setAiMessage(msg);
+      speakAI(msg);
+      setScore(prev => prev + 1);
     }
-
-    await analyze(isCorrect);
+    else {
+      const msg = "Not quite. Compare the sounds again next time.";
+      setFeedback("Oops! Try again 💛");
+      setAiMessage(msg);
+      speakAI(msg);
+    }
   };
 
-  // 👉 NEXT
-  const nextStep = () => {
+  const nextQuestion = () => {
     setSelected(null);
     setFeedback("");
-    setCorrectAnswer(null);
+    setAiMessage("");
 
-    if (questionCount < 5) {
-      setQuestionCount((q) => q + 1);
-      setIndex((prev) => (prev + 1) % animalData.length);
-    } else {
+    if (gameIndex < animalData.length - 1) {
+      setGameIndex(prev => prev + 1);
+    }
+    else {
       setMode("result");
     }
   };
 
-  // 👉 NEXT LEVEL
-  const nextLevel = () => {
-    if (level === "easy") setLevel("medium");
-    else if (level === "medium") setLevel("hard");
+  // ---------- LEARNING SCREEN ----------
+  if (mode === "learn") {
+    return (
+      <div className="soundtap-container">
 
-    resetGame();
-  };
+        <button className="back-btn" onClick={goBack}>
+          ⬅ Back
+        </button>
 
-  const resetGame = () => {
-  hasSaved.current = false; // 🔥 ADD THIS
+        <h1 className="soundtap-title">
+          Learn Animal Sounds 🐾
+        </h1>
 
-  setMode("learn");
-  setScore(0);
-  setQuestionCount(1);
-  setRound((r) => r + 1);
-};
+        <div className="soundtap-card">
 
+          <img
+            src={currentLearn.image}
+            alt={currentLearn.animal}
+          />
+
+          <div className="soundtap-word">
+            {currentLearn.animal}
+          </div>
+
+          <button
+            className="audio-btn"
+            onClick={() => playAnimalSound(currentLearn.sound)}
+          >
+            🔊 Hear Me
+          </button>
+
+          <button
+            className="audio-btn"
+            onClick={teachAI}
+          >
+            {loadingAI ? "Thinking..." : "🤖 AI Teach"}
+          </button>
+
+          {aiMessage && (
+            <div className="feedback">
+              🤖 {aiMessage}
+            </div>
+          )}
+
+          <button
+            className="next-btn"
+            onClick={() => {
+              if (learnIndex < animalData.length - 1) {
+                setLearnIndex(prev => prev + 1);
+              }
+              else {
+                localStorage.setItem(
+                  "soundtapLearned",
+                  "true"
+                );
+                setMode("game");
+              }
+            }}
+          >
+            {
+              learnIndex < animalData.length - 1
+                ? "Next ➡"
+                : "Start Game 🎮"
+            }
+          </button>
+
+        </div>
+      </div>
+    );
+  }
+
+  // ---------- RESULT ----------
+  if (mode === "result") {
+    return (
+      <div className="soundtap-container">
+        <div className="soundtap-card">
+
+          <h2>🎉 Game Complete</h2>
+
+          <p>
+            Score: {score}/{animalData.length}
+          </p>
+
+          <button
+            className="next-btn"
+            onClick={() => {
+              setGameIndex(0);
+              setSelected(null);
+              setScore(0);
+              setFeedback("");
+              setMode("game");
+            }}
+          >
+            Play Again 🔁
+          </button>
+
+        </div>
+      </div>
+    );
+  }
+
+  // ---------- GAME ONLY ----------
   return (
     <div className="soundtap-container">
 
-      {/* 🎯 LEVEL */}
-      {mode === "level" && (
-        <div className="soundtap-card">
-          <h2>🌿 Choose Level</h2>
+      <button className="back-btn" onClick={goBack}>
+        ⬅ Back
+      </button>
 
-          <button onClick={() => { setLevel("easy"); setMode("learn"); }}>
-            Easy 🌱
-          </button>
+      <h1 className="soundtap-title">
+        Match the Sound 🎧
+      </h1>
 
-          <button onClick={() => { setLevel("medium"); setMode("learn"); }}>
-            Medium 🌿
-          </button>
+      <div className="soundtap-card">
 
-          <button onClick={() => { setLevel("hard"); setMode("learn"); }}>
-            Hard 🔥
+        {/* Enabled only after first-time learning completed */}
+        {!firstVisit && (
+          <button
+            className="audio-btn"
+            onClick={() => {
+              setLearnIndex(0);
+              setMode("learn");
+            }}
+          >
+            📘 Learn Again
           </button>
+        )}
+
+        <img
+          src={currentGame.image}
+          alt={currentGame.animal}
+        />
+
+        <div className="soundtap-word">
+          {currentGame.animal}
         </div>
-      )}
 
-      {/* 📘 LEARN */}
-      {mode === "learn" && (
-        <div className="soundtap-card">
-          <h2>🤖 AI Teacher ({level})</h2>
-          <p>{analysis}</p>
+        <button
+          className="audio-btn"
+          onClick={() => playAnimalSound(currentGame.sound)}
+        >
+          🔊 Hear Me
+        </button>
 
-          <button onClick={() => setMode("game")}>
-            Start Game 🚀
-          </button>
+        <button
+          className="audio-btn"
+          onClick={getHint}
+        >
+          🤖 Hint
+        </button>
+
+        <div className="circle-container">
+          {[1,2,3,4].map((num,i)=>(
+            <div
+              key={i}
+              className={`circle ${selected===i ? "selected" : ""}`}
+              onMouseEnter={() =>
+                playOptionSound(currentGame.options[i])
+              }
+              onClick={() => handleSelect(i)}
+            >
+              Option {num}
+            </div>
+          ))}
         </div>
-      )}
 
-      {/* 🎮 GAME */}
-      {mode === "game" && (
-        <div className="soundtap-card">
-          <h2>🌿 Round {round} ({level})</h2>
-          <p>Question {questionCount} / 5</p>
+        <div className="feedback">
+          {feedback}
+        </div>
 
-          <button onClick={playSound} disabled={playing}>
-            {playing ? "Playing..." : "🔊 Play Sound"}
-          </button>
-
-          <div className="circle-container">
-            {[1,2,3,4,5,6,7,8]
-              .slice(0, level === "easy" ? 4 : level === "medium" ? 6 : 8)
-              .map((num) => (
-                <div
-                  key={num}
-                  className={`circle ${selected === num ? "selected" : ""}`}
-                  onClick={() => handleSelect(num)}
-                >
-                  {num}
-                </div>
-              ))}
+        {aiMessage && (
+          <div className="feedback">
+            🤖 {aiMessage}
           </div>
+        )}
 
-          <div>{feedback}</div>
+        {selected !== null && (
+          <button
+            className="next-btn"
+            onClick={nextQuestion}
+          >
+            Next ➡
+          </button>
+        )}
 
-          {analysis && <div>🤖 {analysis}</div>}
-
-          {selected !== null && (
-            <button onClick={nextStep}>Next ➡</button>
-          )}
-        </div>
-      )}
-
-      {/* 📊 RESULT */}
-      {mode === "result" && (
-        <div className="soundtap-card">
-          <h2>🎉 Round Complete</h2>
-          <p>Score: {score} / 5</p>
-
-          <p>
-            {score >= 3
-              ? "🌟 Great! Moving to next level"
-              : "💡 Try again to improve"}
-          </p>
-
-          {score >= 3 && level !== "hard" && (
-            <button onClick={nextLevel}>Next Level 🚀</button>
-          )}
-
-          {score < 3 && (
-            <button onClick={resetGame}>Retry 🔁</button>
-          )}
-
-          {level === "hard" && score >= 3 && (
-            <h3>🏆 You completed all levels!</h3>
-          )}
-        </div>
-      )}
+      </div>
     </div>
   );
 }

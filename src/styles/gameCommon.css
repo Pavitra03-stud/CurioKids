@@ -353,3 +353,28 @@
   object-fit: contain;
   transform: scale(1.2);
 }
+.soundtap-card {
+  width: 500px;        /* 🔼 increase width */
+  min-height: 550px;   /* 🔼 increase height */
+
+  background: white;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+
+  text-align: center;
+}
+.weather-img {
+  width: 220px;
+  height: 220px;
+
+  object-fit: contain;
+  border-radius: 50%;
+
+  margin-bottom: 20px;
+}
+.option-img {
+  width: 65px;
+  height: 65px;
+  transform: scale(1.2);
+}

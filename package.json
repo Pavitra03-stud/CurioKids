@@ -12,8 +12,12 @@
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.13.6",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
     "firebase": "^12.11.0",
     "lottie-react": "^2.4.1",
+    "nodemailer": "^8.0.5",
     "react": "^19.2.0",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.2.0",

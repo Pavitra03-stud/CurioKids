@@ -1,176 +1,176 @@
-// import { useEffect, useState } from "react";
-// import { speak } from "../utils/speak";
-// import "../styles/ConfusingLetters.css";
-// import { db } from "../firebase";
-// import { doc, setDoc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { speak } from "../utils/speak";
+import "../styles/ConfusingLetters.css";
+import { db } from "../firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
-// export default function LetterRecognition() {
+export default function LetterRecognition() {
 
-//   const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
-//   const [target, setTarget] = useState("");
-//   const [options, setOptions] = useState([]);
-//   const [correctCount, setCorrectCount] = useState(0);
-//   const [roundCompleted, setRoundCompleted] = useState(false);
+  const [target, setTarget] = useState("");
+  const [options, setOptions] = useState([]);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [roundCompleted, setRoundCompleted] = useState(false);
 
-//   // ✅ Logged user
-//   const userEmail = localStorage.getItem("loginEmail");
+  // ✅ Logged user
+  const userEmail = localStorage.getItem("loginEmail");
 
-//   useEffect(() => {
-//     generateQuestion();
-//   }, []);
+  useEffect(() => {
+    generateQuestion();
+  }, []);
 
-//   const generateQuestion = () => {
-//     const randomLetter =
-//       alphabet[Math.floor(Math.random() * alphabet.length)];
+  const generateQuestion = () => {
+    const randomLetter =
+      alphabet[Math.floor(Math.random() * alphabet.length)];
 
-//     const shuffled = [...alphabet]
-//       .sort(() => 0.5 - Math.random())
-//       .slice(0, 7);
+    const shuffled = [...alphabet]
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 7);
 
-//     if (!shuffled.includes(randomLetter)) {
-//       shuffled[0] = randomLetter;
-//     }
+    if (!shuffled.includes(randomLetter)) {
+      shuffled[0] = randomLetter;
+    }
 
-//     setTarget(randomLetter);
-//     setOptions(shuffled.sort(() => 0.5 - Math.random()));
-//     speak(`Click the letter ${randomLetter}`);
-//   };
+    setTarget(randomLetter);
+    setOptions(shuffled.sort(() => 0.5 - Math.random()));
+    speak(`Click the letter ${randomLetter}`);
+  };
 
-//   const handleClick = (letter) => {
-//     if (roundCompleted) return;
+  const handleClick = (letter) => {
+    if (roundCompleted) return;
 
-//     if (letter === target) {
-//       const newCount = correctCount + 1;
-//       setCorrectCount(newCount);
+    if (letter === target) {
+      const newCount = correctCount + 1;
+      setCorrectCount(newCount);
 
-//       speak("Great job!");
+      speak("Great job!");
 
-//       if (newCount >= 5) {
-//         completeRound(newCount);
-//       } else {
-//         generateQuestion();
-//       }
-//     } else {
-//       speak("Try again");
-//     }
-//   };
+      if (newCount >= 5) {
+        completeRound(newCount);
+      } else {
+        generateQuestion();
+      }
+    } else {
+      speak("Try again");
+    }
+  };
 
-//   /* 🔥 SAVE TO FIRESTORE */
-//   const saveProgressToFirestore = async (score) => {
-//     try {
-//       if (!userEmail) {
-//         console.log("❌ No user logged in");
-//         return;
-//       }
+  /* 🔥 SAVE TO FIRESTORE */
+  const saveProgressToFirestore = async (score) => {
+    try {
+      if (!userEmail) {
+        console.log("❌ No user logged in");
+        return;
+      }
 
-//       const userRef = doc(db, "users", userEmail);
-//       const userSnap = await getDoc(userRef);
+      const userRef = doc(db, "users", userEmail);
+      const userSnap = await getDoc(userRef);
 
-//       let previousScore = 0;
+      let previousScore = 0;
 
-//       if (userSnap.exists()) {
-//         previousScore = userSnap.data().score || 0;
-//       }
+      if (userSnap.exists()) {
+        previousScore = userSnap.data().score || 0;
+      }
 
-//       await setDoc(
-//         userRef,
-//         {
-//           email: userEmail,
-//           score: previousScore + score,
-//           lastGame: "Letter Recognition",
-//           lastPlayed: new Date().toISOString()
-//         },
-//         { merge: true }
-//       );
+      await setDoc(
+        userRef,
+        {
+          email: userEmail,
+          score: previousScore + score,
+          lastGame: "Letter Recognition",
+          lastPlayed: new Date().toISOString()
+        },
+        { merge: true }
+      );
 
-//       console.log("✅ Score saved for:", userEmail);
+      console.log("✅ Score saved for:", userEmail);
 
-//     } catch (err) {
-//       console.error("❌ Firestore Error:", err);
-//     }
-//   };
+    } catch (err) {
+      console.error("❌ Firestore Error:", err);
+    }
+  };
 
-//   /* 🎉 COMPLETE ROUND */
-//   const completeRound = (finalScore) => {
-//     setRoundCompleted(true);
-//     speak("Amazing! You completed this round!");
+  /* 🎉 COMPLETE ROUND */
+  const completeRound = (finalScore) => {
+    setRoundCompleted(true);
+    speak("Amazing! You completed this round!");
 
-//     // 🔥 Save to Firebase
-//     saveProgressToFirestore(finalScore);
+    // 🔥 Save to Firebase
+    saveProgressToFirestore(finalScore);
 
-//     // ✅ Local backup (optional)
-//     const existing = JSON.parse(localStorage.getItem("aiProgress")) || {
-//       roundsCompleted: 0,
-//       rewards: [],
-//     };
+    // ✅ Local backup (optional)
+    const existing = JSON.parse(localStorage.getItem("aiProgress")) || {
+      roundsCompleted: 0,
+      rewards: [],
+    };
 
-//     existing.roundsCompleted += 1;
-//     existing.rewards.push("⭐ Letter Recognition Star");
+    existing.roundsCompleted += 1;
+    existing.rewards.push("⭐ Letter Recognition Star");
 
-//     localStorage.setItem("aiProgress", JSON.stringify(existing));
-//   };
+    localStorage.setItem("aiProgress", JSON.stringify(existing));
+  };
 
-//   const nextRound = () => {
-//     setCorrectCount(0);
-//     setRoundCompleted(false);
-//     generateQuestion();
-//   };
+  const nextRound = () => {
+    setCorrectCount(0);
+    setRoundCompleted(false);
+    generateQuestion();
+  };
 
-//   return (
-//     <div className="confusing-page">
+  return (
+    <div className="confusing-page">
 
-//       {/* ❌ BACK ICON REMOVED */}
+      {/* ❌ BACK ICON REMOVED */}
 
-//       <div className="confusing-navbar">
-//         <div className="navbar-title">
-//           🔤 Letter Recognition
-//         </div>
-//       </div>
+      <div className="confusing-navbar">
+        <div className="navbar-title">
+          🔤 Letter Recognition
+        </div>
+      </div>
 
-//       <div className="confusing-content">
+      <div className="confusing-content">
 
-//         {!roundCompleted ? (
-//           <>
-//             <h2 className="instruction">
-//               Click the letter:
-//               <span className="target"> {target}</span>
-//             </h2>
+        {!roundCompleted ? (
+          <>
+            <h2 className="instruction">
+              Click the letter:
+              <span className="target"> {target}</span>
+            </h2>
 
-//             <div className="letters-grid">
-//               {options.map((letter, index) => (
-//                 <div
-//                   key={index}
-//                   className="letter-box"
-//                   onClick={() => handleClick(letter)}
-//                 >
-//                   {letter}
-//                 </div>
-//               ))}
-//             </div>
+            <div className="letters-grid">
+              {options.map((letter, index) => (
+                <div
+                  key={index}
+                  className="letter-box"
+                  onClick={() => handleClick(letter)}
+                >
+                  {letter}
+                </div>
+              ))}
+            </div>
 
-//             <div className="score">
-//               ⭐ Correct: {correctCount} / 5
-//             </div>
-//           </>
-//         ) : (
-//           <>
-//             <h2 className="instruction">
-//               🎉 Round Complete!
-//             </h2>
+            <div className="score">
+              ⭐ Correct: {correctCount} / 5
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 className="instruction">
+              🎉 Round Complete!
+            </h2>
 
-//             <p>Score saved to leaderboard 🚀</p>
+            <p>Score saved to leaderboard 🚀</p>
 
-//             <button className="next-btn" onClick={nextRound}>
-//               Next Round 🔄
-//             </button>
-//           </>
-//         )}
+            <button className="next-btn" onClick={nextRound}>
+              Next Round 🔄
+            </button>
+          </>
+        )}
 
-//       </div>
-//     </div>
-//   );
-// }
+      </div>
+    </div>
+  );
+}
 
 
 

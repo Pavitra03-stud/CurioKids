@@ -35,7 +35,7 @@ export default function NumbersHome({ goBack }) {
 
           <div
             className="numbers-feature-card"
-            onClick={() => navigate("/numbers-game-home")}
+            onClick={() => navigate("/number-games-home")}
           >
             <div className="numbers-feature-icon gaming-icon">🎮</div>
             <h2>Game Zone</h2>

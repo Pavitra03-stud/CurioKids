@@ -1,0 +1,287 @@
+/* .match-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Comic Sans MS";
+}
+
+.match-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  width: 90%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.match-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.column {
+  width: 45%;
+}
+
+.number-box,
+.animal-box {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 14px;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  background: #ffd166;
+}
+
+.animal-box {
+  background: #bde0fe;
+  font-size: 1.6rem;
+}
+
+.selected {
+  background: #73c943 !important;
+  color: white;
+}
+
+.matched {
+  background: #caffbf !important;
+  cursor: not-allowed;
+}
+
+.message-box {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #184c35;
+}
+
+.score-box {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.done-box {
+  margin-top: 12px;
+  color: green;
+  font-weight: bold;
+}
+
+.btn-group {
+  margin-top: 16px;
+}
+
+button:hover {
+  opacity: 0.9;
+} */
+
+
+.match-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+}
+
+.match-card {
+  width: 100%;
+  max-width: 980px;
+  background: #f5f5f5;
+  border-radius: 28px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+  padding: 28px;
+  text-align: center;
+}
+
+.match-top-bar h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  color: #000;
+}
+
+.match-top-bar p {
+  margin-top: 8px;
+  font-size: 1.05rem;
+  color: #000;
+}
+
+.level-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.level-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 10px 18px;
+  background: #ffd166;
+  color: #184c35;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.active-level {
+  background: #73c943;
+  color: white;
+}
+
+.level-info {
+  margin-top: 14px;
+  font-weight: bold;
+  color: #184c35;
+}
+
+.match-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 26px;
+}
+
+.match-column h2 {
+  margin-bottom: 14px;
+  color: #000;
+  font-size: 1.6rem;
+}
+
+.match-box {
+  width: 100%;
+  min-height: 58px;
+  border: none;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.match-box:hover {
+  transform: translateY(-2px);
+}
+
+.number-box {
+  background: #f2c75c;
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+.animal-box {
+  background: #a9c8e5;
+  color: #000;
+  font-size: 2rem;
+  padding: 12px;
+}
+
+.selected-box {
+  outline: 4px solid #73c943;
+  outline-offset: 2px;
+}
+
+.matched-box {
+  background: #b8e6ad !important;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+.message-box {
+  margin-top: 20px;
+  background: #eaf2e4;
+  border: 1px dashed #a7cf7e;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.message-box p {
+  margin: 0;
+  color: #184c35;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.score-box {
+  margin-top: 12px;
+}
+
+.score-box span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.done-box {
+  margin-top: 14px;
+  background: #dff7d6;
+  border: 2px solid #8fd17f;
+  color: #1f6b2b;
+  font-weight: bold;
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.button-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.reset-btn,
+.next-btn {
+  flex: 1;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.reset-btn {
+  background: #20bcc3;
+  color: #ffffff;
+}
+
+.next-btn {
+  background: #73c943;
+  color: #ffffff;
+}
+
+.reset-btn:hover,
+.next-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+@media (max-width: 700px) {
+  .match-columns {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .match-card {
+    padding: 18px;
+  }
+
+  .match-top-bar h1 {
+    font-size: 1.8rem;
+  }
+
+  .match-box {
+    font-size: 1.5rem;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+}

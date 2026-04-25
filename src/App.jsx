@@ -459,6 +459,7 @@ import JungleHero from "./features/JungleHero";
 import KidsHome from "./features/KidsHome";
 import PracticeHome from "./features/PracticeHome";
 import NumbersHome from "./features/NumbersHome";
+import NumberGamesHome from "./features/NumberGamesHome";
 import GamesHome from "./features/GamesHome";
 import GamesPlayHome from "./features/GamesPlayHome";
 import ParentDashboard from "./features/ParentDashboard";
@@ -547,6 +548,13 @@ import AdminDashboard from "./features/AdminDashboard";
 import { GameProvider } from "./context/GameContext";
 
 import "./index.css";
+import ColorNumberAnimals from "./features/ColorNumberAnimals";
+import ConnectTheNumbersAnimal from "./features/ConnectTheNumbersAnimal";
+import ArrangeNumbersGame from "./features/ArrangeNumbersGame";
+import BiggerSmallerGame from "./features/BiggerSmallerGame";
+import NumberMatchAnimals from "./features/NumberMatchAnimals";
+import DescendingOrderLearning from "./features/DescendingOrderLearning";
+import NumberLineLearning from "./features/NumberLineLearning";
 
 export default function App() {
   return (
@@ -588,7 +596,8 @@ export default function App() {
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/progress" element={<Progress />} />
         <Route path="/alphabet-uppercase-lowercase" element={<AlphabetUppercaseLowercase />} />
-        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />        
+        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />  
+        <Route path="/number-games-home" element={<NumberGamesHome />} />      
 
         {/* 🔤 Letters */}
         <Route path="/alphabet-learning" element={<AlphabetLearning />} />
@@ -650,6 +659,13 @@ export default function App() {
         <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
         <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
         <Route path="/number-tracing" element={<NumberTracing />} />
+        <Route path="/color-number-animals" element={<ColorNumberAnimals />} />
+        <Route path="/connect-the-numbers-animal" element={<ConnectTheNumbersAnimal />} />
+        <Route path="/arrange-numbers-game" element={<ArrangeNumbersGame />} />
+        <Route path="/bigger-smaller-game" element={<BiggerSmallerGame />} />
+        <Route path="/number-match-animals" element={<NumberMatchAnimals />} />
+        <Route path="/descending-order-learning" element={<DescendingOrderLearning />} />
+        <Route path="/number-line-learning" element={<NumberLineLearning />} />
 
 
         {/* 🎮 Games */}

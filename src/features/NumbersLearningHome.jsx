@@ -28,16 +28,16 @@ export default function NumbersLearningHome() {
     },
     {
       icon: "🐢",
-      title: "Slow Step",
-      subtitle: "Learn step by step",
-      path: "/slow-step-numbers",
+      title: "Descending Orders",
+      subtitle: "Learn numbers in descending order",
+      path: "/descending-order-learning",
       color: "purple",
     },
     {
       icon: "😊",
-      title: "Safe Error",
+      title: "Number Line Learning",
       subtitle: "Learn without fear",
-      path: "/safe-error-numbers",
+      path: "/number-line-learning",
       color: "green",
     },
   ];
@@ -72,7 +72,10 @@ export default function NumbersLearningHome() {
           <div
             key={index}
             className="numbers-learning-card"
-            onClick={() => navigate(card.path)}
+            onClick={() => {
+            console.log("Navigating to:", card.path);
+            navigate(card.path);
+          }}
           >
             <div className={`numbers-learning-icon ${card.color}`}>
               {card.icon}

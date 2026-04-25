@@ -29,6 +29,11 @@ export default function GamesHome() {
 
       </div>
 
+<<<<<<< HEAD
+=======
+      <div className="games-container">
+
+>>>>>>> 737ddcc (New changes)
 
         <div
           className="games-card play"

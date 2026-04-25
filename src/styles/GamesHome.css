@@ -3,8 +3,10 @@
   background: linear-gradient(to bottom, #a9d86e, #7ac943);
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
   overflow-x: hidden;
-  padding-bottom: 40px;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* 🔵 Floating bubbles */
@@ -85,7 +87,7 @@
 /* 🐯 Header section */
 .games-header {
   text-align: center;
-  margin: 30px 0;
+  margin: 20px 0;
   z-index: 1;
   position: relative;
 }
@@ -101,64 +103,49 @@
   font-weight: bold;
 }
 
-/* 🎴 Cards container */
+/* 🎯 CENTER AREA (IMPORTANT FIX) */
 .games-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 34px;
+  flex: 1; /* takes remaining space */
+  display: flex;
   justify-content: center;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
+  align-items: center; /* PERFECT vertical center */
   z-index: 1;
   position: relative;
 }
 
-/* 🧩 Cards */
+/* 🧩 Card */
 .games-card {
-  background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(6px);
+  background: #ddd0f1;
   border-radius: 30px;
-  padding: 42px 28px;
-  min-height: 200px;
+  padding: 50px 40px;
+  min-width: 320px;
+  min-height: 180px;
+
   box-shadow: 0 10px 25px rgba(70, 130, 40, 0.22);
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   font-size: 22px;
   font-weight: bold;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .games-card:hover {
-  transform: translateY(-6px);
+  transform: scale(1.05);
   box-shadow: 0 14px 30px rgba(70, 130, 40, 0.3);
-}
-
-/* 🎨 Optional card colors */
-.learning {
-  background: #eadfb8;
-}
-
-.play {
-  background: #ddd0f1;
 }
 
 /* 🐾 Bottom animals */
 .bottom-animals {
   text-align: center;
-  margin-top: 30px;
+  margin: 20px 0;
 }
 
 .bottom-animals span {
   font-size: 32px;
   margin: 0 10px;
-}
-
-/* 📱 Responsive */
-@media (max-width: 900px) {
-  .games-container {
-    grid-template-columns: 1fr;
-  }
 }

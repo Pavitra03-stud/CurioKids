@@ -517,23 +517,9 @@ import LettersHome from "./features/LettersHome";
 import LettersLearningHome from "./features/LettersLearningHome";
 import LettersGameHome from "./features/LettersGameHome";
 
-/* 🔤 Letters Learning */
-import AlphabetLearning from "./features/AlphabetLearning";
-import AlphabetFlashCard from "./features/AlphabetFlashCard";
-import AlphabetLetterTracing from "./features/AlphabetLetterTracing";
-import AlphabetUppercaseLowercase from "./features/AlphabetUppercaseLowercase";
 
-/* 🔤 Letters Games */
-import LearningLetterBlast from "./features/LearningLetterBlast";
-import OddLetter from "./features/OddLetter";
-import ConnectLetters from "./features/ConnectLetters";
-import WordBuilder from "./features/WordBuilder";
 
-/* 🔢 Numbers */
-import NumbersLearningHome from "./features/NumbersLearningHome";
-import MultiSensoryNumbers from "./features/MultiSensoryNumbers";
-import StoryBasedNumbers from "./features/StoryBasedNumbers";
-import NumberTracing from "./features/NumberTracing";
+
 
 /* 🎮 Games */
 import SoundTap from "./features/SoundTap";
@@ -549,8 +535,6 @@ import GamesLearningHome from "./features/GamesLearningHome"
 import ConnectLetters from "./features/ConnectLetters";
 import WordBuilder from "./features/WordBuilder";
 
-import GamesLearningHome from "./features/GamesLearningHome";
-import WeatherClothesGame from "./features/WeatherClothesGame";
 
 
 /* 🤖 AI */
@@ -560,8 +544,6 @@ import Profile from "./features/Profile";
 import AdminDashboard from "./features/AdminDashboard";
 
 
-import Rewards from "./features/Reward";
-import Progress from "./features/Progress";
 import { GameProvider } from "./context/GameContext";
 
 import "./index.css";
@@ -644,6 +626,7 @@ export default function App() {
         <Route path="/find-hidden" element={<FindHidden />} />
         <Route path="/animal-letter-path" element={<AnimalPathLetter />} />
 
+
         {/* 🔤 Letters Learning Pages */}
         <Route path="/alphabet-learning" element={<AlphabetLearning />} />
         <Route path="/alphabet-flashcard" element={<AlphabetFlashCard />} />
@@ -657,6 +640,7 @@ export default function App() {
           element={<AlphabetUppercaseLowercase />}
         />
 
+
         <Route path="/learning-letter-blast" element={<LearningLetterBlast />} />
         <Route path="/odd-letter" element={<OddLetter />} />
         <Route path="/connect-letters" element={<ConnectLetters/>}/>
@@ -667,7 +651,13 @@ export default function App() {
         <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
         <Route path="/number-tracing" element={<NumberTracing />} />
 
+
+        {/* 🎮 Games */}
+        <Route path="/games-home" element={<GamesHome />} />
+        <Route path="/games-play" element={<GamesPlayHome />} />
+
         {/* 🎮 General Games */}
+
         <Route path="/sound-tap" element={<SoundTap />} />
         <Route path="/pattern-copy" element={<PatternCopy />} />
         <Route path="/find-friend" element={<FindFriend />} />
@@ -684,6 +674,7 @@ export default function App() {
 
         {/* 🤖 AI */}
         <Route path="/ai-chat" element={<AIChat />} />
+
 
       </Routes>
 

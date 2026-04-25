@@ -10,16 +10,15 @@ export default function GamesPlayHome() {
     { title:"Pattern Game", screen:"/pattern-copy", icon:"🎯" },
     { title:"Memory Match", screen:"/memory-match", icon:"🧠" },
     { title:"Catch the Word", screen:"/catch-word", icon:"🎯" },
-    { title:"Fill the Bucket", screen:"/fill-bucket", icon:"🧺" }
+    { title:"Fill the Bucket", screen:"/fill-bucket", icon:"🧺" },
+     { title:"Weather Clothes", screen:"/weather-clothes", icon:"🌦️👕" }
   ];
 
   return (
     <div className="games-play-page">
 
       <header className="games-play-topbar">
-        <button onClick={() => navigate(-1)}>
-          ←
-        </button>
+       
 
         <h1>🎮 Games Zone</h1>
       </header>

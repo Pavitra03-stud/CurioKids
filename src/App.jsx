@@ -452,7 +452,7 @@ import OtpVerify from "./features/OtpVerify";
 
 /* 🐾 Onboarding */
 import ChooseFriend from "./features/ChooseFriend";
-import FriendIntro from "./features/FriendIntro";
+import FriendIntro from "./features/friendIntro";
 
 /* 🌴 Main */
 import JungleHero from "./features/JungleHero";

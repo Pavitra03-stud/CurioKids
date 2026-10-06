@@ -4,71 +4,71 @@
     "name": "Foxy",
     "type": "animal",
     "image": "/friends/fox.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Foxy 🦊. I love exploring, solving puzzles, and discovering new things with you!",
+    "about": "In CurioKids, we'll go on exciting adventures, play fun games, and learn something new every day!"
   },
   {
     "id": 2,
     "name": "Momo",
     "type": "animal",
     "image": "/friends/monkey.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Momo 🐵. I love jumping, exploring, and learning new things with you!",
+    "about": "In CurioKids, we'll swing into fun games, solve tricky puzzles, and grow smarter together!"
   },
   {
     "id": 3,
     "name": "Bunny",
     "type": "animal",
     "image": "/friends/rabbit.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Bunny 🐰. I love hopping around, making new friends, and learning with you!",
+    "about": "In CurioKids, we'll hop through fun activities, discover exciting ideas, and learn at your own pace!"
   },
   {
     "id": 4,
     "name": "Leo",
     "type": "animal",
     "image": "/friends/lion.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Leo 🦁. I'm brave, curious, and always ready for a new learning adventure!",
+    "about": "In CurioKids, we'll roar through challenges, explore new ideas, and build confidence together!"
   },
   {
     "id": 5,
     "name": "Ellie",
     "type": "animal",
     "image": "/friends/elephant.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Ellie 🐘. I love helping friends, discovering new things, and learning together!",
+    "about": "In CurioKids, we'll explore wonderful activities, remember amazing things, and learn step by step!"
   },
   {
     "id": 6,
     "name": "Panda",
     "type": "animal",
     "image": "/friends/panda.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Panda 🐼. I love calm adventures, fun games, and learning new things with you!",
+    "about": "In CurioKids, we'll take our time, enjoy playful activities, and discover something new every day!"
   },
   {
     "id": 7,
     "name": "Tiger",
     "type": "animal",
     "image": "/friends/tiger.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Tiger 🐯. I'm energetic, curious, and always ready to take on a new challenge!",
+    "about": "In CurioKids, we'll race through fun games, tackle challenges, and celebrate every little success!"
   },
   {
     "id": 8,
     "name": "Koala",
     "type": "animal",
     "image": "/friends/koala.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Koala 🐨. I love peaceful adventures, cozy learning, and spending time with you!",
+    "about": "In CurioKids, we'll learn comfortably, enjoy creative activities, and grow together one step at a time!"
   },
   {
     "id": 10,
     "name": "Zippy",
     "type": "animal",
     "image": "/friends/zebra.png",
-    "intro": "Hi! I’m Momo 🐵. I love jumping, exploring, and learning new things with you!",
-  "about": "In CurioKids, we will play fun games, solve puzzles, and grow smarter every day!"
+    "intro": "Hi! I'm Zippy 🦓. I love running, exploring, and making every learning adventure exciting!",
+    "about": "In CurioKids, we'll zoom through fun games, explore colorful activities, and learn something exciting together!"
   }
 ]

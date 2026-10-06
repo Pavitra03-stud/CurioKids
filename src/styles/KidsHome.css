@@ -7,12 +7,13 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
   font-family: "Comic Sans MS", cursive;
   margin: 0;
-  
 }
+
 
 /* =========================
    🌴 BACKGROUND
@@ -38,7 +39,7 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
+  min-height: 70px;
 
   background: #1b4332;
   color: rgb(255, 255, 255);
@@ -48,7 +49,7 @@ html, body {
   justify-content: center;
 
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .navbar-left {
@@ -59,35 +60,51 @@ html, body {
 .navbar-title {
   font-size: 20px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .navbar-right {
   position: absolute;
   right: 20px;
+
   display: flex;
+  align-items: center;
   gap: 12px;
 }
 
 .pill {
   background: rgb(0, 0, 0);
+  color: white;
   border: none;
+
   padding: 6px 14px;
   border-radius: 20px;
+
   font-size: 14px;
+  font-family: inherit;
+
   cursor: pointer;
   transition: 0.3s ease;
+
+  white-space: nowrap;
 }
 
 .pill:hover {
   transform: scale(1.05);
 }
 
-/* Push content below navbar */
+
+/* =========================
+   🌿 CONTENT
+========================= */
 .kids-content {
   padding-top: 110px;
   position: relative;
   z-index: 2;
+
+  width: 100%;
 }
+
 
 /* =========================
    🌱 WELCOME
@@ -99,31 +116,39 @@ html, body {
 
 .welcome-section h1 {
   font-size: 42px;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+  line-height: 1.2;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
 }
 
 .welcome-section p {
   font-size: 16px;
   margin-top: 8px;
-  text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  line-height: 1.5;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 
+
 /* =========================
-   🧩 CARD GRID (LEFT | RIGHT)
+   🧩 CARD GRID
+   LEFT CARD | RIGHT SCROLL
 ========================= */
 .card-grid {
   width: 100%;
   max-width: 1200px;
+
   margin: 60px auto 100px auto;
   padding: 0 40px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Card | Topics */
+  grid-template-columns: minmax(280px, 360px) minmax(320px, 420px);
+
   row-gap: 100px;
   column-gap: 80px;
+
   align-items: center;
-  justify-items: center;
+  justify-content: center;
 }
+
 
 /* =========================
    🪵 WOODEN CARD
@@ -132,9 +157,12 @@ html, body {
   width: 360px;
   height: 220px;
 
+  max-width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 14px;
 
   background-image: url("src/assets/bg.png");
@@ -144,12 +172,16 @@ html, body {
 
   cursor: pointer;
   transition: 0.3s ease;
-  filter: drop-shadow(0px 14px 18px rgba(0,0,0,0.35));
+
+  filter: drop-shadow(0px 14px 18px rgba(0, 0, 0, 0.35));
 }
 
 .jungle-card:hover {
   transform: translateY(-8px) scale(1.05);
-  filter: drop-shadow(0px 22px 28px rgba(0,0,0,0.45));
+
+  filter: drop-shadow(
+    0px 22px 28px rgba(0, 0, 0, 0.45)
+  );
 }
 
 .card-icon {
@@ -159,19 +191,22 @@ html, body {
 .card-text {
   font-size: 28px;
   font-weight: 900;
+
   color: #ffffff;
-  text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* =========================
-   📜 SCROLL TOPIC BOX
-========================= */
+
 /* =========================
    📜 SCROLL TOPIC BOX
 ========================= */
 .games-topic {
   width: 420px;
   min-height: 420px;
+
+  max-width: 100%;
+
   padding: 60px 45px;
 
   background-image: url("src/assets/scroll.png");
@@ -186,79 +221,102 @@ html, body {
   color: #3b2416;
   font-weight: 800;
 
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
+  filter: drop-shadow(
+    0 20px 30px rgba(0, 0, 0, 0.35)
+  );
 
-  /* 🔥 IMPORTANT FIX */
-  transition: none;   /* remove scaling animation */
+  transition: none;
 }
 
 .games-topic .card-text {
   font-size: 30px;
   margin-bottom: 18px;
+
   text-align: center;
+
   color: #3b2416;
+
   text-shadow: none;
 }
 
 .games-topic ul {
   list-style: disc;
+
   padding-left: 24px;
+
   font-size: 18px;
   line-height: 1.8;
 }
 
 .games-topic li {
   margin-bottom: 8px;
+
   cursor: pointer;
   user-select: none;
+
   transition: all 0.2s ease;
 }
 
-/* 🔥 NEW — hover only on topic */
 .games-topic li:hover {
   color: #8b4513;
   transform: translateX(8px);
 }
 
-/* 🔥 REMOVE scroll scaling */
 .games-topic:hover {
   transform: none;
 }
+
+
 /* =========================
    🦊 MASCOT
 ========================= */
 .mascot-container {
   position: fixed;
+
   bottom: 20px;
   left: 20px;
+
   z-index: 10;
+
   pointer-events: none;
 }
 
 .mascot-img {
   width: 150px;
+  max-width: 20vw;
+
+  height: auto;
+
   animation: bounce 2.5s infinite;
 }
 
 .mascot-bubble {
   position: absolute;
+
   left: 95px;
   bottom: 120px;
 
   background: #fff6d8;
+
   padding: 14px 16px;
+
   border-radius: 16px;
 
   font-weight: bold;
   font-size: 0.9rem;
+
   max-width: 240px;
 
-  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+
+  white-space: nowrap;
 }
 
 .mascot-bubble::before {
   content: "";
+
   position: absolute;
+
   left: 20px;
   bottom: -10px;
 
@@ -267,35 +325,25 @@ html, body {
   border-top: 12px solid #fff6d8;
 }
 
+
 /* =========================
    ✨ ANIMATION
 ========================= */
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
+
 
 /* =========================
-   📱 RESPONSIVE
+   👤 PROFILE
 ========================= */
-@media (max-width: 1000px) {
-  .card-grid {
-    grid-template-columns: 1fr; /* Stack on small screens */
-    row-gap: 60px;
-  }
-
-  .jungle-card {
-    width: 320px;
-    height: 200px;
-  }
-
-  .games-topic {
-    width: 90%;
-    max-width: 380px;
-    min-height: 380px;
-    padding: 45px 30px;
-  }
-}
 .profile-container {
   position: relative;
 }
@@ -303,35 +351,56 @@ html, body {
 .profile-avatar {
   width: 40px;
   height: 40px;
+
   background: #ffd93d;
+
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
+
   margin-left: 10px;
+
   font-size: 18px;
+
+  flex-shrink: 0;
 }
 
 .profile-dropdown {
   position: absolute;
+
   top: 50px;
   right: 0;
+
   background: white;
   color: black;
+
   border-radius: 12px;
+
   padding: 10px;
+
   width: 180px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  max-width: calc(100vw - 20px);
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
   z-index: 100;
 }
 
 .profile-dropdown button {
   width: 100%;
+
   text-align: left;
+
   padding: 6px;
+
   border: none;
+
   background: none;
+
   cursor: pointer;
 }
 
@@ -347,19 +416,478 @@ html, body {
   font-weight: bold;
 }
 
-@media (max-width: 600px) {
+
+/* =========================================================
+   📱 TABLET
+   1000px and below
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .kids-content {
+    padding-top: 100px;
+  }
+
+  .welcome-section {
+    padding: 25px 35px;
+  }
+
   .welcome-section h1 {
-    font-size: 30px;
+    font-size: 36px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+
+    width: 100%;
+
+    max-width: 700px;
+
+    margin: 40px auto 90px;
+
+    padding: 0 25px;
+
+    row-gap: 55px;
+  }
+
+  .jungle-card {
+    width: 360px;
+    height: 220px;
+  }
+
+  .games-topic {
+    width: 420px;
+    min-height: 400px;
   }
 
   .mascot-img {
-    width: 100px;
+    width: 125px;
+  }
+
+  .mascot-bubble {
+    left: 80px;
+    bottom: 105px;
+  }
+}
+
+
+/* =========================================================
+   📱 SMALL TABLET
+   768px and below
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .kids-navbar {
+    min-height: 64px;
+    height: auto;
+
+    padding: 10px 15px;
+  }
+
+  .navbar-title {
+    font-size: 18px;
+  }
+
+  .navbar-right {
+    right: 15px;
+    gap: 7px;
+  }
+
+  .pill {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .profile-avatar {
+    width: 36px;
+    height: 36px;
+
+    font-size: 16px;
+
+    margin-left: 3px;
+  }
+
+  .kids-content {
+    padding-top: 95px;
+  }
+
+  .welcome-section {
+    padding: 25px 25px;
+
+    text-align: center;
+  }
+
+  .welcome-section h1 {
+    font-size: 32px;
+  }
+
+  .welcome-section p {
+    font-size: 15px;
+  }
+
+  .card-grid {
+    padding: 0 20px;
+
+    margin-top: 30px;
+
+    row-gap: 40px;
+  }
+
+  .jungle-card {
+    width: min(360px, 90vw);
+    height: 210px;
+  }
+
+  .games-topic {
+    width: min(420px, 92vw);
+    min-height: 390px;
+
+    padding: 50px 35px;
+  }
+
+  .games-topic .card-text {
+    font-size: 27px;
+  }
+
+  .games-topic ul {
+    font-size: 17px;
+  }
+
+  .mascot-img {
+    width: 110px;
   }
 
   .mascot-bubble {
     left: 70px;
-    bottom: 90px;
-    font-size: 0.8rem;
+    bottom: 95px;
+
+    font-size: 0.82rem;
+
+    max-width: 210px;
+  }
+}
+
+
+/* =========================================================
+   📱 MOBILE
+   600px and below
+========================================================= */
+
+@media (max-width: 600px) {
+
+  /* ---------- NAVBAR ---------- */
+
+  .kids-navbar {
+    position: fixed;
+
+    min-height: 60px;
+
+    padding: 9px 12px;
+
+    justify-content: flex-start;
   }
 
+  .navbar-title {
+    font-size: 17px;
+  }
+
+  .navbar-right {
+    right: 10px;
+
+    gap: 5px;
+  }
+
+  .pill {
+    padding: 6px 9px;
+
+    font-size: 11px;
+
+    border-radius: 18px;
+  }
+
+  .profile-avatar {
+    width: 34px;
+    height: 34px;
+
+    font-size: 15px;
+  }
+
+
+  /* ---------- CONTENT ---------- */
+
+  .kids-content {
+    padding-top: 85px;
+  }
+
+
+  /* ---------- WELCOME ---------- */
+
+  .welcome-section {
+    padding: 22px 18px;
+  }
+
+  .welcome-section h1 {
+    font-size: 29px;
+
+    line-height: 1.2;
+  }
+
+  .welcome-section p {
+    font-size: 14px;
+
+    margin-top: 7px;
+  }
+
+
+  /* ---------- CARD GRID ---------- */
+
+  .card-grid {
+    width: 100%;
+
+    padding: 0 12px;
+
+    margin: 25px auto 80px;
+
+    row-gap: 30px;
+  }
+
+
+  /* ---------- WOODEN BOARD ---------- */
+
+  .jungle-card {
+    width: min(360px, 94vw);
+
+    height: 190px;
+
+    gap: 10px;
+  }
+
+  .card-icon {
+    font-size: 30px;
+  }
+
+  .card-text {
+    font-size: 24px;
+  }
+
+
+  /* ---------- SCROLL ---------- */
+
+  .games-topic {
+    width: min(420px, 94vw);
+
+    min-height: 350px;
+
+    padding: 45px 30px;
+  }
+
+  .games-topic .card-text {
+    font-size: 25px;
+
+    margin-bottom: 14px;
+  }
+
+  .games-topic ul {
+    padding-left: 22px;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+  }
+
+  .games-topic li {
+    margin-bottom: 6px;
+  }
+
+
+  /* ---------- MASCOT ---------- */
+
+  .mascot-container {
+    left: 10px;
+    bottom: 10px;
+  }
+
+  .mascot-img {
+    width: 90px;
+
+    max-width: none;
+  }
+
+  .mascot-bubble {
+    left: 55px;
+    bottom: 75px;
+
+    padding: 10px 12px;
+
+    font-size: 0.72rem;
+
+    max-width: 175px;
+  }
+}
+
+
+/* =========================================================
+   📱 SMALL MOBILE
+   480px and below
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .kids-navbar {
+    padding: 8px 10px;
+  }
+
+  .navbar-title {
+    font-size: 15px;
+  }
+
+  .navbar-right {
+    right: 8px;
+
+    gap: 4px;
+  }
+
+  .pill {
+    padding: 5px 7px;
+
+    font-size: 10px;
+  }
+
+  .profile-avatar {
+    width: 31px;
+    height: 31px;
+
+    font-size: 14px;
+  }
+
+  .kids-content {
+    padding-top: 78px;
+  }
+
+  .welcome-section {
+    padding: 20px 14px;
+  }
+
+  .welcome-section h1 {
+    font-size: 25px;
+  }
+
+  .welcome-section p {
+    font-size: 13px;
+  }
+
+  .card-grid {
+    padding: 0 8px;
+
+    row-gap: 24px;
+  }
+
+  .jungle-card {
+    width: 95vw;
+
+    height: 165px;
+  }
+
+  .card-icon {
+    font-size: 27px;
+  }
+
+  .card-text {
+    font-size: 21px;
+  }
+
+  .games-topic {
+    width: 95vw;
+
+    min-height: 315px;
+
+    padding: 40px 25px;
+  }
+
+  .games-topic .card-text {
+    font-size: 22px;
+  }
+
+  .games-topic ul {
+    font-size: 14px;
+
+    line-height: 1.6;
+  }
+
+  .games-topic li {
+    margin-bottom: 5px;
+  }
+
+  .mascot-img {
+    width: 75px;
+  }
+
+  .mascot-bubble {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   📱 VERY SMALL PHONES
+   360px and below
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .navbar-title {
+    font-size: 13px;
+  }
+
+  .pill {
+    padding: 4px 6px;
+
+    font-size: 9px;
+  }
+
+  .profile-avatar {
+    width: 29px;
+    height: 29px;
+
+    font-size: 13px;
+  }
+
+  .welcome-section h1 {
+    font-size: 22px;
+  }
+
+  .welcome-section p {
+    font-size: 12px;
+  }
+
+  .jungle-card {
+    height: 150px;
+  }
+
+  .card-icon {
+    font-size: 24px;
+  }
+
+  .card-text {
+    font-size: 19px;
+  }
+
+  .games-topic {
+    min-height: 290px;
+
+    padding: 35px 20px;
+  }
+
+  .games-topic .card-text {
+    font-size: 20px;
+  }
+
+  .games-topic ul {
+    font-size: 13px;
+  }
+
+  .mascot-img {
+    width: 65px;
+  }
 }

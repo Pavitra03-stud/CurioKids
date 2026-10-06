@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { chat } from "../services/aiEngine";
 import "../styles/AIChat.css";
-import { updateProgressFromAI } from "../services/progressEngine";
+
+const WORKER_URL =
+  "https://curiokids-worker.gvpavitraganesh.workers.dev/ai";
 
 export default function AIChat() {
   const [message, setMessage] = useState("");
@@ -15,15 +16,24 @@ export default function AIChat() {
 
   // 📥 LOAD SAVED CHATS
   useEffect(() => {
-    const saved = localStorage.getItem("allChats");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setAllChats(parsed);
+    try {
+      const saved = localStorage.getItem("allChats");
 
-      if (parsed.length > 0) {
-        setChatHistory(parsed[parsed.length - 1]);
-        setCurrentChatIndex(parsed.length - 1);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+          setAllChats(parsed);
+
+          if (parsed.length > 0) {
+            setChatHistory(parsed[parsed.length - 1]);
+            setCurrentChatIndex(parsed.length - 1);
+          }
+        }
       }
+    } catch (error) {
+      console.error("Error loading chats:", error);
+      localStorage.removeItem("allChats");
     }
   }, []);
 
@@ -34,13 +44,22 @@ export default function AIChat() {
 
   // 🔽 AUTO SCROLL
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    chatEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
   }, [chatHistory, loading]);
 
   // 🆕 NEW CHAT
   const startNewChat = () => {
     if (chatHistory.length > 0) {
-      const updated = [...allChats, chatHistory];
+      const updated = [...allChats];
+
+      if (currentChatIndex !== null) {
+        updated[currentChatIndex] = chatHistory;
+      } else {
+        updated.push(chatHistory);
+      }
+
       setAllChats(updated);
     }
 
@@ -54,29 +73,71 @@ export default function AIChat() {
     setCurrentChatIndex(index);
   };
 
+  // 🤖 CALL CURIOKIDS AI
+  const askAI = async (prompt) => {
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        type: "chat",
+      }),
+    });
+
+    const data = await response.json();
+
+    console.log("CurioKids AI Response:", data);
+
+    if (!response.ok) {
+      throw new Error(
+        data?.error || "AI request failed"
+      );
+    }
+
+    if (!data?.reply) {
+      throw new Error("AI returned an empty response");
+    }
+
+    return data.reply;
+  };
+
   // 📤 SEND MESSAGE
   const sendMessage = async () => {
-    if (!message.trim() || loading) return;
+    const trimmedMessage = message.trim();
 
-    const userMsg = { sender: "user", text: message };
-    const newChat = [...chatHistory, userMsg];
+    if (!trimmedMessage || loading) return;
+
+    const userMsg = {
+      sender: "user",
+      text: trimmedMessage,
+    };
+
+    const newChat = [
+      ...chatHistory,
+      userMsg,
+    ];
 
     setChatHistory(newChat);
     setMessage("");
     setLoading(true);
 
     try {
-      const reply = await chat(message);
-    
+      // 🤖 Send directly to Cloudflare Worker
+      const reply = await askAI(trimmedMessage);
 
       const updatedChat = [
         ...newChat,
-        { sender: "ai", text: reply }
+        {
+          sender: "ai",
+          text: reply,
+        },
       ];
 
       setChatHistory(updatedChat);
 
-      let updatedChats = [...allChats];
+      const updatedChats = [...allChats];
 
       if (currentChatIndex !== null) {
         updatedChats[currentChatIndex] = updatedChat;
@@ -86,14 +147,24 @@ export default function AIChat() {
       }
 
       setAllChats(updatedChats);
-    } catch {
-      setChatHistory([
-        ...newChat,
-        { sender: "ai", text: "⚠️ AI failed. Try again." }
-      ]);
-    }
+    } catch (error) {
+      console.error("AI Error:", error);
 
-    setLoading(false);
+      const errorMessage = {
+        sender: "ai",
+        text:
+          "⚠️ I'm having a little trouble connecting right now. Please try again! 🌱",
+      };
+
+      const failedChat = [
+        ...newChat,
+        errorMessage,
+      ];
+
+      setChatHistory(failedChat);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -101,70 +172,129 @@ export default function AIChat() {
 
       {/* 📁 SIDEBAR */}
       <div className="sidebar">
+
         <h3>🤖 Jungle AI</h3>
 
-        <button className="new-chat" onClick={startNewChat}>
+        <button
+          className="new-chat"
+          onClick={startNewChat}
+        >
           + New Chat
         </button>
 
         <div className="chat-list">
+
           {allChats.length === 0 ? (
-            <p style={{ padding: "10px" }}>No chats yet</p>
+            <p style={{ padding: "10px" }}>
+              No chats yet
+            </p>
           ) : (
-            allChats.map((_, i) => (
+            allChats.map((chat, i) => (
               <div
                 key={i}
-                className="chat-item"
+                className={`chat-item ${
+                  currentChatIndex === i
+                    ? "active"
+                    : ""
+                }`}
                 onClick={() => loadChat(i)}
               >
-                Chat {i + 1}
+                💬 Chat {i + 1}
               </div>
             ))
           )}
+
         </div>
       </div>
 
       {/* 💬 CHAT AREA */}
       <div className="chat-section">
 
+        {/* HEADER */}
         <div className="chat-header">
-          Jungle AI Chat
+          🤖 Jungle AI Chat
         </div>
 
+        {/* CHAT MESSAGES */}
         <div className="chat-box">
+
           {chatHistory.length === 0 && (
-            <p className="empty-chat">
-              👋 Hi! Ask me anything to start learning 🌱
-            </p>
+            <div className="empty-chat">
+              <div className="empty-icon">
+                🤖🌱
+              </div>
+
+              <h3>
+                Hi! I'm Jungle AI 👋
+              </h3>
+
+              <p>
+                Ask me anything and let's learn
+                something fun together! ✨
+              </p>
+            </div>
           )}
 
           {chatHistory.map((msg, i) => (
             <div
               key={i}
               className={`msg-row ${
-                msg.sender === "user" ? "right" : "left"
+                msg.sender === "user"
+                  ? "right"
+                  : "left"
               }`}
             >
-              <div className="msg">{msg.text}</div>
+              <div className="msg">
+                {msg.text}
+              </div>
             </div>
           ))}
 
-          {loading && <div className="typing">🤖 Typing...</div>}
+          {/* TYPING */}
+          {loading && (
+            <div className="msg-row left">
+              <div className="msg typing">
+                🤖 Thinking...
+              </div>
+            </div>
+          )}
 
           <div ref={chatEndRef} />
+
         </div>
 
         {/* 📝 INPUT */}
         <div className="chat-input">
+
           <input
+            type="text"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Ask me anything..."
-            onKeyDown={(e) =>
-              e.key === "Enter" && sendMessage()
+            onChange={(e) =>
+              setMessage(e.target.value)
             }
+            placeholder="Ask me anything..."
+            disabled={loading}
+            onKeyDown={(e) => {
+              if (
+                e.key === "Enter" &&
+                !e.shiftKey
+              ) {
+                e.preventDefault();
+                sendMessage();
+              }
+            }}
           />
-          <button onClick={sendMessage}>Send</button>
+
+          <button
+            onClick={sendMessage}
+            disabled={
+              loading ||
+              !message.trim()
+            }
+          >
+            {loading ? "..." : "Send"}
+          </button>
+
         </div>
 
       </div>

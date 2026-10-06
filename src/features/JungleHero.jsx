@@ -247,8 +247,12 @@ export default function JungleHero() {
 
         <section className="hero-section">
           <div className="hero-content">
+            <div className="hero-badge">
+              🌿 A safe space to learn, play & grow
+            </div>
+
             <h1>
-              A Joyful Start to Your <br />
+              A Joyful Start to Your
               <span>Learning Jungle</span>
             </h1>
 

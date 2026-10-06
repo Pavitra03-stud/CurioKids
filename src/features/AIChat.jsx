@@ -1,5 +1,321 @@
+// import { useState, useRef, useEffect } from "react";
+// import "../styles/AIChat.css";
+
+// const WORKER_URL =
+//   "https://curiokids-worker.gvpavitraganesh.workers.dev/ai";
+
+// export default function AIChat() {
+//   const [message, setMessage] = useState("");
+//   const [chatHistory, setChatHistory] = useState([]);
+//   const [loading, setLoading] = useState(false);
+
+//   const [allChats, setAllChats] = useState([]);
+//   const [currentChatIndex, setCurrentChatIndex] = useState(null);
+
+//   const chatEndRef = useRef(null);
+
+//   // 📥 LOAD SAVED CHATS
+//   useEffect(() => {
+//     try {
+//       const saved = localStorage.getItem("allChats");
+
+//       if (saved) {
+//         const parsed = JSON.parse(saved);
+
+//         if (Array.isArray(parsed)) {
+//           setAllChats(parsed);
+
+//           if (parsed.length > 0) {
+//             setChatHistory(parsed[parsed.length - 1]);
+//             setCurrentChatIndex(parsed.length - 1);
+//           }
+//         }
+//       }
+//     } catch (error) {
+//       console.error("Error loading chats:", error);
+//       localStorage.removeItem("allChats");
+//     }
+//   }, []);
+
+//   // 💾 SAVE CHATS
+//   useEffect(() => {
+//     localStorage.setItem("allChats", JSON.stringify(allChats));
+//   }, [allChats]);
+
+//   // 🔽 AUTO SCROLL
+//   useEffect(() => {
+//     chatEndRef.current?.scrollIntoView({
+//       behavior: "smooth",
+//     });
+//   }, [chatHistory, loading]);
+
+//   // 🆕 NEW CHAT
+//   const startNewChat = () => {
+//     if (chatHistory.length > 0) {
+//       const updated = [...allChats];
+
+//       if (currentChatIndex !== null) {
+//         updated[currentChatIndex] = chatHistory;
+//       } else {
+//         updated.push(chatHistory);
+//       }
+
+//       setAllChats(updated);
+//     }
+
+//     setChatHistory([]);
+//     setCurrentChatIndex(null);
+//   };
+
+//   // 📂 LOAD CHAT
+//   const loadChat = (index) => {
+//     setChatHistory(allChats[index]);
+//     setCurrentChatIndex(index);
+//   };
+
+//   // 🤖 CALL CURIOKIDS AI
+//   const askAI = async (prompt) => {
+//     const response = await fetch(WORKER_URL, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         prompt: prompt,
+//         type: "chat",
+//       }),
+//     });
+
+//     const data = await response.json();
+
+//     console.log("CurioKids AI Response:", data);
+
+//     if (!response.ok) {
+//       throw new Error(
+//         data?.error || "AI request failed"
+//       );
+//     }
+
+//     if (!data?.reply) {
+//       throw new Error("AI returned an empty response");
+//     }
+
+//     return data.reply;
+//   };
+
+//   // 📤 SEND MESSAGE
+//   const sendMessage = async () => {
+//     const trimmedMessage = message.trim();
+
+//     if (!trimmedMessage || loading) return;
+
+//     const userMsg = {
+//       sender: "user",
+//       text: trimmedMessage,
+//     };
+
+//     const newChat = [
+//       ...chatHistory,
+//       userMsg,
+//     ];
+
+//     setChatHistory(newChat);
+//     setMessage("");
+//     setLoading(true);
+
+//     try {
+//       // 🤖 Send directly to Cloudflare Worker
+//       const reply = await askAI(trimmedMessage);
+
+//       const updatedChat = [
+//         ...newChat,
+//         {
+//           sender: "ai",
+//           text: reply,
+//         },
+//       ];
+
+//       setChatHistory(updatedChat);
+
+//       const updatedChats = [...allChats];
+
+//       if (currentChatIndex !== null) {
+//         updatedChats[currentChatIndex] = updatedChat;
+//       } else {
+//         updatedChats.push(updatedChat);
+//         setCurrentChatIndex(updatedChats.length - 1);
+//       }
+
+//       setAllChats(updatedChats);
+//     } catch (error) {
+//       console.error("AI Error:", error);
+
+//       const errorMessage = {
+//         sender: "ai",
+//         text:
+//           "⚠️ I'm having a little trouble connecting right now. Please try again! 🌱",
+//       };
+
+//       const failedChat = [
+//         ...newChat,
+//         errorMessage,
+//       ];
+
+//       setChatHistory(failedChat);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="app-container">
+
+//       {/* 📁 SIDEBAR */}
+//       <div className="sidebar">
+
+//         <h3>🤖 Jungle AI</h3>
+
+//         <button
+//           className="new-chat"
+//           onClick={startNewChat}
+//         >
+//           + New Chat
+//         </button>
+
+//         <div className="chat-list">
+
+//           {allChats.length === 0 ? (
+//             <p style={{ padding: "10px" }}>
+//               No chats yet
+//             </p>
+//           ) : (
+//             allChats.map((chat, i) => (
+//               <div
+//                 key={i}
+//                 className={`chat-item ${
+//                   currentChatIndex === i
+//                     ? "active"
+//                     : ""
+//                 }`}
+//                 onClick={() => loadChat(i)}
+//               >
+//                 💬 Chat {i + 1}
+//               </div>
+//             ))
+//           )}
+
+//         </div>
+//       </div>
+
+//       {/* 💬 CHAT AREA */}
+//       <div className="chat-section">
+
+//         {/* HEADER */}
+//         <div className="chat-header">
+//           🤖 Jungle AI Chat
+//         </div>
+
+//         {/* CHAT MESSAGES */}
+//         <div className="chat-box">
+
+//           {chatHistory.length === 0 && (
+//             <div className="empty-chat">
+//               <div className="empty-icon">
+//                 🤖🌱
+//               </div>
+
+//               <h3>
+//                 Hi! I'm Jungle AI 👋
+//               </h3>
+
+//               <p>
+//                 Ask me anything and let's learn
+//                 something fun together! ✨
+//               </p>
+//             </div>
+//           )}
+
+//           {chatHistory.map((msg, i) => (
+//             <div
+//               key={i}
+//               className={`msg-row ${
+//                 msg.sender === "user"
+//                   ? "right"
+//                   : "left"
+//               }`}
+//             >
+//               <div className="msg">
+//                 {msg.text}
+//               </div>
+//             </div>
+//           ))}
+
+//           {/* TYPING */}
+//           {loading && (
+//             <div className="msg-row left">
+//               <div className="msg typing">
+//                 🤖 Thinking...
+//               </div>
+//             </div>
+//           )}
+
+//           <div ref={chatEndRef} />
+
+//         </div>
+
+//         {/* 📝 INPUT */}
+//         <div className="chat-input">
+
+//           <input
+//             type="text"
+//             value={message}
+//             onChange={(e) =>
+//               setMessage(e.target.value)
+//             }
+//             placeholder="Ask me anything..."
+//             disabled={loading}
+//             onKeyDown={(e) => {
+//               if (
+//                 e.key === "Enter" &&
+//                 !e.shiftKey
+//               ) {
+//                 e.preventDefault();
+//                 sendMessage();
+//               }
+//             }}
+//           />
+
+//           <button
+//             onClick={sendMessage}
+//             disabled={
+//               loading ||
+//               !message.trim()
+//             }
+//           >
+//             {loading ? "..." : "Send"}
+//           </button>
+
+//         </div>
+
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
 import { useState, useRef, useEffect } from "react";
 import "../styles/AIChat.css";
+
+import { db } from "../firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const WORKER_URL =
   "https://curiokids-worker.gvpavitraganesh.workers.dev/ai";
@@ -12,68 +328,150 @@ export default function AIChat() {
   const [allChats, setAllChats] = useState([]);
   const [currentChatIndex, setCurrentChatIndex] = useState(null);
 
+  const [loadingChats, setLoadingChats] = useState(true);
+
   const chatEndRef = useRef(null);
 
-  // 📥 LOAD SAVED CHATS
+  // 🔐 GET LOGGED-IN USER
+  const userId = localStorage.getItem("userId");
+
+  // =========================================================
+  // 📥 LOAD SAVED CHATS FROM FIRESTORE
+  // =========================================================
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("allChats");
-
-      if (saved) {
-        const parsed = JSON.parse(saved);
-
-        if (Array.isArray(parsed)) {
-          setAllChats(parsed);
-
-          if (parsed.length > 0) {
-            setChatHistory(parsed[parsed.length - 1]);
-            setCurrentChatIndex(parsed.length - 1);
-          }
-        }
+    const loadChats = async () => {
+      if (!userId) {
+        console.warn("⚠️ No Firebase userId found");
+        setLoadingChats(false);
+        return;
       }
-    } catch (error) {
-      console.error("Error loading chats:", error);
-      localStorage.removeItem("allChats");
-    }
-  }, []);
 
-  // 💾 SAVE CHATS
-  useEffect(() => {
-    localStorage.setItem("allChats", JSON.stringify(allChats));
-  }, [allChats]);
+      try {
+        setLoadingChats(true);
 
+        const chatsRef = collection(
+          db,
+          "users",
+          userId,
+          "ai_chats"
+        );
+
+        const q = query(
+          chatsRef,
+          orderBy("createdAt", "asc")
+        );
+
+        const snapshot = await getDocs(q);
+
+        const chats = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log("🤖 Firebase AI chats:", chats);
+
+        setAllChats(chats);
+
+        // Open latest chat automatically
+        if (chats.length > 0) {
+          const lastIndex = chats.length - 1;
+
+          setChatHistory(chats[lastIndex].messages || []);
+          setCurrentChatIndex(lastIndex);
+        }
+      } catch (error) {
+        console.error("❌ Error loading AI chats:", error);
+      } finally {
+        setLoadingChats(false);
+      }
+    };
+
+    loadChats();
+  }, [userId]);
+
+  // =========================================================
   // 🔽 AUTO SCROLL
+  // =========================================================
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({
       behavior: "smooth",
     });
   }, [chatHistory, loading]);
 
+  // =========================================================
   // 🆕 NEW CHAT
+  // =========================================================
   const startNewChat = () => {
-    if (chatHistory.length > 0) {
-      const updated = [...allChats];
-
-      if (currentChatIndex !== null) {
-        updated[currentChatIndex] = chatHistory;
-      } else {
-        updated.push(chatHistory);
-      }
-
-      setAllChats(updated);
-    }
-
     setChatHistory([]);
     setCurrentChatIndex(null);
   };
 
+  // =========================================================
   // 📂 LOAD CHAT
+  // =========================================================
   const loadChat = (index) => {
-    setChatHistory(allChats[index]);
+    const selectedChat = allChats[index];
+
+    if (!selectedChat) return;
+
+    setChatHistory(selectedChat.messages || []);
     setCurrentChatIndex(index);
   };
 
+  // =========================================================
+  // 💾 SAVE CHAT TO FIRESTORE
+  // =========================================================
+  const saveChatToFirebase = async (messages, existingChat = null) => {
+    if (!userId) {
+      console.warn("⚠️ No userId. Chat cannot be saved.");
+      return null;
+    }
+
+    try {
+      const chatsRef = collection(
+        db,
+        "users",
+        userId,
+        "ai_chats"
+      );
+
+      // Existing chat
+      if (existingChat?.id) {
+        const { doc, updateDoc } = await import("firebase/firestore");
+
+        const chatRef = doc(
+          db,
+          "users",
+          userId,
+          "ai_chats",
+          existingChat.id
+        );
+
+        await updateDoc(chatRef, {
+          messages,
+          updatedAt: serverTimestamp(),
+        });
+
+        return existingChat.id;
+      }
+
+      // New chat
+      const docRef = await addDoc(chatsRef, {
+        messages,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+
+      return docRef.id;
+    } catch (error) {
+      console.error("❌ Error saving AI chat:", error);
+      return null;
+    }
+  };
+
+  // =========================================================
   // 🤖 CALL CURIOKIDS AI
+  // =========================================================
   const askAI = async (prompt) => {
     const response = await fetch(WORKER_URL, {
       method: "POST",
@@ -81,14 +479,14 @@ export default function AIChat() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: prompt,
+        prompt,
         type: "chat",
       }),
     });
 
     const data = await response.json();
 
-    console.log("CurioKids AI Response:", data);
+    console.log("🤖 CurioKids AI Response:", data);
 
     if (!response.ok) {
       throw new Error(
@@ -97,13 +495,17 @@ export default function AIChat() {
     }
 
     if (!data?.reply) {
-      throw new Error("AI returned an empty response");
+      throw new Error(
+        "AI returned an empty response"
+      );
     }
 
     return data.reply;
   };
 
+  // =========================================================
   // 📤 SEND MESSAGE
+  // =========================================================
   const sendMessage = async () => {
     const trimmedMessage = message.trim();
 
@@ -124,7 +526,7 @@ export default function AIChat() {
     setLoading(true);
 
     try {
-      // 🤖 Send directly to Cloudflare Worker
+      // 🤖 Ask AI
       const reply = await askAI(trimmedMessage);
 
       const updatedChat = [
@@ -137,18 +539,48 @@ export default function AIChat() {
 
       setChatHistory(updatedChat);
 
-      const updatedChats = [...allChats];
+      // =====================================================
+      // 💾 SAVE TO FIREBASE
+      // =====================================================
 
-      if (currentChatIndex !== null) {
-        updatedChats[currentChatIndex] = updatedChat;
-      } else {
-        updatedChats.push(updatedChat);
-        setCurrentChatIndex(updatedChats.length - 1);
+      const existingChat =
+        currentChatIndex !== null
+          ? allChats[currentChatIndex]
+          : null;
+
+      const chatId = await saveChatToFirebase(
+        updatedChat,
+        existingChat
+      );
+
+      // =====================================================
+      // UPDATE LOCAL STATE
+      // =====================================================
+
+      if (existingChat) {
+        const updatedChats = [...allChats];
+
+        updatedChats[currentChatIndex] = {
+          ...existingChat,
+          messages: updatedChat,
+        };
+
+        setAllChats(updatedChats);
+      } else if (chatId) {
+        const newChatObject = {
+          id: chatId,
+          messages: updatedChat,
+        };
+
+        setAllChats((prev) => [
+          ...prev,
+          newChatObject,
+        ]);
+
+        setCurrentChatIndex(allChats.length);
       }
-
-      setAllChats(updatedChats);
     } catch (error) {
-      console.error("AI Error:", error);
+      console.error("❌ AI Error:", error);
 
       const errorMessage = {
         sender: "ai",
@@ -167,6 +599,32 @@ export default function AIChat() {
     }
   };
 
+  // =========================================================
+  // ⏳ LOADING SCREEN
+  // =========================================================
+  if (loadingChats) {
+    return (
+      <div className="app-container">
+        <div className="chat-section">
+          <div className="empty-chat">
+            <div className="empty-icon">
+              🤖🌱
+            </div>
+
+            <h3>Loading Jungle AI...</h3>
+
+            <p>
+              Getting your previous chats ready ✨
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================
+  // 🎨 UI
+  // =========================================================
   return (
     <div className="app-container">
 
@@ -191,7 +649,7 @@ export default function AIChat() {
           ) : (
             allChats.map((chat, i) => (
               <div
-                key={i}
+                key={chat.id || i}
                 className={`chat-item ${
                   currentChatIndex === i
                     ? "active"
@@ -220,6 +678,7 @@ export default function AIChat() {
 
           {chatHistory.length === 0 && (
             <div className="empty-chat">
+
               <div className="empty-icon">
                 🤖🌱
               </div>
@@ -232,6 +691,7 @@ export default function AIChat() {
                 Ask me anything and let's learn
                 something fun together! ✨
               </p>
+
             </div>
           )}
 
@@ -250,7 +710,7 @@ export default function AIChat() {
             </div>
           ))}
 
-          {/* TYPING */}
+          {/* 🤖 THINKING */}
           {loading && (
             <div className="msg-row left">
               <div className="msg typing">

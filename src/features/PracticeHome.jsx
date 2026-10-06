@@ -1,10 +1,193 @@
+// import { useEffect, useRef } from "react";
+// import "../styles/practiceHome.css";
+// import { speak } from "../utils/speak";
+// import { useNavigate } from "react-router-dom";
+
+// export default function PracticeHome({ initialZone }) {
+
+//   const navigate = useNavigate();
+
+//   const speakText = (text) => {
+//     speak(text);
+//   };
+
+//   /* 🔥 Section Refs */
+//   const letterRef = useRef(null);
+//   const phonicsRef = useRef(null);
+//   const wordRef = useRef(null);
+//   const memoryRef = useRef(null);
+//   const confidenceRef = useRef(null);
+
+//   /* 🔥 Auto-scroll */
+//   useEffect(() => {
+//     if (!initialZone) return;
+
+//     const sectionMap = {
+//       letterMastery: letterRef,
+//       phonics: phonicsRef,
+//       wordBuilder: wordRef,
+//       memory: memoryRef,
+//       confidence: confidenceRef,
+//     };
+
+//     const targetRef = sectionMap[initialZone];
+
+//     if (targetRef && targetRef.current) {
+//       targetRef.current.scrollIntoView({
+//         behavior: "smooth",
+//         block: "start",
+//       });
+//     }
+//   }, [initialZone]);
+
+//   /* ================= ZONES ================= */
+
+//   const zones = {
+
+//     letterMastery: [
+//       { title: "Letter Tracing", route: "/letter-tracing" },
+//       { title: "Letter Recognition", route: "/letter-recognition" },
+//       { title: "Uppercase vs Lowercase", route: "/uppercase-lowercase" },
+//       { title: "Find the Correct Letter", route: "/find-letter" },
+//       { title: "Confusing Letters", route: "/confusing-letters" },
+//     ],
+
+//     phonics: [
+//       { title: "Beginning Sounds", route: "/beginning-sounds" },
+//       { title: "Ending Sounds", route: "/ending-sounds" },
+//       { title: "Sound Matching", route: "/sound-matching" },
+//       { title: "Rhyming Words", route: "/rhyming-words" },
+//       { title: "Blend Sounds", route: "/blend-sounds" },
+//       { title: "Break the Word", route: "/break-word" }
+//     ],
+
+//     wordBuilder: [
+//       { title: "Build the Word", route: "/build-word" },
+//       { title: "Missing Letter", route: "/missing-letter" },
+//       { title: "Sight Words", route: "/sight-words" },
+//       { title: "Word Scramble", route: "/word-scramble" },
+//       { title: "Match Word to Picture", route: "/match-word-picture" },
+//       { title: "Sentence Builder", route: "/sentence-builder" }
+//     ],
+
+//     // 🔥 UPDATED MEMORY ZONE (LETTERS + NUMBERS)
+//     memory: [
+//       { title: "Memory Match (Letters)", route: "/memory-match?mode=letters" },
+//       { title: "Memory Match (Numbers)", route: "/memory-match?mode=numbers" },
+//       { title: "Spot Difference (Letters)", route: "/spot-difference?mode=letters" },
+//       { title: "Spot Difference (Numbers)", route: "/spot-difference?mode=numbers" },
+
+//       // ✅ NEW
+//       { title: "Find Hidden (Letters)", route: "/find-hidden?mode=letters" },
+//       { title: "Find Hidden (Numbers)", route: "/find-hidden?mode=numbers" },
+
+//       { title: "Left/Right (Letters)", route: "/left-right-practice?mode=letters" },
+//       { title: "Left/Right (Numbers)", route: "/left-right-practice?mode=numbers" },
+//       { title: "Pattern Matching", route: "/pattern-matching" },
+//       { title: "Sequence Builder (Letters)", route: "/sequence-builder?mode=letters" },
+//       { title: "Sequence Builder (Numbers)", route: "/sequence-builder?mode=numbers" },
+//     ],
+
+//     confidence: [
+//       { title: "Read Aloud", route: "/read-aloud" },
+//       { title: "Timed Challenge (Letters)", route: "/timed-challenge?mode=letters" },
+// { title: "Timed Challenge (Numbers)", route: "/timed-challenge?mode=numbers" },
+//       { title: "Daily Practice Goal", route: "/daily-practice-goal" },
+//       { title: "Reward Challenge", route: "/reward-challenge" },
+//       { title: "Progress Stars", route: "/progress-stars" }
+//     ]
+//   };
+
+//   return (
+//     <div className="practice-home">
+
+//       {/* 🌴 HEADER */}
+//       <div className="practice-navbar">
+//         <div className="navbar-title">
+//           🌟 Jungle Practice Camp
+//         </div>
+//       </div>
+
+//       <div className="practice-content">
+
+//         <p className="practice-intro">
+//           Choose your learning zone and grow stronger every day 💪🌿
+//         </p>
+
+//         {/* 🔤 LETTER */}
+//         <div ref={letterRef}>
+//           <Section title="🔤 Letter Mastery Zone" games={zones.letterMastery} navigate={navigate} speakText={speakText} />
+//         </div>
+
+//         {/* 🔊 PHONICS */}
+//         <div ref={phonicsRef}>
+//           <Section title="🔊 Phonics Power Zone" games={zones.phonics} navigate={navigate} speakText={speakText} />
+//         </div>
+
+//         {/* 🧩 WORD */}
+//         <div ref={wordRef}>
+//           <Section title="🧩 Word Builder Zone" games={zones.wordBuilder} navigate={navigate} speakText={speakText} />
+//         </div>
+
+//         {/* 🧠 MEMORY */}
+//         <div ref={memoryRef}>
+//           <Section title="🧠 Memory & Visual Skills" games={zones.memory} navigate={navigate} speakText={speakText} />
+//         </div>
+
+//         {/* ⭐ CONFIDENCE */}
+//         <div ref={confidenceRef}>
+//           <Section title="⭐ Confidence Boost Zone" games={zones.confidence} navigate={navigate} speakText={speakText} />
+//         </div>
+
+//       </div>
+
+//     </div>
+//   );
+// }
+
+// /* ================= SECTION ================= */
+
+// function Section({ title, games, navigate, speakText }) {
+//   return (
+//     <div className="practice-section">
+//       <h2 className="section-title">{title}</h2>
+
+//       <div className="practice-grid">
+//         {games.map((game, index) => (
+//           <Card
+//             key={index}
+//             title={game.title}
+//             onClick={() => navigate(game.route)}
+//             speakText={speakText}
+//           />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+// /* ================= CARD ================= */
+
+// function Card({ title, onClick, speakText }) {
+//   return (
+//     <div
+//       className="practice-card"
+//       onClick={onClick}
+//       onMouseEnter={() => speakText(title)}
+//       style={{ cursor: "pointer" }}
+//     >
+//       {title}
+//     </div>
+//   );
+// }
+
+
 import { useEffect, useRef } from "react";
 import "../styles/practiceHome.css";
 import { speak } from "../utils/speak";
 import { useNavigate } from "react-router-dom";
 
 export default function PracticeHome({ initialZone }) {
-
   const navigate = useNavigate();
 
   const speakText = (text) => {
@@ -32,7 +215,7 @@ export default function PracticeHome({ initialZone }) {
 
     const targetRef = sectionMap[initialZone];
 
-    if (targetRef && targetRef.current) {
+    if (targetRef?.current) {
       targetRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -43,59 +226,156 @@ export default function PracticeHome({ initialZone }) {
   /* ================= ZONES ================= */
 
   const zones = {
-
     letterMastery: [
-      { title: "Letter Tracing", route: "/letter-tracing" },
-      { title: "Letter Recognition", route: "/letter-recognition" },
-      { title: "Uppercase vs Lowercase", route: "/uppercase-lowercase" },
-      { title: "Find the Correct Letter", route: "/find-letter" },
-      { title: "Confusing Letters", route: "/confusing-letters" },
+      {
+        title: "Letter Tracing",
+        route: "/letter-tracing",
+      },
+      {
+        title: "Letter Recognition",
+        route: "/letter-recognition",
+      },
+      {
+        title: "Uppercase vs Lowercase",
+        route: "/uppercase-lowercase",
+      },
+      {
+        title: "Find the Correct Letter",
+        route: "/find-letter",
+      },
+      {
+        title: "Confusing Letters",
+        route: "/confusing-letters",
+      },
     ],
 
     phonics: [
-      { title: "Beginning Sounds", route: "/beginning-sounds" },
-      { title: "Ending Sounds", route: "/ending-sounds" },
-      { title: "Sound Matching", route: "/sound-matching" },
-      { title: "Rhyming Words", route: "/rhyming-words" },
-      { title: "Blend Sounds", route: "/blend-sounds" },
-      { title: "Break the Word", route: "/break-word" }
+      {
+        title: "Beginning Sounds",
+        route: "/beginning-sounds",
+      },
+      {
+        title: "Ending Sounds",
+        route: "/ending-sounds",
+      },
+      {
+        title: "Sound Matching",
+        route: "/sound-matching",
+      },
+      {
+        title: "Rhyming Words",
+        route: "/rhyming-words",
+      },
+      {
+        title: "Blend Sounds",
+        route: "/blend-sounds",
+      },
+      {
+        title: "Break the Word",
+        route: "/break-word",
+      },
     ],
 
     wordBuilder: [
-      { title: "Build the Word", route: "/build-word" },
-      { title: "Missing Letter", route: "/missing-letter" },
-      { title: "Sight Words", route: "/sight-words" },
-      { title: "Word Scramble", route: "/word-scramble" },
-      { title: "Match Word to Picture", route: "/match-word-picture" },
-      { title: "Sentence Builder", route: "/sentence-builder" }
+      {
+        title: "Build the Word",
+        route: "/build-word",
+      },
+      {
+        title: "Missing Letter",
+        route: "/missing-letter",
+      },
+      {
+        title: "Sight Words",
+        route: "/sight-words",
+      },
+      {
+        title: "Word Scramble",
+        route: "/word-scramble",
+      },
+      {
+        title: "Match Word to Picture",
+        route: "/match-word-picture",
+      },
+      {
+        title: "Sentence Builder",
+        route: "/sentence-builder",
+      },
     ],
 
-    // 🔥 UPDATED MEMORY ZONE (LETTERS + NUMBERS)
     memory: [
-      { title: "Memory Match (Letters)", route: "/memory-match?mode=letters" },
-      { title: "Memory Match (Numbers)", route: "/memory-match?mode=numbers" },
-      { title: "Spot Difference (Letters)", route: "/spot-difference?mode=letters" },
-      { title: "Spot Difference (Numbers)", route: "/spot-difference?mode=numbers" },
-
-      // ✅ NEW
-      { title: "Find Hidden (Letters)", route: "/find-hidden?mode=letters" },
-      { title: "Find Hidden (Numbers)", route: "/find-hidden?mode=numbers" },
-
-      { title: "Left/Right (Letters)", route: "/left-right-practice?mode=letters" },
-      { title: "Left/Right (Numbers)", route: "/left-right-practice?mode=numbers" },
-      { title: "Pattern Matching", route: "/pattern-matching" },
-      { title: "Sequence Builder (Letters)", route: "/sequence-builder?mode=letters" },
-      { title: "Sequence Builder (Numbers)", route: "/sequence-builder?mode=numbers" },
+      {
+        title: "Memory Match (Letters)",
+        route: "/memory-match?mode=letters",
+      },
+      {
+        title: "Memory Match (Numbers)",
+        route: "/memory-match?mode=numbers",
+      },
+      {
+        title: "Spot Difference (Letters)",
+        route: "/spot-difference?mode=letters",
+      },
+      {
+        title: "Spot Difference (Numbers)",
+        route: "/spot-difference?mode=numbers",
+      },
+      {
+        title: "Find Hidden (Letters)",
+        route: "/find-hidden?mode=letters",
+      },
+      {
+        title: "Find Hidden (Numbers)",
+        route: "/find-hidden?mode=numbers",
+      },
+      {
+        title: "Left/Right (Letters)",
+        route: "/left-right-practice?mode=letters",
+      },
+      {
+        title: "Left/Right (Numbers)",
+        route: "/left-right-practice?mode=numbers",
+      },
+      {
+        title: "Pattern Matching",
+        route: "/pattern-matching",
+      },
+      {
+        title: "Sequence Builder (Letters)",
+        route: "/sequence-builder?mode=letters",
+      },
+      {
+        title: "Sequence Builder (Numbers)",
+        route: "/sequence-builder?mode=numbers",
+      },
     ],
 
     confidence: [
-      { title: "Read Aloud", route: "/read-aloud" },
-      { title: "Timed Challenge (Letters)", route: "/timed-challenge?mode=letters" },
-{ title: "Timed Challenge (Numbers)", route: "/timed-challenge?mode=numbers" },
-      { title: "Daily Practice Goal", route: "/daily-practice-goal" },
-      { title: "Reward Challenge", route: "/reward-challenge" },
-      { title: "Progress Stars", route: "/progress-stars" }
-    ]
+      {
+        title: "Read Aloud",
+        route: "/read-aloud",
+      },
+      {
+        title: "Timed Challenge (Letters)",
+        route: "/timed-challenge?mode=letters",
+      },
+      {
+        title: "Timed Challenge (Numbers)",
+        route: "/timed-challenge?mode=numbers",
+      },
+      {
+        title: "Daily Practice Goal",
+        route: "/daily-practice-goal",
+      },
+      {
+        title: "Reward Challenge",
+        route: "/reward-challenge",
+      },
+      {
+        title: "Progress Stars",
+        route: "/progress-stars",
+      },
+    ],
   };
 
   return (
@@ -116,41 +396,73 @@ export default function PracticeHome({ initialZone }) {
 
         {/* 🔤 LETTER */}
         <div ref={letterRef}>
-          <Section title="🔤 Letter Mastery Zone" games={zones.letterMastery} navigate={navigate} speakText={speakText} />
+          <Section
+            title="🔤 Letter Mastery Zone"
+            games={zones.letterMastery}
+            navigate={navigate}
+            speakText={speakText}
+          />
         </div>
 
         {/* 🔊 PHONICS */}
         <div ref={phonicsRef}>
-          <Section title="🔊 Phonics Power Zone" games={zones.phonics} navigate={navigate} speakText={speakText} />
+          <Section
+            title="🔊 Phonics Power Zone"
+            games={zones.phonics}
+            navigate={navigate}
+            speakText={speakText}
+          />
         </div>
 
         {/* 🧩 WORD */}
         <div ref={wordRef}>
-          <Section title="🧩 Word Builder Zone" games={zones.wordBuilder} navigate={navigate} speakText={speakText} />
+          <Section
+            title="🧩 Word Builder Zone"
+            games={zones.wordBuilder}
+            navigate={navigate}
+            speakText={speakText}
+          />
         </div>
 
         {/* 🧠 MEMORY */}
         <div ref={memoryRef}>
-          <Section title="🧠 Memory & Visual Skills" games={zones.memory} navigate={navigate} speakText={speakText} />
+          <Section
+            title="🧠 Memory & Visual Skills"
+            games={zones.memory}
+            navigate={navigate}
+            speakText={speakText}
+          />
         </div>
 
         {/* ⭐ CONFIDENCE */}
         <div ref={confidenceRef}>
-          <Section title="⭐ Confidence Boost Zone" games={zones.confidence} navigate={navigate} speakText={speakText} />
+          <Section
+            title="⭐ Confidence Boost Zone"
+            games={zones.confidence}
+            navigate={navigate}
+            speakText={speakText}
+          />
         </div>
 
       </div>
-
     </div>
   );
 }
 
 /* ================= SECTION ================= */
 
-function Section({ title, games, navigate, speakText }) {
+function Section({
+  title,
+  games,
+  navigate,
+  speakText,
+}) {
   return (
     <div className="practice-section">
-      <h2 className="section-title">{title}</h2>
+
+      <h2 className="section-title">
+        {title}
+      </h2>
 
       <div className="practice-grid">
         {games.map((game, index) => (
@@ -162,19 +474,35 @@ function Section({ title, games, navigate, speakText }) {
           />
         ))}
       </div>
+
     </div>
   );
 }
 
 /* ================= CARD ================= */
 
-function Card({ title, onClick, speakText }) {
+function Card({
+  title,
+  onClick,
+  speakText,
+}) {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <div
       className="practice-card"
       onClick={onClick}
       onMouseEnter={() => speakText(title)}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
       style={{ cursor: "pointer" }}
+      aria-label={`Open ${title}`}
     >
       {title}
     </div>

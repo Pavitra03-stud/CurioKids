@@ -1,0 +1,729 @@
+/* =========================================================
+   DAILY PRACTICE PAGE
+========================================================= */
+
+.daily-practice-page {
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 32px 6% 60px;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 238, 196, 0.55),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #fffaf0 0%,
+      #f7f4e8 50%,
+      #eef5df 100%
+    );
+
+  color: #294332;
+
+  font-family:
+    "Trebuchet MS",
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.daily-header {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto 28px;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.daily-header h1 {
+  margin: 0;
+
+  font-size: clamp(28px, 4vw, 44px);
+
+  font-weight: 800;
+
+  color: #294b35;
+
+  letter-spacing: -0.5px;
+}
+
+.daily-header p {
+  margin: 7px 0 0;
+
+  font-size: 16px;
+
+  color: #68776b;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.daily-back-btn {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: #365941;
+
+  font-size: 25px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 6px 18px rgba(53, 83, 57, 0.12);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.daily-back-btn:hover {
+  transform: translateX(-3px);
+
+  background: #eef6e9;
+
+  box-shadow:
+    0 8px 22px rgba(53, 83, 57, 0.18);
+}
+
+
+/* =========================================================
+   PROGRESS CARD
+========================================================= */
+
+.daily-progress-card {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto 30px;
+
+  padding: 24px 28px;
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  border: 1px solid rgba(96, 126, 94, 0.15);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 12px 35px rgba(57, 82, 55, 0.10);
+}
+
+.daily-progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 13px;
+
+  font-size: 17px;
+}
+
+.daily-progress-top span {
+  color: #536456;
+
+  font-weight: 600;
+}
+
+.daily-progress-top strong {
+  color: #2d5938;
+
+  font-size: 18px;
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.daily-progress-bar {
+  width: 100%;
+  height: 14px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: #e7ecdf;
+}
+
+.daily-progress-fill {
+  height: 100%;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #79a66a,
+      #9abb6f,
+      #c0cf79
+    );
+
+  transition: width 0.5s ease;
+}
+
+.daily-progress-card > p {
+  margin: 14px 0 0;
+
+  color: #667468;
+
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   TASK GRID
+========================================================= */
+
+.daily-task-grid {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   TASK CARD
+========================================================= */
+
+.daily-task-card {
+  position: relative;
+
+  min-height: 190px;
+
+  padding: 25px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  gap: 20px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(104, 133, 96, 0.14);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 28px rgba(50, 78, 51, 0.08);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.daily-task-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 16px 34px rgba(50, 78, 51, 0.14);
+
+  border-color: rgba(104, 133, 96, 0.30);
+}
+
+
+/* =========================================================
+   COMPLETED CARD
+========================================================= */
+
+.daily-task-card.completed {
+  background:
+    linear-gradient(
+      135deg,
+      #f8fff4,
+      #ffffff
+    );
+
+  border-color: #b7d5a9;
+}
+
+.daily-task-card.completed::after {
+  content: "✓";
+
+  position: absolute;
+
+  top: 14px;
+  right: 17px;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #7ca56c;
+
+  color: white;
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   TASK ICON
+========================================================= */
+
+.daily-task-icon {
+  flex-shrink: 0;
+
+  width: 72px;
+  height: 72px;
+
+  border-radius: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff5d9,
+      #edf6df
+    );
+
+  font-size: 38px;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(95, 126, 86, 0.10);
+}
+
+
+/* =========================================================
+   TASK CONTENT
+========================================================= */
+
+.daily-task-content {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.daily-task-content h2 {
+  margin: 0 0 7px;
+
+  color: #31543b;
+
+  font-size: 21px;
+
+  font-weight: 800;
+}
+
+.daily-task-content p {
+  margin: 0;
+
+  color: #6b786d;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   COMPLETED TEXT
+========================================================= */
+
+.daily-completed {
+  display: inline-block;
+
+  margin-top: 11px;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #e9f5e3;
+
+  color: #4e7b4b;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TASK BUTTON
+========================================================= */
+
+.daily-task-button {
+  flex-shrink: 0;
+
+  min-width: 100px;
+
+  padding: 11px 17px;
+
+  border: none;
+  border-radius: 13px;
+
+  background: #466b4c;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.daily-task-button:hover {
+  transform: translateY(-2px);
+
+  background: #365a3e;
+
+  box-shadow:
+    0 7px 16px rgba(52, 87, 59, 0.20);
+}
+
+.daily-task-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   REWARD CARD
+========================================================= */
+
+.daily-reward-card {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 30px auto 0;
+
+  padding: 25px 30px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  gap: 20px;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7d9,
+      #f1f7df
+    );
+
+  border: 1px solid #e0d99f;
+
+  box-shadow:
+    0 12px 30px rgba(108, 100, 48, 0.10);
+
+  animation: rewardAppear 0.45s ease;
+}
+
+.daily-reward-icon {
+  width: 65px;
+  height: 65px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: #fff;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 6px 15px rgba(105, 93, 43, 0.10);
+}
+
+.daily-reward-card h2 {
+  margin: 0 0 6px;
+
+  color: #5c6033;
+
+  font-size: 22px;
+}
+
+.daily-reward-card p {
+  margin: 0;
+
+  color: #777752;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.daily-loading {
+  min-height: 70vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.daily-loading h2 {
+  margin: 0;
+
+  color: #45624b;
+
+  font-size: 24px;
+
+  animation: loadingPulse 1.4s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes rewardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loadingPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .daily-practice-page {
+    padding: 28px 4% 50px;
+  }
+
+  .daily-task-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .daily-task-card {
+    min-height: 170px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .daily-practice-page {
+    padding: 20px 16px 40px;
+  }
+
+  .daily-header {
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-bottom: 22px;
+  }
+
+  .daily-back-btn {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    font-size: 21px;
+  }
+
+  .daily-header h1 {
+    font-size: 28px;
+  }
+
+  .daily-header p {
+    font-size: 14px;
+
+    line-height: 1.4;
+  }
+
+  .daily-progress-card {
+    padding: 20px;
+
+    border-radius: 18px;
+  }
+
+  .daily-progress-top {
+    font-size: 15px;
+  }
+
+  .daily-progress-top strong {
+    font-size: 16px;
+  }
+
+  .daily-task-grid {
+    gap: 15px;
+  }
+
+  .daily-task-card {
+    min-height: auto;
+
+    padding: 19px;
+
+    border-radius: 19px;
+
+    gap: 14px;
+
+    align-items: flex-start;
+
+    flex-wrap: wrap;
+  }
+
+  .daily-task-icon {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 16px;
+
+    font-size: 30px;
+  }
+
+  .daily-task-content {
+    padding-top: 2px;
+
+    width: calc(100% - 76px);
+  }
+
+  .daily-task-content h2 {
+    font-size: 18px;
+  }
+
+  .daily-task-content p {
+    font-size: 13px;
+  }
+
+  .daily-task-button {
+    width: 100%;
+
+    margin-top: 3px;
+
+    padding: 12px;
+  }
+
+  .daily-reward-card {
+    padding: 20px;
+
+    border-radius: 19px;
+
+    align-items: flex-start;
+  }
+
+  .daily-reward-icon {
+    width: 55px;
+    height: 55px;
+
+    font-size: 28px;
+  }
+
+  .daily-reward-card h2 {
+    font-size: 18px;
+  }
+
+  .daily-reward-card p {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+  .daily-practice-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .daily-header h1 {
+    font-size: 24px;
+  }
+
+  .daily-task-card {
+    padding: 16px;
+  }
+
+  .daily-task-icon {
+    width: 52px;
+    height: 52px;
+
+    font-size: 27px;
+  }
+
+  .daily-task-content {
+    width: calc(100% - 68px);
+  }
+}

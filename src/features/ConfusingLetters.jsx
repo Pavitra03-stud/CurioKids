@@ -1,225 +1,29 @@
-// import { useEffect, useState } from "react";
-// import { speak } from "../utils/speak";
-// import "../styles/ConfusingLetters.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// export default function ConfusingLetters() {
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   const [target, setTarget] = useState("");
-//   const [options, setOptions] = useState([]);
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const [message, setMessage] = useState("");
-
-//   const [mistakes, setMistakes] = useState({});
-//   const [locked, setLocked] = useState(false);
-
-//   // 🤖 AI API CALL
-//   const generateQuestionAI = async () => {
-//     try {
-//       const res = await fetch("http://localhost:5000/api/generate-confusing-letter", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ mistakes })
-//       });
-
-//       const data = await res.json();
-
-//       console.log("AI DATA:", data);
-
-//       if (!data.target || !data.options) {
-//         throw new Error("Invalid data");
-//       }
-
-//       // ✅ FIX: avoid same letter
-//       let newTarget = data.target;
-
-//       if (newTarget === target) {
-//         const letters = ["b","d","p","q","m","n","u","v","c","k","g","j","s","z"];
-//         newTarget = letters[Math.floor(Math.random() * letters.length)];
-//       }
-
-//       setTarget(newTarget);
-//       setOptions(data.options);
-
-//       speak(`Find the letter ${newTarget}`);
-
-//     } catch (err) {
-//       console.error("Frontend AI error:", err);
-
-//       // 🔥 fallback
-//       setTarget("b");
-//       setOptions(["b","d","p","q","b","d","p","q"]);
-//     }
-//   };
-
-//   useEffect(() => {
-//     generateQuestionAI();
-//   }, []);
-
-//   // ☁️ Save to Firestore
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user";
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: "ConfusingLetters_AI"
-//       });
-
-//       console.log("✅ Saved!");
-//     } catch (error) {
-//       console.error("❌ Error:", error);
-//     }
-//   };
-
-//   // 🎯 Handle Click
-//   const handleClick = (letter) => {
-
-//     if (locked) return;
-//     setLocked(true);
-
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = letter === target;
-//     const updatedScore = isCorrect ? score + 1 : score;
-
-//     if (isCorrect) {
-//       setScore(updatedScore);
-//       setMessage("🎉 Correct!");
-//       speak("Great job!");
-//     } else {
-//       setMessage("💛 Try again");
-//       speak("Try again");
-
-//       setMistakes(prev => ({
-//         ...prev,
-//         [target]: (prev[target] || 0) + 1
-//       }));
-//     }
-
-//     setTimeout(async () => {
-
-//       setMessage("");
-//       setLocked(false);
-
-//       const nextCount = questionCount + 1;
-//       setQuestionCount(nextCount);
-
-//       // 🎯 END OF ROUND
-//       if (nextCount === TOTAL_QUESTIONS) {
-
-//         await saveScoreToFirestore(updatedScore);
-
-//         alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
-
-//         // 🔁 RESET
-//         setScore(0);
-//         setQuestionCount(0);
-//         generateQuestionAI();
-
-//       } else {
-//         generateQuestionAI();
-//       }
-
-//     }, 800);
-//   };
-
-//   // 📊 AI Analysis
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Excellent!";
-//     if (accuracy > 50) return "👍 Good job!";
-//     return "💡 Practice more!";
-//   };
-
-//   return (
-//     <div className="confusing-page">
-
-//       <div className="confusing-navbar">
-//         <div className="navbar-title">
-//           🤖 AI Letter Trainer
-//         </div>
-//       </div>
-
-//       <div className="confusing-content">
-
-//         <h3>
-//           Question {questionCount + 1} / {TOTAL_QUESTIONS}
-//         </h3>
-
-//         <h2 className="instruction">
-//           Find: <span className="target"> {target || "..."}</span>
-//         </h2>
-
-//         <div className="letters-grid">
-//           {options.length > 0 ? (
-//             options.map((letter, index) => (
-//               <div
-//                 key={index}
-//                 className="letter-box"
-//                 onClick={() => handleClick(letter)}
-//               >
-//                 {letter}
-//               </div>
-//             ))
-//           ) : (
-//             <p>Loading...</p>
-//           )}
-//         </div>
-
-//         <div className="feedback">{message}</div>
-
-//         <div className="score">
-//           ⭐ Score: {score}
-//         </div>
-
-//         <div className="ai-analysis">
-//           {getPerformanceMessage()}
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-
 import { useEffect, useState } from "react";
 import { speak } from "../utils/speak";
 import "../styles/ConfusingLetters.css";
 
-// 🔥 Firebase
 import { db } from "../firebase";
 import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
 
-// ✅ GameContext
-import { useGame } from "../context/GameContext";
+import useGameProgress from "../hooks/useGameProgress";
 
 export default function ConfusingLetters() {
-
-  const { addStars } = useGame(); // ✅ ADDED
-
+  const GAME_ID = "confusing-letters";
   const TOTAL_QUESTIONS = 5;
+
+  const {
+    savedState,
+    loading: progressLoading,
+    save,
+    finish,
+  } = useGameProgress(GAME_ID, {
+    target: "",
+    options: [],
+    score: 0,
+    questionCount: 0,
+    mistakes: {},
+    message: "",
+  });
 
   const [target, setTarget] = useState("");
   const [options, setOptions] = useState([]);
@@ -228,165 +32,423 @@ export default function ConfusingLetters() {
   const [questionCount, setQuestionCount] = useState(0);
 
   const [message, setMessage] = useState("");
-
   const [mistakes, setMistakes] = useState({});
   const [locked, setLocked] = useState(false);
 
-  // 🤖 AI API CALL
-  const generateQuestionAI = async () => {
+  const [gameLoading, setGameLoading] = useState(true);
+
+  // --------------------------------------------------
+  // 🤖 AI QUESTION GENERATOR
+  // --------------------------------------------------
+
+  const generateQuestionAI = async (
+    currentMistakes = mistakes,
+    previousTarget = target
+  ) => {
     try {
-      const res = await fetch("http://localhost:5000/api/generate-confusing-letter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ mistakes })
-      });
+      setGameLoading(true);
+
+      const res = await fetch(
+        "http://localhost:5000/api/generate-confusing-letter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mistakes: currentMistakes,
+          }),
+        }
+      );
 
       const data = await res.json();
 
+      console.log("🤖 AI DATA:", data);
+
       if (!data.target || !data.options) {
-        throw new Error("Invalid data");
+        throw new Error("Invalid AI response");
       }
 
-      let newTarget = data.target;
+      let newTarget = String(data.target).toLowerCase();
 
-      if (newTarget === target) {
-        const letters = ["b","d","p","q","m","n","u","v","c","k","g","j","s","z"];
-        newTarget = letters[Math.floor(Math.random() * letters.length)];
+      // Avoid repeating previous target
+      if (newTarget === previousTarget) {
+        const letters = [
+          "b",
+          "d",
+          "p",
+          "q",
+          "m",
+          "n",
+          "u",
+          "v",
+          "c",
+          "k",
+          "g",
+          "j",
+          "s",
+          "z",
+        ];
+
+        newTarget =
+          letters[Math.floor(Math.random() * letters.length)];
       }
+
+      const newOptions = data.options.map((letter) =>
+        String(letter).toLowerCase()
+      );
 
       setTarget(newTarget);
-      setOptions(data.options);
+      setOptions(newOptions);
 
       speak(`Find the letter ${newTarget}`);
 
+      return {
+        target: newTarget,
+        options: newOptions,
+      };
     } catch (err) {
-      console.error("Frontend AI error:", err);
+      console.error("❌ Frontend AI error:", err);
 
-      setTarget("b");
-      setOptions(["b","d","p","q","b","d","p","q"]);
+      const fallbackTarget = "b";
+
+      const fallbackOptions = [
+        "b",
+        "d",
+        "p",
+        "q",
+        "b",
+        "d",
+        "p",
+        "q",
+      ];
+
+      setTarget(fallbackTarget);
+      setOptions(fallbackOptions);
+
+      return {
+        target: fallbackTarget,
+        options: fallbackOptions,
+      };
+    } finally {
+      setGameLoading(false);
     }
   };
 
+  // --------------------------------------------------
+  // 🔥 RESTORE / START GAME
+  // --------------------------------------------------
+
   useEffect(() => {
-    generateQuestionAI();
-  }, []);
+    if (progressLoading) return;
 
-  // ✅ ACTIVITY LOGGER
+    let cancelled = false;
+
+    const initializeGame = async () => {
+      if (savedState) {
+        console.log(
+          "🔥 Resuming Confusing Letters:",
+          savedState
+        );
+
+        setTarget(savedState.target || "");
+        setOptions(savedState.options || []);
+
+        setScore(savedState.score || 0);
+        setQuestionCount(savedState.questionCount || 0);
+
+        setMistakes(savedState.mistakes || {});
+        setMessage(savedState.message || "");
+
+        if (
+          savedState.target &&
+          savedState.options &&
+          savedState.options.length > 0
+        ) {
+          setGameLoading(false);
+
+          speak(
+            `Find the letter ${savedState.target}`
+          );
+
+          return;
+        }
+      }
+
+      // No saved game → create first question
+      const question = await generateQuestionAI(
+        savedState?.mistakes || {},
+        savedState?.target || ""
+      );
+
+      if (cancelled) return;
+
+      await save({
+        target: question.target,
+        options: question.options,
+        score: savedState?.score || 0,
+        questionCount: savedState?.questionCount || 0,
+        mistakes: savedState?.mistakes || {},
+        message: "",
+      });
+    };
+
+    initializeGame();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [progressLoading]);
+
+  // --------------------------------------------------
+  // 📊 ACTIVITY LOGGER
+  // --------------------------------------------------
+
   const logActivity = async (finalScore) => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) return;
+    try {
+      const userId = localStorage.getItem("userId");
 
-    await addDoc(collection(db, "activity"), {
-      userId,
-      action: "play",
-      module: "letters",
-      screen: "confusing-letters",
-      score: finalScore,
-      timestamp: new Date(),
-    });
+      if (!userId) {
+        console.warn(
+          "⚠️ No userId found. Activity not saved."
+        );
+        return;
+      }
+
+      await addDoc(collection(db, "activity"), {
+        userId,
+        action: "play",
+        module: "letters",
+        screen: "confusing-letters",
+        score: finalScore,
+        timestamp: new Date(),
+      });
+
+      console.log("✅ Activity logged");
+    } catch (error) {
+      console.error(
+        "❌ Activity logging error:",
+        error
+      );
+    }
   };
 
-  // ☁️ SAVE (UPDATED USER-SPECIFIC)
+  // --------------------------------------------------
+  // ☁️ SAVE FINAL SCORE
+  // --------------------------------------------------
+
   const saveScoreToFirestore = async (finalScore) => {
     try {
-      const userId = localStorage.getItem("userId"); // ✅ FIXED
-      if (!userId) return;
+      const userId = localStorage.getItem("userId");
+
+      if (!userId) {
+        console.warn(
+          "⚠️ No userId found. Score not saved."
+        );
+        return;
+      }
 
       const userRef = doc(db, "users", userId);
-      const gameResultsRef = collection(userRef, "game_results");
+      const gameResultsRef = collection(
+        userRef,
+        "game_results"
+      );
 
-      const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
+      const accuracy =
+        (finalScore / TOTAL_QUESTIONS) * 100;
 
       await addDoc(gameResultsRef, {
         score: finalScore,
         totalQuestions: TOTAL_QUESTIONS,
         accuracy: accuracy.toFixed(2),
         createdAt: Timestamp.now(),
-        game: "ConfusingLetters_AI"
+        game: "ConfusingLetters_AI",
       });
 
-      console.log("✅ Saved!");
+      console.log("✅ Game result saved");
     } catch (error) {
-      console.error("❌ Error:", error);
+      console.error(
+        "❌ Error saving game result:",
+        error
+      );
     }
   };
 
-  // 🎯 Handle Click
-  const handleClick = (letter) => {
+  // --------------------------------------------------
+  // 🎯 HANDLE LETTER CLICK
+  // --------------------------------------------------
 
-    if (locked) return;
-    setLocked(true);
+  const handleClick = async (letter) => {
+    if (locked || gameLoading) return;
 
     if (questionCount >= TOTAL_QUESTIONS) return;
 
+    setLocked(true);
+
     const isCorrect = letter === target;
-    const updatedScore = isCorrect ? score + 1 : score;
+
+    const updatedScore = isCorrect
+      ? score + 1
+      : score;
+
+    const updatedMistakes = isCorrect
+      ? mistakes
+      : {
+          ...mistakes,
+          [target]: (mistakes[target] || 0) + 1,
+        };
+
+    setMistakes(updatedMistakes);
 
     if (isCorrect) {
       setScore(updatedScore);
       setMessage("🎉 Correct!");
+
       speak("Great job!");
     } else {
       setMessage("💛 Try again");
-      speak("Try again");
 
-      setMistakes(prev => ({
-        ...prev,
-        [target]: (prev[target] || 0) + 1
-      }));
+      speak("Try again");
     }
 
+    // Save current answer state
+    await save({
+      target,
+      options,
+      score: updatedScore,
+      questionCount,
+      mistakes: updatedMistakes,
+      message: isCorrect
+        ? "🎉 Correct!"
+        : "💛 Try again",
+    });
+
     setTimeout(async () => {
+      const nextCount = questionCount + 1;
 
       setMessage("");
       setLocked(false);
 
-      const nextCount = questionCount + 1;
       setQuestionCount(nextCount);
 
+      // ------------------------------------------------
+      // 🏁 ROUND COMPLETED
+      // ------------------------------------------------
+
       if (nextCount === TOTAL_QUESTIONS) {
+        const finalPercentage =
+          (updatedScore / TOTAL_QUESTIONS) * 100;
 
-        const finalPercentage = (updatedScore / TOTAL_QUESTIONS) * 100;
+        console.log(
+          "🏁 Confusing Letters completed:",
+          updatedScore,
+          finalPercentage
+        );
 
-        // ✅ MAIN SYSTEM
-        await addStars(finalPercentage, "Confusing Letters");
+        // ⭐ Main progress system
+        await finish(
+          finalPercentage,
+          "Confusing Letters"
+        );
 
-        // ✅ ACTIVITY
+        // 📊 Activity
         await logActivity(finalPercentage);
 
-        // ✅ YOUR SAVE
+        // ☁️ Original game result
         await saveScoreToFirestore(updatedScore);
 
-        alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
+        alert(
+          `🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`
+        );
 
-        // RESET
+        // Reset
         setScore(0);
         setQuestionCount(0);
-        generateQuestionAI();
+        setMistakes({});
+        setMessage("");
 
+        // Generate fresh question
+        const nextQuestion =
+          await generateQuestionAI({}, target);
+
+        await save({
+          target: nextQuestion.target,
+          options: nextQuestion.options,
+          score: 0,
+          questionCount: 0,
+          mistakes: {},
+          message: "",
+        });
       } else {
-        generateQuestionAI();
-      }
+        // ------------------------------------------------
+        // ➡️ NEXT QUESTION
+        // ------------------------------------------------
 
+        const nextQuestion =
+          await generateQuestionAI(
+            updatedMistakes,
+            target
+          );
+
+        await save({
+          target: nextQuestion.target,
+          options: nextQuestion.options,
+          score: updatedScore,
+          questionCount: nextCount,
+          mistakes: updatedMistakes,
+          message: "",
+        });
+      }
     }, 800);
   };
 
-  // 📊 AI Analysis
+  // --------------------------------------------------
+  // 📊 PERFORMANCE MESSAGE
+  // --------------------------------------------------
+
   const getPerformanceMessage = () => {
     if (questionCount === 0) return "";
 
-    const accuracy = (score / questionCount) * 100;
+    const accuracy =
+      (score / questionCount) * 100;
 
-    if (accuracy > 80) return "🌟 Excellent!";
-    if (accuracy > 50) return "👍 Good job!";
+    if (accuracy > 80) {
+      return "🌟 Excellent!";
+    }
+
+    if (accuracy > 50) {
+      return "👍 Good job!";
+    }
+
     return "💡 Practice more!";
   };
 
+  // --------------------------------------------------
+  // ⏳ LOADING
+  // --------------------------------------------------
+
+  if (progressLoading || gameLoading) {
+    return (
+      <div className="confusing-page">
+        <div className="confusing-navbar">
+          <div className="navbar-title">
+            🤖 AI Letter Trainer
+          </div>
+        </div>
+
+        <div className="confusing-content">
+          <p>Loading your game...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // --------------------------------------------------
+  // 🎨 UI
+  // --------------------------------------------------
+
   return (
     <div className="confusing-page">
-
       <div className="confusing-navbar">
         <div className="navbar-title">
           🤖 AI Letter Trainer
@@ -394,13 +456,17 @@ export default function ConfusingLetters() {
       </div>
 
       <div className="confusing-content">
-
         <h3>
-          Question {questionCount + 1} / {TOTAL_QUESTIONS}
+          Question {questionCount + 1} /{" "}
+          {TOTAL_QUESTIONS}
         </h3>
 
         <h2 className="instruction">
-          Find: <span className="target"> {target || "..."}</span>
+          Find:
+          <span className="target">
+            {" "}
+            {target || "..."}
+          </span>
         </h2>
 
         <div className="letters-grid">
@@ -409,7 +475,9 @@ export default function ConfusingLetters() {
               <div
                 key={index}
                 className="letter-box"
-                onClick={() => handleClick(letter)}
+                onClick={() =>
+                  handleClick(letter)
+                }
               >
                 {letter}
               </div>
@@ -419,7 +487,9 @@ export default function ConfusingLetters() {
           )}
         </div>
 
-        <div className="feedback">{message}</div>
+        <div className="feedback">
+          {message}
+        </div>
 
         <div className="score">
           ⭐ Score: {score}
@@ -428,7 +498,6 @@ export default function ConfusingLetters() {
         <div className="ai-analysis">
           {getPerformanceMessage()}
         </div>
-
       </div>
     </div>
   );

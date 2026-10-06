@@ -1,148 +1,247 @@
-// import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "../styles/ChooseFriend.css";
-
-// export default function ChooseFriend() {
-//   const navigate = useNavigate();
-
-//   const [friends, setFriends] = useState([]);
-//   const [index, setIndex] = useState(0);
-//   const [showIntro, setShowIntro] = useState(false);
-//   const [text, setText] = useState("");
-
-//   useEffect(() => {
-//     fetch("/friends.json")
-//       .then((res) => res.json())
-//       .then(setFriends);
-//   }, []);
-
-//   const current = friends[index];
-
-//   useEffect(() => {
-//     if (!showIntro || !current) return;
-
-//     const fullText = `${current.intro}\n\n${current.about}`;
-//     let i = 0;
-//     setText("");
-
-//     const timer = setInterval(() => {
-//       setText((prev) => prev + fullText[i]);
-//       i++;
-//       if (i >= fullText.length) clearInterval(timer);
-//     }, 30);
-
-//     return () => clearInterval(timer);
-//   }, [showIntro, current]);
-
-//   const handleBegin = () => {
-//     localStorage.setItem(
-//       "jungleFriend",
-//       JSON.stringify({
-//         id: current.id,
-//         name: current.name,
-//         image: current.image,
-//       })
-//     );
-
-//     localStorage.setItem("appProgress", "friend-chosen");
-
-//     navigate("/jungle-hero");
-//   };
-
-//   if (!friends.length) return <h2>Loading jungle friends… 🌱</h2>;
-
-//   return (
-//     <div className="choose-container">
-
-//       {!showIntro ? (
-//         <div className="board">
-//           <div className="carousel">
-//             <button
-//               onClick={() =>
-//                 setIndex((i) => (i - 1 + friends.length) % friends.length)
-//               }
-//             >
-//               ◀
-//             </button>
-
-//             <img src={current.image} alt={current.name} />
-
-//             <button
-//               onClick={() =>
-//                 setIndex((i) => (i + 1) % friends.length)
-//               }
-//             >
-//               ▶
-//             </button>
-//           </div>
-
-//           <h2>{current.name}</h2>
-
-//           <button
-//             className="start"
-//             onClick={() => setShowIntro(true)}
-//           >
-//             Start ▶
-//           </button>
-//         </div>
-//       ) : (
-//         <div className="intro-board">
-//           <h1>Meet {current.name}</h1>
-//           <img src={current.image} alt={current.name} />
-//           <p className="typing">{text}</p>
-
-//           <button className="start big" onClick={handleBegin}>
-//             Let’s Begin 🌈
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ChooseFriend.css";
 
-// 🔥 Firebase
 import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 
+import useGameProgress from "../hooks/useGameProgress";
+
+const GAME_ID = "choose-friend";
+
 export default function ChooseFriend() {
   const navigate = useNavigate();
+
+  // =========================================================
+  // 🎮 GAME PROGRESS
+  // =========================================================
+
+  const {
+    savedState,
+    loading: progressLoading,
+    save,
+  } = useGameProgress(GAME_ID);
+
+  // =========================================================
+  // 🎯 STATE
+  // =========================================================
 
   const [friends, setFriends] = useState([]);
   const [index, setIndex] = useState(0);
   const [showIntro, setShowIntro] = useState(false);
   const [text, setText] = useState("");
 
+  const [gameReady, setGameReady] = useState(false);
+
+  // =========================================================
+  // 👥 LOAD FRIENDS
+  // =========================================================
+
   useEffect(() => {
     fetch("/friends.json")
       .then((res) => res.json())
-      .then(setFriends);
+      .then((data) => {
+        setFriends(data);
+      })
+      .catch((err) => {
+        console.error(
+          "❌ Failed to load friends:",
+          err
+        );
+      });
   }, []);
 
-  const current = friends[index];
+  // =========================================================
+  // 🔄 RESTORE PROGRESS
+  // =========================================================
 
   useEffect(() => {
-    if (!showIntro || !current) return;
+    if (progressLoading) {
+      console.log(
+        "⏳ Waiting for Choose Friend Firebase progress..."
+      );
+      return;
+    }
 
-    const fullText = `${current.intro}\n\n${current.about}`;
+    if (!friends.length) return;
+
+    console.log(
+      "🎮 Choose Friend saved state:",
+      savedState
+    );
+
+    // =======================================================
+    // 🔄 RESUME
+    // =======================================================
+
+    if (
+      savedState &&
+      typeof savedState.index === "number"
+    ) {
+      console.log(
+        "🔄 RESUMING CHOOSE FRIEND:",
+        savedState
+      );
+
+      const savedIndex =
+        Math.min(
+          Math.max(savedState.index, 0),
+          friends.length - 1
+        );
+
+      setIndex(savedIndex);
+
+      setShowIntro(
+        savedState.showIntro === true
+      );
+
+      setGameReady(true);
+
+      return;
+    }
+
+    // =======================================================
+    // 🆕 NEW
+    // =======================================================
+
+    console.log(
+      "🆕 Starting Choose Friend"
+    );
+
+    setIndex(0);
+    setShowIntro(false);
+
+    save({
+      index: 0,
+      showIntro: false,
+    });
+
+    setGameReady(true);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    progressLoading,
+    friends.length,
+  ]);
+
+  // =========================================================
+  // 👤 CURRENT FRIEND
+  // =========================================================
+
+  const current =
+    friends[index];
+
+  // =========================================================
+  // ✍️ TYPING INTRO
+  // =========================================================
+
+  useEffect(() => {
+    if (
+      !showIntro ||
+      !current
+    ) {
+      setText("");
+      return;
+    }
+
+    const fullText =
+      `${current.intro}\n\n${current.about}`;
+
     let i = 0;
+
     setText("");
 
-    const timer = setInterval(() => {
-      setText((prev) => prev + fullText[i]);
-      i++;
-      if (i >= fullText.length) clearInterval(timer);
-    }, 30);
+    const timer =
+      setInterval(() => {
 
-    return () => clearInterval(timer);
-  }, [showIntro, current]);
+        setText(
+          (prev) =>
+            prev +
+            fullText[i]
+        );
+
+        i++;
+
+        if (
+          i >=
+          fullText.length
+        ) {
+          clearInterval(timer);
+        }
+
+      }, 30);
+
+    return () =>
+      clearInterval(timer);
+
+  }, [
+    showIntro,
+    current,
+  ]);
+
+  // =========================================================
+  // ◀ PREVIOUS FRIEND
+  // =========================================================
+
+  const previousFriend = async () => {
+
+    const newIndex =
+      (index -
+        1 +
+        friends.length) %
+      friends.length;
+
+    setIndex(newIndex);
+
+    setShowIntro(false);
+
+    await save({
+      index: newIndex,
+      showIntro: false,
+    });
+  };
+
+  // =========================================================
+  // ▶ NEXT FRIEND
+  // =========================================================
+
+  const nextFriend = async () => {
+
+    const newIndex =
+      (index + 1) %
+      friends.length;
+
+    setIndex(newIndex);
+
+    setShowIntro(false);
+
+    await save({
+      index: newIndex,
+      showIntro: false,
+    });
+  };
+
+  // =========================================================
+  // 🚀 START INTRO
+  // =========================================================
+
+  const handleStart = async () => {
+
+    setShowIntro(true);
+
+    await save({
+      index,
+      showIntro: true,
+    });
+  };
+
+  // =========================================================
+  // 🌈 BEGIN ADVENTURE
+  // =========================================================
 
   const handleBegin = async () => {
+
+    if (!current) return;
 
     const friendData = {
       id: current.id,
@@ -150,77 +249,177 @@ export default function ChooseFriend() {
       image: current.image,
     };
 
-    // ✅ LOCAL STORAGE (FAST UI)
-    localStorage.setItem("jungleFriend", JSON.stringify(friendData));
-    localStorage.setItem("appProgress", "friend-chosen");
+    // =======================================================
+    // ⚡ LOCAL STORAGE
+    // =======================================================
 
-    // ✅ FIREBASE SAVE (USER SPECIFIC)
+    localStorage.setItem(
+      "jungleFriend",
+      JSON.stringify(
+        friendData
+      )
+    );
+
+    localStorage.setItem(
+      "appProgress",
+      "friend-chosen"
+    );
+
+    // =======================================================
+    // 🔥 FIREBASE USER PROFILE
+    // =======================================================
+
     try {
-      const userId = localStorage.getItem("userId");
+
+      const userId =
+        localStorage.getItem(
+          "userId"
+        );
 
       if (userId) {
+
         await setDoc(
-          doc(db, "users", userId),
+          doc(
+            db,
+            "users",
+            userId
+          ),
           {
-            jungleFriend: friendData,
+            jungleFriend:
+              friendData,
           },
-          { merge: true }
+          {
+            merge: true,
+          }
+        );
+
+        console.log(
+          "🔥 Jungle friend saved:",
+          friendData
         );
       }
+
     } catch (err) {
-      console.error("Friend save error:", err);
+
+      console.error(
+        "❌ Friend save error:",
+        err
+      );
     }
 
-    navigate("/jungle-hero");
+    // =======================================================
+    // 🧹 CLEAR CHOOSE-FRIEND ACTIVE STATE
+    // =======================================================
+
+    // We intentionally don't call finish() because this
+    // isn't a scored game. The selected friend is now stored
+    // permanently in users/{uid}.
+
+    navigate(
+      "/jungle-hero"
+    );
   };
 
-  if (!friends.length) return <h2>Loading jungle friends… 🌱</h2>;
+  // =========================================================
+  // ⏳ LOADING
+  // =========================================================
+
+  if (
+    progressLoading ||
+    !gameReady ||
+    !friends.length ||
+    !current
+  ) {
+    return (
+      <div className="choose-container">
+        <h2>
+          Loading jungle friends… 🌱
+        </h2>
+      </div>
+    );
+  }
+
+  // =========================================================
+  // 🎨 UI
+  // =========================================================
 
   return (
     <div className="choose-container">
 
       {!showIntro ? (
+
         <div className="board">
+
           <div className="carousel">
+
             <button
-              onClick={() =>
-                setIndex((i) => (i - 1 + friends.length) % friends.length)
+              onClick={
+                previousFriend
               }
             >
               ◀
             </button>
 
-            <img src={current.image} alt={current.name} />
+            <img
+              src={current.image}
+              alt={current.name}
+            />
 
             <button
-              onClick={() =>
-                setIndex((i) => (i + 1) % friends.length)
+              onClick={
+                nextFriend
               }
             >
               ▶
             </button>
+
           </div>
 
-          <h2>{current.name}</h2>
+          <h2>
+            {current.name}
+          </h2>
 
           <button
             className="start"
-            onClick={() => setShowIntro(true)}
+            onClick={
+              handleStart
+            }
           >
             Start ▶
           </button>
-        </div>
-      ) : (
-        <div className="intro-board">
-          <h1>Meet {current.name}</h1>
-          <img src={current.image} alt={current.name} />
-          <p className="typing">{text}</p>
 
-          <button className="start big" onClick={handleBegin}>
+        </div>
+
+      ) : (
+
+        <div className="intro-board">
+
+          <h1>
+            Meet {current.name}
+          </h1>
+
+          <img
+            src={current.image}
+            alt={current.name}
+          />
+
+          <p className="typing">
+            {text}
+          </p>
+
+          <button
+            className="start big"
+            onClick={
+              handleBegin
+            }
+          >
             Let’s Begin 🌈
           </button>
+
         </div>
+
       )}
+
     </div>
   );
 }

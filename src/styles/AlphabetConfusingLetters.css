@@ -295,3 +295,112 @@
     font-size: 72px;
   }
 }
+/* 📱 TABLET (≤768px) */
+@media (max-width: 768px) {
+
+  .conf-header h1 {
+    font-size: 20px;
+  }
+
+  .conf-letter {
+    font-size: 52px;
+  }
+
+  .emoji {
+    font-size: 65px;
+  }
+
+  /* options → 2 per row */
+  .options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .opt {
+    height: 90px;
+    font-size: 36px;
+  }
+
+  .question {
+    font-size: 22px;
+  }
+}
+
+
+/* 📲 MOBILE (≤480px) */
+@media (max-width: 480px) {
+
+  .conf-content {
+    padding: 20px 10px;
+  }
+
+  .conf-header {
+    height: 60px;
+  }
+
+  .conf-header h1 {
+    font-size: 18px;
+  }
+
+  .conf-letter {
+    font-size: 42px;
+  }
+
+  .emoji {
+    font-size: 55px;
+  }
+
+  /* options → 1 per row (BEST UX) */
+  .options {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .opt {
+    height: 75px;
+    font-size: 28px;
+  }
+
+  .conf-place-value {
+    font-size: 42px;
+  }
+
+  .conf-place-label {
+    font-size: 16px;
+  }
+
+  .question {
+    font-size: 18px;
+  }
+
+  .btn {
+    width: 100%;
+    font-size: 15px;
+  }
+}
+
+
+/* 💻 LARGE SCREENS (≥1200px) */
+@media (min-width: 1200px) {
+
+  .conf-content {
+    max-width: 1300px;
+  }
+
+  .options {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .opt {
+    height: 130px;
+    font-size: 52px;
+  }
+
+  .conf-letter {
+    font-size: 80px;
+  }
+
+  .emoji {
+    font-size: 90px;
+  }
+}

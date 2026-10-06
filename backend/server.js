@@ -40,6 +40,9 @@ app.get("/", (req, res) => {
 });
 
 // ================= REGISTER =================
+// ================= REGISTER =================
+const users = []; // 🔥 temporary storage
+
 app.post("/api/register", (req, res) => {
   const { name, email } = req.body;
 
@@ -47,9 +50,24 @@ app.post("/api/register", (req, res) => {
     return res.status(400).json({ message: "Missing fields" });
   }
 
+  // 🔍 Check if user already exists
+  const existingUser = users.find(
+    (user) => user.email === email
+  );
+
+  if (existingUser) {
+    return res.status(400).json({
+      success: false,
+      type: "USER_EXISTS",
+      message: "User already registered",
+    });
+  }
+
+  // ✅ Save new user
+  users.push({ name, email });
+
   res.json({ success: true });
 });
-
 // ================= SEND OTP =================
 app.post("/api/send-otp", async (req, res) => {
   try {

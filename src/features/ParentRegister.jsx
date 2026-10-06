@@ -48,7 +48,7 @@ export default function ParentRegister() {
     }
 
     try {
-      // ✅ SAVE LOCALLY (FIXED)
+      // ✅ SAVE LOCALLY
       localStorage.setItem("userName", parentName.trim());
       localStorage.setItem("userTime", timeLimit);
 
@@ -67,9 +67,15 @@ export default function ParentRegister() {
 
       const data = await res.json();
 
+      // ❌ HANDLE EXISTING USER
       if (!res.ok) {
-        if (data.message?.includes("exists")) {
-          setError("User already registered! Please login 🔐");
+        if (data.type === "USER_EXISTS") {
+          setError("User already registered! Redirecting to login 🔐");
+
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+
           return;
         }
 
@@ -95,19 +101,31 @@ export default function ParentRegister() {
         return;
       }
 
-      // 💾 STORE TEMP DATA
+      // ✅ FINAL DATA SAVE (🔥 IMPORTANT FIX)
       const parentData = {
         parentName: parentName.trim(),
         email: email.trim(),
         timeLimit,
       };
 
+      // 🔥 THIS FIXES YOUR DASHBOARD ISSUE
+      localStorage.setItem("parentProfile", JSON.stringify(parentData));
+
+      // 🔥 TEMP CHILD DATA (so dashboard works)
+      localStorage.setItem(
+        "childProfile",
+        JSON.stringify({
+          name: "Little Explorer",
+          age: 5,
+        })
+      );
+
+      // existing storage
       localStorage.setItem("tempParent", JSON.stringify(parentData));
       localStorage.setItem("loginEmail", email.trim());
 
       alert("OTP sent to your email 📧");
 
-      // 👉 Navigate to OTP screen
       navigate("/otp");
 
     } catch (err) {
@@ -118,7 +136,6 @@ export default function ParentRegister() {
 
   return (
     <div className="parent-register">
-
       <div className="parent-card">
         <h1>Parent Registration</h1>
         <p>Help guide your child’s jungle journey</p>
@@ -152,12 +169,10 @@ export default function ParentRegister() {
 
         {error && <p className="error-text">{error}</p>}
 
-        {/* 🔐 BUTTON */}
         <button className="save-btn" onClick={saveParent}>
           🔐 Link & Unlock Jungle
         </button>
 
-        {/* 🔗 LOGIN */}
         <p
           className="login-link"
           onClick={() => navigate("/login")}

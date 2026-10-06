@@ -665,3 +665,103 @@
   color: white;
   cursor: pointer;
 }
+/* 📱 MOBILE (≤768px) */
+@media (max-width: 768px) {
+
+  .app-container {
+    flex-direction: column;
+  }
+
+  /* 📁 SIDEBAR → HIDDEN (or can convert to toggle later) */
+  .sidebar {
+    display: none;
+  }
+
+  /* 💬 CHAT FULL WIDTH */
+  .chat-section {
+    width: 100%;
+  }
+
+  /* 📦 CHAT BOX PADDING REDUCED */
+  .chat-box {
+    padding: 15px;
+  }
+
+  /* 💬 MESSAGE WIDTH */
+  .msg {
+    max-width: 85%;
+    font-size: 13px;
+  }
+
+  /* 🧠 HEADER */
+  .chat-header {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  /* ⌨ INPUT */
+  .chat-input {
+    padding: 10px;
+    margin-right: 0; /* remove overlap fix */
+  }
+
+  .chat-input input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .chat-input button {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* 🤖 FLOATING BOT */
+  .bot-float {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    bottom: 80px;
+    right: 15px;
+  }
+}
+
+
+/* 📲 SMALL MOBILE (≤480px) */
+@media (max-width: 480px) {
+
+  .chat-box {
+    padding: 10px;
+  }
+
+  .msg {
+    max-width: 90%;
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .chat-input input {
+    font-size: 13px;
+  }
+
+  .chat-input button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .chat-header {
+    font-size: 14px;
+  }
+}
+
+
+/* 💻 LARGE SCREENS (≥1200px) */
+@media (min-width: 1200px) {
+
+  .chat-box-wrapper {
+    max-width: 1100px;
+  }
+
+  .msg {
+    max-width: 55%;
+  }
+}

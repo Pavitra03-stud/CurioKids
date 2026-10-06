@@ -9,3 +9,70 @@ html, body {
 #root {
   min-height: 100%;
 }
+/* ✅ Reset + Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ✅ Images scale */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ✅ Buttons + inputs */
+button, input {
+  font-size: 1rem;
+}
+
+/* ✅ Container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  
+  h1 {
+    font-size: 22px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .game-page {
+    padding: 15px;
+  }
+
+  .options {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
+
+/* 📱 Small mobile */
+@media (max-width: 480px) {
+  
+  h1 {
+    font-size: 18px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

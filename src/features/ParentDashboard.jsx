@@ -1,32 +1,48 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BackIcon from "../components/BackIcon";
 import "../styles/ParentDashboard.css";
 
-export default function ParentDashboard({ navigate }) {
+export default function ParentDashboard() {
+
+  const navigate = useNavigate();
 
   const [parent, setParent] = useState(null);
   const [child, setChild] = useState(null);
   const [aiData, setAiData] = useState(null);
   const [practiceRewards, setPracticeRewards] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(true);
 
-  // 🤖 AI CHAT STATES (NEW)
+  // 🤖 AI CHAT STATES
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const savedParent = localStorage.getItem("parentProfile");
+    const savedParent =
+  localStorage.getItem("parentProfile") ||
+  localStorage.getItem("tempParent");
     const savedChild = localStorage.getItem("childProfile");
     const savedAI = localStorage.getItem("aiProgress");
     const savedRewards = localStorage.getItem("practiceData");
+    const loginEmail = localStorage.getItem("loginEmail");
 
+    // ❌ If not logged in → redirect
+    if (!loginEmail) {
+      navigate("/login");
+      return;
+    }
+
+    // ✅ Load data safely
     if (savedParent) setParent(JSON.parse(savedParent));
     if (savedChild) setChild(JSON.parse(savedChild));
     if (savedAI) setAiData(JSON.parse(savedAI));
     if (savedRewards) setPracticeRewards(JSON.parse(savedRewards));
-  }, []);
 
-  // 🤖 SEND MESSAGE FUNCTION (NEW)
+    setLoadingPage(false);
+  }, [navigate]);
+
+  // 🤖 SEND MESSAGE FUNCTION
   const sendMessage = async () => {
     if (!question.trim()) return;
 
@@ -51,7 +67,7 @@ export default function ParentDashboard({ navigate }) {
 
       const botMessage = {
         type: "bot",
-        text: data.answer,
+        text: data.answer || "No response from AI",
       };
 
       setMessages(prev => [...prev, botMessage]);
@@ -64,10 +80,20 @@ export default function ParentDashboard({ navigate }) {
     setLoading(false);
   };
 
-  if (!parent || !child) {
+  // ⏳ LOADING SCREEN
+  if (loadingPage) {
     return (
       <div style={{ padding: "120px 40px" }}>
         <h2>Loading dashboard...</h2>
+      </div>
+    );
+  }
+
+  // ❌ If no data → redirect (prevents stuck UI)
+  if (!parent || !child) {
+    return (
+      <div style={{ padding: "120px 40px" }}>
+        <h2>No data found. Redirecting...</h2>
       </div>
     );
   }
@@ -77,24 +103,13 @@ export default function ParentDashboard({ navigate }) {
     ? Math.min((aiData.roundsCompleted / 10) * 100, 100)
     : 0;
 
-  const weeklyData = practiceRewards
-    ? [
-        practiceRewards.totalRounds - 6,
-        practiceRewards.totalRounds - 4,
-        practiceRewards.totalRounds - 3,
-        practiceRewards.totalRounds - 2,
-        practiceRewards.totalRounds - 1,
-        practiceRewards.totalRounds
-      ].map(n => (n < 0 ? 0 : n))
-    : [];
-
   return (
     <div className="parent-page">
 
       {/* 🌴 NAVBAR */}
       <div className="parent-navbar">
         <div className="navbar-left">
-          <BackIcon goBack={() => navigate("jungle-hero")} />
+          <BackIcon goBack={() => navigate("/jungle-hero")} />
         </div>
         <div className="navbar-title">
           📊 Parent Dashboard
@@ -168,7 +183,7 @@ export default function ParentDashboard({ navigate }) {
           )}
         </div>
 
-        {/* 🤖 AI CHATBOT (NEW SECTION) */}
+        {/* 🤖 AI CHATBOT */}
         <div className="parent-card">
           <h2>🤖 AI Assistant</h2>
 

@@ -414,3 +414,80 @@
   height: 100%;
   touch-action: none;
 }
+/* 📱 TABLET */
+@media (max-width: 768px) {
+
+  .trace-board {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+  }
+
+  .trace-big-letter {
+    font-size: 50px;
+  }
+
+  .trace-letter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+/* 📲 MOBILE */
+@media (max-width: 480px) {
+
+  .trace-content {
+    padding: 16px 10px;
+  }
+
+  .trace-header {
+    height: 60px;
+  }
+
+  .trace-big-letter {
+    font-size: 40px;
+  }
+
+  .trace-board {
+    height: 250px;
+  }
+
+  .trace-message,
+  .trace-score-box {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .trace-action-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .trace-letter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .trace-letter-tile {
+    min-height: 60px;
+    font-size: 20px;
+  }
+}
+
+
+/* 💻 LARGE SCREENS */
+@media (min-width: 1200px) {
+
+  .trace-board {
+    max-width: 520px;
+    height: 420px;
+  }
+
+  .trace-big-letter {
+    font-size: 80px;
+  }
+
+  .trace-letter-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

@@ -322,3 +322,84 @@
     font-size: 17px;
   }
 }
+/* 📱 TABLET */
+@media (max-width: 768px) {
+
+  .alphabet-floating-letter {
+    font-size: 90px;
+  }
+
+  .alphabet-animal {
+    font-size: 70px;
+  }
+
+  .alphabet-song-line {
+    font-size: 22px;
+  }
+
+  .alphabet-video-stage {
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .alphabet-letter-strip {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+
+/* 📲 MOBILE */
+@media (max-width: 480px) {
+
+  .alphabet-video-content {
+    padding: 16px 10px;
+  }
+
+  .alphabet-floating-letter {
+    font-size: 70px;
+  }
+
+  .alphabet-animal {
+    font-size: 60px;
+  }
+
+  .alphabet-animal-name {
+    font-size: 20px;
+  }
+
+  .alphabet-song-line {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  .alphabet-control-btn {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .alphabet-letter-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .alphabet-letter-chip {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+}
+
+
+/* 💻 LARGE SCREENS */
+@media (min-width: 1200px) {
+
+  .alphabet-floating-letter {
+    font-size: 180px;
+  }
+
+  .alphabet-animal {
+    font-size: 140px;
+  }
+
+  .alphabet-letter-strip {
+    grid-template-columns: repeat(13, 1fr);
+  }
+}

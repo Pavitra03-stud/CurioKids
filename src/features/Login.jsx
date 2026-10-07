@@ -7,49 +7,79 @@
 //   const [error, setError] = useState("");
 //   const [loading, setLoading] = useState(false);
 
-//   const navigate = useNavigate(); // ✅ NEW
+//   const navigate = useNavigate();
 
 //   const handleLogin = async () => {
 //     setError("");
 
-//     if (!email.trim()) {
+//     const cleanEmail = email.trim();
+
+//     // 📧 Empty email
+//     if (!cleanEmail) {
 //       setError("Enter your email 📧");
+//       return;
+//     }
+
+//     // 📧 Basic email validation
+//     const emailRegex =
+//       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+//     if (!emailRegex.test(cleanEmail)) {
+//       setError("Enter a valid email 📧");
 //       return;
 //     }
 
 //     setLoading(true);
 
 //     try {
-//       console.log("Sending login OTP... 🔐");
+//       console.log("🔐 Sending login OTP...");
 
-//       const res = await fetch("http://localhost:5000/api/send-otp", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ email: email.trim() }),
-//       });
+//       const res = await fetch(
+//         "http://localhost:5000/api/send-otp",
+//         {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             email: cleanEmail,
+//           }),
+//         }
+//       );
 
 //       const data = await res.json();
-//       console.log("Response:", data);
+
+//       console.log("📩 OTP response:", data);
 
 //       if (!res.ok) {
-//         setError(data.message || "Failed to send OTP ❌");
-//         setLoading(false);
+//         setError(
+//           data.message ||
+//             "Failed to send OTP ❌"
+//         );
 //         return;
 //       }
 
-//       // 💾 Store email for OTP screen
-//       localStorage.setItem("loginEmail", email.trim());
+//       // 💾 Save email for OTP verification
+//       localStorage.setItem(
+//         "loginEmail",
+//         cleanEmail
+//       );
 
-//       alert("OTP sent to your email 📧");
+//       alert(
+//         "OTP sent to your email 📧"
+//       );
 
-//       // ✅ FIXED NAVIGATION
+//       // ➡️ Go to OTP screen
 //       navigate("/otp");
-
 //     } catch (err) {
-//       console.log("Login error:", err);
-//       setError("Server error 😢");
+//       console.error(
+//         "❌ Login error:",
+//         err
+//       );
+
+//       setError(
+//         "Unable to connect to server 😢"
+//       );
 //     } finally {
 //       setLoading(false);
 //     }
@@ -63,20 +93,43 @@
 //         type="email"
 //         placeholder="Enter your email"
 //         value={email}
-//         onChange={(e) => setEmail(e.target.value)}
+//         onChange={(e) =>
+//           setEmail(e.target.value)
+//         }
+//         disabled={loading}
+//         onKeyDown={(e) => {
+//           if (e.key === "Enter") {
+//             handleLogin();
+//           }
+//         }}
 //       />
 
-//       {error && <p className="error-text">{error}</p>}
+//       {error && (
+//         <p className="error-text">
+//           {error}
+//         </p>
+//       )}
 
-//       <button onClick={handleLogin} disabled={loading}>
-//         {loading ? "Sending OTP..." : "Send OTP"}
+//       <button
+//         onClick={handleLogin}
+//         disabled={loading}
+//       >
+//         {loading
+//           ? "Sending OTP..."
+//           : "Send OTP"}
 //       </button>
 
-//       {/* ✅ FIXED REGISTER NAVIGATION */}
 //       <p
 //         className="switch-text"
-//         onClick={() => navigate("/child-register")}
-//         style={{ cursor: "pointer" }}
+//         onClick={() =>
+//           !loading &&
+//           navigate("/child-register")
+//         }
+//         style={{
+//           cursor: loading
+//             ? "default"
+//             : "pointer",
+//         }}
 //       >
 //         New here? Register 🌱
 //       </p>
@@ -89,6 +142,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "../styles/Auth.css";
 
 export default function Login() {
@@ -98,68 +152,123 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  // =========================================================
+  // LOGIN
+  // =========================================================
+
   const handleLogin = async () => {
     setError("");
 
-    const cleanEmail = email.trim();
+    // =======================================================
+    // CLEAN EMAIL
+    // =======================================================
 
-    // 📧 Empty email
+    const cleanEmail =
+      email.trim().toLowerCase();
+
+    // =======================================================
+    // VALIDATION
+    // =======================================================
+
     if (!cleanEmail) {
-      setError("Enter your email 📧");
+      setError(
+        "Enter your email 📧"
+      );
       return;
     }
 
-    // 📧 Basic email validation
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(cleanEmail)) {
-      setError("Enter a valid email 📧");
+      setError(
+        "Enter a valid email 📧"
+      );
       return;
     }
 
     setLoading(true);
 
     try {
-      console.log("🔐 Sending login OTP...");
+      console.log(
+        "🔐 Sending login OTP..."
+      );
+
+      // =====================================================
+      // SEND OTP
+      // =====================================================
 
       const res = await fetch(
         "http://localhost:5000/api/send-otp",
         {
           method: "POST",
+
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
+
           body: JSON.stringify({
             email: cleanEmail,
           }),
         }
       );
 
-      const data = await res.json();
+      const data =
+        await res.json();
 
-      console.log("📩 OTP response:", data);
+      console.log(
+        "📩 OTP response:",
+        data
+      );
+
+      // =====================================================
+      // BACKEND ERROR
+      // =====================================================
 
       if (!res.ok) {
         setError(
           data.message ||
             "Failed to send OTP ❌"
         );
+
         return;
       }
 
-      // 💾 Save email for OTP verification
+      // =====================================================
+      // SAVE EMAIL FOR OTP
+      // =====================================================
+
       localStorage.setItem(
         "loginEmail",
         cleanEmail
+      );
+
+      // =====================================================
+      // IMPORTANT
+      //
+      // We DO NOT load childProfile,
+      // parentProfile, or jungleFriend here.
+      //
+      // OtpVerify.jsx will authenticate the user,
+      // get the Firebase UID, and fetch the correct
+      // Firebase profile.
+      // =====================================================
+
+      console.log(
+        "📧 Login OTP sent successfully"
       );
 
       alert(
         "OTP sent to your email 📧"
       );
 
-      // ➡️ Go to OTP screen
+      // =====================================================
+      // GO TO OTP
+      // =====================================================
+
       navigate("/otp");
+
     } catch (err) {
       console.error(
         "❌ Login error:",
@@ -169,14 +278,26 @@ export default function Login() {
       setError(
         "Unable to connect to server 😢"
       );
+
     } finally {
       setLoading(false);
     }
   };
 
+  // =========================================================
+  // UI
+  // =========================================================
+
   return (
     <div className="auth-container">
-      <h2>🔐 Welcome Back</h2>
+
+      <h2>
+        🔐 Welcome Back
+      </h2>
+
+      {/* ===================================================
+          EMAIL
+      =================================================== */}
 
       <input
         type="email"
@@ -186,18 +307,30 @@ export default function Login() {
           setEmail(e.target.value)
         }
         disabled={loading}
+        autoComplete="email"
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (
+            e.key === "Enter" &&
+            !loading
+          ) {
             handleLogin();
           }
         }}
       />
+
+      {/* ===================================================
+          ERROR
+      =================================================== */}
 
       {error && (
         <p className="error-text">
           {error}
         </p>
       )}
+
+      {/* ===================================================
+          LOGIN BUTTON
+      =================================================== */}
 
       <button
         onClick={handleLogin}
@@ -208,12 +341,19 @@ export default function Login() {
           : "Send OTP"}
       </button>
 
+      {/* ===================================================
+          REGISTER
+      =================================================== */}
+
       <p
         className="switch-text"
-        onClick={() =>
-          !loading &&
-          navigate("/child-register")
-        }
+        onClick={() => {
+          if (!loading) {
+            navigate(
+              "/child-register"
+            );
+          }
+        }}
         style={{
           cursor: loading
             ? "default"
@@ -222,6 +362,7 @@ export default function Login() {
       >
         New here? Register 🌱
       </p>
+
     </div>
   );
 }

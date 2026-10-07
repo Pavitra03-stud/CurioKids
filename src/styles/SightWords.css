@@ -1,0 +1,1103 @@
+* {
+  box-sizing: border-box;
+}
+
+.sight-page {
+  min-height: 100vh;
+  padding: 28px 20px 60px;
+
+  font-family:
+    "Nunito",
+    "Poppins",
+    Arial,
+    sans-serif;
+
+  color: #40534a;
+
+  background:
+    radial-gradient(
+      circle at 8% 12%,
+      rgba(255, 239, 174, 0.75),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 94% 17%,
+      rgba(205, 238, 201, 0.8),
+      transparent 25%
+    ),
+    linear-gradient(
+      135deg,
+      #f8fcf4,
+      #f4faf7 50%,
+      #fffaf0
+    );
+}
+
+.sight-shell {
+  width: min(960px, 100%);
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.sight-header {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 25px 28px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid #e7eee6;
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 15px 40px rgba(72, 103, 80, 0.08);
+
+  margin-bottom: 15px;
+}
+
+.garden-logo {
+  width: 66px;
+  height: 66px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff3ba,
+      #ffe8a0
+    );
+
+  border-radius: 22px;
+
+  font-size: 34px;
+
+  box-shadow:
+    inset 0 2px 5px rgba(255,255,255,0.9);
+}
+
+.garden-eyebrow {
+  margin: 0 0 4px;
+
+  color: #86a07f;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.6px;
+}
+
+.sight-header h1 {
+  margin: 0;
+
+  color: #35634d;
+
+  font-size: clamp(28px, 5vw, 42px);
+
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+.sight-header p:last-child {
+  margin: 8px 0 0;
+
+  color: #7f9286;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   GARDEN PROGRESS
+========================================================= */
+
+.garden-progress-card {
+  padding: 17px 20px;
+
+  margin-bottom: 16px;
+
+  background: white;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 9px 25px rgba(72, 103, 80, 0.07);
+}
+
+.garden-progress-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 11px;
+}
+
+.garden-progress-top span {
+  display: block;
+
+  color: #93a198;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.2px;
+}
+
+.garden-progress-top strong {
+  color: #4b765c;
+
+  font-size: 23px;
+
+  font-weight: 900;
+}
+
+.garden-progress-top strong small {
+  color: #a5b1aa;
+
+  font-size: 12px;
+}
+
+.mini-flowers {
+  display: flex;
+
+  gap: 5px;
+}
+
+.mini-flowers span {
+  font-size: 17px;
+
+  transition: 0.3s ease;
+}
+
+.flower-empty {
+  filter: grayscale(1);
+
+  opacity: 0.22;
+}
+
+.flower-filled {
+  transform: translateY(-2px) scale(1.1);
+}
+
+.garden-track {
+  height: 9px;
+
+  overflow: hidden;
+
+  background: #e9eee9;
+
+  border-radius: 30px;
+}
+
+.garden-fill {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #82bd72,
+      #b5cf65
+    );
+
+  border-radius: 30px;
+
+  transition:
+    width 0.45s ease;
+}
+
+.garden-progress-bottom {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 7px;
+
+  color: #9aa79e;
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+.garden-progress-bottom strong {
+  color: #82a76f;
+}
+
+/* =========================================================
+   MAIN GAME
+========================================================= */
+
+.word-garden-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 35px 35px 40px;
+
+  background: white;
+
+  border-radius: 34px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 55px rgba(72, 103, 80, 0.1);
+}
+
+.word-garden-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  top: -100px;
+  left: -70px;
+
+  background: #fff4c8;
+
+  border-radius: 50%;
+
+  opacity: 0.65;
+}
+
+.word-garden-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -70px;
+  bottom: -80px;
+
+  background: #e4f3dc;
+
+  border-radius: 50%;
+
+  opacity: 0.75;
+}
+
+.garden-question-tag {
+  position: relative;
+
+  z-index: 1;
+
+  display: inline-flex;
+
+  padding: 8px 15px;
+
+  margin-bottom: 12px;
+
+  background: #eef7e9;
+
+  color: #70976b;
+
+  border-radius: 50px;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.word-garden-card h2 {
+  position: relative;
+
+  z-index: 1;
+
+  margin: 0;
+
+  color: #3d624d;
+
+  font-size: clamp(24px, 4vw, 31px);
+
+  font-weight: 900;
+}
+
+.garden-instruction {
+  position: relative;
+
+  z-index: 1;
+
+  margin: 8px auto 23px;
+
+  color: #91a097;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   PICTURE
+========================================================= */
+
+.picture-garden {
+  position: relative;
+
+  z-index: 1;
+
+  width: 190px;
+  height: 175px;
+
+  margin: 0 auto 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f1f9eb,
+      #e5f3dc
+    );
+
+  border: 2px solid #e0eed9;
+
+  border-radius: 45% 45% 32% 32%;
+
+  box-shadow:
+    0 10px 25px rgba(90, 125, 81, 0.08);
+}
+
+.sun-decoration {
+  position: absolute;
+
+  top: 13px;
+  right: 17px;
+
+  font-size: 21px;
+}
+
+.picture-circle {
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+
+  border: 6px solid #f0f7e9;
+
+  border-radius: 50%;
+
+  font-size: 57px;
+
+  box-shadow:
+    0 8px 20px rgba(68, 103, 73, 0.08);
+}
+
+.grass {
+  position: absolute;
+
+  bottom: 9px;
+
+  color: #7cab6b;
+
+  font-size: 18px;
+
+  letter-spacing: 3px;
+}
+
+/* =========================================================
+   WORD OPTIONS
+========================================================= */
+
+.word-options {
+  position: relative;
+
+  z-index: 1;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 13px;
+
+  width: min(650px, 100%);
+
+  margin: 0 auto;
+}
+
+.word-card {
+  position: relative;
+
+  min-height: 78px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 13px 16px;
+
+  border: 2px solid #e5ece4;
+
+  border-radius: 20px;
+
+  background: #fbfdf9;
+
+  color: #4b6655;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  box-shadow:
+    0 5px 13px rgba(65, 94, 72, 0.04);
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.word-card:hover:not(:disabled) {
+  transform: translateY(-4px);
+
+  border-color: #b7d5ad;
+
+  background: #f6fbf2;
+
+  box-shadow:
+    0 10px 22px rgba(65, 94, 72, 0.09);
+}
+
+.word-number {
+  width: 31px;
+  height: 31px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background: #edf5e9;
+
+  color: #82a177;
+
+  border-radius: 10px;
+
+  font-size: 11px;
+
+  font-weight: 900;
+}
+
+.word-text {
+  flex: 1;
+
+  font-size: 20px;
+
+  font-weight: 900;
+
+  text-transform: lowercase;
+}
+
+.word-leaf {
+  font-size: 18px;
+
+  opacity: 0.65;
+}
+
+.word-card-1 .word-number {
+  background: #fff2d0;
+
+  color: #b08b42;
+}
+
+.word-card-2 .word-number {
+  background: #e9f0fb;
+
+  color: #7890b2;
+}
+
+.word-card-3 .word-number {
+  background: #f9e9ee;
+
+  color: #b27b8d;
+}
+
+.word-selected {
+  border-color: #9cbf91;
+}
+
+.word-correct {
+  background: #e8f6df !important;
+
+  border-color: #83bb72 !important;
+
+  color: #477351 !important;
+
+  animation:
+    wordCorrect 0.35s ease;
+}
+
+.word-wrong {
+  background: #fff0eb !important;
+
+  border-color: #dfaa9b !important;
+
+  color: #9e6458 !important;
+
+  animation:
+    wordWrong 0.35s ease;
+}
+
+@keyframes wordCorrect {
+  0% {
+    transform: scale(1);
+  }
+
+  55% {
+    transform: scale(1.035);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes wordWrong {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.sight-feedback {
+  position: relative;
+
+  z-index: 1;
+
+  width: fit-content;
+
+  max-width: 90%;
+
+  margin: 19px auto 0;
+
+  padding: 11px 18px;
+
+  border-radius: 50px;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+.feedback-good {
+  background: #e4f5dd;
+
+  color: #57845d;
+}
+
+.feedback-try {
+  background: #fff0ea;
+
+  color: #9b6558;
+}
+
+/* =========================================================
+   TIP
+========================================================= */
+
+.reading-tip {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  margin-top: 14px;
+
+  color: #94a198;
+
+  text-align: center;
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+.reading-tip p {
+  margin: 0;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.sight-loading {
+  min-height: 75vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+.loading-flower {
+  width: 90px;
+  height: 90px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #fff1b8;
+
+  border-radius: 50%;
+
+  font-size: 45px;
+
+  animation:
+    flowerFloat 1.7s
+    infinite ease-in-out;
+}
+
+@keyframes flowerFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(-9px) rotate(3deg);
+  }
+}
+
+.sight-loading h2 {
+  margin: 19px 0 7px;
+
+  color: #45604e;
+
+  font-size: 22px;
+
+  font-weight: 900;
+}
+
+.sight-loading p {
+  margin: 0;
+
+  color: #98a49c;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+.loading-leaves {
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 17px;
+
+  font-size: 17px;
+}
+
+.loading-leaves span {
+  animation:
+    leafBounce 1s
+    infinite ease-in-out;
+}
+
+.loading-leaves span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loading-leaves span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes leafBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.word-loading {
+  grid-column: 1 / -1;
+
+  padding: 22px;
+
+  color: #92a097;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+.garden-complete {
+  position: relative;
+
+  overflow: hidden;
+
+  max-width: 650px;
+
+  margin: 55px auto 0;
+
+  padding: 40px 28px;
+
+  background: white;
+
+  border-radius: 34px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 55px rgba(72, 103, 80, 0.1);
+}
+
+.garden-sky {
+  width: 75px;
+  height: 75px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 8px;
+
+  background: #fff3bb;
+
+  border-radius: 50%;
+
+  font-size: 37px;
+}
+
+.flower-burst {
+  margin-bottom: 12px;
+
+  font-size: 20px;
+
+  letter-spacing: 5px;
+}
+
+.complete-label {
+  margin: 0;
+
+  color: #88a479;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+.garden-complete h1 {
+  margin: 7px 0;
+
+  color: #3d624c;
+
+  font-size: clamp(28px, 5vw, 40px);
+
+  font-weight: 900;
+}
+
+.complete-subtitle {
+  margin: 0 0 23px;
+
+  color: #91a096;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+.flower-score {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  padding: 17px;
+
+  margin-bottom: 14px;
+
+  background: #f3f9ef;
+
+  border-radius: 21px;
+}
+
+.score-flower {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #fff2b7;
+
+  border-radius: 17px;
+
+  font-size: 27px;
+}
+
+.flower-score span {
+  display: block;
+
+  color: #95a099;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  text-align: left;
+}
+
+.flower-score strong {
+  display: block;
+
+  color: #608365;
+
+  font-size: 33px;
+
+  font-weight: 900;
+
+  text-align: left;
+}
+
+.flower-score small {
+  color: #a5afa8;
+
+  font-size: 16px;
+}
+
+.reading-result {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 15px;
+
+  margin-bottom: 20px;
+
+  background: #fffaf0;
+
+  border-radius: 18px;
+
+  text-align: left;
+}
+
+.result-icon {
+  font-size: 30px;
+}
+
+.reading-result strong {
+  color: #64735e;
+
+  font-size: 13px;
+
+  font-weight: 900;
+}
+
+.reading-result p {
+  margin: 3px 0 0;
+
+  color: #9b9f92;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+  font-weight: 700;
+}
+
+.grow-more-button {
+  padding: 14px 23px;
+
+  border: 0;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #77a966,
+      #92b76d
+    );
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px rgba(91, 139, 83, 0.2);
+
+  transition: 0.18s ease;
+}
+
+.grow-more-button:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .sight-page {
+    padding: 14px 11px 35px;
+  }
+
+  .sight-header {
+    padding: 18px;
+
+    gap: 13px;
+
+    border-radius: 22px;
+  }
+
+  .garden-logo {
+    width: 53px;
+    height: 53px;
+
+    border-radius: 16px;
+
+    font-size: 27px;
+  }
+
+  .sight-header h1 {
+    font-size: 27px;
+  }
+
+  .sight-header p:last-child {
+    font-size: 10px;
+  }
+
+  .garden-progress-card {
+    padding: 14px;
+  }
+
+  .mini-flowers span {
+    font-size: 14px;
+  }
+
+  .word-garden-card {
+    padding: 27px 13px 31px;
+
+    border-radius: 25px;
+  }
+
+  .picture-garden {
+    width: 165px;
+    height: 155px;
+  }
+
+  .picture-circle {
+    width: 92px;
+    height: 92px;
+
+    font-size: 48px;
+  }
+
+  .word-options {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+  }
+
+  .word-card {
+    min-height: 69px;
+  }
+
+  .word-text {
+    font-size: 18px;
+  }
+
+  .garden-complete {
+    margin-top: 25px;
+
+    padding: 32px 19px;
+
+    border-radius: 27px;
+  }
+}
+
+@media (max-width: 380px) {
+  .mini-flowers {
+    gap: 2px;
+  }
+
+  .mini-flowers span {
+    font-size: 12px;
+  }
+}

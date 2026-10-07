@@ -1,211 +1,5 @@
-// import { useState, useEffect } from "react";
-// import "../styles/BlendSounds.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// // 🔥 Router
-// import { useLocation } from "react-router-dom";
-
-// export default function PatternMatching() {
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   // 🔥 MODE
-//   const location = useLocation();
-//   const query = new URLSearchParams(location.search);
-//   const mode = query.get("mode") || "letters";
-
-//   const [pattern, setPattern] = useState([]);
-//   const [options, setOptions] = useState([]);
-//   const [answer, setAnswer] = useState("");
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const [message, setMessage] = useState("");
-//   const [loading, setLoading] = useState(true);
-
-//   // 🤖 AI GENERATOR
-//   const generateQuestionAI = () => {
-//     try {
-//       setLoading(true);
-
-//       const base =
-//         mode === "numbers"
-//           ? ["1","2","3","4","5","6","7","8","9"]
-//           : "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-//       const a = base[Math.floor(Math.random() * base.length)];
-//       let b;
-
-//       do {
-//         b = base[Math.floor(Math.random() * base.length)];
-//       } while (b === a);
-
-//       const type = Math.random();
-
-//       let newPattern, correct;
-
-//       if (type < 0.5) {
-//         // ABAB_
-//         newPattern = [a, b, a, b, "?"];
-//         correct = a;
-//       } else {
-//         // AABB_
-//         newPattern = [a, a, b, b, "?"];
-//         correct = b;
-//       }
-
-//       const wrong = base
-//         .filter((l) => l !== correct)
-//         .sort(() => 0.5 - Math.random())
-//         .slice(0, 2);
-
-//       const opts = [correct, ...wrong].sort(() => 0.5 - Math.random());
-
-//       setPattern(newPattern);
-//       setAnswer(correct);
-//       setOptions(opts);
-
-//     } catch (err) {
-//       console.error(err);
-
-//       // fallback
-//       setPattern(["A","B","A","B","?"]);
-//       setOptions(["A","C","D"]);
-//       setAnswer("A");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     generateQuestionAI();
-//   }, [mode]);
-
-//   // ☁️ SAVE
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user";
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: `PatternMatching_${mode}`
-//       });
-
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   // 🎯 CLICK
-//   const handleClick = (item) => {
-
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = item === answer;
-//     const updatedScore = isCorrect ? score + 1 : score;
-
-//     setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
-
-//     setTimeout(async () => {
-
-//       setMessage("");
-
-//       const next = questionCount + 1;
-//       setQuestionCount(next);
-
-//       if (next === TOTAL_QUESTIONS) {
-
-//         await saveScoreToFirestore(updatedScore);
-
-//         alert(`🎯 Completed!\nScore: ${updatedScore}/5`);
-
-//         setScore(0);
-//         setQuestionCount(0);
-//         generateQuestionAI();
-
-//       } else {
-//         setScore(updatedScore);
-//         generateQuestionAI();
-//       }
-
-//     }, 800);
-//   };
-
-//   // 📊 AI ANALYSIS
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Pattern Genius!";
-//     if (accuracy > 50) return "👍 Nice thinking!";
-//     return "💡 Practice patterns!";
-//   };
-
-//   return (
-//     <div className="blend-container">
-
-//       <h2>🧠 Pattern Matching ({mode})</h2>
-
-//       <div className="game-info">
-//         Question {questionCount + 1}/5 | Score: {score}
-//       </div>
-
-//       {/* PATTERN */}
-//       <div className="sounds">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           pattern.map((item, i) => (
-//             <span key={i} className="sound-box">
-//               {item}
-//             </span>
-//           ))
-//         )}
-//       </div>
-
-//       <h3>What comes next?</h3>
-
-//       {/* OPTIONS */}
-//       <div className="options">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           options.map((opt, i) => (
-//             <button key={i} onClick={() => handleClick(opt)}>
-//               {opt}
-//             </button>
-//           ))
-//         )}
-//       </div>
-
-//       <p>{message}</p>
-
-//       <div className="ai-analysis">
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
-import { useEffect, useState } from "react";
-import "../styles/BlendSounds.css";
-
+import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { db } from "../firebase";
 import {
   doc,
@@ -213,34 +7,194 @@ import {
   addDoc,
   Timestamp,
 } from "firebase/firestore";
-
-import { useLocation } from "react-router-dom";
 import useGameProgress from "../hooks/useGameProgress";
+import "../styles/PatternMatching.css";
+
+const TOTAL_QUESTIONS = 5;
+
+/* =========================================================
+   QUESTION POOLS
+========================================================= */
+
+const LETTER_QUESTIONS = [
+  {
+    pattern: ["A", "B", "A", "B", "?"],
+    answer: "A",
+    options: ["A", "C", "D"],
+  },
+  {
+    pattern: ["C", "C", "D", "D", "?"],
+    answer: "E",
+    options: ["E", "F", "B"],
+  },
+  {
+    pattern: ["F", "G", "F", "G", "?"],
+    answer: "F",
+    options: ["F", "H", "J"],
+  },
+  {
+    pattern: ["J", "K", "L", "J", "K", "?"],
+    answer: "L",
+    options: ["L", "M", "N"],
+  },
+  {
+    pattern: ["P", "Q", "P", "Q", "?"],
+    answer: "P",
+    options: ["P", "R", "S"],
+  },
+  {
+    pattern: ["R", "R", "S", "S", "?"],
+    answer: "T",
+    options: ["T", "U", "Q"],
+  },
+  {
+    pattern: ["W", "X", "Y", "W", "X", "?"],
+    answer: "Y",
+    options: ["Y", "Z", "V"],
+  },
+  {
+    pattern: ["B", "D", "B", "D", "?"],
+    answer: "B",
+    options: ["B", "C", "E"],
+  },
+  {
+    pattern: ["H", "I", "J", "H", "I", "?"],
+    answer: "J",
+    options: ["J", "K", "L"],
+  },
+  {
+    pattern: ["M", "N", "O", "M", "N", "?"],
+    answer: "O",
+    options: ["O", "P", "Q"],
+  },
+  {
+    pattern: ["T", "U", "T", "U", "?"],
+    answer: "T",
+    options: ["T", "V", "W"],
+  },
+  {
+    pattern: ["D", "E", "F", "D", "E", "?"],
+    answer: "F",
+    options: ["F", "G", "H"],
+  },
+];
+
+const NUMBER_QUESTIONS = [
+  {
+    pattern: ["1", "2", "1", "2", "?"],
+    answer: "1",
+    options: ["1", "3", "4"],
+  },
+  {
+    pattern: ["3", "3", "4", "4", "?"],
+    answer: "5",
+    options: ["5", "6", "2"],
+  },
+  {
+    pattern: ["5", "6", "5", "6", "?"],
+    answer: "5",
+    options: ["5", "7", "8"],
+  },
+  {
+    pattern: ["2", "4", "6", "2", "4", "?"],
+    answer: "6",
+    options: ["6", "8", "3"],
+  },
+  {
+    pattern: ["7", "8", "7", "8", "?"],
+    answer: "7",
+    options: ["7", "9", "6"],
+  },
+  {
+    pattern: ["1", "1", "2", "2", "?"],
+    answer: "3",
+    options: ["3", "4", "5"],
+  },
+  {
+    pattern: ["4", "5", "6", "4", "5", "?"],
+    answer: "6",
+    options: ["6", "7", "8"],
+  },
+  {
+    pattern: ["8", "9", "8", "9", "?"],
+    answer: "8",
+    options: ["8", "7", "6"],
+  },
+  {
+    pattern: ["2", "3", "4", "2", "3", "?"],
+    answer: "4",
+    options: ["4", "5", "6"],
+  },
+  {
+    pattern: ["6", "6", "7", "7", "?"],
+    answer: "8",
+    options: ["8", "9", "5"],
+  },
+  {
+    pattern: ["3", "5", "3", "5", "?"],
+    answer: "3",
+    options: ["3", "4", "6"],
+  },
+  {
+    pattern: ["4", "5", "4", "5", "?"],
+    answer: "4",
+    options: ["4", "6", "7"],
+  },
+];
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function shuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function createRoundQuestions(pool) {
+  return shuffle(pool)
+    .slice(0, TOTAL_QUESTIONS)
+    .map((question) => ({
+      pattern: [...question.pattern],
+      answer: question.answer,
+      options: shuffle(question.options),
+    }));
+}
+
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 export default function PatternMatching() {
-  const TOTAL_QUESTIONS = 5;
-
-  // 🔥 MODE
   const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const mode = query.get("mode") || "letters";
 
-  /*
-   * Each mode has its own saved game.
-   * This prevents letters and numbers progress
-   * from overwriting each other.
-   */
+  const query = new URLSearchParams(location.search);
+
+  const mode =
+    query.get("mode") === "numbers"
+      ? "numbers"
+      : "letters";
+
   const GAME_ID = `pattern-matching-${mode}`;
 
+  const pool = useMemo(
+    () =>
+      mode === "numbers"
+        ? NUMBER_QUESTIONS
+        : LETTER_QUESTIONS,
+    [mode]
+  );
+
   const initialState = {
-    pattern: [],
-    options: [],
-    answer: "",
+    questions: [],
+    questionIndex: 0,
     score: 0,
-    questionCount: 0,
-    message: "",
+    selected: "",
     completed: false,
   };
+
+  /* =========================================================
+     FIREBASE GAME PROGRESS
+  ========================================================= */
 
   const {
     savedState,
@@ -249,183 +203,109 @@ export default function PatternMatching() {
     finish,
   } = useGameProgress(GAME_ID, initialState);
 
-  const [pattern, setPattern] = useState([]);
-  const [options, setOptions] = useState([]);
-  const [answer, setAnswer] = useState("");
+  /* =========================================================
+     STATE
+  ========================================================= */
 
+  const [questions, setQuestions] = useState([]);
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [questionCount, setQuestionCount] = useState(0);
 
+  const [selected, setSelected] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(true);
 
-  const [restored, setRestored] = useState(false);
+  const [gameReady, setGameReady] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
-  // =========================================================
-  // 🤖 GENERATE QUESTION
-  // =========================================================
+  /* =========================================================
+     CURRENT QUESTION
+  ========================================================= */
 
-  const generateQuestionAI = async (shouldSave = true) => {
-    try {
-      setLoading(true);
+  const currentQuestion =
+    questions[questionIndex];
 
-      const base =
-        mode === "numbers"
-          ? ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-          : "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-      const a =
-        base[Math.floor(Math.random() * base.length)];
-
-      let b;
-
-      do {
-        b =
-          base[Math.floor(Math.random() * base.length)];
-      } while (b === a);
-
-      const type = Math.random();
-
-      let newPattern;
-      let correct;
-
-      if (type < 0.5) {
-        // ABAB_
-        newPattern = [a, b, a, b, "?"];
-        correct = a;
-      } else {
-        // AABB_
-        newPattern = [a, a, b, b, "?"];
-        correct = b;
-      }
-
-      const wrong = base
-        .filter((item) => item !== correct)
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 2);
-
-      const opts = [correct, ...wrong].sort(
-        () => 0.5 - Math.random()
-      );
-
-      setPattern(newPattern);
-      setAnswer(correct);
-      setOptions(opts);
-      setMessage("");
-
-      // 💾 Save exact generated question
-      if (shouldSave) {
-        await save({
-          pattern: newPattern,
-          options: opts,
-          answer: correct,
-          score,
-          questionCount,
-          message: "",
-          completed: false,
-        });
-      }
-    } catch (err) {
-      console.error("❌ Pattern generation error:", err);
-
-      const fallbackPattern = [
-        "A",
-        "B",
-        "A",
-        "B",
-        "?",
-      ];
-
-      const fallbackOptions = [
-        "A",
-        "C",
-        "D",
-      ];
-
-      setPattern(fallbackPattern);
-      setOptions(fallbackOptions);
-      setAnswer("A");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // =========================================================
-  // 🔥 RESTORE / START GAME
-  // =========================================================
+  /* =========================================================
+     RESTORE / START
+  ========================================================= */
 
   useEffect(() => {
     if (progressLoading) return;
-    if (!savedState) return;
-    if (restored) return;
 
-    console.log(
-      "🔥 Pattern Matching saved state:",
-      savedState
-    );
-
-    /*
-     * If saved question exists, restore it exactly.
-     */
     if (
-      savedState.pattern?.length &&
-      savedState.options?.length &&
-      savedState.answer
+      savedState &&
+      savedState.questions?.length > 0 &&
+      savedState.questionIndex !== undefined
     ) {
-      setPattern(savedState.pattern);
-      setOptions(savedState.options);
-      setAnswer(savedState.answer);
-
-      setScore(savedState.score || 0);
-      setQuestionCount(
-        savedState.questionCount || 0
+      console.log(
+        "🔄 Restoring Pattern Matching:",
+        savedState
       );
 
-      setMessage(savedState.message || "");
+      setQuestions(savedState.questions);
+      setQuestionIndex(
+        savedState.questionIndex || 0
+      );
+      setScore(savedState.score || 0);
+      setSelected("");
       setCompleted(
         Boolean(savedState.completed)
       );
 
-      setLoading(false);
-      setRestored(true);
+      setGameReady(true);
 
       return;
     }
 
-    /*
-     * No saved question → generate first question.
-     */
-    setRestored(true);
+    /* =====================================================
+       NEW GAME
+    ===================================================== */
 
-    const startGame = async () => {
-      await generateQuestionAI(false);
-    };
+    const newQuestions =
+      createRoundQuestions(pool);
 
-    startGame();
-  }, [
-    progressLoading,
-    savedState,
-    restored,
-  ]);
+    console.log(
+      "🧠 New Pattern Matching round:",
+      newQuestions
+    );
 
-  // =========================================================
-  // ☁️ SAVE GAME RESULT
-  // =========================================================
+    setQuestions(newQuestions);
+    setQuestionIndex(0);
+    setScore(0);
+    setSelected("");
+    setMessage("");
+    setCompleted(false);
 
-  const saveScoreToFirestore = async (
-    finalScore
-  ) => {
+    setGameReady(true);
+
+    // Save in background.
+    save({
+      questions: newQuestions,
+      questionIndex: 0,
+      score: 0,
+      selected: "",
+      completed: false,
+    });
+  }, [progressLoading, savedState, pool]);
+
+  /* =========================================================
+     SAVE RESULT
+  ========================================================= */
+
+  const saveGameResult = async (finalScore) => {
     try {
       const userId =
         localStorage.getItem("userId");
 
       if (!userId) {
-        console.log(
-          "❌ No userId found for game result"
+        console.warn(
+          "⚠️ No userId found. Result not saved."
         );
         return;
       }
+
+      const accuracy =
+        (finalScore / TOTAL_QUESTIONS) * 100;
 
       const userRef = doc(
         db,
@@ -433,20 +313,18 @@ export default function PatternMatching() {
         userId
       );
 
-      const gameResultsRef = collection(
+      const resultsRef = collection(
         userRef,
         "game_results"
       );
 
-      const accuracy =
-        (finalScore / TOTAL_QUESTIONS) * 100;
-
-      await addDoc(gameResultsRef, {
+      await addDoc(resultsRef, {
+        game: `PatternMatching_${mode}`,
         score: finalScore,
         totalQuestions: TOTAL_QUESTIONS,
-        accuracy: accuracy.toFixed(2),
+        accuracy: Number(accuracy.toFixed(2)),
+        mode,
         createdAt: Timestamp.now(),
-        game: `PatternMatching_${mode}`,
       });
 
       console.log(
@@ -454,367 +332,510 @@ export default function PatternMatching() {
       );
     } catch (error) {
       console.error(
-        "❌ Failed to save game result:",
+        "❌ Pattern result save failed:",
         error
       );
     }
   };
 
-  // =========================================================
-  // 🎯 ANSWER
-  // =========================================================
+  /* =========================================================
+     ANSWER
+  ========================================================= */
 
-  const handleClick = async (item) => {
-    if (loading) return;
-
-    if (questionCount >= TOTAL_QUESTIONS) {
+  const handleAnswer = async (option) => {
+    if (
+      processing ||
+      completed ||
+      !currentQuestion
+    ) {
       return;
     }
 
-    const isCorrect = item === answer;
+    setProcessing(true);
+    setSelected(option);
+
+    const isCorrect =
+      option === currentQuestion.answer;
 
     const updatedScore = isCorrect
       ? score + 1
       : score;
 
-    const nextQuestion =
-      questionCount + 1;
+    setScore(updatedScore);
 
     setMessage(
       isCorrect
-        ? "✅ Correct!"
-        : "❌ Try again!"
+        ? "🎉 Correct! Amazing thinking!"
+        : `💡 Nice try! The answer is ${currentQuestion.answer}.`
     );
 
-    // Prevent multiple clicks during delay
-    setLoading(true);
+    const isLast =
+      questionIndex ===
+      TOTAL_QUESTIONS - 1;
 
-    setTimeout(async () => {
-      try {
-        setMessage("");
+    /* =====================================================
+       LAST QUESTION
+    ===================================================== */
 
-        // =================================================
-        // 🏁 FINAL QUESTION
-        // =================================================
+    if (isLast) {
+      const percentage =
+        (updatedScore / TOTAL_QUESTIONS) * 100;
 
-        if (
-          nextQuestion ===
-          TOTAL_QUESTIONS
-        ) {
-          const percentage =
-            (updatedScore /
-              TOTAL_QUESTIONS) *
-            100;
+      // Save result first.
+      await saveGameResult(updatedScore);
 
-          console.log(
-            "🏁 Pattern Matching completed:",
-            {
-              updatedScore,
-              percentage,
-            }
-          );
+      // Save completion state BEFORE finish().
+      await save({
+        questions,
+        questionIndex,
+        score: updatedScore,
+        selected: option,
+        completed: true,
+      });
 
-          // Save individual game result
-          await saveScoreToFirestore(
-            updatedScore
-          );
+      // ⭐ Adds stars + clears active game.
+      await finish(
+        percentage,
+        `Pattern Matching (${mode})`
+      );
 
-          // ⭐ Add stars + history
-          await finish(
-            percentage,
-            `Pattern Matching (${mode})`
-          );
+      setTimeout(() => {
+        setCompleted(true);
+        setProcessing(false);
+      }, 650);
 
-          setCompleted(true);
+      return;
+    }
 
-          await save({
-            pattern: [],
-            options: [],
-            answer: "",
-            score: updatedScore,
-            questionCount: TOTAL_QUESTIONS,
-            message: "",
-            completed: true,
-          });
+    /* =====================================================
+       NEXT QUESTION
+    ===================================================== */
 
-          alert(
-            `🎯 Completed!\nScore: ${updatedScore}/5`
-          );
+    const nextIndex =
+      questionIndex + 1;
 
-          return;
-        }
+    await save({
+      questions,
+      questionIndex: nextIndex,
+      score: updatedScore,
+      selected: "",
+      completed: false,
+    });
 
-        // =================================================
-        // ➡️ NEXT QUESTION
-        // =================================================
-
-        setScore(updatedScore);
-        setQuestionCount(nextQuestion);
-
-        /*
-         * Generate the next question first.
-         */
-        const base =
-          mode === "numbers"
-            ? [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-              ]
-            : "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-        const a =
-          base[
-            Math.floor(
-              Math.random() * base.length
-            )
-          ];
-
-        let b;
-
-        do {
-          b =
-            base[
-              Math.floor(
-                Math.random() *
-                  base.length
-              )
-            ];
-        } while (b === a);
-
-        const type = Math.random();
-
-        let newPattern;
-        let correct;
-
-        if (type < 0.5) {
-          newPattern = [
-            a,
-            b,
-            a,
-            b,
-            "?",
-          ];
-
-          correct = a;
-        } else {
-          newPattern = [
-            a,
-            a,
-            b,
-            b,
-            "?",
-          ];
-
-          correct = b;
-        }
-
-        const wrong = base
-          .filter(
-            (item) => item !== correct
-          )
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 2);
-
-        const newOptions = [
-          correct,
-          ...wrong,
-        ].sort(() => 0.5 - Math.random());
-
-        setPattern(newPattern);
-        setAnswer(correct);
-        setOptions(newOptions);
-
-        // 💾 Save exact next question
-        await save({
-          pattern: newPattern,
-          options: newOptions,
-          answer: correct,
-          score: updatedScore,
-          questionCount: nextQuestion,
-          message: "",
-          completed: false,
-        });
-      } catch (error) {
-        console.error(
-          "❌ Error moving to next question:",
-          error
-        );
-      } finally {
-        setLoading(false);
-      }
-    }, 800);
+    setTimeout(() => {
+      setQuestionIndex(nextIndex);
+      setSelected("");
+      setMessage("");
+      setProcessing(false);
+    }, 650);
   };
 
-  // =========================================================
-  // 📊 PERFORMANCE
-  // =========================================================
+  /* =========================================================
+     PLAY AGAIN
+  ========================================================= */
+
+  const playAgain = async () => {
+    const newQuestions =
+      createRoundQuestions(pool);
+
+    setQuestions(newQuestions);
+    setQuestionIndex(0);
+    setScore(0);
+    setSelected("");
+    setMessage("");
+    setCompleted(false);
+    setProcessing(false);
+
+    await save({
+      questions: newQuestions,
+      questionIndex: 0,
+      score: 0,
+      selected: "",
+      completed: false,
+    });
+  };
+
+  /* =========================================================
+     PERFORMANCE
+  ========================================================= */
 
   const getPerformanceMessage = () => {
-    if (questionCount === 0) {
-      return "";
+    if (score === 5) {
+      return "🌟 Pattern Superstar!";
     }
 
-    const accuracy =
-      (score / questionCount) * 100;
-
-    if (accuracy > 80) {
-      return "🌟 Pattern Genius!";
+    if (score >= 4) {
+      return "🎉 Excellent pattern spotting!";
     }
 
-    if (accuracy > 50) {
-      return "👍 Nice thinking!";
+    if (score >= 3) {
+      return "👏 Great thinking!";
     }
 
-    return "💡 Practice patterns!";
+    if (score >= 2) {
+      return "💪 Keep practicing!";
+    }
+
+    return "🌱 Every pattern helps you learn!";
   };
 
-  // =========================================================
-  // ⏳ FIREBASE LOADING
-  // =========================================================
+  /* =========================================================
+     LOADING
+  ========================================================= */
 
-  if (progressLoading || !restored) {
+  if (progressLoading || !gameReady) {
     return (
-      <div className="blend-container">
-        <h2>
-          🧠 Pattern Matching ({mode})
-        </h2>
+      <div className="pattern-page">
+        <div className="pattern-loading">
 
-        <p>Loading your game... 🌱</p>
+          <div className="pattern-loading-icon">
+            🧠
+          </div>
+
+          <h2>
+            Getting your puzzle ready...
+          </h2>
+
+          <p>
+            Your pattern adventure is starting ✨
+          </p>
+
+        </div>
       </div>
     );
   }
 
-  // =========================================================
-  // 🏆 COMPLETED
-  // =========================================================
+  /* =========================================================
+     COMPLETED
+  ========================================================= */
 
   if (completed) {
-    const percentage =
-      (score / TOTAL_QUESTIONS) * 100;
+    const percentage = Math.round(
+      (score / TOTAL_QUESTIONS) * 100
+    );
 
     return (
-      <div className="blend-container">
+      <div className="pattern-page">
 
-        <h2>
-          🎉 Pattern Matching Complete!
-        </h2>
+        <div className="pattern-complete">
 
-        <div className="game-info">
-          Score: {score}/{TOTAL_QUESTIONS}
-        </div>
+          <div className="pattern-complete-icon">
+            {percentage === 100
+              ? "🏆"
+              : percentage >= 60
+                ? "🌟"
+                : "🌱"}
+          </div>
 
-        <div className="ai-analysis">
+          <h1>
+            Pattern Adventure Complete!
+          </h1>
+
           <p>
-            {percentage > 80
-              ? "🌟 Pattern Genius!"
-              : percentage > 50
-              ? "👍 Nice thinking!"
-              : "💡 Keep practicing!"}
+            You did a wonderful job spotting
+            the patterns.
           </p>
+
+          <div className="pattern-result">
+
+            <div>
+              <strong>
+                {score}/{TOTAL_QUESTIONS}
+              </strong>
+
+              <span>
+                Score
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                {percentage}%
+              </strong>
+
+              <span>
+                Accuracy
+              </span>
+            </div>
+
+          </div>
+
+          <div className="pattern-stars">
+            {percentage >= 90
+              ? "⭐⭐⭐"
+              : percentage >= 70
+                ? "⭐⭐"
+                : "⭐"}
+          </div>
+
+          <div className="pattern-performance">
+            {getPerformanceMessage()}
+          </div>
+
+          <button
+            className="pattern-play-again"
+            onClick={playAgain}
+          >
+            🔄 Play Again
+          </button>
+
         </div>
-
-        <button
-          onClick={async () => {
-            setScore(0);
-            setQuestionCount(0);
-            setCompleted(false);
-            setMessage("");
-
-            await generateQuestionAI(false);
-
-            await save({
-              pattern: [],
-              options: [],
-              answer: "",
-              score: 0,
-              questionCount: 0,
-              message: "",
-              completed: false,
-            });
-          }}
-        >
-          🔄 Play Again
-        </button>
 
       </div>
     );
   }
 
-  // =========================================================
-  // 🎮 UI
-  // =========================================================
+  /* =========================================================
+     MAIN UI
+  ========================================================= */
 
   return (
-    <div className="blend-container">
+    <div className="pattern-page">
 
-      <h2>
-        🧠 Pattern Matching ({mode})
-      </h2>
-
-      <div className="game-info">
-        Question{" "}
-        {questionCount + 1}/
-        {TOTAL_QUESTIONS} | Score:{" "}
-        {score}
+      <div className="pattern-decoration pattern-star">
+        ⭐
       </div>
 
-      {/* PATTERN */}
-      <div className="sounds">
+      <div className="pattern-decoration pattern-brain">
+        🧠
+      </div>
 
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          pattern.map((item, i) => (
-            <span
-              key={i}
-              className="sound-box"
-            >
-              {item}
+      <main className="pattern-container">
+
+        {/* HEADER */}
+
+        <header className="pattern-header">
+
+          <div className="pattern-icon">
+            🧠
+          </div>
+
+          <div>
+            <h1>
+              Pattern Matching
+            </h1>
+
+            <p>
+              {mode === "numbers"
+                ? "Look at the numbers and discover what comes next!"
+                : "Look at the letters and discover what comes next!"}
+            </p>
+          </div>
+
+        </header>
+
+        {/* STATS */}
+
+        <section className="pattern-stats">
+
+          <div className="pattern-stat">
+
+            <div className="pattern-stat-icon">
+              🧩
+            </div>
+
+            <div>
+              <small>
+                QUESTION
+              </small>
+
+              <strong>
+                {questionIndex + 1}
+                <span>
+                  /{TOTAL_QUESTIONS}
+                </span>
+              </strong>
+            </div>
+
+          </div>
+
+          <div className="pattern-stat">
+
+            <div className="pattern-stat-icon">
+              ⭐
+            </div>
+
+            <div>
+              <small>
+                SCORE
+              </small>
+
+              <strong>
+                {score}
+              </strong>
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* PROGRESS */}
+
+        <section className="pattern-progress">
+
+          <div className="pattern-progress-top">
+
+            <span>
+              Your puzzle journey
             </span>
-          ))
-        )}
 
-      </div>
+            <strong>
+              {Math.round(
+                ((questionIndex) /
+                  TOTAL_QUESTIONS) *
+                  100
+              )}
+              %
+            </strong>
 
-      <h3>
-        What comes next?
-      </h3>
+          </div>
 
-      {/* OPTIONS */}
-      <div className="options">
+          <div className="pattern-progress-track">
 
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          options.map((opt, i) => (
-            <button
-              key={i}
-              onClick={() =>
-                handleClick(opt)
+            <div
+              className="pattern-progress-fill"
+              style={{
+                width: `${
+                  (questionIndex /
+                    TOTAL_QUESTIONS) *
+                  100
+                }%`,
+              }}
+            />
+
+          </div>
+
+        </section>
+
+        {/* GAME */}
+
+        <section className="pattern-game">
+
+          <div className="pattern-badge">
+            👀 Look carefully!
+          </div>
+
+          <h2>
+            What comes next?
+          </h2>
+
+          <p className="pattern-instruction">
+            Find the pattern and choose
+            the missing item.
+          </p>
+
+          {/* PATTERN */}
+
+          <div className="pattern-row">
+
+            {currentQuestion?.pattern.map(
+              (item, index) => (
+
+                <div
+                  key={`${item}-${index}`}
+                  className={
+                    item === "?"
+                      ? "pattern-box pattern-question"
+                      : "pattern-box"
+                  }
+                >
+                  {item}
+                </div>
+
+              )
+            )}
+
+          </div>
+
+          {/* OPTIONS */}
+
+          <h3>
+            Choose your answer
+          </h3>
+
+          <div className="pattern-options">
+
+            {currentQuestion?.options.map(
+              (option, index) => {
+
+                const isSelected =
+                  selected === option;
+
+                const isCorrect =
+                  isSelected &&
+                  option ===
+                    currentQuestion.answer;
+
+                const isWrong =
+                  isSelected &&
+                  option !==
+                    currentQuestion.answer;
+
+                return (
+                  <button
+                    key={`${option}-${index}`}
+                    className={`
+                      pattern-option
+                      ${isCorrect ? "correct" : ""}
+                      ${isWrong ? "wrong" : ""}
+                    `}
+                    onClick={() =>
+                      handleAnswer(option)
+                    }
+                    disabled={
+                      processing ||
+                      Boolean(selected)
+                    }
+                  >
+                    {option}
+                  </button>
+                );
               }
-              disabled={loading}
-            >
-              {opt}
-            </button>
-          ))
-        )}
+            )}
 
-      </div>
+          </div>
 
-      <p>{message}</p>
+          {/* MESSAGE */}
 
-      <div className="ai-analysis">
-        <p>
-          {getPerformanceMessage()}
-        </p>
-      </div>
+          <div className="pattern-message">
+
+            {message ? (
+              <p>
+                {message}
+              </p>
+            ) : (
+              <p>
+                💡 Take your time and look
+                for the repeating pattern.
+              </p>
+            )}
+
+          </div>
+
+        </section>
+
+        {/* TIP */}
+
+        <section className="pattern-tip">
+
+          <div>
+            💡
+          </div>
+
+          <div>
+            <strong>
+              Pattern detective tip
+            </strong>
+
+            <p>
+              Look for things that repeat,
+              alternate, or follow a sequence.
+            </p>
+          </div>
+
+        </section>
+
+      </main>
 
     </div>
   );

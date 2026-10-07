@@ -1,0 +1,1241 @@
+* {
+  box-sizing: border-box;
+}
+
+.missing-page {
+  min-height: 100vh;
+  width: 100%;
+
+  padding: 28px 20px 60px;
+
+  background:
+    radial-gradient(
+      circle at 8% 18%,
+      rgba(244, 221, 255, 0.7),
+      transparent 23%
+    ),
+    radial-gradient(
+      circle at 92% 15%,
+      rgba(255, 237, 182, 0.65),
+      transparent 24%
+    ),
+    linear-gradient(
+      135deg,
+      #f9fbff 0%,
+      #f5f8ff 45%,
+      #f8f4ff 100%
+    );
+
+  color: #29364f;
+
+  font-family:
+    "Nunito",
+    "Poppins",
+    Arial,
+    sans-serif;
+}
+
+.missing-shell {
+  width: min(940px, 100%);
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.missing-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 25px 28px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid rgba(214, 220, 239, 0.7);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 15px 45px rgba(68, 75, 113, 0.08);
+
+  margin-bottom: 16px;
+}
+
+.detective-badge {
+  width: 66px;
+  height: 66px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      #efe1ff,
+      #e0d0ff
+    );
+
+  border-radius: 21px;
+
+  font-size: 33px;
+
+  box-shadow:
+    inset 0 1px 0 white;
+}
+
+.eyebrow {
+  margin: 0 0 3px;
+
+  color: #9b82bf;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+}
+
+.missing-header h1 {
+  margin: 0;
+
+  color: #394467;
+
+  font-size: clamp(28px, 5vw, 42px);
+
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+.missing-header p:last-child {
+  margin: 8px 0 0;
+
+  color: #7d879c;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.missing-stats {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 14px;
+
+  margin-bottom: 14px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 16px 20px;
+
+  background: white;
+
+  border-radius: 21px;
+
+  box-shadow:
+    0 9px 27px rgba(67, 75, 105, 0.07);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  font-size: 22px;
+}
+
+.stat-icon.purple {
+  background: #f0e8ff;
+}
+
+.stat-icon.yellow {
+  background: #fff3c8;
+}
+
+.stat-card span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #9ba3b4;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.stat-card strong {
+  color: #45506e;
+
+  font-size: 24px;
+
+  font-weight: 900;
+}
+
+.stat-card strong small {
+  color: #a4aaba;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.missing-progress {
+  padding: 15px 19px;
+
+  margin-bottom: 17px;
+
+  background: white;
+
+  border-radius: 19px;
+
+  box-shadow:
+    0 8px 22px rgba(67, 75, 105, 0.06);
+}
+
+.progress-heading {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+
+  color: #7c879b;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+.progress-heading strong {
+  color: #8d74bb;
+}
+
+.progress-track {
+  height: 8px;
+
+  overflow: hidden;
+
+  background: #eceef5;
+
+  border-radius: 20px;
+}
+
+.progress-value {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #b49ae4,
+      #8ec5d5
+    );
+
+  border-radius: 20px;
+
+  transition:
+    width 0.4s ease;
+}
+
+/* =========================================================
+   MAIN DETECTIVE CARD
+========================================================= */
+
+.detective-card {
+  position: relative;
+
+  padding: 38px 35px 42px;
+
+  background: white;
+
+  border-radius: 34px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 55px rgba(63, 70, 105, 0.1);
+
+  overflow: hidden;
+}
+
+.detective-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+  height: 190px;
+
+  top: -110px;
+  right: -80px;
+
+  background: #eee6ff;
+
+  border-radius: 50%;
+
+  opacity: 0.7;
+}
+
+.detective-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  bottom: -75px;
+  left: -55px;
+
+  background: #fff1c9;
+
+  border-radius: 50%;
+
+  opacity: 0.7;
+}
+
+/* =========================================================
+   CASE TAG
+========================================================= */
+
+.case-tag {
+  position: relative;
+
+  z-index: 1;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 8px 15px;
+
+  margin-bottom: 13px;
+
+  background: #f1eaff;
+
+  color: #8b70b5;
+
+  border-radius: 50px;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+}
+
+.detective-card h2 {
+  position: relative;
+
+  z-index: 1;
+
+  margin: 0;
+
+  color: #3c4662;
+
+  font-size: clamp(25px, 4vw, 32px);
+
+  font-weight: 900;
+}
+
+.question-description {
+  position: relative;
+
+  z-index: 1;
+
+  max-width: 500px;
+
+  margin: 8px auto 26px;
+
+  color: #8b94a6;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   MYSTERY WORD
+========================================================= */
+
+.mystery-word {
+  position: relative;
+
+  z-index: 1;
+
+  min-height: 115px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  margin: 0 auto 25px;
+
+  padding: 18px 25px;
+
+  width: fit-content;
+
+  max-width: 100%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #faf8ff,
+      #f4f8ff
+    );
+
+  border: 2px solid #ece8f7;
+
+  border-radius: 25px;
+
+  box-shadow:
+    inset 0 2px 5px rgba(70, 75, 110, 0.03);
+}
+
+.normal-letter {
+  min-width: 56px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #414b68;
+
+  font-size: clamp(35px, 7vw, 52px);
+
+  font-weight: 900;
+}
+
+.mystery-letter {
+  min-width: 64px;
+  height: 74px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff4c8,
+      #ffe8a4
+    );
+
+  color: #b18a2d;
+
+  border: 3px dashed #d7b95c;
+
+  border-radius: 18px;
+
+  font-size: clamp(32px, 6vw, 47px);
+
+  font-weight: 900;
+
+  animation:
+    mysteryPulse 1.8s
+    infinite ease-in-out;
+}
+
+@keyframes mysteryPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+.word-loading {
+  font-size: 42px;
+
+  animation:
+    detectiveSpin 1s
+    infinite linear;
+}
+
+@keyframes detectiveSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   HINT
+========================================================= */
+
+.detective-hint {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: min(550px, 100%);
+
+  margin: 0 auto 28px;
+
+  padding: 14px 17px;
+
+  background: #fffaf0;
+
+  border: 1px solid #f5e9c8;
+
+  border-radius: 18px;
+
+  text-align: left;
+}
+
+.hint-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background: #fff0b9;
+
+  border-radius: 13px;
+
+  font-size: 20px;
+}
+
+.detective-hint strong {
+  display: block;
+
+  color: #826d39;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+.detective-hint p {
+  margin: 3px 0 0;
+
+  color: #9b8b67;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   ANSWER AREA
+========================================================= */
+
+.answer-heading {
+  position: relative;
+
+  z-index: 1;
+
+  margin-bottom: 17px;
+
+  color: #68728a;
+
+  font-size: 14px;
+
+  font-weight: 900;
+}
+
+.letter-circles {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 17px;
+}
+
+.letter-circle {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  color: white;
+
+  font-size: 27px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 7px 0 rgba(70, 75, 110, 0.16),
+    0 12px 22px rgba(67, 74, 104, 0.1);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.letter-circle:hover:not(:disabled) {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 11px 0 rgba(70, 75, 110, 0.16),
+    0 18px 27px rgba(67, 74, 104, 0.14);
+}
+
+.letter-circle:active:not(:disabled) {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 3px 0 rgba(70, 75, 110, 0.16);
+}
+
+.circle-0 {
+  background:
+    linear-gradient(
+      145deg,
+      #8f7cc4,
+      #7462ad
+    );
+}
+
+.circle-1 {
+  background:
+    linear-gradient(
+      145deg,
+      #77aeb9,
+      #5796a3
+    );
+}
+
+.circle-2 {
+  background:
+    linear-gradient(
+      145deg,
+      #e0aa55,
+      #cc8e34
+    );
+}
+
+.circle-3 {
+  background:
+    linear-gradient(
+      145deg,
+      #d58a9d,
+      #c36d85
+    );
+}
+
+.letter-circle:disabled {
+  cursor: default;
+}
+
+.letter-correct {
+  background:
+    linear-gradient(
+      145deg,
+      #83c779,
+      #55aa62
+    ) !important;
+
+  animation:
+    correctPop 0.35s ease;
+}
+
+.letter-wrong {
+  background:
+    linear-gradient(
+      145deg,
+      #dc9a8b,
+      #c87967
+    ) !important;
+
+  animation:
+    wrongShake 0.35s ease;
+}
+
+@keyframes correctPop {
+  0% {
+    transform: scale(1);
+  }
+
+  55% {
+    transform: scale(1.16);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes wrongShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-6px);
+  }
+
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.answer-feedback {
+  position: relative;
+
+  z-index: 1;
+
+  width: fit-content;
+
+  max-width: 90%;
+
+  margin: 22px auto 0;
+
+  padding: 11px 18px;
+
+  border-radius: 50px;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+.correct-feedback {
+  background: #e5f6e0;
+
+  color: #4c8b4e;
+}
+
+.wrong-feedback {
+  background: #fff0eb;
+
+  color: #a96354;
+}
+
+/* =========================================================
+   BOTTOM TIP
+========================================================= */
+
+.detective-tip {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 16px;
+
+  color: #929bad;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  text-align: center;
+}
+
+.detective-tip p {
+  margin: 0;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.missing-loading {
+  min-height: 75vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+.detective-icon {
+  width: 90px;
+  height: 90px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #eee5ff;
+
+  border-radius: 30px;
+
+  font-size: 45px;
+
+  animation:
+    floatDetective 1.8s
+    infinite ease-in-out;
+}
+
+@keyframes floatDetective {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+.missing-loading h2 {
+  margin: 20px 0 7px;
+
+  color: #454f6c;
+
+  font-size: 22px;
+
+  font-weight: 900;
+}
+
+.missing-loading p {
+  margin: 0;
+
+  color: #929bac;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+.loading-dots {
+  display: flex;
+
+  gap: 6px;
+
+  margin-top: 18px;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+
+  background: #9b86c6;
+
+  border-radius: 50%;
+
+  animation:
+    loadingDot 1s
+    infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes loadingDot {
+  0%,
+  100% {
+    transform: translateY(0);
+
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-6px);
+
+    opacity: 1;
+  }
+}
+
+.answer-loading {
+  padding: 18px;
+
+  color: #8e98aa;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+.completion-card {
+  max-width: 650px;
+
+  margin: 60px auto 0;
+
+  padding: 45px 30px;
+
+  background: white;
+
+  border-radius: 34px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 55px rgba(63, 70, 105, 0.1);
+}
+
+.completion-icon {
+  width: 92px;
+  height: 92px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff1b7,
+      #ffe4a0
+    );
+
+  border-radius: 50%;
+
+  font-size: 45px;
+}
+
+.completion-stars {
+  margin-bottom: 13px;
+
+  font-size: 17px;
+
+  letter-spacing: 3px;
+}
+
+.completion-label {
+  margin: 0;
+
+  color: #a08bc1;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+.completion-card h1 {
+  margin: 7px 0;
+
+  color: #3e4864;
+
+  font-size: clamp(29px, 5vw, 40px);
+
+  font-weight: 900;
+}
+
+.completion-subtitle {
+  margin: 0 0 24px;
+
+  color: #8a94a6;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+.final-score {
+  padding: 18px;
+
+  margin-bottom: 15px;
+
+  background: #f7f5ff;
+
+  border-radius: 22px;
+}
+
+.final-score span {
+  display: block;
+
+  color: #8d91a4;
+
+  font-size: 11px;
+
+  font-weight: 900;
+}
+
+.final-score strong {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #7561a7;
+
+  font-size: 42px;
+
+  font-weight: 900;
+}
+
+.final-score small {
+  color: #a9a6b7;
+
+  font-size: 18px;
+}
+
+.performance-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 15px;
+
+  margin-bottom: 20px;
+
+  background: #fffaf0;
+
+  border-radius: 18px;
+
+  text-align: left;
+}
+
+.performance-emoji {
+  font-size: 30px;
+}
+
+.performance-card strong {
+  color: #625b72;
+
+  font-size: 13px;
+
+  font-weight: 900;
+}
+
+.performance-card p {
+  margin: 3px 0 0;
+
+  color: #958c9f;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+.play-again-btn {
+  padding: 14px 24px;
+
+  border: 0;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #806db2,
+      #668fa8
+    );
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px rgba(100, 87, 144, 0.2);
+
+  transition: 0.18s ease;
+}
+
+.play-again-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .missing-page {
+    padding: 14px 11px 35px;
+  }
+
+  .missing-header {
+    padding: 18px;
+
+    gap: 13px;
+
+    border-radius: 22px;
+  }
+
+  .detective-badge {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 16px;
+
+    font-size: 26px;
+  }
+
+  .missing-header h1 {
+    font-size: 27px;
+  }
+
+  .missing-header p:last-child {
+    font-size: 11px;
+  }
+
+  .missing-stats {
+    gap: 9px;
+  }
+
+  .stat-card {
+    padding: 12px;
+
+    gap: 9px;
+  }
+
+  .stat-icon {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 12px;
+
+    font-size: 17px;
+  }
+
+  .stat-card strong {
+    font-size: 20px;
+  }
+
+  .detective-card {
+    padding: 28px 14px 32px;
+
+    border-radius: 25px;
+  }
+
+  .mystery-word {
+    gap: 5px;
+
+    padding: 12px;
+
+    border-radius: 20px;
+  }
+
+  .normal-letter {
+    min-width: 43px;
+    height: 58px;
+
+    font-size: 32px;
+  }
+
+  .mystery-letter {
+    min-width: 49px;
+    height: 62px;
+
+    font-size: 29px;
+  }
+
+  .detective-hint {
+    text-align: left;
+
+    padding: 12px;
+  }
+
+  .letter-circles {
+    gap: 12px;
+  }
+
+  .letter-circle {
+    width: 66px;
+    height: 66px;
+
+    font-size: 23px;
+  }
+
+  .completion-card {
+    margin-top: 25px;
+
+    padding: 35px 20px;
+
+    border-radius: 27px;
+  }
+}
+
+@media (max-width: 400px) {
+  .letter-circle {
+    width: 59px;
+    height: 59px;
+
+    font-size: 21px;
+  }
+
+  .normal-letter {
+    min-width: 37px;
+  }
+
+  .mystery-letter {
+    min-width: 43px;
+  }
+}

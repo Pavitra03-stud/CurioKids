@@ -313,13 +313,13 @@ export default function PracticeHome({ initialZone }) {
         route: "/memory-match?mode=numbers",
       },
       {
-        title: "Spot Difference (Letters)",
+        title: "Spot Difference",
         route: "/spot-difference?mode=letters",
       },
-      {
-        title: "Spot Difference (Numbers)",
-        route: "/spot-difference?mode=numbers",
-      },
+      // {
+      //   title: "Spot Difference (Numbers)",
+      //   route: "/spot-difference?mode=numbers",
+      // },
       {
         title: "Find Hidden (Letters)",
         route: "/find-hidden?mode=letters",

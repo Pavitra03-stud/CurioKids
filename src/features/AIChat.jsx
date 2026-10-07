@@ -516,13 +516,22 @@ export default function AIChat() {
       prompt,
       type: "chat",
 
-      context: {
-        childName,
-        stars,
-        streak,
-        recentHistory: history.slice(-10),
-        activeGames,
-      },
+     context: {
+  childName,
+  stars,
+  streak,
+
+  progressSummary: {
+    totalActivities: history.length,
+    recentActivities: history.slice(-5),
+    activeGames:
+      activeGames && typeof activeGames === "object"
+        ? Object.entries(activeGames).slice(0, 5)
+        : [],
+  },
+
+  conversation: chatHistory.slice(-4),
+},
     }),
     });
 
@@ -663,8 +672,25 @@ export default function AIChat() {
   "Catch Word": "/catch-word",
   "Fill Bucket": "/fill-bucket",
   "Weather Clothes": "/weather-clothes",
+  "Choose Friend": "/choose-friend",
 };
 const renderAIText = (text) => {
+  const formatBoldText = (value) => {
+    const parts = value.split(/(\*\*.*?\*\*)/g);
+
+    return parts.map((part, i) => {
+      if (part.startsWith("**") && part.endsWith("**")) {
+        return (
+          <strong key={i}>
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+
+      return part;
+    });
+  };
+
   return text.split("\n").map((line, index) => {
     const trimmed = line.trim();
 
@@ -679,7 +705,6 @@ const renderAIText = (text) => {
       const gameName = gameMatch[1].trim();
       const gamePath = CURIOKIDS_GAMES[gameName];
 
-      // Only create a link if the game is approved
       if (!gamePath) {
         return null;
       }
@@ -693,11 +718,11 @@ const renderAIText = (text) => {
       );
     }
 
-    // 🏷️ Bold heading
+    // 🏷️ Heading
     if (trimmed.startsWith("**") && trimmed.endsWith("**")) {
       return (
         <div key={index} className="ai-heading">
-          {trimmed.slice(2, -2)}
+          {formatBoldText(trimmed)}
         </div>
       );
     }
@@ -706,7 +731,7 @@ const renderAIText = (text) => {
     if (trimmed.startsWith("- ")) {
       return (
         <div key={index} className="ai-bullet">
-          • {trimmed.slice(2)}
+          • {formatBoldText(trimmed.slice(2))}
         </div>
       );
     }
@@ -714,7 +739,7 @@ const renderAIText = (text) => {
     // Normal text
     return (
       <div key={index} className="ai-line">
-        {trimmed}
+        {formatBoldText(trimmed)}
       </div>
     );
   });

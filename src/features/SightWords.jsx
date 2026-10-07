@@ -1,187 +1,27 @@
-// import { useState, useEffect } from "react";
-// import "../styles/BlendSounds.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// export default function SightWords() {
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   const [emoji, setEmoji] = useState("");
-//   const [options, setOptions] = useState([]);
-//   const [correctAnswer, setCorrectAnswer] = useState("");
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const [message, setMessage] = useState("");
-//   const [loading, setLoading] = useState(true);
-
-//   // 🤖 AI QUESTION
-//   const generateQuestionAI = async () => {
-//     try {
-//       setLoading(true);
-
-//       const res = await fetch("http://localhost:5000/api/generate-sight-word", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       });
-
-//       const data = await res.json();
-
-//       if (!data.emoji || !data.options || !data.answer) {
-//         throw new Error("Invalid data");
-//       }
-
-//       setEmoji(data.emoji);
-//       setOptions(data.options);
-//       setCorrectAnswer(data.answer);
-
-//     } catch (err) {
-//       console.error(err);
-
-//       setEmoji("🐱");
-//       setOptions(["cat","dog","sun","pen"]);
-//       setCorrectAnswer("cat");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     generateQuestionAI();
-//   }, []);
-
-//   // ☁️ SAVE
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user";
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: "SightWords_AI"
-//       });
-
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   // 🎯 HANDLE CLICK
-//   const handleClick = (word) => {
-
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = word === correctAnswer;
-//     const updatedScore = isCorrect ? score + 1 : score;
-
-//     setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
-
-//     setTimeout(async () => {
-
-//       setMessage("");
-
-//       const next = questionCount + 1;
-//       setQuestionCount(next);
-
-//       if (next === TOTAL_QUESTIONS) {
-
-//         await saveScoreToFirestore(updatedScore);
-
-//         alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
-
-//         setScore(0);
-//         setQuestionCount(0);
-//         generateQuestionAI();
-
-//       } else {
-//         setScore(updatedScore);
-//         generateQuestionAI();
-//       }
-
-//     }, 800);
-//   };
-
-//   // 📊 ANALYSIS
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Excellent reading!";
-//     if (accuracy > 50) return "👍 Good job!";
-//     return "💡 Practice more sight words!";
-//   };
-
-//   return (
-//     <div className="blend-container">
-
-//       <h2>🤖 Sight Words</h2>
-
-//       <div className="game-info">
-//         Question {questionCount + 1}/5 | Score: {score}
-//       </div>
-
-//       <div className="big-letter">
-//         {loading ? "..." : emoji}
-//       </div>
-
-//       <h3>Tap the correct word</h3>
-
-//       <div className="options">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           options.map((w, i) => (
-//             <button key={i} onClick={() => handleClick(w)}>
-//               {w}
-//             </button>
-//           ))
-//         )}
-//       </div>
-
-//       <p>{message}</p>
-
-//       <div className="ai-analysis">
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
-
-
-import { useState, useEffect } from "react";
-import "../styles/BlendSounds.css";
-
+import { useEffect, useState } from "react";
+import "../styles/SightWords.css";
 import useGameProgress from "../hooks/useGameProgress";
 
+const GAME_ID = "sight-words";
+const TOTAL_QUESTIONS = 5;
+
+const INITIAL_STATE = {
+  emoji: "",
+  options: [],
+  correctAnswer: "",
+  score: 0,
+  questionCount: 0,
+  message: "",
+  completed: false,
+};
+
 export default function SightWords() {
-  const TOTAL_QUESTIONS = 5;
-
-  const GAME_ID = "sight-words";
-
   const {
     savedState,
     loading: progressLoading,
     save,
     finish,
-  } = useGameProgress(GAME_ID);
+  } = useGameProgress(GAME_ID, INITIAL_STATE);
 
   const [emoji, setEmoji] = useState("");
   const [options, setOptions] = useState([]);
@@ -194,16 +34,22 @@ export default function SightWords() {
   const [loading, setLoading] = useState(true);
 
   const [completed, setCompleted] = useState(false);
+  const [restored, setRestored] = useState(false);
 
-  /* =====================================================
-     🤖 AI QUESTION
-  ===================================================== */
+  const [selectedWord, setSelectedWord] = useState("");
+  const [answerLocked, setAnswerLocked] = useState(false);
+
+  /*
+  ============================================================
+  🤖 AI QUESTION
+  ============================================================
+  */
 
   const generateQuestionAI = async () => {
     try {
       setLoading(true);
 
-      const res = await fetch(
+      const response = await fetch(
         "http://localhost:5000/api/generate-sight-word",
         {
           method: "POST",
@@ -213,42 +59,91 @@ export default function SightWords() {
         }
       );
 
-      const data = await res.json();
+      if (!response.ok) {
+        throw new Error("Sight word API failed");
+      }
+
+      const data = await response.json();
 
       if (
         !data.emoji ||
-        !data.options ||
+        !Array.isArray(data.options) ||
+        data.options.length < 2 ||
         !data.answer
       ) {
-        throw new Error("Invalid AI data");
+        throw new Error("Invalid sight word data");
       }
 
       const question = {
         emoji: data.emoji,
-        options: data.options,
-        correctAnswer: data.answer,
+        options: data.options.map((word) =>
+          String(word).trim()
+        ),
+        correctAnswer: String(data.answer).trim(),
       };
 
       setEmoji(question.emoji);
       setOptions(question.options);
       setCorrectAnswer(question.correctAnswer);
 
+      setSelectedWord("");
+      setMessage("");
+
       return question;
-    } catch (err) {
+    } catch (error) {
       console.error(
-        "Sight Words AI generation failed:",
-        err
+        "❌ Sight Words AI generation failed:",
+        error
       );
 
-      const fallback = {
-        emoji: "🐱",
-        options: ["cat", "dog", "sun", "pen"],
-        correctAnswer: "cat",
-      };
+      /*
+      ========================================================
+      FALLBACK QUESTIONS
+      ========================================================
+      */
+
+      const fallbackQuestions = [
+        {
+          emoji: "🐱",
+          options: ["cat", "tree", "book", "sun"],
+          correctAnswer: "cat",
+        },
+        {
+          emoji: "☀️",
+          options: ["moon", "sun", "fish", "ball"],
+          correctAnswer: "sun",
+        },
+        {
+          emoji: "🐶",
+          options: ["dog", "car", "cake", "rain"],
+          correctAnswer: "dog",
+        },
+        {
+          emoji: "📚",
+          options: ["book", "shoe", "apple", "star"],
+          correctAnswer: "book",
+        },
+        {
+          emoji: "🍎",
+          options: ["house", "apple", "bird", "chair"],
+          correctAnswer: "apple",
+        },
+      ];
+
+      const fallback =
+        fallbackQuestions[
+          Math.floor(
+            Math.random() *
+              fallbackQuestions.length
+          )
+        ];
 
       setEmoji(fallback.emoji);
       setOptions(fallback.options);
       setCorrectAnswer(fallback.correctAnswer);
+
+      setSelectedWord("");
+      setMessage("");
 
       return fallback;
     } finally {
@@ -256,172 +151,266 @@ export default function SightWords() {
     }
   };
 
-  /* =====================================================
-     🔥 RESTORE SAVED GAME
-  ===================================================== */
+  /*
+  ============================================================
+  🔥 RESTORE GAME
+  ============================================================
+  */
 
   useEffect(() => {
-    if (progressLoading) return;
+    if (progressLoading || restored) {
+      return;
+    }
 
     const restoreGame = async () => {
-      if (savedState) {
+      console.log(
+        "🌱 Sight Words saved state:",
+        savedState
+      );
+
+      /*
+      --------------------------------------------------------
+      Existing Firebase game
+      --------------------------------------------------------
+      */
+
+      if (
+        savedState &&
+        savedState.emoji &&
+        Array.isArray(savedState.options) &&
+        savedState.options.length > 0 &&
+        savedState.correctAnswer
+      ) {
         console.log(
-          "🔥 Restoring Sight Words:",
-          savedState
+          "✅ Resuming Sight Words from Firebase"
         );
 
-        setEmoji(savedState.emoji || "");
-        setOptions(savedState.options || []);
+        setEmoji(savedState.emoji);
+        setOptions(savedState.options);
         setCorrectAnswer(
-          savedState.correctAnswer || ""
+          savedState.correctAnswer
         );
 
-        setScore(savedState.score || 0);
+        setScore(savedState.score ?? 0);
 
         setQuestionCount(
-          savedState.questionCount || 0
+          savedState.questionCount ?? 0
         );
 
-        setMessage(savedState.message || "");
+        setMessage(
+          savedState.message || ""
+        );
 
         setCompleted(
-          savedState.completed || false
+          Boolean(savedState.completed)
         );
 
         setLoading(false);
+      } else {
+        /*
+        ------------------------------------------------------
+        New game
+        ------------------------------------------------------
+        */
 
-        return;
+        console.log(
+          "🆕 Starting new Sight Words"
+        );
+
+        const question =
+          await generateQuestionAI();
+
+        await save({
+          emoji: question.emoji,
+          options: question.options,
+          correctAnswer:
+            question.correctAnswer,
+          score: 0,
+          questionCount: 0,
+          message: "",
+          completed: false,
+        });
       }
 
-      /* ================================================
-         🆕 NEW GAME
-      ================================================ */
-
-      console.log(
-        "🆕 Starting new Sight Words game"
-      );
-
-      const question =
-        await generateQuestionAI();
-
-      await save({
-        emoji: question.emoji,
-        options: question.options,
-        correctAnswer: question.correctAnswer,
-        score: 0,
-        questionCount: 0,
-        message: "",
-        completed: false,
-      });
+      setRestored(true);
     };
 
     restoreGame();
-  }, [progressLoading, savedState]);
+  }, [progressLoading, restored, savedState]);
 
-  /* =====================================================
-     🎯 HANDLE CLICK
-  ===================================================== */
+  /*
+  ============================================================
+  💾 SAVE CURRENT GAME
+  ============================================================
+  */
 
-  const handleClick = (word) => {
+  const saveCurrentState = async (
+    overrides = {}
+  ) => {
+    await save({
+      emoji,
+      options,
+      correctAnswer,
+      score,
+      questionCount,
+      message,
+      completed,
+      ...overrides,
+    });
+  };
+
+  /*
+  ============================================================
+  🎯 SELECT WORD
+  ============================================================
+  */
+
+  const handleWordClick = async (word) => {
     if (
       loading ||
       completed ||
+      answerLocked ||
       questionCount >= TOTAL_QUESTIONS
     ) {
       return;
     }
 
+    setAnswerLocked(true);
+    setSelectedWord(word);
+
     const isCorrect =
-      word === correctAnswer;
+      word.trim().toLowerCase() ===
+      correctAnswer.trim().toLowerCase();
 
     const updatedScore = isCorrect
       ? score + 1
       : score;
 
-    setMessage(
-      isCorrect
-        ? "✅ Correct!"
-        : "❌ Try again!"
-    );
+    const feedback = isCorrect
+      ? "Wonderful reading! 🌼"
+      : `Nice try! Look carefully — the answer is "${correctAnswer}".`;
+
+    setMessage(feedback);
+
+    /*
+    Save immediately.
+    This means refresh during feedback won't lose progress.
+    */
+
+    await saveCurrentState({
+      score: updatedScore,
+      message: feedback,
+    });
 
     setTimeout(async () => {
-      const nextQuestion =
+      const nextQuestionNumber =
         questionCount + 1;
 
-      setMessage("");
-      setQuestionCount(nextQuestion);
-
-      /* ================================================
-         🏆 FINAL QUESTION
-      ================================================ */
+      /*
+      ========================================================
+      🏆 ROUND COMPLETE
+      ========================================================
+      */
 
       if (
-        nextQuestion === TOTAL_QUESTIONS
+        nextQuestionNumber ===
+        TOTAL_QUESTIONS
       ) {
         const percentage =
-          (updatedScore / TOTAL_QUESTIONS) *
+          (updatedScore /
+            TOTAL_QUESTIONS) *
           100;
+
+        const finalMessage =
+          `You collected ${updatedScore} flowers! 🌸`;
+
+        setScore(updatedScore);
+        setQuestionCount(
+          nextQuestionNumber
+        );
+        setCompleted(true);
+        setMessage(finalMessage);
+
+        /*
+        ⭐ GameContext:
+        - calculates stars
+        - saves history
+        - updates streak
+        - clears active game
+        */
 
         await finish(
           percentage,
-          "AI Sight Words"
+          "Sight Words"
         );
 
-        setScore(updatedScore);
-        setCompleted(true);
-        setLoading(false);
+        /*
+        IMPORTANT:
+        Do NOT call save() here.
+        finish() already clears activeGames.
+        */
 
-        await save({
-          emoji,
-          options,
-          correctAnswer,
-          score: updatedScore,
-          questionCount: nextQuestion,
-          message: "",
-          completed: true,
-        });
+        setAnswerLocked(false);
 
         return;
       }
 
-      /* ================================================
-         ➡️ NEXT QUESTION
-      ================================================ */
+      /*
+      ========================================================
+      🌱 NEXT WORD
+      ========================================================
+      */
 
-      setScore(updatedScore);
-
-      const question =
+      const nextQuestion =
         await generateQuestionAI();
 
+      setScore(updatedScore);
+      setQuestionCount(
+        nextQuestionNumber
+      );
+
+      setSelectedWord("");
+      setMessage("");
+
       await save({
-        emoji: question.emoji,
-        options: question.options,
-        correctAnswer: question.correctAnswer,
+        emoji: nextQuestion.emoji,
+        options: nextQuestion.options,
+        correctAnswer:
+          nextQuestion.correctAnswer,
         score: updatedScore,
-        questionCount: nextQuestion,
+        questionCount:
+          nextQuestionNumber,
         message: "",
         completed: false,
       });
-    }, 800);
+
+      setAnswerLocked(false);
+    }, 750);
   };
 
-  /* =====================================================
-     🔄 PLAY AGAIN
-  ===================================================== */
+  /*
+  ============================================================
+  🔄 PLAY AGAIN
+  ============================================================
+  */
 
   const playAgain = async () => {
-    const question =
-      await generateQuestionAI();
-
+    setLoading(true);
     setScore(0);
     setQuestionCount(0);
     setMessage("");
     setCompleted(false);
+    setSelectedWord("");
+    setAnswerLocked(false);
+
+    const question =
+      await generateQuestionAI();
 
     await save({
       emoji: question.emoji,
       options: question.options,
-      correctAnswer: question.correctAnswer,
+      correctAnswer:
+        question.correctAnswer,
       score: 0,
       questionCount: 0,
       message: "",
@@ -429,137 +418,425 @@ export default function SightWords() {
     });
   };
 
-  /* =====================================================
-     📊 PERFORMANCE
-  ===================================================== */
+  /*
+  ============================================================
+  📊 PERFORMANCE
+  ============================================================
+  */
 
-  const getPerformanceMessage = () => {
-    if (questionCount === 0) {
-      return "";
+  const getPerformance = () => {
+    if (score >= 5) {
+      return {
+        emoji: "🌟",
+        title: "Amazing Reader!",
+        text:
+          "You recognized every sight word!",
+      };
     }
 
-    const accuracy =
-      (score / questionCount) * 100;
-
-    if (accuracy > 80) {
-      return "🌟 Excellent reading!";
+    if (score >= 4) {
+      return {
+        emoji: "🌼",
+        title: "Wonderful Reading!",
+        text:
+          "Your sight-word skills are growing beautifully!",
+      };
     }
 
-    if (accuracy > 50) {
-      return "👍 Good job!";
+    if (score >= 3) {
+      return {
+        emoji: "🌱",
+        title: "Great Growing!",
+        text:
+          "Keep practicing and your reading garden will grow!",
+      };
     }
 
-    return "💡 Practice more sight words!";
+    return {
+      emoji: "💚",
+      title: "Keep Exploring!",
+      text:
+        "Every word you practice makes you a stronger reader.",
+    };
   };
 
-  /* =====================================================
-     ⏳ PROGRESS LOADING
-  ===================================================== */
+  /*
+  ============================================================
+  ⏳ LOADING
+  ============================================================
+  */
 
-  if (progressLoading) {
+  if (
+    progressLoading ||
+    !restored
+  ) {
     return (
-      <div className="blend-container">
-        <h2>🤖 Sight Words</h2>
+      <div className="sight-page">
+        <div className="sight-loading">
 
-        <p>🌱 Loading your progress...</p>
+          <div className="loading-flower">
+            🌼
+          </div>
+
+          <h2>
+            Growing your word garden...
+          </h2>
+
+          <p>
+            Finding a special word for you!
+          </p>
+
+          <div className="loading-leaves">
+            <span>🌱</span>
+            <span>🌿</span>
+            <span>🌱</span>
+          </div>
+
+        </div>
       </div>
     );
   }
 
-  /* =====================================================
-     🎨 UI
-  ===================================================== */
+  /*
+  ============================================================
+  🏆 COMPLETION SCREEN
+  ============================================================
+  */
 
-  return (
-    <div className="blend-container">
+  if (completed) {
+    const performance =
+      getPerformance();
 
-      <h2>🤖 Sight Words</h2>
+    return (
+      <div className="sight-page">
 
-      <div className="game-info">
-        Question{" "}
-        {completed
-          ? TOTAL_QUESTIONS
-          : questionCount + 1}
-        /{TOTAL_QUESTIONS}{" "}
-        | Score: {score}
-      </div>
+        <div className="sight-shell">
 
-      {/* =================================================
-          COMPLETION SCREEN
-      ================================================= */}
+          <div className="garden-complete">
 
-      {completed ? (
-        <div className="ai-analysis">
+            <div className="garden-sky">
+              ☀️
+            </div>
 
-          <div className="big-letter">
-            🎉
+            <div className="flower-burst">
+              🌸 🌼 🌷
+            </div>
+
+            <p className="complete-label">
+              WORD GARDEN COMPLETE
+            </p>
+
+            <h1>
+              Your Garden Grew! 🌱
+            </h1>
+
+            <p className="complete-subtitle">
+              You discovered all your sight words.
+            </p>
+
+            <div className="flower-score">
+
+              <div className="score-flower">
+                🌼
+              </div>
+
+              <div>
+                <span>
+                  FLOWERS COLLECTED
+                </span>
+
+                <strong>
+                  {score}
+                  <small>
+                    {" "}/ {TOTAL_QUESTIONS}
+                  </small>
+                </strong>
+              </div>
+
+            </div>
+
+            <div className="reading-result">
+
+              <div className="result-icon">
+                {performance.emoji}
+              </div>
+
+              <div>
+                <strong>
+                  {performance.title}
+                </strong>
+
+                <p>
+                  {performance.text}
+                </p>
+              </div>
+
+            </div>
+
+            <button
+              className="grow-more-button"
+              onClick={playAgain}
+            >
+              🌱 Grow Another Garden
+            </button>
+
           </div>
-
-          <h2>Round Completed!</h2>
-
-          <h3>
-            Score: {score}/{TOTAL_QUESTIONS}
-          </h3>
-
-          <p>
-            {score >= 4
-              ? "🌟 Excellent reading!"
-              : "💡 Keep practicing sight words!"}
-          </p>
-
-          <button onClick={playAgain}>
-            🔄 Play Again
-          </button>
 
         </div>
-      ) : (
-        <>
-          {/* =================================================
-              EMOJI
-          ================================================= */}
 
-          <div className="big-letter">
-            {loading
-              ? "..."
-              : emoji}
+      </div>
+    );
+  }
+
+  const progress =
+    (questionCount /
+      TOTAL_QUESTIONS) *
+    100;
+
+  return (
+    <div className="sight-page">
+
+      <div className="sight-shell">
+
+        {/* ==================================================
+            HEADER
+        ================================================== */}
+
+        <header className="sight-header">
+
+          <div className="garden-logo">
+            🌼
           </div>
 
-          <h3>
-            Tap the correct word
-          </h3>
+          <div>
 
-          {/* =================================================
-              OPTIONS
-          ================================================= */}
+            <p className="garden-eyebrow">
+              READING GARDEN
+            </p>
 
-          <div className="options">
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              options.map((word, index) => (
-                <button
+            <h1>
+              Sight Words
+            </h1>
+
+            <p>
+              Spot the word and help your garden grow!
+            </p>
+
+          </div>
+
+        </header>
+
+        {/* ==================================================
+            PROGRESS AREA
+        ================================================== */}
+
+        <section className="garden-progress-card">
+
+          <div className="garden-progress-top">
+
+            <div>
+              <span>
+                YOUR GARDEN
+              </span>
+
+              <strong>
+                {questionCount}
+                <small>
+                  {" "}/ {TOTAL_QUESTIONS}
+                </small>
+              </strong>
+            </div>
+
+            <div className="mini-flowers">
+              {Array.from({
+                length: TOTAL_QUESTIONS,
+              }).map((_, index) => (
+                <span
                   key={index}
-                  onClick={() =>
-                    handleClick(word)
+                  className={
+                    index <
+                    score
+                      ? "flower-filled"
+                      : "flower-empty"
                   }
                 >
-                  {word}
-                </button>
-              ))
+                  🌼
+                </span>
+              ))}
+            </div>
+
+          </div>
+
+          <div className="garden-track">
+
+            <div
+              className="garden-fill"
+              style={{
+                width: `${progress}%`,
+              }}
+            />
+
+          </div>
+
+          <div className="garden-progress-bottom">
+            <span>
+              Keep growing!
+            </span>
+
+            <strong>
+              {Math.round(progress)}%
+            </strong>
+          </div>
+
+        </section>
+
+        {/* ==================================================
+            MAIN GAME
+        ================================================== */}
+
+        <main className="word-garden-card">
+
+          <div className="garden-question-tag">
+            📖 WORD OF THE MOMENT
+          </div>
+
+          <h2>
+            Which word matches the picture?
+          </h2>
+
+          <p className="garden-instruction">
+            Look at the picture, then tap the word
+            you know.
+          </p>
+
+          {/* PICTURE */}
+
+          <div className="picture-garden">
+
+            <div className="sun-decoration">
+              ☀️
+            </div>
+
+            <div className="picture-circle">
+              {loading
+                ? "🌱"
+                : emoji}
+            </div>
+
+            <div className="grass">
+              🌿 🌱 🌿
+            </div>
+
+          </div>
+
+          {/* WORD OPTIONS */}
+
+          <div className="word-options">
+
+            {loading ? (
+              <div className="word-loading">
+                <span>🌱</span>
+                Finding words...
+              </div>
+            ) : (
+              options.map(
+                (word, index) => {
+
+                  const selected =
+                    selectedWord === word;
+
+                  const correct =
+                    selected &&
+                    word.trim().toLowerCase() ===
+                      correctAnswer
+                        .trim()
+                        .toLowerCase();
+
+                  const wrong =
+                    selected &&
+                    !correct;
+
+                  return (
+                    <button
+                      key={`${word}-${index}`}
+                      className={[
+                        "word-card",
+                        `word-card-${index}`,
+                        selected
+                          ? "word-selected"
+                          : "",
+                        correct
+                          ? "word-correct"
+                          : "",
+                        wrong
+                          ? "word-wrong"
+                          : "",
+                      ].join(" ")}
+                      onClick={() =>
+                        handleWordClick(word)
+                      }
+                      disabled={
+                        answerLocked ||
+                        loading
+                      }
+                    >
+
+                      <span className="word-number">
+                        {index + 1}
+                      </span>
+
+                      <span className="word-text">
+                        {word}
+                      </span>
+
+                      <span className="word-leaf">
+                        {correct
+                          ? "🌸"
+                          : "🍃"}
+                      </span>
+
+                    </button>
+                  );
+                }
+              )
             )}
+
           </div>
 
           {/* FEEDBACK */}
-          <p>{message}</p>
 
-          {/* AI ANALYSIS */}
-          <div className="ai-analysis">
-            <p>
-              {getPerformanceMessage()}
-            </p>
-          </div>
-        </>
-      )}
+          {message && (
+            <div
+              className={
+                message.includes("Wonderful")
+                  ? "sight-feedback feedback-good"
+                  : "sight-feedback feedback-try"
+              }
+            >
+              {message}
+            </div>
+          )}
+
+        </main>
+
+        {/* ==================================================
+            READING TIP
+        ================================================== */}
+
+        <div className="reading-tip">
+
+          <span>
+            💡
+          </span>
+
+          <p>
+            Sight words are words we learn to recognize
+            quickly while reading.
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
   );

@@ -1,0 +1,1268 @@
+/* =====================================================
+   SPOT THE DIFFERENCE
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+.spot-page {
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+
+  background:
+    radial-gradient(
+      circle at 10% 15%,
+      rgba(255, 232, 151, 0.55),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(194, 240, 174, 0.6),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #f8fff4 0%,
+      #e8f8df 50%,
+      #f5ffe9 100%
+    );
+
+  color: #174f3d;
+  font-family:
+    "Nunito",
+    "Poppins",
+    Arial,
+    sans-serif;
+
+  overflow-x: hidden;
+}
+
+/* =====================================================
+   DECORATIONS
+===================================================== */
+
+.floating-decor {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+
+  font-size: 30px;
+
+  opacity: 0.7;
+}
+
+.decor-one {
+  top: 18%;
+  left: 3%;
+
+  background: rgba(255, 229, 111, 0.25);
+}
+
+.decor-two {
+  top: 45%;
+  right: 3%;
+
+  background: rgba(158, 220, 126, 0.2);
+}
+
+.decor-three {
+  bottom: 12%;
+  left: 6%;
+
+  background: rgba(255, 216, 92, 0.25);
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.spot-container {
+  position: relative;
+  z-index: 1;
+
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.spot-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 28px 32px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 20px 50px rgba(45, 91, 67, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+
+  margin-bottom: 18px;
+}
+
+.spot-title-icon {
+  width: 76px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 24px;
+
+  background: #e6f8d9;
+
+  font-size: 42px;
+}
+
+.mini-label {
+  margin: 0 0 5px;
+
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+
+  color: #75a384;
+}
+
+.spot-header h1 {
+  margin: 0;
+
+  font-size: clamp(30px, 4vw, 48px);
+
+  line-height: 1.05;
+
+  color: #14563f;
+
+  font-weight: 900;
+}
+
+.subtitle {
+  margin: 9px 0 0;
+
+  color: #698578;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+.status-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 22px 25px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 15px 40px rgba(45, 91, 67, 0.07);
+}
+
+.status-icon {
+  width: 54px;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: #eef9e5;
+
+  font-size: 27px;
+}
+
+.status-label {
+  display: block;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+
+  color: #779385;
+
+  font-weight: 900;
+}
+
+.status-card strong {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 27px;
+
+  color: #14563f;
+}
+
+.status-card small {
+  color: #94a99f;
+
+  font-size: 15px;
+}
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress-card {
+  padding: 19px 22px;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  border-radius: 22px;
+
+  margin-bottom: 20px;
+}
+
+.progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+
+  color: #648174;
+
+  font-size: 14px;
+
+  font-weight: 800;
+}
+
+.progress-top strong {
+  color: #267052;
+}
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+
+  overflow: hidden;
+
+  background: #e1ebe3;
+
+  border-radius: 100px;
+}
+
+.progress-fill {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #46b35a,
+      #91ca43
+    );
+
+  border-radius: inherit;
+
+  transition: width 0.5s ease;
+}
+
+/* =====================================================
+   GAME CARD
+===================================================== */
+
+.game-card {
+  padding: 35px;
+
+  background: #ffffff;
+
+  border-radius: 32px;
+
+  box-shadow:
+    0 25px 65px rgba(38, 79, 59, 0.1);
+}
+
+/* =====================================================
+   GAME INTRO
+===================================================== */
+
+.game-intro {
+  text-align: center;
+
+  margin-bottom: 28px;
+}
+
+.look-badge {
+  display: inline-flex;
+
+  padding: 9px 16px;
+
+  border-radius: 100px;
+
+  background: #edf9df;
+
+  color: #4e8b54;
+
+  font-size: 14px;
+
+  font-weight: 900;
+}
+
+.game-intro h2 {
+  margin: 16px 0 8px;
+
+  color: #17553f;
+
+  font-size: clamp(25px, 3vw, 34px);
+
+  font-weight: 900;
+}
+
+.game-intro p {
+  margin: 0;
+
+  color: #789087;
+
+  font-size: 15px;
+
+  font-weight: 600;
+}
+
+/* =====================================================
+   PICTURES
+===================================================== */
+
+.pictures-wrapper {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns: 1fr 54px 1fr;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.picture-column {
+  min-width: 0;
+}
+
+.picture-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-bottom: 10px;
+
+  color: #4c7663;
+
+  font-size: 14px;
+
+  font-weight: 900;
+}
+
+.picture-frame {
+  position: relative;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  border-radius: 24px;
+
+  background: #eef8e8;
+
+  border: 5px solid #f0f7ed;
+
+  box-shadow:
+    0 12px 30px rgba(55, 91, 65, 0.12);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.picture-frame:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 18px 38px rgba(55, 91, 65, 0.17);
+}
+
+.scene-svg {
+  display: block;
+
+  width: 100%;
+  height: auto;
+}
+
+.picture-click-layer {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+/* =====================================================
+   DIFFERENCE TARGET
+===================================================== */
+
+.difference-target {
+  position: absolute;
+
+  /*
+    This is the butterfly area in the garden scene.
+    The visual target changes per scene, but the clickable
+    area remains intentionally child-friendly and large.
+  */
+
+  left: 28%;
+  top: 45%;
+
+  width: 23%;
+  height: 25%;
+
+  border: 4px solid transparent;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+
+  font-size: 28px;
+
+  color: #27704e;
+
+  font-weight: 900;
+}
+
+.difference-target:hover {
+  border-color: rgba(84, 180, 89, 0.5);
+
+  background: rgba(154, 221, 117, 0.18);
+
+  transform: scale(1.05);
+}
+
+.found-target {
+  border-color: #54b85b !important;
+
+  background: rgba(145, 218, 113, 0.35) !important;
+
+  box-shadow:
+    0 0 0 7px rgba(91, 190, 91, 0.12);
+}
+
+/*
+  Scene-specific target positions
+*/
+
+.picture-frame:has(.scene-svg) {
+  --target: 0;
+}
+
+/* =====================================================
+   VS
+===================================================== */
+
+.compare-badge {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eaf8df;
+
+  color: #59905f;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 8px 20px rgba(67, 120, 76, 0.12);
+}
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.game-message {
+  margin: 22px auto 0;
+
+  width: fit-content;
+  max-width: 100%;
+
+  padding: 12px 20px;
+
+  border-radius: 100px;
+
+  background: #f3f9ef;
+
+  color: #658072;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  transition: all 0.2s ease;
+}
+
+.message-wrong {
+  background: #fff0e8;
+
+  color: #c36d4f;
+
+  animation: shake 0.35s ease;
+}
+
+.message-correct {
+  background: #e4f8dd;
+
+  color: #37814d;
+}
+
+/* =====================================================
+   NEXT BUTTON
+===================================================== */
+
+.next-question-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  width: min(340px, 100%);
+
+  margin: 20px auto 0;
+
+  padding: 16px 24px;
+
+  border: 0;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4eb65b,
+      #82c846
+    );
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 12px 25px rgba(71, 170, 82, 0.24);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.next-question-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 16px 30px rgba(71, 170, 82, 0.3);
+}
+
+.next-question-button span {
+  font-size: 23px;
+}
+
+/* =====================================================
+   SCENE NAME
+===================================================== */
+
+.scene-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 18px;
+
+  color: #91a299;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+/* =====================================================
+   TIP
+===================================================== */
+
+.detective-tip {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 13px;
+
+  margin-top: 18px;
+
+  padding: 17px 20px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.detective-tip > span {
+  font-size: 25px;
+}
+
+.detective-tip strong {
+  display: block;
+
+  color: #42755c;
+
+  font-size: 14px;
+}
+
+.detective-tip p {
+  margin: 4px 0 0;
+
+  color: #789087;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.spot-loading {
+  min-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.loading-emoji {
+  font-size: 70px;
+
+  animation: float 1.5s ease-in-out infinite;
+}
+
+.spot-loading h2 {
+  margin: 15px 0 5px;
+
+  color: #18553f;
+}
+
+.spot-loading p {
+  color: #789087;
+
+  font-weight: 700;
+}
+
+/* =====================================================
+   COMPLETION
+===================================================== */
+
+.spot-complete-card {
+  width: min(600px, 100%);
+
+  margin: 80px auto;
+
+  padding: 50px 35px;
+
+  background: white;
+
+  border-radius: 34px;
+
+  text-align: center;
+
+  box-shadow:
+    0 30px 80px rgba(38, 79, 59, 0.12);
+}
+
+.celebration {
+  font-size: 75px;
+
+  animation: float 1.5s ease-in-out infinite;
+}
+
+.spot-complete-card h1 {
+  margin: 20px 0 8px;
+
+  color: #17553f;
+
+  font-size: 35px;
+
+  font-weight: 900;
+}
+
+.complete-text {
+  color: #71897e;
+
+  font-size: 16px;
+
+  font-weight: 700;
+}
+
+.result-stars {
+  margin: 25px 0;
+
+  font-size: 40px;
+
+  letter-spacing: 6px;
+}
+
+.final-score {
+  color: #18553f;
+}
+
+.final-score strong {
+  font-size: 65px;
+
+  font-weight: 900;
+}
+
+.final-score span {
+  font-size: 24px;
+
+  color: #94a49c;
+}
+
+.percentage {
+  color: #5e8270;
+
+  font-weight: 800;
+}
+
+.play-again-button {
+  margin-top: 20px;
+
+  padding: 16px 30px;
+
+  border: 0;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4eb65b,
+      #82c846
+    );
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 12px 25px rgba(71, 170, 82, 0.22);
+
+  transition: transform 0.2s ease;
+}
+
+.play-again-button:hover {
+  transform: translateY(-3px);
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-6px);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  75% {
+    transform: translateX(-4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 800px) {
+  .spot-page {
+    padding: 18px 12px 40px;
+  }
+
+  .spot-header {
+    padding: 22px;
+
+    border-radius: 24px;
+  }
+
+  .spot-title-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 32px;
+  }
+
+  .game-card {
+    padding: 22px;
+
+    border-radius: 26px;
+  }
+
+  .pictures-wrapper {
+    grid-template-columns: 1fr;
+
+    gap: 20px;
+  }
+
+  .compare-badge {
+    margin: -8px auto;
+  }
+
+  .difference-target {
+    left: 28%;
+    top: 45%;
+  }
+
+  .picture-frame:hover {
+    transform: none;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 560px) {
+  .spot-page {
+    padding: 12px 10px 30px;
+  }
+
+  .floating-decor {
+    display: none;
+  }
+
+  .spot-header {
+    gap: 13px;
+
+    padding: 18px;
+
+    border-radius: 20px;
+  }
+
+  .spot-title-icon {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 16px;
+
+    font-size: 27px;
+  }
+
+  .spot-header h1 {
+    font-size: 27px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .status-row {
+    gap: 10px;
+  }
+
+  .status-card {
+    gap: 9px;
+
+    padding: 14px;
+
+    border-radius: 18px;
+  }
+
+  .status-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 13px;
+
+    font-size: 20px;
+  }
+
+  .status-label {
+    font-size: 9px;
+  }
+
+  .status-card strong {
+    font-size: 21px;
+  }
+
+  .progress-card {
+    padding: 15px;
+
+    border-radius: 18px;
+  }
+
+  .game-card {
+    padding: 15px;
+
+    border-radius: 22px;
+  }
+
+  .game-intro {
+    margin-bottom: 20px;
+  }
+
+  .game-intro h2 {
+    font-size: 24px;
+  }
+
+  .game-intro p {
+    font-size: 13px;
+  }
+
+  .picture-frame {
+    border-radius: 18px;
+  }
+
+  .compare-badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .detective-tip {
+    padding: 14px;
+
+    border-radius: 17px;
+  }
+
+  .spot-complete-card {
+    margin: 40px auto;
+
+    padding: 35px 20px;
+
+    border-radius: 25px;
+  }
+
+  .spot-complete-card h1 {
+    font-size: 28px;
+  }
+}
+/* =====================================================
+   CLICKABLE DIFFERENCE HOTSPOTS
+===================================================== */
+
+.difference-picture {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Make sure the picture never blocks the hotspot */
+.difference-picture .scene-svg {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Main clickable area */
+.difference-target {
+  position: absolute !important;
+
+  z-index: 50 !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 4px solid transparent;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  appearance: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Give the child visual feedback when hovering */
+.difference-target:hover {
+  background: rgba(255, 255, 255, 0.18);
+
+  border-color: rgba(72, 181, 91, 0.7);
+
+  transform: scale(1.04);
+}
+
+/* =====================================================
+   GARDEN
+   Difference = butterfly
+===================================================== */
+
+.difference-garden {
+  left: 20% !important;
+  top: 38% !important;
+
+  width: 30% !important;
+  height: 32% !important;
+}
+
+/* =====================================================
+   SAFARI
+   Difference = tree
+===================================================== */
+
+.difference-safari {
+  left: 2% !important;
+  top: 10% !important;
+
+  width: 38% !important;
+  height: 65% !important;
+}
+
+/* =====================================================
+   BEACH
+   Difference = beach ball
+===================================================== */
+
+.difference-beach {
+  left: 38% !important;
+  top: 50% !important;
+
+  width: 28% !important;
+  height: 38% !important;
+}
+
+/* =====================================================
+   SPACE
+   Difference = extra star
+===================================================== */
+
+.difference-space {
+  left: 57% !important;
+  top: 3% !important;
+
+  width: 28% !important;
+  height: 30% !important;
+}
+
+/* =====================================================
+   BAKERY
+   Difference = cupcake
+===================================================== */
+
+.difference-bakery {
+  left: 68% !important;
+  top: 32% !important;
+
+  width: 30% !important;
+  height: 55% !important;
+}
+
+/* =====================================================
+   FOUND STATE
+===================================================== */
+
+.difference-target.found-target {
+  border-color: #55b85c !important;
+
+  background: rgba(150, 230, 125, 0.38) !important;
+
+  box-shadow:
+    0 0 0 6px rgba(85, 184, 92, 0.18),
+    0 0 25px rgba(85, 184, 92, 0.35);
+
+  cursor: default;
+
+  transform: scale(1.03);
+}
+
+/* =====================================================
+   CHECK MARK
+===================================================== */
+
+.found-check {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: #55b85c;
+
+  color: white;
+
+  font-size: 26px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 6px 15px rgba(50, 130, 65, 0.25);
+
+  animation: foundPop 0.3s ease;
+}
+
+@keyframes foundPop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 800px) {
+  .difference-safari {
+    left: 0% !important;
+    top: 8% !important;
+
+    width: 42% !important;
+    height: 70% !important;
+  }
+
+  .difference-garden {
+    left: 17% !important;
+    top: 35% !important;
+
+    width: 36% !important;
+    height: 38% !important;
+  }
+
+  .difference-beach {
+    left: 34% !important;
+    top: 47% !important;
+
+    width: 34% !important;
+    height: 42% !important;
+  }
+
+  .difference-space {
+    left: 54% !important;
+    top: 0% !important;
+
+    width: 34% !important;
+    height: 35% !important;
+  }
+
+  .difference-bakery {
+    left: 64% !important;
+    top: 28% !important;
+
+    width: 35% !important;
+    height: 62% !important;
+  }
+}

@@ -1,0 +1,1042 @@
+/* =========================================================
+   CURIOKIDS — SOUND MATCHING
+   Clean • Playful • Dyslexia Friendly
+========================================================= */
+
+.sound-page {
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24px 20px 36px;
+  position: relative;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at 8% 18%,
+      rgba(255, 235, 155, 0.45),
+      transparent 18%
+    ),
+    radial-gradient(
+      circle at 94% 28%,
+      rgba(184, 229, 143, 0.38),
+      transparent 18%
+    ),
+    linear-gradient(
+      135deg,
+      #f7fcf2 0%,
+      #e8f7df 48%,
+      #d5efd1 100%
+    );
+
+  font-family:
+    "Nunito",
+    "Poppins",
+    Arial,
+    sans-serif;
+
+  color: #164d38;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.sound-container {
+  width: min(100%, 920px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.sound-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  padding: 20px 26px;
+  border-radius: 24px;
+
+  margin-bottom: 16px;
+
+  box-shadow:
+    0 8px 25px rgba(44, 95, 64, 0.09);
+
+  border: 1px solid rgba(80, 140, 88, 0.1);
+}
+
+.header-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 17px;
+
+  background: #e7f8d9;
+
+  font-size: 30px;
+}
+
+.sound-header h1 {
+  margin: 0;
+
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1;
+
+  font-weight: 900;
+
+  color: #155b40;
+}
+
+.sound-header p {
+  margin: 7px 0 0;
+
+  color: #668273;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.sound-stats {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+
+  margin-bottom: 14px;
+}
+
+.stat-card {
+  min-height: 88px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 15px 20px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.9
+  );
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 7px 20px rgba(
+      44,
+      95,
+      64,
+      0.07
+    );
+
+  border: 1px solid rgba(
+    80,
+    140,
+    88,
+    0.08
+  );
+}
+
+.stat-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #f0f9e7;
+
+  font-size: 23px;
+}
+
+.stat-card small {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #769082;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.6px;
+
+  text-transform: uppercase;
+}
+
+.stat-card strong {
+  color: #195b40;
+
+  font-size: 23px;
+
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+.stat-card strong span {
+  color: #9aac9f;
+
+  font-size: 14px;
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.question-progress {
+  padding: 13px 18px;
+
+  margin-bottom: 16px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.72
+  );
+
+  border-radius: 17px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 7px;
+
+  color: #567664;
+
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+
+  background: #e1e9e2;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #4eaf55,
+      #8dcb4e
+    );
+
+  border-radius: inherit;
+
+  transition:
+    width 0.4s ease;
+}
+
+/* =========================================================
+   GAME CARD
+========================================================= */
+
+.sound-card {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.97
+  );
+
+  border-radius: 30px;
+
+  padding: 30px 34px 34px;
+
+  box-shadow:
+    0 15px 40px rgba(
+      38,
+      89,
+      57,
+      0.1
+    );
+
+  border: 1px solid rgba(
+    80,
+    140,
+    88,
+    0.09
+  );
+
+  text-align: center;
+}
+
+/* =========================================================
+   QUESTION TITLE
+========================================================= */
+
+.question-heading span {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 7px 13px;
+
+  border-radius: 50px;
+
+  background: #eef9df;
+
+  color: #4b8a43;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+.question-heading h2 {
+  margin: 12px 0 16px;
+
+  color: #164f3a;
+
+  font-size: clamp(
+    20px,
+    3vw,
+    27px
+  );
+
+  line-height: 1.2;
+
+  font-weight: 900;
+}
+
+/* =========================================================
+   LETTER
+========================================================= */
+
+.sound-letter {
+  width: 135px;
+  height: 135px;
+
+  margin: 8px auto 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 34px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e9fad8,
+      #cceebd
+    );
+
+  border: 6px solid #f7fff1;
+
+  box-shadow:
+    0 12px 26px rgba(
+      69,
+      137,
+      70,
+      0.17
+    );
+
+  color: #22643f;
+
+  font-size: 68px;
+
+  line-height: 1;
+
+  font-weight: 1000;
+
+  animation:
+    letterAppear
+    0.35s ease;
+}
+
+@keyframes letterAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sound-hint {
+  margin: 0 0 18px;
+
+  color: #71877a;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+.sound-hint strong {
+  color: #39804b;
+}
+
+/* =========================================================
+   ANSWERS
+========================================================= */
+
+.answer-grid {
+  width: min(100%, 650px);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 13px;
+}
+
+.answer-card {
+  min-height: 108px;
+
+  border: 2px solid #e3efd9;
+
+  border-radius: 21px;
+
+  background: #fbfff8;
+
+  cursor: pointer;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  box-shadow:
+    0 5px 14px rgba(
+      52,
+      104,
+      63,
+      0.06
+    );
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.answer-card:hover:not(:disabled) {
+  transform: translateY(-4px);
+
+  border-color: #83c568;
+
+  background: #f1fae8;
+
+  box-shadow:
+    0 11px 22px rgba(
+      61,
+      124,
+      68,
+      0.14
+    );
+}
+
+.answer-card:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.answer-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.answer-emoji {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.answer-word {
+  color: #285d46;
+
+  font-size: 17px;
+
+  font-weight: 900;
+}
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.feedback-card {
+  width: min(100%, 560px);
+
+  margin: 15px auto 0;
+
+  padding: 12px 16px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border-radius: 17px;
+
+  text-align: left;
+
+  animation:
+    feedbackIn
+    0.25s ease;
+}
+
+.feedback-card > span {
+  font-size: 25px;
+}
+
+.feedback-card strong {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.feedback-card p {
+  margin: 1px 0 0;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.correct-feedback {
+  color: #327441;
+
+  background: #edf9e5;
+
+  border: 1px solid #cde8be;
+}
+
+.wrong-feedback {
+  color: #7b672b;
+
+  background: #fff8e8;
+
+  border: 1px solid #f0dfad;
+}
+
+@keyframes feedbackIn {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   ENCOURAGEMENT
+========================================================= */
+
+.encouragement {
+  margin-top: 14px;
+
+  color: #708478;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   LOADING SKELETON
+========================================================= */
+
+.answer-skeleton {
+  min-height: 108px;
+
+  border-radius: 21px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f1f5ee 25%,
+      #e4ede0 50%,
+      #f1f5ee 75%
+    );
+
+  background-size: 200% 100%;
+
+  animation:
+    skeleton
+    1.2s infinite;
+}
+
+@keyframes skeleton {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+.completion-card {
+  padding: 15px 5px;
+
+  animation:
+    completionIn
+    0.4s ease;
+}
+
+.completion-stars {
+  margin-bottom: 4px;
+
+  color: #f4bd36;
+
+  font-size: 20px;
+
+  letter-spacing: 4px;
+}
+
+.completion-emoji {
+  font-size: 65px;
+}
+
+.completion-card h2 {
+  margin: 8px 0 4px;
+
+  color: #17583d;
+
+  font-size: 29px;
+
+  font-weight: 1000;
+}
+
+.completion-card > p {
+  margin: 0 0 16px;
+
+  color: #72867a;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.final-score {
+  width: 170px;
+
+  margin: 0 auto 16px;
+
+  padding: 14px;
+
+  border-radius: 20px;
+
+  background: #f0f9e6;
+}
+
+.final-score span {
+  display: block;
+
+  color: #708675;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.final-score strong {
+  display: block;
+
+  color: #317342;
+
+  font-size: 38px;
+
+  font-weight: 1000;
+}
+
+.final-score small {
+  color: #91a394;
+
+  font-size: 16px;
+}
+
+.completion-message {
+  margin-bottom: 20px;
+
+  color: #577263;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+.play-again-button {
+  border: none;
+
+  padding: 13px 24px;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #52a84d,
+      #82c55b
+    );
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  font-weight: 900;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  box-shadow:
+    0 9px 20px rgba(
+      73,
+      146,
+      73,
+      0.22
+    );
+
+  transition:
+    transform 0.2s ease;
+}
+
+.play-again-button:hover {
+  transform: translateY(-3px);
+}
+
+.play-again-button:active {
+  transform: scale(0.96);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.sound-footer {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 22px;
+
+  margin-top: 15px;
+
+  color: #718478;
+
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   DECORATIONS
+========================================================= */
+
+.sound-bubble {
+  position: fixed;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  opacity: 0.65;
+
+  animation:
+    floatBubble
+    4s ease-in-out infinite;
+}
+
+.bubble-one {
+  width: 68px;
+  height: 68px;
+
+  top: 18%;
+  left: 4%;
+
+  background: #fff2b9;
+
+  font-size: 28px;
+}
+
+.bubble-two {
+  width: 76px;
+  height: 76px;
+
+  top: 30%;
+  right: 3%;
+
+  background: #d7f1c6;
+
+  font-size: 30px;
+
+  animation-delay: 1s;
+}
+
+.bubble-three {
+  width: 58px;
+  height: 58px;
+
+  bottom: 12%;
+  left: 5%;
+
+  background: #ffe8ae;
+
+  font-size: 25px;
+
+  animation-delay: 2s;
+}
+
+@keyframes floatBubble {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.sound-loading {
+  min-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.loading-emoji {
+  font-size: 65px;
+
+  animation:
+    loadingFloat
+    1.5s infinite ease-in-out;
+}
+
+.sound-loading h2 {
+  margin: 15px 0 5px;
+
+  color: #215b40;
+
+  font-size: 24px;
+
+  font-weight: 900;
+}
+
+.sound-loading p {
+  margin: 0;
+
+  color: #71867a;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+@keyframes loadingFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+  .sound-page {
+    padding: 15px 12px 28px;
+  }
+
+  .sound-header {
+    padding: 17px;
+
+    border-radius: 20px;
+  }
+
+  .header-icon {
+    width: 50px;
+    height: 50px;
+
+    font-size: 25px;
+  }
+
+  .sound-header h1 {
+    font-size: 25px;
+  }
+
+  .sound-header p {
+    font-size: 11px;
+  }
+
+  .sound-card {
+    padding: 25px 16px 28px;
+
+    border-radius: 25px;
+  }
+
+  .sound-letter {
+    width: 120px;
+    height: 120px;
+
+    font-size: 60px;
+  }
+
+  .answer-card {
+    min-height: 100px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 450px) {
+  .sound-stats {
+    gap: 9px;
+  }
+
+  .stat-card {
+    min-height: 72px;
+
+    padding: 10px;
+
+    gap: 8px;
+
+    border-radius: 15px;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+
+    font-size: 18px;
+
+    border-radius: 10px;
+  }
+
+  .stat-card small {
+    font-size: 8px;
+  }
+
+  .stat-card strong {
+    font-size: 18px;
+  }
+
+  .sound-card {
+    padding: 22px 12px 25px;
+  }
+
+  .question-heading h2 {
+    font-size: 19px;
+  }
+
+  .sound-letter {
+    width: 105px;
+    height: 105px;
+
+    border-radius: 28px;
+
+    font-size: 52px;
+  }
+
+  .answer-grid {
+    gap: 8px;
+  }
+
+  .answer-card {
+    min-height: 95px;
+
+    border-radius: 17px;
+  }
+
+  .answer-emoji {
+    font-size: 27px;
+  }
+
+  .answer-word {
+    font-size: 14px;
+  }
+
+  .sound-footer {
+    gap: 12px;
+
+    font-size: 10px;
+  }
+
+  .sound-bubble {
+    display: none;
+  }
+}

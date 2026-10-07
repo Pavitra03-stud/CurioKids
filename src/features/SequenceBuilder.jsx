@@ -1,690 +1,824 @@
-// import { useState, useEffect } from "react";
-// import "../styles/BlendSounds.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// // 🔥 Router
-// import { useLocation } from "react-router-dom";
-
-// export default function SequenceBuilder() {
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   // 🔥 MODE
-//   const location = useLocation();
-//   const query = new URLSearchParams(location.search);
-//   const mode = query.get("mode") || "letters";
-
-//   const [sequence, setSequence] = useState([]);
-//   const [options, setOptions] = useState([]);
-//   const [answer, setAnswer] = useState("");
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const [message, setMessage] = useState("");
-//   const [loading, setLoading] = useState(true);
-
-//   // 🤖 AI GENERATION
-//   const generateQuestionAI = () => {
-//     try {
-//       setLoading(true);
-
-//       if (mode === "numbers") {
-//         const start = Math.floor(Math.random() * 5) + 1;
-
-//         const correct = (start + 2).toString();
-
-//         setSequence([
-//           start.toString(),
-//           (start + 1).toString(),
-//           "_",
-//           (start + 3).toString()
-//         ]);
-
-//         setAnswer(correct);
-
-//         const opts = [
-//           correct,
-//           (start + 4).toString(),
-//           (start + 1).toString()
-//         ].sort(() => 0.5 - Math.random());
-
-//         setOptions(opts);
-
-//       } else {
-//         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-//         const index = Math.floor(Math.random() * 20);
-
-//         const correct = letters[index + 2];
-
-//         setSequence([
-//           letters[index],
-//           letters[index + 1],
-//           "_",
-//           letters[index + 3]
-//         ]);
-
-//         setAnswer(correct);
-
-//         const opts = [
-//           correct,
-//           letters[index + 4],
-//           letters[index + 1]
-//         ].sort(() => 0.5 - Math.random());
-
-//         setOptions(opts);
-//       }
-
-//     } catch (err) {
-//       console.error(err);
-
-//       // fallback
-//       setSequence(["A","B","_","D"]);
-//       setOptions(["C","E","B"]);
-//       setAnswer("C");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     generateQuestionAI();
-//   }, [mode]);
-
-//   // ☁️ SAVE
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user";
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: `SequenceBuilder_${mode}`
-//       });
-
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   // 🎯 CLICK
-//   const handleClick = (item) => {
-
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = item === answer;
-//     const updatedScore = isCorrect ? score + 1 : score;
-
-//     setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
-
-//     setTimeout(async () => {
-
-//       setMessage("");
-
-//       const next = questionCount + 1;
-//       setQuestionCount(next);
-
-//       if (next === TOTAL_QUESTIONS) {
-
-//         await saveScoreToFirestore(updatedScore);
-
-//         alert(`🎯 Completed!\nScore: ${updatedScore}/5`);
-
-//         setScore(0);
-//         setQuestionCount(0);
-//         generateQuestionAI();
-
-//       } else {
-//         setScore(updatedScore);
-//         generateQuestionAI();
-//       }
-
-//     }, 800);
-//   };
-
-//   // 📊 AI ANALYSIS
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Pattern Master!";
-//     if (accuracy > 50) return "👍 Good thinking!";
-//     return "💡 Practice patterns!";
-//   };
-
-//   return (
-//     <div className="blend-container">
-
-//       <h2>🔢 Sequence Builder ({mode})</h2>
-
-//       <div className="game-info">
-//         Question {questionCount + 1}/5 | Score: {score}
-//       </div>
-
-//       {/* SEQUENCE */}
-//       <div className="sounds">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           sequence.map((s, i) => (
-//             <span key={i} className="sound-box">
-//               {s}
-//             </span>
-//           ))
-//         )}
-//       </div>
-
-//       <h3>Fill the missing item</h3>
-
-//       {/* OPTIONS */}
-//       <div className="options">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           options.map((opt, i) => (
-//             <button key={i} onClick={() => handleClick(opt)}>
-//               {opt}
-//             </button>
-//           ))
-//         )}
-//       </div>
-
-//       <p>{message}</p>
-
-//       <div className="ai-analysis">
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
-
-import { useState, useEffect } from "react";
-import "../styles/BlendSounds.css";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { db } from "../firebase";
+import {
+  doc,
+  collection,
+  addDoc,
+  Timestamp,
+} from "firebase/firestore";
 import useGameProgress from "../hooks/useGameProgress";
+import "../styles/SightWords.css";
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const TOTAL_QUESTIONS = 5;
+
+/* =========================================================
+   LETTER QUESTIONS
+   🔤 LETTER MODE = LETTERS ONLY
+========================================================= */
+
+const LETTER_QUESTIONS = [
+  {
+    sequence: ["A", "B", "_", "D"],
+    answer: "C",
+    options: ["C", "E", "F"],
+  },
+  {
+    sequence: ["F", "G", "_", "I"],
+    answer: "H",
+    options: ["H", "J", "K"],
+  },
+  {
+    sequence: ["K", "L", "_", "N"],
+    answer: "M",
+    options: ["M", "O", "P"],
+  },
+  {
+    sequence: ["P", "Q", "_", "S"],
+    answer: "R",
+    options: ["R", "T", "U"],
+  },
+  {
+    sequence: ["W", "X", "_", "Z"],
+    answer: "Y",
+    options: ["Y", "A", "B"],
+  },
+
+  {
+    sequence: ["B", "D", "_", "H"],
+    answer: "F",
+    options: ["F", "E", "G"],
+  },
+  {
+    sequence: ["C", "E", "_", "I"],
+    answer: "G",
+    options: ["G", "H", "F"],
+  },
+  {
+    sequence: ["D", "F", "_", "J"],
+    answer: "H",
+    options: ["H", "I", "G"],
+  },
+  {
+    sequence: ["G", "I", "_", "M"],
+    answer: "K",
+    options: ["K", "L", "J"],
+  },
+  {
+    sequence: ["H", "J", "_", "N"],
+    answer: "L",
+    options: ["L", "M", "K"],
+  },
+
+  {
+    sequence: ["M", "N", "_", "P"],
+    answer: "O",
+    options: ["O", "Q", "R"],
+  },
+  {
+    sequence: ["R", "S", "_", "U"],
+    answer: "T",
+    options: ["T", "V", "W"],
+  },
+];
+
+/* =========================================================
+   NUMBER QUESTIONS
+   🔢 NUMBER MODE = NUMBERS ONLY
+========================================================= */
+
+const NUMBER_QUESTIONS = [
+  {
+    sequence: ["1", "2", "_", "4"],
+    answer: "3",
+    options: ["3", "5", "6"],
+  },
+  {
+    sequence: ["5", "6", "_", "8"],
+    answer: "7",
+    options: ["7", "9", "4"],
+  },
+  {
+    sequence: ["9", "10", "_", "12"],
+    answer: "11",
+    options: ["11", "13", "8"],
+  },
+  {
+    sequence: ["13", "14", "_", "16"],
+    answer: "15",
+    options: ["15", "17", "12"],
+  },
+  {
+    sequence: ["17", "18", "_", "20"],
+    answer: "19",
+    options: ["19", "21", "16"],
+  },
+
+  {
+    sequence: ["2", "4", "_", "8"],
+    answer: "6",
+    options: ["6", "5", "10"],
+  },
+  {
+    sequence: ["3", "6", "_", "12"],
+    answer: "9",
+    options: ["9", "8", "15"],
+  },
+  {
+    sequence: ["4", "8", "_", "16"],
+    answer: "12",
+    options: ["12", "10", "14"],
+  },
+  {
+    sequence: ["5", "10", "_", "20"],
+    answer: "15",
+    options: ["15", "12", "18"],
+  },
+  {
+    sequence: ["6", "12", "_", "24"],
+    answer: "18",
+    options: ["18", "16", "20"],
+  },
+
+  {
+    sequence: ["10", "11", "_", "13"],
+    answer: "12",
+    options: ["12", "14", "15"],
+  },
+  {
+    sequence: ["20", "21", "_", "23"],
+    answer: "22",
+    options: ["22", "24", "19"],
+  },
+];
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const shuffle = (array) => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
+/*
+  Select 5 different questions for the round.
+*/
+const createRound = (questionPool) => {
+  return shuffle(questionPool)
+    .slice(0, TOTAL_QUESTIONS)
+    .map((question) => ({
+      sequence: [...question.sequence],
+      answer: question.answer,
+      options: shuffle(question.options),
+    }));
+};
+
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 export default function SequenceBuilder() {
-  const TOTAL_QUESTIONS = 5;
-
-  /* =====================================================
-     🔥 MODE
-  ===================================================== */
-
   const location = useLocation();
+
+  /* =======================================================
+     MODE
+     IMPORTANT:
+     Only "numbers" activates number mode.
+     Everything else is LETTER mode.
+  ======================================================= */
 
   const query = new URLSearchParams(location.search);
 
-  const mode = query.get("mode") || "letters";
+  const mode =
+    query.get("mode") === "numbers"
+      ? "numbers"
+      : "letters";
 
-  /*
-   * Separate progress for:
-   * sequence-builder-letters
-   * sequence-builder-numbers
-   */
-  const GAME_ID = `sequence-builder-${mode}`;
+  /* =======================================================
+     SEPARATE GAME IDS
+     Letters and numbers never overwrite each other.
+  ======================================================= */
+
+  const GAME_ID =
+    mode === "numbers"
+      ? "sequence-builder-numbers"
+      : "sequence-builder-letters";
+
+  /* =======================================================
+     SELECT CORRECT QUESTION POOL
+  ======================================================= */
+
+  const questionPool = useMemo(() => {
+    return mode === "numbers"
+      ? NUMBER_QUESTIONS
+      : LETTER_QUESTIONS;
+  }, [mode]);
+
+  /* =======================================================
+     INITIAL STATE
+  ======================================================= */
+
+  const initialState = {
+    questions: [],
+    questionIndex: 0,
+    score: 0,
+    completed: false,
+  };
+
+  /* =======================================================
+     GAME PROGRESS
+  ======================================================= */
 
   const {
     savedState,
     loading: progressLoading,
     save,
     finish,
-  } = useGameProgress(GAME_ID);
+  } = useGameProgress(
+    GAME_ID,
+    initialState
+  );
 
-  /* =====================================================
-     📌 STATE
-  ===================================================== */
+  /* =======================================================
+     LOCAL STATE
+  ======================================================= */
 
-  const [sequence, setSequence] = useState([]);
-  const [options, setOptions] = useState([]);
-  const [answer, setAnswer] = useState("");
+  const [questions, setQuestions] = useState([]);
+
+  const [questionIndex, setQuestionIndex] =
+    useState(0);
 
   const [score, setScore] = useState(0);
-  const [questionCount, setQuestionCount] = useState(0);
 
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] =
+    useState("");
 
-  const [completed, setCompleted] = useState(false);
+  const [message, setMessage] =
+    useState("");
 
-  /* =====================================================
-     🤖 GENERATE QUESTION
-  ===================================================== */
+  const [completed, setCompleted] =
+    useState(false);
 
-  const generateQuestionAI = () => {
-    try {
-      setLoading(true);
+  const [ready, setReady] =
+    useState(false);
 
-      if (mode === "numbers") {
-        const start =
-          Math.floor(Math.random() * 5) + 1;
+  const [processing, setProcessing] =
+    useState(false);
 
-        const correct = (start + 2).toString();
+  /* =======================================================
+     CURRENT QUESTION
+  ======================================================= */
 
-        const newSequence = [
-          start.toString(),
-          (start + 1).toString(),
-          "_",
-          (start + 3).toString(),
-        ];
+  const currentQuestion =
+    questions[questionIndex];
 
-        const newOptions = [
-          correct,
-          (start + 4).toString(),
-          (start + 1).toString(),
-        ].sort(() => 0.5 - Math.random());
-
-        setSequence(newSequence);
-        setAnswer(correct);
-        setOptions(newOptions);
-
-        return {
-          sequence: newSequence,
-          options: newOptions,
-          answer: correct,
-        };
-      }
-
-      /* =================================================
-         🔤 LETTER MODE
-      ================================================= */
-
-      const letters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-      const index =
-        Math.floor(Math.random() * 20);
-
-      const correct =
-        letters[index + 2];
-
-      const newSequence = [
-        letters[index],
-        letters[index + 1],
-        "_",
-        letters[index + 3],
-      ];
-
-      const newOptions = [
-        correct,
-        letters[index + 4],
-        letters[index + 1],
-      ].sort(() => 0.5 - Math.random());
-
-      setSequence(newSequence);
-      setAnswer(correct);
-      setOptions(newOptions);
-
-      return {
-        sequence: newSequence,
-        options: newOptions,
-        answer: correct,
-      };
-    } catch (err) {
-      console.error(err);
-
-      const fallback = {
-        sequence:
-          mode === "numbers"
-            ? ["1", "2", "_", "4"]
-            : ["A", "B", "_", "D"],
-
-        options:
-          mode === "numbers"
-            ? ["3", "5", "2"]
-            : ["C", "E", "B"],
-
-        answer:
-          mode === "numbers"
-            ? "3"
-            : "C",
-      };
-
-      setSequence(fallback.sequence);
-      setOptions(fallback.options);
-      setAnswer(fallback.answer);
-
-      return fallback;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /* =====================================================
-     🔥 RESTORE PROGRESS
-  ===================================================== */
+  /* =======================================================
+     RESTORE / START GAME
+  ======================================================= */
 
   useEffect(() => {
-    if (progressLoading) return;
+    if (progressLoading) {
+      return;
+    }
 
-    const restoreGame = async () => {
-      if (savedState) {
-        console.log(
-          "🔥 Restoring Sequence Builder:",
-          savedState
+    /*
+      If saved game exists,
+      restore it.
+    */
+
+    if (
+      savedState?.questions?.length > 0
+    ) {
+      console.log(
+        "🔄 Restoring Sequence Builder:",
+        savedState
+      );
+
+      setQuestions(
+        savedState.questions
+      );
+
+      setQuestionIndex(
+        savedState.questionIndex || 0
+      );
+
+      setScore(
+        savedState.score || 0
+      );
+
+      setCompleted(
+        Boolean(savedState.completed)
+      );
+
+      setSelected("");
+      setMessage("");
+      setReady(true);
+
+      return;
+    }
+
+    /*
+      No saved game.
+      Start a fresh round.
+    */
+
+    console.log(
+      "🆕 Starting Sequence Builder:",
+      mode
+    );
+
+    const newQuestions =
+      createRound(questionPool);
+
+    setQuestions(newQuestions);
+    setQuestionIndex(0);
+    setScore(0);
+    setSelected("");
+    setMessage("");
+    setCompleted(false);
+    setReady(true);
+
+    /*
+      Save initial game state.
+    */
+    save({
+      questions: newQuestions,
+      questionIndex: 0,
+      score: 0,
+      completed: false,
+    });
+  }, [
+    progressLoading,
+    savedState,
+    mode,
+    questionPool,
+  ]);
+
+  /* =======================================================
+     SAVE GAME RESULT
+  ======================================================= */
+
+  const saveGameResult = async (
+    finalScore
+  ) => {
+    try {
+      const userId =
+        localStorage.getItem("userId");
+
+      if (!userId) {
+        console.warn(
+          "⚠️ No userId found."
         );
-
-        setSequence(
-          savedState.sequence || []
-        );
-
-        setOptions(
-          savedState.options || []
-        );
-
-        setAnswer(
-          savedState.answer || ""
-        );
-
-        setScore(
-          savedState.score || 0
-        );
-
-        setQuestionCount(
-          savedState.questionCount || 0
-        );
-
-        setMessage(
-          savedState.message || ""
-        );
-
-        setCompleted(
-          savedState.completed || false
-        );
-
-        setLoading(false);
-
         return;
       }
 
-      /* ================================================
-         🆕 NEW GAME
-      ================================================ */
+      const accuracy =
+        (finalScore / TOTAL_QUESTIONS) *
+        100;
 
-      console.log(
-        "🆕 Starting Sequence Builder:",
-        mode
+      const userRef = doc(
+        db,
+        "users",
+        userId
       );
 
-      const question =
-        generateQuestionAI();
+      const resultsRef = collection(
+        userRef,
+        "game_results"
+      );
 
-      await save({
-        sequence: question.sequence,
-        options: question.options,
-        answer: question.answer,
-        score: 0,
-        questionCount: 0,
-        message: "",
-        completed: false,
+      await addDoc(resultsRef, {
+        game:
+          mode === "numbers"
+            ? "SequenceBuilder_numbers"
+            : "SequenceBuilder_letters",
+
+        mode,
+
+        score: finalScore,
+
+        totalQuestions:
+          TOTAL_QUESTIONS,
+
+        accuracy: Number(
+          accuracy.toFixed(2)
+        ),
+
+        createdAt:
+          Timestamp.now(),
       });
-    };
 
-    restoreGame();
-  }, [progressLoading, savedState, mode]);
+      console.log(
+        "✅ Sequence Builder result saved"
+      );
+    } catch (error) {
+      console.error(
+        "❌ Failed to save Sequence Builder result:",
+        error
+      );
+    }
+  };
 
-  /* =====================================================
-     🎯 HANDLE ANSWER
-  ===================================================== */
+  /* =======================================================
+     HANDLE ANSWER
+  ======================================================= */
 
-  const handleClick = (item) => {
+  const handleAnswer = async (
+    selectedOption
+  ) => {
     if (
-      loading ||
+      processing ||
       completed ||
-      questionCount >= TOTAL_QUESTIONS
+      !currentQuestion
     ) {
       return;
     }
 
-    const isCorrect = item === answer;
+    setProcessing(true);
+    setSelected(selectedOption);
+
+    const isCorrect =
+      selectedOption ===
+      currentQuestion.answer;
 
     const updatedScore = isCorrect
       ? score + 1
       : score;
 
+    setScore(updatedScore);
+
     setMessage(
       isCorrect
-        ? "✅ Correct!"
-        : "❌ Try again!"
+        ? "🎉 Correct! Great thinking!"
+        : `💡 Nice try! The answer is ${currentQuestion.answer}.`
     );
 
-    setTimeout(async () => {
-      const nextQuestion =
-        questionCount + 1;
+    const isLastQuestion =
+      questionIndex ===
+      TOTAL_QUESTIONS - 1;
 
-      setMessage("");
-      setQuestionCount(nextQuestion);
+    /* =====================================================
+       LAST QUESTION
+    ===================================================== */
 
-      /* ================================================
-         🏆 FINAL QUESTION
-      ================================================ */
+    if (isLastQuestion) {
+      const percentage =
+        (updatedScore /
+          TOTAL_QUESTIONS) *
+        100;
 
-      if (
-        nextQuestion === TOTAL_QUESTIONS
-      ) {
-        const percentage =
-          (updatedScore / TOTAL_QUESTIONS) *
-          100;
+      /*
+        Save game result.
+      */
+      await saveGameResult(
+        updatedScore
+      );
 
-        await finish(
-          percentage,
-          `Sequence Builder (${mode})`
-        );
-
-        setScore(updatedScore);
-        setCompleted(true);
-        setLoading(false);
-
-        await save({
-          sequence,
-          options,
-          answer,
-          score: updatedScore,
-          questionCount: nextQuestion,
-          message: "",
-          completed: true,
-        });
-
-        return;
-      }
-
-      /* ================================================
-         ➡️ NEXT QUESTION
-      ================================================ */
-
-      setScore(updatedScore);
-
-      const question =
-        generateQuestionAI();
-
+      /*
+        Save completion state BEFORE
+        finish(), because finish() clears
+        active game progress.
+      */
       await save({
-        sequence: question.sequence,
-        options: question.options,
-        answer: question.answer,
+        questions,
+        questionIndex,
         score: updatedScore,
-        questionCount: nextQuestion,
-        message: "",
-        completed: false,
+        completed: true,
       });
-    }, 800);
+
+      /*
+        ⭐ Stars + history
+      */
+      await finish(
+        percentage,
+        mode === "numbers"
+          ? "Sequence Builder (Numbers)"
+          : "Sequence Builder (Letters)"
+      );
+
+      setTimeout(() => {
+        setCompleted(true);
+        setProcessing(false);
+      }, 600);
+
+      return;
+    }
+
+    /* =====================================================
+       NEXT QUESTION
+    ===================================================== */
+
+    const nextIndex =
+      questionIndex + 1;
+
+    /*
+      Save progress before moving.
+    */
+    await save({
+      questions,
+      questionIndex: nextIndex,
+      score: updatedScore,
+      completed: false,
+    });
+
+    setTimeout(() => {
+      setQuestionIndex(nextIndex);
+      setSelected("");
+      setMessage("");
+      setProcessing(false);
+    }, 600);
   };
 
-  /* =====================================================
-     🔄 PLAY AGAIN
-  ===================================================== */
+  /* =======================================================
+     PLAY AGAIN
+  ======================================================= */
 
   const playAgain = async () => {
-    const question =
-      generateQuestionAI();
+    const newQuestions =
+      createRound(questionPool);
 
+    setQuestions(newQuestions);
+    setQuestionIndex(0);
     setScore(0);
-    setQuestionCount(0);
+    setSelected("");
     setMessage("");
     setCompleted(false);
+    setProcessing(false);
 
     await save({
-      sequence: question.sequence,
-      options: question.options,
-      answer: question.answer,
+      questions: newQuestions,
+      questionIndex: 0,
       score: 0,
-      questionCount: 0,
-      message: "",
       completed: false,
     });
   };
 
-  /* =====================================================
-     📊 PERFORMANCE
-  ===================================================== */
+  /* =======================================================
+     PERFORMANCE MESSAGE
+  ======================================================= */
 
   const getPerformanceMessage = () => {
-    if (questionCount === 0) {
-      return "";
+    if (score === 5) {
+      return "🌟 Sequence Superstar!";
     }
 
-    const accuracy =
-      (score / questionCount) * 100;
-
-    if (accuracy > 80) {
-      return "🌟 Pattern Master!";
+    if (score === 4) {
+      return "🎉 Excellent thinking!";
     }
 
-    if (accuracy > 50) {
-      return "👍 Good thinking!";
+    if (score === 3) {
+      return "👏 Great job!";
     }
 
-    return "💡 Practice patterns!";
+    if (score === 2) {
+      return "💪 Good effort! Keep practicing!";
+    }
+
+    return "🌱 Keep practicing sequences!";
   };
 
-  /* =====================================================
-     ⏳ LOADING
-  ===================================================== */
+  /* =======================================================
+     LOADING
+  ======================================================= */
 
-  if (progressLoading) {
+  if (
+    progressLoading ||
+    !ready
+  ) {
     return (
       <div className="blend-container">
         <h2>
-          🔢 Sequence Builder ({mode})
+          {mode === "numbers"
+            ? "🔢 Sequence Builder"
+            : "🔤 Sequence Builder"}
         </h2>
 
-        <p>🌱 Loading your progress...</p>
+        <p>
+          🌱 Getting your practice ready...
+        </p>
       </div>
     );
   }
 
-  /* =====================================================
-     🎨 UI
-  ===================================================== */
+  /* =======================================================
+     COMPLETED SCREEN
+  ======================================================= */
 
-  return (
-    <div className="blend-container">
+  if (completed) {
+    const percentage = Math.round(
+      (score / TOTAL_QUESTIONS) *
+        100
+    );
 
-      <h2>
-        🔢 Sequence Builder ({mode})
-      </h2>
+    return (
+      <div className="blend-container">
 
-      <div className="game-info">
-        Question{" "}
-        {completed
-          ? TOTAL_QUESTIONS
-          : questionCount + 1}
-        /{TOTAL_QUESTIONS}{" "}
-        | Score: {score}
-      </div>
-
-      {/* =================================================
-          COMPLETION
-      ================================================= */}
-
-      {completed ? (
         <div className="ai-analysis">
 
-          <h2>🎉 Completed!</h2>
+          <div
+            style={{
+              fontSize: "60px",
+              marginBottom: "10px",
+            }}
+          >
+            {percentage === 100
+              ? "🏆"
+              : percentage >= 60
+                ? "🌟"
+                : "🌱"}
+          </div>
+
+          <h2>
+            {mode === "numbers"
+              ? "🔢 Number Sequence Complete!"
+              : "🔤 Letter Sequence Complete!"}
+          </h2>
 
           <h3>
-            Score: {score}/{TOTAL_QUESTIONS}
+            Score: {score}/
+            {TOTAL_QUESTIONS}
           </h3>
 
           <p>
-            {score >= 4
-              ? "🌟 Pattern Master!"
-              : "💡 Keep practicing patterns!"}
+            Accuracy: {percentage}%
           </p>
 
-          <button onClick={playAgain}>
+          <p>
+            {getPerformanceMessage()}
+          </p>
+
+          <p
+            style={{
+              fontSize: "28px",
+              margin: "15px 0",
+            }}
+          >
+            {percentage >= 90
+              ? "⭐⭐⭐"
+              : percentage >= 70
+                ? "⭐⭐"
+                : "⭐"}
+          </p>
+
+          <button
+            onClick={playAgain}
+          >
             🔄 Play Again
           </button>
 
         </div>
-      ) : (
-        <>
-          {/* =================================================
-              SEQUENCE
-          ================================================= */}
 
-          <div className="sounds">
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              sequence.map((item, index) => (
-                <span
-                  key={index}
-                  className="sound-box"
-                >
-                  {item}
-                </span>
-              ))
-            )}
-          </div>
+      </div>
+    );
+  }
 
-          <h3>
-            Fill the missing item
-          </h3>
+  /* =======================================================
+     MAIN GAME
+  ======================================================= */
 
-          {/* =================================================
-              OPTIONS
-          ================================================= */}
+  return (
+    <div className="blend-container">
 
-          <div className="options">
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() =>
-                    handleClick(option)
-                  }
-                >
-                  {option}
-                </button>
-              ))
-            )}
-          </div>
+      {/* =================================================
+          TITLE
+      ================================================= */}
 
-          <p>{message}</p>
+      <h2>
+        {mode === "numbers"
+          ? "🔢 Number Sequence Builder"
+          : "🔤 Letter Sequence Builder"}
+      </h2>
 
-          <div className="ai-analysis">
-            <p>
-              {getPerformanceMessage()}
-            </p>
-          </div>
-        </>
-      )}
+      {/* =================================================
+          GAME INFO
+      ================================================= */}
+
+      <div className="game-info">
+        Question{" "}
+        {questionIndex + 1}/
+        {TOTAL_QUESTIONS}
+        {" | "}
+        Score: {score}
+      </div>
+
+      {/* =================================================
+          INSTRUCTION
+      ================================================= */}
+
+      <h3>
+        {mode === "numbers"
+          ? "What number is missing?"
+          : "What letter is missing?"}
+      </h3>
+
+      {/* =================================================
+          SEQUENCE
+      ================================================= */}
+
+      <div className="sounds">
+
+        {currentQuestion?.sequence.map(
+          (item, index) => (
+            <span
+              key={`${item}-${index}`}
+              className="sound-box"
+              style={{
+                fontSize: "28px",
+                fontWeight: "800",
+              }}
+            >
+              {item}
+            </span>
+          )
+        )}
+
+      </div>
+
+      {/* =================================================
+          OPTIONS
+      ================================================= */}
+
+      <h3>
+        {mode === "numbers"
+          ? "Choose the correct number"
+          : "Choose the correct letter"}
+      </h3>
+
+      <div className="options">
+
+        {currentQuestion?.options.map(
+          (option, index) => {
+
+            const isSelected =
+              selected === option;
+
+            const isCorrect =
+              isSelected &&
+              option ===
+                currentQuestion.answer;
+
+            const isWrong =
+              isSelected &&
+              option !==
+                currentQuestion.answer;
+
+            return (
+              <button
+                key={`${option}-${index}`}
+                onClick={() =>
+                  handleAnswer(option)
+                }
+                disabled={
+                  processing ||
+                  Boolean(selected)
+                }
+                style={{
+                  backgroundColor:
+                    isCorrect
+                      ? "#d9f7df"
+                      : isWrong
+                        ? "#ffe1df"
+                        : "",
+                }}
+              >
+                {option}
+              </button>
+            );
+          }
+        )}
+
+      </div>
+
+      {/* =================================================
+          MESSAGE
+      ================================================= */}
+
+      <p
+        style={{
+          minHeight: "30px",
+          fontWeight: "700",
+        }}
+      >
+        {message}
+      </p>
+
+      {/* =================================================
+          PERFORMANCE
+      ================================================= */}
+
+      <div className="ai-analysis">
+
+        <p>
+          {score === 0
+            ? "💡 Look carefully at the order."
+            : getPerformanceMessage()}
+        </p>
+
+      </div>
 
     </div>
   );

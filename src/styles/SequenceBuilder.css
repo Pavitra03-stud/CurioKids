@@ -1,0 +1,717 @@
+/* =========================================================
+   CURIOKIDS - SEQUENCE BUILDER
+   Letters + Numbers
+========================================================= */
+
+.sequence-page {
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 35px 20px 70px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(255, 236, 163, 0.35),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 92% 20%,
+      rgba(190, 240, 180, 0.4),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #f8fff4 0%,
+      #e8f8df 50%,
+      #f5fbe9 100%
+    );
+
+  color: #185941;
+
+  font-family:
+    "Nunito",
+    "Arial Rounded MT Bold",
+    Arial,
+    sans-serif;
+}
+
+
+/* =========================================================
+   MAIN GAME CONTAINER
+========================================================= */
+
+.sequence-container {
+  width: min(760px, 100%);
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.sequence-header {
+  width: 100%;
+
+  padding: 34px 28px;
+
+  box-sizing: border-box;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 12px 35px rgba(45, 101, 73, 0.12);
+
+  text-align: center;
+}
+
+.sequence-header h1 {
+  margin: 0;
+
+  color: #185941;
+
+  font-size: clamp(30px, 5vw, 48px);
+
+  line-height: 1.25;
+
+  font-weight: 900;
+
+  letter-spacing: -0.5px;
+}
+
+.sequence-header p {
+  margin: 12px 0 0;
+
+  color: #6b8879;
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   SCORE BAR
+========================================================= */
+
+.sequence-score {
+  width: 100%;
+
+  padding: 18px 25px;
+
+  box-sizing: border-box;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 8px 25px rgba(45, 101, 73, 0.08);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 21px;
+
+  font-weight: 900;
+
+  color: #28684f;
+}
+
+
+/* =========================================================
+   QUESTION
+========================================================= */
+
+.sequence-question {
+  width: 100%;
+
+  padding: 28px 20px 18px;
+
+  text-align: center;
+}
+
+.sequence-question h2 {
+  margin: 0;
+
+  color: #1b6048;
+
+  font-size: clamp(25px, 4vw, 34px);
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   SEQUENCE CARD
+========================================================= */
+
+.sequence-display {
+  width: 100%;
+
+  padding: 30px 22px;
+
+  box-sizing: border-box;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 14px 38px rgba(45, 101, 73, 0.12);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 18px;
+
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   SEQUENCE ITEMS
+========================================================= */
+
+.sequence-item {
+  width: 82px;
+
+  height: 82px;
+
+  border-radius: 22px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #eef9e8
+    );
+
+  border: 3px solid #d7ebcf;
+
+  color: #195940;
+
+  font-size: 34px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 8px 18px rgba(45, 101, 73, 0.1);
+}
+
+
+/* Missing item */
+
+.sequence-item.missing {
+  background:
+    linear-gradient(
+      145deg,
+      #e5f9d8,
+      #d3f1c2
+    );
+
+  border: 3px dashed #8fc77c;
+
+  color: #57904b;
+
+  font-size: 38px;
+}
+
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.sequence-options {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(120px, 1fr));
+
+  gap: 18px;
+
+  padding: 5px 0;
+}
+
+
+/* =========================================================
+   OPTION BUTTON
+========================================================= */
+
+.sequence-option {
+  min-height: 78px;
+
+  border: none;
+
+  border-radius: 21px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #d9f6d0,
+      #c5ebba
+    );
+
+  color: #185941;
+
+  font-size: 28px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 18px rgba(45, 101, 73, 0.14);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.sequence-option:hover:not(:disabled) {
+  transform: translateY(-5px);
+
+  background:
+    linear-gradient(
+      145deg,
+      #c9efbd,
+      #b8e6a9
+    );
+
+  box-shadow:
+    0 13px 25px rgba(45, 101, 73, 0.2);
+}
+
+.sequence-option:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+
+/* =========================================================
+   CORRECT / WRONG STATES
+========================================================= */
+
+.sequence-option.correct {
+  background:
+    linear-gradient(
+      145deg,
+      #a9e89a,
+      #86d879
+    );
+
+  color: #174e34;
+
+  border: 3px solid #68bd59;
+}
+
+.sequence-option.wrong {
+  background:
+    linear-gradient(
+      145deg,
+      #ffe0d9,
+      #ffc9be
+    );
+
+  color: #9b493c;
+
+  border: 3px solid #eea99d;
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.sequence-feedback {
+  width: 100%;
+
+  min-height: 35px;
+
+  padding: 12px 18px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  font-size: 20px;
+
+  font-weight: 800;
+
+  color: #39735b;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.sequence-progress {
+  width: 100%;
+
+  padding: 18px 22px;
+
+  box-sizing: border-box;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  box-shadow:
+    0 7px 20px rgba(45, 101, 73, 0.08);
+}
+
+.sequence-progress-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 10px;
+
+  color: #477762;
+
+  font-size: 15px;
+
+  font-weight: 800;
+}
+
+.sequence-progress-bar {
+  width: 100%;
+
+  height: 12px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: #dfe9df;
+}
+
+.sequence-progress-fill {
+  height: 100%;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #4caf50,
+      #82c341
+    );
+
+  transition: width 0.4s ease;
+}
+
+
+/* =========================================================
+   COMPLETION CARD
+========================================================= */
+
+.sequence-complete {
+  width: 100%;
+
+  padding: 35px 25px;
+
+  box-sizing: border-box;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 14px 40px rgba(45, 101, 73, 0.14);
+
+  text-align: center;
+}
+
+.sequence-complete h2 {
+  margin: 0 0 10px;
+
+  font-size: 34px;
+
+  color: #185941;
+
+  font-weight: 900;
+}
+
+.sequence-complete p {
+  margin: 8px 0;
+
+  color: #557a69;
+
+  font-size: 19px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PLAY AGAIN
+========================================================= */
+
+.sequence-restart {
+  margin-top: 20px;
+
+  padding: 15px 30px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4caf50,
+      #78c850
+    );
+
+  color: white;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 18px rgba(61, 130, 68, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sequence-restart:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 25px rgba(61, 130, 68, 0.3);
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+========================================================= */
+
+.sequence-option:focus-visible,
+.sequence-restart:focus-visible {
+  outline: 4px solid #9bd88e;
+
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .sequence-page {
+    padding: 25px 15px 55px;
+  }
+
+  .sequence-header {
+    padding: 27px 20px;
+  }
+
+  .sequence-header h1 {
+    font-size: 34px;
+  }
+
+  .sequence-display {
+    gap: 12px;
+
+    padding: 25px 15px;
+  }
+
+  .sequence-item {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 19px;
+
+    font-size: 29px;
+  }
+
+  .sequence-options {
+    gap: 12px;
+  }
+
+  .sequence-option {
+    min-height: 68px;
+
+    font-size: 24px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .sequence-page {
+    padding: 16px 12px 45px;
+  }
+
+  .sequence-container {
+    gap: 12px;
+  }
+
+  .sequence-header {
+    padding: 22px 15px;
+
+    border-radius: 22px;
+  }
+
+  .sequence-header h1 {
+    font-size: 28px;
+  }
+
+  .sequence-header p {
+    font-size: 15px;
+  }
+
+  .sequence-score {
+    padding: 14px;
+
+    border-radius: 16px;
+
+    font-size: 17px;
+  }
+
+  .sequence-question {
+    padding: 18px 10px 10px;
+  }
+
+  .sequence-question h2 {
+    font-size: 23px;
+  }
+
+  .sequence-display {
+    padding: 20px 10px;
+
+    gap: 8px;
+
+    border-radius: 22px;
+  }
+
+  .sequence-item {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 15px;
+
+    font-size: 23px;
+  }
+
+  .sequence-item.missing {
+    font-size: 27px;
+  }
+
+  .sequence-options {
+    grid-template-columns:
+      repeat(3, 1fr);
+
+    gap: 9px;
+  }
+
+  .sequence-option {
+    min-height: 60px;
+
+    border-radius: 15px;
+
+    font-size: 21px;
+  }
+
+  .sequence-progress {
+    padding: 14px 15px;
+
+    border-radius: 16px;
+  }
+
+  .sequence-feedback {
+    font-size: 17px;
+  }
+
+  .sequence-complete {
+    padding: 28px 18px;
+
+    border-radius: 22px;
+  }
+
+  .sequence-complete h2 {
+    font-size: 28px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 350px) {
+
+  .sequence-item {
+    width: 50px;
+    height: 50px;
+
+    font-size: 20px;
+  }
+
+  .sequence-option {
+    min-height: 54px;
+
+    font-size: 18px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sequence-option,
+  .sequence-restart,
+  .sequence-progress-fill {
+    transition: none;
+  }
+}

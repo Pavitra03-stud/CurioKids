@@ -439,7 +439,7 @@
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
 }
 
@@ -1025,4 +1025,1255 @@ body,
     min-height: 300px;
     padding: 24px 8px 8px;
   }
+}
+/* =========================================================
+   GAME SECTION - JUNGLE WOOD STYLE
+   ========================================================= */
+
+/* Make "Choose your game" readable against the jungle */
+.section-heading {
+  position: relative;
+  z-index: 5;
+}
+
+.section-kicker {
+  color: #f4e6b8;
+  text-shadow: 0 2px 5px rgba(20, 55, 35, 0.75);
+}
+
+.section-heading h2 {
+  color: #fff3c4;
+  text-shadow:
+    0 3px 0 #164a36,
+    0 5px 12px rgba(0, 0, 0, 0.35);
+}
+
+.section-heading p {
+  color: #f4edcf;
+  text-shadow: 0 2px 5px rgba(20, 55, 35, 0.8);
+}
+
+.game-count {
+  background: rgba(244, 248, 217, 0.92);
+  border: 3px solid #d5a45c;
+  box-shadow:
+    0 5px 0 #8b5a2b,
+    0 10px 20px rgba(30, 70, 40, 0.25);
+}
+
+
+/* =========================================================
+   WOODEN GAME CARDS
+   ========================================================= */
+
+.game-card {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(139, 91, 43, 0.98),
+      rgba(170, 111, 52, 0.97) 48%,
+      rgba(126, 78, 37, 0.98)
+    ) !important;
+
+  border: 4px solid #e0b66d;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(92, 54, 25, 0.45),
+    inset 0 0 25px rgba(72, 39, 18, 0.25),
+    0 6px 0 #70421f,
+    0 14px 28px rgba(35, 65, 38, 0.28);
+
+  border-radius: 24px;
+}
+
+
+/* Wooden grain effect */
+.game-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.28;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(255, 220, 150, 0.12) 9px,
+      transparent 11px
+    );
+
+  border-radius: inherit;
+}
+
+
+/* Soft highlight */
+.card-glow {
+  background: rgba(255, 224, 155, 0.16);
+}
+
+
+/* Card title */
+.game-card-content h3 {
+  color: #fff4cf;
+  text-shadow:
+    0 2px 3px rgba(67, 38, 18, 0.7);
+}
+
+
+/* Description */
+.game-card-content p {
+  color: #f8edce;
+  text-shadow:
+    0 1px 3px rgba(58, 35, 18, 0.65);
+}
+
+
+/* Helper text */
+.game-helper {
+  color: #d9efbd;
+  text-shadow: 0 1px 3px rgba(30, 65, 38, 0.65);
+}
+
+
+/* Game number */
+.game-number {
+  color: rgba(255, 235, 180, 0.45);
+}
+
+
+/* Icon container */
+.game-icon-wrap {
+  background: #f7edc9;
+  border: 4px solid #fff3cf;
+
+  box-shadow:
+    0 4px 0 #9a642d,
+    0 8px 15px rgba(45, 30, 15, 0.25);
+}
+
+
+/* Play button */
+.play-button {
+  background: #237b4d;
+  border: 2px solid #9bd36c;
+
+  box-shadow:
+    0 4px 0 #155331,
+    0 6px 10px rgba(25, 55, 30, 0.25);
+}
+
+
+/* Hover */
+.game-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 225, 160, 0.25),
+    0 8px 0 #70421f,
+    0 18px 30px rgba(30, 65, 35, 0.32);
+}
+
+
+/* Keep each card wooden instead of the old pastel colors */
+.game-card-sun,
+.game-card-sky,
+.game-card-leaf,
+.game-card-berry,
+.game-card-violet,
+.game-card-orange,
+.game-card-aqua,
+.game-card-coral,
+.game-card-blue {
+  background:
+    linear-gradient(
+      135deg,
+      #9b6330 0%,
+      #b8783b 45%,
+      #8a5428 100%
+    ) !important;
+}
+/* =========================================================
+   FIX 8 GAME CARDS
+========================================================= */
+
+.games-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 22px !important;
+}
+
+
+/* CARD */
+
+.game-card {
+  min-width: 0 !important;
+  height: 220px !important;
+
+  position: relative !important;
+
+  padding: 18px !important;
+
+  display: grid !important;
+  grid-template-columns: 62px minmax(0, 1fr) !important;
+  grid-template-rows: auto 1fr auto !important;
+
+  column-gap: 12px !important;
+
+  overflow: hidden !important;
+
+  text-align: left !important;
+}
+
+
+/* NUMBER */
+
+.game-number {
+  position: absolute !important;
+
+  left: 76px !important;
+  top: 92px !important;
+
+  z-index: 1 !important;
+
+  font-size: 12px !important;
+
+  color: rgba(255, 239, 190, 0.35) !important;
+}
+
+
+/* ICON */
+
+.game-icon-wrap {
+  width: 62px !important;
+  height: 62px !important;
+
+  grid-column: 1 !important;
+  grid-row: 1 / 3 !important;
+
+  align-self: center !important;
+
+  margin: 0 !important;
+
+  z-index: 5 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  flex-shrink: 0 !important;
+}
+
+
+/* CONTENT */
+
+.game-card-content {
+  min-width: 0 !important;
+
+  grid-column: 2 !important;
+  grid-row: 1 / 3 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  justify-content: center !important;
+
+  padding: 0 !important;
+
+  text-align: left !important;
+}
+
+
+/* TITLE */
+
+.game-card-content h3 {
+  margin: 0 0 5px !important;
+
+  color: #fff5d2 !important;
+
+  font-family: "Baloo 2", sans-serif !important;
+
+  font-size: 21px !important;
+
+  line-height: 0.95 !important;
+
+  font-weight: 800 !important;
+
+  text-shadow:
+    0 2px 3px rgba(62, 34, 16, 0.75) !important;
+
+  overflow-wrap: break-word !important;
+}
+
+
+/* DESCRIPTION */
+
+.game-card-content p {
+  margin: 0 !important;
+
+  color: #fff0c9 !important;
+
+  font-size: 10px !important;
+
+  line-height: 1.35 !important;
+
+  font-weight: 700 !important;
+
+  max-width: 145px !important;
+
+  overflow-wrap: break-word !important;
+}
+
+
+/* CATEGORY */
+
+.game-category {
+  position: absolute !important;
+
+  left: 18px !important;
+  top: 102px !important;
+
+  z-index: 8 !important;
+
+  font-size: 8px !important;
+
+  font-weight: 900 !important;
+}
+
+
+/* PLAY BUTTON */
+
+.play-button {
+  position: absolute !important;
+
+  left: 18px !important;
+  bottom: 17px !important;
+
+  z-index: 10 !important;
+
+  width: 76px !important;
+  height: 30px !important;
+
+  margin: 0 !important;
+
+  font-size: 9px !important;
+}
+
+
+/* HELPER TEXT */
+
+.game-helper {
+  position: absolute !important;
+
+  right: 15px !important;
+  bottom: 19px !important;
+
+  max-width: 85px !important;
+
+  font-size: 7px !important;
+
+  text-align: right !important;
+
+  line-height: 1.1 !important;
+}
+
+
+/* =========================================================
+   MAKE THE 4 + 4 ORDER EXPLICIT
+========================================================= */
+
+.game-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.game-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.game-card:nth-child(3) { grid-column: 3; grid-row: 1; }
+.game-card:nth-child(4) { grid-column: 4; grid-row: 1; }
+
+.game-card:nth-child(5) { grid-column: 1; grid-row: 2; }
+.game-card:nth-child(6) { grid-column: 2; grid-row: 2; }
+.game-card:nth-child(7) { grid-column: 3; grid-row: 2; }
+.game-card:nth-child(8) { grid-column: 4; grid-row: 2; }
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .game-card:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .games-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .game-card:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .game-card {
+    height: 190px !important;
+  }
+}
+/* =========================================================
+   FINAL SIZE + COLOR FIX
+========================================================= */
+
+/* Adventure is waiting */
+.games-page .hero-title span,
+.games-page .hero-subtitle,
+.games-page .adventure-title {
+  color: #035120 !important;
+  text-shadow:
+    0 3px 0 #164A36,
+    0 5px 8px rgba(0, 0, 0, 0.35) !important;
+}
+
+
+/* If Adventure is waiting is the second line of the main heading */
+.games-page h1 span {
+  color: #024e07 !important;
+  text-shadow:
+    0 3px 0 #164A36,
+    0 5px 8px rgba(0, 0, 0, 0.35) !important;
+}
+
+
+/* =========================================================
+   MAKE GAME CARD CONTENT BIGGER
+========================================================= */
+
+.game-card-content h3 {
+  font-size: 25px !important;
+  line-height: 1.05 !important;
+  color: #FFF4CF !important;
+
+  text-shadow:
+    0 2px 3px rgba(50, 25, 10, 0.8) !important;
+}
+
+
+.game-card-content p {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+
+  color: #FFF0CA !important;
+}
+
+
+/* Category labels */
+.game-category {
+  font-size: 9px !important;
+  padding: 5px 9px !important;
+}
+
+
+/* Game number */
+.game-number {
+  font-size: 14px !important;
+}
+
+
+/* Play button */
+.play-button {
+  width: 82px !important;
+  height: 34px !important;
+
+  font-size: 10px !important;
+  font-weight: 900 !important;
+}
+
+
+/* Icon */
+.game-icon-wrap {
+  width: 68px !important;
+  height: 68px !important;
+}
+
+
+/* =========================================================
+   MAKE CARDS BIGGER
+========================================================= */
+
+.game-card {
+  height: 245px !important;
+  padding: 20px !important;
+}
+
+
+/* Make the heading itself larger */
+.games-page .hero h1 {
+  font-size: clamp(42px, 5vw, 68px) !important;
+}
+
+
+/* Main adventure description */
+.games-page .hero p {
+  font-size: 12px !important;
+}
+
+
+/* =========================================================
+   GAME SECTION HEADING
+========================================================= */
+
+.section-heading h2 {
+  font-size: 38px !important;
+  color: #FFF1C4 !important;
+
+  text-shadow:
+    0 3px 0 #164A36,
+    0 5px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+.section-heading p {
+  font-size: 12px !important;
+  color: #F4E8C1 !important;
+}
+/* =========================================================
+   FINAL GAME CARD FIX
+========================================================= */
+
+.games-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 22px !important;
+}
+
+
+/* CARD */
+
+.game-card {
+  position: relative !important;
+
+  height: 245px !important;
+  min-width: 0 !important;
+
+  padding: 18px !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  overflow: hidden !important;
+
+  border-radius: 24px !important;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.game-icon-wrap {
+  position: relative !important;
+
+  flex: 0 0 68px !important;
+
+  width: 68px !important;
+  height: 68px !important;
+
+  margin: 0 14px 0 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  z-index: 5 !important;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.game-card-content {
+  position: relative !important;
+
+  flex: 1 !important;
+  min-width: 0 !important;
+
+  height: 100% !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  justify-content: center !important;
+
+  padding: 0 0 32px 0 !important;
+
+  text-align: left !important;
+}
+
+
+.game-card-content h3 {
+  position: relative !important;
+
+  margin: 0 0 7px 0 !important;
+
+  color: #fff5d2 !important;
+
+  font-family: "Baloo 2", sans-serif !important;
+
+  font-size: 23px !important;
+  line-height: 1.05 !important;
+
+  font-weight: 800 !important;
+
+  text-shadow:
+    0 2px 3px rgba(55, 28, 12, 0.8) !important;
+}
+
+
+.game-card-content p {
+  position: relative !important;
+
+  margin: 0 !important;
+
+  max-width: 155px !important;
+
+  color: #fff0ca !important;
+
+  font-family: "Nunito", sans-serif !important;
+
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+
+  font-weight: 700 !important;
+
+  overflow-wrap: break-word !important;
+}
+
+
+/* =========================================================
+   REMOVE OVERLAPPING EXTRA TEXT
+========================================================= */
+
+.game-number {
+  position: absolute !important;
+
+  top: 18px !important;
+  right: 18px !important;
+
+  font-size: 12px !important;
+
+  color: rgba(255, 240, 195, 0.35) !important;
+
+  z-index: 1 !important;
+}
+
+
+.game-category {
+  position: absolute !important;
+
+  left: 18px !important;
+  bottom: 18px !important;
+
+  z-index: 10 !important;
+
+  font-size: 8px !important;
+  line-height: 1 !important;
+
+  padding: 5px 8px !important;
+}
+
+
+/* =========================================================
+   HELPER TEXT
+========================================================= */
+
+.game-helper {
+  position: absolute !important;
+
+  right: 15px !important;
+  bottom: 20px !important;
+
+  max-width: 85px !important;
+
+  margin: 0 !important;
+
+  font-size: 7px !important;
+  line-height: 1.1 !important;
+
+  text-align: right !important;
+
+  color: #d9efbd !important;
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+.play-button {
+  position: absolute !important;
+
+  left: 18px !important;
+  bottom: 17px !important;
+
+  width: 78px !important;
+  height: 32px !important;
+
+  margin: 0 !important;
+
+  z-index: 20 !important;
+
+  font-size: 9px !important;
+}
+
+
+/* =========================================================
+   ADVENTURE IS WAITING
+========================================================= */
+
+.hero h1,
+.hero-title,
+.hero-title span,
+.adventure-title {
+  color: #03570a !important;
+
+  text-shadow:
+    0 3px 0 #164A36,
+    0 5px 10px rgba(0, 0, 0, 0.45) !important;
+}
+
+
+/* specifically the second line if it is inside h1 */
+.hero h1 span:last-child {
+  color: #FFE16A !important;
+}
+
+
+/* =========================================================
+   GAME SECTION HEADING
+========================================================= */
+
+.section-heading h2 {
+  color: #FFF1C4 !important;
+
+  font-size: 38px !important;
+
+  text-shadow:
+    0 3px 0 #164A36,
+    0 5px 8px rgba(0, 0, 0, 0.45) !important;
+}
+
+.section-heading p {
+  color: #F4E8C1 !important;
+
+  font-size: 12px !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 1000px) {
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .games-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .game-card {
+    height: 210px !important;
+  }
+}
+/* =========================================================
+   CURIOKIDS GAMES ZONE
+   FINAL CARD LAYOUT
+========================================================= */
+
+.games-grid {
+  width: min(1120px, calc(100% - 60px));
+  margin: 28px auto 40px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+
+  align-items: stretch;
+}
+
+
+/* =========================================================
+   GAME CARD
+========================================================= */
+
+.game-card {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+  height: 245px;
+
+  box-sizing: border-box;
+
+  padding: 22px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #a96832 0%,
+      #b8753b 45%,
+      #9b5d2d 100%
+    );
+
+  border: 3px solid #e7c16a;
+  border-radius: 24px;
+
+  box-shadow:
+    0 7px 0 #70401f,
+    0 12px 22px rgba(35, 55, 25, 0.35);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 11px 0 #70401f,
+    0 18px 28px rgba(35, 55, 25, 0.4);
+}
+
+
+/* subtle wooden shine */
+
+.game-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -55px;
+  top: -55px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 220, 150, 0.13);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CARD MAIN AREA
+========================================================= */
+
+.game-card-content {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns: 76px minmax(0, 1fr);
+
+  column-gap: 16px;
+
+  align-items: center;
+
+  flex: 1;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.game-icon-wrap {
+  width: 70px;
+  height: 70px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff8df;
+
+  border: 4px solid #fff1c9;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 4px 0 rgba(91, 51, 25, 0.3),
+    0 6px 12px rgba(0, 0, 0, 0.18);
+
+  z-index: 5;
+}
+
+.game-icon-wrap img {
+  width: 48px;
+  height: 48px;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   TEXT AREA
+========================================================= */
+
+.game-card-content > div:last-child {
+  min-width: 0;
+  width: 100%;
+
+  overflow: visible;
+}
+
+
+/* TITLE */
+
+.game-card-content h3 {
+  width: 100%;
+
+  margin: 0 0 7px;
+
+  color: #fff7dc;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
+  line-height: 1.05;
+
+  font-weight: 800;
+
+  text-align: left;
+
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+
+  text-shadow:
+    0 2px 3px rgba(64, 31, 12, 0.8);
+}
+
+
+/* DESCRIPTION */
+
+.game-card-content p {
+  width: 100%;
+
+  margin: 0;
+
+  color: #fff1d0;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 12px;
+  line-height: 1.35;
+
+  font-weight: 700;
+
+  text-align: left;
+
+  white-space: normal;
+
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   CATEGORY LABEL
+========================================================= */
+
+.game-category {
+  position: absolute;
+
+  left: 22px;
+  bottom: 19px;
+
+  z-index: 10;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  color: white;
+
+  font-size: 9px;
+  font-weight: 900;
+
+  letter-spacing: 0.4px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.game-number {
+  position: absolute;
+
+  left: 102px;
+  bottom: 20px;
+
+  color: rgba(255, 239, 195, 0.28);
+
+  font-size: 20px;
+  font-weight: 900;
+
+  z-index: 1;
+}
+
+
+/* =========================================================
+   HELPER TEXT
+========================================================= */
+
+.game-helper {
+  position: absolute;
+
+  right: 20px;
+  bottom: 20px;
+
+  max-width: 110px;
+
+  color: #f5dfad;
+
+  font-size: 8px;
+  line-height: 1.15;
+
+  font-weight: 900;
+
+  text-align: right;
+
+  letter-spacing: 0.4px;
+
+  z-index: 5;
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+.play-button {
+  position: absolute;
+
+  left: 22px;
+  bottom: 17px;
+
+  width: 78px;
+  height: 32px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #21804f;
+
+  border: 2px solid #9bd56c;
+  border-radius: 18px;
+
+  color: white;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  box-shadow:
+    0 3px 0 #125a39;
+
+  cursor: pointer;
+
+  z-index: 20;
+}
+
+.play-button:hover {
+  background: #29965d;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.section-heading {
+  width: min(1120px, calc(100% - 60px));
+  margin: 0 auto;
+
+  position: relative;
+
+  z-index: 5;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #fff4c7;
+
+  font-size: 40px;
+  line-height: 1.05;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #285638,
+    0 5px 10px rgba(0, 0, 0, 0.45);
+}
+
+.section-heading p {
+  margin-top: 7px;
+
+  color: #f7edcf;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   "ADVENTURE IS WAITING"
+========================================================= */
+
+.adventure-title {
+  color: #ffe47a !important;
+
+  text-shadow:
+    0 3px 0 #285638,
+    0 5px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+
+/* if it is a span */
+
+.adventure-title span {
+  color: #ffe47a !important;
+}
+
+
+/* =========================================================
+   GAMES COUNT
+========================================================= */
+
+.games-count {
+  background: #f8f0cf;
+
+  border: 3px solid #d9ad55;
+
+  color: #236041;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 4px 0 #9a6730;
+}
+
+
+/* =========================================================
+   JUNGLE TIP
+========================================================= */
+
+.jungle-tip {
+  width: min(1120px, calc(100% - 60px));
+
+  margin: 0 auto 30px;
+
+  box-sizing: border-box;
+
+  border-radius: 20px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+
+    width: min(850px, calc(100% - 40px));
+  }
+
+  .section-heading {
+    width: min(850px, calc(100% - 40px));
+  }
+
+  .jungle-tip {
+    width: min(850px, calc(100% - 40px));
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .games-grid {
+    grid-template-columns: 1fr;
+
+    width: calc(100% - 30px);
+  }
+
+  .section-heading {
+    width: calc(100% - 30px);
+  }
+
+  .jungle-tip {
+    width: calc(100% - 30px);
+  }
+
+  .game-card {
+    height: 220px;
+  }
+
+  .game-card-content h3 {
+    font-size: 21px;
+  }
+}
+/* Adventure is waiting */
+.games-page h1 span,
+.hero-title span,
+.adventure-title {
+  color: #046b4e !important;
+  text-shadow:
+    0 3px 0 #164A36,
+    0 5px 10px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* =========================================================
+   FINAL COLOR FIX - ADVENTURE IS WAITING ONLY
+   ========================================================= */
+
+.games-play-page .hero-copy h1 span {
+  color: #fff3c4 !important;
+  text-shadow:
+    0 3px 0 #164a36,
+    0 5px 10px rgba(0, 0, 0, 0.45) !important;
 }

@@ -82,16 +82,16 @@ const games = [
     path: "/letter-blast",
     helper: "Find the first letter",
   },
-  {
-    id: "ninja",
-    icon: "🥷",
-    title: "Number Ninja",
-    description: "Slice the correct number and become a counting ninja.",
-    tag: "NUMBERS",
-    color: "blue",
-    path: "/number-ninja",
-    helper: "Slice & count",
-  },
+  // {
+  //   id: "ninja",
+  //   icon: "🥷",
+  //   title: "Number Ninja",
+  //   description: "Slice the correct number and become a counting ninja.",
+  //   tag: "NUMBERS",
+  //   color: "blue",
+  //   path: "/number-ninja",
+  //   helper: "Slice & count",
+  // },
 ];
 
 export default function GamesPlayHome() {

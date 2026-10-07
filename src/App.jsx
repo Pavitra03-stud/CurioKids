@@ -579,6 +579,7 @@ export default function App() {
         <Route path="/games-home" element={<GamesHome />} />
         <Route path="/games-play" element={<GamesPlayHome />} />
         <Route path="/games-learning" element={<GamesLearningHome />} />
+        <Route path="/letter-blast" element={<LetterBlast />} />
         <Route path="/parent-dashboard" element={<ParentDashboard />} />
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/progress" element={<Progress />} />

@@ -640,12 +640,7 @@ export default function WordBuilder({ goBack }) {
 
         <header className="word-builder-topbar">
 
-          <button
-            className="word-builder-back"
-            onClick={goBack}
-          >
-            ←
-          </button>
+          
 
           <h1 className="word-builder-title">
             🧩 Word Builder
@@ -686,12 +681,7 @@ export default function WordBuilder({ goBack }) {
 
         <header className="word-builder-topbar">
 
-          <button
-            className="word-builder-back"
-            onClick={goBack}
-          >
-            ←
-          </button>
+         
 
           <h1 className="word-builder-title">
             🧩 Word Builder
@@ -773,13 +763,7 @@ export default function WordBuilder({ goBack }) {
 
       <header className="word-builder-topbar">
 
-        <button
-          className="word-builder-back"
-          onClick={goBack}
-        >
-          ←
-        </button>
-
+        
         <h1 className="word-builder-title">
           🧩 Word Builder
         </h1>

@@ -733,12 +733,7 @@ export default function WeatherGame({ goBack }) {
     return (
       <div className="soundtap-container">
 
-        <button
-          className="back-btn"
-          onClick={goBack}
-        >
-          ⬅ Back
-        </button>
+    
 
         <h1 className="soundtap-title">
           Learn Weather 🌦️
@@ -893,12 +888,7 @@ export default function WeatherGame({ goBack }) {
     return (
       <div className="soundtap-container">
 
-        <button
-          className="back-btn"
-          onClick={goBack}
-        >
-          ⬅ Back
-        </button>
+       
 
         <h1 className="soundtap-title">
           Weather Game 🌦️👕
@@ -1099,12 +1089,7 @@ export default function WeatherGame({ goBack }) {
   return (
     <div className="soundtap-container">
 
-      <button
-        className="back-btn"
-        onClick={goBack}
-      >
-        ⬅ Back
-      </button>
+    
 
       <h1 className="soundtap-title">
         Weather Game 🌦️👕

@@ -819,12 +819,12 @@ export default function LearningLetterBlast({ goBack }) {
 
       <header className="learning-letter-blast-topbar">
 
-        <button
+        {/* <button
           className="learning-letter-blast-back"
           onClick={goBack}
         >
           ←
-        </button>
+        </button> */}
 
         <h1 className="learning-letter-blast-title">
           💥 Letter Blast

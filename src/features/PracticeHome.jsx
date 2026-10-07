@@ -434,7 +434,7 @@ export default function PracticeHome({ initialZone }) {
           />
         </div>
 
-        {/* ⭐ CONFIDENCE */}
+        {/* ⭐ CONFIDENCE
         <div ref={confidenceRef}>
           <Section
             title="⭐ Confidence Boost Zone"
@@ -442,7 +442,7 @@ export default function PracticeHome({ initialZone }) {
             navigate={navigate}
             speakText={speakText}
           />
-        </div>
+        </div> */}
 
       </div>
     </div>

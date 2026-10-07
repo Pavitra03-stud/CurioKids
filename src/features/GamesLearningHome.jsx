@@ -258,7 +258,7 @@ export default function GamesPlayHome() {
           </div>
         </div>
 
-        {/* 🔢 Number Ninja */}
+        {/* 🔢 Number Ninja
         <div
           className="game-item"
           onClick={() => navigate("/number-ninja")}
@@ -268,7 +268,7 @@ export default function GamesPlayHome() {
             <h2>🔢 Number Ninja</h2>
             <p>Slice the correct number</p>
           </div>
-        </div>
+        </div> */}
 
       </div>
     </div>

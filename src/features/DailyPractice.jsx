@@ -588,14 +588,7 @@ export default function DailyPractice() {
 
       <div className="daily-header">
 
-        <button
-          className="daily-back-btn"
-          onClick={() =>
-            navigate("/practice-home")
-          }
-        >
-          ←
-        </button>
+       
 
         <div>
           <h1>

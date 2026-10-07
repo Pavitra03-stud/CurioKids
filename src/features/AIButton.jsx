@@ -36,18 +36,34 @@
 
 
 
+// import { useNavigate } from "react-router-dom";
+
+// export default function AIButton() {
+//   const navigate = useNavigate();
+
+//   const handleClick = () => {
+//     navigate("/ai-chat");
+//   };
+
+//   return (
+//     <button
+//       onClick={handleClick}
+//       className="ai-floating-button"
+//       title="Ask Curio AI"
+//       aria-label="Open Curio AI"
+//     >
+//       🤖
+//     </button>
+//   );
+// }
 import { useNavigate } from "react-router-dom";
 
 export default function AIButton() {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate("/ai-chat");
-  };
-
   return (
     <button
-      onClick={handleClick}
+      onClick={() => navigate("/ai-chat")}
       className="ai-floating-button"
       title="Ask Curio AI"
       aria-label="Open Curio AI"

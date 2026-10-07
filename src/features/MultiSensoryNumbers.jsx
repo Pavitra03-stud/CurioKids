@@ -1,7 +1,6 @@
 // import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
-// import BackIcon from "../components/BackIcon";
-// import "../styles/MultiSensoryNumbers.css";
+// // import "../styles/MultiSensoryNumbers.css";
 
 // const levels = {
 //   1: { label: "Level 1", min: 1, max: 10 },
@@ -198,7 +197,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BackIcon from "../components/BackIcon";
 import "../styles/MultiSensoryNumbers.css";
 import useGameProgress from "../hooks/useGameProgress";
 
@@ -575,58 +573,6 @@ export default function MultiSensoryNumbers({
   };
 
   /* =========================================================
-     BACK TO LEVELS
-  ========================================================= */
-
-  const handleLevelBack = async () => {
-    clearTeachingTimers();
-
-    if (
-      typeof window !== "undefined" &&
-      window.speechSynthesis
-    ) {
-      window.speechSynthesis.cancel();
-    }
-
-    setSelectedLevel(null);
-    setCurrent(1);
-    setVisibleCount(0);
-
-    const backMessage =
-      "Let’s learn slowly 😊";
-
-    setMessage(backMessage);
-
-    await save({
-      selectedLevel: null,
-      current: 1,
-      visibleCount: 0,
-      message: backMessage,
-    });
-  };
-
-  /* =========================================================
-     BACK FROM HOME
-  ========================================================= */
-
-  const handleGoBack = () => {
-    clearTeachingTimers();
-
-    if (
-      typeof window !== "undefined" &&
-      window.speechSynthesis
-    ) {
-      window.speechSynthesis.cancel();
-    }
-
-    if (goBack) {
-      goBack();
-    } else {
-      navigate(-1);
-    }
-  };
-
-  /* =========================================================
      LOADING
   ========================================================= */
 
@@ -670,10 +616,6 @@ export default function MultiSensoryNumbers({
       <div className="ms-home-page">
 
         <header className="ms-home-header">
-
-          <BackIcon
-            goBack={handleGoBack}
-          />
 
           <h1>
             👀👂✋ Multi-Sensory Numbers
@@ -770,12 +712,6 @@ export default function MultiSensoryNumbers({
     <div className="ms-level-page">
 
       <header className="ms-level-header">
-
-        <BackIcon
-          goBack={
-            handleLevelBack
-          }
-        />
 
         <h1>
           👀👂✋{" "}

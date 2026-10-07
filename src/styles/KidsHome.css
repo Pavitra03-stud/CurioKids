@@ -137,7 +137,9 @@ body {
   max-width: 1200px;
 
   margin: 60px auto 100px auto;
-  padding: 0 40px;
+  /* padding: 0 40px; */
+    padding-bottom: 100px;
+
 
   display: grid;
   grid-template-columns: minmax(280px, 360px) minmax(320px, 420px);
@@ -890,4 +892,15 @@ body {
   .mascot-img {
     width: 65px;
   }
+}
+.kids-home {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background: transparent;
+  background-image: url("src/assets/gamesHome.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  overflow: hidden;
 }

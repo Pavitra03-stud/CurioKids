@@ -468,10 +468,10 @@ export default function CatchWord({ goBack }) {
       {/* Header */}
 
       <div className="header">
-
+{/* 
         <button onClick={goBack}>
           ⬅
-        </button>
+        </button> */}
 
         <h1>
           Catch the Word

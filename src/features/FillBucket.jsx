@@ -679,9 +679,9 @@ export default function FillBucket({ goBack }) {
       <div className="game-page">
 
         <div className="header">
-          <button onClick={goBack}>
+          {/* <button onClick={goBack}>
             ⬅
-          </button>
+          </button> */}
 
           <h1>
             Fill the Bucket
@@ -733,12 +733,12 @@ export default function FillBucket({ goBack }) {
 
       <div className="header">
 
-        <button
+        {/* <button
           onClick={goBack}
           disabled={processing}
         >
           ⬅
-        </button>
+        </button> */}
 
         <h1>
           Fill the Bucket

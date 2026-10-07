@@ -485,10 +485,7 @@ export default function AnimalHomesGame({ goBack }) {
 
     return (
       <div className="soundtap-container">
-        <button className="back-btn" onClick={goBack}>
-          ⬅ Back
-        </button>
-
+        
         <h1 className="soundtap-title">
           Animal Homes 🐾
         </h1>
@@ -703,9 +700,7 @@ export default function AnimalHomesGame({ goBack }) {
 
   return (
     <div className="soundtap-container">
-      <button className="back-btn" onClick={goBack}>
-        ⬅ Back
-      </button>
+     
 
       <h1 className="soundtap-title">
         Where Do Animals Live? 🐾🏠

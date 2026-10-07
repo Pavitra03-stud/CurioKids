@@ -1014,45 +1014,6 @@ export default function DescendingOrderLearning() {
 
   /*
    * ---------------------------------------------------------
-   * BACK
-   * ---------------------------------------------------------
-   */
-
-  const handleBack = async () => {
-    if (
-      typeof window !== "undefined" &&
-      window.speechSynthesis
-    ) {
-      window.speechSynthesis.cancel();
-    }
-
-    const backMessage =
-      "Start from the biggest number.";
-
-    setScreen("levels");
-    setSelectedLevel(null);
-    setNumbers([]);
-    setSelectedOrder([]);
-    setCompleted(false);
-    setMessage(backMessage);
-
-    /*
-     * Keep the last lesson saved in Firebase,
-     * but mark the screen as levels.
-     */
-    await save({
-      screen: "levels",
-      selectedLevelId: null,
-      numbers: [],
-      selectedOrder: [],
-      message: backMessage,
-      completed: false,
-      voiceEnabled,
-    });
-  };
-
-  /*
-   * ---------------------------------------------------------
    * VOICE TOGGLE
    * ---------------------------------------------------------
    */
@@ -1231,13 +1192,6 @@ export default function DescendingOrderLearning() {
       <div className="descending-card">
 
         <div className="top-section lesson-top">
-
-          <button
-            className="back-btn"
-            onClick={handleBack}
-          >
-            ← Back
-          </button>
 
           <h1>
             {selectedLevel.title}

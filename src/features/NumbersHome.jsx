@@ -1,7 +1,6 @@
 // import React from "react";
 // import { useNavigate } from "react-router-dom";
-// import BackIcon from "../components/BackIcon";
-// import "../styles/NumbersHome.css";
+// // import "../styles/NumbersHome.css";
 
 // export default function NumbersHome({ goBack }) {
 //   const navigate = useNavigate();
@@ -51,33 +50,16 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import BackIcon from "../components/BackIcon";
 import "../styles/NumbersHome.css";
 
 export default function NumbersHome({ goBack }) {
   const navigate = useNavigate();
-
-  const handleBack = () => {
-    if (goBack) {
-      goBack();
-    } else {
-      navigate(-1);
-    }
-  };
 
   return (
     <div className="numbers-home-page">
 
       {/* HEADER */}
       <div className="numbers-home-header">
-        <button
-          className="numbers-back-btn"
-          onClick={handleBack}
-          aria-label="Go back"
-        >
-          <BackIcon goBack={handleBack} />
-        </button>
-
         <h1>🔢 Numbers Home</h1>
       </div>
 

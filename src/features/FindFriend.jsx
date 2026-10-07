@@ -966,13 +966,13 @@ export default function FindFriend({ goBack }) {
 
       <div className="find-header">
 
-        <button
+        {/* <button
           className="back-btn"
           onClick={goBack}
           disabled={processing}
         >
           ⬅
-        </button>
+        </button> */}
 
         <h1>
           Find the Friend

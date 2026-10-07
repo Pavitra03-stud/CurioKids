@@ -1,7 +1,6 @@
 // import { useEffect, useMemo, useRef, useState } from "react";
 // import "../styles/AnimalPathLetters.css";
-// import BackIcon from "../components/BackIcon";
-
+// 
 // const LETTERS = [
 //   { letter: "A", animal: "Ant", emoji: "🐜", sound: "A says /a/" },
 //   { letter: "B", animal: "Bear", emoji: "🐻", sound: "B says /b/" },
@@ -120,8 +119,7 @@
 //   return (
 //     <div className="animal-path-page">
 //       <header className="animal-path-header">
-//         <BackIcon goBack={goBack} />
-//         <h1>Animal Path Letters</h1>
+// //         <h1>Animal Path Letters</h1>
 //       </header>
 
 //       <div className="animal-path-content">
@@ -216,7 +214,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import "../styles/AnimalPathLetters.css";
-import BackIcon from "../components/BackIcon";
 import useGameProgress from "../hooks/useGameProgress";
 import { db } from "../firebase";
 import { addDoc, collection } from "firebase/firestore";
@@ -562,7 +559,6 @@ export default function AnimalPathLetters({ goBack }) {
     return (
       <div className="animal-path-page">
         <header className="animal-path-header">
-          <BackIcon goBack={goBack} />
           <h1>Animal Path Letters</h1>
         </header>
 
@@ -588,7 +584,6 @@ export default function AnimalPathLetters({ goBack }) {
   return (
     <div className="animal-path-page">
       <header className="animal-path-header">
-        <BackIcon goBack={goBack} />
 
         <h1>Animal Path Letters</h1>
       </header>

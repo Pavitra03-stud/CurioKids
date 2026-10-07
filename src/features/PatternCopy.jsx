@@ -336,12 +336,12 @@ export default function PatternCopy({ goBack }) {
       {/* Header */}
       <div className="pattern-header">
 
-        <button
+        {/* <button
           className="back-btn"
           onClick={goBack}
         >
           ⬅
-        </button>
+        </button> */}
 
         <h1>
           Pattern Copy Game

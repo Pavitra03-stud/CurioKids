@@ -787,12 +787,12 @@ export default function StoryBasedNumbers({ goBack }) {
 
       <div className="sb-header">
 
-        <button
+        {/* <button
           className="sb-back-btn"
           onClick={backToLevels}
         >
           ←
-        </button>
+        </button> */}
 
         <h1>
           📖 {currentLevel.title}

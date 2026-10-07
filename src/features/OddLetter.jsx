@@ -501,12 +501,12 @@ export default function OddLetter({ goBack }) {
     return (
       <div className="odd-letter-page">
         <header className="odd-letter-topbar">
-          <button
+          {/* <button
             className="odd-letter-back"
             onClick={goBack}
           >
             ←
-          </button>
+          </button> */}
 
           <h1 className="odd-letter-title">
             🔍 Odd Letter
@@ -535,12 +535,7 @@ export default function OddLetter({ goBack }) {
       <div className="odd-letter-page">
 
         <header className="odd-letter-topbar">
-          <button
-            className="odd-letter-back"
-            onClick={goBack}
-          >
-            ←
-          </button>
+        
 
           <h1 className="odd-letter-title">
             🔍 Odd Letter
@@ -603,12 +598,6 @@ export default function OddLetter({ goBack }) {
 
       <header className="odd-letter-topbar">
 
-        <button
-          className="odd-letter-back"
-          onClick={goBack}
-        >
-          ←
-        </button>
 
         <h1 className="odd-letter-title">
           🔍 Odd Letter

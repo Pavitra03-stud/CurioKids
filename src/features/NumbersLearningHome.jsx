@@ -209,9 +209,7 @@ export default function NumbersLearningHome() {
               <p>{card.subtitle}</p>
             </div>
 
-            <div className="numbers-learning-arrow">
-              →
-            </div>
+            
           </div>
         ))}
       </div>

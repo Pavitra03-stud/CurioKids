@@ -59,13 +59,13 @@ export default function GamesHome() {
     <div className="games-page">
       {/* ================= TOP BAR ================= */}
       <header className="games-topbar">
-        <button
+        {/* <button
           className="games-back"
           onClick={() => navigate(-1)}
           aria-label="Go back"
         >
           ←
-        </button>
+        </button> */}
 
         <h1 className="games-topbar-title">
           🎮 Games

@@ -1231,12 +1231,12 @@ export default function ConnectLetters({ goBack }) {
     return (
       <div className="connect-letters-page">
         <header className="connect-letters-topbar">
-          <button
+          {/* <button
             className="connect-letters-back"
             onClick={goBack}
           >
             ←
-          </button>
+          </button> */}
 
           <h1 className="connect-letters-title">
             🔗 Connect Letters
@@ -1260,12 +1260,7 @@ export default function ConnectLetters({ goBack }) {
     return (
       <div className="connect-letters-page">
         <header className="connect-letters-topbar">
-          <button
-            className="connect-letters-back"
-            onClick={goBack}
-          >
-            ←
-          </button>
+          
 
           <h1 className="connect-letters-title">
             🔗 Connect Letters
@@ -1314,12 +1309,7 @@ export default function ConnectLetters({ goBack }) {
   return (
     <div className="connect-letters-page">
       <header className="connect-letters-topbar">
-        <button
-          className="connect-letters-back"
-          onClick={goBack}
-        >
-          ←
-        </button>
+        
 
         <h1 className="connect-letters-title">
           🔗 Connect Letters

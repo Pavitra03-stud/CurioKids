@@ -1,213 +1,224 @@
-// // import "../styles/GamesPlayHome.css";
-// // import { useNavigate } from "react-router-dom";
-
-// // export default function GamesPlayHome() {
-// //   const navigate = useNavigate();
-
-// //   const games = [
-// //     { title:"Sound Tap", screen:"/sound-tap", icon:"🎧" },
-// //     { title:"Find the Friend", screen:"/find-friend", icon:"🐾" },
-// //     { title:"Pattern Game", screen:"/pattern-copy", icon:"🎯" },
-// //     { title:"Memory Match", screen:"/memory-match", icon:"🧠" },
-// //     { title:"Catch the Word", screen:"/catch-word", icon:"🎯" },
-// //     { title:"Fill the Bucket", screen:"/fill-bucket", icon:"🧺" },
-// //      { title:"Weather Clothes", screen:"/weather-clothes", icon:"🌦️👕" }
-// //   ];
-
-// //   return (
-// //     <div className="games-play-page">
-
-// //       <header className="games-play-topbar">
-       
-
-// //         <h1>🎮 Games Zone</h1>
-// //       </header>
-
-// //       <div className="game-list">
-// //         {games.map((item,i)=>(
-// //           <div
-// //             key={i}
-// //             className="game-item"
-// //             onClick={() => navigate(item.screen)}
-// //           >
-// //             <div>
-// //               {item.icon} {item.title}
-// //             </div>
-// //           </div>
-// //         ))}
-// //       </div>
-
-// //     </div>
-// //   );
-// // }
-
-
-
-// import "../styles/GamesPlayHome.css";
-// import { useNavigate } from "react-router-dom";
-
-// export default function GamesPlayHome() {
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="games-play-page">
-//       {/* ================= TITLE ================= */}
-//       <h1 className="title">Games Zone</h1>
-
-//       {/* ================= GAME LIST ================= */}
-//       <div className="game-list">
-//         <div
-//           className="game-item"
-//           onClick={() => navigate("/weather-clothes")}
-//           onKeyDown={(e) => {
-//             if (e.key === "Enter" || e.key === " ") {
-//               navigate("/weather-clothes");
-//             }
-//           }}
-//           role="button"
-//           tabIndex={0}
-//           style={{ cursor: "pointer" }}
-//         >
-//           <div>
-//             <h2>Weather Clothes</h2>
-
-//             <p>
-//               Find how to dress according to the weather
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
 import "../styles/GamesPlayHome.css";
 import { useNavigate } from "react-router-dom";
+
+const games = [
+  {
+    id: "weather",
+    icon: "🌦️",
+    title: "Weather Clothes",
+    description: "Choose the right clothes for sunny, rainy and chilly days.",
+    tag: "THINK",
+    color: "sun",
+    path: "/weather-clothes",
+    helper: "Dress for the weather",
+  },
+  {
+    id: "sound",
+    icon: "🎧",
+    title: "Sound Tap",
+    description: "Listen carefully and tap the number of sounds you hear.",
+    tag: "LISTEN",
+    color: "sky",
+    path: "/sound-tap",
+    helper: "Listen & count",
+  },
+  {
+    id: "friend",
+    icon: "🐾",
+    title: "Find the Friend",
+    description: "Look closely and find the animal that is different.",
+    tag: "FOCUS",
+    color: "leaf",
+    path: "/find-friend",
+    helper: "Spot the difference",
+  },
+  {
+    id: "pattern",
+    icon: "🎯",
+    title: "Pattern Game",
+    description: "Spot the pattern and choose what comes next.",
+    tag: "THINK",
+    color: "berry",
+    path: "/pattern-copy",
+    helper: "Think ahead",
+  },
+  {
+    id: "memory",
+    icon: "🧠",
+    title: "Memory Match",
+    description: "Turn, remember and match the hidden jungle friends.",
+    tag: "MEMORY",
+    color: "violet",
+    path: "/memory-match-game",
+    helper: "Remember & match",
+  },
+  {
+    id: "word",
+    icon: "🎯",
+    title: "Catch the Word",
+    description: "Find the correct word before it disappears.",
+    tag: "WORDS",
+    color: "orange",
+    path: "/catch-word",
+    helper: "Read & catch",
+  },
+  {
+    id: "bucket",
+    icon: "🧺",
+    title: "Fill the Bucket",
+    description: "Count the objects and put the right number in the bucket.",
+    tag: "NUMBERS",
+    color: "aqua",
+    path: "/fill-bucket",
+    helper: "Count & choose",
+  },
+  {
+    id: "blast",
+    icon: "💥",
+    title: "Letter Blast",
+    description: "Blast the correct first letter of the jungle animal.",
+    tag: "LETTERS",
+    color: "coral",
+    path: "/letter-blast",
+    helper: "Find the first letter",
+  },
+  {
+    id: "ninja",
+    icon: "🥷",
+    title: "Number Ninja",
+    description: "Slice the correct number and become a counting ninja.",
+    tag: "NUMBERS",
+    color: "blue",
+    path: "/number-ninja",
+    helper: "Slice & count",
+  },
+];
 
 export default function GamesPlayHome() {
   const navigate = useNavigate();
 
   return (
     <div className="games-play-page">
+      <div className="jungle-canopy canopy-left" />
+      <div className="jungle-canopy canopy-right" />
+      <div className="jungle-mist mist-one" />
+      <div className="jungle-mist mist-two" />
 
-      {/* ================= TITLE ================= */}
-      <h1 className="title">Games Zone</h1>
+      <div className="floating-jungle-leaf leaf-a">🍃</div>
+      <div className="floating-jungle-leaf leaf-b">🌿</div>
+      <div className="floating-jungle-leaf leaf-c">🍂</div>
+      <div className="floating-jungle-leaf leaf-d">🌿</div>
 
-      {/* ================= GAME LIST ================= */}
-      <div className="game-list">
-
-        {/* 🌦️ Weather Clothes */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/weather-clothes")}
-          style={{ cursor: "pointer" }}
+      <header className="games-header">
+        <button
+          className="games-brand"
+          type="button"
+          onClick={() => navigate("/kids-home")}
+          aria-label="Go to CurioKids home"
         >
-          <div>
-            <h2>🌦️ Weather Clothes</h2>
-            <p>Find how to dress according to the weather</p>
-          </div>
+          <span className="games-brand-icon">🌴</span>
+          <span>
+            <strong>CurioKids</strong>
+            <small>Jungle Games</small>
+          </span>
+        </button>
+
+        <div className="games-header-message">
+          <span>🌿</span>
+          Pick a game and explore!
         </div>
+      </header>
 
-        {/* 🎧 Sound Tap */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/sound-tap")}
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <h2>🎧 Sound Tap</h2>
-            <p>Tap the number of sounds</p>
+      <main className="games-content">
+        <section className="games-hero">
+          <div className="hero-copy">
+            <div className="hero-kicker">
+              <span>✨</span>
+              YOUR JUNGLE PLAYGROUND
+            </div>
+
+            <h1>
+              Let&apos;s Play!
+              <span>Adventure is waiting 🌈</span>
+            </h1>
+
+            <p>
+              Choose a game, explore the jungle, and learn at your own pace.
+              Every little try is a win.
+            </p>
+
+            <div className="hero-traits">
+              <span>🧠 Think</span>
+              <span>👀 Focus</span>
+              <span>🎯 Play</span>
+            </div>
           </div>
-        </div>
 
-        {/* 🐾 Find Friend */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/find-friend")}
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <h2>🐾 Find the Friend</h2>
-            <p>Find the different one</p>
+         
+        </section>
+
+        <section className="games-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-kicker">YOUR ADVENTURE MAP</span>
+              <h2>Choose your game 🗺️</h2>
+              <p>Pick one and let the jungle adventure begin!</p>
+            </div>
+
+            <div className="game-count">
+              <strong>{games.length}</strong>
+              <span>games to explore</span>
+            </div>
           </div>
-        </div>
 
-        {/* 🎯 Pattern Game */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/pattern-copy")}
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <h2>🎯 Pattern Game</h2>
-            <p>Follow the pattern</p>
+          <div className="games-grid">
+            {games.map((game, index) => (
+              <button
+                key={game.id}
+                type="button"
+                className={`game-card game-card-${game.color}`}
+                onClick={() => navigate(game.path)}
+                style={{ "--game-delay": `${index * 60}ms` }}
+              >
+                <span className="card-glow" />
+
+                <div className="card-top">
+                  <span className="game-tag">{game.tag}</span>
+                  <span className="game-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <div className="game-icon-wrap">
+                  <span className="game-icon">{game.icon}</span>
+                </div>
+
+                <div className="game-card-content">
+                  <h3>{game.title}</h3>
+                  <p>{game.description}</p>
+                  <span className="game-helper">{game.helper}</span>
+                </div>
+
+                <span className="play-button">
+                  PLAY
+                  <b>›</b>
+                </span>
+
+                <span className="card-leaves">🍃</span>
+              </button>
+            ))}
           </div>
-        </div>
+        </section>
 
-        {/* 🧠 Memory Match */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/memory-match")}
-          style={{ cursor: "pointer" }}
-        >
+        <section className="games-tip">
+          <div className="tip-icon">🦥</div>
           <div>
-            <h2>🧠 Memory Match</h2>
-            <p>Match the pairs</p>
+            <span>JUNGLE TIP</span>
+            <strong>Take your time. Your brain learns best when you feel happy! 💚</strong>
           </div>
-        </div>
-
-        {/* 🎯 Catch Word */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/catch-word")}
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <h2>🎯 Catch the Word</h2>
-            <p>Catch the correct word</p>
-          </div>
-        </div>
-
-        {/* 🧺 Fill Bucket */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/fill-bucket")}
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <h2>🧺 Fill the Bucket</h2>
-            <p>Put the right number of items</p>
-          </div>
-        </div>
-
-        {/* 💥 Letter Blast */}
-        <div
-          className="game-item"
-          onClick={() => navigate("/letter-blast")}
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <h2>💥 Letter Blast</h2>
-            <p>Tap the correct letter</p>
-          </div>
-        </div>
-
-        {/* 🔢 Number Ninja
-        <div
-          className="game-item"
-          onClick={() => navigate("/number-ninja")}
-          style={{ cursor: "pointer" }}
-        >
-          <div>
-            <h2>🔢 Number Ninja</h2>
-            <p>Slice the correct number</p>
-          </div>
-        </div> */}
-
-      </div>
+          <div className="tip-plants">🌿 ✨ 🍃</div>
+        </section>
+      </main>
     </div>
   );
 }

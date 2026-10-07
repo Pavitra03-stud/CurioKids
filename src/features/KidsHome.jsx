@@ -1,840 +1,14 @@
-// // // import "../styles/KidsHome.css";
-// // // import { speak } from "../utils/speak";
-// // // import foxy from "../assets/foxy-cutout.png";
-// // // import { useNavigate } from "react-router-dom";
-
-// // // export default function KidsHome() {
-// // //   const navigate = useNavigate(); // ✅ NEW
-
-// // //   const speakText = (text) => {
-// // //     speak(text);
-// // //   };
-
-// // //   return (
-// // //     <div className="kids-home">
-
-// // //       {/* 🦊 MASCOT */}
-// // //       <div className="mascot-container">
-// // //         <img src={foxy} alt="Jungle Friend" className="mascot-img" />
-// // //         <div className="mascot-bubble">
-// // //           <strong>Let’s start learning!!!</strong>
-// // //         </div>
-// // //       </div>
-
-// // //       {/* 🌴 NAVBAR */}
-// // //       <div className="kids-navbar">
-
-// // //         {/* ❌ REMOVED BACK BUTTON */}
-
-// // //         <div className="navbar-title">🌴 CurioKids</div>
-
-// // //         <div className="navbar-right">
-// // //           <button className="pill" onClick={() => navigate("/rewards")}>
-// // //             🏆 Rewards
-// // //           </button>
-
-// // //           <button className="pill" onClick={() => navigate("/progress")}>
-// // //             📊 Progress
-// // //           </button>
-// // //         </div>
-
-// // //       </div>
-
-// // //       {/* 🌿 CONTENT */}
-// // //       <div className="kids-content">
-
-// // //         {/* 🌱 WELCOME */}
-// // //         <section className="welcome-section">
-// // //           <h1>Welcome to the Jungle 🌿</h1>
-// // //           <p>Let's play, learn, and grow together!</p>
-// // //         </section>
-
-// // //         {/* 🧩 MAIN CARDS */}
-// // //         <section className="card-grid">
-
-// // //           {/* ===== GAMES ===== */}
-// // //           <div
-// // //             className="jungle-card"
-// // //             onClick={() => navigate("/games-home")}
-// // //             onMouseEnter={() => speakText("Let's play fun games!")}
-// // //           >
-// // //             <span className="card-icon">🎮</span>
-// // //             <span className="card-text">Games</span>
-// // //           </div>
-
-// // //           <div className="games-topic">
-// // //             <span className="card-text">Games</span>
-// // //             <ul>
-// // //               <li className="topic-link">Decoding Practice</li>
-// // //               <li className="topic-link">Identifying Concepts</li>
-// // //               <li className="topic-link">Isolating Speech Sounds</li>
-// // //             </ul>
-// // //           </div>
-
-// // //           {/* ===== LETTERS ===== */}
-// // //           <div
-// // //             className="jungle-card"
-// // //             onClick={() => navigate("/letters-home")}
-// // //             onMouseEnter={() => speakText("Let's learn letters together!")}
-// // //           >
-// // //             <span className="card-icon">🔤</span>
-// // //             <span className="card-text">Letters</span>
-// // //           </div>
-
-// // //           <div className="games-topic">
-// // //             <span className="card-text">Letters</span>
-// // //             <ul>
-// // //               <li className="topic-link">Alphabet Explorer Zone</li>
-// // //               <li className="topic-link">Letter Detective Zone</li>
-// // //               <li className="topic-link">Writing & Shape Zone</li>
-// // //               <li className="topic-link">Letter Challenge Arena</li>
-// // //             </ul>
-// // //           </div>
-
-// // //           {/* ===== NUMBERS ===== */}
-// // //           <div
-// // //             className="jungle-card"
-// // //             onClick={() => navigate("/numbers")}
-// // //             onMouseEnter={() => speakText("Numbers are fun to learn!")}
-// // //           >
-// // //             <span className="card-icon">🔢</span>
-// // //             <span className="card-text">Numbers</span>
-// // //           </div>
-
-// // //           <div className="games-topic">
-// // //             <span className="card-text">Numbers</span>
-// // //             <ul>
-// // //               <li className="topic-link">Number Writing</li>
-// // //               <li className="topic-link">Spelling Practice</li>
-// // //               <li className="topic-link">Focused Spelling</li>
-// // //             </ul>
-// // //           </div>
-
-// // //           {/* ===== PRACTICE ===== */}
-// // //           <div
-// // //             className="jungle-card"
-// // //             onClick={() => navigate("/practice-home")}
-// // //             onMouseEnter={() => speakText("Practice makes you stronger!")}
-// // //           >
-// // //             <span className="card-icon">🧠</span>
-// // //             <span className="card-text">Practice</span>
-// // //           </div>
-
-// // //           <div className="games-topic">
-// // //             <span className="card-text">Practice</span>
-// // //             <ul>
-
-// // //               <li
-// // //                 className="topic-link"
-// // //                 onClick={(e) => {
-// // //                   e.stopPropagation();
-// // //                   navigate("/practice-letter-mastery");
-// // //                 }}
-// // //               >
-// // //                 Letter Mastery Zone
-// // //               </li>
-
-// // //               <li
-// // //                 className="topic-link"
-// // //                 onClick={(e) => {
-// // //                   e.stopPropagation();
-// // //                   navigate("/practice-phonics");
-// // //                 }}
-// // //               >
-// // //                 Phonics Power Zone
-// // //               </li>
-
-// // //               <li
-// // //                 className="topic-link"
-// // //                 onClick={(e) => {
-// // //                   e.stopPropagation();
-// // //                   navigate("/practice-word-builder");
-// // //                 }}
-// // //               >
-// // //                 Word Builder Zone
-// // //               </li>
-
-// // //               <li
-// // //                 className="topic-link"
-// // //                 onClick={(e) => {
-// // //                   e.stopPropagation();
-// // //                   navigate("/practice-memory");
-// // //                 }}
-// // //               >
-// // //                 Memory & Visual Skills
-// // //               </li>
-
-// // //               <li
-// // //                 className="topic-link"
-// // //                 onClick={(e) => {
-// // //                   e.stopPropagation();
-// // //                   navigate("/practice-confidence");
-// // //                 }}
-// // //               >
-// // //                 Confidence Boost Zone
-// // //               </li>
-
-// // //             </ul>
-// // //           </div>
-
-// // //         </section>
-// // //       </div>
-// // //     </div>
-// // //   );
-// // // }
-
-
-
-
-
-// // import "../styles/KidsHome.css";
-// // import { speak } from "../utils/speak";
-// // import foxy from "../assets/foxy-cutout.png";
-// // import { useNavigate } from "react-router-dom";
-// // import { useState } from "react";
-
-// // export default function KidsHome() {
-// //   const navigate = useNavigate();
-// //   const [profileOpen, setProfileOpen] = useState(false);
-
-// //   const speakText = (text) => {
-// //     speak(text);
-// //   };
-
-// //   return (
-// //     <div className="kids-home">
-
-// //       {/* 🦊 MASCOT */}
-// //       <div className="mascot-container">
-// //         <img src={foxy} alt="Jungle Friend" className="mascot-img" />
-// //         <div className="mascot-bubble">
-// //           <strong>Let’s start learning!!!</strong>
-// //         </div>
-// //       </div>
-
-// //       {/* 🌴 NAVBAR */}
-// //       <div className="kids-navbar">
-
-// //         <div className="navbar-title">🌴 CurioKids</div>
-
-// //         <div className="navbar-right">
-
-// //           {/* 🏆 Rewards */}
-// //           <button className="pill" onClick={() => navigate("/rewards")}>
-// //             🏆 Rewards
-// //           </button>
-
-// //           {/* 📊 Progress */}
-// //           <button className="pill" onClick={() => navigate("/progress")}>
-// //             📊 Progress
-// //           </button>
-
-// //           {/* 👤 PROFILE */}
-// //           <div className="profile-container">
-// //             <div
-// //               className="profile-avatar"
-// //               onClick={() => setProfileOpen(!profileOpen)}
-// //             >
-// //               👤
-// //             </div>
-
-// //             {profileOpen && (
-// //               <div className="profile-dropdown">
-// //                 <p className="profile-name">Pavii 🌟</p>
-// //                 <p>Level: 5</p>
-// //                 <p>🔥 Streak: 3 days</p>
-
-// //                 <hr />
-
-// //                 <button onClick={() => navigate("/profile")}>
-// //                   👤 My Profile
-// //                 </button>
-
-// //                 <button>
-// //                   ⚙️ Settings
-// //                 </button>
-
-// //                 <button className="logout-btn">
-// //                   🚪 Logout
-// //                 </button>
-// //               </div>
-// //             )}
-// //           </div>
-
-// //         </div>
-// //       </div>
-
-// //       {/* 🌿 CONTENT */}
-// //       <div className="kids-content">
-
-// //         {/* 🌱 WELCOME */}
-// //         <section className="welcome-section">
-// //           <h1>Welcome to the Jungle 🌿</h1>
-// //           <p>Let's play, learn, and grow together!</p>
-// //         </section>
-
-// //         {/* 🧩 MAIN CARDS */}
-// //         <section className="card-grid">
-
-// //           {/* ===== GAMES ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/games-home")}
-// //             onMouseEnter={() => speakText("Let's play fun games!")}
-// //           >
-// //             <span className="card-icon">🎮</span>
-// //             <span className="card-text">Games</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Games</span>
-// //             <ul>
-// //               <li className="topic-link">Decoding Practice</li>
-// //               <li className="topic-link">Identifying Concepts</li>
-// //               <li className="topic-link">Isolating Speech Sounds</li>
-// //             </ul>
-// //           </div>
-
-// //           {/* ===== LETTERS ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/letters-home")}
-// //             onMouseEnter={() => speakText("Let's learn letters together!")}
-// //           >
-// //             <span className="card-icon">🔤</span>
-// //             <span className="card-text">Letters</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Letters</span>
-// //             <ul>
-// //               <li className="topic-link">Alphabet Explorer Zone</li>
-// //               <li className="topic-link">Letter Detective Zone</li>
-// //               <li className="topic-link">Writing & Shape Zone</li>
-// //               <li className="topic-link">Letter Challenge Arena</li>
-// //             </ul>
-// //           </div>
-
-// //           {/* ===== NUMBERS ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/numbers")}
-// //             onMouseEnter={() => speakText("Numbers are fun to learn!")}
-// //           >
-// //             <span className="card-icon">🔢</span>
-// //             <span className="card-text">Numbers</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Numbers</span>
-// //             <ul>
-// //               <li className="topic-link">Number Writing</li>
-// //               <li className="topic-link">Spelling Practice</li>
-// //               <li className="topic-link">Focused Spelling</li>
-// //             </ul>
-// //           </div>
-
-// //           {/* ===== PRACTICE ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/practice-home")}
-// //             onMouseEnter={() => speakText("Practice makes you stronger!")}
-// //           >
-// //             <span className="card-icon">🧠</span>
-// //             <span className="card-text">Practice</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Practice</span>
-// //             <ul>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-letter-mastery");
-// //                 }}
-// //               >
-// //                 Letter Mastery Zone
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-phonics");
-// //                 }}
-// //               >
-// //                 Phonics Power Zone
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-word-builder");
-// //                 }}
-// //               >
-// //                 Word Builder Zone
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-memory");
-// //                 }}
-// //               >
-// //                 Memory & Visual Skills
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-confidence");
-// //                 }}
-// //               >
-// //                 Confidence Boost Zone
-// //               </li>
-
-// //             </ul>
-// //           </div>
-
-// //         </section>
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-
-
-
-// // import "../styles/KidsHome.css";
-// // import { speak } from "../utils/speak";
-// // import foxy from "../assets/foxy-cutout.png";
-// // import { useNavigate } from "react-router-dom";
-
-// // export default function KidsHome() {
-// //   const navigate = useNavigate(); // ✅ NEW
-
-// //   const speakText = (text) => {
-// //     speak(text);
-// //   };
-
-// //   return (
-// //     <div className="kids-home">
-
-// //       {/* 🦊 MASCOT */}
-// //       <div className="mascot-container">
-// //         <img src={foxy} alt="Jungle Friend" className="mascot-img" />
-// //         <div className="mascot-bubble">
-// //           <strong>Let’s start learning!!!</strong>
-// //         </div>
-// //       </div>
-
-// //       {/* 🌴 NAVBAR */}
-// //       <div className="kids-navbar">
-
-// //         {/* ❌ REMOVED BACK BUTTON */}
-
-// //         <div className="navbar-title">🌴 CurioKids</div>
-
-// //         <div className="navbar-right">
-// //           <button className="pill" onClick={() => navigate("/rewards")}>
-// //             🏆 Rewards
-// //           </button>
-
-// //           <button className="pill" onClick={() => navigate("/progress")}>
-// //             📊 Progress
-// //           </button>
-// //         </div>
-
-// //       </div>
-
-// //       {/* 🌿 CONTENT */}
-// //       <div className="kids-content">
-
-// //         {/* 🌱 WELCOME */}
-// //         <section className="welcome-section">
-// //           <h1>Welcome to the Jungle 🌿</h1>
-// //           <p>Let's play, learn, and grow together!</p>
-// //         </section>
-
-// //         {/* 🧩 MAIN CARDS */}
-// //         <section className="card-grid">
-
-// //           {/* ===== GAMES ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/games-home")}
-// //             onMouseEnter={() => speakText("Let's play fun games!")}
-// //           >
-// //             <span className="card-icon">🎮</span>
-// //             <span className="card-text">Games</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Games</span>
-// //             <ul>
-// //               <li className="topic-link">Decoding Practice</li>
-// //               <li className="topic-link">Identifying Concepts</li>
-// //               <li className="topic-link">Isolating Speech Sounds</li>
-// //             </ul>
-// //           </div>
-
-// //           {/* ===== LETTERS ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/letters-home")}
-// //             onMouseEnter={() => speakText("Let's learn letters together!")}
-// //           >
-// //             <span className="card-icon">🔤</span>
-// //             <span className="card-text">Letters</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Letters</span>
-// //             <ul>
-// //               <li className="topic-link">Alphabet Explorer Zone</li>
-// //               <li className="topic-link">Letter Detective Zone</li>
-// //               <li className="topic-link">Writing & Shape Zone</li>
-// //               <li className="topic-link">Letter Challenge Arena</li>
-// //             </ul>
-// //           </div>
-
-// //           {/* ===== NUMBERS ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/numbers")}
-// //             onMouseEnter={() => speakText("Numbers are fun to learn!")}
-// //           >
-// //             <span className="card-icon">🔢</span>
-// //             <span className="card-text">Numbers</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Numbers</span>
-// //             <ul>
-// //               <li className="topic-link">Number Writing</li>
-// //               <li className="topic-link">Spelling Practice</li>
-// //               <li className="topic-link">Focused Spelling</li>
-// //             </ul>
-// //           </div>
-
-// //           {/* ===== PRACTICE ===== */}
-// //           <div
-// //             className="jungle-card"
-// //             onClick={() => navigate("/practice-home")}
-// //             onMouseEnter={() => speakText("Practice makes you stronger!")}
-// //           >
-// //             <span className="card-icon">🧠</span>
-// //             <span className="card-text">Practice</span>
-// //           </div>
-
-// //           <div className="games-topic">
-// //             <span className="card-text">Practice</span>
-// //             <ul>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-letter-mastery");
-// //                 }}
-// //               >
-// //                 Letter Mastery Zone
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-phonics");
-// //                 }}
-// //               >
-// //                 Phonics Power Zone
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-word-builder");
-// //                 }}
-// //               >
-// //                 Word Builder Zone
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-memory");
-// //                 }}
-// //               >
-// //                 Memory & Visual Skills
-// //               </li>
-
-// //               <li
-// //                 className="topic-link"
-// //                 onClick={(e) => {
-// //                   e.stopPropagation();
-// //                   navigate("/practice-confidence");
-// //                 }}
-// //               >
-// //                 Confidence Boost Zone
-// //               </li>
-
-// //             </ul>
-// //           </div>
-
-// //         </section>
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-
-
-
-
-// import "../styles/KidsHome.css";
-// import { speak } from "../utils/speak";
-// import foxy from "../assets/foxy-cutout.png";
-// import { useNavigate } from "react-router-dom";
-// import { useState } from "react";
-
-// export default function KidsHome() {
-//   const navigate = useNavigate();
-//   const [profileOpen, setProfileOpen] = useState(false);
-
-//   const speakText = (text) => {
-//     speak(text);
-//   };
-
-//   return (
-//     <div className="kids-home">
-
-//       {/* 🦊 MASCOT */}
-//       <div className="mascot-container">
-//         <img src={foxy} alt="Jungle Friend" className="mascot-img" />
-//         <div className="mascot-bubble">
-//           <strong>Let’s start learning!!!</strong>
-//         </div>
-//       </div>
-
-//       {/* 🌴 NAVBAR */}
-//       <div className="kids-navbar">
-
-//         <div className="navbar-title">🌴 CurioKids</div>
-
-//         <div className="navbar-right">
-
-//           {/* 🏆 Rewards */}
-//           <button className="pill" onClick={() => navigate("/rewards")}>
-//             🏆 Rewards
-//           </button>
-
-//           {/* 📊 Progress */}
-//           <button className="pill" onClick={() => navigate("/progress")}>
-//             📊 Progress
-//           </button>
-
-//           {/* 👤 PROFILE */}
-//           <div className="profile-container">
-//             <div
-//               className="profile-avatar"
-//               onClick={() => setProfileOpen(!profileOpen)}
-//             >
-//               👤
-//             </div>
-
-//             {profileOpen && (
-//               <div className="profile-dropdown">
-//                 <p className="profile-name">Pavii 🌟</p>
-//                 <p>Level: 5</p>
-//                 <p>🔥 Streak: 3 days</p>
-
-//                 <hr />
-
-//                 <button onClick={() => navigate("/profile")}>
-//                   👤 My Profile
-//                 </button>
-
-//                 <button>
-//                   ⚙️ Settings
-//                 </button>
-
-//                 <button className="logout-btn">
-//                   🚪 Logout
-//                 </button>
-//               </div>
-//             )}
-//           </div>
-
-//         </div>
-//       </div>
-
-//       {/* 🌿 CONTENT */}
-//       <div className="kids-content">
-
-//         {/* 🌱 WELCOME */}
-//         <section className="welcome-section">
-//           <h1>Welcome to the Jungle 🌿</h1>
-//           <p>Let's play, learn, and grow together!</p>
-//         </section>
-
-//         {/* 🧩 MAIN CARDS */}
-//         <section className="card-grid">
-
-//           {/* ===== GAMES ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("/games-home")}
-//             onMouseEnter={() => speakText("Let's play fun games!")}
-//           >
-//             <span className="card-icon">🎮</span>
-//             <span className="card-text">Games</span>
-//           </div>
-
-//           <div className="games-topic">
-//             <span className="card-text">Games</span>
-//             <ul>
-//               <li className="topic-link">Decoding Practice</li>
-//               <li className="topic-link">Identifying Concepts</li>
-//               <li className="topic-link">Isolating Speech Sounds</li>
-//             </ul>
-//           </div>
-
-//           {/* ===== LETTERS ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("/letters-home")}
-//             onMouseEnter={() => speakText("Let's learn letters together!")}
-//           >
-//             <span className="card-icon">🔤</span>
-//             <span className="card-text">Letters</span>
-//           </div>
-
-//           <div className="games-topic">
-//             <span className="card-text">Letters</span>
-//             <ul>
-//               <li className="topic-link">Alphabet Explorer Zone</li>
-//               <li className="topic-link">Letter Detective Zone</li>
-//               <li className="topic-link">Writing & Shape Zone</li>
-//               <li className="topic-link">Letter Challenge Arena</li>
-//             </ul>
-//           </div>
-
-//           {/* ===== NUMBERS ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("/numbers")}
-//             onMouseEnter={() => speakText("Numbers are fun to learn!")}
-//           >
-//             <span className="card-icon">🔢</span>
-//             <span className="card-text">Numbers</span>
-//           </div>
-
-//           <div className="games-topic">
-//             <span className="card-text">Numbers</span>
-//             <ul>
-//               <li className="topic-link">Number Writing</li>
-//               <li className="topic-link">Spelling Practice</li>
-//               <li className="topic-link">Focused Spelling</li>
-//             </ul>
-//           </div>
-
-//           {/* ===== PRACTICE ===== */}
-//           <div
-//             className="jungle-card"
-//             onClick={() => navigate("/practice-home")}
-//             onMouseEnter={() => speakText("Practice makes you stronger!")}
-//           >
-//             <span className="card-icon">🧠</span>
-//             <span className="card-text">Practice</span>
-//           </div>
-
-//           <div className="games-topic">
-//             <span className="card-text">Practice</span>
-//             <ul>
-
-//               <li
-//                 className="topic-link"
-//                 onClick={(e) => {
-//                   e.stopPropagation();
-//                   navigate("/practice-letter-mastery");
-//                 }}
-//               >
-//                 Letter Mastery Zone
-//               </li>
-
-//               <li
-//                 className="topic-link"
-//                 onClick={(e) => {
-//                   e.stopPropagation();
-//                   navigate("/practice-phonics");
-//                 }}
-//               >
-//                 Phonics Power Zone
-//               </li>
-
-//               <li
-//                 className="topic-link"
-//                 onClick={(e) => {
-//                   e.stopPropagation();
-//                   navigate("/practice-word-builder");
-//                 }}
-//               >
-//                 Word Builder Zone
-//               </li>
-
-//               <li
-//                 className="topic-link"
-//                 onClick={(e) => {
-//                   e.stopPropagation();
-//                   navigate("/practice-memory");
-//                 }}
-//               >
-//                 Memory & Visual Skills
-//               </li>
-
-//               <li
-//                 className="topic-link"
-//                 onClick={(e) => {
-//                   e.stopPropagation();
-//                   navigate("/practice-confidence");
-//                 }}
-//               >
-//                 Confidence Boost Zone
-//               </li>
-
-//             </ul>
-//           </div>
-
-//         </section>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
 import "../styles/KidsHome.css";
+import bearImage from "../assets/bear.png";
 import { speak } from "../utils/speak";
-import foxy from "../assets/foxy-cutout.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-
 import { db } from "../firebase";
 import { useGame } from "../context/GameContext";
 
 export default function KidsHome() {
   const navigate = useNavigate();
-
   const [profileOpen, setProfileOpen] = useState(false);
   const [userName, setUserName] = useState("Pavii");
 
@@ -844,19 +18,12 @@ export default function KidsHome() {
     loadingProgress,
   } = useGame();
 
-  // =========================================================
-  // LOAD USER PROFILE FROM FIREBASE
-  // =========================================================
-
   useEffect(() => {
     const loadProfile = async () => {
       try {
         const userId = localStorage.getItem("userId");
 
-        if (!userId) {
-          console.log("⚠️ No Firebase userId found");
-          return;
-        }
+        if (!userId) return;
 
         const userRef = doc(db, "users", userId);
         const userSnap = await getDoc(userRef);
@@ -870,23 +37,28 @@ export default function KidsHome() {
             data.username ||
             "Pavii"
           );
-
-          console.log("👤 KidsHome profile:", data);
         }
       } catch (error) {
-        console.error(
-          "❌ Failed to load profile:",
-          error
-        );
+        console.error("❌ Failed to load profile:", error);
       }
     };
 
     loadProfile();
   }, []);
 
-  // =========================================================
-  // LEVEL CALCULATION
-  // =========================================================
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".profile-container")) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const getLevel = () => {
     if (stars < 5) return 1;
@@ -898,472 +70,244 @@ export default function KidsHome() {
 
   const level = getLevel();
 
-  // =========================================================
-  // SPEECH
-  // =========================================================
-
   const speakText = (text) => {
     speak(text);
   };
 
-  // =========================================================
-  // LOGOUT
-  // =========================================================
-
   const handleLogout = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("loginEmail");
-
     setProfileOpen(false);
-
     navigate("/login");
   };
 
-  // =========================================================
-  // CLOSE PROFILE WHEN CLICKING OUTSIDE
-  // =========================================================
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        !event.target.closest(".profile-container")
-      ) {
-        setProfileOpen(false);
-      }
-    };
-
-    document.addEventListener(
-      "click",
-      handleClickOutside
-    );
-
-    return () => {
-      document.removeEventListener(
-        "click",
-        handleClickOutside
-      );
-    };
-  }, []);
-
-  // =========================================================
-  // UI
-  // =========================================================
+  const zones = [
+    {
+      key: "games",
+      icon: "🎮",
+      title: "Games",
+      subtitle: "Play, explore & have fun",
+      description: "Fun challenges made for curious minds",
+      color: "green",
+      path: "/games-home",
+      speech: "Let's play fun games!",
+      tag: "PLAY",
+    },
+    {
+      key: "letters",
+      icon: "🔤",
+      title: "Letters",
+      subtitle: "Explore the alphabet",
+      description: "Discover sounds, words and letters",
+      color: "orange",
+      path: "/letters-home",
+      speech: "Let's learn letters together!",
+      tag: "ABC",
+    },
+    {
+      key: "numbers",
+      icon: "🔢",
+      title: "Numbers",
+      subtitle: "Count, learn & discover",
+      description: "Build number skills through play",
+      color: "blue",
+      path: "/numbers",
+      speech: "Numbers are fun to learn!",
+      tag: "123",
+    },
+    {
+      key: "practice",
+      icon: "🧠",
+      title: "Practice",
+      subtitle: "Build your super skills",
+      description: "Strengthen what you have learned",
+      color: "purple",
+      path: "/practice-home",
+      speech: "Practice makes you stronger!",
+      tag: "BOOST",
+    },
+  ];
 
   return (
     <div className="kids-home">
+      <div className="jungle-glow jungle-glow-one" />
+      <div className="jungle-glow jungle-glow-two" />
+      <div className="floating-leaf leaf-one">🍃</div>
+      <div className="floating-leaf leaf-two">🌿</div>
+      <div className="floating-leaf leaf-three">🍃</div>
 
-      {/* =====================================================
-          🦊 MASCOT
-      ===================================================== */}
-
-      <div className="mascot-container">
-
-        <img
-          src={foxy}
-          alt="Jungle Friend"
-          className="mascot-img"
-        />
-
-        <div className="mascot-bubble">
-          <strong>
-            Let’s start learning!!!
-          </strong>
-        </div>
-
-      </div>
-
-      {/* =====================================================
-          🌴 NAVBAR
-      ===================================================== */}
-
-      <div className="kids-navbar">
-
-        <div className="navbar-title">
-          🌴 CurioKids
-        </div>
+      <header className="kids-navbar">
+        <button
+          className="brand"
+          onClick={() => navigate("/kids-home")}
+          aria-label="CurioKids home"
+        >
+          <span>CurioKids</span>
+        </button>
 
         <div className="navbar-right">
-
-          {/* 🏆 Rewards */}
           <button
-            className="pill"
-            onClick={() =>
-              navigate("/rewards")
-            }
+            className="top-action rewards-action"
+            onClick={() => navigate("/rewards")}
           >
-            🏆 Rewards
+            <span>🏆</span>
+            <span>Rewards</span>
           </button>
 
-          {/* 📊 Progress */}
           <button
-            className="pill"
-            onClick={() =>
-              navigate("/progress")
-            }
+            className="top-action progress-action"
+            onClick={() => navigate("/progress")}
           >
-            📊 Progress
+            <span>📊</span>
+            <span>Progress</span>
           </button>
 
-          {/* 👤 PROFILE */}
           <div className="profile-container">
-
-            <div
+            <button
               className="profile-avatar"
               onClick={(e) => {
                 e.stopPropagation();
-                setProfileOpen(
-                  (prev) => !prev
-                );
+                setProfileOpen((prev) => !prev);
               }}
+              aria-label="Open profile"
             >
               👤
-            </div>
+            </button>
 
             {profileOpen && (
               <div
                 className="profile-dropdown"
-                onClick={(e) =>
-                  e.stopPropagation()
-                }
+                onClick={(e) => e.stopPropagation()}
               >
+                <div className="profile-dropdown-head">
+                  <div className="profile-mini-avatar">👤</div>
+                  <div>
+                    <p className="profile-name">{userName} 🌟</p>
+                    <span>Level {level} explorer</span>
+                  </div>
+                </div>
 
-                <p className="profile-name">
-                  {userName} 🌟
-                </p>
+                <div className="profile-stat">
+                  <span>⭐ Stars</span>
+                  <strong>{loadingProgress ? "..." : stars}</strong>
+                </div>
 
-                <p>
-                  Level: {level}
-                </p>
+                <div className="profile-stat">
+                  <span>🔥 Streak</span>
+                  <strong>{loadingProgress ? "..." : streak} days</strong>
+                </div>
 
-                <p>
-                  ⭐ Stars:{" "}
-                  {loadingProgress
-                    ? "..."
-                    : stars}
-                </p>
+                <div className="profile-divider" />
 
-                <p>
-                  🔥 Streak:{" "}
-                  {loadingProgress
-                    ? "..."
-                    : streak}{" "}
-                  days
-                </p>
-
-                <hr />
-
-                <button
-                  onClick={() =>
-                    navigate("/profile")
-                  }
-                >
+                <button onClick={() => navigate("/profile")}>
                   👤 My Profile
                 </button>
 
-                <button
-                  onClick={() =>
-                    navigate("/settings")
-                  }
-                >
+                <button onClick={() => navigate("/settings")}>
                   ⚙️ Settings
                 </button>
 
-                <button
-                  className="logout-btn"
-                  onClick={handleLogout}
-                >
+                <button className="logout-btn" onClick={handleLogout}>
                   🚪 Logout
                 </button>
-
               </div>
             )}
-
           </div>
-
         </div>
+      </header>
 
-      </div>
+      <main className="kids-content">
+        <section className="hero-section">
+          <div className="hero-copy">
+            <div className="welcome-badge">
+              ✨ Ready for an adventure?
+            </div>
 
-      {/* =====================================================
-          🌿 CONTENT
-      ===================================================== */}
+            <h1>
+              Welcome to the
+              <span> Jungle! 🌿</span>
+            </h1>
 
-      <div className="kids-content">
+            <p>
+              Hi {userName}! Let's play, learn, and grow together.
+            </p>
 
-        {/* 🌱 WELCOME */}
+          </div>
 
-        <section className="welcome-section">
+          <div className="hero-mascot">
+            <div className="mascot-shadow" />
 
-          <h1>
-            Welcome to the Jungle 🌿
-          </h1>
+            
 
-          <p>
-            Let's play, learn, and grow together!
-          </p>
-
+            <img
+              className="hero-bear"
+              src={bearImage}
+              alt="CurioKids jungle bear"
+            />
+          </div>
         </section>
 
-        {/* ===================================================
-            🧩 MAIN CARDS
-        =================================================== */}
+        <section className="zone-section">
+          <div className="section-heading">
+            <div>
+              <span className="section-kicker">YOUR ADVENTURE MAP</span>
+              <h2>Choose your jungle zone 🌈</h2>
+              <p>Pick a zone and let's make today a learning adventure!</p>
+            </div>
 
-        <section className="card-grid">
-
-          {/* =================================================
-              🎮 GAMES
-          ================================================= */}
-
-          <div
-            className="jungle-card"
-            onClick={() =>
-              navigate("/games-home")
-            }
-            onMouseEnter={() =>
-              speakText(
-                "Let's play fun games!"
-              )
-            }
-          >
-            <span className="card-icon">
-              🎮
-            </span>
-
-            <span className="card-text">
-              Games
-            </span>
+            <div className="tiny-jungle-sign">
+              <span>🦋</span>
+              Learn &amp; play!
+            </div>
           </div>
 
-          <div className="games-topic">
-
-            <span className="card-text">
-              Games
-            </span>
-
-            <ul>
-
-              <li className="topic-link">
-                Decoding Practice
-              </li>
-
-              <li className="topic-link">
-                Identifying Concepts
-              </li>
-
-              <li className="topic-link">
-                Isolating Speech Sounds
-              </li>
-
-            </ul>
-
-          </div>
-
-          {/* =================================================
-              🔤 LETTERS
-          ================================================= */}
-
-          <div
-            className="jungle-card"
-            onClick={() =>
-              navigate("/letters-home")
-            }
-            onMouseEnter={() =>
-              speakText(
-                "Let's learn letters together!"
-              )
-            }
-          >
-
-            <span className="card-icon">
-              🔤
-            </span>
-
-            <span className="card-text">
-              Letters
-            </span>
-
-          </div>
-
-          <div className="games-topic">
-
-            <span className="card-text">
-              Letters
-            </span>
-
-            <ul>
-
-              <li className="topic-link">
-                Alphabet Explorer Zone
-              </li>
-
-              <li className="topic-link">
-                Letter Detective Zone
-              </li>
-
-              <li className="topic-link">
-                Writing & Shape Zone
-              </li>
-
-              <li className="topic-link">
-                Letter Challenge Arena
-              </li>
-
-            </ul>
-
-          </div>
-
-          {/* =================================================
-              🔢 NUMBERS
-          ================================================= */}
-
-          <div
-            className="jungle-card"
-            onClick={() =>
-              navigate("/numbers")
-            }
-            onMouseEnter={() =>
-              speakText(
-                "Numbers are fun to learn!"
-              )
-            }
-          >
-
-            <span className="card-icon">
-              🔢
-            </span>
-
-            <span className="card-text">
-              Numbers
-            </span>
-
-          </div>
-
-          <div className="games-topic">
-
-            <span className="card-text">
-              Numbers
-            </span>
-
-            <ul>
-
-              <li className="topic-link">
-                Number Writing
-              </li>
-
-              <li className="topic-link">
-                Spelling Practice
-              </li>
-
-              <li className="topic-link">
-                Focused Spelling
-              </li>
-
-            </ul>
-
-          </div>
-
-          {/* =================================================
-              🧠 PRACTICE
-          ================================================= */}
-
-          <div
-            className="jungle-card"
-            onClick={() =>
-              navigate("/practice-home")
-            }
-            onMouseEnter={() =>
-              speakText(
-                "Practice makes you stronger!"
-              )
-            }
-          >
-
-            <span className="card-icon">
-              🧠
-            </span>
-
-            <span className="card-text">
-              Practice
-            </span>
-
-          </div>
-
-          <div className="games-topic">
-
-            <span className="card-text">
-              Practice
-            </span>
-
-            <ul>
-
-              <li
-                className="topic-link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(
-                    "/practice-letter-mastery"
-                  );
-                }}
+          <div className="zone-grid">
+            {zones.map((zone, index) => (
+              <button
+                key={zone.key}
+                className={`zone-card zone-${zone.color}`}
+                onClick={() => navigate(zone.path)}
+                onMouseEnter={() => speakText(zone.speech)}
+                style={{ "--delay": `${index * 90}ms` }}
               >
-                Letter Mastery Zone
-              </li>
+                <span className="zone-card-shine" />
 
-              <li
-                className="topic-link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(
-                    "/practice-phonics"
-                  );
-                }}
-              >
-                Phonics Power Zone
-              </li>
+                <div className="zone-top">
+                  <span className="zone-tag">{zone.tag}</span>
+                  <span className="zone-number">0{index + 1}</span>
+                </div>
 
-              <li
-                className="topic-link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(
-                    "/practice-word-builder"
-                  );
-                }}
-              >
-                Word Builder Zone
-              </li>
+                <div className="zone-icon-wrap">
+                  <span className="zone-icon">{zone.icon}</span>
+                </div>
 
-              <li
-                className="topic-link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(
-                    "/practice-memory"
-                  );
-                }}
-              >
-                Memory & Visual Skills
-              </li>
+                <div className="zone-copy">
+                  <h3>{zone.title}</h3>
+                  <strong>{zone.subtitle}</strong>
+                  <p>{zone.description}</p>
+                </div>
 
-              <li
-                className="topic-link"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(
-                    "/practice-confidence"
-                  );
-                }}
-              >
-                Confidence Boost Zone
-              </li>
+                <span className="zone-arrow">PLAY <b>›</b></span>
 
-            </ul>
-
+                <div className="zone-dots">
+                  <i />
+                  <i />
+                  <i />
+                </div>
+              </button>
+            ))}
           </div>
-
         </section>
 
-      </div>
-
+        <section className="encouragement">
+          <div className="encouragement-animal">🦜</div>
+          <div>
+            <span>Jungle tip</span>
+            <strong>Every little step makes you stronger! 💚</strong>
+          </div>
+          <div className="encouragement-leaves">🌿🍃</div>
+        </section>
+      </main>
     </div>
   );
 }

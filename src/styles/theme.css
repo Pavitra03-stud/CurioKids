@@ -1,0 +1,56 @@
+:root {
+  /* 🌿 Jungle */
+  --jungle-dark: #07543f;
+  --jungle: #16865f;
+  --jungle-light: #e4f7c9;
+
+  /* ☁️ Sky */
+  --sky: #8edcf7;
+  --sky-light: #eefbff;
+
+  /* 🪵 Natural */
+  --wood: #a96832;
+  --wood-dark: #75451f;
+  --cream: #fff8df;
+
+  /* 🌈 Zone colors */
+  --letters: #62c7ee;
+  --numbers: #ffd45c;
+  --games: #b99af2;
+  --practice: #f39bc0;
+
+  /* 🎯 Actions */
+  --primary: #ffc83d;
+  --primary-dark: #e9a91c;
+
+  --success: #45b85a;
+  --success-dark: #319345;
+
+  --info: #40b9e8;
+  --info-dark: #268fbd;
+
+  --orange: #ff914d;
+  --pink: #f277a9;
+  --purple: #9b7be4;
+
+  /* ✏️ Text */
+  --text-dark: #173b2c;
+  --text-medium: #315747;
+  --text-light: #ffffff;
+
+  /* 🔵 Shapes */
+  --radius-xl: 32px;
+  --radius-lg: 26px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+
+  /* ✨ Shadows */
+  --shadow-card:
+    0 12px 30px rgba(25, 70, 45, 0.16);
+
+  --shadow-button:
+    0 6px 0 rgba(0, 0, 0, 0.12);
+
+  --shadow-hover:
+    0 18px 35px rgba(25, 70, 45, 0.22);
+}

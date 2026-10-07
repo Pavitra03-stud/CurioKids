@@ -306,7 +306,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import "../styles/AIChat.css";
-
+import { useGame } from "../context/GameContext";
 import { db } from "../firebase";
 import {
   collection,
@@ -318,9 +318,15 @@ import {
 } from "firebase/firestore";
 
 const WORKER_URL =
-  "https://curiokids-worker.gvpavitraganesh.workers.dev/ai";
+  "https://curiokids-worker.curiokids25.workers.dev/ai";
 
 export default function AIChat() {
+  const {
+    stars,
+    history,
+    streak,
+    activeGames,
+  } = useGame();
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -479,9 +485,16 @@ export default function AIChat() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt,
-        type: "chat",
-      }),
+      prompt,
+      type: "chat",
+
+      context: {
+        stars,
+        streak,
+        recentHistory: history.slice(-10),
+        activeGames,
+      },
+    }),
     });
 
     const data = await response.json();
@@ -598,7 +611,44 @@ export default function AIChat() {
       setLoading(false);
     }
   };
+const renderAIText = (text) => {
+  return text.split("\n").map((line, index) => {
+    const trimmed = line.trim();
 
+    // Empty line = spacing between sections
+    if (!trimmed) {
+      return <div key={index} className="ai-space" />;
+    }
+
+    // Heading: **Something**
+    if (
+      trimmed.startsWith("**") &&
+      trimmed.endsWith("**")
+    ) {
+      return (
+        <div key={index} className="ai-heading">
+          {trimmed.slice(2, -2)}
+        </div>
+      );
+    }
+
+    // Bullet point
+    if (trimmed.startsWith("- ")) {
+      return (
+        <div key={index} className="ai-bullet">
+          • {trimmed.slice(2)}
+        </div>
+      );
+    }
+
+    // Normal text
+    return (
+      <div key={index} className="ai-line">
+        {trimmed}
+      </div>
+    );
+  });
+};
   // =========================================================
   // ⏳ LOADING SCREEN
   // =========================================================
@@ -705,7 +755,9 @@ export default function AIChat() {
               }`}
             >
               <div className="msg">
-                {msg.text}
+                {msg.sender === "ai"
+                  ? renderAIText(msg.text)
+                  : msg.text}
               </div>
             </div>
           ))}

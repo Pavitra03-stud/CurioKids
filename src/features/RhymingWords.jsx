@@ -1,210 +1,14 @@
-// import { useState, useEffect } from "react";
-// import "../styles/RhymingSound.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// export default function RhymingWords() {
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   const [currentWord, setCurrentWord] = useState({});
-//   const [options, setOptions] = useState([]);
-
-//   const [correctAnswer, setCorrectAnswer] = useState("");
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const [feedback, setFeedback] = useState("");
-//   const [loading, setLoading] = useState(true);
-
-//   // 🤖 AI QUESTION
-//   const generateQuestionAI = async () => {
-//     try {
-//       setLoading(true);
-
-//       const res = await fetch("http://localhost:5000/api/generate-rhyming", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       });
-
-//       const data = await res.json();
-
-//       console.log("AI DATA:", data);
-
-//       if (!data.word || !data.options || !data.answer) {
-//         throw new Error("Invalid data");
-//       }
-
-//       setCurrentWord({
-//         word: data.word,
-//         emoji: data.emoji || "🔤"
-//       });
-
-//       setCorrectAnswer(data.answer);
-//       setOptions(data.options);
-
-//     } catch (err) {
-//       console.error(err);
-
-//       // fallback
-//       setCurrentWord({ word: "Cat", emoji: "🐱" });
-//       setCorrectAnswer("Hat");
-//       setOptions(["Hat","Log","Fun","Tall"]);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     generateQuestionAI();
-//   }, []);
-
-//   // ☁️ SAVE
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user";
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: "RhymingWords_AI"
-//       });
-
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   // 🎯 HANDLE CLICK
-//   const handleClick = (selected) => {
-
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = selected === correctAnswer;
-//     const updatedScore = isCorrect ? score + 1 : score;
-
-//     if (isCorrect) {
-//       setScore(updatedScore);
-//       setFeedback("correct");
-//     } else {
-//       setFeedback("wrong");
-//     }
-
-//     setTimeout(async () => {
-
-//       setFeedback("");
-
-//       const nextCount = questionCount + 1;
-//       setQuestionCount(nextCount);
-
-//       if (nextCount === TOTAL_QUESTIONS) {
-
-//         await saveScoreToFirestore(updatedScore);
-
-//         alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
-
-//         setScore(0);
-//         setQuestionCount(0);
-//         generateQuestionAI();
-
-//       } else {
-//         generateQuestionAI();
-//       }
-
-//     }, 700);
-//   };
-
-//   // 📊 ANALYSIS
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Excellent!";
-//     if (accuracy > 50) return "👍 Good job!";
-//     return "💡 Practice more!";
-//   };
-
-//   return (
-//     <div className="phonics-page">
-
-//       <div className="letter-navbar">
-//         <h2>🤖 AI Rhyming Words</h2>
-//       </div>
-
-//       <div className="game-info">
-//         <span>Question: {questionCount + 1}/{TOTAL_QUESTIONS}</span>
-//         <span>Score: {score}</span>
-//       </div>
-
-//       <div className="word-display">
-//         <div className="emoji">
-//           {loading ? "⏳" : (currentWord?.emoji || "🔤")}
-//         </div>
-//         <h2>
-//           {loading ? "Loading..." : (currentWord?.word || "Loading...")}
-//         </h2>
-//       </div>
-
-//       <h3>Which word rhymes with:</h3>
-
-//       <div className="options-grid">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           options.map((word, index) => (
-//             <button
-//               key={index}
-//               className="option-btn"
-//               onClick={() => handleClick(word)}
-//             >
-//               {word}
-//             </button>
-//           ))
-//         )}
-//       </div>
-
-//       {feedback === "correct" && (
-//         <div className="feedback good">🎉 Correct!</div>
-//       )}
-
-//       {feedback === "wrong" && (
-//         <div className="feedback wrong">❌ Try Again</div>
-//       )}
-
-//       <div className="ai-analysis">
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
-
-
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/RhymingSound.css";
-
 import useGameProgress from "../hooks/useGameProgress";
 
 export default function RhymingWords() {
   const TOTAL_QUESTIONS = 5;
-
   const GAME_ID = "rhyming-words";
+
+  // =====================================================
+  // FIREBASE GAME PROGRESS
+  // =====================================================
 
   const {
     savedState,
@@ -213,7 +17,11 @@ export default function RhymingWords() {
     finish,
   } = useGameProgress(GAME_ID);
 
-  const [currentWord, setCurrentWord] = useState({});
+  // =====================================================
+  // GAME STATE
+  // =====================================================
+
+  const [currentWord, setCurrentWord] = useState(null);
   const [options, setOptions] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState("");
 
@@ -222,33 +30,66 @@ export default function RhymingWords() {
 
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(true);
-
   const [completed, setCompleted] = useState(false);
 
-  /* =====================================================
-     🤖 AI QUESTION
-  ===================================================== */
+  // IMPORTANT:
+  // State is used for button disabled/rendering.
+  // Ref is used only as a second safety lock.
+  const [isAnswering, setIsAnswering] = useState(false);
+
+  const initializedRef = useRef(false);
+  const answeringRef = useRef(false);
+
+  // =====================================================
+  // GENERATE AI QUESTION
+  // =====================================================
 
   const generateQuestionAI = async () => {
-    try {
-      setLoading(true);
+    console.log("🤖 Generating Rhyming Words question...");
 
-      const res = await fetch(
+    setLoading(true);
+
+    try {
+      const controller = new AbortController();
+
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 8000);
+
+      const response = await fetch(
         "http://localhost:5000/api/generate-rhyming",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          signal: controller.signal,
         }
       );
 
-      const data = await res.json();
+      clearTimeout(timeoutId);
 
-      console.log("🤖 AI DATA:", data);
+      if (!response.ok) {
+        throw new Error(
+          `Rhyming API failed: ${response.status}`
+        );
+      }
 
-      if (!data.word || !data.options || !data.answer) {
-        throw new Error("Invalid AI data");
+      const data = await response.json();
+
+      console.log("🤖 RHYMING API RESPONSE:", data);
+
+      // =================================================
+      // VALIDATE RESPONSE
+      // =================================================
+
+      if (
+        !data.word ||
+        !data.answer ||
+        !Array.isArray(data.options) ||
+        data.options.length < 2
+      ) {
+        throw new Error("Invalid rhyming API response");
       }
 
       const question = {
@@ -256,72 +97,261 @@ export default function RhymingWords() {
         emoji: data.emoji || "🔤",
       };
 
+      // =================================================
+      // SET NEW QUESTION
+      // =================================================
+
       setCurrentWord(question);
       setCorrectAnswer(data.answer);
       setOptions(data.options);
+
+      // ⭐ VERY IMPORTANT
+      // New question must always be clickable.
+      setFeedback("");
+      setIsAnswering(false);
+      answeringRef.current = false;
+
+      console.log("✅ New question ready:", {
+        word: data.word,
+        answer: data.answer,
+        options: data.options,
+      });
 
       return {
         currentWord: question,
         correctAnswer: data.answer,
         options: data.options,
       };
-    } catch (err) {
-      console.error("AI generation failed:", err);
+    } catch (error) {
+      console.error("❌ Rhyming API error:", error);
 
-      // Fallback question
-      const fallback = {
-        currentWord: {
-          word: "Cat",
-          emoji: "🐱",
+      // =================================================
+      // FALLBACK QUESTION
+      // =================================================
+
+      const fallbackQuestions = [
+        {
+          currentWord: {
+            word: "Cat",
+            emoji: "🐱",
+          },
+          correctAnswer: "Hat",
+          options: ["Hat", "Log", "Fun", "Tall"],
         },
-        correctAnswer: "Hat",
-        options: ["Hat", "Log", "Fun", "Tall"],
-      };
+        {
+          currentWord: {
+            word: "Sun",
+            emoji: "☀️",
+          },
+          correctAnswer: "Fun",
+          options: ["Fun", "Dog", "Book", "Rain"],
+        },
+        {
+          currentWord: {
+            word: "Dog",
+            emoji: "🐶",
+          },
+          correctAnswer: "Log",
+          options: ["Log", "Bell", "Cat", "Fish"],
+        },
+        {
+          currentWord: {
+            word: "Star",
+            emoji: "⭐",
+          },
+          correctAnswer: "Car",
+          options: ["Car", "Moon", "Tree", "Book"],
+        },
+        {
+          currentWord: {
+            word: "Rain",
+            emoji: "🌧️",
+          },
+          correctAnswer: "Train",
+          options: ["Train", "Sun", "Dog", "Hat"],
+        },
+        {
+          currentWord: {
+            word: "Bell",
+            emoji: "🔔",
+          },
+          correctAnswer: "Shell",
+          options: ["Shell", "Book", "Cat", "Rain"],
+        },
+        {
+          currentWord: {
+            word: "Cake",
+            emoji: "🎂",
+          },
+          correctAnswer: "Lake",
+          options: ["Lake", "Dog", "Sun", "Fish"],
+        },
+        {
+          currentWord: {
+            word: "Tree",
+            emoji: "🌳",
+          },
+          correctAnswer: "Bee",
+          options: ["Bee", "Car", "Moon", "Hat"],
+        },
+        {
+          currentWord: {
+            word: "Light",
+            emoji: "💡",
+          },
+          correctAnswer: "Night",
+          options: ["Night", "Dog", "Bell", "Rain"],
+        },
+        {
+          currentWord: {
+            word: "Ball",
+            emoji: "⚽",
+          },
+          correctAnswer: "Tall",
+          options: ["Tall", "Book", "Sun", "Fish"],
+        },
+      ];
 
-      setCurrentWord(fallback.currentWord);
-      setCorrectAnswer(fallback.correctAnswer);
-      setOptions(fallback.options);
+      // Pick random fallback question
+      const randomIndex = Math.floor(
+        Math.random() * fallbackQuestions.length
+      );
 
-      return fallback;
+      const fallbackQuestion =
+        fallbackQuestions[randomIndex];
+
+      setCurrentWord(fallbackQuestion.currentWord);
+      setCorrectAnswer(fallbackQuestion.correctAnswer);
+      setOptions(fallbackQuestion.options);
+
+      // ⭐ RESET ANSWER LOCK
+      setFeedback("");
+      setIsAnswering(false);
+      answeringRef.current = false;
+
+      console.log(
+        "🛟 Using fallback question:",
+        fallbackQuestion
+      );
+
+      return fallbackQuestion;
     } finally {
       setLoading(false);
     }
   };
 
-  /* =====================================================
-     🔥 RESTORE SAVED GAME
-  ===================================================== */
+  // =====================================================
+  // RESTORE SAVED GAME / START NEW GAME
+  // =====================================================
 
   useEffect(() => {
-    if (progressLoading) return;
+    // Firebase progress is still loading
+    if (progressLoading) {
+      console.log(
+        "⏳ Waiting for GameContext Firebase load..."
+      );
+      return;
+    }
 
-    const restoreGame = async () => {
-      if (savedState) {
+    // VERY IMPORTANT:
+    // useGameProgress initially returns null.
+    // Wait until it has actually checked Firebase.
+    if (savedState === null) {
+      console.log(
+        "⏳ Waiting for savedState from Firebase..."
+      );
+      return;
+    }
+
+    // Prevent duplicate initialization
+    if (initializedRef.current) {
+      return;
+    }
+
+    initializedRef.current = true;
+
+    const initializeGame = async () => {
+      console.log(
+        "🎮 Rhyming Words restore:",
+        savedState
+      );
+
+      // =================================================
+      // RESTORE SAVED GAME
+      // =================================================
+
+      if (
+        savedState &&
+        Object.keys(savedState).length > 0 &&
+        savedState.currentWord &&
+        Array.isArray(savedState.options) &&
+        savedState.correctAnswer
+      ) {
         console.log(
           "🔥 Restoring Rhyming Words:",
           savedState
         );
 
-        setCurrentWord(savedState.currentWord || {});
-        setCorrectAnswer(savedState.correctAnswer || "");
-        setOptions(savedState.options || []);
+        setCurrentWord(savedState.currentWord);
 
-        setScore(savedState.score || 0);
-        setQuestionCount(
-          savedState.questionCount || 0
+        setOptions(savedState.options);
+
+        setCorrectAnswer(
+          savedState.correctAnswer
         );
 
-        setFeedback(savedState.feedback || "");
-        setCompleted(savedState.completed || false);
+        setScore(
+          Number(savedState.score) || 0
+        );
+
+        setQuestionCount(
+          Number(savedState.questionCount) || 0
+        );
+
+        setFeedback("");
+
+        setCompleted(
+          Boolean(savedState.completed)
+        );
+
+        setIsAnswering(false);
+        answeringRef.current = false;
 
         setLoading(false);
+
+        console.log(
+          "✅ Rhyming Words resumed successfully"
+        );
 
         return;
       }
 
-      console.log("🆕 Starting new Rhyming Words game");
+      // =================================================
+      // START NEW GAME
+      // =================================================
 
-      const question = await generateQuestionAI();
+      console.log(
+        "🆕 Starting new Rhyming Words game"
+      );
+
+      setScore(0);
+      setQuestionCount(0);
+      setCompleted(false);
+      setFeedback("");
+
+      setIsAnswering(false);
+      answeringRef.current = false;
+
+      const question =
+        await generateQuestionAI();
+
+      if (!question) {
+        return;
+      }
+
+      // =================================================
+      // SAVE INITIAL QUESTION
+      // =================================================
 
       await save({
         currentWord: question.currentWord,
@@ -332,138 +362,313 @@ export default function RhymingWords() {
         feedback: "",
         completed: false,
       });
+
+      console.log(
+        "💾 Initial Rhyming Words question saved"
+      );
     };
 
-    restoreGame();
+    initializeGame();
   }, [progressLoading, savedState]);
 
-  /* =====================================================
-     🎯 HANDLE ANSWER
-  ===================================================== */
+  // =====================================================
+  // ANSWER QUESTION
+  // =====================================================
 
-  const handleClick = (selected) => {
+  const handleAnswer = (selectedAnswer) => {
+    // Prevent clicks while:
+    // - loading
+    // - completed
+    // - another answer is being processed
     if (
       loading ||
       completed ||
-      questionCount >= TOTAL_QUESTIONS
+      isAnswering ||
+      answeringRef.current
     ) {
+      console.log(
+        "⛔ Answer blocked:",
+        {
+          loading,
+          completed,
+          isAnswering,
+          answering: answeringRef.current,
+        }
+      );
+
       return;
     }
 
-    const isCorrect = selected === correctAnswer;
+    // Lock immediately
+    answeringRef.current = true;
+    setIsAnswering(true);
 
-    const updatedScore = isCorrect
+    const isCorrect =
+      selectedAnswer === correctAnswer;
+
+    const newScore = isCorrect
       ? score + 1
       : score;
 
-    setScore(updatedScore);
+    console.log("🎯 Selected:", selectedAnswer);
+    console.log("🎯 Correct:", correctAnswer);
+    console.log("🎯 Is correct:", isCorrect);
+
+    // =====================================================
+    // SHOW FEEDBACK
+    // =====================================================
 
     setFeedback(
-      isCorrect ? "correct" : "wrong"
+      isCorrect
+        ? "correct"
+        : "wrong"
     );
 
+    setScore(newScore);
+
+    // =====================================================
+    // WAIT BEFORE NEXT QUESTION
+    // =====================================================
+
     setTimeout(async () => {
-      const nextCount = questionCount + 1;
+      try {
+        const nextQuestionNumber =
+          questionCount + 1;
 
-      setFeedback("");
-      setQuestionCount(nextCount);
+        // =================================================
+        // LAST QUESTION
+        // =================================================
 
-      /* ================================================
-         🏆 FINAL QUESTION
-      ================================================ */
+        if (
+          nextQuestionNumber >=
+          TOTAL_QUESTIONS
+        ) {
+          const percentage =
+            (newScore /
+              TOTAL_QUESTIONS) *
+            100;
 
-      if (nextCount === TOTAL_QUESTIONS) {
-        const percentage =
-          (updatedScore / TOTAL_QUESTIONS) * 100;
+          console.log(
+            "🏆 Rhyming Words completed",
+            {
+              score: newScore,
+              percentage,
+            }
+          );
 
-        await finish(
-          percentage,
-          "AI Rhyming Words"
+          // ⭐ IMPORTANT:
+          // finish clears Firebase activeGames.
+          // Do NOT call save() after this.
+          await finish(
+            percentage,
+            "AI Rhyming Words"
+          );
+
+          setQuestionCount(
+            TOTAL_QUESTIONS
+          );
+
+          setCompleted(true);
+          setLoading(false);
+          setFeedback("");
+
+          setIsAnswering(false);
+          answeringRef.current = false;
+
+          console.log(
+            "🎉 Rhyming Words completed successfully"
+          );
+
+          return;
+        }
+
+        // =================================================
+        // NEXT QUESTION
+        // =================================================
+
+        console.log(
+          `➡️ Loading question ${
+            nextQuestionNumber + 1
+          }/${TOTAL_QUESTIONS}`
         );
 
-        setCompleted(true);
-        setLoading(false);
+        // Show loading screen while AI generates
+        setLoading(true);
+
+        setFeedback("");
+
+        const nextQuestion =
+          await generateQuestionAI();
+
+        if (!nextQuestion) {
+          throw new Error(
+            "Next question was not generated"
+          );
+        }
+
+        // Update question number AFTER
+        // successful generation
+        setQuestionCount(
+          nextQuestionNumber
+        );
+
+        // ⭐ generateQuestionAI already unlocks
+        // the answer state.
+        setIsAnswering(false);
+        answeringRef.current = false;
+
+        // =================================================
+        // SAVE NEXT QUESTION
+        // =================================================
 
         await save({
-          currentWord,
-          correctAnswer,
-          options,
-          score: updatedScore,
-          questionCount: nextCount,
+          currentWord:
+            nextQuestion.currentWord,
+
+          correctAnswer:
+            nextQuestion.correctAnswer,
+
+          options:
+            nextQuestion.options,
+
+          score: newScore,
+
+          questionCount:
+            nextQuestionNumber,
+
           feedback: "",
-          completed: true,
+
+          completed: false,
         });
 
-        return;
+        console.log(
+          "💾 Next Rhyming Words question saved"
+        );
+
+        // Safety unlock
+        setIsAnswering(false);
+        answeringRef.current = false;
+      } catch (error) {
+        console.error(
+          "❌ Error loading next question:",
+          error
+        );
+
+        // NEVER leave game locked
+        setIsAnswering(false);
+        answeringRef.current = false;
+        setLoading(false);
       }
-
-      /* ================================================
-         ➡️ NEXT QUESTION
-      ================================================ */
-
-      const question = await generateQuestionAI();
-
-      await save({
-        currentWord: question.currentWord,
-        correctAnswer: question.correctAnswer,
-        options: question.options,
-        score: updatedScore,
-        questionCount: nextCount,
-        feedback: "",
-        completed: false,
-      });
-    }, 700);
+    }, 800);
   };
 
-  /* =====================================================
-     🔄 PLAY AGAIN
-  ===================================================== */
+  // =====================================================
+  // PLAY AGAIN
+  // =====================================================
 
-  const playAgain = async () => {
-    const question = await generateQuestionAI();
+  const handlePlayAgain = async () => {
+    console.log(
+      "🔄 Starting Rhyming Words again"
+    );
 
+    // Reset everything FIRST
     setScore(0);
     setQuestionCount(0);
     setFeedback("");
     setCompleted(false);
+    setLoading(true);
+
+    setIsAnswering(false);
+    answeringRef.current = false;
+
+    const question =
+      await generateQuestionAI();
+
+    if (!question) {
+      return;
+    }
 
     await save({
-      currentWord: question.currentWord,
-      correctAnswer: question.correctAnswer,
-      options: question.options,
+      currentWord:
+        question.currentWord,
+
+      correctAnswer:
+        question.correctAnswer,
+
+      options:
+        question.options,
+
       score: 0,
+
       questionCount: 0,
+
       feedback: "",
+
       completed: false,
     });
+
+    setLoading(false);
+
+    console.log(
+      "💾 New Rhyming Words round saved"
+    );
   };
 
-  /* =====================================================
-     📊 PERFORMANCE
-  ===================================================== */
+  // =====================================================
+  // PERFORMANCE MESSAGE
+  // =====================================================
 
   const getPerformanceMessage = () => {
-    if (questionCount === 0) return "";
+    if (loading) {
+      return "";
+    }
+
+    if (!feedback && !completed) {
+      return "";
+    }
+
+    if (completed) {
+      const finalAccuracy =
+        (score /
+          TOTAL_QUESTIONS) *
+        100;
+
+      if (finalAccuracy >= 80) {
+        return "🌟 Excellent rhyming skills!";
+      }
+
+      if (finalAccuracy >= 50) {
+        return "👍 Good job! Keep going!";
+      }
+
+      return "💡 Keep practicing!";
+    }
+
+    if (questionCount <= 0) {
+      return "";
+    }
 
     const accuracy =
-      (score / questionCount) * 100;
+      (score /
+        questionCount) *
+      100;
 
-    if (accuracy > 80) {
+    if (accuracy >= 80) {
       return "🌟 Excellent!";
     }
 
-    if (accuracy > 50) {
+    if (accuracy >= 50) {
       return "👍 Good job!";
     }
 
-    return "💡 Practice more!";
+    return "💡 Keep practicing!";
   };
 
-  /* =====================================================
-     ⏳ PROGRESS LOADING
-  ===================================================== */
+  // =====================================================
+  // FIREBASE LOADING SCREEN
+  // =====================================================
 
-  if (progressLoading) {
+  if (progressLoading || savedState === null) {
     return (
       <div className="phonics-page">
         <div className="letter-navbar">
@@ -471,32 +676,44 @@ export default function RhymingWords() {
         </div>
 
         <div className="word-display">
-          <div className="emoji">⏳</div>
+          <div className="emoji">
+            ⏳
+          </div>
 
-          <h2>Loading your progress...</h2>
+          <h2>
+            Loading your progress...
+          </h2>
         </div>
       </div>
     );
   }
 
-  /* =====================================================
-     🎨 UI
-  ===================================================== */
+  // =====================================================
+  // MAIN UI
+  // =====================================================
 
   return (
     <div className="phonics-page">
 
+      {/* HEADER */}
+
       <div className="letter-navbar">
-        <h2>🤖 AI Rhyming Words</h2>
+        <h2>
+          🤖 AI Rhyming Words
+        </h2>
       </div>
 
       {/* GAME INFO */}
+
       <div className="game-info">
         <span>
           Question:{" "}
           {completed
             ? TOTAL_QUESTIONS
-            : questionCount + 1}
+            : Math.min(
+                questionCount + 1,
+                TOTAL_QUESTIONS
+              )}
           /{TOTAL_QUESTIONS}
         </span>
 
@@ -505,9 +722,7 @@ export default function RhymingWords() {
         </span>
       </div>
 
-      {/* =================================================
-          COMPLETION SCREEN
-      ================================================= */}
+      {/* COMPLETED */}
 
       {completed ? (
         <div className="word-display">
@@ -521,32 +736,37 @@ export default function RhymingWords() {
           </h2>
 
           <h3>
-            Score: {score}/{TOTAL_QUESTIONS}
+            Score: {score}/
+            {TOTAL_QUESTIONS}
           </h3>
 
           <p>
             {score >= 4
               ? "🌟 Excellent rhyming skills!"
+              : score >= 3
+              ? "👍 Great job! Keep practicing!"
               : "💡 Keep practicing your rhyming words!"}
           </p>
 
           <button
             className="option-btn"
-            onClick={playAgain}
+            onClick={handlePlayAgain}
+            disabled={loading}
           >
             🔄 Play Again
           </button>
-
         </div>
       ) : (
         <>
           {/* WORD */}
+
           <div className="word-display">
 
             <div className="emoji">
               {loading
                 ? "⏳"
-                : currentWord?.emoji || "🔤"}
+                : currentWord?.emoji ||
+                  "🔤"}
             </div>
 
             <h2>
@@ -558,32 +778,46 @@ export default function RhymingWords() {
 
           </div>
 
+          {/* QUESTION */}
+
           <h3>
             Which word rhymes with:
           </h3>
 
           {/* OPTIONS */}
+
           <div className="options-grid">
 
             {loading ? (
-              <p>Loading...</p>
+              <p>
+                Generating a question...
+              </p>
             ) : (
-              options.map((word, index) => (
-                <button
-                  key={index}
-                  className="option-btn"
-                  onClick={() =>
-                    handleClick(word)
-                  }
-                >
-                  {word}
-                </button>
-              ))
+              options.map(
+                (word, index) => (
+                  <button
+                    key={`${word}-${index}`}
+                    type="button"
+                    className="option-btn"
+                    onClick={() =>
+                      handleAnswer(word)
+                    }
+                    disabled={
+                      loading ||
+                      completed ||
+                      isAnswering
+                    }
+                  >
+                    {word}
+                  </button>
+                )
+              )
             )}
 
           </div>
 
           {/* FEEDBACK */}
+
           {feedback === "correct" && (
             <div className="feedback good">
               🎉 Correct!
@@ -592,11 +826,12 @@ export default function RhymingWords() {
 
           {feedback === "wrong" && (
             <div className="feedback wrong">
-              ❌ Try Again
+              ❌ Try again!
             </div>
           )}
 
-          {/* AI ANALYSIS */}
+          {/* PERFORMANCE */}
+
           <div className="ai-analysis">
             <p>
               {getPerformanceMessage()}
@@ -604,7 +839,6 @@ export default function RhymingWords() {
           </div>
         </>
       )}
-
     </div>
   );
 }

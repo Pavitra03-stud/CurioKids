@@ -646,10 +646,10 @@ app.post(
 
       const animal =
         animals[
-          Math.floor(
-            Math.random() *
-              animals.length
-          )
+        Math.floor(
+          Math.random() *
+          animals.length
+        )
         ];
 
       const count =
@@ -704,18 +704,18 @@ app.post(
 
       const set =
         sets[
-          Math.floor(
-            Math.random() *
-              sets.length
-          )
+        Math.floor(
+          Math.random() *
+          sets.length
+        )
         ];
 
       let target =
         set[
-          Math.floor(
-            Math.random() *
-              set.length
-          )
+        Math.floor(
+          Math.random() *
+          set.length
+        )
         ];
 
       if (target === lastTarget) {
@@ -726,10 +726,10 @@ app.post(
 
         target =
           available[
-            Math.floor(
-              Math.random() *
-                available.length
-            )
+          Math.floor(
+            Math.random() *
+            available.length
+          )
           ];
       }
 
@@ -824,14 +824,14 @@ app.post(
       do {
         randomWord =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         randomWord.word ===
-          lastWord &&
+        lastWord &&
         words.length > 1
       );
 
@@ -938,14 +938,14 @@ app.post(
       do {
         randomWord =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         randomWord.word ===
-          lastEndingWord &&
+        lastEndingWord &&
         words.length > 1
       );
 
@@ -1053,14 +1053,14 @@ app.post(
       do {
         correct =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         correct.word ===
-          lastSoundWord &&
+        lastSoundWord &&
         words.length > 1
       );
 
@@ -1122,108 +1122,594 @@ app.post(
 );
 
 // =====================================================
-// RHYMING
+// 🎵 RHYMING WORDS
+// =====================================================
+
+// Large controlled question bank.
+// Each question has:
+// - one target word
+// - one correct rhyming word
+// - three wrong options
+// - emoji
+//
+// Questions are shuffled into a rotation.
+// A question will NOT repeat until the whole rotation
+// has been completed.
+// =====================================================
+
+const rhymingQuestionBank = [
+  {
+    word: "Cat",
+    emoji: "🐱",
+    answer: "Hat",
+    options: ["Hat", "Dog", "Sun", "Book"],
+  },
+  {
+    word: "Dog",
+    emoji: "🐶",
+    answer: "Log",
+    options: ["Log", "Fish", "Moon", "Cup"],
+  },
+  {
+    word: "Sun",
+    emoji: "☀️",
+    answer: "Fun",
+    options: ["Fun", "Tree", "Dog", "Ball"],
+  },
+  {
+    word: "Ball",
+    emoji: "⚽",
+    answer: "Tall",
+    options: ["Tall", "Fish", "Moon", "Cake"],
+  },
+  {
+    word: "Fish",
+    emoji: "🐟",
+    answer: "Dish",
+    options: ["Dish", "Tree", "Sun", "Car"],
+  },
+  {
+    word: "Book",
+    emoji: "📖",
+    answer: "Cook",
+    options: ["Cook", "Dog", "Rain", "Star"],
+  },
+  {
+    word: "Car",
+    emoji: "🚗",
+    answer: "Star",
+    options: ["Star", "Fish", "Dog", "Tree"],
+  },
+  {
+    word: "Rain",
+    emoji: "🌧️",
+    answer: "Train",
+    options: ["Train", "Ball", "Fish", "Cake"],
+  },
+  {
+    word: "Cake",
+    emoji: "🍰",
+    answer: "Lake",
+    options: ["Lake", "Dog", "Tree", "Book"],
+  },
+  {
+    word: "Lake",
+    emoji: "🏞️",
+    answer: "Cake",
+    options: ["Cake", "Fish", "Moon", "Sun"],
+  },
+  {
+    word: "Moon",
+    emoji: "🌙",
+    answer: "Tune",
+    options: ["Tune", "Cat", "Dog", "Tree"],
+  },
+  {
+    word: "Tune",
+    emoji: "🎵",
+    answer: "Moon",
+    options: ["Moon", "Cat", "Book", "Sun"],
+  },
+  {
+    word: "Bee",
+    emoji: "🐝",
+    answer: "Tree",
+    options: ["Tree", "Dog", "Cup", "Rain"],
+  },
+  {
+    word: "Tree",
+    emoji: "🌳",
+    answer: "Bee",
+    options: ["Bee", "Cat", "Book", "Sun"],
+  },
+  {
+    word: "Boat",
+    emoji: "⛵",
+    answer: "Goat",
+    options: ["Goat", "Cat", "Moon", "Book"],
+  },
+  {
+    word: "Goat",
+    emoji: "🐐",
+    answer: "Boat",
+    options: ["Boat", "Dog", "Rain", "Tree"],
+  },
+  {
+    word: "Light",
+    emoji: "💡",
+    answer: "Night",
+    options: ["Night", "Dog", "Cake", "Tree"],
+  },
+  {
+    word: "Night",
+    emoji: "🌙",
+    answer: "Light",
+    options: ["Light", "Fish", "Ball", "Cup"],
+  },
+  {
+    word: "Day",
+    emoji: "🌞",
+    answer: "Play",
+    options: ["Play", "Moon", "Dog", "Book"],
+  },
+  {
+    word: "Play",
+    emoji: "🎮",
+    answer: "Day",
+    options: ["Day", "Cat", "Fish", "Rain"],
+  },
+  {
+    word: "Blue",
+    emoji: "🔵",
+    answer: "Glue",
+    options: ["Glue", "Dog", "Tree", "Sun"],
+  },
+  {
+    word: "Glue",
+    emoji: "🧴",
+    answer: "Blue",
+    options: ["Blue", "Fish", "Moon", "Cake"],
+  },
+  {
+    word: "Red",
+    emoji: "🔴",
+    answer: "Bed",
+    options: ["Bed", "Cat", "Rain", "Book"],
+  },
+  {
+    word: "Bed",
+    emoji: "🛏️",
+    answer: "Red",
+    options: ["Red", "Dog", "Tree", "Ball"],
+  },
+  {
+    word: "King",
+    emoji: "👑",
+    answer: "Ring",
+    options: ["Ring", "Cat", "Sun", "Book"],
+  },
+  {
+    word: "Ring",
+    emoji: "💍",
+    answer: "King",
+    options: ["King", "Fish", "Moon", "Tree"],
+  },
+  {
+    word: "Bell",
+    emoji: "🔔",
+    answer: "Shell",
+    options: ["Shell", "Dog", "Sun", "Cake"],
+  },
+  {
+    word: "Shell",
+    emoji: "🐚",
+    answer: "Bell",
+    options: ["Bell", "Cat", "Rain", "Book"],
+  },
+  {
+    word: "Chair",
+    emoji: "🪑",
+    answer: "Bear",
+    options: ["Bear", "Fish", "Moon", "Tree"],
+  },
+  {
+    word: "Bear",
+    emoji: "🐻",
+    answer: "Chair",
+    options: ["Chair", "Dog", "Sun", "Cake"],
+  },
+  {
+    word: "Mouse",
+    emoji: "🐭",
+    answer: "House",
+    options: ["House", "Sun", "Fish", "Car"],
+  },
+  {
+    word: "House",
+    emoji: "🏠",
+    answer: "Mouse",
+    options: ["Mouse", "Tree", "Ball", "Book"],
+  },
+  {
+    word: "Frog",
+    emoji: "🐸",
+    answer: "Log",
+    options: ["Log", "Cake", "Sun", "Fish"],
+  },
+  {
+    word: "Fox",
+    emoji: "🦊",
+    answer: "Box",
+    options: ["Box", "Rain", "Fish", "Moon"],
+  },
+  {
+    word: "Box",
+    emoji: "📦",
+    answer: "Fox",
+    options: ["Fox", "Cat", "Tree", "Cake"],
+  },
+  {
+    word: "Pig",
+    emoji: "🐷",
+    answer: "Wig",
+    options: ["Wig", "Dog", "Tree", "Rain"],
+  },
+  {
+    word: "Wig",
+    emoji: "💇",
+    answer: "Pig",
+    options: ["Pig", "Cat", "Moon", "Book"],
+  },
+  {
+    word: "Big",
+    emoji: "🐘",
+    answer: "Pig",
+    options: ["Pig", "Dog", "Sun", "Book"],
+  },
+  {
+    word: "Run",
+    emoji: "🏃",
+    answer: "Fun",
+    options: ["Fun", "Dog", "Book", "Cat"],
+  },
+  {
+    word: "Fun",
+    emoji: "🎉",
+    answer: "Run",
+    options: ["Run", "Fish", "Tree", "Moon"],
+  },
+  {
+    word: "Hop",
+    emoji: "🐰",
+    answer: "Mop",
+    options: ["Mop", "Cat", "Sun", "Tree"],
+  },
+  {
+    word: "Mop",
+    emoji: "🧹",
+    answer: "Hop",
+    options: ["Hop", "Dog", "Moon", "Cake"],
+  },
+  {
+    word: "Top",
+    emoji: "🔝",
+    answer: "Pop",
+    options: ["Pop", "Fish", "Cat", "Rain"],
+  },
+  {
+    word: "Pop",
+    emoji: "🍭",
+    answer: "Top",
+    options: ["Top", "Dog", "Tree", "Book"],
+  },
+  {
+    word: "Man",
+    emoji: "👨",
+    answer: "Van",
+    options: ["Van", "Fish", "Moon", "Cake"],
+  },
+  {
+    word: "Van",
+    emoji: "🚐",
+    answer: "Man",
+    options: ["Man", "Cat", "Rain", "Book"],
+  },
+  {
+    word: "Star",
+    emoji: "⭐",
+    answer: "Jar",
+    options: ["Jar", "Fish", "Dog", "Tree"],
+  },
+  {
+    word: "Jar",
+    emoji: "🫙",
+    answer: "Star",
+    options: ["Star", "Cat", "Moon", "Book"],
+  },
+  {
+    word: "Way",
+    emoji: "🛣️",
+    answer: "Day",
+    options: ["Day", "Dog", "Book", "Rain"],
+  },
+  {
+    word: "Snow",
+    emoji: "❄️",
+    answer: "Go",
+    options: ["Go", "Dog", "Tree", "Sun"],
+  },
+  {
+    word: "Go",
+    emoji: "➡️",
+    answer: "Snow",
+    options: ["Snow", "Cat", "Fish", "Book"],
+  },
+  {
+    word: "Fox",
+    emoji: "🦊",
+    answer: "Socks",
+    options: ["Socks", "Dog", "Rain", "Tree"],
+  },
+  {
+    word: "Socks",
+    emoji: "🧦",
+    answer: "Fox",
+    options: ["Fox", "Cat", "Sun", "Book"],
+  },
+  {
+    word: "Bell",
+    emoji: "🔔",
+    answer: "Shell",
+    options: ["Shell", "Dog", "Tree", "Moon"],
+  },
+  {
+    word: "Cake",
+    emoji: "🎂",
+    answer: "Snake",
+    options: ["Snake", "Moon", "Dog", "Book"],
+  },
+  {
+    word: "Snake",
+    emoji: "🐍",
+    answer: "Cake",
+    options: ["Cake", "Fish", "Tree", "Sun"],
+  },
+  {
+    word: "Plane",
+    emoji: "✈️",
+    answer: "Train",
+    options: ["Train", "Dog", "Cat", "Book"],
+  },
+  {
+    word: "Train",
+    emoji: "🚂",
+    answer: "Rain",
+    options: ["Rain", "Fish", "Tree", "Ball"],
+  },
+  {
+    word: "Park",
+    emoji: "🌳",
+    answer: "Shark",
+    options: ["Shark", "Dog", "Moon", "Book"],
+  },
+  {
+    word: "Shark",
+    emoji: "🦈",
+    answer: "Park",
+    options: ["Park", "Cat", "Rain", "Tree"],
+  },
+  {
+    word: "Fox",
+    emoji: "🦊",
+    answer: "Box",
+    options: ["Box", "Sun", "Tree", "Fish"],
+  },
+  {
+    word: "Mail",
+    emoji: "✉️",
+    answer: "Sail",
+    options: ["Sail", "Dog", "Moon", "Book"],
+  },
+  {
+    word: "Sail",
+    emoji: "⛵",
+    answer: "Mail",
+    options: ["Mail", "Cat", "Fish", "Tree"],
+  },
+  {
+    word: "Feet",
+    emoji: "🦶",
+    answer: "Meet",
+    options: ["Meet", "Dog", "Sun", "Book"],
+  },
+  {
+    word: "Meet",
+    emoji: "🤝",
+    answer: "Feet",
+    options: ["Feet", "Cat", "Rain", "Moon"],
+  },
+  {
+    word: "Cake",
+    emoji: "🍰",
+    answer: "Snake",
+    options: ["Snake", "Dog", "Tree", "Ball"],
+  },
+  {
+    word: "Blue",
+    emoji: "🔵",
+    answer: "Glue",
+    options: ["Glue", "Cat", "Fish", "Rain"],
+  },
+];
+
+
+// =====================================================
+// 🔀 SHUFFLE
+// =====================================================
+
+function shuffleRhymingQuestions(array) {
+  const shuffled = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(
+      Math.random() * (i + 1)
+    );
+
+    [shuffled[i], shuffled[j]] = [
+      shuffled[j],
+      shuffled[i],
+    ];
+  }
+
+  return shuffled;
+}
+
+
+// =====================================================
+// 🎯 RHYMING ROTATION
+// =====================================================
+
+// Current shuffled question list
+let rhymingRotation = [];
+
+// Current position
+let rhymingIndex = 0;
+
+
+// =====================================================
+// 🔄 CREATE NEW ROTATION
+// =====================================================
+
+function createRhymingRotation() {
+  rhymingRotation =
+    shuffleRhymingQuestions(
+      rhymingQuestionBank
+    );
+
+  rhymingIndex = 0;
+
+  console.log(
+    `🎵 New rhyming rotation created: ${rhymingRotation.length} questions`
+  );
+}
+
+
+// Create first rotation when backend starts
+createRhymingRotation();
+
+
+// =====================================================
+// 🎵 GENERATE RHYMING QUESTION
 // =====================================================
 
 app.post(
   "/api/generate-rhyming",
   async (req, res) => {
     try {
-      const words = [
-        {
-          word: "Cat",
-          rhyme: "Hat",
-          emoji: "🐱",
-        },
-        {
-          word: "Dog",
-          rhyme: "Log",
-          emoji: "🐶",
-        },
-        {
-          word: "Sun",
-          rhyme: "Fun",
-          emoji: "☀️",
-        },
-        {
-          word: "Ball",
-          rhyme: "Tall",
-          emoji: "⚽",
-        },
-        {
-          word: "Fish",
-          rhyme: "Dish",
-          emoji: "🐟",
-        },
-        {
-          word: "Book",
-          rhyme: "Cook",
-          emoji: "📘",
-        },
-        {
-          word: "Car",
-          rhyme: "Star",
-          emoji: "🚗",
-        },
-      ];
 
-      let correct;
+      // -------------------------------------------------
+      // If all questions were already used,
+      // create a completely new shuffled rotation.
+      // -------------------------------------------------
 
-      do {
-        correct =
-          words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
-          ];
-      } while (
-        correct.word ===
-          lastRhymeWord &&
-        words.length > 1
+      if (
+        rhymingIndex >=
+        rhymingRotation.length
+      ) {
+        console.log(
+          "🔄 All rhyming questions used."
+        );
+
+        console.log(
+          "🎲 Creating a new shuffled rotation..."
+        );
+
+        createRhymingRotation();
+      }
+
+
+      // -------------------------------------------------
+      // Get next question
+      // -------------------------------------------------
+
+      const question =
+        rhymingRotation[
+        rhymingIndex
+        ];
+
+
+      // Move to next position
+      rhymingIndex++;
+
+
+      // -------------------------------------------------
+      // Shuffle answer options
+      // -------------------------------------------------
+
+      const shuffledOptions =
+        shuffleRhymingQuestions(
+          question.options
+        );
+
+
+      // -------------------------------------------------
+      // Console information
+      // -------------------------------------------------
+
+      console.log(
+        `🎵 Rhyming Question ${rhymingIndex}/${rhymingRotation.length}`
       );
 
-      lastRhymeWord =
-        correct.word;
-
-      const wrong = words
-        .map(
-          (item) => item.rhyme
-        )
-        .filter(
-          (rhyme) =>
-            rhyme !== correct.rhyme
-        )
-        .sort(
-          () => 0.5 - Math.random()
-        )
-        .slice(0, 3);
-
-      const options = [
-        correct.rhyme,
-        ...wrong,
-      ].sort(
-        () => 0.5 - Math.random()
+      console.log(
+        `👉 ${question.word} → ${question.answer}`
       );
+
+
+      // -------------------------------------------------
+      // Send response
+      // -------------------------------------------------
 
       return res.json({
-        word: correct.word,
-        emoji: correct.emoji,
-        answer: correct.rhyme,
-        options,
+        success: true,
+
+        word: question.word,
+
+        emoji: question.emoji,
+
+        answer: question.answer,
+
+        options: shuffledOptions,
       });
-    } catch (error) {
-      console.error(error);
 
-      return res.json({
+    } catch (error) {
+
+      console.error(
+        "❌ RHYMING ERROR:",
+        error
+      );
+
+
+      // -------------------------------------------------
+      // Safe fallback
+      // -------------------------------------------------
+
+      return res.status(500).json({
+        success: false,
+
+        message:
+          "Failed to generate rhyming question",
+
         word: "Cat",
+
         emoji: "🐱",
+
         answer: "Hat",
+
         options: [
           "Hat",
-          "Log",
-          "Fun",
-          "Tall",
+          "Dog",
+          "Sun",
+          "Book",
         ],
       });
     }
@@ -1253,10 +1739,10 @@ app.post(
       do {
         word =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         word === lastBlendWord &&
@@ -1332,10 +1818,10 @@ app.post(
       do {
         word =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         word === lastBreakWord &&
@@ -1351,12 +1837,12 @@ app.post(
 
       const wrong = [
         word.slice(0, 2) +
-          " - " +
-          word.slice(2),
+        " - " +
+        word.slice(2),
 
         word[0] +
-          " - " +
-          word.slice(1),
+        " - " +
+        word.slice(1),
 
         word,
       ];
@@ -1412,10 +1898,10 @@ app.post(
       do {
         word =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         word === lastBuildWord &&
@@ -1427,7 +1913,7 @@ app.post(
       const missingIndex =
         Math.floor(
           Math.random() *
-            word.length
+          word.length
         );
 
       const correctLetter =
@@ -1512,10 +1998,10 @@ app.post(
       do {
         word =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         word === lastMissingWord &&
@@ -1527,7 +2013,7 @@ app.post(
       const missingIndex =
         Math.floor(
           Math.random() *
-            word.length
+          word.length
         );
 
       const correctLetter =
@@ -1627,14 +2113,14 @@ app.post(
       do {
         correct =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         correct.word ===
-          lastSightWord &&
+        lastSightWord &&
         words.length > 1
       );
 
@@ -1706,10 +2192,10 @@ app.post(
       do {
         word =
           words[
-            Math.floor(
-              Math.random() *
-                words.length
-            )
+          Math.floor(
+            Math.random() *
+            words.length
+          )
           ];
       } while (
         word === lastScrambleWord &&
@@ -1731,7 +2217,7 @@ app.post(
             .toUpperCase();
       } while (
         scrambled.toLowerCase() ===
-          word &&
+        word &&
         word.length > 1
       );
 
@@ -1795,10 +2281,10 @@ app.post(
       do {
         correct =
           sentences[
-            Math.floor(
-              Math.random() *
-                sentences.length
-            )
+          Math.floor(
+            Math.random() *
+            sentences.length
+          )
           ];
       } while (
         correct === lastSentence &&
@@ -1897,14 +2383,14 @@ app.post(
       do {
         correct =
           data[
-            Math.floor(
-              Math.random() *
-                data.length
-            )
+          Math.floor(
+            Math.random() *
+            data.length
+          )
           ];
       } while (
         correct.word ===
-          lastImageWord &&
+        lastImageWord &&
         data.length > 1
       );
 
@@ -2030,8 +2516,7 @@ app.listen(PORT, () => {
     "🔥 Firebase Admin: READY"
   );
   console.log(
-    `🤖 Gemini: ${
-      model ? "READY" : "NOT CONFIGURED"
+    `🤖 Gemini: ${model ? "READY" : "NOT CONFIGURED"
     }`
   );
   console.log(

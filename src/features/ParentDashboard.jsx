@@ -1,572 +1,327 @@
-// import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import BackIcon from "../components/BackIcon";
-// import "../styles/ParentDashboard.css";
-
-// export default function ParentDashboard() {
-
-//   const navigate = useNavigate();
-
-//   const [parent, setParent] = useState(null);
-//   const [child, setChild] = useState(null);
-//   const [aiData, setAiData] = useState(null);
-//   const [practiceRewards, setPracticeRewards] = useState(null);
-//   const [loadingPage, setLoadingPage] = useState(true);
-
-//   // 🤖 AI CHAT STATES
-//   const [question, setQuestion] = useState("");
-//   const [messages, setMessages] = useState([]);
-//   const [loading, setLoading] = useState(false);
-
-//   useEffect(() => {
-//     const savedParent =
-//   localStorage.getItem("parentProfile") ||
-//   localStorage.getItem("tempParent");
-//     const savedChild = localStorage.getItem("childProfile");
-//     const savedAI = localStorage.getItem("aiProgress");
-//     const savedRewards = localStorage.getItem("practiceData");
-//     const loginEmail = localStorage.getItem("loginEmail");
-
-//     // ❌ If not logged in → redirect
-//     if (!loginEmail) {
-//       navigate("/login");
-//       return;
-//     }
-
-//     // ✅ Load data safely
-//     if (savedParent) setParent(JSON.parse(savedParent));
-//     if (savedChild) setChild(JSON.parse(savedChild));
-//     if (savedAI) setAiData(JSON.parse(savedAI));
-//     if (savedRewards) setPracticeRewards(JSON.parse(savedRewards));
-
-//     setLoadingPage(false);
-//   }, [navigate]);
-
-//   // 🤖 SEND MESSAGE FUNCTION
-//   const sendMessage = async () => {
-//     if (!question.trim()) return;
-
-//     const userMessage = { type: "user", text: question };
-//     setMessages(prev => [...prev, userMessage]);
-
-//     setLoading(true);
-
-//     try {
-//       const res = await fetch("http://localhost:5000/api/ai/chat", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           childId: child?._id || "69be509b3193e4d163dd7885",
-//           question,
-//         }),
-//       });
-
-//       const data = await res.json();
-
-//       const botMessage = {
-//         type: "bot",
-//         text: data.answer || "No response from AI",
-//       };
-
-//       setMessages(prev => [...prev, botMessage]);
-//       setQuestion("");
-
-//     } catch (err) {
-//       console.log(err);
-//     }
-
-//     setLoading(false);
-//   };
-
-//   // ⏳ LOADING SCREEN
-//   if (loadingPage) {
-//     return (
-//       <div style={{ padding: "120px 40px" }}>
-//         <h2>Loading dashboard...</h2>
-//       </div>
-//     );
-//   }
-
-//   // ❌ If no data → redirect (prevents stuck UI)
-//   if (!parent || !child) {
-//     return (
-//       <div style={{ padding: "120px 40px" }}>
-//         <h2>No data found. Redirecting...</h2>
-//       </div>
-//     );
-//   }
-
-//   const levelPercent = aiData ? (aiData.level / 5) * 100 : 0;
-//   const roundPercent = aiData
-//     ? Math.min((aiData.roundsCompleted / 10) * 100, 100)
-//     : 0;
-
-//   return (
-//     <div className="parent-page">
-
-//       {/* 🌴 NAVBAR */}
-//       <div className="parent-navbar">
-//         <div className="navbar-left">
-//           <BackIcon goBack={() => navigate("/jungle-hero")} />
-//         </div>
-//         <div className="navbar-title">
-//           📊 Parent Dashboard
-//         </div>
-//       </div>
-
-//       {/* 🌿 CONTENT */}
-//       <div className="parent-content">
-
-//         {/* 👧 CHILD PROFILE */}
-//         <div className="parent-card">
-//           <h2>👧 Child Profile</h2>
-//           <p><b>Name:</b> {child.name}</p>
-//           <p><b>Age:</b> {child.age}</p>
-//         </div>
-
-//         {/* 👨‍👩‍👧 PARENT PROFILE */}
-//         <div className="parent-card">
-//           <h2>👨‍👩‍👧 Parent Profile</h2>
-//           <p><b>Name:</b> {parent.parentName}</p>
-//           <p><b>Email:</b> {parent.email}</p>
-//           <p><b>Daily Play Limit:</b> {parent.timeLimit} mins</p>
-//         </div>
-
-//         {/* 🧠 AI PROGRESS */}
-//         <div className="parent-card">
-//           <h2>🧠 AI Practice Progress</h2>
-
-//           {aiData ? (
-//             <>
-//               <p><b>Current Level:</b> {aiData.level}</p>
-//               <div className="progress-bar">
-//                 <div
-//                   className="progress-fill"
-//                   style={{ width: `${levelPercent}%` }}
-//                 />
-//               </div>
-
-//               <p><b>Practice Sessions Completed:</b> {aiData.roundsCompleted}</p>
-//               <div className="progress-bar">
-//                 <div
-//                   className="progress-fill score"
-//                   style={{ width: `${roundPercent}%` }}
-//                 />
-//               </div>
-
-//               <p><b>Most Challenging Letter:</b> {aiData.mostDifficultLetter}</p>
-//             </>
-//           ) : (
-//             <p>Practice data will appear after sessions are completed.</p>
-//           )}
-//         </div>
-
-//         {/* 🏆 REWARDS */}
-//         <div className="parent-card">
-//           <h2>🏆 Rewards & Achievements</h2>
-
-//           {practiceRewards ? (
-//             <>
-//               <p><b>Total Rounds:</b> {practiceRewards.totalRounds}</p>
-//               <p><b>Total Stars:</b> ⭐ {practiceRewards.totalStars}</p>
-
-//               <div className="badge-grid">
-//                 {Array.from({ length: practiceRewards.badges }).map((_, index) => (
-//                   <div key={index} className="badge-item">🏅</div>
-//                 ))}
-//               </div>
-//             </>
-//           ) : (
-//             <p>No rewards yet 🌱</p>
-//           )}
-//         </div>
-
-//         {/* 🤖 AI CHATBOT */}
-//         <div className="parent-card">
-//           <h2>🤖 AI Assistant</h2>
-
-//           <div style={{ maxHeight: "200px", overflowY: "auto", marginBottom: "10px" }}>
-//             {messages.map((msg, i) => (
-//               <div
-//                 key={i}
-//                 style={{
-//                   background: msg.type === "user" ? "#4caf50" : "#eee",
-//                   color: msg.type === "user" ? "white" : "black",
-//                   padding: "8px",
-//                   margin: "5px",
-//                   borderRadius: "8px",
-//                   textAlign: msg.type === "user" ? "right" : "left"
-//                 }}
-//               >
-//                 {msg.text}
-//               </div>
-//             ))}
-
-//             {loading && <p>AI is typing...</p>}
-//           </div>
-
-//           <div style={{ display: "flex" }}>
-//             <input
-//               type="text"
-//               placeholder="Ask about your child..."
-//               value={question}
-//               onChange={(e) => setQuestion(e.target.value)}
-//               style={{ flex: 1, padding: "8px" }}
-//             />
-//             <button onClick={sendMessage} style={{ marginLeft: "5px" }}>
-//               Send
-//             </button>
-//           </div>
-//         </div>
-
-//         <p className="growth-note">
-//           Growth-focused learning 🌱 No pressure. Confidence first.
-//         </p>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import BackIcon from "../components/BackIcon";
-import "../styles/ParentDashboard.css";
-
-import { db } from "../firebase";
 import {
   doc,
-  getDoc,
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  limit,
+  onSnapshot,
 } from "firebase/firestore";
+
+import {
+  onAuthStateChanged,
+} from "firebase/auth";
+
+import { db, auth } from "../firebase";
+
+import "../styles/ParentDashboard.css";
 
 export default function ParentDashboard() {
   const navigate = useNavigate();
 
   const [parent, setParent] = useState(null);
   const [child, setChild] = useState(null);
+  const [friend, setFriend] = useState(null);
 
-  const [progress, setProgress] = useState(null);
-  const [gameResults, setGameResults] = useState([]);
+  const [progress, setProgress] = useState({
+    stars: 0,
+    streak: 0,
+    history: [],
+  });
 
-  const [loadingPage, setLoadingPage] = useState(true);
+  const [loadingPage, setLoadingPage] =
+    useState(true);
 
-  // 🤖 AI CHAT STATES
-  const [question, setQuestion] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // =========================================================
-  // 🔥 LOAD DASHBOARD DATA FROM FIREBASE
-  // =========================================================
+  // =====================================================
+  // FIREBASE AUTH + REAL-TIME DATA
+  // =====================================================
 
   useEffect(() => {
-    const loadDashboard = async () => {
-      try {
-        const userId = localStorage.getItem("userId");
+    let unsubscribeUser = null;
+    let unsubscribeProgress = null;
 
-        // ❌ Not logged in
-        if (!userId) {
-          navigate("/login");
-          return;
-        }
+    const unsubscribeAuth =
+      onAuthStateChanged(
+        auth,
+        (firebaseUser) => {
+          // -----------------------------------------------
+          // NOT LOGGED IN
+          // -----------------------------------------------
 
-        console.log(
-          "🔥 Loading parent dashboard for UID:",
-          userId
-        );
+          if (!firebaseUser) {
+            console.warn(
+              "❌ No Firebase user"
+            );
 
-        // =====================================================
-        // 👨‍👩‍👧 USER PROFILE
-        // =====================================================
+            navigate("/login");
+            return;
+          }
 
-        const userRef = doc(
-          db,
-          "users",
-          userId
-        );
-
-        const userSnap = await getDoc(userRef);
-
-        if (userSnap.exists()) {
-          const userData = userSnap.data();
+          const uid =
+            firebaseUser.uid;
 
           console.log(
-            "👤 Firebase user data:",
-            userData
+            "🔥 Parent Dashboard Firebase UID:",
+            uid
           );
 
-          // Parent information
-          setParent({
-            parentName:
-              userData.parentName ||
-              userData.name ||
-              "",
-            email:
-              userData.email || "",
-            timeLimit:
-              userData.timeLimit ||
-              userData.time ||
-              "",
-          });
+          // -----------------------------------------------
+          // USER PROFILE - REAL TIME
+          // -----------------------------------------------
 
-          // Child information
-          setChild({
-            name:
-              userData.childName ||
-              userData.child?.name ||
-              "Little Explorer",
-
-            age:
-              userData.childAge ||
-              userData.child?.age ||
-              5,
-          });
-        } else {
-          console.log(
-            "❌ No Firebase user profile found"
-          );
-        }
-
-        // =====================================================
-        // ⭐ PROGRESS
-        // =====================================================
-
-        const progressRef = doc(
-          db,
-          "progress",
-          userId
-        );
-
-        const progressSnap =
-          await getDoc(progressRef);
-
-        if (progressSnap.exists()) {
-          const progressData =
-            progressSnap.data();
-
-          console.log(
-            "⭐ Firebase progress:",
-            progressData
-          );
-
-          setProgress({
-            stars:
-              progressData.stars || 0,
-
-            streak:
-              progressData.streak || 0,
-
-            history:
-              progressData.history || [],
-          });
-        } else {
-          setProgress({
-            stars: 0,
-            streak: 0,
-            history: [],
-          });
-        }
-
-        // =====================================================
-        // 🎮 GAME RESULTS
-        // =====================================================
-
-        try {
-          const resultsRef = collection(
+          const userRef = doc(
             db,
             "users",
-            userId,
-            "game_results"
+            uid
           );
 
-          const resultsQuery = query(
-            resultsRef,
-            orderBy("createdAt", "desc"),
-            limit(20)
+          unsubscribeUser =
+            onSnapshot(
+              userRef,
+              (snapshot) => {
+                if (!snapshot.exists()) {
+                  console.warn(
+                    "⚠️ User document not found"
+                  );
+
+                  setLoadingPage(false);
+                  return;
+                }
+
+                const userData =
+                  snapshot.data();
+
+                console.log(
+                  "👤 Live user data:",
+                  userData
+                );
+
+                // -----------------------------------------
+                // PARENT
+                // -----------------------------------------
+
+                const parentProfile =
+                  userData.parentProfile ||
+                  {};
+
+                setParent({
+                  parentName:
+                    parentProfile.parentName ||
+                    "",
+                  email:
+                    parentProfile.email ||
+                    userData.email ||
+                    "",
+                  timeLimit:
+                    parentProfile.timeLimit ||
+                    "",
+                });
+
+                // -----------------------------------------
+                // CHILD
+                // -----------------------------------------
+
+                const childProfile =
+                  userData.childProfile ||
+                  {};
+
+                setChild({
+                  name:
+                    childProfile.name ||
+                    "",
+                  age:
+                    childProfile.age ||
+                    "",
+                });
+
+                // -----------------------------------------
+                // JUNGLE FRIEND
+                // -----------------------------------------
+
+                const jungleFriend =
+                  userData.jungleFriend ||
+                  {};
+
+                setFriend({
+                  name:
+                    jungleFriend.name ||
+                    "",
+                  image:
+                    jungleFriend.image ||
+                    "",
+                });
+
+                setLoadingPage(false);
+              },
+              (error) => {
+                console.error(
+                  "❌ User snapshot error:",
+                  error
+                );
+
+                setLoadingPage(false);
+              }
+            );
+
+          // -----------------------------------------------
+          // PROGRESS - REAL TIME
+          // -----------------------------------------------
+
+          const progressRef = doc(
+            db,
+            "progress",
+            uid
           );
 
-          const resultsSnap =
-            await getDocs(resultsQuery);
+          unsubscribeProgress =
+            onSnapshot(
+              progressRef,
+              (snapshot) => {
+                if (!snapshot.exists()) {
+                  console.log(
+                    "🌱 No progress yet"
+                  );
 
-          const results = resultsSnap.docs.map(
-            (gameDoc) => ({
-              id: gameDoc.id,
-              ...gameDoc.data(),
-            })
-          );
+                  setProgress({
+                    stars: 0,
+                    streak: 0,
+                    history: [],
+                  });
 
-          console.log(
-            "🎮 Game results:",
-            results
-          );
+                  return;
+                }
 
-          setGameResults(results);
-        } catch (resultError) {
-          console.log(
-            "⚠️ Could not load game results:",
-            resultError
-          );
+                const data =
+                  snapshot.data();
 
-          setGameResults([]);
+                console.log(
+                  "📈 LIVE PROGRESS UPDATE:",
+                  data
+                );
+
+                setProgress({
+                  stars:
+                    Number(
+                      data.stars || 0
+                    ),
+
+                  streak:
+                    Number(
+                      data.streak || 0
+                    ),
+
+                  history:
+                    Array.isArray(
+                      data.history
+                    )
+                      ? data.history
+                      : [],
+                });
+              },
+              (error) => {
+                console.error(
+                  "❌ Progress snapshot error:",
+                  error
+                );
+              }
+            );
         }
+      );
 
-      } catch (error) {
-        console.error(
-          "❌ Dashboard loading error:",
-          error
-        );
-      } finally {
-        setLoadingPage(false);
+    // =====================================================
+    // CLEANUP
+    // =====================================================
+
+    return () => {
+      unsubscribeAuth();
+
+      if (unsubscribeUser) {
+        unsubscribeUser();
+      }
+
+      if (unsubscribeProgress) {
+        unsubscribeProgress();
       }
     };
-
-    loadDashboard();
   }, [navigate]);
 
-  // =========================================================
-  // 🤖 SEND AI MESSAGE
-  // =========================================================
-
-  const sendMessage = async () => {
-    if (!question.trim()) return;
-
-    const userId =
-      localStorage.getItem("userId");
-
-    if (!userId) {
-      alert("Please login again 🔐");
-      navigate("/login");
-      return;
-    }
-
-    const currentQuestion =
-      question.trim();
-
-    const userMessage = {
-      type: "user",
-      text: currentQuestion,
-    };
-
-    setMessages((prev) => [
-      ...prev,
-      userMessage,
-    ]);
-
-    setQuestion("");
-    setLoading(true);
-
-    try {
-      const res = await fetch(
-        "http://localhost:5000/api/ai/chat",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({
-            // 🔥 Firebase UID
-            childId: userId,
-
-            question: currentQuestion,
-          }),
-        }
-      );
-
-      const data = await res.json();
-
-      const botMessage = {
-        type: "bot",
-        text:
-          data.answer ||
-          "No response from AI",
-      };
-
-      setMessages((prev) => [
-        ...prev,
-        botMessage,
-      ]);
-    } catch (error) {
-      console.error(
-        "❌ AI chat error:",
-        error
-      );
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          type: "bot",
-          text:
-            "Sorry, I couldn't connect to the AI right now. 😢",
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // =========================================================
-  // ⏳ LOADING
-  // =========================================================
+  // =====================================================
+  // LOADING
+  // =====================================================
 
   if (loadingPage) {
     return (
-      <div
-        style={{
-          padding: "120px 40px",
-        }}
-      >
-        <h2>
-          Loading dashboard... 🌱
-        </h2>
+      <div className="parent-page">
+        <div
+          style={{
+            minHeight: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#185b3a",
+          }}
+        >
+          <h2>
+            Loading dashboard... 🌱
+          </h2>
+        </div>
       </div>
     );
   }
 
-  // =========================================================
-  // 📊 CALCULATIONS
-  // =========================================================
+  // =====================================================
+  // DATA
+  // =====================================================
 
-  const stars = progress?.stars || 0;
-  const streak = progress?.streak || 0;
-  const history = progress?.history || [];
+  const stars =
+    progress.stars || 0;
+
+  const streak =
+    progress.streak || 0;
+
+  const history =
+    progress.history || [];
+
+  // =====================================================
+  // SESSIONS
+  // =====================================================
 
   const totalGames =
-    gameResults.length;
+    history.length;
+
+  // =====================================================
+  // ACCURACY
+  // =====================================================
 
   const averageScore =
-    totalGames > 0
+    history.length > 0
       ? Math.round(
-          gameResults.reduce(
-            (sum, game) =>
-              sum +
+          history.reduce(
+            (total, item) =>
+              total +
               Number(
-                game.accuracy || 0
+                item?.score || 0
               ),
             0
-          ) / totalGames
+          ) / history.length
         )
       : 0;
 
-  const level =
-    stars >= 30
-      ? "🏆 Jungle Master"
-      : stars >= 15
-      ? "🌳 Jungle Hero"
-      : stars >= 5
-      ? "🌿 Explorer"
-      : "🌱 Beginner";
+  // =====================================================
+  // LEVEL
+  // =====================================================
+
+  let level =
+    "🌱 Beginner";
+
+  if (stars >= 30) {
+    level =
+      "🏆 Jungle Master";
+  } else if (stars >= 15) {
+    level =
+      "🌳 Jungle Hero";
+  } else if (stars >= 5) {
+    level =
+      "🌿 Explorer";
+  }
 
   const levelPercent =
     Math.min(
@@ -574,396 +329,564 @@ export default function ParentDashboard() {
       100
     );
 
-  const roundPercent =
-    Math.min(
-      (totalGames / 10) * 100,
-      100
-    );
-
-  // =========================================================
-  // 🎨 DASHBOARD
-  // =========================================================
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
     <div className="parent-page">
 
-      {/* 🌴 NAVBAR */}
-      <div className="parent-navbar">
+      {/* =================================================
+          NAVBAR
+      ================================================= */}
 
-        <div className="navbar-left">
-          <BackIcon
-            goBack={() =>
-              navigate("/jungle-hero")
-            }
-          />
-        </div>
+      <header className="parent-navbar">
 
         <div className="navbar-title">
           📊 Parent Dashboard
         </div>
 
-      </div>
-
-      {/* 🌿 CONTENT */}
-      <div className="parent-content">
-
-        {/* 👧 CHILD PROFILE */}
-        <div className="parent-card">
-
-          <h2>
-            👧 Child Profile
-          </h2>
-
-          <p>
-            <b>Name:</b>{" "}
-            {child?.name ||
-              "Little Explorer"}
-          </p>
-
-          <p>
-            <b>Age:</b>{" "}
-            {child?.age || "-"}
-          </p>
-
+        <div className="navbar-plant">
+          🌱
         </div>
 
-        {/* 👨‍👩‍👧 PARENT PROFILE */}
-        <div className="parent-card">
+      </header>
 
-          <h2>
-            👨‍👩‍👧 Parent Profile
-          </h2>
+      {/* =================================================
+          CONTENT
+      ================================================= */}
 
-          <p>
-            <b>Name:</b>{" "}
-            {parent?.parentName ||
-              "-"}
-          </p>
+      <main className="parent-content">
 
-          <p>
-            <b>Email:</b>{" "}
-            {parent?.email || "-"}
-          </p>
+        {/* =================================================
+            GREETING
+        ================================================= */}
 
-          <p>
-            <b>Daily Play Limit:</b>{" "}
-            {parent?.timeLimit
-              ? `${parent.timeLimit} mins`
-              : "-"}
-          </p>
+        <section className="parent-greeting">
 
-        </div>
-
-        {/* ⭐ OVERALL PROGRESS */}
-        <div className="parent-card">
-
-          <h2>
-            🌟 Overall Progress
-          </h2>
+          <h1>
+            Good day,{" "}
+            <span>
+              {parent?.parentName ||
+                "Parent"}
+            </span>{" "}
+            👋
+          </h1>
 
           <p>
-            <b>Current Level:</b>{" "}
-            {level}
+            Here's how your little
+            learner is doing today.
           </p>
 
-          <div className="progress-bar">
+        </section>
 
-            <div
-              className="progress-fill"
-              style={{
-                width: `${levelPercent}%`,
-              }}
-            />
+        {/* =================================================
+            CHILD
+        ================================================= */}
+
+        <section className="child-hero-card">
+
+          <div className="child-avatar">
+
+            {friend?.image ? (
+              <img
+                src={friend.image}
+                alt={
+                  friend.name ||
+                  "Jungle friend"
+                }
+              />
+            ) : (
+              "👶"
+            )}
 
           </div>
 
-          <p>
-            <b>Total Stars:</b>{" "}
-            ⭐ {stars}
-          </p>
+          <div className="child-info">
 
-          <p>
-            <b>Day Streak:</b>{" "}
-            🔥 {streak}
-          </p>
+            <span>
+              YOUR LITTLE LEARNER
+            </span>
 
-        </div>
+            <h2>
+              {child?.name ||
+                "No child profile"}
+            </h2>
 
-        {/* 🧠 GAME PERFORMANCE */}
-        <div className="parent-card">
-
-          <h2>
-            🧠 Learning Performance
-          </h2>
-
-          <p>
-            <b>Practice Sessions:</b>{" "}
-            {totalGames}
-          </p>
-
-          <div className="progress-bar">
-
-            <div
-              className="progress-fill score"
-              style={{
-                width: `${roundPercent}%`,
-              }}
-            />
-
-          </div>
-
-          <p>
-            <b>Average Accuracy:</b>{" "}
-            {averageScore}%
-          </p>
-
-          {gameResults.length === 0 ? (
             <p>
-              Practice data will appear
-              after games are completed. 🌱
+              Age:{" "}
+              {child?.age ||
+                "Not set"}
             </p>
-          ) : (
+
+            {friend?.name && (
+              <small>
+                Jungle friend:{" "}
+                {friend.name} 🦊
+              </small>
+            )}
+
+          </div>
+
+        </section>
+
+        {/* =================================================
+            STATS
+        ================================================= */}
+
+        <div className="stats-grid">
+
+          <div className="stat-card">
+
+            <div className="stat-icon">
+              ⭐
+            </div>
+
             <div>
-              {gameResults
-                .slice(0, 5)
-                .map((game) => (
-                  <div
-                    key={game.id}
-                    style={{
-                      padding: "8px",
-                      margin: "5px 0",
-                      borderRadius: "8px",
-                      background:
-                        "#f5f5f5",
-                    }}
-                  >
-                    <b>
-                      {game.game ||
-                        "Practice Game"}
-                    </b>
+              <span>
+                Total Stars
+              </span>
 
-                    <br />
+              <strong>
+                {stars}
+              </strong>
+            </div>
 
-                    Score:{" "}
-                    {game.score ?? 0}
+          </div>
 
-                    {" / "}
+          <div className="stat-card">
 
-                    {game.totalQuestions ??
-                      "-"}
+            <div className="stat-icon">
+              🔥
+            </div>
 
-                    {" | "}
+            <div>
+              <span>
+                Day Streak
+              </span>
 
-                    Accuracy:{" "}
-                    {game.accuracy ?? 0}%
-                  </div>
-                ))}
+              <strong>
+                {streak}
+              </strong>
+            </div>
+
+          </div>
+
+          <div className="stat-card">
+
+            <div className="stat-icon">
+              🎮
+            </div>
+
+            <div>
+              <span>
+                Sessions
+              </span>
+
+              <strong>
+                {totalGames}
+              </strong>
+            </div>
+
+          </div>
+
+          <div className="stat-card">
+
+            <div className="stat-icon">
+              🎯
+            </div>
+
+            <div>
+              <span>
+                Accuracy
+              </span>
+
+              <strong>
+                {averageScore}%
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* =================================================
+            PROGRESS + PERFORMANCE
+        ================================================= */}
+
+        <div className="dashboard-grid">
+
+          <section className="dashboard-card">
+
+            <div className="card-heading">
+
+              <div>
+                🌟
+              </div>
+
+              <div>
+                <h2>
+                  Overall Progress
+                </h2>
+
+                <p>
+                  Keep growing, one
+                  step at a time.
+                </p>
+              </div>
+
+            </div>
+
+            <div className="level-row">
+
+              <span>
+                Current Level
+              </span>
+
+              <strong>
+                {level}
+              </strong>
+
+            </div>
+
+            <div className="progress-track">
+
+              <div
+                className="progress-fill"
+                style={{
+                  width:
+                    `${levelPercent}%`,
+                }}
+              />
+
+            </div>
+
+            <div className="progress-label">
+
+              <span>
+                ⭐ {stars} stars
+              </span>
+
+              <span>
+                {Math.round(
+                  levelPercent
+                )}%
+              </span>
+
+            </div>
+
+          </section>
+
+          <section className="dashboard-card">
+
+            <div className="card-heading">
+
+              <div>
+                🧠
+              </div>
+
+              <div>
+                <h2>
+                  Learning Performance
+                </h2>
+
+                <p>
+                  Recent learning
+                  activity.
+                </p>
+              </div>
+
+            </div>
+
+            <div className="performance-row">
+
+              <span>
+                Practice Sessions
+              </span>
+
+              <strong>
+                {totalGames}
+              </strong>
+
+            </div>
+
+            <div className="progress-track">
+
+              <div
+                className="progress-fill"
+                style={{
+                  width:
+                    `${Math.min(
+                      totalGames * 10,
+                      100
+                    )}%`,
+                }}
+              />
+
+            </div>
+
+            <div
+              className="performance-row"
+              style={{
+                marginTop: "22px",
+              }}
+            >
+
+              <span>
+                Average Accuracy
+              </span>
+
+              <strong>
+                {averageScore}%
+              </strong>
+
+            </div>
+
+          </section>
+
+        </div>
+
+        {/* =================================================
+            PARENT INFORMATION
+        ================================================= */}
+
+        <section className="dashboard-card">
+
+          <div className="card-heading">
+
+            <div>
+              👨‍👩‍👧
+            </div>
+
+            <div>
+              <h2>
+                Parent Information
+              </h2>
+
+              <p>
+                Your account details.
+              </p>
+            </div>
+
+          </div>
+
+          <div className="profile-details">
+
+            <div>
+              <span>
+                Parent Name
+              </span>
+
+              <strong>
+                {parent?.parentName ||
+                  "Not available"}
+              </strong>
+            </div>
+
+            <div>
+              <span>
+                Email
+              </span>
+
+              <strong>
+                {parent?.email ||
+                  "Not available"}
+              </strong>
+            </div>
+
+            <div>
+              <span>
+                Daily Play Limit
+              </span>
+
+              <strong>
+                {parent?.timeLimit
+                  ? `${parent.timeLimit} mins`
+                  : "Not set"}
+              </strong>
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =================================================
+            RECENT ACTIVITY
+        ================================================= */}
+
+        <section className="dashboard-card">
+
+          <div className="card-heading">
+
+            <div>
+              📚
+            </div>
+
+            <div>
+              <h2>
+                Recent Activity
+              </h2>
+
+              <p>
+                Your child's latest
+                learning sessions.
+              </p>
+            </div>
+
+          </div>
+
+          {history.length === 0 ? (
+            <div className="empty-state">
+              🌱 No games completed yet.
+              <br />
+              Start a learning activity
+              to see progress here.
+            </div>
+          ) : (
+            <div className="activity-list">
+
+              {history
+                .slice()
+                .reverse()
+                .slice(0, 8)
+                .map(
+                  (item, index) => (
+                    <div
+                      className="activity-item"
+                      key={
+                        `${item.game}-${item.date}-${index}`
+                      }
+                    >
+
+                      <div>
+                        🎮
+                      </div>
+
+                      <div className="activity-info">
+
+                        <strong>
+                          {item.game ||
+                            "Learning Activity"}
+                        </strong>
+
+                        <span>
+                          {item.date ||
+                            "Recent"}
+                        </span>
+
+                      </div>
+
+                      <div className="activity-score">
+
+                        <strong>
+                          {item.score || 0}%
+                        </strong>
+
+                        <span>
+                          ⭐{" "}
+                          {item.stars || 0}
+                        </span>
+
+                      </div>
+
+                    </div>
+                  )
+                )}
+
             </div>
           )}
 
-        </div>
+        </section>
 
-        {/* ⭐ RECENT ACTIVITY */}
-        <div className="parent-card">
+        {/* =================================================
+            ACHIEVEMENTS
+        ================================================= */}
 
-          <h2>
-            📅 Recent Activity
-          </h2>
+        <section className="dashboard-card">
 
-          {history.length === 0 ? (
-            <p>
-              No activity yet 🚀
-            </p>
-          ) : (
-            history
-              .slice(-5)
-              .reverse()
-              .map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    padding: "8px",
-                    margin: "5px 0",
-                    borderRadius: "8px",
-                    background:
-                      "#f5f5f5",
-                  }}
-                >
-                  <span>
-                    {item.date ||
-                      "Recent"}
-                  </span>
+          <div className="card-heading">
 
-                  {" — "}
+            <div>
+              🏆
+            </div>
 
-                  <span>
-                    Score:{" "}
-                    {item.score ?? 0}
-                  </span>
+            <div>
+              <h2>
+                Achievements
+              </h2>
 
-                  {" — "}
-
-                  <span>
-                    ⭐{" "}
-                    {item.stars ?? 0}
-                  </span>
-                </div>
-              ))
-          )}
-
-        </div>
-
-        {/* 🏆 REWARDS */}
-        <div className="parent-card">
-
-          <h2>
-            🏆 Rewards & Achievements
-          </h2>
-
-          <p>
-            <b>Total Rounds:</b>{" "}
-            {history.length}
-          </p>
-
-          <p>
-            <b>Total Stars:</b>{" "}
-            ⭐ {stars}
-          </p>
-
-          <div className="badge-grid">
-
-            {Array.from({
-              length: Math.min(
-                Math.floor(stars / 5),
-                10
-              ),
-            }).map((_, index) => (
-              <div
-                key={index}
-                className="badge-item"
-              >
-                🏅
-              </div>
-            ))}
-
-          </div>
-
-          {stars < 5 && (
-            <p>
-              Complete activities to
-              unlock your first badge 🌱
-            </p>
-          )}
-
-        </div>
-
-        {/* 🤖 AI CHATBOT */}
-        <div className="parent-card">
-
-          <h2>
-            🤖 AI Assistant
-          </h2>
-
-          <div
-            style={{
-              maxHeight: "200px",
-              overflowY: "auto",
-              marginBottom: "10px",
-            }}
-          >
-
-            {messages.map(
-              (msg, index) => (
-                <div
-                  key={index}
-                  style={{
-                    background:
-                      msg.type === "user"
-                        ? "#4caf50"
-                        : "#eee",
-
-                    color:
-                      msg.type === "user"
-                        ? "white"
-                        : "black",
-
-                    padding: "8px",
-                    margin: "5px",
-                    borderRadius:
-                      "8px",
-
-                    textAlign:
-                      msg.type === "user"
-                        ? "right"
-                        : "left",
-                  }}
-                >
-                  {msg.text}
-                </div>
-              )
-            )}
-
-            {loading && (
               <p>
-                AI is typing... 🤖
+                Little milestones
+                along the journey.
               </p>
-            )}
+            </div>
 
           </div>
 
-          <div
-            style={{
-              display: "flex",
-            }}
-          >
+          <div className="achievement-grid">
 
-            <input
-              type="text"
-              placeholder="Ask about your child..."
-              value={question}
-              onChange={(e) =>
-                setQuestion(
-                  e.target.value
-                )
+            <div
+              className={
+                stars >= 1
+                  ? "achievement unlocked"
+                  : "achievement"
               }
-              onKeyDown={(e) => {
-                if (
-                  e.key === "Enter" &&
-                  !loading
-                ) {
-                  sendMessage();
-                }
-              }}
-              style={{
-                flex: 1,
-                padding: "8px",
-              }}
-              disabled={loading}
-            />
-
-            <button
-              onClick={sendMessage}
-              disabled={loading}
-              style={{
-                marginLeft: "5px",
-              }}
             >
-              {loading
-                ? "..."
-                : "Send"}
-            </button>
+              ⭐
+
+              <strong>
+                First Star
+              </strong>
+            </div>
+
+            <div
+              className={
+                totalGames >= 5
+                  ? "achievement unlocked"
+                  : "achievement"
+              }
+            >
+              🎮
+
+              <strong>
+                5 Sessions
+              </strong>
+            </div>
+
+            <div
+              className={
+                streak >= 3
+                  ? "achievement unlocked"
+                  : "achievement"
+              }
+            >
+              🔥
+
+              <strong>
+                3 Day Streak
+              </strong>
+            </div>
+
+            <div
+              className={
+                stars >= 15
+                  ? "achievement unlocked"
+                  : "achievement"
+              }
+            >
+              🏆
+
+              <strong>
+                Jungle Hero
+              </strong>
+            </div>
 
           </div>
 
-        </div>
+        </section>
 
-        {/* 🌱 NOTE */}
-        <p className="growth-note">
-          Growth-focused learning 🌱
-          No pressure. Confidence first.
-        </p>
+      </main>
 
-      </div>
     </div>
   );
 }

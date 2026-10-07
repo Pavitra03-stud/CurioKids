@@ -1,1087 +1,37 @@
-// // // import { useState, useRef, useEffect } from "react";
-// // // import { useNavigate } from "react-router-dom";
-// // // import { db } from "../firebase";
-// // // import { doc, setDoc, getDoc } from "firebase/firestore";
-
-// // // export default function OtpVerify() {
-// // //   const [otp, setOtp] = useState(new Array(6).fill(""));
-// // //   const [error, setError] = useState("");
-// // //   const [timer, setTimer] = useState(30);
-// // //   const [loading, setLoading] = useState(false);
-
-// // //   const inputsRef = useRef([]);
-// // //   const navigate = useNavigate();
-
-// // //   const email = localStorage.getItem("loginEmail");
-
-// // //   // ⏱️ Timer
-// // //   useEffect(() => {
-// // //     if (timer > 0) {
-// // //       const interval = setInterval(() => {
-// // //         setTimer((prev) => prev - 1);
-// // //       }, 1000);
-// // //       return () => clearInterval(interval);
-// // //     }
-// // //   }, [timer]);
-
-// // //   // 🔢 Handle OTP input
-// // //   const handleChange = (value, index) => {
-// // //     if (!/^[0-9]?$/.test(value)) return;
-
-// // //     const newOtp = [...otp];
-// // //     newOtp[index] = value;
-// // //     setOtp(newOtp);
-
-// // //     if (value && index < 5) {
-// // //       inputsRef.current[index + 1].focus();
-// // //     }
-// // //   };
-
-// // //   // 🔐 VERIFY OTP
-// // //   const verifyOtp = async () => {
-// // //     setError("");
-
-// // //     const finalOtp = otp.join("");
-
-// // //     if (finalOtp.length !== 6) {
-// // //       setError("Enter complete OTP 🔢");
-// // //       return;
-// // //     }
-
-// // //     setLoading(true);
-
-// // //     try {
-// // //       const res = await fetch("http://localhost:5000/api/verify-otp", {
-// // //         method: "POST",
-// // //         headers: {
-// // //           "Content-Type": "application/json",
-// // //         },
-// // //         body: JSON.stringify({
-// // //           email,
-// // //           otp: finalOtp,
-// // //         }),
-// // //       });
-
-// // //       const data = await res.json();
-
-// // //       if (!res.ok) {
-// // //         setError(data.message || "Invalid OTP ❌");
-// // //         return;
-// // //       }
-
-// // //       // 🔥 CHECK IF USER EXISTS
-// // //       const userRef = doc(db, "users", email);
-// // //       const userSnap = await getDoc(userRef);
-
-// // //       if (!userSnap.exists()) {
-// // //         // 🆕 Create new user
-// // //         await setDoc(userRef, {
-// // //           email,
-// // //           score: 0,
-// // //           level: "easy",
-// // //           createdAt: new Date().toISOString(),
-// // //         });
-// // //       } else {
-// // //         // 🔄 Update existing user (keep score)
-// // //         await setDoc(
-// // //           userRef,
-// // //           {
-// // //             verified: true,
-// // //             lastLogin: new Date().toISOString(),
-// // //           },
-// // //           { merge: true }
-// // //         );
-// // //       }
-
-// // //       alert("Login successful 🎉");
-
-// // //       // ❌ DO NOT REMOVE EMAIL
-// // //       // localStorage.removeItem("loginEmail");
-
-// // //       // ✅ Navigate
-// // //       navigate("/choose-friend");
-
-// // //     } catch (err) {
-// // //       console.error(err);
-// // //       setError("Server error 😢");
-// // //     } finally {
-// // //       setLoading(false);
-// // //     }
-// // //   };
-
-// // //   // 🔁 RESEND OTP
-// // //   const resendOtp = async () => {
-// // //     setError("");
-
-// // //     try {
-// // //       const res = await fetch("http://localhost:5000/api/send-otp", {
-// // //         method: "POST",
-// // //         headers: {
-// // //           "Content-Type": "application/json",
-// // //         },
-// // //         body: JSON.stringify({ email }),
-// // //       });
-
-// // //       const data = await res.json();
-
-// // //       if (!res.ok) {
-// // //         setError(data.message || "Failed to resend OTP");
-// // //         return;
-// // //       }
-
-// // //       alert("OTP resent 📧");
-// // //       setTimer(30);
-
-// // //     } catch (err) {
-// // //       console.error(err);
-// // //       setError("Failed to resend OTP");
-// // //     }
-// // //   };
-
-// // //   return (
-// // //     <div style={styles.container}>
-// // //       <div style={styles.card}>
-// // //         <h2>🔐 Enter OTP</h2>
-// // //         <p>Sent to {email}</p>
-
-// // //         <div style={styles.otpContainer}>
-// // //           {otp.map((digit, index) => (
-// // //             <input
-// // //               key={index}
-// // //               type="text"
-// // //               maxLength="1"
-// // //               value={digit}
-// // //               ref={(el) => (inputsRef.current[index] = el)}
-// // //               onChange={(e) => handleChange(e.target.value, index)}
-// // //               style={styles.otpInput}
-// // //             />
-// // //           ))}
-// // //         </div>
-
-// // //         <button onClick={verifyOtp} style={styles.button} disabled={loading}>
-// // //           {loading ? "Verifying..." : "Verify OTP"}
-// // //         </button>
-
-// // //         {timer > 0 ? (
-// // //           <p style={styles.timer}>Resend OTP in {timer}s</p>
-// // //         ) : (
-// // //           <button onClick={resendOtp} style={styles.resend}>
-// // //             Resend OTP
-// // //           </button>
-// // //         )}
-
-// // //         {error && <p style={styles.error}>{error}</p>}
-// // //       </div>
-// // //     </div>
-// // //   );
-// // // }
-
-// // // const styles = {
-// // //   container: {
-// // //     height: "100vh",
-// // //     display: "flex",
-// // //     justifyContent: "center",
-// // //     alignItems: "center",
-// // //     backgroundImage:
-// // //       "url('https://images.unsplash.com/photo-1502082553048-f009c37129b9')",
-// // //     backgroundSize: "cover",
-// // //     backgroundPosition: "center",
-// // //   },
-// // //   card: {
-// // //     background: "rgba(255,255,255,0.95)",
-// // //     padding: "30px",
-// // //     borderRadius: "20px",
-// // //     width: "350px",
-// // //     textAlign: "center",
-// // //     boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-// // //   },
-// // //   otpContainer: {
-// // //     display: "flex",
-// // //     justifyContent: "space-between",
-// // //     margin: "20px 0",
-// // //   },
-// // //   otpInput: {
-// // //     width: "45px",
-// // //     height: "50px",
-// // //     fontSize: "20px",
-// // //     textAlign: "center",
-// // //     borderRadius: "10px",
-// // //     border: "2px solid #6bcB77",
-// // //   },
-// // //   button: {
-// // //     width: "100%",
-// // //     padding: "12px",
-// // //     background: "#ff9f1c",
-// // //     color: "#fff",
-// // //     border: "none",
-// // //     borderRadius: "10px",
-// // //     cursor: "pointer",
-// // //     fontWeight: "bold",
-// // //   },
-// // //   resend: {
-// // //     marginTop: "10px",
-// // //     background: "none",
-// // //     border: "none",
-// // //     color: "#2d6a4f",
-// // //     cursor: "pointer",
-// // //   },
-// // //   timer: {
-// // //     marginTop: "10px",
-// // //     color: "#555",
-// // //   },
-// // //   error: {
-// // //     color: "red",
-// // //     marginTop: "10px",
-// // //   },
-// // // };
-
-
-
-// // import { useState, useRef, useEffect } from "react";
-// // import { useNavigate } from "react-router-dom";
-// // import { db } from "../firebase";
-// // import { doc, setDoc, getDoc } from "firebase/firestore";
-
-// // export default function OtpVerify() {
-// //   const [otp, setOtp] = useState(new Array(6).fill(""));
-// //   const [error, setError] = useState("");
-// //   const [timer, setTimer] = useState(30);
-// //   const [loading, setLoading] = useState(false);
-
-// //   const inputsRef = useRef([]);
-// //   const navigate = useNavigate();
-
-// //   const email = localStorage.getItem("loginEmail");
-
-// //   // ⏱️ Timer
-// //   useEffect(() => {
-// //     if (timer > 0) {
-// //       const interval = setInterval(() => {
-// //         setTimer((prev) => prev - 1);
-// //       }, 1000);
-// //       return () => clearInterval(interval);
-// //     }
-// //   }, [timer]);
-
-// //   // 🔢 Handle OTP input
-// //   const handleChange = (value, index) => {
-// //     if (!/^[0-9]?$/.test(value)) return;
-
-// //     const newOtp = [...otp];
-// //     newOtp[index] = value;
-// //     setOtp(newOtp);
-
-// //     if (value && index < 5) {
-// //       inputsRef.current[index + 1].focus();
-// //     }
-// //   };
-
-// //   // 🔐 VERIFY OTP
-// //   const verifyOtp = async () => {
-// //     setError("");
-
-// //     const finalOtp = otp.join("");
-
-// //     if (finalOtp.length !== 6) {
-// //       setError("Enter complete OTP 🔢");
-// //       return;
-// //     }
-
-// //     setLoading(true);
-
-// //     try {
-// //       const res = await fetch("http://localhost:5000/api/verify-otp", {
-// //         method: "POST",
-// //         headers: {
-// //           "Content-Type": "application/json",
-// //         },
-// //         body: JSON.stringify({
-// //           email,
-// //           otp: finalOtp,
-// //         }),
-// //       });
-
-// //       const data = await res.json();
-
-// //       if (!res.ok) {
-// //         setError(data.message || "Invalid OTP ❌");
-// //         return;
-// //       }
-
-// //       // 🔥 CHECK IF USER EXISTS
-// //       const userRef = doc(db, "users", email);
-// //       const userSnap = await getDoc(userRef);
-
-// //       if (!userSnap.exists()) {
-// //         // 🆕 Create new user
-// //         await setDoc(userRef, {
-// //           email,
-// //           score: 0,
-// //           level: "easy",
-// //           createdAt: new Date().toISOString(),
-// //         });
-// //       } else {
-// //         // 🔄 Update existing user (keep score)
-// //         await setDoc(
-// //           userRef,
-// //           {
-// //             verified: true,
-// //             lastLogin: new Date().toISOString(),
-// //           },
-// //           { merge: true }
-// //         );
-// //       }
-
-// //       alert("Login successful 🎉");
-
-// //       // ✅🔥 VERY IMPORTANT (ADDED)
-// //       // Store userId for Firebase progress tracking
-// //       localStorage.setItem("userId", email);
-
-// //       // ❌ DO NOT REMOVE EMAIL
-// //       // localStorage.removeItem("loginEmail");
-
-// //       // ✅ Navigate
-// //       navigate("/choose-friend");
-
-// //     } catch (err) {
-// //       console.error(err);
-// //       setError("Server error 😢");
-// //     } finally {
-// //       setLoading(false);
-// //     }
-// //   };
-
-// //   // 🔁 RESEND OTP
-// //   const resendOtp = async () => {
-// //     setError("");
-
-// //     try {
-// //       const res = await fetch("http://localhost:5000/api/send-otp", {
-// //         method: "POST",
-// //         headers: {
-// //           "Content-Type": "application/json",
-// //         },
-// //         body: JSON.stringify({ email }),
-// //       });
-
-// //       const data = await res.json();
-
-// //       if (!res.ok) {
-// //         setError(data.message || "Failed to resend OTP");
-// //         return;
-// //       }
-
-// //       alert("OTP resent 📧");
-// //       setTimer(30);
-
-// //     } catch (err) {
-// //       console.error(err);
-// //       setError("Failed to resend OTP");
-// //     }
-// //   };
-
-// //   return (
-// //     <div style={styles.container}>
-// //       <div style={styles.card}>
-// //         <h2>🔐 Enter OTP</h2>
-// //         <p>Sent to {email}</p>
-
-// //         <div style={styles.otpContainer}>
-// //           {otp.map((digit, index) => (
-// //             <input
-// //               key={index}
-// //               type="text"
-// //               maxLength="1"
-// //               value={digit}
-// //               ref={(el) => (inputsRef.current[index] = el)}
-// //               onChange={(e) => handleChange(e.target.value, index)}
-// //               style={styles.otpInput}
-// //             />
-// //           ))}
-// //         </div>
-
-// //         <button onClick={verifyOtp} style={styles.button} disabled={loading}>
-// //           {loading ? "Verifying..." : "Verify OTP"}
-// //         </button>
-
-// //         {timer > 0 ? (
-// //           <p style={styles.timer}>Resend OTP in {timer}s</p>
-// //         ) : (
-// //           <button onClick={resendOtp} style={styles.resend}>
-// //             Resend OTP
-// //           </button>
-// //         )}
-
-// //         {error && <p style={styles.error}>{error}</p>}
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-// // const styles = {
-// //   container: {
-// //     height: "100vh",
-// //     display: "flex",
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //     backgroundImage:
-// //       "url('https://images.unsplash.com/photo-1502082553048-f009c37129b9')",
-// //     backgroundSize: "cover",
-// //     backgroundPosition: "center",
-// //   },
-// //   card: {
-// //     background: "rgba(255,255,255,0.95)",
-// //     padding: "30px",
-// //     borderRadius: "20px",
-// //     width: "350px",
-// //     textAlign: "center",
-// //     boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-// //   },
-// //   otpContainer: {
-// //     display: "flex",
-// //     justifyContent: "space-between",
-// //     margin: "20px 0",
-// //   },
-// //   otpInput: {
-// //     width: "45px",
-// //     height: "50px",
-// //     fontSize: "20px",
-// //     textAlign: "center",
-// //     borderRadius: "10px",
-// //     border: "2px solid #6bcB77",
-// //   },
-// //   button: {
-// //     width: "100%",
-// //     padding: "12px",
-// //     background: "#ff9f1c",
-// //     color: "#fff",
-// //     border: "none",
-// //     borderRadius: "10px",
-// //     cursor: "pointer",
-// //     fontWeight: "bold",
-// //   },
-// //   resend: {
-// //     marginTop: "10px",
-// //     background: "none",
-// //     border: "none",
-// //     color: "#2d6a4f",
-// //     cursor: "pointer",
-// //   },
-// //   timer: {
-// //     marginTop: "10px",
-// //     color: "#555",
-// //   },
-// //   error: {
-// //     color: "red",
-// //     marginTop: "10px",
-// //   },
-// // };
-
-
-
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// import { auth, db } from "../firebase";
-
-// import { signInWithCustomToken } from "firebase/auth";
-// import { doc, setDoc, getDoc } from "firebase/firestore";
-
-// export default function OtpVerify() {
-//   const [otp, setOtp] = useState(new Array(6).fill(""));
-//   const [error, setError] = useState("");
-//   const [timer, setTimer] = useState(30);
-//   const [loading, setLoading] = useState(false);
-
-//   const inputsRef = useRef([]);
-
-//   const navigate = useNavigate();
-
-//   const email =
-//     localStorage.getItem("loginEmail");
-
-//   // =====================================================
-//   // TIMER
-//   // =====================================================
-
-//   useEffect(() => {
-//     if (timer > 0) {
-//       const interval = setInterval(() => {
-//         setTimer((prev) => prev - 1);
-//       }, 1000);
-
-//       return () => clearInterval(interval);
-//     }
-//   }, [timer]);
-
-//   // =====================================================
-//   // HANDLE OTP INPUT
-//   // =====================================================
-
-//   const handleChange = (value, index) => {
-//     if (!/^[0-9]?$/.test(value)) return;
-
-//     const newOtp = [...otp];
-
-//     newOtp[index] = value;
-
-//     setOtp(newOtp);
-
-//     if (value && index < 5) {
-//       inputsRef.current[index + 1]?.focus();
-//     }
-//   };
-
-//   // =====================================================
-//   // HANDLE BACKSPACE
-//   // =====================================================
-
-//   const handleKeyDown = (event, index) => {
-//     if (
-//       event.key === "Backspace" &&
-//       !otp[index] &&
-//       index > 0
-//     ) {
-//       inputsRef.current[index - 1]?.focus();
-//     }
-//   };
-
-//   // =====================================================
-//   // VERIFY OTP
-//   // =====================================================
-
-//   const verifyOtp = async () => {
-//     setError("");
-
-//     const finalOtp = otp.join("");
-
-//     if (!email) {
-//       setError(
-//         "Email not found. Please login again."
-//       );
-//       return;
-//     }
-
-//     if (finalOtp.length !== 6) {
-//       setError("Enter complete OTP 🔢");
-//       return;
-//     }
-
-//     setLoading(true);
-
-//     try {
-//       // -------------------------------------------------
-//       // SEND OTP TO BACKEND
-//       // -------------------------------------------------
-
-//       const res = await fetch(
-//         "http://localhost:5000/api/verify-otp",
-//         {
-//           method: "POST",
-
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-
-//           body: JSON.stringify({
-//             email,
-//             otp: finalOtp,
-//           }),
-//         }
-//       );
-
-//       const data = await res.json();
-
-//       console.log(
-//         "OTP verification response:",
-//         data
-//       );
-
-//       if (!res.ok) {
-//         setError(
-//           data.message ||
-//             "Invalid OTP ❌"
-//         );
-//         return;
-//       }
-
-//       // -------------------------------------------------
-//       // CHECK CUSTOM TOKEN
-//       // -------------------------------------------------
-
-//       if (!data.customToken) {
-//         console.error(
-//           "Firebase custom token missing:",
-//           data
-//         );
-
-//         setError(
-//           "Firebase login token was not received."
-//         );
-
-//         return;
-//       }
-
-//       // -------------------------------------------------
-//       // FIREBASE AUTH LOGIN
-//       // -------------------------------------------------
-
-//       console.log(
-//         "🔥 Signing into Firebase..."
-//       );
-
-//       const userCredential =
-//         await signInWithCustomToken(
-//           auth,
-//           data.customToken
-//         );
-
-//       const firebaseUser =
-//         userCredential.user;
-
-//       console.log(
-//         "✅ Firebase login successful"
-//       );
-
-//       console.log(
-//         "👤 Firebase UID:",
-//         firebaseUser.uid
-//       );
-
-//       // -------------------------------------------------
-//       // STORE REAL FIREBASE UID
-//       // -------------------------------------------------
-
-//       localStorage.setItem(
-//         "userId",
-//         firebaseUser.uid
-//       );
-
-//       console.log(
-//         "💾 Firebase UID stored:",
-//         firebaseUser.uid
-//       );
-
-//       // -------------------------------------------------
-//       // USER FIRESTORE DOCUMENT
-//       // -------------------------------------------------
-
-//       const userRef = doc(
-//         db,
-//         "users",
-//         firebaseUser.uid
-//       );
-
-//       const userSnap =
-//         await getDoc(userRef);
-
-//       if (!userSnap.exists()) {
-//         // -------------------------------------------------
-//         // NEW USER
-//         // -------------------------------------------------
-
-//         await setDoc(userRef, {
-//           uid: firebaseUser.uid,
-
-//           email:
-//             firebaseUser.email || email,
-
-//           verified: true,
-
-//           score: 0,
-
-//           level: "easy",
-
-//           createdAt:
-//             new Date().toISOString(),
-
-//           lastLogin:
-//             new Date().toISOString(),
-//         });
-
-//         console.log(
-//           "🆕 New Firestore user created"
-//         );
-//       } else {
-//         // -------------------------------------------------
-//         // EXISTING USER
-//         // -------------------------------------------------
-
-//         await setDoc(
-//           userRef,
-//           {
-//             uid: firebaseUser.uid,
-
-//             email:
-//               firebaseUser.email || email,
-
-//             verified: true,
-
-//             lastLogin:
-//               new Date().toISOString(),
-//           },
-//           {
-//             merge: true,
-//           }
-//         );
-
-//         console.log(
-//           "🔄 Existing Firestore user updated"
-//         );
-//       }
-
-//       // -------------------------------------------------
-//       // SUCCESS
-//       // -------------------------------------------------
-
-//       alert(
-//         "Login successful 🎉"
-//       );
-
-//       // Keep loginEmail because other
-//       // parts of the app may use it.
-
-//       navigate(
-//         "/choose-friend"
-//       );
-
-//     } catch (err) {
-//       console.error(
-//         "❌ OTP/Firebase login error:",
-//         err
-//       );
-
-//       setError(
-//         err?.message ||
-//           "Server error 😢"
-//       );
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // =====================================================
-//   // RESEND OTP
-//   // =====================================================
-
-//   const resendOtp = async () => {
-//     setError("");
-
-//     if (!email) {
-//       setError(
-//         "Email not found. Please login again."
-//       );
-//       return;
-//     }
-
-//     try {
-//       const res = await fetch(
-//         "http://localhost:5000/api/send-otp",
-//         {
-//           method: "POST",
-
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-
-//           body: JSON.stringify({
-//             email,
-//           }),
-//         }
-//       );
-
-//       const data = await res.json();
-
-//       if (!res.ok) {
-//         setError(
-//           data.message ||
-//             "Failed to resend OTP"
-//         );
-//         return;
-//       }
-
-//       // Clear old OTP
-//       setOtp(
-//         new Array(6).fill("")
-//       );
-
-//       // Restart timer
-//       setTimer(30);
-
-//       // Focus first box
-//       inputsRef.current[0]?.focus();
-
-//       alert(
-//         "OTP resent 📧"
-//       );
-//     } catch (err) {
-//       console.error(
-//         "Resend OTP error:",
-//         err
-//       );
-
-//       setError(
-//         "Failed to resend OTP"
-//       );
-//     }
-//   };
-
-//   // =====================================================
-//   // UI
-//   // =====================================================
-
-//   return (
-//     <div style={styles.container}>
-//       <div style={styles.card}>
-
-//         <h2>
-//           🔐 Enter OTP
-//         </h2>
-
-//         <p>
-//           Sent to {email}
-//         </p>
-
-//         {/* OTP INPUTS */}
-
-//         <div style={styles.otpContainer}>
-//           {otp.map(
-//             (digit, index) => (
-//               <input
-//                 key={index}
-//                 type="text"
-//                 inputMode="numeric"
-//                 maxLength="1"
-//                 value={digit}
-//                 ref={(el) =>
-//                   (inputsRef.current[
-//                     index
-//                   ] = el)
-//                 }
-//                 onChange={(e) =>
-//                   handleChange(
-//                     e.target.value,
-//                     index
-//                   )
-//                 }
-//                 onKeyDown={(e) =>
-//                   handleKeyDown(
-//                     e,
-//                     index
-//                   )
-//                 }
-//                 style={
-//                   styles.otpInput
-//                 }
-//               />
-//             )
-//           )}
-//         </div>
-
-//         {/* VERIFY BUTTON */}
-
-//         <button
-//           onClick={verifyOtp}
-//           style={{
-//             ...styles.button,
-//             opacity: loading
-//               ? 0.7
-//               : 1,
-//           }}
-//           disabled={loading}
-//         >
-//           {loading
-//             ? "Verifying..."
-//             : "Verify OTP"}
-//         </button>
-
-//         {/* RESEND */}
-
-//         {timer > 0 ? (
-//           <p style={styles.timer}>
-//             Resend OTP in{" "}
-//             {timer}s
-//           </p>
-//         ) : (
-//           <button
-//             onClick={resendOtp}
-//             style={styles.resend}
-//           >
-//             Resend OTP
-//           </button>
-//         )}
-
-//         {/* ERROR */}
-
-//         {error && (
-//           <p style={styles.error}>
-//             {error}
-//           </p>
-//         )}
-
-//       </div>
-//     </div>
-//   );
-// }
-
-// // =====================================================
-// // STYLES
-// // =====================================================
-
-// const styles = {
-//   container: {
-//     height: "100vh",
-
-//     display: "flex",
-
-//     justifyContent: "center",
-
-//     alignItems: "center",
-
-//     backgroundImage:
-//       "url('https://images.unsplash.com/photo-1502082553048-f009c37129b9')",
-
-//     backgroundSize: "cover",
-
-//     backgroundPosition: "center",
-
-//     padding: "20px",
-
-//     boxSizing: "border-box",
-//   },
-
-//   card: {
-//     background:
-//       "rgba(255,255,255,0.95)",
-
-//     padding: "30px",
-
-//     borderRadius: "20px",
-
-//     width: "350px",
-
-//     maxWidth: "100%",
-
-//     textAlign: "center",
-
-//     boxShadow:
-//       "0 10px 25px rgba(0,0,0,0.2)",
-//   },
-
-//   otpContainer: {
-//     display: "flex",
-
-//     justifyContent:
-//       "space-between",
-
-//     gap: "8px",
-
-//     margin: "20px 0",
-//   },
-
-//   otpInput: {
-//     width: "45px",
-
-//     height: "50px",
-
-//     fontSize: "20px",
-
-//     textAlign: "center",
-
-//     borderRadius: "10px",
-
-//     border:
-//       "2px solid #6bcb77",
-
-//     outline: "none",
-
-//     boxSizing: "border-box",
-//   },
-
-//   button: {
-//     width: "100%",
-
-//     padding: "12px",
-
-//     background: "#ff9f1c",
-
-//     color: "#fff",
-
-//     border: "none",
-
-//     borderRadius: "10px",
-
-//     cursor: "pointer",
-
-//     fontWeight: "bold",
-
-//     fontSize: "16px",
-//   },
-
-//   resend: {
-//     marginTop: "10px",
-
-//     background: "none",
-
-//     border: "none",
-
-//     color: "#2d6a4f",
-
-//     cursor: "pointer",
-
-//     fontWeight: "bold",
-
-//     fontSize: "14px",
-//   },
-
-//   timer: {
-//     marginTop: "10px",
-
-//     color: "#555",
-//   },
-
-//   error: {
-//     color: "red",
-
-//     marginTop: "10px",
-
-//     fontSize: "14px",
-//   },
-// };
-
-
-
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { auth, db } from "../firebase";
 
-import { signInWithCustomToken } from "firebase/auth";
+import {
+  signInWithCustomToken,
+  getIdTokenResult,
+} from "firebase/auth";
+
 import {
   doc,
-  setDoc,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 
 export default function OtpVerify() {
-  const [otp, setOtp] = useState(
-    new Array(6).fill("")
-  );
-
-  const [error, setError] = useState("");
-  const [timer, setTimer] = useState(30);
-  const [loading, setLoading] = useState(false);
-
-  const inputsRef = useRef([]);
-
   const navigate = useNavigate();
 
   const email =
     localStorage.getItem("loginEmail");
 
+  const [otp, setOtp] = useState(
+    new Array(6).fill("")
+  );
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(30);
+
+  const inputsRef = useRef([]);
+
   // =========================================================
-  // ⏱️ TIMER
+  // TIMER
   // =========================================================
 
   useEffect(() => {
@@ -1095,7 +45,7 @@ export default function OtpVerify() {
   }, [timer]);
 
   // =========================================================
-  // 🔢 OTP INPUT
+  // OTP INPUT
   // =========================================================
 
   const handleChange = (value, index) => {
@@ -1104,43 +54,31 @@ export default function OtpVerify() {
     }
 
     const newOtp = [...otp];
-
     newOtp[index] = value;
 
     setOtp(newOtp);
 
-    // Move to next box
-    if (
-      value &&
-      index < 5
-    ) {
-      inputsRef.current[
-        index + 1
-      ]?.focus();
+    if (value && index < 5) {
+      inputsRef.current[index + 1]?.focus();
     }
   };
 
   // =========================================================
-  // ⌫ BACKSPACE
+  // BACKSPACE
   // =========================================================
 
-  const handleKeyDown = (
-    event,
-    index
-  ) => {
+  const handleKeyDown = (event, index) => {
     if (
       event.key === "Backspace" &&
       !otp[index] &&
       index > 0
     ) {
-      inputsRef.current[
-        index - 1
-      ]?.focus();
+      inputsRef.current[index - 1]?.focus();
     }
   };
 
   // =========================================================
-  // 🔐 VERIFY OTP
+  // VERIFY OTP
   // =========================================================
 
   const verifyOtp = async () => {
@@ -1156,9 +94,7 @@ export default function OtpVerify() {
     }
 
     if (finalOtp.length !== 6) {
-      setError(
-        "Enter complete OTP 🔢"
-      );
+      setError("Please enter the complete OTP.");
       return;
     }
 
@@ -1166,17 +102,16 @@ export default function OtpVerify() {
 
     try {
       // =======================================================
-      // 1️⃣ VERIFY OTP WITH BACKEND
+      // 1. VERIFY OTP WITH BACKEND
       // =======================================================
 
-      const res = await fetch(
+      const response = await fetch(
         "http://localhost:5000/api/verify-otp",
         {
           method: "POST",
 
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
           },
 
           body: JSON.stringify({
@@ -1186,45 +121,31 @@ export default function OtpVerify() {
         }
       );
 
-      const data = await res.json();
+      const data = await response.json();
 
       console.log(
-        "🔐 OTP verification response:",
+        "🔐 OTP response:",
         data
       );
 
-      if (!res.ok) {
+      if (!response.ok) {
         setError(
           data.message ||
-            "Invalid OTP ❌"
+            "Invalid OTP. Please try again."
         );
         return;
       }
 
-      // =======================================================
-      // 2️⃣ CHECK FIREBASE CUSTOM TOKEN
-      // =======================================================
-
       if (!data.customToken) {
-        console.error(
-          "❌ Firebase custom token missing:",
-          data
-        );
-
         setError(
           "Firebase login token was not received."
         );
-
         return;
       }
 
       // =======================================================
-      // 3️⃣ LOGIN TO FIREBASE AUTH
+      // 2. FIREBASE LOGIN
       // =======================================================
-
-      console.log(
-        "🔥 Signing into Firebase..."
-      );
 
       const userCredential =
         await signInWithCustomToken(
@@ -1235,293 +156,471 @@ export default function OtpVerify() {
       const firebaseUser =
         userCredential.user;
 
+      const uid = firebaseUser.uid;
+
       console.log(
         "✅ Firebase login successful"
       );
 
       console.log(
         "👤 Firebase UID:",
-        firebaseUser.uid
+        uid
       );
 
       // =======================================================
-      // 4️⃣ STORE REAL FIREBASE UID
+      // 3. ADMIN CHECK
+      // =======================================================
+
+      const tokenResult =
+        await getIdTokenResult(
+          firebaseUser,
+          true
+        );
+
+      const isAdmin =
+        tokenResult.claims.admin === true;
+
+      console.log(
+        "👑 Admin:",
+        isAdmin
+      );
+
+      // =======================================================
+      // 4. SAVE CURRENT USER ID
       // =======================================================
 
       localStorage.setItem(
         "userId",
-        firebaseUser.uid
-      );
-
-      console.log(
-        "💾 Firebase UID stored:",
-        firebaseUser.uid
+        uid
       );
 
       // =======================================================
-      // 5️⃣ GET PARENT DATA FROM REGISTRATION
-      // =======================================================
-
-      const savedParent =
-        localStorage.getItem(
-          "parentProfile"
-        ) ||
-        localStorage.getItem(
-          "tempParent"
-        );
-
-      let parentData = {};
-
-      if (savedParent) {
-        try {
-          parentData =
-            JSON.parse(savedParent);
-        } catch (error) {
-          console.error(
-            "❌ Invalid parent data:",
-            error
-          );
-        }
-      }
-
-      // =======================================================
-      // 6️⃣ GET CHILD DATA
-      // =======================================================
-
-      const savedChild =
-        localStorage.getItem(
-          "childProfile"
-        );
-
-      let childData = {
-        name: "Little Explorer",
-        age: 5,
-      };
-
-      if (savedChild) {
-        try {
-          childData = {
-            ...childData,
-            ...JSON.parse(savedChild),
-          };
-        } catch (error) {
-          console.error(
-            "❌ Invalid child data:",
-            error
-          );
-        }
-      }
-
-      // =======================================================
-      // 7️⃣ FIRESTORE USER DOCUMENT
+      // 5. GET THIS USER'S FIREBASE DOCUMENT
       // =======================================================
 
       const userRef = doc(
         db,
         "users",
-        firebaseUser.uid
+        uid
       );
 
       const userSnap =
         await getDoc(userRef);
 
+      const existingUser =
+        userSnap.exists()
+          ? userSnap.data()
+          : null;
+
+      console.log(
+        "🔥 Firebase user exists:",
+        userSnap.exists()
+      );
+
+      console.log(
+        "🔥 Existing Firebase data:",
+        existingUser
+      );
+
       // =======================================================
-      // 🆕 NEW USER
+      // 🚨 IMPORTANT SECURITY RULE
+      //
+      // EXISTING USER:
+      //     Firebase ONLY
+      //
+      // NEW USER:
+      //     Registration localStorage → Firebase
+      //
+      // This prevents YOUR localStorage data from being
+      // copied into your friend's account.
+      // =======================================================
+
+      let childProfile =
+        existingUser?.childProfile || null;
+
+      let parentProfile =
+        existingUser?.parentProfile || null;
+
+      let jungleFriend =
+        existingUser?.jungleFriend || null;
+
+      // =======================================================
+      // 🆕 NEW USER ONLY
       // =======================================================
 
       if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: firebaseUser.uid,
+        console.log(
+          "🆕 NEW USER → reading registration data"
+        );
+
+        // -----------------------------------------------------
+        // CHILD
+        // -----------------------------------------------------
+
+        const savedChild =
+          localStorage.getItem(
+            "childProfile"
+          );
+
+        if (savedChild) {
+          try {
+            const childData =
+              JSON.parse(savedChild);
+
+            if (childData?.name) {
+              childProfile = {
+                name:
+                  childData.name.trim(),
+
+                age:
+                  childData.age || "",
+
+                createdAt:
+                  childData.createdAt ||
+                  new Date().toISOString(),
+              };
+            }
+          } catch (error) {
+            console.error(
+              "❌ Child profile parse error:",
+              error
+            );
+          }
+        }
+
+        // -----------------------------------------------------
+        // PARENT
+        // -----------------------------------------------------
+
+        const savedParent =
+          localStorage.getItem(
+            "parentProfile"
+          ) ||
+          localStorage.getItem(
+            "tempParent"
+          );
+
+        if (savedParent) {
+          try {
+            const parentData =
+              JSON.parse(savedParent);
+
+            parentProfile = {
+              parentName:
+                parentData.parentName ||
+                "",
+
+              email:
+                parentData.email ||
+                firebaseUser.email ||
+                email,
+
+              timeLimit:
+                parentData.timeLimit ||
+                "",
+            };
+          } catch (error) {
+            console.error(
+              "❌ Parent profile parse error:",
+              error
+            );
+          }
+        }
+
+        // -----------------------------------------------------
+        // FRIEND
+        // -----------------------------------------------------
+
+        const savedFriend =
+          localStorage.getItem(
+            "jungleFriend"
+          );
+
+        if (savedFriend) {
+          try {
+            const friendData =
+              JSON.parse(savedFriend);
+
+            if (friendData?.name) {
+              jungleFriend = {
+                id:
+                  friendData.id || "",
+
+                name:
+                  friendData.name,
+
+                image:
+                  friendData.image || "",
+              };
+            }
+          } catch (error) {
+            console.error(
+              "❌ Jungle friend parse error:",
+              error
+            );
+          }
+        }
+      } else {
+        // =====================================================
+        // 🔥 EXISTING USER
+        //
+        // NEVER use localStorage profile data here.
+        // Firebase is the source of truth.
+        // =====================================================
+
+        console.log(
+          "✅ EXISTING USER → Firebase data only"
+        );
+      }
+
+      // =======================================================
+      // 6. SAVE USER PROFILE
+      // =======================================================
+
+      await setDoc(
+        userRef,
+        {
+          uid,
 
           email:
             firebaseUser.email ||
             email,
 
-          // 👨‍👩‍👧 Parent
-          parentName:
-            parentData.parentName ||
-            parentData.name ||
-            "",
-
-          timeLimit:
-            parentData.timeLimit ||
-            parentData.time ||
-            "",
-
-          // 👧 Child
-          childName:
-            childData.name ||
-            "Little Explorer",
-
-          childAge:
-            childData.age || 5,
-
-          // 👤 Profile
-          name:
-            childData.name ||
-            "Little Explorer",
-
-          avatar: "🐵",
-
           verified: true,
 
+          childProfile,
+
+          parentProfile,
+
+          jungleFriend,
+
+          // Compatibility field
+          name:
+            childProfile?.name ||
+            existingUser?.name ||
+            "",
+
+          avatar:
+            existingUser?.avatar ||
+            "🐵",
+
           createdAt:
+            existingUser?.createdAt ||
             new Date().toISOString(),
 
           lastLogin:
             new Date().toISOString(),
-        });
+        },
+        {
+          merge: true,
+        }
+      );
 
-        console.log(
-          "🆕 New Firebase user profile created"
+      console.log(
+        "✅ User profile saved to Firebase"
+      );
+
+      // =======================================================
+      // 7. READ FIREBASE AGAIN
+      // =======================================================
+
+      const latestUserSnap =
+        await getDoc(userRef);
+
+      const firebaseUserData =
+        latestUserSnap.exists()
+          ? latestUserSnap.data()
+          : {};
+
+      console.log(
+        "🔥 FINAL FIREBASE DATA:",
+        firebaseUserData
+      );
+
+      // =======================================================
+      // 8. UPDATE LOCAL STORAGE FROM FIREBASE
+      //
+      // This is only a CACHE.
+      // Firebase remains the source of truth.
+      // =======================================================
+
+      if (
+        firebaseUserData.childProfile
+      ) {
+        localStorage.setItem(
+          "childProfile",
+          JSON.stringify(
+            firebaseUserData.childProfile
+          )
+        );
+      } else {
+        localStorage.removeItem(
+          "childProfile"
+        );
+      }
+
+      if (
+        firebaseUserData.parentProfile
+      ) {
+        localStorage.setItem(
+          "parentProfile",
+          JSON.stringify(
+            firebaseUserData.parentProfile
+          )
+        );
+      } else {
+        localStorage.removeItem(
+          "parentProfile"
+        );
+      }
+
+      if (
+        firebaseUserData.jungleFriend
+      ) {
+        localStorage.setItem(
+          "jungleFriend",
+          JSON.stringify(
+            firebaseUserData.jungleFriend
+          )
+        );
+      } else {
+        localStorage.removeItem(
+          "jungleFriend"
         );
       }
 
       // =======================================================
-      // 🔄 EXISTING USER
-      // =======================================================
-
-      else {
-        /*
-         * IMPORTANT:
-         * merge:true means we DON'T overwrite
-         * existing stars/progress/profile fields.
-         */
-
-        await setDoc(
-          userRef,
-          {
-            uid: firebaseUser.uid,
-
-            email:
-              firebaseUser.email ||
-              email,
-
-            verified: true,
-
-            lastLogin:
-              new Date().toISOString(),
-
-            // Update registration information
-            // only if it exists locally.
-            ...(parentData.parentName
-              ? {
-                  parentName:
-                    parentData.parentName,
-                }
-              : {}),
-
-            ...(parentData.timeLimit
-              ? {
-                  timeLimit:
-                    parentData.timeLimit,
-                }
-              : {}),
-
-            ...(childData.name
-              ? {
-                  childName:
-                    childData.name,
-                }
-              : {}),
-
-            ...(childData.age
-              ? {
-                  childAge:
-                    childData.age,
-                }
-              : {}),
-          },
-          {
-            merge: true,
-          }
-        );
-
-        console.log(
-          "🔄 Existing Firebase user updated"
-        );
-      }
-
-      // =======================================================
-      // 8️⃣ MAKE SURE PROGRESS DOCUMENT EXISTS
+      // 9. CREATE PROGRESS IF NEEDED
       // =======================================================
 
       const progressRef = doc(
         db,
         "progress",
-        firebaseUser.uid
+        uid
       );
 
       const progressSnap =
         await getDoc(progressRef);
 
       if (!progressSnap.exists()) {
-        await setDoc(progressRef, {
-          stars: 0,
-          streak: 0,
-          history: [],
-          activeGames: {},
-        });
+        await setDoc(
+          progressRef,
+          {
+            stars: 0,
+            streak: 0,
+            history: [],
+            activeGames: {},
+          }
+        );
 
         console.log(
-          "🌱 Initial progress document created"
+          "🌱 Progress created"
         );
       }
 
       // =======================================================
-      // 9️⃣ KEEP LOCAL STORAGE IN SYNC
+      // 10. CHECK PROFILE COMPLETION
       // =======================================================
 
-      localStorage.setItem(
-        "loginEmail",
-        email
+      const hasChildProfile =
+        Boolean(
+          firebaseUserData
+            ?.childProfile
+            ?.name
+        ) &&
+        Boolean(
+          firebaseUserData
+            ?.childProfile
+            ?.age
+        );
+
+      const hasJungleFriend =
+        Boolean(
+          firebaseUserData
+            ?.jungleFriend
+            ?.name
+        );
+
+      console.log(
+        "👧 Child:",
+        firebaseUserData
+          ?.childProfile
       );
 
-      localStorage.setItem(
-        "parentProfile",
-        JSON.stringify({
-          parentName:
-            parentData.parentName ||
-            parentData.name ||
-            "",
-
-          email,
-
-          timeLimit:
-            parentData.timeLimit ||
-            parentData.time ||
-            "",
-        })
+      console.log(
+        "🦊 Friend:",
+        firebaseUserData
+          ?.jungleFriend
       );
 
-      localStorage.setItem(
-        "childProfile",
-        JSON.stringify(
-          childData
-        )
+      console.log(
+        "👧 Child profile complete:",
+        hasChildProfile
+      );
+
+      console.log(
+        "🦊 Friend selected:",
+        hasJungleFriend
       );
 
       // =======================================================
-      // 🎉 SUCCESS
+      // 11. ADMIN
       // =======================================================
 
-      alert(
-        "Login successful 🎉"
+      if (isAdmin) {
+        console.log(
+          "👑 Admin → /admin"
+        );
+
+        navigate("/admin");
+        return;
+      }
+
+      // =======================================================
+      // 12. EXISTING / COMPLETED USER
+      // =======================================================
+
+      if (
+        hasChildProfile &&
+        hasJungleFriend
+      ) {
+        console.log(
+          "✅ Complete user → Jungle Hero"
+        );
+
+        localStorage.setItem(
+          "appProgress",
+          "friend-chosen"
+        );
+
+        navigate(
+          "/jungle-hero"
+        );
+
+        return;
+      }
+
+      // =======================================================
+      // 13. INCOMPLETE USER
+      // =======================================================
+
+      console.log(
+        "🆕 Profile incomplete → Choose Friend"
       );
 
       navigate(
         "/choose-friend"
       );
 
-    } catch (err) {
+    } catch (error) {
       console.error(
-        "❌ OTP/Firebase login error:",
-        err
+        "❌ OTP verification error:",
+        error
       );
 
       setError(
-        err?.message ||
-          "Server error 😢"
+        error?.message ||
+          "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);
@@ -1529,7 +628,7 @@ export default function OtpVerify() {
   };
 
   // =========================================================
-  // 🔁 RESEND OTP
+  // RESEND OTP
   // =========================================================
 
   const resendOtp = async () => {
@@ -1543,7 +642,7 @@ export default function OtpVerify() {
     }
 
     try {
-      const res = await fetch(
+      const response = await fetch(
         "http://localhost:5000/api/send-otp",
         {
           method: "POST",
@@ -1559,116 +658,105 @@ export default function OtpVerify() {
         }
       );
 
-      const data = await res.json();
+      const data =
+        await response.json();
 
-      if (!res.ok) {
+      if (!response.ok) {
         setError(
           data.message ||
-            "Failed to resend OTP"
+            "Failed to resend OTP."
         );
         return;
       }
 
-      // Clear old OTP
       setOtp(
         new Array(6).fill("")
       );
 
-      // Restart timer
       setTimer(30);
 
-      // Focus first input
       inputsRef.current[0]?.focus();
 
       alert(
-        "OTP resent 📧"
+        "OTP resent successfully 📧"
       );
-
-    } catch (err) {
+    } catch (error) {
       console.error(
         "❌ Resend OTP error:",
-        err
+        error
       );
 
       setError(
-        "Failed to resend OTP"
+        "Failed to resend OTP."
       );
     }
   };
 
   // =========================================================
-  // 🎨 UI
+  // UI
   // =========================================================
 
   return (
     <div style={styles.container}>
-
       <div style={styles.card}>
 
-        <h2>
-          🔐 Enter OTP
-        </h2>
+        <h2>🔐 Enter OTP</h2>
 
         <p>
           Sent to {email}
         </p>
 
-        {/* OTP INPUTS */}
         <div style={styles.otpContainer}>
-
           {otp.map(
             (digit, index) => (
               <input
                 key={index}
+                ref={(element) => {
+                  inputsRef.current[
+                    index
+                  ] = element;
+                }}
                 type="text"
                 inputMode="numeric"
-                maxLength="1"
+                maxLength={1}
                 value={digit}
-                ref={(el) =>
-                  (inputsRef.current[
-                    index
-                  ] = el)
-                }
-                onChange={(e) =>
+                onChange={(event) =>
                   handleChange(
-                    e.target.value,
+                    event.target.value,
                     index
                   )
                 }
-                onKeyDown={(e) =>
+                onKeyDown={(event) =>
                   handleKeyDown(
-                    e,
+                    event,
                     index
                   )
                 }
                 style={styles.otpInput}
+                autoComplete="one-time-code"
               />
             )
           )}
-
         </div>
 
-        {/* VERIFY */}
         <button
           onClick={verifyOtp}
+          disabled={loading}
           style={{
             ...styles.button,
             opacity: loading
               ? 0.7
               : 1,
           }}
-          disabled={loading}
         >
           {loading
             ? "Verifying..."
             : "Verify OTP"}
         </button>
 
-        {/* RESEND */}
         {timer > 0 ? (
           <p style={styles.timer}>
-            Resend OTP in{" "}
-            {timer}s
+            Resend OTP in {timer}s
           </p>
         ) : (
           <button
@@ -1679,7 +767,6 @@ export default function OtpVerify() {
           </button>
         )}
 
-        {/* ERROR */}
         {error && (
           <p style={styles.error}>
             {error}
@@ -1687,13 +774,12 @@ export default function OtpVerify() {
         )}
 
       </div>
-
     </div>
   );
 }
 
 // =========================================================
-// 🎨 STYLES
+// STYLES
 // =========================================================
 
 const styles = {
@@ -1706,12 +792,8 @@ const styles = {
 
     alignItems: "center",
 
-    backgroundImage:
-      "url('https://images.unsplash.com/photo-1502082553048-f009c37129b9')",
-
-    backgroundSize: "cover",
-
-    backgroundPosition: "center",
+    background:
+      "linear-gradient(135deg, #dff5dc, #bde7b8)",
 
     padding: "20px",
 
@@ -1720,39 +802,41 @@ const styles = {
 
   card: {
     background:
-      "rgba(255,255,255,0.95)",
+      "rgba(255,255,255,0.96)",
 
-    padding: "30px",
+    padding: "35px",
 
-    borderRadius: "20px",
+    borderRadius: "22px",
 
-    width: "350px",
+    width: "380px",
 
     maxWidth: "100%",
 
     textAlign: "center",
 
     boxShadow:
-      "0 10px 25px rgba(0,0,0,0.2)",
+      "0 15px 40px rgba(0,0,0,0.15)",
   },
 
   otpContainer: {
     display: "flex",
 
-    justifyContent:
-      "space-between",
+    justifyContent: "center",
 
-    gap: "8px",
+    gap: "9px",
 
-    margin: "20px 0",
+    margin:
+      "25px 0",
   },
 
   otpInput: {
     width: "45px",
 
-    height: "50px",
+    height: "52px",
 
-    fontSize: "20px",
+    fontSize: "22px",
+
+    fontWeight: "700",
 
     textAlign: "center",
 
@@ -1769,25 +853,26 @@ const styles = {
   button: {
     width: "100%",
 
-    padding: "12px",
+    padding: "13px",
 
-    background: "#ff9f1c",
+    background:
+      "#ff9f1c",
 
     color: "#fff",
 
     border: "none",
 
-    borderRadius: "10px",
+    borderRadius: "11px",
 
     cursor: "pointer",
 
-    fontWeight: "bold",
+    fontWeight: "700",
 
     fontSize: "16px",
   },
 
   resend: {
-    marginTop: "10px",
+    marginTop: "12px",
 
     background: "none",
 
@@ -1797,22 +882,26 @@ const styles = {
 
     cursor: "pointer",
 
-    fontWeight: "bold",
+    fontWeight: "700",
 
     fontSize: "14px",
   },
 
   timer: {
-    marginTop: "10px",
+    marginTop: "12px",
 
-    color: "#555",
+    color: "#666",
+
+    fontSize: "14px",
   },
 
   error: {
-    color: "red",
+    marginTop: "12px",
 
-    marginTop: "10px",
+    color: "#d62828",
 
     fontSize: "14px",
+
+    lineHeight: "1.4",
   },
 };

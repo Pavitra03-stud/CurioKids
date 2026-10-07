@@ -198,7 +198,7 @@
 //         <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
 //         <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
 //         <Route path="/number-tracing" element={<NumberTracing />} />
-        
+
 
 //         {/* 🎮 Games */}
 //         <Route path="/games-home" element={<GamesHome />} />
@@ -518,7 +518,7 @@ import LettersHome from "./features/LettersHome";
 import LettersLearningHome from "./features/LettersLearningHome";
 import LettersGameHome from "./features/LettersGameHome";
 
-
+import AdminRoute from "./components/AdminRoute";
 
 
 
@@ -583,7 +583,14 @@ export default function App() {
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/progress" element={<Progress />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
         <Route path="/ai-chat" element={<AIChat />} />
 
         {/* 🔤 Letters Main */}
@@ -596,14 +603,14 @@ export default function App() {
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/progress" element={<Progress />} />
         <Route path="/alphabet-uppercase-lowercase" element={<AlphabetUppercaseLowercase />} />
-        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />  
-        <Route path="/number-games-home" element={<NumberGamesHome />} />      
+        <Route path="/numbers-learning-home" element={<NumbersLearningHome />} />
+        <Route path="/number-games-home" element={<NumberGamesHome />} />
 
         {/* 🔤 Letters */}
         <Route path="/alphabet-learning" element={<AlphabetLearning />} />
         <Route path="/alphabet-flashcard" element={<AlphabetFlashCard />} />
         <Route path="/letter-tracing" element={<LetterTracing />} />
-        <Route path="/alphabet-letter-tracing" element={<AlphabetLetterTracing/>}/>
+        <Route path="/alphabet-letter-tracing" element={<AlphabetLetterTracing />} />
         <Route path="/confusing-letters" element={<ConfusingLetters />} />
         <Route path="/letter-recognition" element={<LetterRecognizition />} />
         <Route path="/uppercase-lowercase" element={<UppercaseLowercase />} />
@@ -652,8 +659,8 @@ export default function App() {
 
         <Route path="/learning-letter-blast" element={<LearningLetterBlast />} />
         <Route path="/odd-letter" element={<OddLetter />} />
-        <Route path="/connect-letters" element={<ConnectLetters/>}/>
-        <Route path="/word-builder" element={<WordBuilder/>}/>
+        <Route path="/connect-letters" element={<ConnectLetters />} />
+        <Route path="/word-builder" element={<WordBuilder />} />
 
         {/* 🔢 Numbers */}
         <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
@@ -686,7 +693,7 @@ export default function App() {
 
         {/* 👨‍👩‍👧 Parent */}
         <Route path="/parent-dashboard" element={<ParentDashboard />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        {/* <Route path="/admin" element={<AdminDashboard />} /> */}
 
         {/* 🤖 AI */}
         <Route path="/ai-chat" element={<AIChat />} />

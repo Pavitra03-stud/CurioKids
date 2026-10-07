@@ -376,17 +376,6 @@ export default function ParentRegister() {
         return;
       }
 
-      // =====================================================
-      // TEMP CHILD PROFILE
-      // =====================================================
-
-      localStorage.setItem(
-        "childProfile",
-        JSON.stringify({
-          name: "Little Explorer",
-          age: 5,
-        })
-      );
 
       // =====================================================
       // IMPORTANT

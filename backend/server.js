@@ -36,6 +36,7 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
     );
   } catch (error) {
     console.error("❌ Invalid FIREBASE_SERVICE_ACCOUNT_JSON");
+    console.error(error);
     process.exit(1);
   }
 } else {
@@ -45,9 +46,7 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
   );
 
   if (!fs.existsSync(serviceAccountPath)) {
-    console.error(
-      "❌ Firebase service account JSON not found:"
-    );
+    console.error("❌ Firebase service account JSON not found:");
     console.error(serviceAccountPath);
     process.exit(1);
   }
@@ -57,9 +56,7 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
       fs.readFileSync(serviceAccountPath, "utf8")
     );
   } catch (error) {
-    console.error(
-      "❌ Could not read Firebase service account JSON"
-    );
+    console.error("❌ Could not read Firebase service account JSON");
     console.error(error);
     process.exit(1);
   }
@@ -85,8 +82,14 @@ const firebaseAuth = getAuth();
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
+app.use(express.json({ limit: "2mb" }));
 
 console.log("🔥 SERVER STARTED");
 
@@ -106,7 +109,16 @@ const transporter = nodemailer.createTransport({
 // OTP STORAGE
 // =====================================================
 
+// email -> {
+//   otp,
+//   expiresAt,
+//   attempts
+// }
+
 const otpStore = {};
+
+const OTP_EXPIRY_MS = 5 * 60 * 1000;
+const MAX_OTP_ATTEMPTS = 5;
 
 // =====================================================
 // GEMINI
@@ -127,6 +139,7 @@ if (process.env.GEMINI_API_KEY) {
     console.log("🤖 Gemini connected");
   } catch (error) {
     console.error("⚠️ Gemini initialization failed");
+    console.error(error);
   }
 } else {
   console.log("⚠️ GEMINI_API_KEY not found");
@@ -155,66 +168,67 @@ let lastImageWord = "";
 // =====================================================
 
 app.get("/", (req, res) => {
-  res.send("CurioKids Backend running 🚀");
+  res.json({
+    success: true,
+    message: "CurioKids Backend running 🚀",
+  });
 });
 
 // =====================================================
 // REGISTER
+// IMPORTANT:
+// DO NOT CREATE FIREBASE USER HERE.
+// USER IS CREATED ONLY AFTER OTP VERIFICATION.
 // =====================================================
 
 app.post("/api/register", async (req, res) => {
   try {
     const name = String(req.body?.name || "").trim();
+
     const email = String(req.body?.email || "")
       .trim()
       .toLowerCase();
 
     if (!name || !email) {
       return res.status(400).json({
-        message: "Missing fields",
+        success: false,
+        message: "Name and email are required",
       });
     }
 
-    console.log("Register request:", {
+    // Basic email validation
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter a valid email address",
+      });
+    }
+
+    console.log("📝 Register request:", {
       name,
       email,
     });
 
-    let user;
-
-    try {
-      user = await firebaseAuth.getUserByEmail(email);
-
-      console.log(
-        "Existing Firebase user:",
-        user.uid
-      );
-    } catch (error) {
-      if (error.code === "auth/user-not-found") {
-        user = await firebaseAuth.createUser({
-          email,
-          emailVerified: false,
-        });
-
-        console.log(
-          "🆕 Firebase user created:",
-          user.uid
-        );
-      } else {
-        throw error;
-      }
-    }
+    // IMPORTANT:
+    // We intentionally DO NOT create a Firebase Auth user here.
+    //
+    // Firebase user will be created only after the OTP
+    // has been successfully verified.
 
     return res.json({
       success: true,
-      message: "Registration successful ✅",
-      uid: user.uid,
-      email: user.email,
+      message: "Registration details accepted ✅",
+      name,
+      email,
     });
   } catch (error) {
-    console.error("Register error:", error);
+    console.error("❌ Register error:", error);
 
     return res.status(500).json({
+      success: false,
       message: "Registration failed ❌",
     });
   }
@@ -232,42 +246,68 @@ app.post("/api/send-otp", async (req, res) => {
 
     if (!email) {
       return res.status(400).json({
+        success: false,
         message: "Email is required 📧",
       });
     }
 
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email address",
+      });
+    }
+
+    // Generate 6-digit OTP
     const otp = Math.floor(
       100000 + Math.random() * 900000
     );
 
-    otpStore[email] = otp;
+    otpStore[email] = {
+      otp: String(otp),
+      expiresAt: Date.now() + OTP_EXPIRY_MS,
+      attempts: 0,
+    };
 
-    console.log(
-      `📧 Sending OTP to ${email}`
-    );
+    console.log(`📧 Sending OTP to ${email}`);
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
       subject: "CurioKids OTP",
       html: `
-        <div style="
-          font-family: Arial, sans-serif;
-          padding: 20px;
-        ">
+        <div
+          style="
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+          "
+        >
           <h2>🌴 CurioKids</h2>
 
-          <p>Your CurioKids verification code is:</p>
+          <p>
+            Your CurioKids verification code is:
+          </p>
 
-          <h1 style="
-            letter-spacing: 8px;
-            font-size: 36px;
-          ">
+          <h1
+            style="
+              letter-spacing: 8px;
+              font-size: 36px;
+            "
+          >
             ${otp}
           </h1>
 
           <p>
             Enter this OTP in CurioKids to continue.
+          </p>
+
+          <p>
+            ⏰ This OTP expires in 5 minutes.
           </p>
 
           <p>
@@ -278,8 +318,7 @@ app.post("/api/send-otp", async (req, res) => {
     });
 
     console.log(
-      "✅ OTP sent successfully:",
-      email
+      `✅ OTP sent successfully: ${email}`
     );
 
     return res.json({
@@ -291,6 +330,7 @@ app.post("/api/send-otp", async (req, res) => {
     console.error(error);
 
     return res.status(500).json({
+      success: false,
       message: "Email failed ❌",
     });
   }
@@ -310,7 +350,53 @@ app.post("/api/verify-otp", async (req, res) => {
 
     if (!email || !otp) {
       return res.status(400).json({
+        success: false,
         message: "Email and OTP are required",
+      });
+    }
+
+    // -------------------------------------------------
+    // CHECK OTP EXISTS
+    // -------------------------------------------------
+
+    const storedOtp = otpStore[email];
+
+    if (!storedOtp) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "OTP not found. Please request a new OTP.",
+      });
+    }
+
+    // -------------------------------------------------
+    // CHECK EXPIRY
+    // -------------------------------------------------
+
+    if (Date.now() > storedOtp.expiresAt) {
+      delete otpStore[email];
+
+      return res.status(400).json({
+        success: false,
+        message:
+          "OTP expired. Please request a new OTP.",
+      });
+    }
+
+    // -------------------------------------------------
+    // CHECK ATTEMPTS
+    // -------------------------------------------------
+
+    if (
+      storedOtp.attempts >=
+      MAX_OTP_ATTEMPTS
+    ) {
+      delete otpStore[email];
+
+      return res.status(400).json({
+        success: false,
+        message:
+          "Too many incorrect attempts. Please request a new OTP.",
       });
     }
 
@@ -318,21 +404,26 @@ app.post("/api/verify-otp", async (req, res) => {
     // CHECK OTP
     // -------------------------------------------------
 
-    if (
-      !otpStore[email] ||
-      String(otpStore[email]) !== otp
-    ) {
+    if (storedOtp.otp !== otp) {
+      storedOtp.attempts += 1;
+
       return res.status(400).json({
+        success: false,
         message: "Invalid OTP ❌",
+        attemptsRemaining:
+          MAX_OTP_ATTEMPTS -
+          storedOtp.attempts,
       });
     }
 
-    // OTP is valid
+    // -------------------------------------------------
+    // OTP VALID
+    // -------------------------------------------------
+
     delete otpStore[email];
 
     console.log(
-      "✅ OTP verified:",
-      email
+      `✅ OTP verified: ${email}`
     );
 
     // -------------------------------------------------
@@ -343,14 +434,19 @@ app.post("/api/verify-otp", async (req, res) => {
 
     try {
       firebaseUser =
-        await firebaseAuth.getUserByEmail(email);
+        await firebaseAuth.getUserByEmail(
+          email
+        );
 
       console.log(
         "✅ Existing Firebase user:",
         firebaseUser.uid
       );
     } catch (error) {
-      if (error.code === "auth/user-not-found") {
+      if (
+        error.code ===
+        "auth/user-not-found"
+      ) {
         firebaseUser =
           await firebaseAuth.createUser({
             email,
@@ -399,7 +495,8 @@ app.post("/api/verify-otp", async (req, res) => {
 
     return res.json({
       success: true,
-      message: "OTP verified successfully 🎉",
+      message:
+        "OTP verified successfully 🎉",
       uid: firebaseUser.uid,
       email: firebaseUser.email,
       customToken,
@@ -412,7 +509,9 @@ app.post("/api/verify-otp", async (req, res) => {
     console.error(error);
 
     return res.status(500).json({
-      message: "OTP verification failed ❌",
+      success: false,
+      message:
+        "OTP verification failed ❌",
     });
   }
 });
@@ -454,7 +553,7 @@ Do not use difficult words.
     });
   } catch (error) {
     console.error(
-      "TEACH ERROR:",
+      "❌ TEACH ERROR:",
       error
     );
 
@@ -519,12 +618,13 @@ app.post("/ai/analyze", async (req, res) => {
     });
   } catch (error) {
     console.error(
-      "ANALYZE ERROR:",
+      "❌ ANALYZE ERROR:",
       error
     );
 
     return res.status(500).json({
-      message: "AI analysis failed ❌",
+      message:
+        "AI analysis failed ❌",
     });
   }
 });
@@ -569,7 +669,7 @@ app.post(
       });
     } catch (error) {
       console.error(
-        "QUESTION ERROR:",
+        "❌ QUESTION ERROR:",
         error
       );
 
@@ -605,22 +705,24 @@ app.post(
       const set =
         sets[
           Math.floor(
-            Math.random() * sets.length
+            Math.random() *
+              sets.length
           )
         ];
 
       let target =
         set[
           Math.floor(
-            Math.random() * set.length
+            Math.random() *
+              set.length
           )
         ];
 
       if (target === lastTarget) {
-        const available =
-          set.filter(
-            (item) => item !== lastTarget
-          );
+        const available = set.filter(
+          (item) =>
+            item !== lastTarget
+        );
 
         target =
           available[
@@ -728,7 +830,8 @@ app.post(
             )
           ];
       } while (
-        randomWord.word === lastWord &&
+        randomWord.word ===
+          lastWord &&
         words.length > 1
       );
 
@@ -1242,7 +1345,9 @@ app.post(
       lastBreakWord = word;
 
       const correct =
-        word.split("").join(" - ");
+        word
+          .split("")
+          .join(" - ");
 
       const wrong = [
         word.slice(0, 2) +
@@ -1857,7 +1962,7 @@ app.post(
 );
 
 // =====================================================
-// GENERIC HEALTH CHECK
+// HEALTH CHECK
 // =====================================================
 
 app.get("/api/health", async (req, res) => {
@@ -1873,7 +1978,9 @@ app.get("/api/health", async (req, res) => {
     success: true,
     server: "running",
     firebase: firebaseStatus,
-    gemini: model ? "connected" : "not configured",
+    gemini: model
+      ? "connected"
+      : "not configured",
     time: new Date().toISOString(),
   });
 });
@@ -1882,31 +1989,53 @@ app.get("/api/health", async (req, res) => {
 // ERROR HANDLER
 // =====================================================
 
-app.use((err, req, res, next) => {
-  console.error("❌ SERVER ERROR:", err);
+app.use(
+  (err, req, res, next) => {
+    console.error(
+      "❌ SERVER ERROR:",
+      err
+    );
 
-  res.status(500).json({
-    message: "Internal server error ❌",
-  });
-});
+    res.status(500).json({
+      success: false,
+      message:
+        "Internal server error ❌",
+    });
+  }
+);
 
 // =====================================================
 // START SERVER
 // =====================================================
 
-const PORT = process.env.PORT || 5000;
+const PORT =
+  process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log("");
-  console.log("====================================");
-  console.log("🌴 CURIOKIDS BACKEND");
-  console.log("====================================");
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🌐 http://localhost:${PORT}`);
-  console.log("🔥 Firebase Admin: READY");
   console.log(
-    `🤖 Gemini: ${model ? "READY" : "NOT CONFIGURED"}`
+    "===================================="
   );
-  console.log("====================================");
+  console.log("🌴 CURIOKIDS BACKEND");
+  console.log(
+    "===================================="
+  );
+  console.log(
+    `🚀 Server running on port ${PORT}`
+  );
+  console.log(
+    `🌐 http://localhost:${PORT}`
+  );
+  console.log(
+    "🔥 Firebase Admin: READY"
+  );
+  console.log(
+    `🤖 Gemini: ${
+      model ? "READY" : "NOT CONFIGURED"
+    }`
+  );
+  console.log(
+    "===================================="
+  );
   console.log("");
 });

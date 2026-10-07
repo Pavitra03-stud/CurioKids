@@ -16,51 +16,34 @@ import {
 const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
-  /* =====================================================
-     👤 CURRENT USER
-  ===================================================== */
+  // =====================================================
+  // 👤 CURRENT USER
+  // =====================================================
 
   const [userId, setUserId] = useState(
     localStorage.getItem("userId")
   );
 
-  /* =====================================================
-     ⭐ OVERALL PROGRESS
-  ===================================================== */
+  // =====================================================
+  // ⭐ OVERALL PROGRESS
+  // =====================================================
 
   const [stars, setStars] = useState(0);
   const [history, setHistory] = useState([]);
   const [streak, setStreak] = useState(0);
 
-  /* =====================================================
-     🎮 ACTIVE / RESUME GAME PROGRESS
-
-     Example:
-
-     activeGames: {
-       "find-friend": {
-         question: 4,
-         score: 70,
-         updatedAt: ...
-       },
-
-       "sound-matching": {
-         question: 2,
-         score: 40,
-         updatedAt: ...
-       }
-     }
-  ===================================================== */
+  // =====================================================
+  // 🎮 ACTIVE / RESUME GAME PROGRESS
+  // =====================================================
 
   const [activeGames, setActiveGames] = useState({});
 
   const [loadingProgress, setLoadingProgress] =
     useState(true);
 
-
-  /* =====================================================
-     👤 WATCH FOR LOGIN USER CHANGES
-  ===================================================== */
+  // =====================================================
+  // 👤 WATCH FOR LOGIN USER CHANGES
+  // =====================================================
 
   useEffect(() => {
     const checkUser = () => {
@@ -93,10 +76,9 @@ export const GameProvider = ({ children }) => {
     };
   }, []);
 
-
-  /* =====================================================
-     📅 DATE HELPERS
-  ===================================================== */
+  // =====================================================
+  // 📅 DATE HELPERS
+  // =====================================================
 
   const getToday = () => {
     const date = new Date();
@@ -118,31 +100,13 @@ export const GameProvider = ({ children }) => {
     );
   };
 
+  // =====================================================
+  // 🔥 LOAD USER PROGRESS
+  // =====================================================
 
-  /* =====================================================
-     🔄 RESET LOCAL STATE WHEN USER CHANGES
-  ===================================================== */
-
-  useEffect(() => {
-    setStars(0);
-    setHistory([]);
-    setStreak(0);
-    setActiveGames({});
-
-    if (!userId) {
-      setLoadingProgress(false);
-      return;
-    }
-
-    loadProgress(userId);
-  }, [userId]);
-
-
-  /* =====================================================
-     🔥 LOAD REAL USER PROGRESS FROM FIREBASE
-  ===================================================== */
-
-  const loadProgress = async (currentUserId) => {
+  const loadProgress = async (
+    currentUserId
+  ) => {
     setLoadingProgress(true);
 
     try {
@@ -159,51 +123,44 @@ export const GameProvider = ({ children }) => {
         const data =
           progressSnap.data();
 
-        /* ---------------------------------------------
-           ⭐ OVERALL STARS
-        --------------------------------------------- */
-
+        // ⭐ STARS
         setStars(
           Number(data.stars) || 0
         );
 
-        /* ---------------------------------------------
-           📚 HISTORY
-        --------------------------------------------- */
-
+        // 📚 HISTORY
         setHistory(
           Array.isArray(data.history)
             ? data.history
             : []
         );
 
-        /* ---------------------------------------------
-           🔥 STREAK
-        --------------------------------------------- */
-
+        // 🔥 STREAK
         setStreak(
           Number(data.streak) || 0
         );
 
-        /* ---------------------------------------------
-           🎮 ACTIVE GAMES
-        --------------------------------------------- */
-
+        // 🎮 ACTIVE GAMES
         setActiveGames(
           data.activeGames &&
-          typeof data.activeGames === "object"
+          typeof data.activeGames ===
+            "object"
             ? data.activeGames
             : {}
         );
 
         console.log(
-          "🎮 Active game progress loaded:",
-          data.activeGames || {}
+          "🔥 Firebase progress loaded:",
+          {
+            stars: data.stars,
+            streak: data.streak,
+            history: data.history,
+            activeGames:
+              data.activeGames,
+          }
         );
       } else {
-        /* ---------------------------------------------
-           🆕 NEW USER
-        --------------------------------------------- */
+        // 🆕 NEW USER
 
         setStars(0);
         setHistory([]);
@@ -229,10 +186,27 @@ export const GameProvider = ({ children }) => {
     }
   };
 
+  // =====================================================
+  // 🔄 RESET LOCAL STATE WHEN USER CHANGES
+  // =====================================================
 
-  /* =====================================================
-     💾 SAVE GENERAL PROGRESS TO FIREBASE
-  ===================================================== */
+  useEffect(() => {
+    setStars(0);
+    setHistory([]);
+    setStreak(0);
+    setActiveGames({});
+
+    if (!userId) {
+      setLoadingProgress(false);
+      return;
+    }
+
+    loadProgress(userId);
+  }, [userId]);
+
+  // =====================================================
+  // 💾 SAVE GENERAL PROGRESS TO FIREBASE
+  // =====================================================
 
   const saveToFirebase = async (
     currentUserId,
@@ -267,7 +241,8 @@ export const GameProvider = ({ children }) => {
 
           streak: newStreak,
 
-          activeGames: newActiveGames,
+          activeGames:
+            newActiveGames,
 
           updatedAt: new Date(),
         },
@@ -285,23 +260,14 @@ export const GameProvider = ({ children }) => {
         "❌ Error saving progress:",
         error
       );
+
+      throw error;
     }
   };
 
-
-  /* =====================================================
-     🎮 SAVE CURRENT GAME PROGRESS
-  =====================================================
-
-     Use inside ANY game:
-
-     saveGameProgress({
-       gameId: "find-friend",
-       question: 4,
-       score: 70,
-     });
-
-  ===================================================== */
+  // =====================================================
+  // 🎮 SAVE CURRENT GAME PROGRESS
+  // =====================================================
 
   const saveGameProgress = async ({
     gameId,
@@ -332,13 +298,33 @@ export const GameProvider = ({ children }) => {
         userId
       );
 
+      // Read latest Firebase data first.
+      // This prevents overwriting another active game
+      // with an old React state.
+      const progressSnap =
+        await getDoc(progressRef);
+
+      const firebaseData =
+        progressSnap.exists()
+          ? progressSnap.data()
+          : {};
+
+      const existingActiveGames =
+        firebaseData.activeGames &&
+        typeof firebaseData.activeGames ===
+          "object"
+          ? firebaseData.activeGames
+          : {};
+
       const currentGameProgress = {
-        ...activeGames,
+        ...existingActiveGames,
 
         [gameId]: {
-          question: Number(question) || 0,
+          question:
+            Number(question) || 0,
 
-          score: Number(score) || 0,
+          score:
+            Number(score) || 0,
 
           ...extraData,
 
@@ -346,18 +332,12 @@ export const GameProvider = ({ children }) => {
         },
       };
 
-      /* ---------------------------------------------
-         🔄 UPDATE LOCAL STATE
-      --------------------------------------------- */
-
+      // 🔄 UPDATE LOCAL STATE
       setActiveGames(
         currentGameProgress
       );
 
-      /* ---------------------------------------------
-         💾 SAVE TO FIREBASE
-      --------------------------------------------- */
-
+      // 💾 SAVE TO FIREBASE
       await setDoc(
         progressRef,
         {
@@ -385,40 +365,30 @@ export const GameProvider = ({ children }) => {
     }
   };
 
+  // =====================================================
+  // 📥 GET SAVED GAME PROGRESS
+  // =====================================================
 
-  /* =====================================================
-     📥 GET SAVED GAME PROGRESS
-  =====================================================
-
-     Example:
-
-     const saved =
-       getGameProgress("find-friend");
-
-  ===================================================== */
-
-  const getGameProgress = (gameId) => {
+  const getGameProgress = (
+    gameId
+  ) => {
     if (!gameId) {
       return null;
     }
 
-    return activeGames[gameId] || null;
+    return (
+      activeGames[gameId] ||
+      null
+    );
   };
 
+  // =====================================================
+  // 🗑️ CLEAR ONE GAME'S SAVED PROGRESS
+  // =====================================================
 
-  /* =====================================================
-     🗑️ CLEAR ONE GAME'S SAVED PROGRESS
-  =====================================================
-
-     Call this AFTER a game is completely finished.
-
-     Example:
-
-     clearGameProgress("find-friend");
-
-  ===================================================== */
-
-  const clearGameProgress = async (gameId) => {
+  const clearGameProgress = async (
+    gameId
+  ) => {
     if (!userId) {
       console.warn(
         "⚠️ Cannot clear game progress: no userId"
@@ -442,16 +412,36 @@ export const GameProvider = ({ children }) => {
         userId
       );
 
+      // Read latest Firebase state.
+      const progressSnap =
+        await getDoc(progressRef);
+
+      const firebaseData =
+        progressSnap.exists()
+          ? progressSnap.data()
+          : {};
+
+      const existingActiveGames =
+        firebaseData.activeGames &&
+        typeof firebaseData.activeGames ===
+          "object"
+          ? firebaseData.activeGames
+          : {};
+
       const updatedActiveGames = {
-        ...activeGames,
+        ...existingActiveGames,
       };
 
-      delete updatedActiveGames[gameId];
+      delete updatedActiveGames[
+        gameId
+      ];
 
+      // 🔄 UPDATE LOCAL STATE
       setActiveGames(
         updatedActiveGames
       );
 
+      // 💾 SAVE FIREBASE
       await setDoc(
         progressRef,
         {
@@ -476,10 +466,15 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-
-  /* =====================================================
-     ⭐ ADD STARS
-  ===================================================== */
+  // =====================================================
+  // ⭐ ADD STARS
+  // =====================================================
+  //
+  // IMPORTANT:
+  // We read the LATEST Firebase progress first.
+  // We do NOT depend on possibly stale React state.
+  //
+  // =====================================================
 
   const addStars = async (
     score,
@@ -493,160 +488,311 @@ export const GameProvider = ({ children }) => {
       return;
     }
 
-    /* ---------------------------------------------
-       ⭐ CALCULATE STARS FROM SCORE
-    --------------------------------------------- */
+    try {
+      console.log(
+        "🏆 Completing game:",
+        {
+          userId,
+          score,
+          gameName,
+        }
+      );
 
-    let earned = 1;
+      // -------------------------------------------------
+      // 🔥 READ LATEST FIREBASE PROGRESS
+      // -------------------------------------------------
 
-    if (score >= 90) {
-      earned = 3;
-    } else if (score >= 70) {
-      earned = 2;
-    }
+      const progressRef = doc(
+        db,
+        "progress",
+        userId
+      );
 
+      const progressSnap =
+        await getDoc(progressRef);
 
-    /* ---------------------------------------------
-       📅 DATE
-    --------------------------------------------- */
+      const firebaseData =
+        progressSnap.exists()
+          ? progressSnap.data()
+          : {};
 
-    const today = getToday();
+      // -------------------------------------------------
+      // CURRENT FIREBASE VALUES
+      // -------------------------------------------------
 
-    const yesterday =
-      getYesterday();
+      const currentStars =
+        Number(
+          firebaseData.stars || 0
+        );
 
+      const currentHistory =
+        Array.isArray(
+          firebaseData.history
+        )
+          ? firebaseData.history
+          : [];
 
-    /* ---------------------------------------------
-       🔥 CALCULATE STREAK
-    --------------------------------------------- */
+      const currentStreak =
+        Number(
+          firebaseData.streak || 0
+        );
 
-    let newStreak = streak;
+      // -------------------------------------------------
+      // ⭐ CALCULATE EARNED STARS
+      // -------------------------------------------------
 
-    if (history.length === 0) {
-      newStreak = 1;
-    } else {
-      const lastActivity =
-        history[history.length - 1];
+      let earned = 1;
 
-      const lastDate =
-        lastActivity?.date;
-
-      if (lastDate === today) {
-        newStreak =
-          streak || 1;
+      if (Number(score) >= 90) {
+        earned = 3;
       } else if (
-        lastDate === yesterday
+        Number(score) >= 70
       ) {
-        newStreak =
-          (streak || 0) + 1;
-      } else {
-        newStreak = 1;
+        earned = 2;
       }
+
+      // -------------------------------------------------
+      // 📅 DATES
+      // -------------------------------------------------
+
+      const today =
+        getToday();
+
+      const yesterday =
+        getYesterday();
+
+      // -------------------------------------------------
+      // 🔥 CALCULATE STREAK
+      // -------------------------------------------------
+
+      let newStreak = 1;
+
+      if (
+        currentHistory.length > 0
+      ) {
+        const lastActivity =
+          currentHistory[
+            currentHistory.length - 1
+          ];
+
+        const lastDate =
+          lastActivity?.date;
+
+        if (
+          lastDate === today
+        ) {
+          newStreak =
+            currentStreak || 1;
+        } else if (
+          lastDate === yesterday
+        ) {
+          newStreak =
+            (currentStreak || 0) + 1;
+        } else {
+          newStreak = 1;
+        }
+      }
+
+      // -------------------------------------------------
+      // ⭐ NEW TOTAL STARS
+      // -------------------------------------------------
+
+      const newStars =
+        currentStars + earned;
+
+      // -------------------------------------------------
+      // 📚 NEW ACTIVITY
+      // -------------------------------------------------
+
+      const newActivity = {
+        date: today,
+
+        score:
+          Number(score) || 0,
+
+        stars: earned,
+
+        game: gameName,
+      };
+
+      // -------------------------------------------------
+      // 📚 NEW HISTORY
+      // -------------------------------------------------
+
+      const newHistory = [
+        ...currentHistory,
+        newActivity,
+      ];
+
+      // -------------------------------------------------
+      // 💾 SAVE FINAL PROGRESS TO FIREBASE
+      // -------------------------------------------------
+
+      await setDoc(
+        progressRef,
+        {
+          userId,
+
+          stars: newStars,
+
+          history: newHistory,
+
+          streak: newStreak,
+
+          updatedAt: new Date(),
+        },
+        {
+          merge: true,
+        }
+      );
+
+      // -------------------------------------------------
+      // 🔄 UPDATE LOCAL UI ONLY AFTER FIREBASE SUCCESS
+      // -------------------------------------------------
+
+      setStars(newStars);
+
+      setHistory(newHistory);
+
+      setStreak(newStreak);
+
+      console.log(
+        "✅ FINAL PROGRESS SAVED:",
+        {
+          stars: newStars,
+          streak: newStreak,
+          history: newHistory,
+        }
+      );
+
+    } catch (error) {
+      console.error(
+        "❌ FINAL PROGRESS SAVE FAILED:",
+        error
+      );
+
+      throw error;
     }
-
-
-    /* ---------------------------------------------
-       ⭐ NEW TOTAL
-    --------------------------------------------- */
-
-    const newStars =
-      stars + earned;
-
-
-    /* ---------------------------------------------
-       📚 ADD ACTIVITY HISTORY
-    --------------------------------------------- */
-
-    const newActivity = {
-      date: today,
-
-      score: Number(score) || 0,
-
-      stars: earned,
-
-      game: gameName,
-    };
-
-    const newHistory = [
-      ...history,
-      newActivity,
-    ];
-
-
-    /* ---------------------------------------------
-       🔄 UPDATE UI IMMEDIATELY
-    --------------------------------------------- */
-
-    setStars(newStars);
-
-    setHistory(newHistory);
-
-    setStreak(newStreak);
-
-
-    /* ---------------------------------------------
-       💾 SAVE TO FIREBASE
-    --------------------------------------------- */
-
-    await saveToFirebase(
-      userId,
-      newStars,
-      newHistory,
-      newStreak,
-      activeGames
-    );
   };
 
-
-  /* =====================================================
-     🏁 COMPLETE GAME
-  =====================================================
-
-     This helper does TWO things:
-
-     1. Adds score/stars/history
-     2. Removes resume progress
-
-     Example:
-
-     await completeGame(
-       100,
-       "Find Friend",
-       "find-friend"
-     );
-
-  ===================================================== */
+  // =====================================================
+  // 🏁 COMPLETE GAME
+  // =====================================================
 
   const completeGame = async (
     score,
     gameName = "Game",
     gameId
   ) => {
-    /* ---------------------------------------------
-       ⭐ SAVE SCORE + STARS
-    --------------------------------------------- */
-
-    await addStars(
-      score,
-      gameName
-    );
-
-    /* ---------------------------------------------
-       🗑️ GAME IS FINISHED
-       REMOVE RESUME DATA
-    --------------------------------------------- */
-
-    if (gameId) {
-      await clearGameProgress(
-        gameId
+    if (!userId) {
+      console.warn(
+        "⚠️ Cannot complete game: no logged-in user."
       );
+
+      return;
+    }
+
+    try {
+      console.log(
+        "🏁 COMPLETE GAME:",
+        {
+          userId,
+          score,
+          gameName,
+          gameId,
+        }
+      );
+
+      // -------------------------------------------------
+      // 1️⃣ SAVE STARS + HISTORY + STREAK
+      // -------------------------------------------------
+
+      await addStars(
+        score,
+        gameName
+      );
+
+      // -------------------------------------------------
+      // 2️⃣ REMOVE RESUME DATA
+      // -------------------------------------------------
+
+      if (gameId) {
+        const progressRef =
+          doc(
+            db,
+            "progress",
+            userId
+          );
+
+        // Read latest Firebase state
+        const progressSnap =
+          await getDoc(
+            progressRef
+          );
+
+        const firebaseData =
+          progressSnap.exists()
+            ? progressSnap.data()
+            : {};
+
+        const existingActiveGames =
+          firebaseData.activeGames &&
+          typeof firebaseData.activeGames ===
+            "object"
+            ? firebaseData.activeGames
+            : {};
+
+        const updatedActiveGames = {
+          ...existingActiveGames,
+        };
+
+        delete updatedActiveGames[
+          gameId
+        ];
+
+        // Save ONLY activeGames.
+        // stars/history/streak remain untouched.
+        await setDoc(
+          progressRef,
+          {
+            activeGames:
+              updatedActiveGames,
+
+            updatedAt:
+              new Date(),
+          },
+          {
+            merge: true,
+          }
+        );
+
+        setActiveGames(
+          updatedActiveGames
+        );
+
+        console.log(
+          "🗑️ Resume progress cleared:",
+          gameId
+        );
+      }
+
+      console.log(
+        "🎉 GAME COMPLETED SUCCESSFULLY"
+      );
+
+    } catch (error) {
+      console.error(
+        "❌ COMPLETE GAME FAILED:",
+        error
+      );
+
+      throw error;
     }
   };
 
-
-  /* =====================================================
-     🔄 RESET USER PROGRESS
-  ===================================================== */
+  // =====================================================
+  // 🔄 RESET USER PROGRESS
+  // =====================================================
 
   const resetProgress = async () => {
     if (!userId) {
@@ -698,39 +844,38 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-
-  /* =====================================================
-     📦 CONTEXT
-  ===================================================== */
+  // =====================================================
+  // 📦 CONTEXT
+  // =====================================================
 
   return (
     <GameContext.Provider
       value={{
-        /* 👤 USER */
+        // 👤 USER
         userId,
 
-        /* ⭐ OVERALL PROGRESS */
+        // ⭐ OVERALL PROGRESS
         stars,
         history,
         streak,
 
-        /* 🎮 RESUME PROGRESS */
+        // 🎮 RESUME PROGRESS
         activeGames,
 
-        /* ⏳ LOADING */
+        // ⏳ LOADING
         loadingProgress,
 
-        /* ⭐ EXISTING FUNCTIONS */
+        // ⭐ FUNCTIONS
         addStars,
         resetProgress,
 
-        /* 🎮 NEW GAME FUNCTIONS */
+        // 🎮 GAME FUNCTIONS
         saveGameProgress,
         getGameProgress,
         clearGameProgress,
         completeGame,
 
-        /* 🔄 RELOAD */
+        // 🔄 RELOAD
         reloadProgress: () => {
           if (userId) {
             loadProgress(userId);
@@ -743,10 +888,9 @@ export const GameProvider = ({ children }) => {
   );
 };
 
-
-/* =========================================================
-   🎮 HOOK
-========================================================= */
+// =========================================================
+// 🎮 HOOK
+// =========================================================
 
 export const useGame = () =>
   useContext(GameContext);

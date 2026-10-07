@@ -315,6 +315,8 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 
 const WORKER_URL =
@@ -340,7 +342,33 @@ export default function AIChat() {
 
   // 🔐 GET LOGGED-IN USER
   const userId = localStorage.getItem("userId");
+ const [childName, setChildName] = useState("");
+ useEffect(() => {
+  const loadChildName = async () => {
+    try {
+      if (!userId) return;
 
+      const userRef = doc(db, "users", userId);
+      const snap = await getDoc(userRef);
+
+      if (snap.exists()) {
+        const data = snap.data();
+        setChildName(data.name || "");
+      }
+    } catch (error) {
+      console.error("❌ Failed to load child name:", error);
+
+      // Fallback to localStorage
+      const childProfile = JSON.parse(
+        localStorage.getItem("childProfile") || "{}"
+      );
+
+      setChildName(childProfile.name || "");
+    }
+  };
+
+  loadChildName();
+}, [userId]);
   // =========================================================
   // 📥 LOAD SAVED CHATS FROM FIRESTORE
   // =========================================================
@@ -489,6 +517,7 @@ export default function AIChat() {
       type: "chat",
 
       context: {
+        childName,
         stars,
         streak,
         recentHistory: history.slice(-10),
@@ -611,20 +640,61 @@ export default function AIChat() {
       setLoading(false);
     }
   };
+
+  const CURIOKIDS_GAMES = {
+  "Letter Recognition": "/letter-recognition",
+  "Sound Matching": "/sound-matching",
+  "Word Builder": "/word-builder",
+  "Letter Tracing": "/letter-tracing",
+  "Confusing Letters": "/confusing-letters",
+  "Beginning Sounds": "/beginning-sounds",
+  "Ending Sounds": "/ending-sounds",
+  "Blend Sounds": "/blend-sounds",
+  "Break Word": "/break-word",
+  "Missing Letter": "/missing-letter",
+  "Sight Words": "/sight-words",
+  "Word Scramble": "/word-scramble",
+  "Sentence Builder": "/sentence-builder",
+  "Match Word To Picture": "/match-word-picture",
+  "Number Tracing": "/number-tracing",
+  "Sound Tap": "/sound-tap",
+  "Pattern Copy": "/pattern-copy",
+  "Find Friend": "/find-friend",
+  "Catch Word": "/catch-word",
+  "Fill Bucket": "/fill-bucket",
+  "Weather Clothes": "/weather-clothes",
+};
 const renderAIText = (text) => {
   return text.split("\n").map((line, index) => {
     const trimmed = line.trim();
 
-    // Empty line = spacing between sections
     if (!trimmed) {
       return <div key={index} className="ai-space" />;
     }
 
-    // Heading: **Something**
-    if (
-      trimmed.startsWith("**") &&
-      trimmed.endsWith("**")
-    ) {
+    // 🎮 CurioKids internal game link
+    const gameMatch = trimmed.match(/^\[\[GAME:(.*?)\]\]$/);
+
+    if (gameMatch) {
+      const gameName = gameMatch[1].trim();
+      const gamePath = CURIOKIDS_GAMES[gameName];
+
+      // Only create a link if the game is approved
+      if (!gamePath) {
+        return null;
+      }
+
+      return (
+        <div key={index} className="ai-game-link">
+          <a href={gamePath}>
+            🎮 Play {gameName}
+          </a>
+        </div>
+      );
+    }
+
+    // 🏷️ Bold heading
+    if (trimmed.startsWith("**") && trimmed.endsWith("**")) {
       return (
         <div key={index} className="ai-heading">
           {trimmed.slice(2, -2)}
@@ -632,7 +702,7 @@ const renderAIText = (text) => {
       );
     }
 
-    // Bullet point
+    // • Bullet point
     if (trimmed.startsWith("- ")) {
       return (
         <div key={index} className="ai-bullet">
@@ -649,6 +719,7 @@ const renderAIText = (text) => {
     );
   });
 };
+
   // =========================================================
   // ⏳ LOADING SCREEN
   // =========================================================

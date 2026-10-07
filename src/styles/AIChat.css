@@ -1443,6 +1443,18 @@
   height: 8px;
 }
 
+.ai-game-link {
+  margin: 10px 0;
+}
+
+.ai-game-link a {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 10px;
+}
+
 /* 💻 LARGE SCREENS (≥1200px) */
 @media (min-width: 1200px) {
 

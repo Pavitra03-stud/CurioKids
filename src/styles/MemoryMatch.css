@@ -1,94 +1,967 @@
-/* 🌿 Page */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
 .memory-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #a8e063, #56ab2f);
+  width: 100%;
+
+  background:
+    linear-gradient(
+      rgba(20, 64, 43, 0.38),
+      rgba(20, 64, 43, 0.38)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  font-family: "Nunito", sans-serif;
+
+  color: #422816;
+
+  padding-bottom: 55px;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.memory-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  min-height: 72px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 13px 35px;
+
+  background: #174f35;
+
+  border-bottom: 5px solid #e9bd45;
+
+  box-shadow:
+    0 5px 16px rgba(0, 0, 0, 0.3);
+}
+
+.memory-brand {
+  color: #fff5d6;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.memory-title {
+  color: #ffe69a;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.memory-main {
+  width: min(1050px, 94vw);
+
+  margin: 0 auto;
+
+  padding: 35px 0 50px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.memory-header-card {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  margin-bottom: 18px;
+
+  padding: 23px 28px;
+
+  border-radius: 27px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b96f32,
+      #8b4b23
+    );
+
+  border: 4px solid #e0a33c;
+
+  box-shadow:
+    0 10px 0 #5c3019,
+    0 17px 30px rgba(0, 0, 0, 0.28);
+}
+
+.memory-header-icon {
+  width: 66px;
+  height: 66px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 19px;
+
+  background: #f8df9b;
+
+  border: 3px solid #d2a23f;
+
+  font-size: 35px;
+
+  box-shadow:
+    0 5px 0 #986023;
+}
+
+.memory-header-card h1 {
+  margin: 0;
+
+  color: #fff0bd;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: clamp(28px, 4vw, 42px);
+
+  font-weight: 800;
+}
+
+.memory-header-card p {
+  margin: 4px 0 0;
+
+  color: #ffe5a5;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.memory-info-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  margin-bottom: 20px;
+
+  padding: 16px 22px;
+
+  border-radius: 22px;
+
+  background: #f8df9e;
+
+  border: 3px solid #d3a445;
+
+  box-shadow:
+    0 7px 0 #8f5c24,
+    0 12px 22px rgba(0, 0, 0, 0.2);
+}
+
+.memory-info-item {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.memory-info-item > span {
+  font-size: 28px;
+}
+
+.memory-info-item div {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  font-family: "Poppins", sans-serif;
-  padding: 20px;
 }
 
-/* 🌴 Header */
-.memory-header {
-  width: 100%;
-  background: #184d36;
-  color: white;
-  padding: 15px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+.memory-info-item small {
+  color: #76532c;
+
+  font-size: 12px;
+  font-weight: 800;
 }
 
-.memory-header h1 {
-  font-size: 1.3rem;
+.memory-info-item strong {
+  color: #533117;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 20px;
+  font-weight: 800;
 }
 
-/* 🔙 Back */
-.back-btn {
-  position: absolute;
-  left: 10px;
-  background: white;
-  border: none;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
+.memory-info-divider {
+  width: 2px;
+  height: 42px;
+
+  background: #d1a34a;
 }
 
-/* 🧠 Text */
-.memory-text {
-  margin-top: 20px;
-  font-size: 1.2rem;
-  color: #1b4332;
+/* =========================================================
+   INSTRUCTION
+========================================================= */
+
+.memory-instruction {
+  width: fit-content;
+
+  margin: 0 auto 20px;
+
+  padding: 10px 19px;
+
+  border-radius: 999px;
+
+  background: #f7df9b;
+
+  border: 2px solid #d5a945;
+
+  color: #5b381b;
+
+  font-size: 15px;
+  font-weight: 900;
+
+  box-shadow:
+    0 4px 0 rgba(77, 42, 19, 0.25);
 }
 
-/* 🧩 Grid */
+/* =========================================================
+   BOARD
+========================================================= */
+
+.memory-board {
+  padding: 30px;
+
+  border-radius: 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b86d31,
+      #884820
+    );
+
+  border: 5px solid #dfa23c;
+
+  box-shadow:
+    0 15px 0 #5b2f18,
+    0 23px 38px rgba(0, 0, 0, 0.32);
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
 .memory-grid {
-  margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(4, 70px);
-  gap: 15px;
+
+  grid-template-columns:
+    repeat(4, minmax(100px, 1fr));
+
+  gap: 18px;
+
+  max-width: 700px;
+
+  margin: 0 auto;
 }
 
-/* 🃏 Card */
+/* =========================================================
+   CARD
+========================================================= */
+
 .memory-card {
-  background: white;
-  border-radius: 15px;
-  height: 70px;
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 1 / 1;
+
+  border: none;
+
+  padding: 0;
+
+  border-radius: 20px;
+
+  cursor: pointer;
+
+  background: #f5d889;
+
+  border: 4px solid #d29c39;
+
+  box-shadow:
+    0 8px 0 #86511f,
+    0 11px 15px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.memory-card:hover:not(:disabled) {
+  transform: translateY(-5px) rotate(-1deg);
+
+  background: #ffe8a5;
+
+  box-shadow:
+    0 12px 0 #7d4c1e,
+    0 16px 22px rgba(0, 0, 0, 0.28);
+}
+
+.memory-card:active:not(:disabled) {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 4px 0 #86511f;
+}
+
+.memory-card span {
+  position: absolute;
+
+  inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: 0.2s;
+
+  border-radius: 14px;
+
+  font-size: clamp(38px, 6vw, 62px);
+
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
-.memory-card:hover {
-  transform: scale(1.05);
+/* =========================================================
+   FRONT
+========================================================= */
+
+.card-front {
+  color: #6e451f;
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      #ffeab0,
+      #e7bd62
+    );
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: clamp(35px, 5vw, 55px) !important;
+
+  text-shadow:
+    0 2px 0 #fff1bd;
 }
 
-.memory-card.flipped {
-  background: #e0ffe0;
+/* =========================================================
+   BACK
+========================================================= */
+
+.card-back {
+  opacity: 0;
+
+  transform: scale(0.65);
+
+  background: #fff0bd;
 }
 
-/* 💬 Feedback */
-.feedback {
+.memory-card.flipped .card-front {
+  opacity: 0;
+
+  transform: scale(0.65);
+}
+
+.memory-card.flipped .card-back {
+  opacity: 1;
+
+  transform: scale(1);
+}
+
+/* =========================================================
+   MATCHED
+========================================================= */
+
+.memory-card.matched {
+  border-color: #68a74d;
+
+  background: #d8edbd;
+
+  box-shadow:
+    0 7px 0 #4a7e3a,
+    0 10px 18px rgba(0, 0, 0, 0.2);
+}
+
+.memory-card.matched .card-back {
+  background: #e7f5d2;
+}
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.memory-feedback {
+  width: fit-content;
+
+  min-width: 180px;
+
+  margin: 25px auto 0;
+
+  padding: 13px 24px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.feedback-good {
+  background: #d1edc7;
+
+  border: 3px solid #72af65;
+
+  color: #28652f;
+
+  box-shadow:
+    0 6px 0 #4c8746;
+}
+
+.feedback-wrong {
+  background: #f7d5aa;
+
+  border: 3px solid #d0924f;
+
+  color: #794b20;
+
+  box-shadow:
+    0 6px 0 #9d632a;
+}
+
+/* =========================================================
+   TIP
+========================================================= */
+
+.memory-tip {
   margin-top: 20px;
-  font-size: 1.3rem;
-  color: #1b4332;
+
+  text-align: center;
+
+  color: #fff0bd;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* ➡ Button */
-.next-btn {
-  margin-top: 20px;
-  background: #00c9a7;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 25px;
-  cursor: pointer;
+/* =========================================================
+   LOADING
+========================================================= */
+
+.memory-loading-card {
+  width: min(520px, 90%);
+
+  margin: 100px auto;
+
+  padding: 50px 30px;
+
+  text-align: center;
+
+  border-radius: 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b86d31,
+      #7e421f
+    );
+
+  border: 5px solid #dda13b;
+
+  box-shadow:
+    0 13px 0 #5c3019,
+    0 22px 35px rgba(0, 0, 0, 0.3);
+}
+
+.loading-animal {
+  font-size: 70px;
+
+  margin-bottom: 15px;
+
+  animation:
+    memoryFloat 1.4s
+    infinite ease-in-out;
+}
+
+.memory-loading-card h1 {
+  margin: 0;
+
+  color: #fff0bd;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 29px;
+}
+
+.memory-loading-card p {
+  color: #ffe2a1;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.loading-dots {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  color: #f2c64f;
+
+  font-size: 30px;
+}
+
+.loading-dots span {
+  animation:
+    memoryDot 1s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+.memory-completion-card {
+  width: min(620px, 92%);
+
+  margin: 65px auto;
+
+  padding: 42px 30px;
+
+  text-align: center;
+
+  border-radius: 35px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b86d31,
+      #7e421f
+    );
+
+  border: 5px solid #e0a33c;
+
+  box-shadow:
+    0 16px 0 #5b2f18,
+    0 24px 40px rgba(0, 0, 0, 0.34);
+}
+
+.completion-confetti {
+  font-size: 28px;
+
+  margin-bottom: 5px;
+}
+
+.completion-animal {
+  font-size: 75px;
+
+  animation:
+    memoryFloat 1.4s
+    infinite ease-in-out;
+}
+
+.memory-completion-card h1 {
+  margin: 8px 0 5px;
+
+  color: #fff0bd;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 37px;
+}
+
+.memory-completion-card > p {
+  margin: 0 0 22px;
+
+  color: #ffe2a3;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   COMPLETION STATS
+========================================================= */
+
+.completion-stats {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 18px;
+
+  margin: 22px auto;
+
+  max-width: 360px;
+}
+
+.completion-stat {
+  flex: 1;
+
+  padding: 17px 10px;
+
+  border-radius: 19px;
+
+  background: #f7df9b;
+
+  border: 3px solid #d1a143;
+
+  color: #593619;
+
+  box-shadow:
+    0 6px 0 #956023;
+}
+
+.completion-stat span {
+  display: block;
+
+  font-size: 26px;
+}
+
+.completion-stat strong {
+  display: block;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 25px;
+}
+
+.completion-stat small {
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   COMPLETION MESSAGE
+========================================================= */
+
+.completion-message {
+  margin-bottom: 22px;
+
+  padding: 14px;
+
+  border-radius: 16px;
+
+  background: #f7dfa1;
+
+  border: 2px solid #d0a03f;
+
+  color: #68441f;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   PLAY AGAIN
+========================================================= */
+
+.memory-play-again {
+  width: 100%;
+
+  border: 3px solid #326f37;
+
+  border-radius: 18px;
+
+  padding: 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4aa653,
+      #78c34e
+    );
+
   color: white;
-  font-weight: bold;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 19px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 0 #2d6332;
+
+  transition:
+    transform 0.18s ease;
+}
+
+.memory-play-again:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes memoryFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@keyframes memoryDot {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+  .memory-navbar {
+    padding: 12px 22px;
+  }
+
+  .memory-brand {
+    font-size: 24px;
+  }
+
+  .memory-title {
+    font-size: 20px;
+  }
+
+  .memory-main {
+    padding-top: 28px;
+  }
+
+  .memory-board {
+    padding: 23px;
+  }
+
+  .memory-grid {
+    gap: 14px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+  .memory-page {
+    background-attachment: scroll;
+  }
+
+  .memory-navbar {
+    min-height: 65px;
+
+    padding: 10px 15px;
+  }
+
+  .memory-brand {
+    font-size: 19px;
+  }
+
+  .memory-title {
+    font-size: 15px;
+  }
+
+  .memory-main {
+    width: 94vw;
+
+    padding-top: 24px;
+  }
+
+  .memory-header-card {
+    padding: 18px;
+
+    gap: 12px;
+
+    border-radius: 22px;
+  }
+
+  .memory-header-icon {
+    width: 52px;
+    height: 52px;
+
+    font-size: 27px;
+
+    border-radius: 15px;
+  }
+
+  .memory-header-card h1 {
+    font-size: 27px;
+  }
+
+  .memory-header-card p {
+    font-size: 13px;
+  }
+
+  .memory-info-card {
+    padding: 13px 10px;
+  }
+
+  .memory-info-item {
+    gap: 5px;
+  }
+
+  .memory-info-item > span {
+    font-size: 20px;
+  }
+
+  .memory-info-item small {
+    font-size: 10px;
+  }
+
+  .memory-info-item strong {
+    font-size: 17px;
+  }
+
+  .memory-info-divider {
+    height: 35px;
+  }
+
+  .memory-instruction {
+    font-size: 13px;
+
+    text-align: center;
+  }
+
+  .memory-board {
+    padding: 18px 12px 22px;
+
+    border-radius: 25px;
+
+    border-width: 4px;
+  }
+
+  .memory-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 11px;
+  }
+
+  .memory-card {
+    border-width: 3px;
+
+    border-radius: 15px;
+
+    box-shadow:
+      0 5px 0 #86511f,
+      0 8px 12px rgba(0, 0, 0, 0.22);
+  }
+
+  .memory-card span {
+    border-radius: 10px;
+
+    font-size: 38px;
+  }
+
+  .card-front {
+    font-size: 34px !important;
+  }
+
+  .completion-stats {
+    gap: 10px;
+  }
+
+  .memory-completion-card {
+    padding: 35px 20px;
+  }
+
+  .memory-completion-card h1 {
+    font-size: 31px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+  .memory-brand {
+    font-size: 17px;
+  }
+
+  .memory-title {
+    font-size: 13px;
+  }
+
+  .memory-info-card {
+    gap: 4px;
+  }
+
+  .memory-info-item > span {
+    display: none;
+  }
+
+  .memory-grid {
+    gap: 8px;
+  }
+
+  .memory-card {
+    border-radius: 12px;
+  }
+
+  .memory-card span {
+    font-size: 31px;
+  }
+
+  .card-front {
+    font-size: 29px !important;
+  }
 }

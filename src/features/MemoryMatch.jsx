@@ -1,107 +1,3 @@
-// import { useState, useEffect } from "react";
-// import "../styles/MemoryMatch.css";
-
-// const EMOJIS = ["🐶", "🐱", "🐸", "🐵", "🐰", "🦊"];
-
-// export default function MemoryMatch({ goBack }) {
-//   const [cards, setCards] = useState([]);
-//   const [flipped, setFlipped] = useState([]);
-//   const [matched, setMatched] = useState([]);
-//   const [message, setMessage] = useState("");
-
-//   useEffect(() => {
-//     startGame();
-//   }, []);
-
-//   const shuffle = (array) => {
-//     return [...array].sort(() => Math.random() - 0.5);
-//   };
-
-//   const startGame = () => {
-//     const doubled = [...EMOJIS, ...EMOJIS];
-//     const shuffled = shuffle(doubled).map((emoji, index) => ({
-//       id: index,
-//       emoji,
-//     }));
-
-//     setCards(shuffled);
-//     setFlipped([]);
-//     setMatched([]);
-//     setMessage("");
-//   };
-
-//   const handleClick = (card) => {
-//     if (flipped.length === 2 || flipped.includes(card.id)) return;
-
-//     const newFlipped = [...flipped, card.id];
-//     setFlipped(newFlipped);
-
-//     if (newFlipped.length === 2) {
-//       const [first, second] = newFlipped;
-//       const firstCard = cards.find((c) => c.id === first);
-//       const secondCard = cards.find((c) => c.id === second);
-
-//       if (firstCard.emoji === secondCard.emoji) {
-//         setMatched((prev) => [...prev, first, second]);
-//         setFlipped([]);
-//       } else {
-//         setTimeout(() => setFlipped([]), 800);
-//       }
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (matched.length === cards.length && cards.length > 0) {
-//       setMessage("Amazing! 🎉");
-//     }
-//   }, [matched, cards]);
-
-//   return (
-//     <div className="memory-page">
-
-//       {/* Header */}
-//       <div className="memory-header">
-//         <button className="back-btn" onClick={goBack}>⬅</button>
-//         <h1>Memory Match</h1>
-//       </div>
-
-//       {/* Instruction */}
-//       <p className="memory-text">Match the pairs</p>
-
-//       {/* Grid */}
-//       <div className="memory-grid">
-//         {cards.map((card) => {
-//           const isFlipped =
-//             flipped.includes(card.id) || matched.includes(card.id);
-
-//           return (
-//             <div
-//               key={card.id}
-//               className={`memory-card ${isFlipped ? "flipped" : ""}`}
-//               onClick={() => handleClick(card)}
-//             >
-//               {isFlipped ? card.emoji : "❓"}
-//             </div>
-//           );
-//         })}
-//       </div>
-
-//       {/* Message */}
-//       <h2 className="feedback">{message}</h2>
-
-//       {/* Restart */}
-//       {message && (
-//         <button className="next-btn" onClick={startGame}>
-//           Play Again →
-//         </button>
-//       )}
-//     </div>
-//   );
-// }/
-
-
-
-
 import { useEffect, useState } from "react";
 import "../styles/MemoryMatch.css";
 import useGameProgress from "../hooks/useGameProgress";
@@ -120,10 +16,6 @@ const EMOJIS = [
 const TOTAL_PAIRS = EMOJIS.length;
 
 export default function MemoryMatch({ goBack }) {
-  /* =========================================================
-     FIREBASE PROGRESS
-  ========================================================= */
-
   const initialState = {
     cards: [],
     flipped: [],
@@ -143,33 +35,14 @@ export default function MemoryMatch({ goBack }) {
     initialState
   );
 
-  /* =========================================================
-     STATES
-  ========================================================= */
-
-  const [cards, setCards] =
-    useState([]);
-
-  const [flipped, setFlipped] =
-    useState([]);
-
-  const [matched, setMatched] =
-    useState([]);
-
-  const [message, setMessage] =
-    useState("");
-
-  const [moves, setMoves] =
-    useState(0);
-
-  const [completed, setCompleted] =
-    useState(false);
-
-  const [restored, setRestored] =
-    useState(false);
-
-  const [checking, setChecking] =
-    useState(false);
+  const [cards, setCards] = useState([]);
+  const [flipped, setFlipped] = useState([]);
+  const [matched, setMatched] = useState([]);
+  const [message, setMessage] = useState("");
+  const [moves, setMoves] = useState(0);
+  const [completed, setCompleted] = useState(false);
+  const [restored, setRestored] = useState(false);
+  const [checking, setChecking] = useState(false);
 
   /* =========================================================
      SHUFFLE
@@ -233,9 +106,7 @@ export default function MemoryMatch({ goBack }) {
       savedState &&
       savedState.cards?.length > 0
     ) {
-      setCards(
-        savedState.cards
-      );
+      setCards(savedState.cards);
 
       setFlipped(
         savedState.flipped || []
@@ -259,9 +130,6 @@ export default function MemoryMatch({ goBack }) {
         )
       );
     } else {
-      /*
-       * First time opening the game.
-       */
       const doubled = [
         ...EMOJIS,
         ...EMOJIS,
@@ -293,27 +161,19 @@ export default function MemoryMatch({ goBack }) {
      HANDLE CARD CLICK
   ========================================================= */
 
-  const handleClick = async (
-    card
-  ) => {
+  const handleClick = async (card) => {
     if (checking) return;
     if (completed) return;
 
-    if (
-      flipped.length === 2
-    ) {
+    if (flipped.length === 2) {
       return;
     }
 
-    if (
-      flipped.includes(card.id)
-    ) {
+    if (flipped.includes(card.id)) {
       return;
     }
 
-    if (
-      matched.includes(card.id)
-    ) {
+    if (matched.includes(card.id)) {
       return;
     }
 
@@ -322,17 +182,11 @@ export default function MemoryMatch({ goBack }) {
       card.id,
     ];
 
-    setFlipped(
-      newFlipped
-    );
+    setFlipped(newFlipped);
 
-    /* =======================================================
-       FIRST CARD
-    ======================================================= */
+    /* FIRST CARD */
 
-    if (
-      newFlipped.length === 1
-    ) {
+    if (newFlipped.length === 1) {
       await save({
         cards,
         flipped: newFlipped,
@@ -345,35 +199,28 @@ export default function MemoryMatch({ goBack }) {
       return;
     }
 
-    /* =======================================================
-       SECOND CARD
-    ======================================================= */
+    /* SECOND CARD */
 
     setChecking(true);
 
-    const updatedMoves =
-      moves + 1;
+    const updatedMoves = moves + 1;
 
-    setMoves(
-      updatedMoves
-    );
+    setMoves(updatedMoves);
 
     const [
       firstId,
       secondId,
     ] = newFlipped;
 
-    const firstCard =
-      cards.find(
-        (item) =>
-          item.id === firstId
-      );
+    const firstCard = cards.find(
+      (item) =>
+        item.id === firstId
+    );
 
-    const secondCard =
-      cards.find(
-        (item) =>
-          item.id === secondId
-      );
+    const secondCard = cards.find(
+      (item) =>
+        item.id === secondId
+    );
 
     if (!firstCard || !secondCard) {
       setFlipped([]);
@@ -381,9 +228,7 @@ export default function MemoryMatch({ goBack }) {
       return;
     }
 
-    /* =======================================================
-       MATCH
-    ======================================================= */
+    /* MATCH */
 
     if (
       firstCard.emoji ===
@@ -410,18 +255,11 @@ export default function MemoryMatch({ goBack }) {
 
       setFlipped([]);
 
-      setMessage(
-        newMessage
-      );
+      setMessage(newMessage);
 
-      /* =====================================================
-         GAME COMPLETE
-      ===================================================== */
+      /* GAME COMPLETE */
 
       if (isComplete) {
-        /*
-         * 6 pairs = 100%
-         */
         await finish(
           100,
           "Memory Match Animals"
@@ -434,10 +272,8 @@ export default function MemoryMatch({ goBack }) {
           flipped: [],
           matched:
             updatedMatched,
-          message:
-            newMessage,
-          moves:
-            updatedMoves,
+          message: newMessage,
+          moves: updatedMoves,
           completed: true,
         });
 
@@ -446,19 +282,15 @@ export default function MemoryMatch({ goBack }) {
         return;
       }
 
-      /* =====================================================
-         SAVE MATCHED STATE
-      ===================================================== */
+      /* SAVE MATCHED STATE */
 
       await save({
         cards,
         flipped: [],
         matched:
           updatedMatched,
-        message:
-          newMessage,
-        moves:
-          updatedMoves,
+        message: newMessage,
+        moves: updatedMoves,
         completed: false,
       });
 
@@ -467,29 +299,24 @@ export default function MemoryMatch({ goBack }) {
       return;
     }
 
-    /* =======================================================
-       WRONG MATCH
-    ======================================================= */
+    /* WRONG MATCH */
 
     const wrongMessage =
       "❌ Try again";
 
-    setMessage(
-      wrongMessage
-    );
+    setMessage(wrongMessage);
 
     await save({
       cards,
       flipped: newFlipped,
       matched,
-      message:
-        wrongMessage,
-      moves:
-        updatedMoves,
+      message: wrongMessage,
+      moves: updatedMoves,
       completed: false,
     });
 
     /* Hide cards after 800ms */
+
     setTimeout(async () => {
       setFlipped([]);
       setMessage("");
@@ -499,8 +326,7 @@ export default function MemoryMatch({ goBack }) {
         flipped: [],
         matched,
         message: "",
-        moves:
-          updatedMoves,
+        moves: updatedMoves,
         completed: false,
       });
 
@@ -519,22 +345,42 @@ export default function MemoryMatch({ goBack }) {
     return (
       <div className="memory-page">
 
-        <div className="memory-header">
-          <button
-            className="back-btn"
-            onClick={goBack}
-          >
-            ⬅
-          </button>
+        <nav className="memory-navbar">
+          <div className="memory-brand">
+            🌿 CurioKids
+          </div>
 
-          <h1>
-            Memory Match
-          </h1>
-        </div>
+          <div className="memory-title">
+            🧠 Memory Match
+          </div>
+        </nav>
 
-        <p className="memory-text">
-          Restoring your game...
-        </p>
+        <main className="memory-main">
+
+          <div className="memory-loading-card">
+
+            <div className="loading-animal">
+              🐵
+            </div>
+
+            <h1>
+              Getting the animals ready...
+            </h1>
+
+            <p>
+              Your memory adventure is
+              loading ✨
+            </p>
+
+            <div className="loading-dots">
+              <span>•</span>
+              <span>•</span>
+              <span>•</span>
+            </div>
+
+          </div>
+
+        </main>
 
       </div>
     );
@@ -548,50 +394,76 @@ export default function MemoryMatch({ goBack }) {
     return (
       <div className="memory-page">
 
-        <div className="memory-header">
+        <nav className="memory-navbar">
+          <div className="memory-brand">
+            🌿 CurioKids
+          </div>
 
-          <button
-            className="back-btn"
-            onClick={goBack}
-          >
-            ⬅
-          </button>
+          <div className="memory-title">
+            🧠 Memory Match
+          </div>
+        </nav>
 
-          <h1>
-            Memory Match
-          </h1>
+        <main className="memory-main">
 
-        </div>
+          <div className="memory-completion-card">
 
-        <p className="memory-text">
-          Match the pairs
-        </p>
-
-        <div className="memory-grid">
-
-          {cards.map((card) => (
-            <div
-              key={card.id}
-              className="memory-card flipped"
-            >
-              {card.emoji}
+            <div className="completion-confetti">
+              🎉 ✨ 🌟
             </div>
-          ))}
 
-        </div>
+            <div className="completion-animal">
+              🦊
+            </div>
 
-        <h2 className="feedback">
-          Amazing! 🎉
-        </h2>
+            <h1>
+              Memory Master!
+            </h1>
 
-        <button
-          className="next-btn"
-          onClick={
-            startGame
-          }
-        >
-          Play Again →
-        </button>
+            <p>
+              Amazing! You matched all
+              {TOTAL_PAIRS} animal pairs!
+            </p>
+
+            <div className="completion-stats">
+
+              <div className="completion-stat">
+                <span>🐾</span>
+                <strong>
+                  {TOTAL_PAIRS}
+                </strong>
+                <small>
+                  Pairs
+                </small>
+              </div>
+
+              <div className="completion-stat">
+                <span>🎯</span>
+                <strong>
+                  {moves}
+                </strong>
+                <small>
+                  Moves
+                </small>
+              </div>
+
+            </div>
+
+            <div className="completion-message">
+              🌟 Amazing memory! Keep
+              exploring and learning!
+            </div>
+
+            <button
+              className="memory-play-again"
+              onClick={startGame}
+            >
+              🔄 Play Again
+            </button>
+
+          </div>
+
+        </main>
 
       </div>
     );
@@ -604,70 +476,184 @@ export default function MemoryMatch({ goBack }) {
   return (
     <div className="memory-page">
 
-      {/* HEADER */}
-      <div className="memory-header">
+      {/* NAVBAR */}
 
-        <button
-          className="back-btn"
-          onClick={goBack}
-        >
-          ⬅
-        </button>
+      <nav className="memory-navbar">
 
-        <h1>
-          Memory Match
-        </h1>
+        <div className="memory-brand">
+          🌿 CurioKids
+        </div>
 
-      </div>
+        <div className="memory-title">
+          🧠 Memory Match
+        </div>
 
-      {/* INSTRUCTION */}
-      <p className="memory-text">
-        Match the pairs
-      </p>
+      </nav>
 
-      {/* MOVES */}
-      <p className="memory-text">
-        Moves: {moves}
-      </p>
+      <main className="memory-main">
 
-      {/* GRID */}
-      <div className="memory-grid">
+        {/* HEADER */}
 
-        {cards.map((card) => {
+        <section className="memory-header-card">
 
-          const isFlipped =
-            flipped.includes(
-              card.id
-            ) ||
-            matched.includes(
-              card.id
-            );
+          <div className="memory-header-icon">
+            🧠
+          </div>
 
-          return (
-            <div
-              key={card.id}
-              className={`memory-card ${
-                isFlipped
-                  ? "flipped"
-                  : ""
-              }`}
-              onClick={() =>
-                handleClick(card)
-              }
-            >
-              {isFlipped
-                ? card.emoji
-                : "❓"}
+          <div>
+            <h1>
+              Memory Match
+            </h1>
+
+            <p>
+              Find the matching animal pairs!
+            </p>
+          </div>
+
+        </section>
+
+        {/* GAME INFO */}
+
+        <section className="memory-info-card">
+
+          <div className="memory-info-item">
+            <span>🐾</span>
+
+            <div>
+              <small>
+                Pairs
+              </small>
+
+              <strong>
+                {matched.length / 2}/
+                {TOTAL_PAIRS}
+              </strong>
             </div>
-          );
-        })}
+          </div>
 
-      </div>
+          <div className="memory-info-divider" />
 
-      {/* MESSAGE */}
-      <h2 className="feedback">
-        {message}
-      </h2>
+          <div className="memory-info-item">
+            <span>🎯</span>
+
+            <div>
+              <small>
+                Moves
+              </small>
+
+              <strong>
+                {moves}
+              </strong>
+            </div>
+          </div>
+
+          <div className="memory-info-divider" />
+
+          <div className="memory-info-item">
+            <span>✨</span>
+
+            <div>
+              <small>
+                Matched
+              </small>
+
+              <strong>
+                {matched.length}/
+                {cards.length}
+              </strong>
+            </div>
+          </div>
+
+        </section>
+
+        {/* INSTRUCTION */}
+
+        <div className="memory-instruction">
+          💡 Match two cards with the
+          same animal!
+        </div>
+
+        {/* GRID */}
+
+        <section className="memory-board">
+
+          <div className="memory-grid">
+
+            {cards.map((card) => {
+
+              const isFlipped =
+                flipped.includes(
+                  card.id
+                ) ||
+                matched.includes(
+                  card.id
+                );
+
+              const isMatched =
+                matched.includes(
+                  card.id
+                );
+
+              return (
+                <button
+                  key={card.id}
+                  type="button"
+                  className={`memory-card ${
+                    isFlipped
+                      ? "flipped"
+                      : ""
+                  } ${
+                    isMatched
+                      ? "matched"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleClick(card)
+                  }
+                  disabled={
+                    checking ||
+                    isMatched
+                  }
+                >
+
+                  <span className="card-front">
+                    ❓
+                  </span>
+
+                  <span className="card-back">
+                    {card.emoji}
+                  </span>
+
+                </button>
+              );
+            })}
+
+          </div>
+
+        </section>
+
+        {/* MESSAGE */}
+
+        {message && (
+          <div
+            className={`memory-feedback ${
+              message.includes("Try")
+                ? "feedback-wrong"
+                : "feedback-good"
+            }`}
+          >
+            {message}
+          </div>
+        )}
+
+        {/* TIP */}
+
+        <div className="memory-tip">
+          🌈 Remember where each animal
+          is hiding!
+        </div>
+
+      </main>
 
     </div>
   );

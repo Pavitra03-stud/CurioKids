@@ -1,157 +1,176 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap");
+
 * {
   box-sizing: border-box;
 }
 
-.sight-page {
-  min-height: 100vh;
-  padding: 28px 20px 60px;
-
-  font-family:
-    "Nunito",
-    "Poppins",
-    Arial,
-    sans-serif;
-
-  color: #40534a;
-
-  background:
-    radial-gradient(
-      circle at 8% 12%,
-      rgba(255, 239, 174, 0.75),
-      transparent 22%
-    ),
-    radial-gradient(
-      circle at 94% 17%,
-      rgba(205, 238, 201, 0.8),
-      transparent 25%
-    ),
-    linear-gradient(
-      135deg,
-      #f8fcf4,
-      #f4faf7 50%,
-      #fffaf0
-    );
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
 
-.sight-shell {
-  width: min(960px, 100%);
-  margin: 0 auto;
+body {
+  font-family: "Nunito", sans-serif;
 }
 
 /* =========================================================
-   HEADER
+   PAGE
 ========================================================= */
 
-.sight-header {
-  display: flex;
-  align-items: center;
-
-  gap: 18px;
-
-  padding: 25px 28px;
-
-  background: rgba(255, 255, 255, 0.96);
-
-  border: 1px solid #e7eee6;
-
-  border-radius: 28px;
-
-  box-shadow:
-    0 15px 40px rgba(72, 103, 80, 0.08);
-
-  margin-bottom: 15px;
-}
-
-.garden-logo {
-  width: 66px;
-  height: 66px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
+.sight-page {
+  min-height: 100vh;
+  width: 100%;
 
   background:
     linear-gradient(
-      145deg,
-      #fff3ba,
-      #ffe8a0
-    );
+      rgba(15, 61, 37, 0.14),
+      rgba(15, 61, 37, 0.14)
+    ),
+    url("../assets/gamesHome.png");
 
-  border-radius: 22px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 
-  font-size: 34px;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.sight-navbar {
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 48px;
+
+  background: #1e5136;
+
+  border-bottom: 4px solid #e0b54b;
 
   box-shadow:
-    inset 0 2px 5px rgba(255,255,255,0.9);
+    0 5px 16px rgba(0, 0, 0, 0.32);
 }
 
-.garden-eyebrow {
-  margin: 0 0 4px;
+.sight-brand {
+  display: flex;
+  align-items: center;
 
-  color: #86a07f;
+  gap: 8px;
 
-  font-size: 10px;
+  color: #fff4d2;
 
-  font-weight: 900;
+  font-family: "Baloo 2", sans-serif;
 
-  letter-spacing: 1.6px;
+  font-size: 27px;
+  font-weight: 800;
 }
 
-.sight-header h1 {
-  margin: 0;
-
-  color: #35634d;
-
-  font-size: clamp(28px, 5vw, 42px);
-
-  line-height: 1;
-
-  font-weight: 900;
+.sight-brand span {
+  font-size: 22px;
 }
 
-.sight-header p:last-child {
-  margin: 8px 0 0;
+.sight-navbar-title {
+  color: #fff4d2;
 
-  color: #7f9286;
+  font-family: "Baloo 2", sans-serif;
 
-  font-size: 13px;
-
+  font-size: 22px;
   font-weight: 700;
 }
 
 /* =========================================================
-   GARDEN PROGRESS
+   MAIN
+========================================================= */
+
+.sight-main {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 34px 20px 55px;
+}
+
+/* =========================================================
+   OUTER WOODEN CARD
+========================================================= */
+
+.sight-game-card {
+  width: min(940px, 100%);
+
+  padding: 25px 32px 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b96a31,
+      #a45725 48%,
+      #90491e
+    );
+
+  border: 4px solid #dfb248;
+
+  border-radius: 30px;
+
+  box-shadow:
+    0 9px 0 rgba(70, 36, 15, 0.68),
+    0 18px 40px rgba(0, 0, 0, 0.34);
+}
+
+/* =========================================================
+   PROGRESS
 ========================================================= */
 
 .garden-progress-card {
-  padding: 17px 20px;
+  padding: 15px 19px;
 
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 
-  background: white;
+  background:
+    linear-gradient(
+      145deg,
+      #fff9e3,
+      #f0dfaa
+    );
 
-  border-radius: 22px;
+  border: 3px solid #d8ac43;
+
+  border-radius: 21px;
 
   box-shadow:
-    0 9px 25px rgba(72, 103, 80, 0.07);
+    0 5px 0 #8b5d24;
 }
 
 .garden-progress-top {
   display: flex;
 
   justify-content: space-between;
-
   align-items: center;
 
-  margin-bottom: 11px;
+  margin-bottom: 9px;
 }
 
 .garden-progress-top span {
   display: block;
 
-  color: #93a198;
+  margin-bottom: 1px;
+
+  color: #8a8d78;
 
   font-size: 9px;
 
@@ -161,15 +180,17 @@
 }
 
 .garden-progress-top strong {
-  color: #4b765c;
+  color: #376748;
 
-  font-size: 23px;
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
 
   font-weight: 900;
 }
 
 .garden-progress-top strong small {
-  color: #a5b1aa;
+  color: #a39f89;
 
   font-size: 12px;
 }
@@ -177,7 +198,7 @@
 .mini-flowers {
   display: flex;
 
-  gap: 5px;
+  gap: 4px;
 }
 
 .mini-flowers span {
@@ -189,11 +210,13 @@
 .flower-empty {
   filter: grayscale(1);
 
-  opacity: 0.22;
+  opacity: 0.25;
 }
 
 .flower-filled {
-  transform: translateY(-2px) scale(1.1);
+  transform:
+    translateY(-2px)
+    scale(1.1);
 }
 
 .garden-track {
@@ -201,7 +224,7 @@
 
   overflow: hidden;
 
-  background: #e9eee9;
+  background: #dfe4d9;
 
   border-radius: 30px;
 }
@@ -212,8 +235,8 @@
   background:
     linear-gradient(
       90deg,
-      #82bd72,
-      #b5cf65
+      #70a85e,
+      #b7c966
     );
 
   border-radius: 30px;
@@ -227,9 +250,9 @@
 
   justify-content: space-between;
 
-  margin-top: 7px;
+  margin-top: 6px;
 
-  color: #9aa79e;
+  color: #899687;
 
   font-size: 10px;
 
@@ -237,11 +260,11 @@
 }
 
 .garden-progress-bottom strong {
-  color: #82a76f;
+  color: #65905b;
 }
 
 /* =========================================================
-   MAIN GAME
+   MAIN GARDEN
 ========================================================= */
 
 .word-garden-card {
@@ -249,16 +272,23 @@
 
   overflow: hidden;
 
-  padding: 35px 35px 40px;
+  padding: 30px 30px 35px;
 
-  background: white;
+  background:
+    linear-gradient(
+      145deg,
+      #9f5526,
+      #87431c
+    );
 
-  border-radius: 34px;
+  border: 3px solid #d4a33e;
+
+  border-radius: 25px;
 
   text-align: center;
 
   box-shadow:
-    0 20px 55px rgba(72, 103, 80, 0.1);
+    inset 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .word-garden-card::before {
@@ -266,17 +296,17 @@
 
   position: absolute;
 
-  width: 180px;
-  height: 180px;
+  width: 190px;
+  height: 190px;
 
-  top: -100px;
-  left: -70px;
+  top: -120px;
+  left: -80px;
 
-  background: #fff4c8;
+  background: #e3bd61;
 
   border-radius: 50%;
 
-  opacity: 0.65;
+  opacity: 0.13;
 }
 
 .word-garden-card::after {
@@ -284,18 +314,22 @@
 
   position: absolute;
 
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
 
-  right: -70px;
-  bottom: -80px;
+  right: -90px;
+  bottom: -90px;
 
-  background: #e4f3dc;
+  background: #75a66b;
 
   border-radius: 50%;
 
-  opacity: 0.75;
+  opacity: 0.15;
 }
+
+/* =========================================================
+   QUESTION
+========================================================= */
 
 .garden-question-tag {
   position: relative;
@@ -304,13 +338,16 @@
 
   display: inline-flex;
 
-  padding: 8px 15px;
+  padding: 7px 14px;
 
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 
-  background: #eef7e9;
+  background:
+    rgba(255, 239, 179, 0.14);
 
-  color: #70976b;
+  border: 1px solid rgba(255, 220, 128, 0.5);
+
+  color: #ffe4a0;
 
   border-radius: 50px;
 
@@ -328,11 +365,13 @@
 
   margin: 0;
 
-  color: #3d624d;
+  color: #fff4d0;
 
-  font-size: clamp(24px, 4vw, 31px);
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: clamp(25px, 4vw, 32px);
+
+  font-weight: 800;
 }
 
 .garden-instruction {
@@ -340,9 +379,9 @@
 
   z-index: 1;
 
-  margin: 8px auto 23px;
+  margin: 6px auto 20px;
 
-  color: #91a097;
+  color: #f5dca7;
 
   font-size: 13px;
 
@@ -358,72 +397,76 @@
 
   z-index: 1;
 
-  width: 190px;
+  width: 185px;
   height: 175px;
 
-  margin: 0 auto 24px;
+  margin: 0 auto 22px;
 
   display: flex;
 
   flex-direction: column;
 
   align-items: center;
-
   justify-content: center;
 
   background:
     linear-gradient(
       180deg,
-      #f1f9eb,
-      #e5f3dc
+      #fff8df,
+      #f0dfa9
     );
 
-  border: 2px solid #e0eed9;
+  border: 3px solid #d7ac45;
 
-  border-radius: 45% 45% 32% 32%;
+  border-radius:
+    45%
+    45%
+    30%
+    30%;
 
   box-shadow:
-    0 10px 25px rgba(90, 125, 81, 0.08);
+    0 7px 0 #80531f,
+    0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .sun-decoration {
   position: absolute;
 
-  top: 13px;
-  right: 17px;
+  top: 12px;
+  right: 15px;
 
-  font-size: 21px;
+  font-size: 20px;
 }
 
 .picture-circle {
-  width: 105px;
-  height: 105px;
+  width: 102px;
+  height: 102px;
 
   display: flex;
 
   align-items: center;
   justify-content: center;
 
-  background: white;
+  background: #fffdf1;
 
-  border: 6px solid #f0f7e9;
+  border: 5px solid #f0e1b1;
 
   border-radius: 50%;
 
-  font-size: 57px;
+  font-size: 55px;
 
   box-shadow:
-    0 8px 20px rgba(68, 103, 73, 0.08);
+    0 6px 15px rgba(75, 67, 36, 0.12);
 }
 
 .grass {
   position: absolute;
 
-  bottom: 9px;
+  bottom: 8px;
 
-  color: #7cab6b;
+  color: #62955b;
 
-  font-size: 18px;
+  font-size: 17px;
 
   letter-spacing: 3px;
 }
@@ -452,7 +495,7 @@
 .word-card {
   position: relative;
 
-  min-height: 78px;
+  min-height: 76px;
 
   display: flex;
 
@@ -460,39 +503,59 @@
 
   gap: 12px;
 
-  padding: 13px 16px;
+  padding: 12px 15px;
 
-  border: 2px solid #e5ece4;
+  border: 3px solid #d4a946;
 
-  border-radius: 20px;
+  border-radius: 18px;
 
-  background: #fbfdf9;
+  background:
+    linear-gradient(
+      145deg,
+      #fff9e4,
+      #efdda6
+    );
 
-  color: #4b6655;
+  color: #315f44;
 
   cursor: pointer;
 
   text-align: left;
 
   box-shadow:
-    0 5px 13px rgba(65, 94, 72, 0.04);
+    0 6px 0 #906124,
+    0 9px 15px rgba(0, 0, 0, 0.18);
 
   transition:
     transform 0.18s ease,
-    border-color 0.18s ease,
-    background 0.18s ease,
-    box-shadow 0.18s ease;
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
 .word-card:hover:not(:disabled) {
   transform: translateY(-4px);
 
-  border-color: #b7d5ad;
-
-  background: #f6fbf2;
+  background:
+    linear-gradient(
+      145deg,
+      #fffde9,
+      #ffe8a5
+    );
 
   box-shadow:
-    0 10px 22px rgba(65, 94, 72, 0.09);
+    0 10px 0 #906124,
+    0 15px 20px rgba(0, 0, 0, 0.23);
+}
+
+.word-card:active:not(:disabled) {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 3px 0 #906124;
+}
+
+.word-card:disabled {
+  cursor: default;
 }
 
 .word-number {
@@ -506,9 +569,9 @@
 
   flex-shrink: 0;
 
-  background: #edf5e9;
+  background: #e7f0dd;
 
-  color: #82a177;
+  color: #65905a;
 
   border-radius: 10px;
 
@@ -520,9 +583,13 @@
 .word-text {
   flex: 1;
 
-  font-size: 20px;
+  color: #315f44;
 
-  font-weight: 900;
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 21px;
+
+  font-weight: 800;
 
   text-transform: lowercase;
 }
@@ -530,51 +597,48 @@
 .word-leaf {
   font-size: 18px;
 
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
 .word-card-1 .word-number {
-  background: #fff2d0;
+  background: #fff0c8;
 
-  color: #b08b42;
+  color: #a17c35;
 }
 
 .word-card-2 .word-number {
-  background: #e9f0fb;
+  background: #e3eedf;
 
-  color: #7890b2;
+  color: #628b5e;
 }
 
 .word-card-3 .word-number {
-  background: #f9e9ee;
+  background: #f7e4d1;
 
-  color: #b27b8d;
+  color: #a26f4d;
 }
 
-.word-selected {
-  border-color: #9cbf91;
-}
+/* =========================================================
+   CORRECT
+========================================================= */
 
 .word-correct {
-  background: #e8f6df !important;
+  background:
+    linear-gradient(
+      145deg,
+      #dff2bd,
+      #b8d987
+    ) !important;
 
-  border-color: #83bb72 !important;
+  border-color: #6da04e !important;
 
-  color: #477351 !important;
+  color: #285f37 !important;
+
+  box-shadow:
+    0 6px 0 #58813f !important;
 
   animation:
     wordCorrect 0.35s ease;
-}
-
-.word-wrong {
-  background: #fff0eb !important;
-
-  border-color: #dfaa9b !important;
-
-  color: #9e6458 !important;
-
-  animation:
-    wordWrong 0.35s ease;
 }
 
 @keyframes wordCorrect {
@@ -589,6 +653,29 @@
   100% {
     transform: scale(1);
   }
+}
+
+/* =========================================================
+   WRONG
+========================================================= */
+
+.word-wrong {
+  background:
+    linear-gradient(
+      145deg,
+      #ffe0d2,
+      #f0b19a
+    ) !important;
+
+  border-color: #d2846b !important;
+
+  color: #944c38 !important;
+
+  box-shadow:
+    0 6px 0 #b36a52 !important;
+
+  animation:
+    wordWrong 0.35s ease;
 }
 
 @keyframes wordWrong {
@@ -619,27 +706,33 @@
 
   max-width: 90%;
 
-  margin: 19px auto 0;
+  margin: 18px auto 0;
 
-  padding: 11px 18px;
+  padding: 10px 18px;
 
   border-radius: 50px;
 
-  font-size: 12px;
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: 14px;
+
+  font-weight: 800;
 }
 
 .feedback-good {
-  background: #e4f5dd;
+  background: #dff1bb;
 
-  color: #57845d;
+  color: #3e7047;
+
+  border: 2px solid #75a854;
 }
 
 .feedback-try {
-  background: #fff0ea;
+  background: #ffe3cc;
 
-  color: #9b6558;
+  color: #875438;
+
+  border: 2px solid #d59c62;
 }
 
 /* =========================================================
@@ -650,18 +743,17 @@
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
   gap: 7px;
 
   margin-top: 14px;
 
-  color: #94a198;
+  color: #fff0c5;
 
   text-align: center;
 
-  font-size: 10px;
+  font-size: 11px;
 
   font-weight: 800;
 }
@@ -674,34 +766,55 @@
    LOADING
 ========================================================= */
 
-.sight-loading {
-  min-height: 75vh;
+.sight-loading-card {
+  width: min(620px, 100%);
 
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
+  padding: 50px 30px;
 
   text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #a85a28,
+      #8e451c
+    );
+
+  border: 4px solid #dfb248;
+
+  border-radius: 30px;
+
+  box-shadow:
+    0 9px 0 rgba(70, 36, 15, 0.65),
+    0 18px 35px rgba(0, 0, 0, 0.3);
 }
 
 .loading-flower {
-  width: 90px;
-  height: 90px;
+  width: 86px;
+  height: 86px;
 
   display: flex;
 
   align-items: center;
   justify-content: center;
 
-  background: #fff1b8;
+  margin: 0 auto 18px;
 
-  border-radius: 50%;
+  background:
+    linear-gradient(
+      145deg,
+      #fff4c8,
+      #e8c56c
+    );
 
-  font-size: 45px;
+  border: 3px solid #dcae45;
+
+  border-radius: 24px;
+
+  font-size: 42px;
+
+  box-shadow:
+    0 7px 0 #875a22;
 
   animation:
     flowerFloat 1.7s
@@ -711,36 +824,44 @@
 @keyframes flowerFloat {
   0%,
   100% {
-    transform: translateY(0) rotate(-3deg);
+    transform:
+      translateY(0)
+      rotate(-3deg);
   }
 
   50% {
-    transform: translateY(-9px) rotate(3deg);
+    transform:
+      translateY(-8px)
+      rotate(3deg);
   }
 }
 
-.sight-loading h2 {
-  margin: 19px 0 7px;
+.sight-loading-card h2 {
+  margin: 0 0 7px;
 
-  color: #45604e;
+  color: #fff5d7;
 
-  font-size: 22px;
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: 27px;
+
+  font-weight: 800;
 }
 
-.sight-loading p {
+.sight-loading-card p {
   margin: 0;
 
-  color: #98a49c;
+  color: #ffe8b0;
 
-  font-size: 13px;
+  font-size: 14px;
 
   font-weight: 700;
 }
 
 .loading-leaves {
   display: flex;
+
+  justify-content: center;
 
   gap: 8px;
 
@@ -777,13 +898,15 @@
 .word-loading {
   grid-column: 1 / -1;
 
-  padding: 22px;
+  padding: 20px;
 
-  color: #92a097;
+  color: #ffe5aa;
 
-  font-size: 13px;
+  font-size: 14px;
 
   font-weight: 800;
+
+  text-align: center;
 }
 
 /* =========================================================
@@ -791,58 +914,70 @@
 ========================================================= */
 
 .garden-complete {
-  position: relative;
+  width: min(650px, 100%);
 
-  overflow: hidden;
+  padding: 40px 30px;
 
-  max-width: 650px;
+  background:
+    linear-gradient(
+      145deg,
+      #a85b29,
+      #8e451d
+    );
 
-  margin: 55px auto 0;
+  border: 4px solid #dfb248;
 
-  padding: 40px 28px;
-
-  background: white;
-
-  border-radius: 34px;
+  border-radius: 30px;
 
   text-align: center;
 
   box-shadow:
-    0 20px 55px rgba(72, 103, 80, 0.1);
+    0 9px 0 rgba(70, 36, 15, 0.65),
+    0 18px 40px rgba(0, 0, 0, 0.32);
 }
 
-.garden-sky {
-  width: 75px;
-  height: 75px;
+.garden-sun {
+  width: 88px;
+  height: 88px;
 
   display: flex;
 
   align-items: center;
   justify-content: center;
 
-  margin: 0 auto 8px;
+  margin: 0 auto 10px;
 
-  background: #fff3bb;
+  background:
+    linear-gradient(
+      145deg,
+      #fff4c9,
+      #e7c469
+    );
 
-  border-radius: 50%;
+  border: 3px solid #dcae45;
 
-  font-size: 37px;
+  border-radius: 24px;
+
+  font-size: 42px;
+
+  box-shadow:
+    0 7px 0 #835521;
 }
 
 .flower-burst {
-  margin-bottom: 12px;
+  margin-bottom: 11px;
 
-  font-size: 20px;
+  font-size: 19px;
 
-  letter-spacing: 5px;
+  letter-spacing: 4px;
 }
 
 .complete-label {
   margin: 0;
 
-  color: #88a479;
+  color: #f5d16e;
 
-  font-size: 9px;
+  font-size: 10px;
 
   font-weight: 900;
 
@@ -852,37 +987,45 @@
 .garden-complete h1 {
   margin: 7px 0;
 
-  color: #3d624c;
+  color: #fff5d7;
+
+  font-family: "Baloo 2", sans-serif;
 
   font-size: clamp(28px, 5vw, 40px);
 
-  font-weight: 900;
+  font-weight: 800;
 }
 
 .complete-subtitle {
-  margin: 0 0 23px;
+  margin: 0 0 22px;
 
-  color: #91a096;
+  color: #ffe9b5;
 
   font-size: 13px;
 
   font-weight: 700;
 }
 
+/* =========================================================
+   SCORE
+========================================================= */
+
 .flower-score {
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
-  gap: 14px;
+  gap: 13px;
 
   padding: 17px;
 
   margin-bottom: 14px;
 
-  background: #f3f9ef;
+  background:
+    rgba(71, 36, 18, 0.68);
+
+  border: 2px solid #d4a33d;
 
   border-radius: 21px;
 }
@@ -896,9 +1039,14 @@
   align-items: center;
   justify-content: center;
 
-  background: #fff2b7;
+  background:
+    linear-gradient(
+      145deg,
+      #fff2b7,
+      #e8c86e
+    );
 
-  border-radius: 17px;
+  border-radius: 16px;
 
   font-size: 27px;
 }
@@ -906,7 +1054,7 @@
 .flower-score span {
   display: block;
 
-  color: #95a099;
+  color: #f4d582;
 
   font-size: 9px;
 
@@ -920,9 +1068,11 @@
 .flower-score strong {
   display: block;
 
-  color: #608365;
+  color: #fff4d0;
 
-  font-size: 33px;
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 35px;
 
   font-weight: 900;
 
@@ -930,10 +1080,14 @@
 }
 
 .flower-score small {
-  color: #a5afa8;
+  color: #dbcda9;
 
   font-size: 16px;
 }
+
+/* =========================================================
+   RESULT
+========================================================= */
 
 .reading-result {
   display: flex;
@@ -946,7 +1100,10 @@
 
   margin-bottom: 20px;
 
-  background: #fffaf0;
+  background:
+    rgba(255, 238, 180, 0.12);
+
+  border: 1px solid rgba(255, 221, 136, 0.35);
 
   border-radius: 18px;
 
@@ -958,7 +1115,7 @@
 }
 
 .reading-result strong {
-  color: #64735e;
+  color: #ffe9b2;
 
   font-size: 13px;
 
@@ -968,7 +1125,7 @@
 .reading-result p {
   margin: 3px 0 0;
 
-  color: #9b9f92;
+  color: #f0d8a6;
 
   font-size: 11px;
 
@@ -977,8 +1134,12 @@
   font-weight: 700;
 }
 
+/* =========================================================
+   PLAY AGAIN
+========================================================= */
+
 .grow-more-button {
-  padding: 14px 23px;
+  padding: 14px 24px;
 
   border: 0;
 
@@ -987,26 +1148,47 @@
   background:
     linear-gradient(
       135deg,
-      #77a966,
-      #92b76d
+      #286c49,
+      #58a754
     );
 
   color: white;
 
-  font-size: 13px;
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: 15px;
+
+  font-weight: 800;
 
   cursor: pointer;
 
   box-shadow:
-    0 8px 20px rgba(91, 139, 83, 0.2);
+    0 6px 0 #194c34;
 
-  transition: 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .grow-more-button:hover {
   transform: translateY(-3px);
+
+  box-shadow:
+    0 9px 0 #194c34;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+  .sight-navbar {
+    padding: 0 28px;
+  }
+
+  .sight-game-card {
+    padding: 23px;
+  }
 }
 
 /* =========================================================
@@ -1014,47 +1196,38 @@
 ========================================================= */
 
 @media (max-width: 650px) {
-  .sight-page {
-    padding: 14px 11px 35px;
+  .sight-navbar {
+    min-height: 64px;
+
+    padding: 0 16px;
   }
 
-  .sight-header {
-    padding: 18px;
-
-    gap: 13px;
-
-    border-radius: 22px;
+  .sight-brand {
+    font-size: 21px;
   }
 
-  .garden-logo {
-    width: 53px;
-    height: 53px;
-
-    border-radius: 16px;
-
-    font-size: 27px;
+  .sight-brand span {
+    font-size: 18px;
   }
 
-  .sight-header h1 {
-    font-size: 27px;
+  .sight-navbar-title {
+    font-size: 17px;
   }
 
-  .sight-header p:last-child {
-    font-size: 10px;
+  .sight-main {
+    padding: 20px 10px 40px;
   }
 
-  .garden-progress-card {
-    padding: 14px;
-  }
+  .sight-game-card {
+    padding: 17px 12px 25px;
 
-  .mini-flowers span {
-    font-size: 14px;
+    border-radius: 24px;
   }
 
   .word-garden-card {
-    padding: 27px 13px 31px;
+    padding: 25px 12px 30px;
 
-    border-radius: 25px;
+    border-radius: 21px;
   }
 
   .picture-garden {
@@ -1080,24 +1253,34 @@
   }
 
   .word-text {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .garden-complete {
-    margin-top: 25px;
+    padding: 34px 20px;
 
-    padding: 32px 19px;
-
-    border-radius: 27px;
+    border-radius: 26px;
   }
 }
 
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
 @media (max-width: 380px) {
+  .sight-navbar-title {
+    font-size: 15px;
+  }
+
   .mini-flowers {
     gap: 2px;
   }
 
   .mini-flowers span {
     font-size: 12px;
+  }
+
+  .garden-progress-card {
+    padding: 13px;
   }
 }

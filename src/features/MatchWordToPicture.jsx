@@ -1,169 +1,5 @@
-// import { useState, useEffect } from "react";
-// import "../styles/BlendSounds.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// export default function MatchWordToPicture() {
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   const [word, setWord] = useState("");
-//   const [options, setOptions] = useState([]);
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const [message, setMessage] = useState("");
-//   const [loading, setLoading] = useState(true);
-
-//   // 🤖 AI QUESTION
-//   const generateQuestionAI = async () => {
-//     try {
-//       setLoading(true);
-
-//       const res = await fetch("http://localhost:5000/api/generate-match-image", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       });
-
-//       const data = await res.json();
-
-//       if (!data.word || !data.options) {
-//         throw new Error("Invalid data");
-//       }
-
-//       setWord(data.word);
-//       setOptions(data.options);
-
-//     } catch (err) {
-//       console.error(err);
-
-//       setWord("Dog");
-//       setOptions([
-//         { word: "Dog", emoji: "🐶" },
-//         { word: "Cat", emoji: "🐱" },
-//         { word: "Ball", emoji: "⚽" },
-//         { word: "Fish", emoji: "🐟" }
-//       ]);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     generateQuestionAI();
-//   }, []);
-
-//   // ☁️ SAVE
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user";
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: "MatchWordToPicture_AI"
-//       });
-
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   // 🎯 CLICK
-//   const handleClick = (item) => {
-
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = item.word === word;
-//     const updatedScore = isCorrect ? score + 1 : score;
-
-//     setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
-
-//     setTimeout(async () => {
-
-//       setMessage("");
-
-//       const next = questionCount + 1;
-//       setQuestionCount(next);
-
-//       if (next === TOTAL_QUESTIONS) {
-
-//         await saveScoreToFirestore(updatedScore);
-
-//         alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
-
-//         setScore(0);
-//         setQuestionCount(0);
-//         generateQuestionAI();
-
-//       } else {
-//         setScore(updatedScore);
-//         generateQuestionAI();
-//       }
-
-//     }, 900);
-//   };
-
-//   // 📊 ANALYSIS
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Excellent!";
-//     if (accuracy > 50) return "👍 Good job!";
-//     return "💡 Keep practicing!";
-//   };
-
-//   return (
-//     <div className="blend-container">
-
-//       <h2>🖼️ Match Word to Picture</h2>
-
-//       <div className="game-info">
-//         Question {questionCount + 1}/5 | Score: {score}
-//       </div>
-
-//       <h2>Find: {word}</h2>
-
-//       <div className="options">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           options.map((item, i) => (
-//             <button key={i} onClick={() => handleClick(item)}>
-//               {item.emoji}
-//             </button>
-//           ))
-//         )}
-//       </div>
-
-//       <p>{message}</p>
-
-//       <div className="ai-analysis">
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
 import { useState, useEffect } from "react";
-import "../styles/BlendSounds.css";
+import "../styles/MatchWordToPicture.css";
 import useGameProgress from "../hooks/useGameProgress";
 
 const GAME_ID = "match-word-to-picture";
@@ -202,32 +38,15 @@ export default function MatchWordToPicture() {
      STATES
   ========================================================= */
 
-  const [word, setWord] =
-    useState("");
-
-  const [options, setOptions] =
-    useState([]);
-
-  const [score, setScore] =
-    useState(0);
-
-  const [questionCount, setQuestionCount] =
-    useState(0);
-
-  const [message, setMessage] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [completed, setCompleted] =
-    useState(false);
-
-  const [restored, setRestored] =
-    useState(false);
-
-  const [answerLocked, setAnswerLocked] =
-    useState(false);
+  const [word, setWord] = useState("");
+  const [options, setOptions] = useState([]);
+  const [score, setScore] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [completed, setCompleted] = useState(false);
+  const [restored, setRestored] = useState(false);
+  const [answerLocked, setAnswerLocked] = useState(false);
 
   /* =========================================================
      🤖 AI QUESTION
@@ -242,21 +61,15 @@ export default function MatchWordToPicture() {
         {
           method: "POST",
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
           },
         }
       );
 
       const data = await res.json();
 
-      if (
-        !data.word ||
-        !data.options
-      ) {
-        throw new Error(
-          "Invalid data"
-        );
+      if (!data.word || !data.options) {
+        throw new Error("Invalid data");
       }
 
       setWord(data.word);
@@ -294,13 +107,8 @@ export default function MatchWordToPicture() {
         ],
       };
 
-      setWord(
-        fallback.word
-      );
-
-      setOptions(
-        fallback.options
-      );
+      setWord(fallback.word);
+      setOptions(fallback.options);
 
       return fallback;
     } finally {
@@ -326,13 +134,8 @@ export default function MatchWordToPicture() {
       savedState.word &&
       savedState.options?.length
     ) {
-      setWord(
-        savedState.word
-      );
-
-      setOptions(
-        savedState.options
-      );
+      setWord(savedState.word);
+      setOptions(savedState.options);
 
       setScore(
         savedState.score ?? 0
@@ -347,17 +150,11 @@ export default function MatchWordToPicture() {
       );
 
       setCompleted(
-        Boolean(
-          savedState.completed
-        )
+        Boolean(savedState.completed)
       );
 
       setLoading(false);
     } else {
-      /*
-       * No saved game.
-       * Generate first AI question.
-       */
       generateQuestionAI();
     }
 
@@ -391,9 +188,7 @@ export default function MatchWordToPicture() {
      🎯 HANDLE ANSWER
   ========================================================= */
 
-  const handleClick = async (
-    item
-  ) => {
+  const handleClick = async (item) => {
     if (answerLocked) return;
     if (completed) return;
     if (loading) return;
@@ -422,9 +217,6 @@ export default function MatchWordToPicture() {
 
     setMessage(feedback);
 
-    /*
-     * Save answer immediately.
-     */
     await saveCurrentState({
       score: updatedScore,
       message: feedback,
@@ -449,46 +241,30 @@ export default function MatchWordToPicture() {
         console.log(
           "🏁 Match Word To Picture completed:",
           {
-            score:
-              updatedScore,
-            total:
-              TOTAL_QUESTIONS,
+            score: updatedScore,
+            total: TOTAL_QUESTIONS,
             percentage,
           }
         );
 
-        setScore(
-          updatedScore
-        );
-
-        setQuestionCount(
-          next
-        );
-
+        setScore(updatedScore);
+        setQuestionCount(next);
         setCompleted(true);
 
         setMessage(
           `🎯 Round Completed! Score: ${updatedScore}/${TOTAL_QUESTIONS}`
         );
 
-        /*
-         * ⭐ Save stars + history
-         */
         await finish(
           percentage,
           "Match Word To Picture"
         );
 
-        /*
-         * Save completed state.
-         */
         await save({
           word,
           options,
-          score:
-            updatedScore,
-          questionCount:
-            next,
+          score: updatedScore,
+          questionCount: next,
           message:
             `🎯 Round Completed! Score: ${updatedScore}/${TOTAL_QUESTIONS}`,
           loading: false,
@@ -507,36 +283,17 @@ export default function MatchWordToPicture() {
       const nextQuestion =
         await generateQuestionAI();
 
-      setScore(
-        updatedScore
-      );
-
-      setQuestionCount(
-        next
-      );
-
+      setScore(updatedScore);
+      setQuestionCount(next);
       setMessage("");
 
-      /*
-       * Save the new AI-generated question.
-       */
       await save({
-        word:
-          nextQuestion.word,
-
-        options:
-          nextQuestion.options,
-
-        score:
-          updatedScore,
-
-        questionCount:
-          next,
-
+        word: nextQuestion.word,
+        options: nextQuestion.options,
+        score: updatedScore,
+        questionCount: next,
         message: "",
-
         loading: false,
-
         completed: false,
       });
 
@@ -559,20 +316,12 @@ export default function MatchWordToPicture() {
       await generateQuestionAI();
 
     await save({
-      word:
-        newQuestion.word,
-
-      options:
-        newQuestion.options,
-
+      word: newQuestion.word,
+      options: newQuestion.options,
       score: 0,
-
       questionCount: 0,
-
       message: "",
-
       loading: false,
-
       completed: false,
     });
   };
@@ -582,16 +331,12 @@ export default function MatchWordToPicture() {
   ========================================================= */
 
   const getPerformanceMessage = () => {
-    if (
-      questionCount === 0
-    ) {
+    if (questionCount === 0) {
       return "";
     }
 
     const accuracy =
-      (score /
-        questionCount) *
-      100;
+      (score / questionCount) * 100;
 
     if (accuracy > 80) {
       return "🌟 Excellent!";
@@ -613,20 +358,32 @@ export default function MatchWordToPicture() {
     !restored
   ) {
     return (
-      <div className="blend-container">
+      <div className="blend-page">
+        <nav className="blend-navbar">
+          <div className="brand-title">
+            🌿 CurioKids
+          </div>
 
-        <h2>
-          🖼️ Match Word to Picture
-        </h2>
+          <div className="game-title">
+            🖼️ Match Word to Picture
+          </div>
+        </nav>
 
-        <div className="big-letter">
-          ...
-        </div>
+        <main className="blend-content">
+          <div className="blend-card loading-card">
+            <div className="loading-icon">
+              🦋
+            </div>
 
-        <p>
-          Restoring your game...
-        </p>
+            <h2>
+              Restoring your game...
+            </h2>
 
+            <p>
+              🌱 Getting your adventure ready!
+            </p>
+          </div>
+        </main>
       </div>
     );
   }
@@ -637,53 +394,59 @@ export default function MatchWordToPicture() {
 
   if (completed) {
     return (
-      <div className="blend-container">
+      <div className="blend-page">
+        <nav className="blend-navbar">
+          <div className="brand-title">
+            🌿 CurioKids
+          </div>
 
-        <h2>
-          🖼️ Match Word to Picture
-        </h2>
+          <div className="game-title">
+            🖼️ Match Word to Picture
+          </div>
+        </nav>
 
-        <div className="game-info">
-          🎯 Round Completed!
-        </div>
+        <main className="blend-content">
+          <div className="blend-card completion-card">
 
-        <div className="big-letter">
-          🌟
-        </div>
+            <div className="completion-icon">
+              🏆
+            </div>
 
-        <h3>
-          Score: {score}/
-          {TOTAL_QUESTIONS}
-        </h3>
+            <h1>
+              Picture Match Complete!
+            </h1>
 
-        <div className="ai-analysis">
-          <p>
-            {getPerformanceMessage()}
-          </p>
-        </div>
+            <div className="score-pill">
+              ⭐ Score: {score}/
+              {TOTAL_QUESTIONS}
+            </div>
 
-        <button
-          onClick={
-            handleRestart
-          }
-          style={{
-            marginTop:
-              "20px",
-            padding:
-              "12px 24px",
-            borderRadius:
-              "10px",
-            border:
-              "none",
-            cursor:
-              "pointer",
-            fontSize:
-              "16px",
-          }}
-        >
-          🔄 Play Again
-        </button>
+            <div className="percentage-box">
+              {(
+                (score /
+                  TOTAL_QUESTIONS) *
+                100
+              ).toFixed(0)}
+              %
+            </div>
 
+            <div className="ai-analysis">
+              <span>🧠</span>
+
+              <p>
+                {getPerformanceMessage()}
+              </p>
+            </div>
+
+            <button
+              className="play-again-btn"
+              onClick={handleRestart}
+            >
+              🔄 Play Again
+            </button>
+
+          </div>
+        </main>
       </div>
     );
   }
@@ -693,60 +456,145 @@ export default function MatchWordToPicture() {
   ========================================================= */
 
   return (
-    <div className="blend-container">
+    <div className="blend-page">
 
-      <h2>
-        🖼️ Match Word to Picture
-      </h2>
+      {/* NAVBAR */}
+      <nav className="blend-navbar">
 
-      <div className="game-info">
-        Question{" "}
-        {questionCount + 1}/
-        {TOTAL_QUESTIONS}{" "}
-        | Score: {score}
-      </div>
+        <div className="brand-title">
+          🌿 CurioKids
+        </div>
 
-      <h2>
-        Find: {word}
-      </h2>
+        <div className="game-title">
+          🖼️ Match Word to Picture
+        </div>
 
-      <div className="options">
+      </nav>
 
-        {loading ? (
-          <p>
-            Loading...
-          </p>
-        ) : (
-          options.map(
-            (item, index) => (
-              <button
-                key={index}
-                onClick={() =>
-                  handleClick(
-                    item
+      {/* MAIN CONTENT */}
+      <main className="blend-content">
+
+        <div className="blend-card">
+
+          {/* HEADER */}
+          <div className="game-header">
+
+            <div className="instruction-badge">
+              ✨ Picture Adventure
+            </div>
+
+            <div className="game-info">
+
+              <span>
+                Question {questionCount + 1}/
+                {TOTAL_QUESTIONS}
+              </span>
+
+              <span className="divider">
+                •
+              </span>
+
+              <span>
+                ⭐ Score: {score}
+              </span>
+
+            </div>
+
+          </div>
+
+          {/* QUESTION */}
+          <div className="scramble-section">
+
+            <div className="scramble-label">
+              🔎 Find the Picture!
+            </div>
+
+            <div className="big-letter word-question">
+              {loading
+                ? "..."
+                : word}
+            </div>
+
+            <p className="question-text">
+              Which picture matches this word?
+            </p>
+
+          </div>
+
+          {/* OPTIONS */}
+          <div className="options-section">
+
+            <h3>
+              🌟 Choose the correct picture
+            </h3>
+
+            <div className="picture-options">
+
+              {loading ? (
+                <div className="loading-options">
+                  <span>🌱</span>
+                  Loading...
+                </div>
+              ) : (
+                options.map(
+                  (item, index) => (
+                    <button
+                      key={index}
+                      className="picture-option"
+                      onClick={() =>
+                        handleClick(item)
+                      }
+                      disabled={
+                        answerLocked
+                      }
+                    >
+                      <span className="picture-option-letter">
+                        {String.fromCharCode(
+                          65 + index
+                        )}
+                      </span>
+
+                      <span className="picture-emoji">
+                        {item.emoji}
+                      </span>
+
+                      <span className="picture-word">
+                        {item.word}
+                      </span>
+                    </button>
                   )
-                }
-                disabled={
-                  answerLocked
-                }
-              >
-                {item.emoji}
-              </button>
-            )
-          )
-        )}
+                )
+              )}
 
-      </div>
+            </div>
 
-      <p>
-        {message}
-      </p>
+          </div>
 
-      <div className="ai-analysis">
-        <p>
-          {getPerformanceMessage()}
-        </p>
-      </div>
+          {/* FEEDBACK */}
+          {message && (
+            <div
+              className={`feedback-message ${
+                message.includes("Correct")
+                  ? "correct"
+                  : "wrong"
+              }`}
+            >
+              {message}
+            </div>
+          )}
+
+          {/* PERFORMANCE */}
+          <div className="ai-analysis">
+            <span>🧠</span>
+
+            <p>
+              {getPerformanceMessage()}
+            </p>
+          </div>
+
+        </div>
+
+      </main>
 
     </div>
   );

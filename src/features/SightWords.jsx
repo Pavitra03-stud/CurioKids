@@ -39,11 +39,9 @@ export default function SightWords() {
   const [selectedWord, setSelectedWord] = useState("");
   const [answerLocked, setAnswerLocked] = useState(false);
 
-  /*
-  ============================================================
-  🤖 AI QUESTION
-  ============================================================
-  */
+  /* =========================================================
+     AI QUESTION
+  ========================================================= */
 
   const generateQuestionAI = async () => {
     try {
@@ -85,7 +83,6 @@ export default function SightWords() {
       setEmoji(question.emoji);
       setOptions(question.options);
       setCorrectAnswer(question.correctAnswer);
-
       setSelectedWord("");
       setMessage("");
 
@@ -95,12 +92,6 @@ export default function SightWords() {
         "❌ Sight Words AI generation failed:",
         error
       );
-
-      /*
-      ========================================================
-      FALLBACK QUESTIONS
-      ========================================================
-      */
 
       const fallbackQuestions = [
         {
@@ -141,7 +132,6 @@ export default function SightWords() {
       setEmoji(fallback.emoji);
       setOptions(fallback.options);
       setCorrectAnswer(fallback.correctAnswer);
-
       setSelectedWord("");
       setMessage("");
 
@@ -151,11 +141,9 @@ export default function SightWords() {
     }
   };
 
-  /*
-  ============================================================
-  🔥 RESTORE GAME
-  ============================================================
-  */
+  /* =========================================================
+     RESTORE GAME
+  ========================================================= */
 
   useEffect(() => {
     if (progressLoading || restored) {
@@ -167,12 +155,6 @@ export default function SightWords() {
         "🌱 Sight Words saved state:",
         savedState
       );
-
-      /*
-      --------------------------------------------------------
-      Existing Firebase game
-      --------------------------------------------------------
-      */
 
       if (
         savedState &&
@@ -192,7 +174,6 @@ export default function SightWords() {
         );
 
         setScore(savedState.score ?? 0);
-
         setQuestionCount(
           savedState.questionCount ?? 0
         );
@@ -207,12 +188,6 @@ export default function SightWords() {
 
         setLoading(false);
       } else {
-        /*
-        ------------------------------------------------------
-        New game
-        ------------------------------------------------------
-        */
-
         console.log(
           "🆕 Starting new Sight Words"
         );
@@ -236,13 +211,15 @@ export default function SightWords() {
     };
 
     restoreGame();
-  }, [progressLoading, restored, savedState]);
+  }, [
+    progressLoading,
+    restored,
+    savedState,
+  ]);
 
-  /*
-  ============================================================
-  💾 SAVE CURRENT GAME
-  ============================================================
-  */
+  /* =========================================================
+     SAVE CURRENT GAME
+  ========================================================= */
 
   const saveCurrentState = async (
     overrides = {}
@@ -259,11 +236,9 @@ export default function SightWords() {
     });
   };
 
-  /*
-  ============================================================
-  🎯 SELECT WORD
-  ============================================================
-  */
+  /* =========================================================
+     SELECT WORD
+  ========================================================= */
 
   const handleWordClick = async (word) => {
     if (
@@ -292,11 +267,6 @@ export default function SightWords() {
 
     setMessage(feedback);
 
-    /*
-    Save immediately.
-    This means refresh during feedback won't lose progress.
-    */
-
     await saveCurrentState({
       score: updatedScore,
       message: feedback,
@@ -306,11 +276,9 @@ export default function SightWords() {
       const nextQuestionNumber =
         questionCount + 1;
 
-      /*
-      ========================================================
-      🏆 ROUND COMPLETE
-      ========================================================
-      */
+      /* =====================================================
+         ROUND COMPLETE
+      ===================================================== */
 
       if (
         nextQuestionNumber ===
@@ -331,40 +299,25 @@ export default function SightWords() {
         setCompleted(true);
         setMessage(finalMessage);
 
-        /*
-        ⭐ GameContext:
-        - calculates stars
-        - saves history
-        - updates streak
-        - clears active game
-        */
-
         await finish(
           percentage,
           "Sight Words"
         );
-
-        /*
-        IMPORTANT:
-        Do NOT call save() here.
-        finish() already clears activeGames.
-        */
 
         setAnswerLocked(false);
 
         return;
       }
 
-      /*
-      ========================================================
-      🌱 NEXT WORD
-      ========================================================
-      */
+      /* =====================================================
+         NEXT WORD
+      ===================================================== */
 
       const nextQuestion =
         await generateQuestionAI();
 
       setScore(updatedScore);
+
       setQuestionCount(
         nextQuestionNumber
       );
@@ -388,11 +341,9 @@ export default function SightWords() {
     }, 750);
   };
 
-  /*
-  ============================================================
-  🔄 PLAY AGAIN
-  ============================================================
-  */
+  /* =========================================================
+     PLAY AGAIN
+  ========================================================= */
 
   const playAgain = async () => {
     setLoading(true);
@@ -418,11 +369,9 @@ export default function SightWords() {
     });
   };
 
-  /*
-  ============================================================
-  📊 PERFORMANCE
-  ============================================================
-  */
+  /* =========================================================
+     PERFORMANCE
+  ========================================================= */
 
   const getPerformance = () => {
     if (score >= 5) {
@@ -460,11 +409,9 @@ export default function SightWords() {
     };
   };
 
-  /*
-  ============================================================
-  ⏳ LOADING
-  ============================================================
-  */
+  /* =========================================================
+     LOADING
+  ========================================================= */
 
   if (
     progressLoading ||
@@ -472,36 +419,53 @@ export default function SightWords() {
   ) {
     return (
       <div className="sight-page">
-        <div className="sight-loading">
 
-          <div className="loading-flower">
-            🌼
-          </div>
+        <nav className="sight-navbar">
 
-          <h2>
-            Growing your word garden...
-          </h2>
-
-          <p>
-            Finding a special word for you!
-          </p>
-
-          <div className="loading-leaves">
-            <span>🌱</span>
+          <div className="sight-brand">
             <span>🌿</span>
-            <span>🌱</span>
+            CurioKids
           </div>
 
-        </div>
+          <div className="sight-navbar-title">
+            🌼 Sight Words
+          </div>
+
+        </nav>
+
+        <main className="sight-main">
+
+          <div className="sight-loading-card">
+
+            <div className="loading-flower">
+              🌼
+            </div>
+
+            <h2>
+              Growing your word garden...
+            </h2>
+
+            <p>
+              Finding a special word for you!
+            </p>
+
+            <div className="loading-leaves">
+              <span>🌱</span>
+              <span>🌿</span>
+              <span>🌱</span>
+            </div>
+
+          </div>
+
+        </main>
+
       </div>
     );
   }
 
-  /*
-  ============================================================
-  🏆 COMPLETION SCREEN
-  ============================================================
-  */
+  /* =========================================================
+     COMPLETION
+  ========================================================= */
 
   if (completed) {
     const performance =
@@ -510,11 +474,24 @@ export default function SightWords() {
     return (
       <div className="sight-page">
 
-        <div className="sight-shell">
+        <nav className="sight-navbar">
+
+          <div className="sight-brand">
+            <span>🌿</span>
+            CurioKids
+          </div>
+
+          <div className="sight-navbar-title">
+            🌼 Sight Words
+          </div>
+
+        </nav>
+
+        <main className="sight-main">
 
           <div className="garden-complete">
 
-            <div className="garden-sky">
+            <div className="garden-sun">
               ☀️
             </div>
 
@@ -541,6 +518,7 @@ export default function SightWords() {
               </div>
 
               <div>
+
                 <span>
                   FLOWERS COLLECTED
                 </span>
@@ -548,9 +526,10 @@ export default function SightWords() {
                 <strong>
                   {score}
                   <small>
-                    {" "}/ {TOTAL_QUESTIONS}
+                    / {TOTAL_QUESTIONS}
                   </small>
                 </strong>
+
               </div>
 
             </div>
@@ -562,6 +541,7 @@ export default function SightWords() {
               </div>
 
               <div>
+
                 <strong>
                   {performance.title}
                 </strong>
@@ -569,6 +549,7 @@ export default function SightWords() {
                 <p>
                   {performance.text}
                 </p>
+
               </div>
 
             </div>
@@ -582,7 +563,7 @@ export default function SightWords() {
 
           </div>
 
-        </div>
+        </main>
 
       </div>
     );
@@ -593,250 +574,263 @@ export default function SightWords() {
       TOTAL_QUESTIONS) *
     100;
 
+  /* =========================================================
+     MAIN GAME
+  ========================================================= */
+
   return (
     <div className="sight-page">
 
-      <div className="sight-shell">
+      <nav className="sight-navbar">
 
-        {/* ==================================================
-            HEADER
-        ================================================== */}
+        <div className="sight-brand">
+          <span>🌿</span>
+          CurioKids
+        </div>
 
-        <header className="sight-header">
+        <div className="sight-navbar-title">
+          🌼 Sight Words
+        </div>
 
-          <div className="garden-logo">
-            🌼
-          </div>
+      </nav>
 
-          <div>
+      <main className="sight-main">
 
-            <p className="garden-eyebrow">
-              READING GARDEN
-            </p>
+        <section className="sight-game-card">
 
-            <h1>
-              Sight Words
-            </h1>
+          {/* =================================================
+              PROGRESS
+          ================================================= */}
 
-            <p>
-              Spot the word and help your garden grow!
-            </p>
+          <section className="garden-progress-card">
 
-          </div>
+            <div className="garden-progress-top">
 
-        </header>
+              <div>
 
-        {/* ==================================================
-            PROGRESS AREA
-        ================================================== */}
+                <span>
+                  YOUR GARDEN
+                </span>
 
-        <section className="garden-progress-card">
+                <strong>
+                  {questionCount}
+                  <small>
+                    / {TOTAL_QUESTIONS}
+                  </small>
+                </strong>
 
-          <div className="garden-progress-top">
+              </div>
 
-            <div>
+              <div className="mini-flowers">
+
+                {Array.from({
+                  length: TOTAL_QUESTIONS,
+                }).map((_, index) => (
+
+                  <span
+                    key={index}
+                    className={
+                      index < score
+                        ? "flower-filled"
+                        : "flower-empty"
+                    }
+                  >
+                    🌼
+                  </span>
+
+                ))}
+
+              </div>
+
+            </div>
+
+            <div className="garden-track">
+
+              <div
+                className="garden-fill"
+                style={{
+                  width: `${progress}%`,
+                }}
+              />
+
+            </div>
+
+            <div className="garden-progress-bottom">
+
               <span>
-                YOUR GARDEN
+                Keep growing!
               </span>
 
               <strong>
-                {questionCount}
-                <small>
-                  {" "}/ {TOTAL_QUESTIONS}
-                </small>
+                {Math.round(progress)}%
               </strong>
+
             </div>
 
-            <div className="mini-flowers">
-              {Array.from({
-                length: TOTAL_QUESTIONS,
-              }).map((_, index) => (
-                <span
-                  key={index}
-                  className={
-                    index <
-                    score
-                      ? "flower-filled"
-                      : "flower-empty"
+          </section>
+
+          {/* =================================================
+              MAIN GAME
+          ================================================= */}
+
+          <main className="word-garden-card">
+
+            <div className="garden-question-tag">
+              📖 WORD OF THE MOMENT
+            </div>
+
+            <h2>
+              Which word matches the picture?
+            </h2>
+
+            <p className="garden-instruction">
+              Look at the picture, then tap the
+              word you know.
+            </p>
+
+            {/* =================================================
+                PICTURE
+            ================================================= */}
+
+            <div className="picture-garden">
+
+              <div className="sun-decoration">
+                ☀️
+              </div>
+
+              <div className="picture-circle">
+                {loading
+                  ? "🌱"
+                  : emoji}
+              </div>
+
+              <div className="grass">
+                🌿 🌱 🌿
+              </div>
+
+            </div>
+
+            {/* =================================================
+                WORD OPTIONS
+            ================================================= */}
+
+            <div className="word-options">
+
+              {loading ? (
+
+                <div className="word-loading">
+                  <span>🌱</span>
+                  Finding words...
+                </div>
+
+              ) : (
+
+                options.map(
+                  (word, index) => {
+
+                    const selected =
+                      selectedWord === word;
+
+                    const correct =
+                      selected &&
+                      word
+                        .trim()
+                        .toLowerCase() ===
+                        correctAnswer
+                          .trim()
+                          .toLowerCase();
+
+                    const wrong =
+                      selected &&
+                      !correct;
+
+                    return (
+                      <button
+                        key={`${word}-${index}`}
+                        type="button"
+                        className={[
+                          "word-card",
+                          `word-card-${index}`,
+                          selected
+                            ? "word-selected"
+                            : "",
+                          correct
+                            ? "word-correct"
+                            : "",
+                          wrong
+                            ? "word-wrong"
+                            : "",
+                        ].join(" ")}
+                        onClick={() =>
+                          handleWordClick(word)
+                        }
+                        disabled={
+                          answerLocked ||
+                          loading
+                        }
+                      >
+
+                        <span className="word-number">
+                          {index + 1}
+                        </span>
+
+                        <span className="word-text">
+                          {word}
+                        </span>
+
+                        <span className="word-leaf">
+                          {correct
+                            ? "🌸"
+                            : "🍃"}
+                        </span>
+
+                      </button>
+                    );
                   }
-                >
-                  🌼
-                </span>
-              ))}
+                )
+
+              )}
+
             </div>
 
-          </div>
+            {/* =================================================
+                FEEDBACK
+            ================================================= */}
 
-          <div className="garden-track">
+            {message && (
+              <div
+                className={
+                  message.includes(
+                    "Wonderful"
+                  )
+                    ? "sight-feedback feedback-good"
+                    : "sight-feedback feedback-try"
+                }
+              >
+                {message}
+              </div>
+            )}
 
-            <div
-              className="garden-fill"
-              style={{
-                width: `${progress}%`,
-              }}
-            />
-
-          </div>
-
-          <div className="garden-progress-bottom">
-            <span>
-              Keep growing!
-            </span>
-
-            <strong>
-              {Math.round(progress)}%
-            </strong>
-          </div>
+          </main>
 
         </section>
 
-        {/* ==================================================
-            MAIN GAME
-        ================================================== */}
-
-        <main className="word-garden-card">
-
-          <div className="garden-question-tag">
-            📖 WORD OF THE MOMENT
-          </div>
-
-          <h2>
-            Which word matches the picture?
-          </h2>
-
-          <p className="garden-instruction">
-            Look at the picture, then tap the word
-            you know.
-          </p>
-
-          {/* PICTURE */}
-
-          <div className="picture-garden">
-
-            <div className="sun-decoration">
-              ☀️
-            </div>
-
-            <div className="picture-circle">
-              {loading
-                ? "🌱"
-                : emoji}
-            </div>
-
-            <div className="grass">
-              🌿 🌱 🌿
-            </div>
-
-          </div>
-
-          {/* WORD OPTIONS */}
-
-          <div className="word-options">
-
-            {loading ? (
-              <div className="word-loading">
-                <span>🌱</span>
-                Finding words...
-              </div>
-            ) : (
-              options.map(
-                (word, index) => {
-
-                  const selected =
-                    selectedWord === word;
-
-                  const correct =
-                    selected &&
-                    word.trim().toLowerCase() ===
-                      correctAnswer
-                        .trim()
-                        .toLowerCase();
-
-                  const wrong =
-                    selected &&
-                    !correct;
-
-                  return (
-                    <button
-                      key={`${word}-${index}`}
-                      className={[
-                        "word-card",
-                        `word-card-${index}`,
-                        selected
-                          ? "word-selected"
-                          : "",
-                        correct
-                          ? "word-correct"
-                          : "",
-                        wrong
-                          ? "word-wrong"
-                          : "",
-                      ].join(" ")}
-                      onClick={() =>
-                        handleWordClick(word)
-                      }
-                      disabled={
-                        answerLocked ||
-                        loading
-                      }
-                    >
-
-                      <span className="word-number">
-                        {index + 1}
-                      </span>
-
-                      <span className="word-text">
-                        {word}
-                      </span>
-
-                      <span className="word-leaf">
-                        {correct
-                          ? "🌸"
-                          : "🍃"}
-                      </span>
-
-                    </button>
-                  );
-                }
-              )
-            )}
-
-          </div>
-
-          {/* FEEDBACK */}
-
-          {message && (
-            <div
-              className={
-                message.includes("Wonderful")
-                  ? "sight-feedback feedback-good"
-                  : "sight-feedback feedback-try"
-              }
-            >
-              {message}
-            </div>
-          )}
-
-        </main>
-
-        {/* ==================================================
-            READING TIP
-        ================================================== */}
+        {/* =====================================================
+            TIP
+        ===================================================== */}
 
         <div className="reading-tip">
 
-          <span>
-            💡
-          </span>
+          <span>💡</span>
 
           <p>
-            Sight words are words we learn to recognize
-            quickly while reading.
+            Sight words are words we learn to
+            recognize quickly while reading.
           </p>
 
         </div>
 
-      </div>
+      </main>
 
     </div>
   );

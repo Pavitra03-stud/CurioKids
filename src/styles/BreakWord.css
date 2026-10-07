@@ -1,0 +1,741 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800&display=swap");
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.break-page {
+  min-height: 100vh;
+  width: 100%;
+
+  background:
+    linear-gradient(
+      rgba(16, 62, 37, 0.16),
+      rgba(16, 62, 37, 0.16)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.break-navbar {
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 48px;
+
+  background: #1e5136;
+
+  border-bottom: 4px solid #e1b74b;
+
+  box-shadow:
+    0 5px 16px rgba(0, 0, 0, 0.32);
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.break-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #fff4d2;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.break-brand-icon {
+  font-size: 22px;
+}
+
+/* =========================================================
+   NAVBAR TITLE
+========================================================= */
+
+.break-navbar-title {
+  color: #fff4d2;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.break-main {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  padding: 36px 20px 65px;
+}
+
+/* =========================================================
+   WOODEN GAME CARD
+========================================================= */
+
+.break-game-card {
+  width: min(900px, 100%);
+
+  padding: 30px 42px 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b9682f 0%,
+      #a45625 45%,
+      #91481d 100%
+    );
+
+  border: 4px solid #dfb248;
+
+  border-radius: 30px;
+
+  box-shadow:
+    0 9px 0 rgba(73, 38, 16, 0.65),
+    0 18px 38px rgba(0, 0, 0, 0.34);
+
+  text-align: center;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.break-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  margin-bottom: 28px;
+}
+
+.break-stat-pill {
+  min-width: 160px;
+
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 0 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff8df,
+      #f6e6b4
+    );
+
+  border: 3px solid #dfb447;
+
+  border-radius: 30px;
+
+  color: #2d6043;
+
+  font-family: "Baloo 2", sans-serif;
+
+  box-shadow:
+    0 5px 0 #936625,
+    0 7px 12px rgba(0, 0, 0, 0.2);
+}
+
+.break-stat-label {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.break-stat-pill strong {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.break-stat-total {
+  opacity: 0.75;
+}
+
+.break-stat-star {
+  font-size: 18px;
+}
+
+/* =========================================================
+   WORD PANEL
+========================================================= */
+
+.break-word-panel {
+  width: 100%;
+
+  padding: 25px 25px 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(91, 47, 24, 0.72),
+      rgba(106, 53, 25, 0.62)
+    );
+
+  border: 3px solid #d7a73e;
+
+  border-radius: 25px;
+
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================================
+   WORD LABEL
+========================================================= */
+
+.break-word-heading {
+  color: #f4d374;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 10px;
+}
+
+/* =========================================================
+   WORD DISPLAY
+========================================================= */
+
+.break-word-display {
+  min-height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff5d5;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(58px, 8vw, 78px);
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 4px 0 #75431f,
+    0 7px 12px rgba(0, 0, 0, 0.28);
+}
+
+/* =========================================================
+   WORD LOADING
+========================================================= */
+
+.break-word-loading {
+  opacity: 0.75;
+}
+
+/* =========================================================
+   QUESTION
+========================================================= */
+
+.break-word-question {
+  margin-top: 13px;
+
+  color: #fff5d9;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  text-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================================
+   OPTIONS SECTION
+========================================================= */
+
+.break-options-section {
+  margin-top: 28px;
+}
+
+/* =========================================================
+   OPTIONS HEADING
+========================================================= */
+
+.break-options-heading {
+  margin-bottom: 13px;
+
+  color: #ffe7a8;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   OPTIONS GRID
+========================================================= */
+
+.break-options-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+
+  padding: 22px;
+
+  background:
+    rgba(72, 37, 20, 0.62);
+
+  border: 3px solid #d5a63e;
+
+  border-radius: 24px;
+}
+
+/* =========================================================
+   OPTION CARD
+========================================================= */
+
+.break-option-card {
+  width: 100%;
+  height: 96px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff9e5,
+      #f2dda0
+    );
+
+  border: 3px solid #d9aa43;
+
+  border-radius: 18px;
+
+  color: #285d42;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  line-height: 1.15;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 0 #956725,
+    0 10px 16px rgba(0, 0, 0, 0.23);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.break-option-card:hover:not(:disabled) {
+  transform: translateY(-5px);
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffdf0,
+      #ffe8a3
+    );
+
+  box-shadow:
+    0 12px 0 #956725,
+    0 15px 21px rgba(0, 0, 0, 0.25);
+}
+
+.break-option-card:active:not(:disabled) {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 4px 0 #956725,
+    0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.break-option-card:disabled {
+  cursor: default;
+}
+
+/* =========================================================
+   CORRECT
+========================================================= */
+
+.break-option-correct {
+  background:
+    linear-gradient(
+      145deg,
+      #def4ba,
+      #b9dd88
+    ) !important;
+
+  border-color: #6da24a !important;
+
+  color: #245c32 !important;
+}
+
+/* =========================================================
+   WRONG / DISABLED
+========================================================= */
+
+.break-option-disabled {
+  opacity: 0.7;
+}
+
+/* =========================================================
+   OPTIONS LOADING
+========================================================= */
+
+.break-options-loading {
+  grid-column: 1 / -1;
+
+  min-height: 96px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff3cf;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.break-feedback {
+  min-height: 34px;
+
+  margin-top: 20px;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  color: transparent;
+}
+
+.break-feedback-correct {
+  color: #dff5b8;
+}
+
+.break-feedback-wrong {
+  color: #ffe1a3;
+}
+
+/* =========================================================
+   PERFORMANCE
+========================================================= */
+
+.break-performance {
+  min-height: 24px;
+
+  margin-top: 3px;
+
+  color: #ffe8b0;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   LOADING CARD
+========================================================= */
+
+.break-loading-card {
+  padding-top: 55px;
+  padding-bottom: 55px;
+}
+
+.break-loading-icon {
+  width: 76px;
+  height: 76px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff4cb,
+      #e8c96e
+    );
+
+  border: 3px solid #dfb447;
+
+  border-radius: 20px;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 7px 0 #936625;
+}
+
+.break-loading-card h2 {
+  margin: 0 0 8px;
+
+  color: #fff5d5;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.break-loading-card p {
+  margin: 0;
+
+  color: #ffe8b0;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+  .break-navbar {
+    padding: 0 28px;
+  }
+
+  .break-main {
+    padding: 28px 16px 50px;
+  }
+
+  .break-game-card {
+    width: min(760px, 100%);
+
+    padding: 28px 28px 32px;
+  }
+
+  .break-options-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .break-option-card {
+    height: 90px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+  .break-navbar {
+    min-height: 64px;
+
+    padding: 0 16px;
+  }
+
+  .break-brand {
+    font-size: 20px;
+  }
+
+  .break-brand-icon {
+    font-size: 18px;
+  }
+
+  .break-navbar-title {
+    font-size: 17px;
+  }
+
+  .break-main {
+    padding: 20px 10px 40px;
+  }
+
+  .break-game-card {
+    width: 100%;
+
+    padding: 20px 14px 26px;
+
+    border-radius: 23px;
+  }
+
+  .break-stats {
+    gap: 10px;
+
+    margin-bottom: 20px;
+  }
+
+  .break-stat-pill {
+    min-width: 130px;
+
+    height: 46px;
+
+    padding: 0 12px;
+  }
+
+  .break-stat-label {
+    font-size: 15px;
+  }
+
+  .break-stat-pill strong {
+    font-size: 16px;
+  }
+
+  .break-word-panel {
+    padding: 20px 12px;
+
+    border-radius: 21px;
+  }
+
+  .break-word-display {
+    min-height: 80px;
+
+    font-size: 50px;
+
+    letter-spacing: 2px;
+  }
+
+  .break-word-question {
+    font-size: 19px;
+  }
+
+  .break-options-section {
+    margin-top: 22px;
+  }
+
+  .break-options-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    padding: 14px;
+
+    border-radius: 20px;
+  }
+
+  .break-option-card {
+    height: 78px;
+
+    border-radius: 15px;
+
+    font-size: 18px;
+  }
+
+  .break-feedback {
+    font-size: 20px;
+  }
+
+  .break-performance {
+    font-size: 15px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 370px) {
+  .break-brand {
+    font-size: 18px;
+  }
+
+  .break-navbar-title {
+    font-size: 15px;
+  }
+
+  .break-stats {
+    flex-direction: column;
+  }
+
+  .break-stat-pill {
+    width: 175px;
+  }
+
+  .break-word-display {
+    font-size: 44px;
+  }
+
+  .break-option-card {
+    height: 70px;
+
+    font-size: 16px;
+  }
+}

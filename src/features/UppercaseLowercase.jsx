@@ -1,185 +1,3 @@
-// import { useState, useEffect } from "react";
-// import "../styles/UppercaseLowercase.css";
-
-// // 🔥 Firebase
-// import { db, auth } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// export default function UppercaseLowercase() {
-//   const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-//   // 🤖 States
-//   const [currentUpper, setCurrentUpper] = useState("");
-//   const [options, setOptions] = useState([]);
-//   const [feedback, setFeedback] = useState("");
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   // 🤖 Generate Question
-//   const generateQuestionAI = () => {
-//     const randomUpper =
-//       uppercase[Math.floor(Math.random() * uppercase.length)];
-
-//     const correct = randomUpper.toLowerCase();
-
-//     const allLower = "abcdefghijklmnopqrstuvwxyz".split("");
-
-//     const wrong = allLower
-//       .filter((l) => l !== correct)
-//       .sort(() => 0.5 - Math.random())
-//       .slice(0, 3);
-
-//     const options = [...wrong, correct].sort(
-//       () => 0.5 - Math.random()
-//     );
-
-//     return {
-//       question: randomUpper,
-//       options,
-//       answer: correct,
-//     };
-//   };
-
-//   // Load first question
-//   useEffect(() => {
-//     loadNewQuestion();
-//   }, []);
-
-//   const loadNewQuestion = () => {
-//     const q = generateQuestionAI();
-//     setCurrentUpper(q.question);
-//     setOptions(q.options);
-//   };
-
-//   // 🔥 Save to Firestore (per logged-in user)
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const user = auth.currentUser;
-
-//       if (!user) {
-//         console.log("❌ No user logged in");
-//         return;
-//       }
-
-//       const userRef = doc(db, "users", user.uid);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: "Uppercase-Lowercase",
-//         userEmail: user.email
-//       });
-
-//       console.log("✅ Saved for user:", user.email);
-//     } catch (error) {
-//       console.error("❌ Error saving:", error);
-//     }
-//   };
-
-//   // 🎯 Handle Answer
-//   const handleClick = (selected) => {
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = selected === currentUpper.toLowerCase();
-
-//     if (isCorrect) {
-//       setScore((prev) => prev + 1);
-//       setFeedback("correct");
-//     } else {
-//       setFeedback("wrong");
-//     }
-
-//     setTimeout(async () => {
-//       setFeedback("");
-
-//       const nextCount = questionCount + 1;
-//       const finalScore = score + (isCorrect ? 1 : 0);
-
-//       setQuestionCount(nextCount);
-
-//       // 🔥 End of round
-//       if (nextCount === TOTAL_QUESTIONS) {
-//         await saveScoreToFirestore(finalScore);
-
-//         alert(
-//           `🎯 Round Completed!\nScore: ${finalScore} / ${TOTAL_QUESTIONS}`
-//         );
-
-//         // 🔁 Reset
-//         setScore(0);
-//         setQuestionCount(0);
-//         loadNewQuestion();
-//       } else {
-//         loadNewQuestion();
-//       }
-//     }, 800);
-//   };
-
-//   // 📊 Performance Message
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Excellent!";
-//     if (accuracy > 50) return "👍 Good job!";
-//     return "💡 Keep practicing!";
-//   };
-
-//   return (
-//     <div className="case-page">
-//       <div className="letter-navbar">
-//         <h2>🔤 AI Letter Matching Game</h2>
-//       </div>
-
-//       <div className="instruction">
-//         Question {questionCount + 1} of {TOTAL_QUESTIONS}
-//       </div>
-
-//       <div className="big-letter">
-//         {currentUpper}
-//       </div>
-
-//       <div className="options-grid">
-//         {options.map((letter) => (
-//           <button
-//             key={letter}
-//             className="option-btn"
-//             onClick={() => handleClick(letter)}
-//           >
-//             {letter}
-//           </button>
-//         ))}
-//       </div>
-
-//       {feedback === "correct" && (
-//         <div className="feedback good">🎉 Correct!</div>
-//       )}
-
-//       {feedback === "wrong" && (
-//         <div className="feedback wrong">❌ Try Again</div>
-//       )}
-
-//       {/* 📊 Score */}
-//       <div className="ai-analysis">
-//         <p>Score: {score} / {questionCount}</p>
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
 import { useEffect, useState } from "react";
 import "../styles/UppercaseLowercase.css";
 
@@ -246,8 +64,7 @@ export default function UppercaseLowercase() {
     const randomUpper =
       uppercase[
         Math.floor(
-          Math.random() *
-            uppercase.length
+          Math.random() * uppercase.length
         )
       ];
 
@@ -264,8 +81,7 @@ export default function UppercaseLowercase() {
       )
       .sort(
         () =>
-          0.5 -
-          Math.random()
+          0.5 - Math.random()
       )
       .slice(0, 3);
 
@@ -274,8 +90,7 @@ export default function UppercaseLowercase() {
       correct,
     ].sort(
       () =>
-        0.5 -
-        Math.random()
+        0.5 - Math.random()
     );
 
     return {
@@ -359,8 +174,10 @@ export default function UppercaseLowercase() {
     save({
       currentUpper:
         question.question,
+
       options:
         question.options,
+
       score: 0,
       questionCount: 0,
       feedback: "",
@@ -483,12 +300,17 @@ export default function UppercaseLowercase() {
       await save({
         currentUpper:
           question.question,
+
         options:
           question.options,
+
         score: updatedScore,
+
         questionCount:
           nextCount,
+
         feedback: "",
+
         gameOver: false,
       });
     }, 800);
@@ -510,6 +332,7 @@ export default function UppercaseLowercase() {
           console.log(
             "❌ No Firebase user ID"
           );
+
           return;
         }
 
@@ -534,12 +357,16 @@ export default function UppercaseLowercase() {
           gameResultsRef,
           {
             score: finalScore,
+
             totalQuestions:
               TOTAL_QUESTIONS,
+
             accuracy:
               accuracy.toFixed(2),
+
             createdAt:
               Timestamp.now(),
+
             game:
               "Uppercase-Lowercase",
           }
@@ -609,8 +436,10 @@ export default function UppercaseLowercase() {
     await save({
       currentUpper:
         question.question,
+
       options:
         question.options,
+
       score: 0,
       questionCount: 0,
       feedback: "",
@@ -626,16 +455,44 @@ export default function UppercaseLowercase() {
     return (
       <div className="case-page">
 
-        <div className="letter-navbar">
-          <h2>
-            🔤 AI Letter Matching Game
-          </h2>
+        <div className="case-navbar">
+
+          <div className="case-brand">
+            <span className="case-brand-icon">
+              🌴
+            </span>
+
+            <div>
+              <strong>CurioKids</strong>
+              <small>Jungle Practice</small>
+            </div>
+          </div>
+
+          <div className="case-navbar-title">
+            🔤 Uppercase & Lowercase
+          </div>
+
         </div>
 
-        <div className="instruction">
-          🌱 Loading your progress...
-        </div>
+        <main className="case-main">
 
+          <div className="case-loading-card">
+
+            <div className="case-loading-icon">
+              🌿
+            </div>
+
+            <h2>
+              Loading your adventure...
+            </h2>
+
+            <p>
+              Getting your letters ready!
+            </p>
+
+          </div>
+
+        </main>
       </div>
     );
   }
@@ -653,37 +510,96 @@ export default function UppercaseLowercase() {
     return (
       <div className="case-page">
 
-        <div className="letter-navbar">
-          <h2>
-            🔤 AI Letter Matching Game
-          </h2>
+        <div className="case-navbar">
+
+          <div className="case-brand">
+            <span className="case-brand-icon">
+              🌴
+            </span>
+
+            <div>
+              <strong>CurioKids</strong>
+              <small>Jungle Practice</small>
+            </div>
+          </div>
+
+          <div className="case-navbar-title">
+            🔤 Uppercase & Lowercase
+          </div>
+
         </div>
 
-        <div className="instruction">
-          🏆 Round Completed!
+        <main className="case-main">
+
+          <section className="case-game-card case-complete-card">
+
+            <span className="case-leaf case-leaf-one">
+              🍃
+            </span>
+
+            <span className="case-leaf case-leaf-two">
+              🌿
+            </span>
+
+            <div className="completion-content">
+
+              <div className="completion-icon">
+                🎉
+              </div>
+
+              <span className="completion-kicker">
+                JUNGLE PRACTICE COMPLETE
+              </span>
+
+              <h1>
+                Amazing Work!
+              </h1>
+
+              <p>
+                You matched uppercase and
+                lowercase letters beautifully!
+              </p>
+
+              <div className="final-score-box">
+
+                <span>⭐</span>
+
+                <strong>
+                  {score}
+                </strong>
+
+                <small>
+                  / {TOTAL_QUESTIONS}
+                </small>
+
+              </div>
+
+              <div className="percentage-box">
+                {percentage.toFixed(0)}%
+              </div>
+
+              <div className="performance-message">
+                {getPerformanceMessage()}
+              </div>
+
+              <button
+                className="play-again-btn"
+                onClick={playAgain}
+              >
+                <span>🔄</span>
+                Play Again
+                <b>→</b>
+              </button>
+
+            </div>
+
+          </section>
+
+        </main>
+
+        <div className="case-floating-helper">
+          🤖
         </div>
-
-        <div className="big-letter">
-          {percentage.toFixed(0)}%
-        </div>
-
-        <div className="ai-analysis">
-          <p>
-            Score: {score} /{" "}
-            {TOTAL_QUESTIONS}
-          </p>
-
-          <p>
-            {getPerformanceMessage()}
-          </p>
-        </div>
-
-        <button
-          className="option-btn"
-          onClick={playAgain}
-        >
-          🔄 Play Again
-        </button>
 
       </div>
     );
@@ -696,64 +612,244 @@ export default function UppercaseLowercase() {
   return (
     <div className="case-page">
 
-      <div className="letter-navbar">
-        <h2>
-          🔤 AI Letter Matching Game
-        </h2>
-      </div>
+      {/* =================================================
+          NAVBAR
+      ================================================= */}
 
-      <div className="instruction">
-        Question{" "}
-        {questionCount + 1} of{" "}
-        {TOTAL_QUESTIONS}
-      </div>
+      <header className="case-navbar">
 
-      <div className="big-letter">
-        {currentUpper}
-      </div>
+        <div className="case-brand">
 
-      <div className="options-grid">
+          <span className="case-brand-icon">
+            🌴
+          </span>
 
-        {options.map(
-          (letter) => (
-            <button
-              key={letter}
-              className="option-btn"
-              onClick={() =>
-                handleClick(letter)
-              }
-              disabled={locked}
-            >
-              {letter}
-            </button>
-          )
-        )}
+          <div>
+            <strong>CurioKids</strong>
+            <small>Jungle Practice</small>
+          </div>
 
-      </div>
-
-      {feedback ===
-        "correct" && (
-        <div className="feedback good">
-          🎉 Correct!
         </div>
-      )}
 
-      {feedback ===
-        "wrong" && (
-        <div className="feedback wrong">
-          ❌ Try Again
+        <div className="case-navbar-title">
+          <span>🔤</span>
+          Uppercase & Lowercase
         </div>
-      )}
 
-      <div className="ai-analysis">
-        <p>
-          Score: {score} /{" "}
-          {questionCount}
-        </p>
+      </header>
 
-        <p>
-          {getPerformanceMessage()}
-        </p>
+      {/* =================================================
+          MAIN
+      ================================================= */}
+
+      <main className="case-main">
+
+        {/* PAGE TITLE */}
+
+        <section className="case-heading">
+
+          <span className="case-kicker">
+            CURIOKIDS • JUNGLE PRACTICE
+          </span>
+
+          <h1>
+            Match the Letters 🔤
+          </h1>
+
+          <p>
+            Find the lowercase letter that
+            matches the uppercase letter.
+          </p>
+
+        </section>
+
+        {/* =================================================
+            GAME CARD
+        ================================================= */}
+
+        <section className="case-game-card">
+
+          <span className="case-leaf case-leaf-one">
+            🍃
+          </span>
+
+          <span className="case-leaf case-leaf-two">
+            🌿
+          </span>
+
+          {/* GAME HEADER */}
+
+          <div className="case-game-header">
+
+            <div>
+
+              <span className="case-game-label">
+                LETTER MATCHING
+              </span>
+
+              <h2>
+                Find its lowercase partner
+              </h2>
+
+            </div>
+
+            <div className="case-progress">
+
+              <strong>
+                {questionCount + 1}
+              </strong>
+
+              <span>
+                / {TOTAL_QUESTIONS}
+              </span>
+
+              <small>
+                Question
+              </small>
+
+            </div>
+
+          </div>
+
+          {/* =================================================
+              LETTER MATCH AREA
+          ================================================= */}
+
+          <div className="letter-match-area">
+
+            {/* UPPERCASE */}
+
+            <div className="letter-display-box">
+
+              <span className="display-label">
+                UPPERCASE
+              </span>
+
+              <div className="big-letter">
+                {currentUpper}
+              </div>
+
+            </div>
+
+            {/* MATCH ARROW */}
+
+            <div className="match-arrow">
+              ↓
+            </div>
+
+            {/* INSTRUCTION */}
+
+            <div className="match-instruction">
+
+              <span>
+                👀
+              </span>
+
+              <div>
+                <strong>
+                  Which lowercase letter
+                  matches?
+                </strong>
+
+                <small>
+                  Choose the correct partner below
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* =================================================
+              OPTIONS
+          ================================================= */}
+
+          <div className="options-title">
+            <span>🌿</span>
+            CHOOSE YOUR ANSWER
+          </div>
+
+          <div className="options-grid">
+
+            {options.map(
+              (letter) => (
+                <button
+                  key={letter}
+                  className={`option-btn ${
+                    feedback === "correct" &&
+                    letter ===
+                      currentUpper.toLowerCase()
+                      ? "correct-option"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleClick(letter)
+                  }
+                  disabled={locked}
+                >
+                  {letter}
+
+                  <span className="option-check">
+                    ✓
+                  </span>
+                </button>
+              )
+            )}
+
+          </div>
+
+          {/* =================================================
+              FEEDBACK
+          ================================================= */}
+
+          {feedback === "correct" && (
+            <div className="feedback good">
+              🎉 Correct! Great matching!
+            </div>
+          )}
+
+          {feedback === "wrong" && (
+            <div className="feedback wrong">
+              💡 Try again! Look carefully.
+            </div>
+          )}
+
+          {/* =================================================
+              SCORE
+          ================================================= */}
+
+          <div className="case-bottom-row">
+
+            <div className="score-pill">
+
+              <span>⭐</span>
+
+              <strong>
+                Score
+              </strong>
+
+              <b>
+                {score}
+              </b>
+
+              <span>
+                / {questionCount}
+              </span>
+
+            </div>
+
+            <div className="performance-pill">
+              {getPerformanceMessage()}
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+      <div className="case-floating-helper">
+        🤖
       </div>
 
     </div>

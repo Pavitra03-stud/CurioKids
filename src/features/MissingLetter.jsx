@@ -39,11 +39,9 @@ export default function MissingLetter() {
   const [answerLocked, setAnswerLocked] = useState(false);
   const [selectedLetter, setSelectedLetter] = useState("");
 
-  /*
-  ============================================================
-  🤖 GENERATE AI QUESTION
-  ============================================================
-  */
+  /* =========================================================
+     GENERATE AI QUESTION
+  ========================================================= */
 
   const generateQuestionAI = async () => {
     try {
@@ -89,12 +87,10 @@ export default function MissingLetter() {
 
       return question;
     } catch (error) {
-      console.error("❌ Missing Letter AI error:", error);
-
-      /*
-        Fallback questions.
-        These keep the game working even if AI is temporarily unavailable.
-      */
+      console.error(
+        "❌ Missing Letter AI error:",
+        error
+      );
 
       const fallbackQuestions = [
         {
@@ -126,7 +122,10 @@ export default function MissingLetter() {
 
       const fallback =
         fallbackQuestions[
-          Math.floor(Math.random() * fallbackQuestions.length)
+          Math.floor(
+            Math.random() *
+              fallbackQuestions.length
+          )
         ];
 
       setDisplayWord(fallback.displayWord);
@@ -141,11 +140,9 @@ export default function MissingLetter() {
     }
   };
 
-  /*
-  ============================================================
-  🔥 RESTORE FROM FIREBASE
-  ============================================================
-  */
+  /* =========================================================
+     RESTORE FROM FIREBASE
+  ========================================================= */
 
   useEffect(() => {
     if (progressLoading || restored) {
@@ -153,7 +150,10 @@ export default function MissingLetter() {
     }
 
     const restoreGame = async () => {
-      console.log("🔎 Missing Letter restore:", savedState);
+      console.log(
+        "🔎 Missing Letter restore:",
+        savedState
+      );
 
       if (
         savedState &&
@@ -161,29 +161,61 @@ export default function MissingLetter() {
         Array.isArray(savedState.options) &&
         savedState.options.length > 0
       ) {
-        console.log("✅ Resuming Missing Letter");
+        console.log(
+          "✅ Resuming Missing Letter"
+        );
 
-        setDisplayWord(savedState.displayWord);
-        setOptions(savedState.options);
-        setCorrectAnswer(savedState.correctAnswer || "");
+        setDisplayWord(
+          savedState.displayWord
+        );
 
-        setScore(savedState.score ?? 0);
-        setQuestionCount(savedState.questionCount ?? 0);
+        setOptions(
+          savedState.options
+        );
 
-        setMessage(savedState.message || "");
-        setCompleted(Boolean(savedState.completed));
+        setCorrectAnswer(
+          savedState.correctAnswer || ""
+        );
+
+        setScore(
+          savedState.score ?? 0
+        );
+
+        setQuestionCount(
+          savedState.questionCount ?? 0
+        );
+
+        setMessage(
+          savedState.message || ""
+        );
+
+        setCompleted(
+          Boolean(savedState.completed)
+        );
       } else {
-        console.log("🆕 Starting new Missing Letter game");
+        console.log(
+          "🆕 Starting new Missing Letter game"
+        );
 
-        const question = await generateQuestionAI();
+        const question =
+          await generateQuestionAI();
 
         await save({
-          displayWord: question.displayWord,
-          options: question.options,
-          correctAnswer: question.correctAnswer,
+          displayWord:
+            question.displayWord,
+
+          options:
+            question.options,
+
+          correctAnswer:
+            question.correctAnswer,
+
           score: 0,
+
           questionCount: 0,
+
           message: "",
+
           completed: false,
         });
       }
@@ -192,15 +224,19 @@ export default function MissingLetter() {
     };
 
     restoreGame();
-  }, [progressLoading, restored, savedState]);
+  }, [
+    progressLoading,
+    restored,
+    savedState,
+  ]);
 
-  /*
-  ============================================================
-  💾 SAVE GAME
-  ============================================================
-  */
+  /* =========================================================
+     SAVE GAME
+  ========================================================= */
 
-  const saveCurrentState = async (overrides = {}) => {
+  const saveCurrentState = async (
+    overrides = {}
+  ) => {
     await save({
       displayWord,
       options,
@@ -213,18 +249,23 @@ export default function MissingLetter() {
     });
   };
 
-  /*
-  ============================================================
-  🎯 ANSWER
-  ============================================================
-  */
+  /* =========================================================
+     ANSWER
+  ========================================================= */
 
   const handleAnswer = async (letter) => {
-    if (answerLocked || completed || loading) {
+    if (
+      answerLocked ||
+      completed ||
+      loading
+    ) {
       return;
     }
 
-    if (questionCount >= TOTAL_QUESTIONS) {
+    if (
+      questionCount >=
+      TOTAL_QUESTIONS
+    ) {
       return;
     }
 
@@ -232,9 +273,12 @@ export default function MissingLetter() {
     setSelectedLetter(letter);
 
     const isCorrect =
-      letter.toLowerCase() === correctAnswer.toLowerCase();
+      letter.toLowerCase() ===
+      correctAnswer.toLowerCase();
 
-    const updatedScore = isCorrect ? score + 1 : score;
+    const updatedScore = isCorrect
+      ? score + 1
+      : score;
 
     const feedback = isCorrect
       ? "Amazing! You found the missing letter! 🌟"
@@ -242,78 +286,83 @@ export default function MissingLetter() {
 
     setMessage(feedback);
 
-    /*
-      Save immediately so refresh during feedback
-      does not lose the answer.
-    */
-
     await saveCurrentState({
       score: updatedScore,
       message: feedback,
     });
 
     setTimeout(async () => {
-      const nextQuestionNumber = questionCount + 1;
+      const nextQuestionNumber =
+        questionCount + 1;
 
-      /*
-      ========================================================
-      🏆 COMPLETE
-      ========================================================
-      */
+      /* =====================================================
+         COMPLETE
+      ===================================================== */
 
-      if (nextQuestionNumber === TOTAL_QUESTIONS) {
+      if (
+        nextQuestionNumber ===
+        TOTAL_QUESTIONS
+      ) {
         const percentage =
-          (updatedScore / TOTAL_QUESTIONS) * 100;
+          (updatedScore /
+            TOTAL_QUESTIONS) *
+          100;
 
         setScore(updatedScore);
-        setQuestionCount(nextQuestionNumber);
+        setQuestionCount(
+          nextQuestionNumber
+        );
         setCompleted(true);
 
         const completionMessage =
           `You scored ${updatedScore} out of ${TOTAL_QUESTIONS}! 🎉`;
 
-        setMessage(completionMessage);
-
-        /*
-          IMPORTANT:
-          finish() awards stars and clears active game.
-        */
+        setMessage(
+          completionMessage
+        );
 
         await finish(
           percentage,
           "Missing Letter"
         );
 
-        /*
-          DO NOT call save() after finish().
-          finish() clears activeGames.
-        */
-
         setAnswerLocked(false);
 
         return;
       }
 
-      /*
-      ========================================================
-      ➡️ NEXT QUESTION
-      ========================================================
-      */
+      /* =====================================================
+         NEXT QUESTION
+      ===================================================== */
 
-      const nextQuestion = await generateQuestionAI();
+      const nextQuestion =
+        await generateQuestionAI();
 
       setScore(updatedScore);
-      setQuestionCount(nextQuestionNumber);
+      setQuestionCount(
+        nextQuestionNumber
+      );
+
       setMessage("");
       setSelectedLetter("");
 
       await save({
-        displayWord: nextQuestion.displayWord,
-        options: nextQuestion.options,
-        correctAnswer: nextQuestion.correctAnswer,
+        displayWord:
+          nextQuestion.displayWord,
+
+        options:
+          nextQuestion.options,
+
+        correctAnswer:
+          nextQuestion.correctAnswer,
+
         score: updatedScore,
-        questionCount: nextQuestionNumber,
+
+        questionCount:
+          nextQuestionNumber,
+
         message: "",
+
         completed: false,
       });
 
@@ -321,11 +370,9 @@ export default function MissingLetter() {
     }, 700);
   };
 
-  /*
-  ============================================================
-  🔄 PLAY AGAIN
-  ============================================================
-  */
+  /* =========================================================
+     PLAY AGAIN
+  ========================================================= */
 
   const handlePlayAgain = async () => {
     setScore(0);
@@ -335,30 +382,39 @@ export default function MissingLetter() {
     setAnswerLocked(false);
     setSelectedLetter("");
 
-    const newQuestion = await generateQuestionAI();
+    const newQuestion =
+      await generateQuestionAI();
 
     await save({
-      displayWord: newQuestion.displayWord,
-      options: newQuestion.options,
-      correctAnswer: newQuestion.correctAnswer,
+      displayWord:
+        newQuestion.displayWord,
+
+      options:
+        newQuestion.options,
+
+      correctAnswer:
+        newQuestion.correctAnswer,
+
       score: 0,
+
       questionCount: 0,
+
       message: "",
+
       completed: false,
     });
   };
 
-  /*
-  ============================================================
-  📊 PERFORMANCE
-  ============================================================
-  */
+  /* =========================================================
+     PERFORMANCE
+  ========================================================= */
 
   const getPerformance = () => {
     if (questionCount === 0) {
       return {
         title: "Ready to explore!",
-        text: "Look carefully at the word and find the missing letter.",
+        text:
+          "Look carefully at the word and find the missing letter.",
         emoji: "🔎",
       };
     }
@@ -369,7 +425,8 @@ export default function MissingLetter() {
     if (accuracy >= 80) {
       return {
         title: "Letter Detective! 🌟",
-        text: "You are doing an amazing job finding missing letters.",
+        text:
+          "You are doing an amazing job finding missing letters.",
         emoji: "🏆",
       };
     }
@@ -377,93 +434,142 @@ export default function MissingLetter() {
     if (accuracy >= 50) {
       return {
         title: "Great exploring! ⭐",
-        text: "Keep looking carefully. You are getting better!",
+        text:
+          "Keep looking carefully. You are getting better!",
         emoji: "🧩",
       };
     }
 
     return {
       title: "Keep practicing! 💚",
-      text: "Take your time and look at each letter carefully.",
+      text:
+        "Take your time and look at each letter carefully.",
       emoji: "🌱",
     };
   };
 
-  /*
-  ============================================================
-  ⏳ LOADING
-  ============================================================
-  */
+  /* =========================================================
+     LOADING
+  ========================================================= */
 
-  if (progressLoading || !restored) {
+  if (
+    progressLoading ||
+    !restored
+  ) {
     return (
       <div className="missing-page">
-        <div className="missing-loading">
-          <div className="detective-icon">🔎</div>
 
-          <h2>Getting your letter puzzle ready...</h2>
+        <nav className="missing-navbar">
 
-          <p>
-            Finding a fun word for you!
-          </p>
-
-          <div className="loading-dots">
-            <span />
-            <span />
-            <span />
+          <div className="missing-brand">
+            <span>🌿</span>
+            CurioKids
           </div>
-        </div>
+
+          <div className="missing-navbar-title">
+            🔎 Missing Letter
+          </div>
+
+        </nav>
+
+        <main className="missing-main">
+
+          <div className="missing-loading-card">
+
+            <div className="missing-loading-icon">
+              🔎
+            </div>
+
+            <h2>
+              Getting your letter puzzle ready...
+            </h2>
+
+            <p>
+              Finding a fun word for you!
+            </p>
+
+            <div className="missing-loading-dots">
+              <span />
+              <span />
+              <span />
+            </div>
+
+          </div>
+
+        </main>
+
       </div>
     );
   }
 
-  /*
-  ============================================================
-  🏆 COMPLETED SCREEN
-  ============================================================
-  */
+  /* =========================================================
+     COMPLETED
+  ========================================================= */
 
   if (completed) {
-    const performance = getPerformance();
+    const performance =
+      getPerformance();
 
     return (
       <div className="missing-page">
-        <div className="missing-shell">
-          <div className="completion-card">
 
-            <div className="completion-icon">
+        <nav className="missing-navbar">
+
+          <div className="missing-brand">
+            <span>🌿</span>
+            CurioKids
+          </div>
+
+          <div className="missing-navbar-title">
+            🔎 Missing Letter
+          </div>
+
+        </nav>
+
+        <main className="missing-main">
+
+          <div className="missing-completion-card">
+
+            <div className="missing-trophy">
               🎉
             </div>
 
-            <div className="completion-stars">
+            <div className="missing-stars">
               ⭐ ⭐ ⭐
             </div>
 
-            <p className="completion-label">
+            <div className="missing-complete-label">
               MISSION COMPLETE
-            </p>
+            </div>
 
             <h1>
               Letter Detective!
             </h1>
 
-            <p className="completion-subtitle">
+            <p className="missing-complete-text">
               You found all the missing letters!
             </p>
 
-            <div className="final-score">
-              <span>Your score</span>
+            <div className="missing-final-score">
+
+              <span>
+                YOUR SCORE
+              </span>
 
               <strong>
                 {score}
-                <small> / {TOTAL_QUESTIONS}</small>
+                <small>
+                  /{TOTAL_QUESTIONS}
+                </small>
               </strong>
+
             </div>
 
-            <div className="performance-card">
-              <span className="performance-emoji">
+            <div className="missing-performance">
+
+              <div className="missing-performance-icon">
                 {performance.emoji}
-              </span>
+              </div>
 
               <div>
                 <strong>
@@ -474,277 +580,300 @@ export default function MissingLetter() {
                   {performance.text}
                 </p>
               </div>
+
             </div>
 
             <button
-              className="play-again-btn"
+              className="missing-play-again"
               onClick={handlePlayAgain}
             >
               🔄 Find More Letters
             </button>
+
           </div>
-        </div>
+
+        </main>
+
       </div>
     );
   }
 
   const progress =
-    (questionCount / TOTAL_QUESTIONS) * 100;
+    (questionCount /
+      TOTAL_QUESTIONS) *
+    100;
+
+  /* =========================================================
+     MAIN GAME
+  ========================================================= */
 
   return (
     <div className="missing-page">
 
-      <div className="missing-shell">
+      {/* =====================================================
+          NAVBAR
+      ===================================================== */}
 
-        {/* ==================================================
-            HEADER
-        ================================================== */}
+      <nav className="missing-navbar">
 
-        <header className="missing-header">
+        <div className="missing-brand">
+          <span>🌿</span>
+          CurioKids
+        </div>
 
-          <div className="detective-badge">
-            🔎
-          </div>
+        <div className="missing-navbar-title">
+          🔎 Missing Letter
+        </div>
 
-          <div>
-            <p className="eyebrow">
-              LETTER DETECTIVE
-            </p>
+      </nav>
 
-            <h1>
-              Missing Letter
-            </h1>
+      {/* =====================================================
+          MAIN
+      ===================================================== */}
 
-            <p>
-              Can you discover which letter is hiding?
-            </p>
-          </div>
+      <main className="missing-main">
 
-        </header>
+        <section className="missing-game-card">
 
-        {/* ==================================================
-            STATS
-        ================================================== */}
+          {/* =================================================
+              STATS
+          ================================================= */}
 
-        <div className="missing-stats">
+          <div className="missing-stats">
 
-          <div className="stat-card">
+            <div className="missing-stat-pill">
 
-            <div className="stat-icon purple">
-              🧩
-            </div>
-
-            <div>
-              <span>PUZZLE</span>
+              <span>
+                Question
+              </span>
 
               <strong>
                 {questionCount + 1}
-                <small> / {TOTAL_QUESTIONS}</small>
+                <small>
+                  /{TOTAL_QUESTIONS}
+                </small>
               </strong>
+
             </div>
 
-          </div>
+            <div className="missing-stat-pill">
 
-          <div className="stat-card">
-
-            <div className="stat-icon yellow">
-              ⭐
-            </div>
-
-            <div>
-              <span>SCORE</span>
+              <span>
+                ⭐ Score
+              </span>
 
               <strong>
                 {score}
               </strong>
+
             </div>
 
           </div>
 
-        </div>
+          {/* =================================================
+              PROGRESS
+          ================================================= */}
 
-        {/* ==================================================
-            PROGRESS
-        ================================================== */}
+          <div className="missing-progress">
 
-        <div className="missing-progress">
+            <div className="missing-progress-top">
 
-          <div className="progress-heading">
-            <span>
-              Detective progress
-            </span>
+              <span>
+                Detective journey
+              </span>
 
-            <strong>
-              {Math.round(progress)}%
-            </strong>
-          </div>
-
-          <div className="progress-track">
-            <div
-              className="progress-value"
-              style={{
-                width: `${progress}%`,
-              }}
-            />
-          </div>
-
-        </div>
-
-        {/* ==================================================
-            MAIN GAME
-        ================================================== */}
-
-        <main className="detective-card">
-
-          <div className="case-tag">
-            🕵️ CASE #{questionCount + 1}
-          </div>
-
-          <h2>
-            A letter is hiding!
-          </h2>
-
-          <p className="question-description">
-            Look at the word carefully and discover
-            the missing letter.
-          </p>
-
-          {/* WORD */}
-
-          <div className="mystery-word">
-
-            {loading ? (
-              <div className="word-loading">
-                🔎
-              </div>
-            ) : (
-              displayWord
-                .split("")
-                .map((character, index) => (
-                  <span
-                    key={`${character}-${index}`}
-                    className={
-                      character === "_"
-                        ? "mystery-letter"
-                        : "normal-letter"
-                    }
-                  >
-                    {character === "_"
-                      ? selectedLetter
-                        ? selectedLetter.toUpperCase()
-                        : "?"
-                      : character.toUpperCase()}
-                  </span>
-                ))
-            )}
-
-          </div>
-
-          {/* HINT */}
-
-          <div className="detective-hint">
-
-            <span className="hint-icon">
-              💡
-            </span>
-
-            <div>
               <strong>
-                Detective hint
+                {Math.round(progress)}%
               </strong>
 
-              <p>
-                Say the word slowly and listen
-                for the missing sound.
-              </p>
+            </div>
+
+            <div className="missing-progress-track">
+
+              <div
+                className="missing-progress-fill"
+                style={{
+                  width: `${progress}%`,
+                }}
+              />
+
             </div>
 
           </div>
 
-          {/* QUESTION */}
+          {/* =================================================
+              GAME PANEL
+          ================================================= */}
 
-          <div className="answer-heading">
-            <span>
-              What letter belongs here?
-            </span>
-          </div>
+          <div className="missing-puzzle-panel">
 
-          {/* OPTIONS */}
+            <div className="missing-case-tag">
+              🕵️ CASE #{questionCount + 1}
+            </div>
 
-          <div className="letter-circles">
+            <h1>
+              A letter is hiding!
+            </h1>
 
-            {loading ? (
-              <div className="answer-loading">
-                Finding letters...
+            <p className="missing-question-description">
+              Look at the word carefully and
+              discover the missing letter.
+            </p>
+
+            {/* =================================================
+                WORD
+            ================================================= */}
+
+            <div className="missing-word-box">
+
+              {loading ? (
+                <div className="missing-word-loading">
+                  🔎
+                </div>
+              ) : (
+                displayWord
+                  .split("")
+                  .map(
+                    (character, index) => (
+                      <span
+                        key={`${character}-${index}`}
+                        className={
+                          character === "_"
+                            ? "missing-word-letter"
+                            : "missing-normal-letter"
+                        }
+                      >
+                        {character === "_"
+                          ? selectedLetter
+                            ? selectedLetter.toUpperCase()
+                            : "?"
+                          : character.toUpperCase()}
+                      </span>
+                    )
+                  )
+              )}
+
+            </div>
+
+            {/* =================================================
+                HINT
+            ================================================= */}
+
+            <div className="missing-hint">
+
+              <span className="missing-hint-icon">
+                💡
+              </span>
+
+              <div>
+
+                <strong>
+                  Detective hint
+                </strong>
+
+                <p>
+                  Say the word slowly and
+                  listen for the missing sound.
+                </p>
+
               </div>
-            ) : (
-              options.map((letter, index) => {
 
-                const isSelected =
-                  selectedLetter === letter;
+            </div>
 
-                const isCorrect =
-                  isSelected &&
-                  letter.toLowerCase() ===
-                    correctAnswer.toLowerCase();
+            {/* =================================================
+                ANSWER TITLE
+            ================================================= */}
 
-                const isWrong =
-                  isSelected &&
-                  letter.toLowerCase() !==
-                    correctAnswer.toLowerCase();
+            <div className="missing-answer-heading">
+              What letter belongs here?
+            </div>
 
-                return (
-                  <button
-                    key={`${letter}-${index}`}
-                    className={[
-                      "letter-circle",
-                      `circle-${index % 4}`,
-                      isCorrect
-                        ? "letter-correct"
-                        : "",
-                      isWrong
-                        ? "letter-wrong"
-                        : "",
-                    ].join(" ")}
-                    onClick={() =>
-                      handleAnswer(letter)
-                    }
-                    disabled={
-                      answerLocked ||
-                      loading
-                    }
-                  >
-                    <span>
-                      {letter.toUpperCase()}
-                    </span>
-                  </button>
-                );
-              })
+            {/* =================================================
+                OPTIONS
+            ================================================= */}
+
+            <div className="missing-letter-options">
+
+              {loading ? (
+                <div className="missing-answer-loading">
+                  Finding letters...
+                </div>
+              ) : (
+                options.map(
+                  (letter, index) => {
+
+                    const isSelected =
+                      selectedLetter ===
+                      letter;
+
+                    const isCorrect =
+                      isSelected &&
+                      letter.toLowerCase() ===
+                        correctAnswer.toLowerCase();
+
+                    const isWrong =
+                      isSelected &&
+                      letter.toLowerCase() !==
+                        correctAnswer.toLowerCase();
+
+                    return (
+                      <button
+                        key={`${letter}-${index}`}
+                        type="button"
+                        className={[
+                          "missing-letter-button",
+                          `missing-option-${index % 4}`,
+
+                          isCorrect
+                            ? "missing-letter-correct"
+                            : "",
+
+                          isWrong
+                            ? "missing-letter-wrong"
+                            : "",
+                        ].join(" ")}
+                        onClick={() =>
+                          handleAnswer(letter)
+                        }
+                        disabled={
+                          answerLocked ||
+                          loading
+                        }
+                      >
+                        {letter.toUpperCase()}
+                      </button>
+                    );
+                  }
+                )
+              )}
+
+            </div>
+
+            {/* =================================================
+                FEEDBACK
+            ================================================= */}
+
+            {message && (
+              <div
+                className={
+                  message.includes("Amazing")
+                    ? "missing-feedback missing-feedback-correct"
+                    : "missing-feedback missing-feedback-wrong"
+                }
+              >
+                {message}
+              </div>
             )}
 
           </div>
 
-          {/* FEEDBACK */}
+        </section>
 
-          {message && (
-            <div
-              className={
-                message.includes("Amazing")
-                  ? "answer-feedback correct-feedback"
-                  : "answer-feedback wrong-feedback"
-              }
-            >
-              {message}
-            </div>
-          )}
-
-        </main>
-
-        {/* ==================================================
+        {/* =====================================================
             BOTTOM TIP
-        ================================================== */}
+        ===================================================== */}
 
-        <div className="detective-tip">
+        <div className="missing-tip">
           <span>🌱</span>
 
           <p>
@@ -752,7 +881,8 @@ export default function MissingLetter() {
           </p>
         </div>
 
-      </div>
+      </main>
+
     </div>
   );
 }

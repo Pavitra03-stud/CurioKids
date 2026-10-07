@@ -1,0 +1,532 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+/* =========================================================
+   CURIOKIDS - ENDING SOUNDS
+   Jungle + Wooden Theme
+   ========================================================= */
+
+.phonics-page {
+  min-height: 100vh;
+  width: 100%;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 75, 42, 0.12),
+      rgba(20, 75, 42, 0.28)
+    ),
+    url("../assets/gamesHome.png")
+      center top / cover fixed no-repeat;
+
+  font-family: "Nunito", sans-serif;
+  color: #fff8df;
+
+  text-align: center;
+
+  position: relative;
+  overflow-x: hidden;
+
+  padding: 0 20px 70px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.phonics-navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+
+  width: calc(100% + 40px);
+  margin-left: -20px;
+
+  min-height: 72px;
+
+  background: #173f2c;
+  border-bottom: 4px solid #e5b94f;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.28);
+}
+
+.phonics-navbar-title {
+  font-family: "Baloo 2", cursive;
+  font-size: 25px;
+  font-weight: 800;
+
+  color: #fff8df;
+}
+
+
+/* =========================================================
+   MAIN WOODEN GAME CARD
+   ========================================================= */
+
+.phonics-content {
+  position: relative;
+  z-index: 2;
+
+  width: min(860px, 100%);
+
+  margin: 38px auto 0;
+
+  padding: 38px 30px 45px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      145deg,
+      #b96d32 0%,
+      #9c5225 45%,
+      #7d3d1d 100%
+    );
+
+  border: 4px solid #e5b94f;
+  border-radius: 30px;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    inset 0 2px 0 rgba(255, 220, 135, 0.22),
+    inset 0 -8px 18px rgba(60, 24, 10, 0.2);
+}
+
+
+/* =========================================================
+   GAME INFO
+   ========================================================= */
+
+.game-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+
+  margin-bottom: 28px;
+}
+
+.game-info span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 18px;
+
+  background: rgba(255, 248, 220, 0.96);
+
+  border: 2px solid #dfb24a;
+  border-radius: 999px;
+
+  color: #315d3b;
+
+  font-size: 16px;
+  font-weight: 900;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* =========================================================
+   WORD DISPLAY
+   ========================================================= */
+
+.word-display {
+  margin: 15px auto 30px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   EMOJI CARD
+   ========================================================= */
+
+.emoji {
+  width: 135px;
+  height: 135px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff9e8,
+      #f7e8b8
+    );
+
+  border: 4px solid #d8a83f;
+  border-radius: 28px;
+
+  font-size: 78px;
+
+  box-shadow:
+    0 8px 0 #9d6727,
+    0 12px 20px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   WORD
+   ========================================================= */
+
+.word-display h2 {
+  margin: 5px 0 0;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 38px;
+  font-weight: 900;
+
+  color: #fff7d7;
+
+  text-shadow:
+    0 3px 0 rgba(78, 35, 14, 0.55),
+    0 5px 10px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   QUESTION
+   ========================================================= */
+
+.phonics-question {
+  margin: 20px 0 25px;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: clamp(25px, 4vw, 34px);
+  font-weight: 800;
+
+  color: #fff7d7;
+
+  text-shadow:
+    0 3px 0 rgba(78, 35, 14, 0.55),
+    0 5px 10px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   OPTIONS
+   ========================================================= */
+
+.options-grid {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(130px, 1fr));
+
+  gap: 18px;
+
+  width: min(650px, 100%);
+
+  margin: 25px auto 0;
+}
+
+
+/* =========================================================
+   OPTION BUTTON
+   ========================================================= */
+
+.option-btn {
+  min-height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px 25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff9e8,
+      #f7e8b8
+    );
+
+  border: 4px solid #d8a83f;
+  border-radius: 22px;
+
+  color: #315d3b;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 38px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 0 #9d6727,
+    0 12px 20px rgba(0, 0, 0, 0.22);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.option-btn:hover:not(:disabled) {
+  transform: translateY(-5px) scale(1.04);
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffde9,
+      #ffe99a
+    );
+
+  box-shadow:
+    0 11px 0 #8c5921,
+    0 16px 25px rgba(0, 0, 0, 0.25);
+}
+
+.option-btn:active:not(:disabled) {
+  transform: translateY(3px) scale(0.98);
+
+  box-shadow:
+    0 4px 0 #8c5921,
+    0 7px 12px rgba(0, 0, 0, 0.2);
+}
+
+.option-btn:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+
+/* =========================================================
+   FEEDBACK
+   ========================================================= */
+
+.feedback {
+  min-height: 35px;
+
+  margin-top: 25px;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 24px;
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.feedback.good {
+  color: #ffe99b;
+}
+
+.feedback.wrong {
+  color: #ffd0a8;
+}
+
+
+/* =========================================================
+   AI PERFORMANCE
+   ========================================================= */
+
+.ai-analysis {
+  min-height: 35px;
+
+  margin-top: 15px;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  color: #ffe99b;
+
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.ai-analysis p {
+  margin: 0;
+}
+
+
+/* =========================================================
+   COMPLETION
+   ========================================================= */
+
+.completion-card {
+  padding-top: 45px;
+  padding-bottom: 50px;
+}
+
+.completion-emoji {
+  font-size: 78px;
+}
+
+.completion-score,
+.completion-accuracy,
+.completion-performance {
+  margin: 10px 0;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  color: #fff7d7;
+}
+
+.completion-performance {
+  color: #ffe99b;
+}
+
+
+/* =========================================================
+   PLAY AGAIN
+   ========================================================= */
+
+.play-again-btn {
+  width: auto;
+  min-width: 190px;
+
+  margin-top: 22px;
+
+  font-size: 22px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .phonics-page {
+    padding: 0 12px 50px;
+  }
+
+  .phonics-navbar {
+    width: calc(100% + 24px);
+    margin-left: -12px;
+
+    min-height: 64px;
+  }
+
+  .phonics-navbar-title {
+    font-size: 21px;
+  }
+
+  .phonics-content {
+    margin-top: 25px;
+
+    padding: 30px 18px 35px;
+
+    border-radius: 24px;
+  }
+
+  .game-info {
+    gap: 8px;
+  }
+
+  .game-info span {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .emoji {
+    width: 105px;
+    height: 105px;
+
+    font-size: 62px;
+
+    border-radius: 23px;
+  }
+
+  .word-display h2 {
+    font-size: 32px;
+  }
+
+  .phonics-question {
+    font-size: 27px;
+  }
+
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 14px;
+  }
+
+  .option-btn {
+    min-height: 85px;
+
+    padding: 15px;
+
+    font-size: 32px;
+
+    border-radius: 18px;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .phonics-navbar-title {
+    font-size: 19px;
+  }
+
+  .phonics-content {
+    padding: 25px 12px 30px;
+  }
+
+  .game-info span {
+    font-size: 13px;
+    padding: 7px 11px;
+  }
+
+  .emoji {
+    width: 90px;
+    height: 90px;
+
+    font-size: 52px;
+  }
+
+  .word-display h2 {
+    font-size: 28px;
+  }
+
+  .phonics-question {
+    font-size: 24px;
+  }
+
+  .options-grid {
+    gap: 10px;
+  }
+
+  .option-btn {
+    min-height: 75px;
+
+    font-size: 28px;
+
+    border-width: 3px;
+  }
+
+  .feedback {
+    font-size: 21px;
+  }
+}

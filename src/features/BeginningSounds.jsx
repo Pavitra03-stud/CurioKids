@@ -110,8 +110,11 @@ export default function BeginningSounds() {
     if (progressLoading || !savedState || gameReady) return;
 
     const loadSavedGame = async () => {
-      const savedQuestion = Number(savedState.question) || 0;
-      const savedScore = Number(savedState.score) || 0;
+      const savedQuestion =
+        Number(savedState.question) || 0;
+
+      const savedScore =
+        Number(savedState.score) || 0;
 
       setQuestionCount(savedQuestion);
       setScore(savedScore);
@@ -124,11 +127,11 @@ export default function BeginningSounds() {
         Array.isArray(savedState.options) &&
         savedState.options.length > 0
       ) {
-        // 🔄 Restore exact saved question
+        // Restore exact saved question
         setCurrentWord(savedState.currentWord);
         setOptions(savedState.options);
 
-        // ✅ Important: Firebase question is already loaded
+        // Firebase question is already loaded
         setLoading(false);
 
         console.log(
@@ -173,7 +176,10 @@ export default function BeginningSounds() {
 
       console.log("✅ Activity logged");
     } catch (error) {
-      console.error("❌ Activity log error:", error);
+      console.error(
+        "❌ Activity log error:",
+        error
+      );
     }
   };
 
@@ -188,7 +194,11 @@ export default function BeginningSounds() {
       if (!userId) return;
 
       const userRef = doc(db, "users", userId);
-      const gameResultsRef = collection(userRef, "game_results");
+
+      const gameResultsRef = collection(
+        userRef,
+        "game_results"
+      );
 
       const accuracy =
         (finalScore / TOTAL_QUESTIONS) * 100;
@@ -203,7 +213,10 @@ export default function BeginningSounds() {
 
       console.log("✅ Game result saved");
     } catch (error) {
-      console.error("❌ Firestore result error:", error);
+      console.error(
+        "❌ Firestore result error:",
+        error
+      );
     }
   };
 
@@ -221,7 +234,8 @@ export default function BeginningSounds() {
       return;
     }
 
-    const isCorrect = letter === currentWord.sound;
+    const isCorrect =
+      letter === currentWord.sound;
 
     const updatedScore = isCorrect
       ? score + 1
@@ -237,7 +251,8 @@ export default function BeginningSounds() {
     setTimeout(async () => {
       setFeedback("");
 
-      const nextQuestion = questionCount + 1;
+      const nextQuestion =
+        questionCount + 1;
 
       // =====================================================
       // 🏁 GAME COMPLETED
@@ -276,12 +291,14 @@ export default function BeginningSounds() {
         setOptions([]);
 
         // Start a completely new round
-        const generated = await generateQuestionAI();
+        const generated =
+          await generateQuestionAI();
 
         await save({
           question: 0,
           score: 0,
-          currentWord: generated.currentWord,
+          currentWord:
+            generated.currentWord,
           options: generated.options,
         });
 
@@ -295,17 +312,21 @@ export default function BeginningSounds() {
       setQuestionCount(nextQuestion);
       setScore(updatedScore);
 
-      const generated = await generateQuestionAI();
+      const generated =
+        await generateQuestionAI();
 
       // 💾 SAVE RESUME PROGRESS
       await save({
         question: nextQuestion,
         score: updatedScore,
-        currentWord: generated.currentWord,
+        currentWord:
+          generated.currentWord,
         options: generated.options,
       });
 
-      console.log("💾 Beginning Sounds progress saved");
+      console.log(
+        "💾 Beginning Sounds progress saved"
+      );
     }, 700);
   };
 
@@ -319,8 +340,13 @@ export default function BeginningSounds() {
     const accuracy =
       (score / questionCount) * 100;
 
-    if (accuracy > 80) return "🌟 Excellent!";
-    if (accuracy > 50) return "👍 Good job!";
+    if (accuracy > 80) {
+      return "🌟 Excellent!";
+    }
+
+    if (accuracy > 50) {
+      return "👍 Good job!";
+    }
 
     return "💡 Practice more!";
   };
@@ -332,10 +358,26 @@ export default function BeginningSounds() {
   if (progressLoading || !gameReady) {
     return (
       <div className="phonics-page">
-        <div className="word-display">
-          <div className="emoji">⏳</div>
-          <h2>Loading your game...</h2>
-          <p>Checking your saved progress...</p>
+        <div className="phonics-navbar">
+          <div className="phonics-navbar-title">
+            🔤 AI Beginning Sounds
+          </div>
+        </div>
+
+        <div className="phonics-content">
+          <div className="word-display">
+            <div className="emoji">
+              ⏳
+            </div>
+
+            <h2>
+              Loading your game...
+            </h2>
+
+            <p className="feedback">
+              Checking your saved progress...
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -348,73 +390,113 @@ export default function BeginningSounds() {
   return (
     <div className="phonics-page">
 
-      <div className="letter-navbar">
-        <h2>🤖 AI Beginning Sounds</h2>
+      {/* =====================================================
+          NAVBAR
+          ===================================================== */}
+
+      <div className="phonics-navbar">
+        <div className="phonics-navbar-title">
+          🔤 AI Beginning Sounds
+        </div>
       </div>
 
-      <div className="game-info">
-        <span>
-          Question: {questionCount + 1}/{TOTAL_QUESTIONS}
-        </span>
 
-        <span>
-          Score: {score}
-        </span>
-      </div>
+      {/* =====================================================
+          WOODEN GAME CARD
+          ===================================================== */}
 
-      <div className="word-display">
-        <div className="emoji">
-          {loading
-            ? "⏳"
-            : currentWord?.emoji || "🔤"}
+      <div className="phonics-content">
+
+        {/* QUESTION + SCORE */}
+        <div className="game-info">
+
+          <span>
+            Question:{" "}
+            {questionCount + 1}/
+            {TOTAL_QUESTIONS}
+          </span>
+
+          <span>
+            ⭐ Score: {score}
+          </span>
+
         </div>
 
-        <h2>
-          {loading
-            ? "Loading..."
-            : currentWord?.word || "Loading..."}
-        </h2>
-      </div>
 
-      <h3>
-        What sound does it start with?
-      </h3>
+        {/* WORD / IMAGE */}
+        <div className="word-display">
 
-      <div className="options-grid">
-        {loading ? (
-          <p>Loading question...</p>
-        ) : (
-          options.map((letter, index) => (
-            <button
-              key={index}
-              className="option-btn"
-              onClick={() => handleClick(letter)}
-              disabled={!!feedback}
-            >
-              {letter}
-            </button>
-          ))
+          <div className="emoji">
+            {loading
+              ? "⏳"
+              : currentWord?.emoji || "🔤"}
+          </div>
+
+          <h2>
+            {loading
+              ? "Loading..."
+              : currentWord?.word ||
+                "Loading..."}
+          </h2>
+
+        </div>
+
+
+        {/* QUESTION */}
+        <h3 className="phonics-question">
+          What sound does it start with?
+        </h3>
+
+
+        {/* ANSWER OPTIONS */}
+        <div className="options-grid">
+
+          {loading ? (
+            <p className="feedback">
+              Loading question...
+            </p>
+          ) : (
+            options.map((letter, index) => (
+              <button
+                key={index}
+                className="option-btn"
+                onClick={() =>
+                  handleClick(letter)
+                }
+                disabled={!!feedback}
+              >
+                {letter}
+              </button>
+            ))
+          )}
+
+        </div>
+
+
+        {/* CORRECT FEEDBACK */}
+        {feedback === "correct" && (
+          <div className="feedback good">
+            🎉 Correct!
+          </div>
         )}
-      </div>
 
-      {feedback === "correct" && (
-        <div className="feedback good">
-          🎉 Correct!
+
+        {/* WRONG FEEDBACK */}
+        {feedback === "wrong" && (
+          <div className="feedback wrong">
+            ❌ Try Again
+          </div>
+        )}
+
+
+        {/* AI PERFORMANCE */}
+        <div className="ai-analysis">
+          <p>
+            {getPerformanceMessage()}
+          </p>
         </div>
-      )}
 
-      {feedback === "wrong" && (
-        <div className="feedback wrong">
-          ❌ Try Again
-        </div>
-      )}
-
-      <div className="ai-analysis">
-        <p>
-          {getPerformanceMessage()}
-        </p>
       </div>
-
     </div>
   );
 }

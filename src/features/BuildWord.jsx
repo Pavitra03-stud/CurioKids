@@ -6,11 +6,9 @@ const GAME_ID = "build-word";
 const GAME_NAME = "Build the Word";
 const TOTAL_QUESTIONS = 5;
 
-/*
-|--------------------------------------------------------------------------
-| LARGE ROTATING QUESTION BANK
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   QUESTION BANK
+========================================================= */
 
 const WORD_BANK = [
   {
@@ -140,11 +138,9 @@ const WORD_BANK = [
   },
 ];
 
-/*
-|--------------------------------------------------------------------------
-| HELPERS
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function shuffle(array) {
   return [...array].sort(() => Math.random() - 0.5);
@@ -159,20 +155,31 @@ function createQuestion(usedWords = []) {
     (item) => !usedWords.includes(item.word)
   );
 
-  const pool = available.length > 0 ? available : WORD_BANK;
+  const pool =
+    available.length > 0 ? available : WORD_BANK;
 
-  const selected = pool[Math.floor(Math.random() * pool.length)];
+  const selected =
+    pool[Math.floor(Math.random() * pool.length)];
 
-  const missingIndex = getMissingIndex(selected.word);
-  const missingLetter = selected.word[missingIndex];
+  const missingIndex = getMissingIndex(
+    selected.word
+  );
+
+  const missingLetter =
+    selected.word[missingIndex];
 
   const wrongLetters = shuffle(
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
       .split("")
-      .filter((letter) => letter !== missingLetter)
+      .filter(
+        (letter) => letter !== missingLetter
+      )
   ).slice(0, 3);
 
-  const options = shuffle([missingLetter, ...wrongLetters]);
+  const options = shuffle([
+    missingLetter,
+    ...wrongLetters,
+  ]);
 
   return {
     ...selected,
@@ -197,34 +204,53 @@ function createInitialState() {
   };
 }
 
-/*
-|--------------------------------------------------------------------------
-| COMPONENT
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 export default function BuildWord() {
-  const initialState = useMemo(() => createInitialState(), []);
+  const initialState = useMemo(
+    () => createInitialState(),
+    []
+  );
 
-  const { savedState, loading, save, finish } = useGameProgress(
+  const {
+    savedState,
+    loading,
+    save,
+    finish,
+  } = useGameProgress(
     GAME_ID,
     initialState
   );
 
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState(null);
-  const [usedWords, setUsedWords] = useState([]);
-  const [answered, setAnswered] = useState(false);
-  const [selectedLetter, setSelectedLetter] = useState(null);
-  const [message, setMessage] = useState("");
-  const [completed, setCompleted] = useState(false);
+  const [questionIndex, setQuestionIndex] =
+    useState(0);
 
-  /*
-  |--------------------------------------------------------------------------
-  | RESTORE GAME
-  |--------------------------------------------------------------------------
-  */
+  const [score, setScore] =
+    useState(0);
+
+  const [currentQuestion, setCurrentQuestion] =
+    useState(null);
+
+  const [usedWords, setUsedWords] =
+    useState([]);
+
+  const [answered, setAnswered] =
+    useState(false);
+
+  const [selectedLetter, setSelectedLetter] =
+    useState(null);
+
+  const [message, setMessage] =
+    useState("");
+
+  const [completed, setCompleted] =
+    useState(false);
+
+  /* =======================================================
+     RESTORE GAME
+  ======================================================= */
 
   useEffect(() => {
     if (loading) return;
@@ -234,49 +260,100 @@ export default function BuildWord() {
       Object.keys(savedState).length > 0 &&
       savedState.currentQuestion
     ) {
-      setQuestionIndex(savedState.questionIndex || 0);
-      setScore(savedState.score || 0);
-      setCurrentQuestion(savedState.currentQuestion);
-      setUsedWords(savedState.usedWords || []);
-      setAnswered(savedState.answered || false);
-      setSelectedLetter(savedState.selectedLetter || null);
-      setMessage(savedState.message || "");
-      setCompleted(savedState.completed || false);
+      setQuestionIndex(
+        savedState.questionIndex || 0
+      );
 
-      console.log("✅ Build Word restored:", savedState);
+      setScore(
+        savedState.score || 0
+      );
+
+      setCurrentQuestion(
+        savedState.currentQuestion
+      );
+
+      setUsedWords(
+        savedState.usedWords || []
+      );
+
+      setAnswered(
+        savedState.answered || false
+      );
+
+      setSelectedLetter(
+        savedState.selectedLetter || null
+      );
+
+      setMessage(
+        savedState.message || ""
+      );
+
+      setCompleted(
+        savedState.completed || false
+      );
+
+      console.log(
+        "✅ Build Word restored:",
+        savedState
+      );
+
       return;
     }
 
-    const fresh = createInitialState();
+    const fresh =
+      createInitialState();
 
-    setQuestionIndex(fresh.questionIndex);
-    setScore(fresh.score);
-    setCurrentQuestion(fresh.currentQuestion);
-    setUsedWords(fresh.usedWords);
-    setAnswered(fresh.answered);
-    setSelectedLetter(fresh.selectedLetter);
-    setMessage(fresh.message);
+    setQuestionIndex(
+      fresh.questionIndex
+    );
+
+    setScore(
+      fresh.score
+    );
+
+    setCurrentQuestion(
+      fresh.currentQuestion
+    );
+
+    setUsedWords(
+      fresh.usedWords
+    );
+
+    setAnswered(false);
+    setSelectedLetter(null);
+    setMessage("");
     setCompleted(false);
 
     save({
-      questionIndex: fresh.questionIndex,
-      score: fresh.score,
-      currentQuestion: fresh.currentQuestion,
-      usedWords: fresh.usedWords,
+      questionIndex:
+        fresh.questionIndex,
+
+      score:
+        fresh.score,
+
+      currentQuestion:
+        fresh.currentQuestion,
+
+      usedWords:
+        fresh.usedWords,
+
       answered: false,
+
       selectedLetter: null,
+
       message: "",
+
       completed: false,
     });
   }, [loading, savedState]);
 
-  /*
-  |--------------------------------------------------------------------------
-  | SAVE CURRENT STATE
-  |--------------------------------------------------------------------------
-  */
+  /* =======================================================
+     SAVE CURRENT STATE
+  ======================================================= */
 
-  const saveCurrentState = async (overrides = {}) => {
+  const saveCurrentState = async (
+    overrides = {}
+  ) => {
     await save({
       questionIndex,
       score,
@@ -290,21 +367,31 @@ export default function BuildWord() {
     });
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | SELECT LETTER
-  |--------------------------------------------------------------------------
-  */
+  /* =======================================================
+     SELECT LETTER
+  ======================================================= */
 
-  const handleLetterClick = async (letter) => {
-    if (!currentQuestion || answered || completed) return;
+  const handleLetterClick = async (
+    letter
+  ) => {
+    if (
+      !currentQuestion ||
+      answered ||
+      completed
+    ) {
+      return;
+    }
 
     setSelectedLetter(letter);
     setAnswered(true);
 
-    const isCorrect = letter === currentQuestion.missingLetter;
+    const isCorrect =
+      letter ===
+      currentQuestion.missingLetter;
 
-    const newScore = isCorrect ? score + 1 : score;
+    const newScore = isCorrect
+      ? score + 1
+      : score;
 
     const newMessage = isCorrect
       ? "🎉 Amazing! You built the word!"
@@ -321,25 +408,31 @@ export default function BuildWord() {
     });
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | NEXT QUESTION
-  |--------------------------------------------------------------------------
-  */
+  /* =======================================================
+     NEXT QUESTION
+  ======================================================= */
 
   const handleNext = async () => {
-    if (!currentQuestion || !answered || completed) return;
+    if (
+      !currentQuestion ||
+      !answered ||
+      completed
+    ) {
+      return;
+    }
 
-    /*
-    |--------------------------------------------------------------
-    | LAST QUESTION
-    |--------------------------------------------------------------
-    */
+    /* LAST QUESTION */
 
-    if (questionIndex >= TOTAL_QUESTIONS - 1) {
+    if (
+      questionIndex >=
+      TOTAL_QUESTIONS - 1
+    ) {
       const finalScore = score;
+
       const percentage = Math.round(
-        (finalScore / TOTAL_QUESTIONS) * 100
+        (finalScore /
+          TOTAL_QUESTIONS) *
+          100
       );
 
       setCompleted(true);
@@ -349,65 +442,100 @@ export default function BuildWord() {
         answered: true,
       });
 
-      await finish(percentage, GAME_NAME);
+      await finish(
+        percentage,
+        GAME_NAME
+      );
 
       return;
     }
 
-    /*
-    |--------------------------------------------------------------
-    | NEW QUESTION
-    |--------------------------------------------------------------
-    */
+    /* NEW QUESTION */
 
-    const nextQuestion = createQuestion(usedWords);
+    const nextQuestion =
+      createQuestion(usedWords);
 
-    const newUsedWords = [...usedWords, nextQuestion.word];
+    const newUsedWords = [
+      ...usedWords,
+      nextQuestion.word,
+    ];
 
-    const nextIndex = questionIndex + 1;
+    const nextIndex =
+      questionIndex + 1;
 
     setQuestionIndex(nextIndex);
-    setCurrentQuestion(nextQuestion);
-    setUsedWords(newUsedWords);
+
+    setCurrentQuestion(
+      nextQuestion
+    );
+
+    setUsedWords(
+      newUsedWords
+    );
+
     setAnswered(false);
+
     setSelectedLetter(null);
+
     setMessage("");
 
     await save({
-      questionIndex: nextIndex,
+      questionIndex:
+        nextIndex,
+
       score,
-      currentQuestion: nextQuestion,
-      usedWords: newUsedWords,
+
+      currentQuestion:
+        nextQuestion,
+
+      usedWords:
+        newUsedWords,
+
       answered: false,
+
       selectedLetter: null,
+
       message: "",
+
       completed: false,
     });
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | PLAY AGAIN
-  |--------------------------------------------------------------------------
-  */
+  /* =======================================================
+     PLAY AGAIN
+  ======================================================= */
 
   const handlePlayAgain = async () => {
-    const fresh = createInitialState();
+    const fresh =
+      createInitialState();
 
     setQuestionIndex(0);
+
     setScore(0);
-    setCurrentQuestion(fresh.currentQuestion);
-    setUsedWords(fresh.usedWords);
+
+    setCurrentQuestion(
+      fresh.currentQuestion
+    );
+
+    setUsedWords(
+      fresh.usedWords
+    );
+
     setAnswered(false);
+
     setSelectedLetter(null);
+
     setMessage("");
+
     setCompleted(false);
 
     await save({
       questionIndex: 0,
       score: 0,
-      currentQuestion: fresh.currentQuestion,
-      usedWords: fresh.usedWords,
+      currentQuestion:
+        fresh.currentQuestion,
+      usedWords:
+        fresh.usedWords,
       answered: false,
       selectedLetter: null,
       message: "",
@@ -415,297 +543,459 @@ export default function BuildWord() {
     });
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | LOADING
-  |--------------------------------------------------------------------------
-  */
+  /* =======================================================
+     LOADING
+  ======================================================= */
 
-  if (loading || !currentQuestion) {
+  if (
+    loading ||
+    !currentQuestion
+  ) {
     return (
       <div className="build-word-page">
-        <div className="build-loading">
-          <div className="loading-emoji">🧩</div>
-          <h2>Building your game...</h2>
-          <p>Getting some fun words ready!</p>
-        </div>
+
+        <nav className="build-navbar">
+
+          <div className="build-brand">
+            <span>🌿</span>
+            CurioKids
+          </div>
+
+          <div className="build-navbar-title">
+            🧩 Build the Word
+          </div>
+
+        </nav>
+
+        <main className="build-main">
+
+          <div className="build-loading-card">
+
+            <div className="build-loading-icon">
+              🧩
+            </div>
+
+            <h2>
+              Building your game...
+            </h2>
+
+            <p>
+              Getting some fun words ready!
+            </p>
+
+          </div>
+
+        </main>
+
       </div>
     );
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | COMPLETED SCREEN
-  |--------------------------------------------------------------------------
-  */
+  /* =======================================================
+     COMPLETED SCREEN
+  ======================================================= */
 
   if (completed) {
-    const percentage = Math.round(
-      (score / TOTAL_QUESTIONS) * 100
-    );
+    const percentage =
+      Math.round(
+        (score /
+          TOTAL_QUESTIONS) *
+          100
+      );
 
     return (
       <div className="build-word-page">
-        <div className="build-shell">
-          <div className="build-complete">
-            <div className="complete-badge">🏆</div>
 
-            <h1>Word Builder Champion!</h1>
+        <nav className="build-navbar">
 
-            <p className="complete-text">
+          <div className="build-brand">
+            <span>🌿</span>
+            CurioKids
+          </div>
+
+          <div className="build-navbar-title">
+            🧩 Build the Word
+          </div>
+
+        </nav>
+
+        <main className="build-main">
+
+          <div className="build-complete-card">
+
+            <div className="build-trophy">
+              🏆
+            </div>
+
+            <div className="build-complete-label">
+              ROUND COMPLETED
+            </div>
+
+            <h1>
+              Word Builder Champion!
+            </h1>
+
+            <p className="build-complete-text">
               You finished building all the words!
             </p>
 
-            <div className="result-box">
-              <div>
-                <span>Score</span>
+            <div className="build-result-grid">
+
+              <div className="build-result-card">
+
+                <span>
+                  SCORE
+                </span>
+
                 <strong>
                   {score}/{TOTAL_QUESTIONS}
                 </strong>
+
               </div>
 
-              <div>
-                <span>Accuracy</span>
-                <strong>{percentage}%</strong>
+              <div className="build-result-card">
+
+                <span>
+                  ACCURACY
+                </span>
+
+                <strong>
+                  {percentage}%
+                </strong>
+
               </div>
+
             </div>
 
-            <div className="celebration">
+            <div className="build-celebration">
+
               {percentage >= 80
                 ? "🌟 Fantastic word building!"
                 : "🌱 Great effort! Keep practicing!"}
+
             </div>
 
             <button
-              className="play-again-button"
+              className="build-play-again"
               onClick={handlePlayAgain}
             >
               🔄 Build Again
             </button>
+
           </div>
-        </div>
+
+        </main>
+
       </div>
     );
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | WORD DISPLAY
-  |--------------------------------------------------------------------------
-  */
+  /* =======================================================
+     WORD DISPLAY
+  ======================================================= */
 
-  const wordLetters = currentQuestion.word.split("");
+  const wordLetters =
+    currentQuestion.word.split("");
 
   return (
     <div className="build-word-page">
-      <div className="build-shell">
 
-        {/* HEADER */}
+      {/* ===================================================
+          NAVBAR
+      =================================================== */}
 
-        <header className="build-header">
-          <div className="build-title-icon">🧩</div>
+      <nav className="build-navbar">
 
-          <div>
-            <h1>Build the Word</h1>
-            <p>Choose the missing letter and complete the word!</p>
-          </div>
-        </header>
+        <div className="build-brand">
+          <span>🌿</span>
+          CurioKids
+        </div>
 
-        {/* TOP INFO */}
+        <div className="build-navbar-title">
+          🧩 Build the Word
+        </div>
 
-        <div className="build-info-row">
+      </nav>
 
-          <div className="build-info-card question-info">
-            <span className="info-icon">📖</span>
+      {/* ===================================================
+          MAIN
+      =================================================== */}
 
-            <div>
-              <small>QUESTION</small>
+      <main className="build-main">
+
+        <section className="build-game-card">
+
+          {/* =================================================
+              STATS
+          ================================================= */}
+
+          <div className="build-stats">
+
+            <div className="build-stat-pill">
+
+              <span>
+                Question
+              </span>
 
               <strong>
                 {questionIndex + 1}
-                <span> / {TOTAL_QUESTIONS}</span>
+                <small>
+                  /{TOTAL_QUESTIONS}
+                </small>
               </strong>
-            </div>
-          </div>
 
-          <div className="build-info-card score-info">
-            <span className="info-icon">⭐</span>
-
-            <div>
-              <small>WORDS BUILT</small>
-
-              <strong>{score}</strong>
-            </div>
-          </div>
-
-        </div>
-
-        {/* PROGRESS */}
-
-        <div className="build-progress-area">
-          <div className="progress-top">
-            <span>Your word journey</span>
-
-            <strong>
-              {Math.round(
-                ((questionIndex + 1) / TOTAL_QUESTIONS) * 100
-              )}
-              %
-            </strong>
-          </div>
-
-          <div className="build-progress-track">
-            <div
-              className="build-progress-fill"
-              style={{
-                width: `${
-                  ((questionIndex + 1) / TOTAL_QUESTIONS) * 100
-                }%`,
-              }}
-            />
-          </div>
-        </div>
-
-        {/* MAIN PUZZLE */}
-
-        <main className="word-puzzle">
-
-          <div className="puzzle-decoration decoration-one">
-            ✦
-          </div>
-
-          <div className="puzzle-decoration decoration-two">
-            •
-          </div>
-
-          <div className="word-clue">
-
-            <div className="word-emoji">
-              {currentQuestion.emoji}
             </div>
 
-            <div>
-              <span>WORD CLUE</span>
+            <div className="build-stat-pill">
 
-              <p>{currentQuestion.hint}</p>
+              <span>
+                ⭐ Score
+              </span>
+
+              <strong>
+                {score}
+              </strong>
+
             </div>
 
           </div>
 
-          <h2>Complete the word</h2>
+          {/* =================================================
+              PROGRESS
+          ================================================= */}
 
-          {/* WORD SLOTS */}
+          <div className="build-progress">
 
-          <div className="word-slots">
-            {wordLetters.map((letter, index) => {
-              const isMissing =
-                index === currentQuestion.missingIndex;
+            <div className="build-progress-text">
 
-              let displayedLetter = "";
+              <span>
+                Word Journey
+              </span>
 
-              if (!isMissing) {
-                displayedLetter = letter;
-              } else if (selectedLetter) {
-                displayedLetter = selectedLetter;
+              <strong>
+                {Math.round(
+                  ((questionIndex + 1) /
+                    TOTAL_QUESTIONS) *
+                    100
+                )}
+                %
+              </strong>
+
+            </div>
+
+            <div className="build-progress-track">
+
+              <div
+                className="build-progress-fill"
+                style={{
+                  width: `${
+                    ((questionIndex + 1) /
+                      TOTAL_QUESTIONS) *
+                    100
+                  }%`,
+                }}
+              />
+
+            </div>
+
+          </div>
+
+          {/* =================================================
+              CLUE PANEL
+          ================================================= */}
+
+          <section className="build-clue-panel">
+
+            <div className="build-clue-label">
+              WORD CLUE
+            </div>
+
+            <div className="build-clue-content">
+
+              <div className="build-clue-emoji">
+                {currentQuestion.emoji}
+              </div>
+
+              <p>
+                {currentQuestion.hint}
+              </p>
+
+            </div>
+
+          </section>
+
+          {/* =================================================
+              QUESTION
+          ================================================= */}
+
+          <h2 className="build-question-title">
+            Complete the word
+          </h2>
+
+          {/* =================================================
+              WORD SLOTS
+          ================================================= */}
+
+          <div className="build-word-slots">
+
+            {wordLetters.map(
+              (letter, index) => {
+
+                const isMissing =
+                  index ===
+                  currentQuestion.missingIndex;
+
+                let displayedLetter =
+                  "";
+
+                if (!isMissing) {
+                  displayedLetter =
+                    letter;
+                } else if (
+                  selectedLetter
+                ) {
+                  displayedLetter =
+                    selectedLetter;
+                }
+
+                return (
+                  <div
+                    key={`${currentQuestion.word}-${index}`}
+                    className={[
+                      "build-letter-slot",
+
+                      isMissing
+                        ? "build-missing-slot"
+                        : "build-filled-slot",
+
+                      selectedLetter &&
+                      isMissing
+                        ? selectedLetter ===
+                          currentQuestion.missingLetter
+                          ? "build-correct-slot"
+                          : "build-wrong-slot"
+                        : "",
+                    ].join(" ")}
+                  >
+                    {displayedLetter || "?"}
+                  </div>
+                );
               }
+            )}
 
-              return (
-                <div
-                  key={`${currentQuestion.word}-${index}`}
-                  className={[
-                    "word-slot",
-                    isMissing ? "missing-slot" : "filled-slot",
-                    selectedLetter && isMissing
-                      ? selectedLetter ===
-                        currentQuestion.missingLetter
-                        ? "correct-slot"
-                        : "wrong-slot"
-                      : "",
-                  ].join(" ")}
-                >
-                  {displayedLetter || "?"}
-                </div>
-              );
-            })}
           </div>
 
-          {/* HINT */}
+          {/* =================================================
+              INSTRUCTION
+          ================================================= */}
 
           <div className="build-instruction">
             💡 Tap a letter to fill the empty space
           </div>
 
-          {/* LETTER OPTIONS */}
+          {/* =================================================
+              LETTER OPTIONS
+          ================================================= */}
 
-          <div className="letter-area">
+          <section className="build-letter-section">
 
-            <p className="choose-label">
+            <p className="build-choose-label">
               Which letter belongs here?
             </p>
 
-            <div className="letter-options">
-              {currentQuestion.options.map((letter) => {
-                const isSelected =
-                  selectedLetter === letter;
+            <div className="build-letter-options">
 
-                const isCorrect =
-                  isSelected &&
-                  letter === currentQuestion.missingLetter;
+              {currentQuestion.options.map(
+                (letter) => {
 
-                const isWrong =
-                  isSelected &&
-                  letter !== currentQuestion.missingLetter;
+                  const isSelected =
+                    selectedLetter ===
+                    letter;
 
-                return (
-                  <button
-                    key={letter}
-                    className={[
-                      "letter-tile",
-                      isSelected ? "selected-letter" : "",
-                      isCorrect ? "correct-letter" : "",
-                      isWrong ? "wrong-letter" : "",
-                    ].join(" ")}
-                    onClick={() =>
-                      handleLetterClick(letter)
-                    }
-                    disabled={answered}
-                  >
-                    {letter}
-                  </button>
-                );
-              })}
+                  const isCorrect =
+                    isSelected &&
+                    letter ===
+                      currentQuestion.missingLetter;
+
+                  const isWrong =
+                    isSelected &&
+                    letter !==
+                      currentQuestion.missingLetter;
+
+                  return (
+                    <button
+                      key={letter}
+                      type="button"
+                      className={[
+                        "build-letter-button",
+
+                        isSelected
+                          ? "build-selected-letter"
+                          : "",
+
+                        isCorrect
+                          ? "build-correct-letter"
+                          : "",
+
+                        isWrong
+                          ? "build-wrong-letter"
+                          : "",
+                      ].join(" ")}
+                      onClick={() =>
+                        handleLetterClick(
+                          letter
+                        )
+                      }
+                      disabled={answered}
+                    >
+                      {letter}
+                    </button>
+                  );
+                }
+              )}
+
             </div>
-          </div>
 
-          {/* FEEDBACK */}
+          </section>
+
+          {/* =================================================
+              FEEDBACK
+          ================================================= */}
 
           {message && (
             <div
               className={`build-feedback ${
-                selectedLetter === currentQuestion.missingLetter
-                  ? "feedback-good"
-                  : "feedback-wrong"
+                selectedLetter ===
+                currentQuestion.missingLetter
+                  ? "build-feedback-good"
+                  : "build-feedback-wrong"
               }`}
             >
               {message}
             </div>
           )}
 
-          {/* NEXT */}
+          {/* =================================================
+              NEXT
+          ================================================= */}
 
           {answered && (
             <button
-              className="next-word-button"
+              type="button"
+              className="build-next-button"
               onClick={handleNext}
             >
-              {questionIndex === TOTAL_QUESTIONS - 1
+              {questionIndex ===
+              TOTAL_QUESTIONS - 1
                 ? "🏆 Finish Game"
                 : "Next Word →"}
             </button>
           )}
 
-        </main>
-      </div>
+        </section>
+
+      </main>
+
     </div>
   );
 }

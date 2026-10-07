@@ -170,9 +170,7 @@ export default function SoundMatching() {
   const getQuestionKey = (question) => {
     if (!question) return "";
 
-    const sound = String(
-      question.currentSound || ""
-    )
+    const sound = String(question.currentSound || "")
       .trim()
       .toUpperCase();
 
@@ -191,13 +189,11 @@ export default function SoundMatching() {
   // =====================================================
 
   const getFallbackQuestion = () => {
-    let available = FALLBACK_QUESTIONS.filter(
-      (question) => {
-        const key = getQuestionKey(question);
+    let available = FALLBACK_QUESTIONS.filter((question) => {
+      const key = getQuestionKey(question);
 
-        return !usedQuestionsRef.current.includes(key);
-      }
-    );
+      return !usedQuestionsRef.current.includes(key);
+    });
 
     if (available.length === 0) {
       usedQuestionsRef.current = [];
@@ -247,9 +243,7 @@ export default function SoundMatching() {
   // =====================================================
 
   const generateQuestionAI = async () => {
-    console.log(
-      "🤖 Generating Sound Matching question..."
-    );
+    console.log("🤖 Generating Sound Matching question...");
 
     setLoading(true);
 
@@ -293,9 +287,7 @@ export default function SoundMatching() {
             !Array.isArray(data.options) ||
             data.options.length < 2
           ) {
-            throw new Error(
-              "Invalid AI response"
-            );
+            throw new Error("Invalid AI response");
           }
 
           const question = {
@@ -305,9 +297,11 @@ export default function SoundMatching() {
 
             options: data.options.map((item) => ({
               word: String(item.word || "").trim(),
+
               sound: String(item.sound || "")
                 .trim()
                 .toUpperCase(),
+
               emoji: item.emoji || "🌟",
             })),
           };
@@ -337,9 +331,7 @@ export default function SoundMatching() {
         }
       }
 
-      console.log(
-        "🛟 Using fallback question"
-      );
+      console.log("🛟 Using fallback question");
 
       const fallback = getFallbackQuestion();
 
@@ -373,9 +365,7 @@ export default function SoundMatching() {
         localStorage.getItem("userId");
 
       if (!userId) {
-        console.warn(
-          "⚠️ No Firebase user"
-        );
+        console.warn("⚠️ No Firebase user");
         return;
       }
 
@@ -391,25 +381,15 @@ export default function SoundMatching() {
           userId,
           gameId: GAME_ID,
           game: GAME_NAME,
-
           score: finalScore,
-
-          totalQuestions:
-            TOTAL_QUESTIONS,
-
-          accuracy: Number(
-            accuracy.toFixed(2)
-          ),
-
+          totalQuestions: TOTAL_QUESTIONS,
+          accuracy: Number(accuracy.toFixed(2)),
           completed: true,
-
           createdAt: Timestamp.now(),
         }
       );
 
-      console.log(
-        "✅ Game result saved"
-      );
+      console.log("✅ Game result saved");
     } catch (error) {
       console.error(
         "❌ Game result save failed:",
@@ -433,35 +413,19 @@ export default function SoundMatching() {
       const accuracy =
         (finalScore / TOTAL_QUESTIONS) * 100;
 
-      await addDoc(
-        collection(db, "activity"),
-        {
-          userId,
+      await addDoc(collection(db, "activity"), {
+        userId,
+        action: "game_completed",
+        module: "Sound Matching",
+        screen: "sound-matching",
+        gameId: GAME_ID,
+        score: finalScore,
+        totalQuestions: TOTAL_QUESTIONS,
+        accuracy: Number(accuracy.toFixed(2)),
+        timestamp: Timestamp.now(),
+      });
 
-          action: "game_completed",
-
-          module: "Sound Matching",
-
-          screen: "sound-matching",
-
-          gameId: GAME_ID,
-
-          score: finalScore,
-
-          totalQuestions:
-            TOTAL_QUESTIONS,
-
-          accuracy: Number(
-            accuracy.toFixed(2)
-          ),
-
-          timestamp: Timestamp.now(),
-        }
-      );
-
-      console.log(
-        "✅ Activity logged"
-      );
+      console.log("✅ Activity logged");
     } catch (error) {
       console.error(
         "❌ Activity log failed:",
@@ -504,18 +468,14 @@ export default function SoundMatching() {
           savedState.currentSound
         );
 
-        setOptions(
-          savedState.options
-        );
+        setOptions(savedState.options);
 
         setScore(
           Number(savedState.score) || 0
         );
 
         setQuestionCount(
-          Number(
-            savedState.questionCount
-          ) || 0
+          Number(savedState.questionCount) || 0
         );
 
         setCompleted(
@@ -525,9 +485,7 @@ export default function SoundMatching() {
         setFeedback("");
 
         if (
-          Array.isArray(
-            savedState.usedQuestions
-          )
+          Array.isArray(savedState.usedQuestions)
         ) {
           usedQuestionsRef.current =
             savedState.usedQuestions;
@@ -622,15 +580,9 @@ export default function SoundMatching() {
       ? score + 1
       : score;
 
-    console.log(
-      "🎯 Selected:",
-      item.word
-    );
+    console.log("🎯 Selected:", item.word);
 
-    console.log(
-      "🎯 Correct:",
-      correctSound
-    );
+    console.log("🎯 Correct:", correctSound);
 
     setScore(updatedScore);
 
@@ -669,25 +621,18 @@ export default function SoundMatching() {
             }
           );
 
-          // Save result
           await saveGameResult(
             updatedScore
           );
 
-          // Log activity
           await logActivity(
             updatedScore
           );
 
-          // Complete Firebase progress
           await finish(
             percentage,
             GAME_NAME
           );
-
-          // IMPORTANT:
-          // Do NOT call save() after finish()
-          // because finish clears activeGames.
 
           setQuestionCount(
             TOTAL_QUESTIONS
@@ -882,27 +827,39 @@ export default function SoundMatching() {
   return (
     <div className="sound-page">
 
-      {/* Decorative bubbles */}
+      {/* Decorative jungle elements */}
 
-      <div className="sound-bubble bubble-one">
-        ✨
-      </div>
-
-      <div className="sound-bubble bubble-two">
+      <div className="jungle-leaf leaf-left">
         🌿
       </div>
 
-      <div className="sound-bubble bubble-three">
-        ⭐
+      <div className="jungle-leaf leaf-right">
+        🍃
       </div>
 
-      {/* Main container */}
+      <div className="jungle-bird">
+        🐦
+      </div>
+
+      {/* NAVBAR */}
+
+      <header className="sound-navbar">
+        <div className="sound-navbar-brand">
+          🌴 CurioKids
+        </div>
+
+        <div className="sound-navbar-title">
+          🔊 Sound Matching
+        </div>
+      </header>
+
+      {/* MAIN */}
 
       <main className="sound-container">
 
-        {/* HEADER */}
+        {/* GAME HEADER */}
 
-        <header className="sound-header">
+        <section className="sound-header">
 
           <div className="header-icon">
             🔊
@@ -910,22 +867,21 @@ export default function SoundMatching() {
 
           <div>
             <h1>
-              Sound Match
+              Sound Match Adventure
             </h1>
 
             <p>
-              Find the word that starts with the sound!
+              Listen carefully and find the word that begins with the sound!
             </p>
           </div>
 
-        </header>
+        </section>
 
-        {/* TOP STATS */}
+        {/* STATS */}
 
         <section className="sound-stats">
 
           <div className="stat-card">
-
             <span className="stat-icon">
               🧩
             </span>
@@ -942,16 +898,15 @@ export default function SoundMatching() {
                       questionCount + 1,
                       TOTAL_QUESTIONS
                     )}
+
                 <span>
                   /{TOTAL_QUESTIONS}
                 </span>
               </strong>
             </div>
-
           </div>
 
           <div className="stat-card">
-
             <span className="stat-icon">
               ⭐
             </span>
@@ -965,7 +920,6 @@ export default function SoundMatching() {
                 {score}
               </strong>
             </div>
-
           </div>
 
         </section>
@@ -975,8 +929,9 @@ export default function SoundMatching() {
         <div className="question-progress">
 
           <div className="progress-label">
+
             <span>
-              Your adventure
+              🌿 Your adventure
             </span>
 
             <span>
@@ -987,6 +942,7 @@ export default function SoundMatching() {
               )}
               %
             </span>
+
           </div>
 
           <div className="progress-track">
@@ -1015,6 +971,7 @@ export default function SoundMatching() {
 
           {!completed ? (
             <>
+
               {/* QUESTION */}
 
               <div className="question-heading">
@@ -1078,6 +1035,7 @@ export default function SoundMatching() {
                           loading
                         }
                       >
+
                         <span className="answer-emoji">
                           {item.emoji || "🌟"}
                         </span>
@@ -1085,6 +1043,7 @@ export default function SoundMatching() {
                         <span className="answer-word">
                           {item.word}
                         </span>
+
                       </button>
                     )
                   )
@@ -1094,9 +1053,9 @@ export default function SoundMatching() {
 
               {/* FEEDBACK */}
 
-              {feedback ===
-                "correct" && (
+              {feedback === "correct" && (
                 <div className="feedback-card correct-feedback">
+
                   <span>
                     🎉
                   </span>
@@ -1110,12 +1069,13 @@ export default function SoundMatching() {
                       That's the correct sound!
                     </p>
                   </div>
+
                 </div>
               )}
 
-              {feedback ===
-                "wrong" && (
+              {feedback === "wrong" && (
                 <div className="feedback-card wrong-feedback">
+
                   <span>
                     💚
                   </span>
@@ -1129,6 +1089,7 @@ export default function SoundMatching() {
                       Keep listening and try the next one.
                     </p>
                   </div>
+
                 </div>
               )}
 
@@ -1139,11 +1100,11 @@ export default function SoundMatching() {
                   {getPerformanceMessage()}
                 </div>
               )}
+
             </>
           ) : (
-            /* =================================================
-               COMPLETION
-            ================================================= */
+
+            /* COMPLETION */
 
             <div className="completion-card">
 
@@ -1179,11 +1140,13 @@ export default function SoundMatching() {
               </div>
 
               <div className="completion-message">
+
                 {score === TOTAL_QUESTIONS
                   ? "🌟 Perfect! You're a sound superstar!"
                   : score >= 3
                   ? "💚 Great job! Keep exploring sounds!"
                   : "🌱 Keep practicing. You're getting better!"}
+
               </div>
 
               <button
@@ -1199,6 +1162,7 @@ export default function SoundMatching() {
               </button>
 
             </div>
+
           )}
 
         </section>
@@ -1206,6 +1170,7 @@ export default function SoundMatching() {
         {/* FOOTER */}
 
         <div className="sound-footer">
+
           <span>
             🌱 Learn
           </span>
@@ -1217,9 +1182,11 @@ export default function SoundMatching() {
           <span>
             ⭐ Grow
           </span>
+
         </div>
 
       </main>
+
     </div>
   );
 }

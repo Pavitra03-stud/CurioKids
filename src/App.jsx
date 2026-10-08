@@ -665,7 +665,9 @@ export default function App() {
 
         {/* 🔢 Numbers */}
         <Route path="/multi-sensory-numbers" element={<MultiSensoryNumbers />} />
+        <Route path="/multi-sensory-numbers/level/:level"element={<MultiSensoryNumbers />}/>
         <Route path="/story-based-numbers" element={<StoryBasedNumbers />} />
+        <Route path="/story-based-numbers/level/:level"element={<StoryBasedNumbers />}/>
         <Route path="/number-tracing" element={<NumberTracing />} />
         <Route path="/color-number-animals" element={<ColorNumberAnimals />} />
         <Route path="/connect-the-numbers-animal" element={<ConnectTheNumbersAnimal />} />
@@ -673,7 +675,9 @@ export default function App() {
         <Route path="/bigger-smaller-game" element={<BiggerSmallerGame />} />
         <Route path="/number-match-animals" element={<NumberMatchAnimals />} />
         <Route path="/descending-order-learning" element={<DescendingOrderLearning />} />
+        <Route path="/descending-order-learning/*" element={<DescendingOrderLearning />}/>
         <Route path="/number-line-learning" element={<NumberLineLearning />} />
+        <Route path="/number-tracing/level/:level" element={<NumberTracing />}/>
 
 
         {/* 🎮 Games */}

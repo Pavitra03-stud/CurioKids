@@ -1,148 +1,987 @@
-.numbers-home-page {
+/* =========================================================
+   CURIOKIDS - NUMBER GAMES HOME
+   Compact Forest Adventure Style
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.number-games-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      rgba(13, 73, 48, 0.08),
+      rgba(13, 73, 48, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  padding-bottom: 55px;
 }
 
-.numbers-home-header {
-  background: #184c35;
-  color: white;
-  height: 56px;
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.number-games-page::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(5, 61, 42, 0.14),
+      transparent 25%,
+      rgba(10, 65, 42, 0.08) 70%,
+      rgba(5, 52, 34, 0.18)
+    );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.number-games-topbar {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+  min-height: 68px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  border-radius: 0 0 14px 14px;
+
+  padding: 8px 30px;
+
+  background: rgba(5, 75, 48, 0.94);
+
+  border-bottom: 3px solid #e7c34a;
+
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.18);
+
+  border-radius: 0 0 18px 18px;
 }
 
-.numbers-home-header h1 {
-  font-size: 20px;
+
+.number-games-title {
   margin: 0;
-  font-weight: bold;
+
+  font-size: 27px;
+  font-weight: 900;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.25);
 }
 
-.numbers-back-btn {
+
+/* =========================================================
+   DECORATIVE CIRCLES
+   ========================================================= */
+
+.number-games-decor {
   position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border: none;
+
+  width: 115px;
+  height: 115px;
+
   border-radius: 50%;
-  background: #f5f5f5;
-  color: #222;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.12);
+
+  pointer-events: none;
+
+  z-index: 1;
 }
 
-.numbers-home-content {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 32px 20px 50px;
-  text-align: center;
+
+.decor-top-left {
+  top: 135px;
+  left: -55px;
 }
 
-.numbers-home-subtitle {
-  font-size: 20px;
-  color: #173b33;
-  margin-bottom: 40px;
-  font-weight: 600;
+
+.decor-middle-right {
+  top: 410px;
+  right: -50px;
+
+  width: 135px;
+  height: 135px;
 }
 
-.numbers-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
+
+.decor-bottom-left {
+  bottom: 80px;
+  left: -50px;
+
+  width: 110px;
+  height: 110px;
+}
+
+
+/* =========================================================
+   TOP ICON PILL
+   ========================================================= */
+
+.number-games-header {
+  position: relative;
+  z-index: 4;
+
+  display: flex;
   justify-content: center;
+
+  padding-top: 24px;
+  padding-bottom: 20px;
 }
 
-.numbers-feature-card {
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 28px;
-  padding: 38px 28px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+
+.number-games-animals {
+  width: 190px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  background:
+    rgba(255, 249, 225, 0.96);
+
+  border-radius: 35px;
+
+  box-shadow:
+    0 7px 18px rgba(0, 0, 0, 0.18);
+}
+
+
+.number-games-animals span {
+  font-size: 25px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+.number-games-animals span:hover {
+  transform:
+    translateY(-4px)
+    scale(1.08);
+}
+
+
+/* =========================================================
+   GAME GRID
+   ========================================================= */
+
+.number-games-list {
+  position: relative;
+  z-index: 3;
+
+  width: min(900px, calc(100% - 50px));
+
+  margin: 8px auto 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.number-games-card {
+  position: relative;
+
+  min-height: 145px;
+
+  padding: 19px 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
   cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: center;
-  min-height: 260px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(173, 105, 44, 0.94),
+      rgba(137, 78, 31, 0.91)
+    );
+
+  border:
+    2px solid rgba(255, 211, 126, 0.78);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 7px 0 rgba(91, 51, 25, 0.35),
+    0 12px 24px rgba(0, 0, 0, 0.20);
+
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+
+  outline: none;
+}
+
+
+/* =========================================================
+   CARD CIRCLES
+   ========================================================= */
+
+.number-games-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: -48px;
+  right: -38px;
+
+  width: 135px;
+  height: 135px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 226, 165, 0.16);
+
+  pointer-events: none;
+}
+
+
+.number-games-card::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -55px;
+  left: -45px;
+
+  width: 115px;
+  height: 115px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 226, 165, 0.07);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.number-games-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 10px 0 rgba(91, 51, 25, 0.30),
+    0 20px 30px rgba(0, 0, 0, 0.25);
+
+  filter: brightness(1.04);
+}
+
+
+.number-games-card:focus-visible {
+  box-shadow:
+    0 0 0 4px rgba(255, 238, 161, 0.85),
+    0 10px 0 rgba(91, 51, 25, 0.30),
+    0 20px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.number-games-icon {
+  position: relative;
+  z-index: 2;
+
+  flex-shrink: 0;
+
+  width: 76px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  font-size: 37px;
+
+  background:
+    rgba(255, 249, 226, 0.97);
+
+  border:
+    2px solid rgba(255, 255, 255, 0.72);
+
+  box-shadow:
+    0 5px 11px rgba(65, 38, 17, 0.25);
+
+  transition:
+    transform 0.28s ease;
+}
+
+
+.number-games-card:hover .number-games-icon {
+  transform:
+    translateY(-3px)
+    scale(1.05);
+}
+
+
+/* =========================================================
+   ICON COLORS
+   ========================================================= */
+
+.number-games-icon.yellow {
+  background:
+    linear-gradient(
+      145deg,
+      #fff8d9,
+      #f6dfa4
+    );
+}
+
+
+.number-games-icon.blue {
+  background:
+    linear-gradient(
+      145deg,
+      #e5f6ff,
+      #a8d9ee
+    );
+}
+
+
+.number-games-icon.pink {
+  background:
+    linear-gradient(
+      145deg,
+      #fff0f7,
+      #f4c1d8
+    );
+}
+
+
+.number-games-icon.purple {
+  background:
+    linear-gradient(
+      145deg,
+      #f8efff,
+      #ddc3ef
+    );
+}
+
+
+.number-games-icon.green {
+  background:
+    linear-gradient(
+      145deg,
+      #ecffe9,
+      #bce5af
+    );
+}
+
+
+/* =========================================================
+   TEXT AREA
+   ========================================================= */
+
+.number-games-text {
+  position: relative;
+  z-index: 2;
+
+  flex: 1;
+
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+.number-games-text h2 {
+  margin: 0 0 5px;
+
+  color: #fff8df;
+
+  font-size: 20px;
+  font-weight: 900;
+
+  line-height: 1.15;
+
+  text-shadow:
+    0 2px 3px rgba(74, 39, 18, 0.4);
+}
+
+
+.number-games-text p {
+  margin: 0 0 10px;
+
+  max-width: 280px;
+
+  color:
+    rgba(255, 249, 229, 0.94);
+
+  font-size: 12px;
+
+  line-height: 1.35;
+
+  font-weight: 600;
+
+  text-shadow:
+    0 1px 2px rgba(61, 34, 17, 0.3);
+}
+
+
+/* =========================================================
+   ACTION BUTTON
+   ========================================================= */
+
+.number-games-arrow {
+  position: relative;
+  z-index: 3;
+
+  width: auto;
+  min-width: 105px;
+  height: 32px;
+
+  padding: 0 7px 0 14px;
+
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  border-radius: 18px;
+
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 0.3px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.45);
+
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.20);
+
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2);
+
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
 }
 
-.numbers-feature-card:hover {
-  transform: translateY(-6px);
-  background: rgba(255, 255, 255, 0.3);
+
+/* =========================================================
+   BUTTON COLORS
+   ========================================================= */
+
+.number-games-card:nth-child(1)
+.number-games-arrow {
+  background:
+    linear-gradient(
+      135deg,
+      #e6a92d,
+      #c77b16
+    );
 }
 
-.numbers-feature-icon {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
+
+.number-games-card:nth-child(2)
+.number-games-arrow {
+  background:
+    linear-gradient(
+      135deg,
+      #27a9e8,
+      #087bb9
+    );
+}
+
+
+.number-games-card:nth-child(3)
+.number-games-arrow {
+  background:
+    linear-gradient(
+      135deg,
+      #e65391,
+      #c8326f
+    );
+}
+
+
+.number-games-card:nth-child(4)
+.number-games-arrow {
+  background:
+    linear-gradient(
+      135deg,
+      #8d5bd1,
+      #6637a7
+    );
+}
+
+
+.number-games-card:nth-child(5)
+.number-games-arrow {
+  background:
+    linear-gradient(
+      135deg,
+      #2dbb6d,
+      #14864b
+    );
+}
+
+
+/* =========================================================
+   BUTTON ARROW CIRCLE
+   ========================================================= */
+
+.number-games-arrow span {
+  width: 25px;
+  height: 25px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 38px;
-  margin-bottom: 24px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.22);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.25);
+
+  font-size: 16px;
+
+  line-height: 1;
 }
 
-.learning-icon {
-  background: #efe3b8;
+
+/* =========================================================
+   BUTTON HOVER
+   ========================================================= */
+
+.number-games-card:hover .number-games-arrow {
+  transform: translateY(-2px);
+
+  filter: brightness(1.1);
 }
 
-.gaming-icon {
-  background: #e7dff7;
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.number-games-footer {
+  position: relative;
+  z-index: 3;
+
+  width: min(900px, calc(100% - 50px));
+
+  margin: 35px auto 0;
 }
 
-.numbers-feature-card h2 {
-  font-size: 22px;
-  color: #111;
-  margin: 0 0 16px;
-  font-weight: bold;
+
+.number-games-progress {
+  width: 100%;
+
+  padding: 17px 25px;
+
+  text-align: center;
+
+  background:
+    rgba(255, 251, 224, 0.94);
+
+  border-radius: 19px;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.15);
+
+  backdrop-filter: blur(8px);
 }
 
-.numbers-feature-card p {
+
+.number-games-progress h3 {
+  margin: 0 0 5px;
+
+  color: #603619;
+
   font-size: 18px;
-  color: #234236;
-  line-height: 1.7;
+  font-weight: 900;
+}
+
+
+.number-games-progress p {
   margin: 0;
-  max-width: 300px;
+
+  color: #5b3924;
+
+  font-size: 12px;
+  font-weight: 700;
 }
 
-.numbers-back-btn:hover {
-  transform: translateY(-50%) scale(1.05);
+
+.number-games-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  border-radius: 16px;
+
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .numbers-cards-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+.number-games-card:hover .number-games-image {
+  transform: scale(1.06);
+  filter: brightness(1.05);
+}
+
+/* =========================================================
+   FLOATING
+   ========================================================= */
+
+.number-games-card:nth-child(1) {
+  animation:
+    numberGameFloatOne 5s ease-in-out infinite;
+}
+
+
+.number-games-card:nth-child(2) {
+  animation:
+    numberGameFloatTwo 5.5s ease-in-out infinite;
+}
+
+
+@keyframes numberGameFloatOne {
+  0%,
+  100% {
+    transform: translateY(0);
   }
 
-  .numbers-feature-card {
-    min-height: 220px;
-    padding: 30px 20px;
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+
+@keyframes numberGameFloatTwo {
+  0%,
+  100% {
+    transform: translateY(0);
   }
 
-  .numbers-feature-icon {
-    width: 74px;
-    height: 74px;
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+
+.number-games-card:hover {
+  animation-play-state: paused;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+  .number-games-list {
+    width: min(760px, calc(100% - 40px));
+
+    gap: 18px;
+  }
+
+
+  .number-games-card {
+    min-height: 135px;
+
+    padding: 17px;
+
+    gap: 14px;
+  }
+
+
+  .number-games-icon {
+    width: 66px;
+    height: 66px;
+
     font-size: 32px;
-    margin-bottom: 18px;
   }
 
-  .numbers-feature-card h2 {
-    font-size: 20px;
+
+  .number-games-text h2 {
+    font-size: 18px;
   }
 
-  .numbers-feature-card p {
+
+  .number-games-text p {
+    font-size: 11px;
+
+    margin-bottom: 8px;
+  }
+
+
+  .number-games-arrow {
+    min-width: 95px;
+
+    height: 30px;
+
+    font-size: 9px;
+  }
+
+
+  .number-games-arrow span {
+    width: 23px;
+    height: 23px;
+
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .number-games-page {
+    padding-bottom: 45px;
+  }
+
+
+  .number-games-topbar {
+    min-height: 60px;
+
+    padding: 7px 15px;
+  }
+
+
+  .number-games-title {
+    font-size: 21px;
+  }
+
+
+  .number-games-header {
+    padding-top: 20px;
+    padding-bottom: 18px;
+  }
+
+
+  .number-games-animals {
+    width: 175px;
+    height: 58px;
+
+    gap: 15px;
+  }
+
+
+  .number-games-animals span {
+    font-size: 23px;
+  }
+
+
+  .number-games-list {
+    width: calc(100% - 30px);
+
+    grid-template-columns: 1fr;
+
+    gap: 17px;
+  }
+
+
+  .number-games-card {
+    min-height: 130px;
+
+    padding: 15px;
+
+    gap: 13px;
+  }
+
+
+  .number-games-icon {
+    width: 62px;
+    height: 62px;
+
+    font-size: 29px;
+
+    border-radius: 16px;
+  }
+
+
+  .number-games-text h2 {
+    font-size: 17px;
+
+    margin-bottom: 5px;
+  }
+
+
+  .number-games-text p {
+    font-size: 11px;
+
+    margin-bottom: 8px;
+  }
+
+
+  .number-games-arrow {
+    min-width: 92px;
+
+    height: 29px;
+
+    padding-left: 12px;
+
+    font-size: 9px;
+  }
+
+
+  .number-games-arrow span {
+    width: 23px;
+    height: 23px;
+
+    font-size: 14px;
+  }
+
+
+  .number-games-footer {
+    width: calc(100% - 30px);
+
+    margin-top: 30px;
+  }
+
+
+  .number-games-progress {
+    padding: 16px 18px;
+  }
+
+
+  .number-games-progress h3 {
     font-size: 16px;
   }
 
-  .numbers-home-subtitle {
-    font-size: 18px;
+
+  .number-games-progress p {
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+  .number-games-title {
+    font-size: 19px;
+  }
+
+
+  .number-games-list {
+    width: calc(100% - 20px);
+
+    gap: 14px;
+  }
+
+
+  .number-games-card {
+    min-height: 120px;
+
+    padding: 13px;
+
+    gap: 10px;
+  }
+
+
+  .number-games-icon {
+    width: 57px;
+    height: 57px;
+
+    font-size: 27px;
+
+    border-radius: 15px;
+  }
+
+
+  .number-games-text h2 {
+    font-size: 15px;
+  }
+
+
+  .number-games-text p {
+    font-size: 10px;
+  }
+
+
+  .number-games-arrow {
+    min-width: 85px;
+
+    height: 27px;
+
+    font-size: 8px;
+  }
+
+
+  .number-games-arrow span {
+    width: 21px;
+    height: 21px;
+
+    font-size: 13px;
   }
 }

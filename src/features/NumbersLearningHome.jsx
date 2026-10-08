@@ -178,41 +178,48 @@ export default function NumbersLearningHome() {
       </div>
 
       {/* LEARNING CARDS */}
-      <div className="numbers-learning-list">
-        {learningCards.map((card) => (
-          <div
-            key={card.path}
-            className="numbers-learning-card"
-            onClick={() =>
-              handleNavigate(card.path)
-            }
-            onKeyDown={(event) => {
-              if (
-                event.key === "Enter" ||
-                event.key === " "
-              ) {
-                event.preventDefault();
-                handleNavigate(card.path);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            <div
-              className={`numbers-learning-icon ${card.color}`}
-            >
-              {card.icon}
-            </div>
-
-            <div className="numbers-learning-text">
-              <h2>{card.title}</h2>
-              <p>{card.subtitle}</p>
-            </div>
-
-            
-          </div>
-        ))}
+      {/* LEARNING CARDS */}
+<div className="numbers-learning-list">
+  {learningCards.map((card) => (
+    <div
+      key={card.path}
+      className="numbers-learning-card"
+      onClick={() => handleNavigate(card.path)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          handleNavigate(card.path);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
+      <div className={`numbers-learning-icon ${card.color}`}>
+        {card.icon}
       </div>
+
+      <div className="numbers-learning-text">
+        <h2>{card.title}</h2>
+
+        <p>{card.subtitle}</p>
+
+        <button
+          className={`numbers-learning-btn ${card.color}-btn`}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleNavigate(card.path);
+          }}
+        >
+          {card.title === "Multi-Sensory" && "EXPLORE"}
+          {card.title === "Story Based" && "READ STORY"}
+          {card.title === "Number Tracing" && "START TRACING"}
+          {card.title === "Descending Orders" && "PRACTICE"}
+          {card.title === "Number Line Learning" && "START LEARNING"}
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
 
       {/* FOOTER */}
       <div className="numbers-learning-footer">

@@ -1,243 +1,842 @@
-/* PAGE */
+/* =========================================================
+   MULTI-SENSORY NUMBERS
+   CURIOKIDS JUNGLE THEME
+========================================================= */
+
 .ms-home-page,
 .ms-level-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+    background-image: url("../assets/gamesHome.png");
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: #fff8df;
+
+  padding-bottom: 50px;
 }
 
-/* HEADER */
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .ms-home-header,
 .ms-level-header {
-  background: #184c35;
-  color: white;
-  height: 60px;
+  height: 72px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 65, 42, 0.97),
+      rgba(7, 91, 57, 0.95),
+      rgba(4, 65, 42, 0.97)
+    );
+
+  border-bottom: 3px solid #e6bd4e;
+  border-radius: 0 0 18px 18px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   position: relative;
-  border-radius: 0 0 16px 16px;
+  z-index: 10;
+
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.28);
 }
 
 .ms-home-header h1,
 .ms-level-header h1 {
   margin: 0;
-  font-size: 20px;
-  font-weight: bold;
+
+  color: #fff9df;
+
+  font-size: clamp(21px, 2vw, 29px);
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
-/* ========================= */
-/* LEVEL SELECTION PAGE */
-/* ========================= */
+
+/* =========================================================
+   LEVEL SELECTION
+========================================================= */
 
 .ms-home-content {
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 72px);
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
+  justify-content: center;
+
+  padding: 70px 24px;
+
+  position: relative;
+  z-index: 1;
 }
+
+
+/* MAIN CARD */
 
 .ms-home-center-card {
-  width: 100%;
-  max-width: 650px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 28px;
-  padding: 40px 30px;
+  width: min(900px, 100%);
+
+  padding: 42px 48px 48px;
+
   text-align: center;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(157, 98, 39, 0.94),
+      rgba(116, 68, 25, 0.92)
+    );
+
+  border: 2px solid rgba(238, 198, 91, 0.9);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  backdrop-filter: blur(8px);
+
+  animation: msCardEnter 0.6s ease both;
 }
+
+
+/* ICON */
 
 .ms-home-icon {
-  font-size: 60px;
-  margin-bottom: 10px;
+  width: 82px;
+  height: 82px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  background: rgba(255, 247, 215, 0.95);
+
+  font-size: 42px;
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.25);
+
+  animation: msFloat 3s ease-in-out infinite;
 }
+
+
+/* TITLE */
 
 .ms-home-center-card h2 {
-  font-size: 30px;
-  margin: 10px 0;
+  margin: 8px 0 8px;
+
+  color: #fff8df;
+
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.35);
 }
+
+
+/* DESCRIPTION */
 
 .ms-home-center-card p {
-  font-size: 18px;
-  color: #234236;
-  margin-bottom: 30px;
+  margin: 0 0 34px;
+
+  color: #f7e9c6;
+
+  font-size: 16px;
+  font-weight: 600;
 }
 
-/* LEVEL GRID */
+
+/* =========================================================
+   LEVEL CARDS
+========================================================= */
+
 .ms-home-level-grid {
   display: grid;
+
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
 
-.ms-home-level-card {
-  background: white;
-  border-radius: 20px;
-  padding: 25px 10px;
-  cursor: pointer;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-  transition: 0.25s;
-}
-
-.ms-home-level-card:hover {
-  transform: translateY(-5px);
-  background: #ffe08a;
-}
-
-.ms-home-level-title {
-  font-size: 22px;
-  font-weight: bold;
-  color: #184c35;
-}
-
-.ms-home-level-subtitle {
-  font-size: 14px;
-  color: #555;
-  margin-top: 5px;
-}
-
-/* ========================= */
-/* LEARNING PAGE */
-/* ========================= */
-
-.ms-level-content {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
-}
-
-.ms-level-top-row {
-  display: grid;
-  grid-template-columns: 320px 1fr;
   gap: 20px;
 }
 
-/* LEFT CARD */
-.ms-level-big-card {
-  background: #f4f4f4;
-  border: 4px solid #ff8a3d;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
 
-.ms-level-badge {
-  background: #fff3bf;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 14px;
-  margin-bottom: 10px;
-  display: inline-block;
-}
+/* BASE */
 
-.ms-level-number {
-  font-size: 70px;
-  font-weight: bold;
-}
+.ms-home-level-card {
+  min-height: 155px;
 
-.ms-level-emoji {
-  font-size: 70px;
-  margin: 10px 0;
-}
+  padding: 27px 20px;
 
-.ms-level-word {
-  font-size: 24px;
-  font-weight: bold;
-  color: #184c35;
-}
-
-.ms-level-desc {
-  font-size: 18px;
-  margin-top: 10px;
-}
-
-/* RIGHT PANEL */
-.ms-level-panel {
-  background: rgba(255,255,255,0.25);
-  border-radius: 20px;
-  padding: 20px;
-}
-
-.ms-level-panel-title {
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-/* OBJECTS */
-.ms-level-objects-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  min-height: 120px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  border-radius: 22px;
+
+  border: 2px solid rgba(255, 255, 255, 0.6);
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+
+  position: relative;
+  overflow: hidden;
 }
 
-.ms-level-object-card {
-  width: 60px;
-  height: 60px;
-  background: white;
-  border-radius: 15px;
+
+/* SHINE */
+
+.ms-home-level-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 110px;
+  height: 110px;
+
+  top: -45px;
+  right: -25px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  pointer-events: none;
+}
+
+
+/* LEVEL 1 - GOLD */
+
+.ms-home-level-card:nth-child(1) {
+  background:
+    linear-gradient(
+      145deg,
+      #f4c95d,
+      #d99832
+    );
+
+  border-color: #ffe7a1;
+}
+
+
+/* LEVEL 2 - BLUE */
+
+.ms-home-level-card:nth-child(2) {
+  background:
+    linear-gradient(
+      145deg,
+      #55aee8,
+      #347fc0
+    );
+
+  border-color: #a9ddff;
+}
+
+
+/* LEVEL 3 - PURPLE */
+
+.ms-home-level-card:nth-child(3) {
+  background:
+    linear-gradient(
+      145deg,
+      #a86fd3,
+      #7846a7
+    );
+
+  border-color: #d8b7f3;
+}
+
+
+/* HOVER */
+
+.ms-home-level-card:hover {
+  transform: translateY(-7px) scale(1.015);
+
+  filter: brightness(1.07);
+
+  box-shadow:
+    0 18px 32px rgba(0, 0, 0, 0.32),
+    0 0 0 2px rgba(255, 255, 255, 0.18);
+}
+
+
+.ms-home-level-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+
+/* TITLE */
+
+.ms-home-level-title {
+  color: #fff;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  margin-bottom: 8px;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3);
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* SUBTITLE */
+
+.ms-home-level-subtitle {
+  color: rgba(255, 255, 255, 0.92);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ARROW */
+
+.ms-home-level-card::after {
+  content: "→";
+
+  margin-top: 15px;
+
+  width: 34px;
+  height: 34px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  color: #315b43;
+
+  font-size: 17px;
+  font-weight: bold;
+
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.18);
+
+  transition: 0.25s ease;
+
+  position: relative;
+  z-index: 1;
 }
 
-/* TEXT */
-.ms-level-example {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 18px;
+.ms-home-level-card:nth-child(2)::after {
+  color: #2871a9;
 }
+
+.ms-home-level-card:nth-child(3)::after {
+  color: #70419c;
+}
+
+.ms-home-level-card:hover::after {
+  transform: translateX(5px);
+}
+
+
+/* =========================================================
+   LEARNING PAGE
+========================================================= */
+
+.ms-level-content {
+  width: min(1100px, 100%);
+
+  margin: 0 auto;
+
+  padding: 55px 25px;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* TOP ROW */
+
+.ms-level-top-row {
+  display: grid;
+
+  grid-template-columns: 330px 1fr;
+
+  gap: 24px;
+
+  align-items: stretch;
+}
+
+
+/* =========================================================
+   NUMBER CARD
+========================================================= */
+
+.ms-level-big-card {
+  min-height: 430px;
+
+  padding: 30px 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(168, 105, 42, 0.96),
+      rgba(116, 67, 25, 0.96)
+    );
+
+  border: 2px solid #e5b94e;
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 20px 38px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255,255,255,0.16);
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* CARD DECOR */
+
+.ms-level-big-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+  height: 190px;
+
+  top: -70px;
+  right: -50px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.08);
+}
+
+
+/* BADGE */
+
+.ms-level-badge {
+  padding: 7px 16px;
+
+  border-radius: 999px;
+
+  background: #f9efd0;
+
+  color: #69451e;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  margin-bottom: 12px;
+
+  box-shadow:
+    0 5px 12px rgba(0,0,0,0.18);
+}
+
+
+/* NUMBER */
+
+.ms-level-number {
+  color: #fff9df;
+
+  font-size: 100px;
+  line-height: 1;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 5px 8px rgba(0,0,0,0.3);
+
+  animation: msNumberPop 0.45s ease;
+}
+
+
+/* EMOJI */
+
+.ms-level-emoji {
+  margin: 12px 0;
+
+  width: 90px;
+  height: 90px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff4d3;
+
+  border-radius: 50%;
+
+  font-size: 48px;
+
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.25);
+}
+
+
+/* WORD */
+
+.ms-level-word {
+  color: #fff8df;
+
+  font-size: 28px;
+  font-weight: 800;
+}
+
+
+/* DESCRIPTION */
+
+.ms-level-desc {
+  margin-top: 10px;
+
+  color: #f2dfb6;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   OBJECT PANEL
+========================================================= */
+
+.ms-level-panel {
+  min-height: 430px;
+
+  padding: 30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(153, 94, 36, 0.9),
+      rgba(105, 61, 24, 0.9)
+    );
+
+  border: 2px solid rgba(230, 187, 79, 0.85);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 20px 38px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.13);
+
+  backdrop-filter: blur(7px);
+}
+
+
+/* TITLE */
+
+.ms-level-panel-title {
+  padding-bottom: 18px;
+
+  color: #fff8df;
+
+  text-align: center;
+
+  font-size: 24px;
+  font-weight: 800;
+
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+}
+
+
+/* =========================================================
+   OBJECTS
+========================================================= */
+
+.ms-level-objects-row {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 16px;
+
+  min-height: 220px;
+
+  padding: 28px 5px;
+
+  align-content: start;
+}
+
+
+.ms-level-object-card {
+  width: 100%;
+  aspect-ratio: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff8e6,
+      #f2dfb9
+    );
+
+  border: 2px solid rgba(255,255,255,0.8);
+
+  border-radius: 18px;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 8px 15px rgba(0,0,0,0.22);
+
+  animation: objectAppear 0.35s ease both;
+
+  transition: transform 0.2s ease;
+}
+
+
+.ms-level-object-card:hover {
+  transform: translateY(-4px) rotate(2deg);
+}
+
+
+/* EXAMPLE */
+
+.ms-level-example {
+  margin-top: 5px;
+
+  padding: 12px;
+
+  text-align: center;
+
+  color: #f8eac8;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
 
 .ms-level-message {
-  margin-top: 20px;
-  background: rgba(255,255,255,0.8);
-  padding: 12px;
-  border-radius: 15px;
+  margin-top: 24px;
+
+  padding: 18px 22px;
+
+  border-radius: 18px;
+
   text-align: center;
-  font-weight: bold;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,248,221,0.97),
+      rgba(246,231,190,0.97)
+    );
+
+  color: #5d3c1e;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  box-shadow:
+    0 10px 22px rgba(0,0,0,0.2);
 }
 
-/* BUTTONS */
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
 .ms-level-actions {
-  margin-top: 20px;
   display: flex;
+
   justify-content: center;
-  gap: 15px;
+  align-items: center;
+
+  gap: 16px;
+
+  margin-top: 24px;
 }
+
 
 .ms-level-btn {
+  min-width: 145px;
+
   border: none;
-  padding: 12px 20px;
-  border-radius: 15px;
-  font-size: 16px;
-  font-weight: bold;
+
+  padding: 13px 22px;
+
+  border-radius: 999px;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  font-weight: 800;
+
   color: white;
+
   cursor: pointer;
+
+  box-shadow:
+    0 7px 15px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
+
+
+.ms-level-btn:hover {
+  transform: translateY(-3px);
+
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 11px 20px rgba(0,0,0,0.3);
+}
+
+
+.ms-level-btn:active {
+  transform: scale(0.97);
+}
+
+
+/* PREVIOUS - PURPLE */
 
 .ms-level-btn.prev {
-  background: #7e57c2;
+  background:
+    linear-gradient(
+      135deg,
+      #8055b8,
+      #60358f
+    );
+
+  border: 1px solid #b996dc;
 }
+
+
+/* REPEAT - TEAL */
 
 .ms-level-btn.repeat {
-  background: #11c7c7;
+  background:
+    linear-gradient(
+      135deg,
+      #18b5b5,
+      #087f82
+    );
+
+  border: 1px solid #6ee0dc;
 }
+
+
+/* NEXT - ORANGE */
 
 .ms-level-btn.next {
-  background: #ff8a3d;
+  background:
+    linear-gradient(
+      135deg,
+      #ed963c,
+      #cb6723
+    );
+
+  border: 1px solid #ffc078;
 }
 
-/* ========================= */
-/* RESPONSIVE */
-/* ========================= */
 
-@media (max-width: 768px) {
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes msCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes msFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+
+@keyframes msNumberPop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+@keyframes objectAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.6) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
   .ms-home-level-grid {
     grid-template-columns: 1fr;
   }
@@ -247,7 +846,65 @@
   }
 
   .ms-level-big-card {
-    max-width: 300px;
-    margin: auto;
+    min-height: 360px;
+  }
+
+  .ms-level-panel {
+    min-height: auto;
+  }
+
+  .ms-level-objects-row {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .ms-home-content {
+    padding: 35px 15px;
+  }
+
+  .ms-home-center-card {
+    padding: 30px 18px;
+  }
+
+  .ms-home-header,
+  .ms-level-header {
+    height: 64px;
+  }
+
+  .ms-home-header h1,
+  .ms-level-header h1 {
+    font-size: 18px;
+  }
+
+  .ms-level-content {
+    padding: 30px 15px;
+  }
+
+  .ms-level-number {
+    font-size: 78px;
+  }
+
+  .ms-level-objects-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ms-level-actions {
+    flex-direction: column;
+  }
+
+  .ms-level-btn {
+    width: 100%;
+    max-width: 260px;
+  }
+}
+
+
+@media (max-width: 400px) {
+
+  .ms-level-objects-row {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

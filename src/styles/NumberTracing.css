@@ -1,652 +1,1126 @@
-/* .number-trace-page {
+/* =========================================================
+   NUMBER TRACING
+   Same visual language as Multi-Sensory + Story Based
+========================================================= */
+
+.nt-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", sans-serif;
-  padding: 20px;
+  width: 100%;
+
+  background-image:
+    linear-gradient(
+      rgba(20, 65, 42, 0.08),
+      rgba(20, 65, 42, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+
+  padding-bottom: 45px;
 }
 
-.number-trace-header {
-  background: #184c35;
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.nt-header {
+  height: 86px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 77, 51, 0.97),
+      rgba(0, 91, 61, 0.94)
+    );
+
   color: white;
-  text-align: center;
-  padding: 18px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  border-radius:
+    0 0 22px 22px;
+
+  border-bottom:
+    2px solid #f2c94c;
+
+  box-shadow:
+    0 6px 18px
+    rgba(0, 0, 0, 0.25);
+
+  z-index: 10;
 }
 
-.number-trace-header h1 {
+.nt-header h1 {
   margin: 0;
-  font-size: 32px;
+
+  font-size: 36px;
+
+  font-weight: 800;
+
+  color: #fff8dc;
+
+  text-shadow:
+    0 3px 5px
+    rgba(0, 0, 0, 0.35);
 }
 
-.number-trace-header p {
-  margin-top: 8px;
-  font-size: 18px;
+
+/* =========================================================
+   LEVEL SELECTION CONTENT
+========================================================= */
+
+.nt-content {
+  width: 100%;
+  max-width: 1150px;
+
+  margin: 55px auto 0;
+
+  padding: 0 30px;
+
+  box-sizing: border-box;
 }
 
-.number-trace-card {
-  max-width: 700px;
-  margin: 0 auto;
-  background: white;
+
+/* =========================================================
+   BROWN BOARD
+========================================================= */
+
+.nt-level-board {
+  width: 100%;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(153, 91, 35, 0.96),
+      rgba(118, 67, 25, 0.97)
+    );
+
+  border:
+    2px solid #e6b84c;
+
   border-radius: 28px;
+
+  padding:
+    42px 48px 48px;
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 18px 35px
+    rgba(0, 0, 0, 0.30);
+
+  text-align: center;
+}
+
+
+/* TOP RIGHT CIRCLE */
+
+.nt-level-board::before {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  right: -75px;
+  top: -105px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.10);
+
+  pointer-events: none;
+}
+
+
+/* BOTTOM LEFT CIRCLE */
+
+.nt-level-board::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  left: -70px;
+  bottom: -80px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   TOP ICON
+========================================================= */
+.nt-level-icon {
+  width: 105px;
+  height: 105px;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 25px;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.nt-level-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 24px;
+}
+
+
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.nt-level-title {
+  margin: 0;
+
+  color: #fff8dc;
+
+  font-size: 40px;
+
+  font-weight: 800;
+
+  position: relative;
+
+  z-index: 2;
+
+  text-shadow:
+    0 3px 5px
+    rgba(0, 0, 0, 0.30);
+}
+
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.nt-level-subtitle {
+  margin:
+    10px 0 32px;
+
+  color: #fff4d0;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   LEVEL CARDS
+========================================================= */
+
+.nt-level-container {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 22px;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+
+.nt-level-card {
+  height: 205px;
+
+  border-radius: 24px;
+
   padding: 24px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
 
-.number-info h2 {
-  color: #184c35;
-  margin-bottom: 8px;
-  font-size: 28px;
-}
+  box-sizing: border-box;
 
-.number-info p {
-  color: #444;
-  font-size: 18px;
-  margin-bottom: 18px;
-}
-
-.trace-board {
-  width: 350px;
-  height: 350px;
-  margin: 0 auto;
-  position: relative;
-  border-radius: 24px;
-  background: #f8fff2;
-  border: 4px solid #d9efc2;
-  overflow: hidden;
-  transition: 0.3s ease;
-}
-
-.trace-board.active-glow {
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
-  transform: scale(1.02);
-}
-
-.guide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  font-size: 220px;
   display: flex;
-  justify-content: center;
+
+  flex-direction: column;
+
   align-items: center;
-  user-select: none;
-  pointer-events: none;
-}
 
-.guide.dotted {
-  color: transparent;
-  -webkit-text-stroke: 2px #999;
-  opacity: 0.6;
-  text-shadow: 0 0 0 #999;
-}
-
-.guide.outline {
-  color: transparent;
-  -webkit-text-stroke: 3px #cfcfcf;
-  opacity: 0.9;
-}
-
-.guide.blank {
-  color: transparent;
-}
-
-.trace-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  touch-action: none;
-}
-
-.trace-stage-dots {
-  margin-top: 20px;
-  display: flex;
   justify-content: center;
-  gap: 14px;
-}
 
-.trace-stage-dots span {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #d9efc2;
-  color: #184c35;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.trace-stage-dots span.active {
-  background: #ffcf4d;
-  color: #222;
-  box-shadow: 0 0 12px rgba(255, 207, 77, 0.9);
-}
-
-.trace-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-}
-
-.trace-buttons button {
-  background: #184c35;
-  color: white;
-  border: none;
-  border-radius: 16px;
-  padding: 12px 22px;
-  font-size: 18px;
   cursor: pointer;
-  transition: 0.2s ease;
-  font-family: "Comic Sans MS", sans-serif;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.85);
+
+  box-shadow:
+    0 9px 18px
+    rgba(0, 0, 0, 0.22);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
-.trace-buttons button:hover {
-  transform: translateY(-2px);
-  background: #226847;
-}
 
-.trace-floating {
+/* CARD DECORATION */
+
+.nt-level-card::before {
+  content: "";
+
   position: absolute;
+
+  width: 145px;
+  height: 145px;
+
+  right: -45px;
+  top: -72px;
+
   border-radius: 50%;
-  opacity: 0.2;
-  z-index: 1;
-  animation: floatBubble 6s infinite ease-in-out;
+
+  background:
+    rgba(255, 255, 255, 0.18);
+
+  pointer-events: none;
 }
 
-.bubble1 {
-  width: 140px;
-  height: 140px;
-  background: #ffffff;
-  top: 80px;
-  left: 40px;
+
+/* =========================================================
+   LEVEL 1 — YELLOW
+========================================================= */
+
+.nt-level-card.level-one {
+  background:
+    linear-gradient(
+      145deg,
+      #ffd75a,
+      #f2ae27
+    );
 }
 
-.bubble2 {
-  width: 100px;
-  height: 100px;
-  background: #f7ffb8;
-  bottom: 120px;
-  right: 40px;
+
+/* =========================================================
+   LEVEL 2 — BLUE
+========================================================= */
+
+.nt-level-card.level-two {
+  background:
+    linear-gradient(
+      145deg,
+      #55b9ed,
+      #2984c8
+    );
 }
 
-.bubble3 {
-  width: 120px;
-  height: 120px;
-  background: #ffffff;
-  top: 260px;
-  right: 140px;
+
+/* =========================================================
+   LEVEL 3 — PURPLE
+========================================================= */
+
+.nt-level-card.level-three {
+  background:
+    linear-gradient(
+      145deg,
+      #b36bdc,
+      #7d43b6
+    );
 }
 
-@keyframes floatBubble {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-16px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.nt-level-card:hover {
+  transform:
+    translateY(-6px);
+
+  box-shadow:
+    0 16px 28px
+    rgba(0, 0, 0, 0.30);
 }
 
-@media (max-width: 768px) {
-  .trace-board {
-    width: 300px;
-    height: 300px;
-  }
-
-  .trace-canvas {
-    width: 300px;
-    height: 300px;
-  }
-
-  .guide {
-    font-size: 180px;
-  }
-
-  .number-info h2 {
-    font-size: 22px;
-  }
-
-  .trace-buttons button {
-    font-size: 16px;
-    padding: 10px 18px;
-  }
-} */
-
-
-
-.number-tracing-page {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  padding: 20px;
-  font-family: "Comic Sans MS", sans-serif;
-  position: relative;
-  overflow: hidden;
+.nt-level-card:active {
+  transform:
+    translateY(-2px)
+    scale(0.98);
 }
 
-.number-tracing-header {
-  width: 100%;
-  max-width: 950px;
-  margin: 0 auto 20px;
-  background: #184c35;
+
+/* =========================================================
+   LEVEL TITLE
+========================================================= */
+
+.nt-level-card h2 {
+  margin: 0;
+
+  font-size: 30px;
+
   color: white;
-  text-align: center;
-  padding: 20px;
-  border-radius: 24px;
+
+  font-weight: 800;
+
   position: relative;
+
   z-index: 2;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+
+  text-shadow:
+    0 3px 4px
+    rgba(0, 0, 0, 0.25);
 }
 
-.number-tracing-header h1 {
-  margin: 0;
-  font-size: 34px;
-}
 
-.number-tracing-header p {
-  margin: 8px 0 0;
+/* =========================================================
+   LEVEL SUBTITLE
+========================================================= */
+
+.nt-level-card p {
+  margin:
+    9px 0 0;
+
   font-size: 18px;
-}
 
-.number-tracing-card {
-  width: 100%;
-  max-width: 950px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 28px;
-  padding: 28px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  color: white;
+
+  font-weight: 700;
+
   position: relative;
+
   z-index: 2;
+
+  text-shadow:
+    0 2px 3px
+    rgba(0, 0, 0, 0.20);
 }
 
-.number-top-section {
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.nt-level-arrow {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  margin-top: 16px;
+
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
 
-.number-display-box,
-.objects-display-box {
-  flex: 1;
-  min-width: 260px;
-  background: #f8fff2;
-  border-radius: 24px;
-  padding: 20px;
-  border: 3px solid #dcefc7;
-  text-align: center;
-}
-
-.main-number {
-  font-size: 90px;
-  font-weight: bold;
-  color: #184c35;
-  line-height: 1;
-}
-
-.main-word {
-  margin-top: 10px;
-  font-size: 30px;
-  color: #ff8b3d;
-  font-weight: bold;
-}
-
-.objects-display-box h3 {
-  margin: 0 0 16px;
-  color: #184c35;
-  font-size: 24px;
-}
-
-.objects-row {
-  display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  gap: 10px;
-}
 
-.object-item {
-  font-size: 34px;
-}
+  font-size: 25px;
 
-.practice-header {
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.practice-header h2 {
-  margin: 0;
-  color: #184c35;
-  font-size: 30px;
-}
-
-.practice-header p {
-  margin-top: 8px;
-  color: #555;
-  font-size: 18px;
-}
-
-.trace-board {
-  width: 420px;
-  height: 320px;
-  margin: 0 auto;
   position: relative;
-  background: #fffef8;
-  border: 4px solid #d9efc2;
-  border-radius: 24px;
-  overflow: hidden;
-  transition: 0.25s ease;
-}
 
-.board-glow {
-  box-shadow: 0 0 24px rgba(255, 212, 70, 0.9);
-  transform: scale(1.01);
-}
-
-.trace-guide {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 220px;
-  font-weight: bold;
-  pointer-events: none;
-  user-select: none;
-}
-
-.dotted-guide {
-  color: transparent;
-  -webkit-text-stroke: 2px #999999;
-  opacity: 0.55;
-}
-
-.outline-guide {
-  color: transparent;
-  -webkit-text-stroke: 3px #cfcfcf;
-  opacity: 0.9;
-}
-
-.free-guide {
-  display: none;
-}
-
-.free-write-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #d5d5d5;
-  font-size: 44px;
-  font-weight: bold;
-  pointer-events: none;
-  user-select: none;
-}
-
-.trace-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  touch-action: none;
   z-index: 3;
+
+  box-shadow:
+    0 5px 10px
+    rgba(0, 0, 0, 0.20);
+
+  transition:
+    transform 0.2s ease;
 }
 
-.step-progress {
-  display: flex;
+
+.nt-level-card:hover .nt-level-arrow {
+  transform:
+    translateX(4px);
+}
+
+
+.nt-level-card.level-one .nt-level-arrow {
+  color: #d98d12;
+}
+
+.nt-level-card.level-two .nt-level-arrow {
+  color: #217bb7;
+}
+
+.nt-level-card.level-three .nt-level-arrow {
+  color: #7135a5;
+}
+
+
+/* =========================================================
+   LEARNING PAGE
+========================================================= */
+
+.nt-learning-container {
+  width: 100%;
+  max-width: 1150px;
+
+  margin:
+    45px auto 0;
+
+  padding:
+    0 30px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LEARNING BOARD
+========================================================= */
+
+.nt-learning-board {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(153, 91, 35, 0.96),
+      rgba(118, 67, 25, 0.97)
+    );
+
+  border:
+    2px solid #e6b84c;
+
+  border-radius: 28px;
+
+  padding:
+    35px 40px 38px;
+
+  text-align: center;
+
+  box-shadow:
+    0 16px 32px
+    rgba(0, 0, 0, 0.28);
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   LEVEL BADGE
+========================================================= */
+
+.nt-learning-level-badge {
+  display: inline-flex;
+
   align-items: center;
   justify-content: center;
-  margin: 24px 0 22px;
+
+  padding:
+    8px 18px;
+
+  border-radius: 25px;
+
+  background:
+    #fff8dc;
+
+  color:
+    #71441e;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 4px 8px
+    rgba(0, 0, 0, 0.18);
 }
 
-.step-dot {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #d9efc2;
-  color: #184c35;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: bold;
-  transition: 0.25s ease;
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.nt-learning-number {
+  font-size: 105px;
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  color: #fff8dc;
+
+  margin-top: 18px;
+
+  text-shadow:
+    0 5px 8px
+    rgba(0, 0, 0, 0.28);
 }
 
-.step-dot.active {
-  background: #ffcf4d;
-  box-shadow: 0 0 12px rgba(255, 207, 77, 0.9);
+
+/* =========================================================
+   WORD
+========================================================= */
+
+.nt-learning-word {
+  margin:
+    5px 0 0;
+
+  color: #fff8dc;
+
+  font-size: 30px;
+
+  font-weight: 800;
 }
 
-.step-dot.done {
-  background: #6fd16f;
-  color: white;
-}
 
-.step-line {
-  width: 60px;
-  height: 6px;
-  background: #d9efc2;
-  border-radius: 20px;
-  margin: 0 8px;
-}
+/* =========================================================
+   INSTRUCTION
+========================================================= */
 
-.done-line {
-  background: #6fd16f;
-}
+.nt-learning-instruction {
+  margin:
+    8px 0 24px;
 
-.button-row {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
+  color:
+    #fff4d0;
 
-.trace-btn {
-  border: none;
-  background: #184c35;
-  color: white;
-  border-radius: 18px;
-  padding: 12px 24px;
   font-size: 18px;
-  font-family: "Comic Sans MS", sans-serif;
-  cursor: pointer;
-  transition: 0.2s ease;
+
+  font-weight: 700;
 }
 
-.trace-btn:hover {
-  transform: translateY(-2px);
-  background: #226847;
+
+/* =========================================================
+   TRACE AREA
+========================================================= */
+
+.nt-trace-wrapper {
+  width: 100%;
+
+  max-width: 650px;
+
+  height: 350px;
+
+  margin:
+    0 auto;
+
+  border-radius: 24px;
+
+  background:
+    #fff8e5;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 9px 18px
+    rgba(0, 0, 0, 0.20);
+
+  position: relative;
+
+  overflow: hidden;
+
+  touch-action: none;
 }
 
-.repeat-btn {
-  background: #ff8b3d;
-}
 
-.repeat-btn:hover {
-  background: #f0741d;
-}
+/* =========================================================
+   GUIDE NUMBER
+========================================================= */
 
-.trace-bg {
+.nt-trace-guide {
   position: absolute;
-  border-radius: 50%;
-  opacity: 0.18;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 245px;
+
+  font-weight: 900;
+
+  color:
+    rgba(190, 190, 190, 0.30);
+
+  pointer-events: none;
+
+  user-select: none;
+
   z-index: 1;
-  animation: floatBubble 6s infinite ease-in-out;
 }
 
-.bubble1 {
-  width: 140px;
-  height: 140px;
-  background: white;
-  top: 70px;
-  left: 30px;
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+.nt-trace-canvas {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  cursor: crosshair;
+
+  touch-action: none;
+
+  z-index: 2;
 }
 
-.bubble2 {
-  width: 100px;
-  height: 100px;
-  background: #f7ffb8;
-  bottom: 100px;
-  right: 40px;
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.nt-learning-message {
+  max-width: 650px;
+
+  margin:
+    20px auto 0;
+
+  padding:
+    14px 20px;
+
+  border-radius: 18px;
+
+  background:
+    #fff8dc;
+
+  color:
+    #653c1d;
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 5px 12px
+    rgba(0, 0, 0, 0.12);
 }
 
-.bubble3 {
-  width: 120px;
-  height: 120px;
-  background: white;
-  top: 260px;
-  right: 160px;
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.nt-actions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+
+  margin-top: 22px;
 }
 
-@keyframes floatBubble {
-  0% {
-    transform: translateY(0px);
+
+.nt-btn {
+  border: none;
+
+  min-width: 125px;
+
+  padding:
+    13px 20px;
+
+  border-radius: 30px;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  color: white;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 12px
+    rgba(0, 0, 0, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+.nt-btn:hover:not(:disabled) {
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 9px 16px
+    rgba(0, 0, 0, 0.25);
+}
+
+
+.nt-btn:active:not(:disabled) {
+  transform:
+    translateY(0)
+    scale(0.97);
+}
+
+
+.nt-btn:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+/* PREVIOUS */
+
+.nt-btn.prev {
+  background:
+    linear-gradient(
+      135deg,
+      #8c5bd1,
+      #7041b5
+    );
+}
+
+
+/* CLEAR */
+
+.nt-btn.clear {
+  background:
+    linear-gradient(
+      135deg,
+      #e96b91,
+      #c94b72
+    );
+}
+
+
+/* REPEAT */
+
+.nt-btn.repeat {
+  background:
+    linear-gradient(
+      135deg,
+      #16c1c9,
+      #0799aa
+    );
+}
+
+
+/* NEXT */
+
+.nt-btn.next {
+  background:
+    linear-gradient(
+      135deg,
+      #f29a35,
+      #e77917
+    );
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.nt-progress {
+  max-width: 650px;
+
+  margin:
+    20px auto 0;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  padding:
+    10px 16px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255, 248, 220, 0.82);
+
+  color:
+    #653c1d;
+
+  font-size: 14px;
+
+  font-weight: 800;
+}
+
+/* ================================
+   MATCH MULTI-SENSORY BOARD SIZE
+   ================================ */
+
+.nt-level-board {
+  width: 960px;
+  max-width: calc(100% - 40px);
+  margin: 55px auto 0;
+  padding: 42px 48px 45px;
+  box-sizing: border-box;
+
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+/* Keep the content compact */
+.nt-level-icon {
+  margin-bottom: 20px;
+}
+
+.nt-level-title {
+  margin-bottom: 10px;
+}
+
+.nt-level-subtitle {
+  margin-bottom: 25px;
+}
+
+/* Level cards */
+.nt-level-container {
+  gap: 22px;
+}
+
+/* Prevent the level cards from making the board too wide */
+.nt-level-card {
+  min-width: 0;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .nt-content {
+    margin-top: 35px;
+
+    padding:
+      0 20px;
   }
-  50% {
-    transform: translateY(-18px);
+
+  .nt-level-board {
+  width: 82%;
+  max-width: 1100px;
+  margin: 55px auto 0;
+  padding: 48px 50px 45px;
+
+  background: rgba(139, 82, 32, 0.88);
+  border: 2px solid #f5c542;
+  border-radius: 28px;
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.25),
+    inset 0 0 35px rgba(255, 220, 150, 0.08);
+
+  position: relative;
+  overflow: hidden;
+}
+
+  .nt-level-container {
+    gap: 16px;
   }
-  100% {
-    transform: translateY(0px);
+
+  .nt-level-card {
+    height: 190px;
+  }
+
+  .nt-level-card h2 {
+    font-size: 27px;
+  }
+
+  .nt-level-card p {
+    font-size: 16px;
   }
 }
 
-@media (max-width: 768px) {
-  .number-tracing-card {
-    padding: 18px;
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .nt-header {
+    height: 74px;
   }
 
-  .number-tracing-header h1 {
-    font-size: 28px;
+  .nt-header h1 {
+    font-size: 27px;
   }
 
-  .main-number {
-    font-size: 72px;
+  .nt-content {
+    margin-top: 25px;
+
+    padding:
+      0 15px;
   }
 
-  .main-word {
-    font-size: 24px;
+  .nt-level-board {
+    padding:
+      30px 18px 35px;
+
+    border-radius: 22px;
   }
 
-  .practice-header h2 {
-    font-size: 24px;
+  .nt-level-icon {
+    width: 90px;
+    height: 90px;
   }
 
-  .trace-board {
-    width: 100%;
-    max-width: 340px;
+  .nt-level-icon img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .nt-level-title {
+    font-size: 31px;
+  }
+
+  .nt-level-subtitle {
+    font-size: 16px;
+
+    margin-bottom: 25px;
+  }
+
+  .nt-level-container {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+  .nt-level-card {
+    height: 175px;
+  }
+
+  .nt-learning-container {
+    margin-top: 25px;
+
+    padding:
+      0 15px;
+  }
+
+  .nt-learning-board {
+    padding:
+      25px 18px 30px;
+  }
+
+  .nt-learning-number {
+    font-size: 85px;
+  }
+
+  .nt-learning-word {
+    font-size: 26px;
+  }
+
+  .nt-trace-wrapper {
+    height: 300px;
+  }
+
+  .nt-trace-guide {
+    font-size: 190px;
+  }
+
+  .nt-btn {
+    min-width: 115px;
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .nt-header h1 {
+    font-size: 23px;
+  }
+
+  .nt-level-title {
+    font-size: 27px;
+  }
+
+  .nt-level-subtitle {
+    font-size: 15px;
+  }
+
+  .nt-level-card {
+    height: 165px;
+  }
+
+  .nt-level-card h2 {
+    font-size: 25px;
+  }
+
+  .nt-level-card p {
+    font-size: 15px;
+  }
+
+  .nt-learning-number {
+    font-size: 75px;
+  }
+
+  .nt-trace-wrapper {
     height: 260px;
   }
 
-  .trace-guide {
-    font-size: 170px;
+  .nt-trace-guide {
+    font-size: 165px;
   }
 
-  .free-write-placeholder {
-    font-size: 32px;
+  .nt-actions {
+    gap: 9px;
   }
 
-  .step-line {
-    width: 35px;
+  .nt-btn {
+    min-width: 105px;
+    padding:
+      11px 14px;
   }
-
-  .trace-btn {
-    font-size: 16px;
-    padding: 10px 18px;
-  }
-}
-
-/* ================= LEVEL PAGE CONTAINER ================= */
-
-.level-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 28px;
-  flex-wrap: wrap;
-  margin-top: 40px;
-}
-
-/* ================= LEVEL CARD ================= */
-
-.level-card {
-  width: 210px;
-  height: 130px;
-  border-radius: 24px;
-  border: none;
-  background: #ffffff;
-  color: #184c35;
-
-  font-size: 22px;
-  font-weight: bold;
-  font-family: "Comic Sans MS", sans-serif;
-
-  cursor: pointer;
-  transition: all 0.25s ease;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-}
-
-/* Sub text like "Learn 1 to 10" */
-
-.level-card span {
-  font-size: 16px;
-  font-weight: normal;
-  margin-top: 6px;
-  color: #666;
-}
-
-/* Hover animation */
-
-.level-card:hover {
-  transform: translateY(-6px) scale(1.05);
-  background: #ffcf4d;
-  color: #222;
-
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-}
-
-/* Click animation */
-
-.level-card:active {
-  transform: scale(0.98);
-}
-
-/* ================= MOBILE RESPONSIVE ================= */
-
-@media (max-width: 768px) {
-
-  .level-container {
-    gap: 18px;
-    margin-top: 30px;
-  }
-
-  .level-card {
-    width: 170px;
-    height: 110px;
-    font-size: 18px;
-  }
-
-  .level-card span {
-    font-size: 14px;
-  }
-
 }

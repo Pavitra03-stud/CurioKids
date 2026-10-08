@@ -1,110 +1,1012 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --wood-dark: #633719;
+  --wood: #96572b;
+  --wood-light: #bd7840;
+  --wood-gold: #e7bd63;
+
+  --cream: #fff5d5;
+  --cream-light: #fffaf0;
+
+  --jungle-dark: #124d36;
+  --jungle: #176a46;
+
+  --text-dark: #173f31;
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
 .choose-container {
   min-height: 100vh;
-  background: linear-gradient(#1b5e20, #4caf50);
+  width: 100%;
+
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Comic Sans MS", cursive;
+
+  padding: 35px 20px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  font-family: "Nunito", sans-serif;
+
+  background:
+    linear-gradient(
+      rgba(20, 90, 55, 0.10),
+      rgba(20, 90, 55, 0.10)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: var(--text-dark);
 }
 
-.board,
-.intro-board {
-  background: #fff3d6;
-  border-radius: 25px;
-  padding: 40px;
-  width: 520px;
-  text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+/* =========================================================
+   SOFT JUNGLE OVERLAY
+   ========================================================= */
+
+.choose-container::before {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 45%,
+      rgba(0, 45, 25, 0.20)
+    );
+
+  z-index: 0;
 }
+
+/* =========================================================
+   MAIN WOOD BOARD
+   ========================================================= */
+
+.board {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(850px, 94vw);
+
+  min-height: 650px;
+
+  padding: 38px 45px 32px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  border-radius: 30px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(75, 35, 12, 0.08) 0px,
+      rgba(75, 35, 12, 0.08) 3px,
+      transparent 3px,
+      transparent 12px
+    ),
+    linear-gradient(
+      145deg,
+      #a85e2e,
+      #8a4521 50%,
+      #713615
+    );
+
+  border: 7px solid var(--wood-gold);
+
+  box-shadow:
+    0 0 0 4px rgba(78, 39, 15, 0.85),
+    inset 0 0 0 2px rgba(255, 220, 135, 0.35),
+    inset 0 0 35px rgba(55, 24, 8, 0.40),
+    0 20px 45px rgba(0, 0, 0, 0.40);
+}
+
+/* Inner wood border */
+
+.board::before,
+.intro-board::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 11px;
+
+  border: 2px solid rgba(255, 218, 135, 0.38);
+
+  border-radius: 21px;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   TOP BADGE
+   ========================================================= */
+
+.intro-badge,
+.board-label {
+  position: relative;
+
+  z-index: 3;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 17px;
+
+  margin-bottom: 10px;
+
+  border-radius: 30px;
+
+  background: #fff1bf;
+
+  color: #174b35;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 4px 0 rgba(75, 39, 17, 0.35);
+}
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.board h1,
+.board h2 {
+  position: relative;
+
+  z-index: 3;
+
+  color: #fff4cf;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 4px 0 #542b14,
+    0 7px 12px rgba(0, 0, 0, 0.40);
+}
+
+.board h1 {
+  margin: 5px 0 5px;
+
+  font-size: clamp(34px, 5vw, 48px);
+
+  line-height: 1;
+}
+
+.board > h2 {
+  margin: 8px 0 24px;
+
+  font-size: clamp(28px, 4vw, 38px);
+
+  line-height: 1;
+}
+
+/* =========================================================
+   SUBTITLE
+   ========================================================= */
+
+.board p {
+  position: relative;
+
+  z-index: 3;
+
+  color: #ffe7ad;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   ⭐ ACTUAL FRIEND CAROUSEL
+   ========================================================= */
 
 .carousel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.carousel img {
-  max-width: 3000px;
-  max-height:300px;
-  animation: float 2s ease-in-out infinite;
-  border-radius:50%;
-}
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
-}
-
-.carousel button {
-  font-size: 28px;
-  padding: 10px 16px;
-  cursor: pointer;
-}
-
-.speech {
-  background: #fff8dc;
-  padding: 20px;
-  border-radius: 20px;
-  margin: 20px 0;
   position: relative;
+
+  z-index: 5;
+
+  width: 100%;
+
+  min-height: 390px;
+
+  margin: 20px auto 5px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 35px;
 }
 
-.speech::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  border: 12px solid transparent;
-  border-bottom-color: #fff8dc;
+/* =========================================================
+   ARROWS
+   ========================================================= */
+
+.carousel > button {
+  flex: 0 0 auto;
+
+  width: 62px;
+  height: 62px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border: 4px solid #f1cb61;
+
+  background:
+    linear-gradient(
+      145deg,
+      #a65c2d,
+      #783a1b
+    );
+
+  color: #fff4cf;
+
+  font-size: 30px;
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 0 #512710,
+    0 10px 18px rgba(0, 0, 0, 0.28);
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.carousel > button:hover {
+  transform: scale(1.08);
+
+  background:
+    linear-gradient(
+      145deg,
+      #c47439,
+      #91471f
+    );
+
+  box-shadow:
+    0 8px 0 #512710,
+    0 13px 22px rgba(0, 0, 0, 0.32);
+}
+
+.carousel > button:active {
+  transform: translateY(4px);
+
+  box-shadow:
+    0 2px 0 #512710;
+}
+
+/* =========================================================
+   BIG FRIEND IMAGE
+   ========================================================= */
+
+.carousel > img {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  width: 290px;
+  height: 290px;
+
+  object-fit: contain;
+
+  padding: 15px;
+
+  border-radius: 50%;
+
+  background: #fff8df;
+
+  border: 9px solid #f2d05a;
+
+  box-shadow:
+    0 8px 0 #5b2d13,
+    inset 0 0 0 4px rgba(100, 58, 23, 0.15),
+    0 15px 30px rgba(0, 0, 0, 0.32);
+
+  transition:
+    transform 0.20s ease;
+}
+
+.carousel > img:hover {
+  transform: scale(1.03);
+}
+
+/* =========================================================
+   FRIEND NAME
+   ========================================================= */
+
+.board > h2 {
+  position: relative;
+
+  z-index: 4;
+
+  margin: 8px 0 25px;
+
+  color: #fff5d2;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 38px;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 4px 0 #542b14,
+    0 7px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   START BUTTON
+   ========================================================= */
+
+.start {
+  position: relative;
+
+  z-index: 5;
+
+  min-width: 230px;
+
+  padding: 14px 32px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffd83f,
+      #f5b91d
+    );
+
+  color: #103c2d;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 0 #a76c14,
+    0 10px 18px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
+}
+
+.start:hover {
+  transform:
+    translateY(-3px)
+    scale(1.03);
+
+  filter: brightness(1.05);
+}
+
+.start:active {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 3px 0 #a76c14;
+}
+
+.start:disabled {
+  opacity: 0.7;
+
+  cursor: wait;
+}
+
+/* =========================================================
+   INTRO SCREEN
+   ========================================================= */
+
+.intro-board {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(620px, 94vw);
+
+  padding: 35px 40px 32px;
+
+  text-align: center;
+
+  border-radius: 30px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(75, 35, 12, 0.08) 0px,
+      rgba(75, 35, 12, 0.08) 3px,
+      transparent 3px,
+      transparent 12px
+    ),
+    linear-gradient(
+      145deg,
+      #a65d2d,
+      #7b3c1b
+    );
+
+  border: 7px solid #e5b84d;
+
+  box-shadow:
+    0 0 0 4px rgba(91, 47, 20, 0.8),
+    inset 0 0 35px rgba(65, 29, 10, 0.4),
+    0 20px 45px rgba(0, 0, 0, 0.4);
+}
+
+.intro-board h1 {
+  position: relative;
+
+  z-index: 3;
+
+  margin:
+    12px 0 18px;
+
+  color: #173f31;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size:
+    clamp(34px, 5vw, 47px);
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  text-shadow:
+    0 3px 0 rgba(255, 224, 153, 0.55),
+    0 5px 8px rgba(0, 0, 0, 0.25);
+}
+
+.intro-board > img {
+  position: relative;
+
+  z-index: 3;
+
+  width: 210px;
+  height: 210px;
+
+  object-fit: contain;
+
+  padding: 10px;
+
+  border-radius: 50%;
+
+  background: #fff8df;
+
+  border: 9px solid #f2d05a;
+
+  box-shadow:
+    0 7px 0 #603015,
+    inset 0 0 0 4px rgba(110, 63, 26, 0.15),
+    0 12px 25px rgba(0, 0, 0, 0.3);
 }
 
 .typing {
-  white-space: pre-line;
-  font-size: 18px;
-}
+  position: relative;
 
-.start {
-  margin-top: 20px;
-  padding: 14px 30px;
-  font-size: 18px;
-  background: orange;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
+  z-index: 3;
+
+  min-height: 95px;
+
+  margin:
+    18px auto 20px;
+
+  padding:
+    15px 20px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255, 246, 211, 0.97);
+
+  color: #173f31;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  line-height: 1.55;
+
+  white-space: pre-line;
+
+  box-shadow:
+    0 4px 0 rgba(75, 39, 17, 0.35);
 }
 
 .start.big {
-  font-size: 20px;
-  transition: transform 0.2s ease;
+  min-width: 255px;
+
+  font-size: 19px;
 }
 
-.start.big:hover {
-  transform: scale(1.1);
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .choose-container {
+    padding:
+      25px 12px;
+  }
+
+  .board {
+    width: 96vw;
+
+    min-height: auto;
+
+    padding:
+      30px 18px 28px;
+  }
+
+  .carousel {
+    min-height: 330px;
+
+    gap: 15px;
+  }
+
+  .carousel > img {
+    width: 220px;
+    height: 220px;
+
+    border-width: 7px;
+  }
+
+  .carousel > button {
+    width: 52px;
+    height: 52px;
+
+    font-size: 25px;
+  }
+
+  .board > h2 {
+    font-size: 32px;
+  }
 }
-/* Character image frame */
-.character-frame {
-  width: 260px;
-  height: 260px;
-  background: #8fc1c6;
-  border-radius: 20px;
+
+@media (max-width: 500px) {
+
+  .choose-container {
+    padding:
+      20px 8px;
+  }
+
+  .board {
+    padding:
+      28px 12px 25px;
+
+    border-width: 5px;
+
+    border-radius: 24px;
+  }
+
+  .carousel {
+    gap: 8px;
+
+    min-height: 280px;
+  }
+
+  .carousel > img {
+    width: 180px;
+    height: 180px;
+
+    padding: 9px;
+
+    border-width: 6px;
+  }
+
+  .carousel > button {
+    width: 48px;
+    height: 48px;
+
+    font-size: 22px;
+
+    border-width: 3px;
+  }
+
+  .board > h2 {
+    font-size: 29px;
+
+    margin-bottom: 20px;
+  }
+
+  .start {
+    min-width: 210px;
+
+    font-size: 17px;
+  }
+
+  .intro-board {
+    padding:
+      28px 18px 25px;
+  }
+
+  .intro-board > img {
+    width: 175px;
+    height: 175px;
+  }
+}
+
+@media (max-width: 370px) {
+
+  .carousel {
+    gap: 5px;
+  }
+
+  .carousel > img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .carousel > button {
+    width: 43px;
+    height: 43px;
+
+    font-size: 19px;
+  }
+}
+/* =========================================================
+   CHOOSE FRIEND - SINGLE AVATAR CAROUSEL
+   ========================================================= */
+
+.friend-carousel {
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px auto;
-  box-shadow: inset 0 0 0 6px #6aa6ab;
+
+  gap: 35px;
+
+  margin: 15px 0 10px;
 }
 
-/* Force all images same size */
-.character-frame img {
-  width: 85%;
-  height: 85%;
+/* =========================================================
+   ARROWS
+   ========================================================= */
+
+.friend-arrow {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  border: 4px solid #f0c957;
+
+  background: #8b4924;
+
+  color: #fff3cf;
+
+  font-size: 30px;
+  font-weight: 900;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 0 #542b15,
+    0 8px 15px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.friend-arrow:hover {
+  transform: scale(1.08);
+
+  background: #a95e2d;
+}
+
+.friend-arrow:active {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 2px 0 #542b15;
+}
+
+/* =========================================================
+   AVATAR AREA
+   ========================================================= */
+
+.friend-avatar-area {
+  width: 310px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+}
+
+/* =========================================================
+   NUMBER
+   ========================================================= */
+
+.friend-number {
+  position: absolute;
+
+  top: -2px;
+  right: 5px;
+
+  color: #f5dca2;
+
+  font-size: 17px;
+  font-weight: 900;
+
+  z-index: 3;
+}
+
+/* =========================================================
+   BIG AVATAR CIRCLE
+   ========================================================= */
+
+.friend-avatar-circle {
+  width: 275px;
+  height: 275px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff8df;
+
+  border: 9px solid #f1cf55;
+
+  box-shadow:
+    0 8px 0 #572d16,
+    0 15px 25px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 4px rgba(110, 65, 25, 0.12);
+
+  overflow: hidden;
+}
+
+.friend-avatar-image {
+  width: 88%;
+  height: 88%;
+
   object-fit: contain;
-  animation: float 2s ease-in-out infinite;
+
+  display: block;
+
+  border-radius: 50%;
 }
 
-/* Floating animation */
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+/* =========================================================
+   FRIEND NAME
+   ========================================================= */
+
+.friend-name {
+  margin: 12px 0 0;
+
+  color: #fff3cf;
+
+  font-size: 28px;
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #542b14;
+}
+
+/* =========================================================
+   SELECTED FRIEND
+   ========================================================= */
+
+.selected-friend {
+  width: 430px;
+  max-width: 90%;
+
+  min-height: 76px;
+
+  margin: 10px auto 18px;
+
+  padding: 9px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+
+  border-radius: 18px;
+
+  background: #fff3c9;
+
+  border: 3px solid #e4b94f;
+
+  box-shadow:
+    0 5px 0 rgba(83, 42, 18, 0.35);
+}
+
+.selected-friend-avatar {
+  width: 54px;
+  height: 54px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+
+  border: 4px solid #efca4e;
+
+  overflow: hidden;
+}
+
+.selected-friend-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.selected-friend-text {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  text-align: left;
+}
+
+.selected-friend-text span {
+  color: #24563d;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.selected-friend-text strong {
+  margin-top: 2px;
+
+  color: #174532;
+
+  font-size: 21px;
+  font-weight: 900;
+}
+
+/* =========================================================
+   COUNTER
+   ========================================================= */
+
+.friend-counter {
+  margin-top: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 15px;
+
+  color: #ffe9ad;
+
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.friend-counter button {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  border: 3px solid #e6bd56;
+
+  background: transparent;
+
+  color: #fff0c5;
+
+  font-size: 20px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   IMPORTANT:
+   HIDE THE OLD CAROUSEL IF OLD STYLES EXIST
+   ========================================================= */
+
+.carousel {
+  display: none !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .friend-carousel {
+    gap: 10px;
+  }
+
+  .friend-avatar-area {
+    width: 220px;
+  }
+
+  .friend-avatar-circle {
+    width: 200px;
+    height: 200px;
+  }
+
+  .friend-arrow {
+    width: 48px;
+    height: 48px;
+
+    font-size: 24px;
+  }
+
+  .friend-name {
+    font-size: 24px;
+  }
+
+  .selected-friend {
+    width: 90%;
+  }
 }

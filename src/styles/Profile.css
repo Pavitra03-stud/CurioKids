@@ -1,40 +1,97 @@
 /* =========================================================
-   🌿 CURIOKIDS - STUDENT PROFILE
+   🌿 CURIOKIDS PROFILE
+   Realistic Jungle + Wooden Adventure Theme
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+
+/* =========================================================
+   🌴 MAIN JUNGLE BACKGROUND
    ========================================================= */
 
 .profile-page {
   min-height: 100vh;
   width: 100%;
+
   box-sizing: border-box;
 
-  padding: 42px 20px 55px;
+  padding: 42px 24px 70px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(255, 255, 255, 0.14),
-      transparent 32%
-    ),
-    linear-gradient(
-      180deg,
-      #4caf2f 0%,
-      #69cf3f 48%,
-      #a4df5d 100%
-    );
+  position: relative;
 
   color: #173f1d;
 
   font-family:
-    "Comic Sans MS",
+    "Baloo 2",
+    "Nunito",
     "Trebuchet MS",
     Arial,
     sans-serif;
 
+  background:
+    linear-gradient(
+      rgba(18, 82, 53, 0.10),
+      rgba(32, 95, 48, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
+
   overflow-x: hidden;
+}
+
+
+/* soft jungle depth */
+
+.profile-page::before {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      rgba(255, 255, 255, 0.10),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 58, 37, 0.08),
+      rgba(5, 58, 37, 0.16)
+    );
+
+  z-index: 0;
+}
+
+
+/* keep everything above background */
+
+.profile-page > * {
+  position: relative;
+  z-index: 2;
 }
 
 
@@ -55,19 +112,35 @@
   margin-bottom: 22px;
 }
 
+
 .name-section h1 {
   margin: 0;
 
-  font-size: clamp(32px, 5vw, 48px);
+  color: #fff9df;
 
-  line-height: 1.15;
+  font-size: clamp(34px, 5vw, 50px);
+
+  line-height: 1.05;
 
   font-weight: 900;
 
-  color: #113c1c;
+  text-shadow:
+    0 4px 0 #174d32,
+    0 7px 14px rgba(0, 0, 0, 0.30);
+}
+
+
+.name-section p {
+  margin: 6px 0 10px;
+
+  color: #fff4c9;
+
+  font-size: 19px;
+
+  font-weight: 800;
 
   text-shadow:
-    0 3px 0 rgba(255, 255, 255, 0.24);
+    0 2px 5px rgba(0, 0, 0, 0.35);
 }
 
 
@@ -84,11 +157,11 @@
 
   margin-bottom: 10px;
 
-  border: 3px solid #ffffff;
+  border: 4px solid #e8b957;
 
   border-radius: 16px;
 
-  background: rgba(255, 255, 255, 0.96);
+  background: #fffbea;
 
   color: #173f1d;
 
@@ -101,26 +174,24 @@
   outline: none;
 
   box-shadow:
-    0 8px 18px rgba(40, 95, 31, 0.16);
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    0 6px 0 #70451f,
+    0 10px 20px rgba(0, 0, 0, 0.22);
 }
+
 
 .name-input:focus {
-  border-color: #ffbe16;
+  border-color: #ffd34d;
 
   box-shadow:
-    0 0 0 4px rgba(255, 190, 22, 0.22),
-    0 8px 18px rgba(40, 95, 31, 0.16);
-
-  transform: translateY(-1px);
+    0 0 0 4px rgba(255, 211, 77, 0.25),
+    0 6px 0 #70451f,
+    0 10px 20px rgba(0, 0, 0, 0.22);
 }
+
 
 .name-input::placeholder {
   color: #78917a;
+
   font-weight: 600;
 }
 
@@ -130,44 +201,54 @@
    ========================================================= */
 
 .edit-btn {
-  border: none;
+  border: 4px solid #0e6c61;
 
-  padding: 11px 24px;
+  padding: 10px 24px;
 
-  border-radius: 14px;
+  border-radius: 16px;
 
-  background: #12bfd0;
+  background:
+    linear-gradient(
+      180deg,
+      #20c5d2,
+      #0ea9b9
+    );
 
   color: #ffffff;
 
   font-size: 16px;
 
-  font-weight: 800;
+  font-weight: 900;
 
   font-family: inherit;
 
   cursor: pointer;
 
   box-shadow:
-    0 7px 14px rgba(0, 100, 110, 0.2);
+    0 5px 0 #075f58,
+    0 9px 16px rgba(0, 0, 0, 0.22);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
+
 
 .edit-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 
   box-shadow:
-    0 10px 18px rgba(0, 100, 110, 0.24);
-
-  filter: brightness(1.04);
+    0 8px 0 #075f58,
+    0 13px 20px rgba(0, 0, 0, 0.25);
 }
 
+
 .edit-btn:active {
-  transform: translateY(0);
+  transform: translateY(2px);
+
+  box-shadow:
+    0 3px 0 #075f58,
+    0 6px 12px rgba(0, 0, 0, 0.20);
 }
 
 
@@ -176,41 +257,45 @@
    ========================================================= */
 
 .save-btn {
-  border: none;
+  border: 4px solid #155333;
 
   padding: 11px 28px;
 
-  border-radius: 14px;
+  border-radius: 16px;
 
-  background: #12bfd0;
+  background:
+    linear-gradient(
+      180deg,
+      #55bb68,
+      #29994d
+    );
 
   color: #ffffff;
 
   font-size: 16px;
 
-  font-weight: 800;
+  font-weight: 900;
 
   font-family: inherit;
 
   cursor: pointer;
 
   box-shadow:
-    0 7px 14px rgba(0, 100, 110, 0.2);
+    0 5px 0 #155333,
+    0 9px 16px rgba(0, 0, 0, 0.22);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
+
 
 .save-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 
   box-shadow:
-    0 10px 18px rgba(0, 100, 110, 0.25);
-}
-
-.save-btn:active {
-  transform: translateY(0);
+    0 8px 0 #155333,
+    0 13px 20px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -219,27 +304,34 @@
    ========================================================= */
 
 .avatar-preview {
-  width: 105px;
-  height: 105px;
+  width: 112px;
+  height: 112px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
-  margin: 14px 0 20px;
+  margin: 14px 0 22px;
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, 0.92);
+  background:
+    radial-gradient(
+      circle,
+      #fffdf0 0%,
+      #fff7d5 100%
+    );
 
-  border: 5px solid #ffd12f;
+  border: 6px solid #ffd12f;
 
-  font-size: 66px;
+  font-size: 70px;
 
   line-height: 1;
 
   box-shadow:
-    0 10px 25px rgba(35, 84, 28, 0.22);
+    0 7px 0 #70451f,
+    0 12px 25px rgba(0, 0, 0, 0.28);
 
   animation:
     profileFloat 3s ease-in-out infinite;
@@ -251,114 +343,227 @@
    ========================================================= */
 
 .profile-page > h2 {
-  margin: 4px 0 16px;
+  margin: 5px 0 18px;
 
-  color: #153e1d;
+  color: #fff9df;
 
-  font-size: clamp(24px, 4vw, 32px);
+  font-size: clamp(25px, 4vw, 34px);
 
   font-weight: 900;
 
   text-align: center;
 
   text-shadow:
-    0 2px 0 rgba(255, 255, 255, 0.18);
+    0 4px 0 #174d32,
+    0 6px 12px rgba(0, 0, 0, 0.30);
 }
 
 
 /* =========================================================
-   🎭 AVATAR GRID
+   🪵 WOODEN AVATAR GRID
    ========================================================= */
 
 .avatar-grid {
   width: 100%;
-  max-width: 620px;
+
+  max-width: 720px;
 
   display: grid;
 
   grid-template-columns:
-    repeat(5, minmax(90px, 1fr));
+    repeat(5, minmax(120px, 1fr));
 
-  gap: 16px;
+  gap: 18px;
 
   justify-content: center;
 }
 
 
 /* =========================================================
-   🃏 AVATAR CARD
+   🪵 AVATAR CARD
    ========================================================= */
 
 .avatar-card {
-  min-height: 112px;
+  min-height: 145px;
 
-  padding: 13px 10px;
+  padding: 18px 12px;
 
   box-sizing: border-box;
 
-  border-radius: 18px;
+  border-radius: 20px;
 
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   justify-content: center;
 
-  gap: 8px;
+  gap: 9px;
 
   text-align: center;
 
   cursor: pointer;
 
+  position: relative;
+
+  overflow: hidden;
+
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
 }
+
+
+/* wood grain */
+
+.avatar-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border-radius: 14px;
+
+  border: 2px solid rgba(255, 220, 155, 0.30);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   🪵 UNLOCKED WOOD
+   ========================================================= */
 
 .avatar-card.unlocked {
-  background: rgba(255, 255, 255, 0.82);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(83, 43, 20, 0.08) 0px,
+      rgba(83, 43, 20, 0.08) 3px,
+      transparent 3px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 219, 143, 0.06) 0px,
+      rgba(255, 219, 143, 0.06) 4px,
+      transparent 4px,
+      transparent 18px
+    ),
+    linear-gradient(
+      145deg,
+      #c98745,
+      #a9602f 48%,
+      #c27a3c
+    );
 
-  border: 3px solid transparent;
+  border: 5px solid #6e3f20;
 
   box-shadow:
-    0 7px 16px rgba(48, 101, 38, 0.15);
+    inset 0 0 0 3px rgba(255, 213, 133, 0.28),
+    0 7px 0 #5d351c,
+    0 13px 22px rgba(0, 0, 0, 0.25);
 }
+
 
 .avatar-card.unlocked:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 
-  border-color: #ffd027;
+  border-color: #f1c85b;
 
   box-shadow:
-    0 12px 22px rgba(48, 101, 38, 0.2);
+    inset 0 0 0 3px rgba(255, 213, 133, 0.35),
+    0 11px 0 #5d351c,
+    0 18px 27px rgba(0, 0, 0, 0.30);
 }
 
-.avatar-card.locked {
-  background: rgba(255, 255, 255, 0.38);
 
-  border: 3px solid rgba(255, 255, 255, 0.22);
+/* =========================================================
+   🔒 LOCKED WOOD
+   ========================================================= */
+
+.avatar-card.locked {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(70, 38, 18, 0.08) 0px,
+      rgba(70, 38, 18, 0.08) 3px,
+      transparent 3px,
+      transparent 10px
+    ),
+    linear-gradient(
+      145deg,
+      #a87548,
+      #84552f
+    );
+
+  border: 5px solid #633719;
 
   cursor: not-allowed;
 
-  opacity: 0.75;
+  opacity: 0.72;
+
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 218, 151, 0.15),
+    0 6px 0 #4e2b17,
+    0 10px 18px rgba(0, 0, 0, 0.20);
 }
 
+
+/* =========================================================
+   🐵 AVATAR ICON
+   ========================================================= */
+
 .avatar-icon {
-  font-size: 46px;
+  position: relative;
+  z-index: 2;
+
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255, 248, 220, 0.94);
+
+  border: 4px solid #f3d489;
+
+  font-size: 50px;
 
   line-height: 1;
 
-  display: block;
+  box-shadow:
+    0 5px 0 #714020,
+    0 8px 13px rgba(0, 0, 0, 0.20);
 }
 
+
 .avatar-card p {
+  position: relative;
+
+  z-index: 2;
+
   margin: 0;
+
+  min-height: 22px;
+
+  color: #fff8df;
 
   font-size: 14px;
 
-  font-weight: 800;
+  font-weight: 900;
 
-  color: #497648;
+  text-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.35);
 }
 
 
@@ -367,66 +572,123 @@
    ========================================================= */
 
 .profile-page > div[style*="marginTop"] {
-  width: min(620px, 94%);
+  width: min(680px, 94%);
 
   box-sizing: border-box;
 
-  padding: 24px 20px;
+  margin-top: 30px !important;
 
-  border-radius: 24px;
+  padding: 25px 22px;
 
-  background: rgba(255, 255, 255, 0.8);
+  border-radius: 26px;
 
-  border: 3px solid rgba(255, 203, 35, 0.75);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(92, 48, 22, 0.07) 0px,
+      rgba(92, 48, 22, 0.07) 3px,
+      transparent 3px,
+      transparent 10px
+    ),
+    linear-gradient(
+      145deg,
+      #c98542,
+      #a9602d 48%,
+      #c47a3c
+    );
+
+  border: 6px solid #6e3f20;
 
   box-shadow:
-    0 10px 24px rgba(51, 103, 42, 0.16);
-
-  backdrop-filter: blur(5px);
+    inset 0 0 0 3px rgba(255, 218, 151, 0.32),
+    0 8px 0 #633719,
+    0 18px 28px rgba(0, 0, 0, 0.25);
 }
+
 
 .profile-page > div[style*="marginTop"] h2 {
-  color: #194a22;
+  margin-top: 0;
 
-  font-size: 25px;
+  color: #fff8df;
+
+  font-size: 27px;
 
   font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #633719,
+    0 5px 9px rgba(0, 0, 0, 0.25);
 }
 
-.profile-page > div[style*="marginTop"] img {
-  border: 4px solid #ffd12f;
 
-  background: #ffffff;
+.profile-page > div[style*="marginTop"] p {
+  color: #fff4d2;
+
+  font-size: 17px;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.30);
+}
+
+
+/* jungle friend image */
+
+.profile-page > div[style*="marginTop"] img {
+  border: 5px solid #ffd12f;
+
+  background: #fffdf0;
 
   box-shadow:
-    0 8px 18px rgba(45, 92, 37, 0.18);
+    0 7px 0 #70451f,
+    0 12px 20px rgba(0, 0, 0, 0.25);
 
-  padding: 5px;
+  padding: 6px;
 
   box-sizing: border-box;
+}
+
+
+/* friend name */
+
+.profile-page > div[style*="marginTop"] strong {
+  color: #fff8df;
+
+  font-size: 19px;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
 
 /* =========================================================
-   ⭐ STARS BOX
+   ⭐ PROGRESS BOX
    ========================================================= */
 
 .stars-box {
-  width: min(340px, 92%);
+  width: min(390px, 92%);
 
   box-sizing: border-box;
 
-  padding: 14px 22px;
+  margin-top: 30px !important;
 
-  border-radius: 18px;
+  padding: 18px 25px;
 
-  background: rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
 
-  border: 3px solid #ffffff;
+  background:
+    linear-gradient(
+      145deg,
+      #fffbed,
+      #f6e6b4
+    );
 
-  color: #153e1d;
+  border: 5px solid #e5bd5d;
 
-  font-size: 18px;
+  color: #174d32;
+
+  font-size: 20px;
 
   font-weight: 900;
 
@@ -435,20 +697,8 @@
   line-height: 1.8;
 
   box-shadow:
-    0 9px 20px rgba(42, 91, 34, 0.18);
-}
-
-
-/* =========================================================
-   🌱 AGE TEXT
-   ========================================================= */
-
-.name-section p {
-  color: #28592f;
-
-  font-size: 18px;
-
-  font-weight: 800;
+    0 7px 0 #70451f,
+    0 13px 24px rgba(0, 0, 0, 0.24);
 }
 
 
@@ -463,7 +713,7 @@
 
 
 /* =========================================================
-   ✨ FLOATING ANIMATION
+   ✨ FLOATING AVATAR
    ========================================================= */
 
 @keyframes profileFloat {
@@ -499,18 +749,25 @@
    ========================================================= */
 
 @media (max-width: 850px) {
+
   .profile-page {
     padding:
       34px
       18px
-      45px;
+      55px;
   }
 
   .avatar-grid {
     grid-template-columns:
-      repeat(3, minmax(90px, 1fr));
+      repeat(3, minmax(125px, 1fr));
 
-    max-width: 430px;
+    max-width: 500px;
+
+    gap: 16px;
+  }
+
+  .avatar-card {
+    min-height: 140px;
   }
 }
 
@@ -520,11 +777,14 @@
    ========================================================= */
 
 @media (max-width: 560px) {
+
   .profile-page {
     padding:
       28px
       14px
-      40px;
+      45px;
+
+    background-attachment: scroll;
   }
 
   .name-section h1 {
@@ -532,12 +792,12 @@
   }
 
   .avatar-preview {
-    width: 90px;
-    height: 90px;
+    width: 92px;
+    height: 92px;
 
     font-size: 56px;
 
-    border-width: 4px;
+    border-width: 5px;
   }
 
   .profile-page > h2 {
@@ -546,33 +806,38 @@
 
   .avatar-grid {
     grid-template-columns:
-      repeat(2, minmax(115px, 1fr));
+      repeat(2, minmax(125px, 1fr));
 
-    gap: 12px;
+    gap: 14px;
 
-    max-width: 340px;
+    max-width: 360px;
   }
 
   .avatar-card {
-    min-height: 105px;
+    min-height: 140px;
+
+    padding: 15px 10px;
   }
 
   .avatar-icon {
-    font-size: 42px;
+    width: 70px;
+    height: 70px;
+
+    font-size: 44px;
   }
 
   .profile-page > div[style*="marginTop"] {
     width: 100%;
 
     padding:
-      20px
+      22px
       15px;
   }
 
   .stars-box {
     width: 100%;
 
-    font-size: 16px;
+    font-size: 17px;
   }
 }
 
@@ -582,21 +847,25 @@
    ========================================================= */
 
 @media (max-width: 360px) {
+
   .avatar-grid {
     grid-template-columns:
       repeat(2, 1fr);
 
-    gap: 9px;
+    gap: 10px;
   }
 
   .avatar-card {
-    min-height: 98px;
+    min-height: 125px;
 
     padding: 10px;
   }
 
   .avatar-icon {
-    font-size: 38px;
+    width: 62px;
+    height: 62px;
+
+    font-size: 39px;
   }
 
   .avatar-card p {
@@ -619,9 +888,156 @@ input:focus-visible,
 
 
 /* =========================================================
-   🧹 REMOVE DEFAULT BUTTON FONT DIFFERENCES
+   🧹 BUTTON FONT
    ========================================================= */
 
 button {
   font-family: inherit;
+}
+/* =========================================================
+   🔔 CURIOKIDS CUSTOM NOTIFICATION
+   Replaces browser JavaScript alert()
+   ========================================================= */
+
+.profile-notification {
+  position: fixed;
+
+  top: 28px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 99999;
+
+  min-width: 300px;
+  max-width: min(460px, 90vw);
+
+  padding: 15px 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  border-radius: 18px;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  text-align: center;
+
+  animation:
+    profileNotificationIn
+    0.3s ease-out;
+
+  box-shadow:
+    0 7px 0 rgba(70, 40, 20, 0.55),
+    0 12px 28px rgba(0, 0, 0, 0.30);
+
+  backdrop-filter: blur(8px);
+}
+
+
+/* success */
+
+.notification-success {
+  background:
+    linear-gradient(
+      145deg,
+      #fff7d5,
+      #ffe89a
+    );
+
+  border: 4px solid #e4b84d;
+
+  color: #174d32;
+}
+
+
+/* error */
+
+.notification-error {
+  background:
+    linear-gradient(
+      145deg,
+      #fff1df,
+      #ffd3a3
+    );
+
+  border: 4px solid #d88943;
+
+  color: #703719;
+}
+
+
+/* icon */
+
+.notification-icon {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.75);
+
+  font-size: 22px;
+}
+
+
+/* animation */
+
+@keyframes profileNotificationIn {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -20px)
+      scale(0.92);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, 0)
+      scale(1);
+  }
+}
+
+
+/* mobile */
+
+@media (max-width: 560px) {
+
+  .profile-notification {
+    top: 18px;
+
+    min-width: 0;
+
+    width: 88%;
+
+    padding:
+      13px
+      16px;
+
+    font-size: 16px;
+  }
+
+  .notification-icon {
+    width: 34px;
+    height: 34px;
+
+    font-size: 19px;
+  }
 }

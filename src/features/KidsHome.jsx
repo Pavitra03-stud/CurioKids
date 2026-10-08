@@ -327,15 +327,7 @@ export default function KidsHome() {
                   👤 My Profile
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setProfileOpen(false);
-                    navigate("/settings");
-                  }}
-                >
-                  ⚙️ Settings
-                </button>
+                
 
                 <button
                   type="button"

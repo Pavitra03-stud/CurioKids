@@ -1734,3 +1734,305 @@
     font-size: 28px;
   }
 }
+
+
+/* =========================================================
+   CURIOKIDS JUNGLE + WOOD VISUAL OVERRIDES
+   Visual changes only. Existing application logic is untouched.
+========================================================= */
+
+.progress-page {
+  min-height: 100vh;
+  padding: 28px 42px 50px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 93, 66, 0.08) 0%,
+      rgba(95, 173, 92, 0.12) 32%,
+      rgba(214, 246, 190, 0.08) 70%,
+      rgba(244, 248, 217, 0.14) 100%
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* One common width for perfect alignment */
+.progress-header,
+.progress-stats,
+.progress-grid,
+.progress-footer {
+  width: 100%;
+  max-width: 1450px;
+}
+
+/* =========================================================
+   WOODEN BOARDS
+========================================================= */
+
+.progress-header,
+.stat-card,
+.progress-card,
+.progress-footer {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(75, 35, 15, 0.10) 0,
+      rgba(75, 35, 15, 0.10) 2px,
+      rgba(198, 119, 61, 0.08) 2px,
+      rgba(198, 119, 61, 0.08) 5px
+    ),
+    linear-gradient(
+      135deg,
+      #a96030 0%,
+      #8e4b26 48%,
+      #a85d2d 100%
+    );
+
+  border: 3px solid #e6b84f;
+
+  box-shadow:
+    0 8px 0 rgba(61, 29, 13, 0.48),
+    0 16px 30px rgba(8, 47, 30, 0.25),
+    inset 0 0 0 2px rgba(255, 226, 148, 0.38);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.progress-header {
+  margin: 0 auto 24px;
+}
+
+.progress-header h1 {
+  color: #fff4d2;
+  text-shadow: 0 2px 3px rgba(40, 18, 8, 0.35);
+}
+
+.progress-header p {
+  color: #f4dfb4;
+}
+
+.progress-kicker {
+  color: #ffe7a7;
+}
+
+/* =========================================================
+   TOP THREE STAT CARDS
+========================================================= */
+
+.progress-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.progress-stats .stat-card {
+  min-width: 0;
+  height: 100%;
+}
+
+.stat-label {
+  color: #f5dfb0;
+}
+
+.stat-content strong {
+  color: #fff4d2;
+  text-shadow: 0 2px 3px rgba(45, 20, 8, 0.35);
+}
+
+.stat-content small {
+  color: #f2d7a0;
+}
+
+.stat-icon {
+  background: #fff0bb !important;
+}
+
+/* =========================================================
+   REMAINING GRID
+   Overall Progress has been removed.
+========================================================= */
+
+.progress-grid-clean {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 22px;
+
+  align-items: stretch;
+  justify-items: stretch;
+}
+
+.progress-grid-clean > .progress-card {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  box-sizing: border-box;
+  height: 100%;
+  align-self: stretch;
+}
+
+/* Center the Achievements card beneath the two top cards. */
+.progress-grid-clean > .achievements-card {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  width: 70%;
+  justify-self: center;
+}
+
+.progress-grid-clean > .performance-card {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.progress-grid-clean > .activity-card {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+
+/* =========================================================
+   CARD HEADINGS
+========================================================= */
+
+.card-heading h2 {
+  color: #fff4d2;
+  text-shadow: 0 2px 3px rgba(45, 20, 8, 0.35);
+}
+
+.card-heading span {
+  color: #f5dfb0;
+}
+
+.card-heading-icon {
+  background: #fff0bb;
+}
+
+/* =========================================================
+   LEVEL CARD
+========================================================= */
+
+.level-card {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(75, 35, 15, 0.10) 0,
+      rgba(75, 35, 15, 0.10) 2px,
+      rgba(198, 119, 61, 0.08) 2px,
+      rgba(198, 119, 61, 0.08) 5px
+    ),
+    linear-gradient(
+      135deg,
+      #a96030,
+      #8e4b26 48%,
+      #a85d2d
+    ) !important;
+
+  border-color: #e6b84f !important;
+}
+
+.level-card-label,
+.level-card-subtitle {
+  color: #f5dfb0;
+}
+
+.level-card-name {
+  color: #fff4d2;
+  text-shadow: 0 2px 3px rgba(45, 20, 8, 0.35);
+}
+
+.level-card-icon {
+  background: #fff0bb;
+}
+
+/* =========================================================
+   INNER PANELS
+========================================================= */
+
+.performance-summary > div,
+.level-display,
+.journey-message,
+.achievement-summary,
+.activity-item,
+.performance-empty,
+.empty-activity {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 245, 214, 0.96),
+      rgba(239, 214, 167, 0.96)
+    );
+
+  border: 2px solid rgba(219, 166, 66, 0.72);
+}
+
+.performance-summary span,
+.activity-info span,
+.achievement-summary span {
+  color: #795b32;
+}
+
+.performance-summary strong,
+.activity-info strong {
+  color: #22563e;
+}
+
+.journey-message p,
+.achievement-message {
+  color: #665638;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.progress-footer {
+  margin: 22px auto 0;
+}
+
+.progress-footer h3 {
+  color: #fff4d2;
+}
+
+.progress-footer p {
+  color: #f4dfb4;
+}
+
+/* Jungle background replaces the old floating decorations */
+.progress-decoration {
+  display: none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+  .progress-grid-clean {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .progress-page {
+    padding: 18px 14px 35px;
+    background-attachment: scroll;
+  }
+
+  .progress-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-grid-clean {
+    grid-template-columns: 1fr;
+  }
+}

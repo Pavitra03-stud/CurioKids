@@ -257,7 +257,7 @@ export default function SoundMatching() {
           }, 8000);
 
           const response = await fetch(
-            "http://localhost:5000/api/generate-sound-matching",
+            `${import.meta.env.VITE_API_URL}/api/generate-sound-matching`,
             {
               method: "POST",
               headers: {

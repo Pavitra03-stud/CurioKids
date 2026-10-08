@@ -54,7 +54,7 @@ export default function RhymingWords() {
       }, 8000);
 
       const response = await fetch(
-        "http://localhost:5000/api/generate-rhyming",
+        `${import.meta.env.VITE_API_URL}/api/generate-rhyming`,
         {
           method: "POST",
           headers: {

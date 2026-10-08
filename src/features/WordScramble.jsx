@@ -53,7 +53,7 @@ export default function WordScramble() {
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost:5000/api/generate-scramble",
+        `${import.meta.env.VITE_API_URL}/api/generate-word-scramble`,
         {
           method: "POST",
           headers: {

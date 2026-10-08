@@ -164,18 +164,15 @@ export default function SoundTap() {
     try {
       setLoadingAI(true);
 
-      const res = await fetch(
-        "http://localhost:5000/ai/teach",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            topic: `Teach a child about ${currentLearn.animal} sound`,
-          }),
-        }
-      );
+      const res = await fetch(`import.meta.env.VITE_BACKEND_URL/ai-teach`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          topic: `Teach a child about ${currentLearn.animal} sound`
+        })
+      });
 
       if (!res.ok) {
         throw new Error("AI request failed");

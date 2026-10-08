@@ -48,7 +48,7 @@ export default function MissingLetter() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/generate-missing-letter",
+        `${import.meta.env.VITE_API_URL}/api/generate-missing-letter`,
         {
           method: "POST",
           headers: {

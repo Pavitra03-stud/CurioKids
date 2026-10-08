@@ -666,7 +666,7 @@ export default function LetterTracing() {
   ) => {
     try {
       const res = await fetch(
-        "http://localhost:5000/ai/analyze",
+        `${import.meta.env.VITE_API_URL}/ai/analyze`,
         {
           method: "POST",
 

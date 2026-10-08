@@ -8,7 +8,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import useGameProgress from "../hooks/useGameProgress";
-import "../styles/SightWords.css";
+import "../styles/SequenceBuilder.css";
 
 /* =========================================================
    SETTINGS
@@ -590,7 +590,7 @@ export default function SequenceBuilder() {
     !ready
   ) {
     return (
-      <div className="blend-container">
+      <div className={`blend-container sequence-builder ${mode}`}>
         <h2>
           {mode === "numbers"
             ? "🔢 Sequence Builder"
@@ -611,66 +611,74 @@ export default function SequenceBuilder() {
   if (completed) {
     const percentage = Math.round(
       (score / TOTAL_QUESTIONS) *
-        100
+      100
     );
 
     return (
-      <div className="blend-container">
+      <div className="blend-container sequence-builder">
 
-        <div className="ai-analysis">
+        <main className="sequence-complete-board">
 
-          <div
-            style={{
-              fontSize: "60px",
-              marginBottom: "10px",
-            }}
-          >
-            {percentage === 100
-              ? "🏆"
-              : percentage >= 60
-                ? "🌟"
-                : "🌱"}
+          <div className="sequence-complete-card">
+
+            <div className="sequence-complete-icon">
+              {percentage === 100
+                ? "🏆"
+                : percentage >= 60
+                  ? "🌟"
+                  : "🌱"}
+            </div>
+
+            <div className="sequence-complete-badge">
+              🌿 JUNGLE CHALLENGE COMPLETE
+            </div>
+
+            <h2>
+              {mode === "numbers"
+                ? "Number Sequence Complete!"
+                : "Letter Sequence Complete!"}
+            </h2>
+
+            <div className="sequence-result-row">
+
+              <div className="sequence-score-box">
+                <span>⭐ SCORE</span>
+                <strong>
+                  {score}/{TOTAL_QUESTIONS}
+                </strong>
+              </div>
+
+              <div className="sequence-accuracy-box">
+                <span>ACCURACY</span>
+                <strong>
+                  {percentage}%
+                </strong>
+              </div>
+
+            </div>
+
+            <div className="sequence-stars">
+              {percentage >= 90
+                ? "⭐⭐⭐"
+                : percentage >= 70
+                  ? "⭐⭐"
+                  : "⭐"}
+            </div>
+
+            <p className="sequence-performance">
+              {getPerformanceMessage()}
+            </p>
+
+            <button
+              className="sequence-play-again"
+              onClick={playAgain}
+            >
+              🔄 Play Again
+            </button>
+
           </div>
 
-          <h2>
-            {mode === "numbers"
-              ? "🔢 Number Sequence Complete!"
-              : "🔤 Letter Sequence Complete!"}
-          </h2>
-
-          <h3>
-            Score: {score}/
-            {TOTAL_QUESTIONS}
-          </h3>
-
-          <p>
-            Accuracy: {percentage}%
-          </p>
-
-          <p>
-            {getPerformanceMessage()}
-          </p>
-
-          <p
-            style={{
-              fontSize: "28px",
-              margin: "15px 0",
-            }}
-          >
-            {percentage >= 90
-              ? "⭐⭐⭐"
-              : percentage >= 70
-                ? "⭐⭐"
-                : "⭐"}
-          </p>
-
-          <button
-            onClick={playAgain}
-          >
-            🔄 Play Again
-          </button>
-
-        </div>
+        </main>
 
       </div>
     );
@@ -681,7 +689,7 @@ export default function SequenceBuilder() {
   ======================================================= */
 
   return (
-    <div className="blend-container">
+    <div className={`blend-container sequence-builder ${mode}`}>
 
       {/* =================================================
           TITLE
@@ -759,12 +767,12 @@ export default function SequenceBuilder() {
             const isCorrect =
               isSelected &&
               option ===
-                currentQuestion.answer;
+              currentQuestion.answer;
 
             const isWrong =
               isSelected &&
               option !==
-                currentQuestion.answer;
+              currentQuestion.answer;
 
             return (
               <button

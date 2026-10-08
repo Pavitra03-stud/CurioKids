@@ -602,7 +602,7 @@ export default function AIWritingTest() {
 
       const imageData = canvasRef.current.toDataURL("image/png");
 
-      const res = await fetch("http://localhost:5000/ai/analyze", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/ai-analyze`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

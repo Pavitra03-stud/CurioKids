@@ -88,7 +88,7 @@ export default function EndingSounds() {
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost:5000/api/generate-ending-sound",
+        `${import.meta.env.VITE_API_URL}/api/generate-ending-sound`,
         {
           method: "POST",
           headers: {

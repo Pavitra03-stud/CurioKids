@@ -48,7 +48,7 @@ export default function SightWords() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/generate-sight-word",
+        `${import.meta.env.VITE_API_URL}/api/generate-sight-word`,
         {
           method: "POST",
           headers: {

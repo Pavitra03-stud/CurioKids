@@ -1,7 +1,7 @@
-const API = "http://localhost:5000/api";
+const API = `${import.meta.env.VITE_API_URL}/api`;
 
 export const registerUser = async (data) => {
-  const res = await fetch("http://localhost:5000/api/register", {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
@@ -10,7 +10,7 @@ export const registerUser = async (data) => {
 };
 
 export const loginUser = async (data) => {
-  const res = await fetch("http://localhost:5000/api/login", {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
@@ -21,7 +21,7 @@ export const loginUser = async (data) => {
 export const createChild = async (data) => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:5000/api/child/create", {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/child/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export const createChild = async (data) => {
   return res.json();
 };
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 export const getProgress = async (childId, token) => {
   const res = await fetch(`${API_URL}/progress/${childId}`, {

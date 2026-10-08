@@ -39,7 +39,7 @@ Child says:
 
     // 🌐 API CALL (your existing endpoint)
     const res = await fetch(
-      "https://curiokids-worker.curiokids25.workers.dev/ai",
+      "https://curiokids-worker.gvpavitraganesh.workers.dev/ai",
       {
         method: "POST",
         headers: {

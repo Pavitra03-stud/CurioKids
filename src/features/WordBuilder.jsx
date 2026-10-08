@@ -70,27 +70,27 @@
 
 //   if (finished) {
 //     return (
-//       <div className="word-builder-page">
-//         <header className="word-builder-topbar">
-//           <button className="word-builder-back" onClick={goBack}>
+//       <div className="wb-page">
+//         <header className="wb-topbar">
+//           <button className="wb-back" onClick={goBack}>
 //             ←
 //           </button>
-//           <h1 className="word-builder-title">🧩 Word Builder</h1>
+//           <h1 className="wb-title">🧩 Word Builder</h1>
 //         </header>
 
-//         <div className="word-builder-content">
-//           <div className="word-finish-card">
-//             <div className="word-finish-emoji">🌟</div>
+//         <div className="wb-content">
+//           <div className="wb-finish-card">
+//             <div className="wb-finish-emoji">🌟</div>
 //             <h2>Great Job!</h2>
 //             <p>
 //               You got <span>{score}</span> out of <span>{rounds.length}</span>
 //             </p>
 
-//             <div className="word-finish-buttons">
-//               <button className="word-primary-btn" onClick={handleRestart}>
+//             <div className="wb-finish-buttons">
+//               <button className="wb-primary-btn" onClick={handleRestart}>
 //                 Play Again
 //               </button>
-//               <button className="word-secondary-btn" onClick={goBack}>
+//               <button className="wb-secondary-btn" onClick={goBack}>
 //                 Back
 //               </button>
 //             </div>
@@ -103,54 +103,54 @@
 //   const usedIndexes = selected.map((item) => item.i);
 
 //   return (
-//     <div className="word-builder-page">
-//       <header className="word-builder-topbar">
-//         <button className="word-builder-back" onClick={goBack}>
+//     <div className="wb-page">
+//       <header className="wb-topbar">
+//         <button className="wb-back" onClick={goBack}>
 //           ←
 //         </button>
-//         <h1 className="word-builder-title">🧩 Word Builder</h1>
+//         <h1 className="wb-title">🧩 Word Builder</h1>
 //       </header>
 
-//       <div className="word-builder-content">
-//         <div className="word-top-info">
-//           <div className="word-score">⭐ Score: {score}</div>
-//           <div className="word-progress">
+//       <div className="wb-content">
+//         <div className="wb-top-info">
+//           <div className="wb-score">⭐ Score: {score}</div>
+//           <div className="wb-progress">
 //             {index + 1} / {rounds.length}
 //           </div>
 //         </div>
 
-//         <div className="word-card">
-//           <div className="word-helper-animals">
+//         <div className="wb-card">
+//           <div className="wb-helper-animals">
 //             <span>🐻</span>
 //             <span>🦊</span>
 //             <span>🐼</span>
 //           </div>
 
-//           <div className="word-main-image">{current.image}</div>
+//           <div className="wb-main-image">{current.image}</div>
 
-//           <button className="hear-word-btn" onClick={() => speak(current.word)}>
+//           <button className="wb-hear-word-btn" onClick={() => speak(current.word)}>
 //             🔊 Hear Word
 //           </button>
 
 //           <h2>Build the word</h2>
-//           <p className="word-subtitle">Tap the letters in the correct order</p>
+//           <p className="wb-subtitle">Tap the letters in the correct order</p>
 
-//           <div className="word-answer-preview">
+//           <div className="wb-answer-preview">
 //             {current.word.split("").map((_, i) => (
-//               <div key={i} className="word-preview-box">
+//               <div key={i} className="wb-preview-box">
 //                 {selected[i]?.letter || ""}
 //               </div>
 //             ))}
 //           </div>
 
-//           <div className="word-letters-grid">
-//             {current.letters.map((letter, i) => {
+//           <div className="wb-letters-grid">
+//             {(current.letters || current.word.split("")).map((letter, i) => {
 //               const used = usedIndexes.includes(i);
 
 //               return (
 //                 <button
 //                   key={i}
-//                   className={`word-letter-btn ${used ? "used" : ""}`}
+//                   className={`wb-letter-btn ${used ? "used" : ""}`}
 //                   onClick={() => handleLetterClick(letter, i)}
 //                   disabled={used || !!status}
 //                 >
@@ -160,32 +160,32 @@
 //             })}
 //           </div>
 
-//           <div className="word-feedback-area">
+//           <div className="wb-feedback-area">
 //             {!status && (
-//               <p className="word-hint">Tap carefully and complete the word ✨</p>
+//               <p className="wb-hint">Tap carefully and complete the word ✨</p>
 //             )}
 
 //             {status === "correct" && (
-//               <p className="word-feedback correct-text">
+//               <p className="wb-feedback wb-correct-text">
 //                 ✅ Super! You built the word correctly
 //               </p>
 //             )}
 
 //             {status === "wrong" && (
-//               <p className="word-feedback wrong-text">
+//               <p className="wb-feedback wb-wrong-text">
 //                 ❌ Oops! Try the next word carefully
 //               </p>
 //             )}
 //           </div>
 
 //           {status && (
-//             <button className="word-next-btn" onClick={handleNext}>
+//             <button className="wb-next-btn" onClick={handleNext}>
 //               {isLastRound ? "See Result" : "Next"}
 //             </button>
 //           )}
 //         </div>
 
-//         <div className="word-bottom-animals">
+//         <div className="wb-bottom-animals">
 //           <span>🦁</span>
 //           <span>🐯</span>
 //           <span>🐵</span>
@@ -322,51 +322,64 @@ export default function WordBuilder({ goBack }) {
   useEffect(() => {
     if (progressLoading) return;
 
-    console.log(
-      "🧩 Word Builder saved state:",
-      savedState
-    );
+    console.log("🧩 Word Builder saved state:", savedState);
 
     if (
       savedState &&
-      typeof savedState.index ===
-        "number" &&
-      Array.isArray(
-        savedState.selected
-      )
+      typeof savedState.index === "number" &&
+      Array.isArray(savedState.selected)
     ) {
-      console.log(
-        "✅ Resuming Word Builder"
-      );
+      console.log("✅ Resuming Word Builder");
 
-      setIndex(
-        savedState.index
-      );
+      setIndex(savedState.index);
+      setSelected(savedState.selected);
+      setStatus(savedState.status || "");
+      setScore(savedState.score || 0);
+      setFinished(savedState.finished || false);
 
-      setSelected(
-        savedState.selected
-      );
+      // If the browser was refreshed after answering, continue automatically.
+      // This prevents a saved "correct" or "wrong" state from getting stuck.
+      if (!savedState.finished && savedState.status) {
+        setLocked(true);
 
-      setStatus(
-        savedState.status || ""
-      );
+        const delay =
+          savedState.status === "correct" ? 700 : 900;
 
-      setScore(
-        savedState.score || 0
-      );
+        const timer = setTimeout(() => {
+          if (savedState.index >= rounds.length - 1) {
+            setFinished(true);
+            setLocked(false);
+            return;
+          }
 
-      setFinished(
-        savedState.finished || false
-      );
+          const nextIndex = savedState.index + 1;
+
+          setIndex(nextIndex);
+          setSelected([]);
+          setStatus("");
+          setLocked(false);
+
+          Promise.resolve(
+            save({
+              index: nextIndex,
+              selected: [],
+              status: "",
+              score: savedState.score || 0,
+              finished: false,
+            })
+          ).catch((error) => {
+            console.error("❌ Error saving next Word Builder round:", error);
+          });
+        }, delay);
+
+        return () => clearTimeout(timer);
+      }
 
       setLocked(false);
-
       return;
     }
 
-    console.log(
-      "🆕 Starting Word Builder"
-    );
+    console.log("🆕 Starting Word Builder");
 
     setIndex(0);
     setSelected([]);
@@ -375,14 +388,87 @@ export default function WordBuilder({ goBack }) {
     setFinished(false);
     setLocked(false);
 
-    save({
-      index: 0,
-      selected: [],
-      status: "",
-      score: 0,
-      finished: false,
+    Promise.resolve(
+      save({
+        index: 0,
+        selected: [],
+        status: "",
+        score: 0,
+        finished: false,
+      })
+    ).catch((error) => {
+      console.error("❌ Error saving initial Word Builder state:", error);
     });
-  }, [progressLoading, GAME_ID]);
+  }, [progressLoading]);
+
+  // =====================================================
+  // AUTOMATICALLY MOVE TO THE NEXT ROUND
+  // =====================================================
+
+  const advanceToNextRound = (
+    finalScore,
+    finalStatus,
+    finalSelected
+  ) => {
+    // FINAL ROUND
+    if (isLastRound) {
+      const percentage =
+        (finalScore / rounds.length) * 100;
+
+      // Update the UI immediately. Firebase must never block the game.
+      setFinished(true);
+      setLocked(false);
+
+      Promise.resolve(
+        save({
+          index,
+          selected: finalSelected,
+          status: finalStatus,
+          score: finalScore,
+          finished: true,
+        })
+      ).catch((error) => {
+        console.error("❌ Error saving final Word Builder state:", error);
+      });
+
+      Promise.resolve(saveScoreToFirestore(finalScore)).catch((error) => {
+        console.error("❌ Error saving final Word Builder score:", error);
+      });
+
+      Promise.resolve(
+        finish(percentage, "Word Builder")
+      ).catch((error) => {
+        console.error("❌ Error finishing Word Builder:", error);
+      });
+
+      return;
+    }
+
+    // Start the timer BEFORE any Firebase operation.
+    // This guarantees that a slow/hanging save can never freeze the game.
+    const delay = finalStatus === "correct" ? 700 : 900;
+
+    setTimeout(() => {
+      const nextIndex = index + 1;
+
+      setIndex(nextIndex);
+      setSelected([]);
+      setStatus("");
+      setLocked(false);
+
+      Promise.resolve(
+        save({
+          index: nextIndex,
+          selected: [],
+          status: "",
+          score: finalScore,
+          finished: false,
+        })
+      ).catch((error) => {
+        console.error("❌ Error saving next Word Builder round:", error);
+      });
+    }, delay);
+  };
 
   // =====================================================
   // LETTER CLICK
@@ -402,22 +488,31 @@ export default function WordBuilder({ goBack }) {
     }
 
     const expected =
-      current.word[
-        selected.length
-      ];
+      current.word[selected.length];
 
     // ❌ Wrong letter
     if (letter !== expected) {
       setStatus("wrong");
       setLocked(true);
 
-      save({
-        index,
-        selected,
-        status: "wrong",
-        score,
-        finished: false,
+      // Save in the background. Do NOT wait for Firebase before advancing.
+      Promise.resolve(
+        save({
+          index,
+          selected,
+          status: "wrong",
+          score,
+          finished: false,
+        })
+      ).catch((error) => {
+        console.error("❌ Error saving wrong Word Builder answer:", error);
       });
+
+      advanceToNextRound(
+        score,
+        "wrong",
+        selected
+      );
 
       return;
     }
@@ -433,117 +528,52 @@ export default function WordBuilder({ goBack }) {
 
     setSelected(updated);
 
-    // ===================================================
-    // WORD COMPLETED
-    // ===================================================
-
+    // Partial word
     if (
-      updated.length ===
-      current.word.length
+      updated.length !== current.word.length
     ) {
-      const updatedScore =
-        score + 1;
+      Promise.resolve(
+        save({
+          index,
+          selected: updated,
+          status: "",
+          score,
+          finished: false,
+        })
+      ).catch((error) => {
+        console.error("❌ Error saving Word Builder progress:", error);
+      });
 
-      setStatus("correct");
-      setScore(updatedScore);
-      setLocked(true);
+      return;
+    }
 
-      speak(current.word);
+    // ✅ WORD COMPLETED
+    const updatedScore = score + 1;
 
+    setStatus("correct");
+    setScore(updatedScore);
+    setLocked(true);
+
+    speak(current.word);
+
+    // Save in the background. The next round starts independently.
+    Promise.resolve(
       save({
         index,
         selected: updated,
         status: "correct",
         score: updatedScore,
         finished: false,
-      });
-
-      return;
-    }
-
-    // ===================================================
-    // PARTIAL WORD
-    // ===================================================
-
-    save({
-      index,
-      selected: updated,
-      status: "",
-      score,
-      finished: false,
+      })
+    ).catch((error) => {
+      console.error("❌ Error saving completed Word Builder round:", error);
     });
-  };
 
-  // =====================================================
-  // NEXT ROUND
-  // =====================================================
-
-  const handleNext = async () => {
-    if (!status || locked === false) {
-      return;
-    }
-
-    // ===================================================
-    // FINAL ROUND
-    // ===================================================
-
-    if (isLastRound) {
-      const percentage =
-        (score /
-          rounds.length) *
-        100;
-
-      /*
-       * Save completion state first.
-       */
-      await save({
-        index,
-        selected,
-        status,
-        score,
-        finished: true,
-      });
-
-      /*
-       * Save individual result.
-       */
-      await saveScoreToFirestore(
-        score
-      );
-
-      /*
-       * Update global stars/history.
-       */
-      await finish(
-        percentage,
-        "Word Builder"
-      );
-
-      setFinished(true);
-      setLocked(false);
-
-      return;
-    }
-
-    // ===================================================
-    // NEXT WORD
-    // ===================================================
-
-    const nextIndex =
-      index + 1;
-
-    setIndex(nextIndex);
-    setSelected([]);
-    setStatus("");
-    setLocked(false);
-
-    await save({
-      index: nextIndex,
-      selected: [],
-      status: "",
-      score,
-      finished: false,
-    });
+    advanceToNextRound(
+      updatedScore,
+      "correct",
+      updated
+    );
   };
 
   // =====================================================
@@ -612,7 +642,6 @@ export default function WordBuilder({ goBack }) {
   // =====================================================
 
   const handleRestart = async () => {
-    const firstRound = rounds[0];
 
     setIndex(0);
     setSelected([]);
@@ -636,22 +665,22 @@ export default function WordBuilder({ goBack }) {
 
   if (progressLoading) {
     return (
-      <div className="word-builder-page">
+      <div className="wb-page">
 
-        <header className="word-builder-topbar">
+        <header className="wb-topbar">
 
           
 
-          <h1 className="word-builder-title">
+          <h1 className="wb-title">
             🧩 Word Builder
           </h1>
 
         </header>
 
-        <div className="word-builder-content">
+        <div className="wb-content">
 
-          <div className="word-finish-card">
-            <div className="word-finish-emoji">
+          <div className="wb-finish-card">
+            <div className="wb-finish-emoji">
               🌱
             </div>
 
@@ -677,23 +706,23 @@ export default function WordBuilder({ goBack }) {
       100;
 
     return (
-      <div className="word-builder-page">
+      <div className="wb-page">
 
-        <header className="word-builder-topbar">
+        <header className="wb-topbar">
 
          
 
-          <h1 className="word-builder-title">
+          <h1 className="wb-title">
             🧩 Word Builder
           </h1>
 
         </header>
 
-        <div className="word-builder-content">
+        <div className="wb-content">
 
-          <div className="word-finish-card">
+          <div className="wb-finish-card">
 
-            <div className="word-finish-emoji">
+            <div className="wb-finish-emoji">
               🌟
             </div>
 
@@ -717,10 +746,10 @@ export default function WordBuilder({ goBack }) {
               </strong>
             </p>
 
-            <div className="word-finish-buttons">
+            <div className="wb-finish-buttons">
 
               <button
-                className="word-primary-btn"
+                className="wb-primary-btn"
                 onClick={
                   handleRestart
                 }
@@ -729,7 +758,7 @@ export default function WordBuilder({ goBack }) {
               </button>
 
               <button
-                className="word-secondary-btn"
+                className="wb-secondary-btn"
                 onClick={goBack}
               >
                 Back
@@ -759,28 +788,28 @@ export default function WordBuilder({ goBack }) {
   // =====================================================
 
   return (
-    <div className="word-builder-page">
+    <div className="wb-page">
 
-      <header className="word-builder-topbar">
+      <header className="wb-topbar">
 
         
-        <h1 className="word-builder-title">
+        <h1 className="wb-title">
           🧩 Word Builder
         </h1>
 
       </header>
 
-      <div className="word-builder-content">
+      <div className="wb-content">
 
         {/* TOP INFO */}
 
-        <div className="word-top-info">
+        <div className="wb-top-info">
 
-          <div className="word-score">
+          <div className="wb-score">
             ⭐ Score: {score}
           </div>
 
-          <div className="word-progress">
+          <div className="wb-progress">
             {index + 1} /{" "}
             {rounds.length}
           </div>
@@ -789,20 +818,20 @@ export default function WordBuilder({ goBack }) {
 
         {/* MAIN CARD */}
 
-        <div className="word-card">
+        <div className="wb-card">
 
-          <div className="word-helper-animals">
+          <div className="wb-helper-animals">
             <span>🐻</span>
             <span>🦊</span>
             <span>🐼</span>
           </div>
 
-          <div className="word-main-image">
+          <div className="wb-main-image">
             {current.image}
           </div>
 
           <button
-            className="hear-word-btn"
+            className="wb-hear-word-btn"
             onClick={() =>
               speak(current.word)
             }
@@ -814,14 +843,14 @@ export default function WordBuilder({ goBack }) {
             Build the word
           </h2>
 
-          <p className="word-subtitle">
+          <p className="wb-subtitle">
             Tap the letters in the
             correct order
           </p>
 
           {/* ANSWER PREVIEW */}
 
-          <div className="word-answer-preview">
+          <div className="wb-answer-preview">
 
             {current.word
               .split("")
@@ -829,7 +858,7 @@ export default function WordBuilder({ goBack }) {
                 (_, i) => (
                   <div
                     key={i}
-                    className="word-preview-box"
+                    className="wb-preview-box"
                   >
                     {selected[i]
                       ?.letter || ""}
@@ -841,29 +870,25 @@ export default function WordBuilder({ goBack }) {
 
           {/* LETTERS */}
 
-          <div className="word-letters-grid">
+          <div className="wb-letters-grid">
 
-            {current.letters.map(
+            {(Array.isArray(current.letters) && current.letters.length
+              ? current.letters
+              : current.word.split("")).map(
               (letter, i) => {
 
                 const used =
-                  usedIndexes.includes(
-                    i
-                  );
+                  usedIndexes.includes(i);
 
                 return (
                   <button
-                    key={i}
-                    className={`word-letter-btn ${
-                      used
-                        ? "used"
-                        : ""
+                    type="button"
+                    key={`${letter}-${i}`}
+                    className={`wb-letter-btn ${
+                      used ? "used" : ""
                     }`}
                     onClick={() =>
-                      handleLetterClick(
-                        letter,
-                        i
-                      )
+                      handleLetterClick(letter, i)
                     }
                     disabled={
                       used ||
@@ -871,7 +896,9 @@ export default function WordBuilder({ goBack }) {
                       locked
                     }
                   >
-                    {letter}
+                    <span className="word-letter-text">
+                      {letter}
+                    </span>
                   </button>
                 );
               }
@@ -881,10 +908,10 @@ export default function WordBuilder({ goBack }) {
 
           {/* FEEDBACK */}
 
-          <div className="word-feedback-area">
+          <div className="wb-feedback-area">
 
             {!status && (
-              <p className="word-hint">
+              <p className="wb-hint">
                 Tap carefully and
                 complete the word ✨
               </p>
@@ -892,7 +919,7 @@ export default function WordBuilder({ goBack }) {
 
             {status ===
               "correct" && (
-              <p className="word-feedback correct-text">
+              <p className="wb-feedback wb-correct-text">
                 ✅ Super! You built
                 the word correctly
               </p>
@@ -900,7 +927,7 @@ export default function WordBuilder({ goBack }) {
 
             {status ===
               "wrong" && (
-              <p className="word-feedback wrong-text">
+              <p className="wb-feedback wb-wrong-text">
                 ❌ Oops! Try the next
                 word carefully
               </p>
@@ -908,26 +935,12 @@ export default function WordBuilder({ goBack }) {
 
           </div>
 
-          {/* NEXT */}
-
-          {status && (
-            <button
-              className="word-next-btn"
-              onClick={
-                handleNext
-              }
-            >
-              {isLastRound
-                ? "See Result"
-                : "Next"}
-            </button>
-          )}
 
         </div>
 
         {/* BOTTOM ANIMALS */}
 
-        <div className="word-bottom-animals">
+        <div className="wb-bottom-animals">
 
           <span>🦁</span>
           <span>🐯</span>

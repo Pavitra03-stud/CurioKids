@@ -1,6 +1,14 @@
 .connect-letters-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  width: 100%;
+
+  background:
+    linear-gradient(
+      rgba(20, 82, 45, 0.08),
+      rgba(20, 82, 45, 0.08)
+    ),
+    url("../assets/gamesHome.png") center / cover fixed no-repeat;
+
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
   position: relative;
   overflow-x: hidden;
@@ -8,22 +16,40 @@
 }
 
 .connect-letters-topbar {
-  background: #184c35;
-  color: white;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 82, 54, 0.98),
+      rgba(17, 105, 68, 0.98),
+      rgba(12, 82, 54, 0.98)
+    );
+
+  color: #fff7d5;
   min-height: 72px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   position: relative;
   border-radius: 0 0 18px 18px;
+
   padding: 8px 18px;
   z-index: 5;
+
+  border-bottom: 4px solid #eac55e;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.24);
 }
 
 .connect-letters-title {
   margin: 0;
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff7d5;
+
+  text-shadow:
+    0 3px 0 #174f36,
+    0 5px 10px rgba(0, 0, 0, 0.28);
 }
 
 .connect-letters-back {
@@ -52,9 +78,12 @@
 }
 
 .connect-letters-content {
-  max-width: 860px;
+  width: min(1120px, 92%);
+  max-width: 1120px;
+
   margin: 28px auto 0;
-  padding: 0 20px;
+  padding: 0;
+
   position: relative;
   z-index: 1;
 }
@@ -69,73 +98,170 @@
 
 .connect-score,
 .connect-progress {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(8px);
-  padding: 10px 16px;
-  border-radius: 16px;
-  font-weight: 700;
-  color: #173b33;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  background: #fff3c8;
+
+  padding: 11px 18px;
+  border-radius: 18px;
+
+  font-weight: 900;
+  color: #184c35;
+
+  border: 3px solid #e2bc59;
+
+  box-shadow:
+    0 5px 0 rgba(86, 48, 20, 0.24),
+    0 10px 18px rgba(0, 0, 0, 0.15);
 }
 
 .connect-card,
 .connect-finish-card {
-  background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(8px);
-  border-radius: 28px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
-  padding: 28px 22px;
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(174, 101, 47, 0.98),
+      rgba(116, 59, 27, 0.98)
+    );
+
+  border: 5px solid #e5bd67;
+  border-radius: 30px;
+
+  box-shadow:
+    0 9px 0 rgba(61, 32, 15, 0.58),
+    0 20px 35px rgba(0, 0, 0, 0.28);
+
+  padding: 30px 34px;
   text-align: center;
+
+  overflow: hidden;
+}
+
+.connect-card::before,
+.connect-finish-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 10px;
+
+  border: 2px solid rgba(255, 222, 156, 0.25);
+  border-radius: 21px;
+
+  pointer-events: none;
+}
+
+.connect-card::after,
+.connect-finish-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+  height: 190px;
+
+  right: -80px;
+  top: -90px;
+
+  border-radius: 50%;
+  background: rgba(255, 222, 156, 0.12);
+
+  pointer-events: none;
 }
 
 .connect-helper-animals {
   display: flex;
   justify-content: center;
   gap: 14px;
+
   font-size: 30px;
   margin-bottom: 16px;
+
+  position: relative;
+  z-index: 2;
 }
 
 .connect-main-image {
-  font-size: 78px;
+  font-size: 82px;
   margin-bottom: 10px;
+
+  position: relative;
+  z-index: 2;
 }
 
 .connect-card h2 {
   margin: 0 0 8px;
-  font-size: 28px;
-  color: #173b33;
+
+  font-size: 30px;
+  color: #fff7d5;
+
+  position: relative;
+  z-index: 2;
+
+  text-shadow: 0 3px 0 #633719;
 }
 
 .connect-subtitle {
-  margin: 0 0 22px;
-  font-size: 16px;
-  color: #234236;
-  font-weight: 700;
+  margin: 0 0 24px;
+
+  font-size: 17px;
+  color: #fff0ca;
+  font-weight: 800;
+
+  position: relative;
+  z-index: 2;
+
+  text-shadow: 0 2px 0 #633719;
 }
 
 .connect-word-row,
 .connect-options-row {
-  display: flex;
+  width: min(600px, 100%);
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
   justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
+  align-items: center;
+
+  gap: 18px;
+
+  margin: 0 auto 20px;
+
+  position: relative;
+  z-index: 3;
 }
 
 .connect-letter-btn,
 .connect-option-btn {
-  min-width: 78px;
-  height: 78px;
-  border: none;
-  border-radius: 20px;
-  background: #ffffff;
+  width: 100%;
+  min-width: 0;
+  height: 96px;
+
+  border: 4px solid #e5bd67;
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf0,
+      #f3dfae
+    );
+
   color: #184c35;
-  font-size: 30px;
+
+  font-size: 38px;
   font-weight: 900;
+
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-  transition: all 0.2s ease;
+
+  box-shadow:
+    0 7px 0 rgba(77, 40, 17, 0.38),
+    0 12px 20px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
 .connect-letter-btn:hover,
@@ -148,8 +274,15 @@
 .connect-option-btn.picked,
 .match-btn.active,
 .match-btn.matched {
-  background: #c9f7c5;
-  color: #146b1e;
+  background:
+    linear-gradient(
+      145deg,
+      #d5ffd0,
+      #8fe48a
+    );
+
+  border-color: #54a94e;
+  color: #176620;
 }
 
 .connect-answer-preview,
@@ -163,17 +296,25 @@
 
 .preview-box,
 .missing-box {
-  width: 68px;
-  height: 68px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.85);
+  width: 76px;
+  height: 76px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 246, 220, 0.95);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+
+  font-size: 32px;
   font-weight: 900;
   color: #184c35;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+
+  border: 3px solid #d8b660;
+
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.16);
 }
 
 .match-columns {
@@ -201,15 +342,29 @@
 }
 
 .match-btn {
-  height: 64px;
-  border: none;
-  border-radius: 18px;
-  background: #ffffff;
+  height: 76px;
+
+  border: 4px solid #e5bd67;
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf0,
+      #f3dfae
+    );
+
   color: #184c35;
-  font-size: 28px;
+
+  font-size: 32px;
   font-weight: 900;
+
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+
+  box-shadow:
+    0 7px 0 rgba(77, 40, 17, 0.34),
+    0 10px 18px rgba(0, 0, 0, 0.16);
+
   transition: all 0.2s ease;
 }
 
@@ -238,20 +393,27 @@
 .connect-hint,
 .connect-feedback {
   margin: 0;
-  font-size: 16px;
-  font-weight: 700;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  position: relative;
+  z-index: 3;
 }
 
 .connect-hint {
-  color: #234236;
+  color: #fff0ca;
+  text-shadow: 0 2px 0 #633719;
 }
 
 .correct-text {
-  color: #146b1e;
+  color: #d9ffd3;
+  text-shadow: 0 2px 0 #28652d;
 }
 
 .wrong-text {
-  color: #b42318;
+  color: #ffd2d2;
+  text-shadow: 0 2px 0 #6e2020;
 }
 
 .connect-next-btn,
@@ -386,5 +548,108 @@
   .connect-progress {
     font-size: 14px;
     padding: 9px 12px;
+  }
+}
+
+/* Automatic progression: no visible Next button */
+.connect-next-btn {
+  display: none !important;
+}
+
+/* Keep the jungle/wood card layout responsive. */
+@media (max-width: 900px) {
+  .connect-letters-content {
+    width: 94%;
+  }
+
+  .connect-card,
+  .connect-finish-card {
+    padding: 28px 24px;
+  }
+
+  .connect-word-row,
+  .connect-options-row {
+    width: min(560px, 100%);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .connect-letters-title {
+    font-size: 24px;
+  }
+
+  .connect-letters-content {
+    width: 94%;
+    margin-top: 22px;
+  }
+
+  .connect-card,
+  .connect-finish-card {
+    padding: 24px 18px;
+    border-radius: 26px;
+  }
+
+  .connect-card h2 {
+    font-size: 26px;
+  }
+
+  .connect-main-image {
+    font-size: 72px;
+  }
+
+  .connect-subtitle,
+  .connect-hint,
+  .connect-feedback {
+    font-size: 15px;
+  }
+
+  .connect-word-row,
+  .connect-options-row {
+    gap: 13px;
+  }
+
+  .connect-letter-btn,
+  .connect-option-btn {
+    height: 82px;
+    font-size: 32px;
+    border-radius: 20px;
+  }
+
+  .preview-box,
+  .missing-box {
+    width: 64px;
+    height: 64px;
+    font-size: 28px;
+  }
+
+  .match-btn {
+    height: 66px;
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 500px) {
+  .connect-card {
+    padding: 22px 14px;
+  }
+
+  .connect-word-row,
+  .connect-options-row {
+    gap: 10px;
+  }
+
+  .connect-letter-btn,
+  .connect-option-btn {
+    height: 72px;
+    font-size: 29px;
+    border-radius: 18px;
+  }
+
+  .preview-box,
+  .missing-box {
+    width: 58px;
+    height: 58px;
+    font-size: 25px;
   }
 }

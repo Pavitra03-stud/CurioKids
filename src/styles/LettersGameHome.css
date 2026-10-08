@@ -1,291 +1,539 @@
+/* =========================================================
+   CURIOKIDS LETTER GAMING ZONE
+   JUNGLE + WOODEN CARD DESIGN
+   VISUAL ONLY - GAME LOGIC UNCHANGED
+   ========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap");
+
+/* =========================
+   PAGE
+========================= */
+
 .letters-game-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  width: 100%;
   box-sizing: border-box;
   position: relative;
+
   overflow-x: hidden;
-  font-family: "Comic Sans MS", "Segoe UI", sans-serif;
-  padding-bottom: 40px;
+  overflow-y: auto;
+
+  padding: 0 0 50px;
+
+  font-family: "Nunito", sans-serif;
+  color: #173f31;
+
+  background:
+    linear-gradient(
+      rgba(32, 91, 52, 0.12),
+      rgba(32, 91, 52, 0.12)
+    ),
+    url("../assets/gamesHome.png") center / cover fixed no-repeat;
 }
 
-/* floating background */
+.letters-game-page *,
+.letters-game-page *::before,
+.letters-game-page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================
+   DECORATIVE BACKGROUND
+========================= */
+
 .floating-bg {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.18;
-  animation: floatUpDown 4s ease-in-out infinite;
-  z-index: 1;
+  opacity: 0.10;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .bubble1 {
   width: 120px;
   height: 120px;
-  background: #ffffff;
-  top: 120px;
-  left: -30px;
+  background: #fff5c7;
+  top: 150px;
+  left: -45px;
 }
 
 .bubble2 {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   background: #dff7c8;
-  top: 300px;
-  right: 30px;
-  animation-delay: 1s;
+  top: 390px;
+  right: -35px;
 }
 
 .bubble3 {
   width: 140px;
   height: 140px;
   background: #c7ef9a;
-  bottom: 90px;
-  left: -40px;
-  animation-delay: 2s;
+  bottom: 80px;
+  left: -55px;
 }
 
-/* top header like second image */
+/* =========================
+   TOP HEADER
+========================= */
+
 .letters-game-topbar {
-  background: #184c35;
-  color: white;
-  min-height: 72px;
+  width: 100%;
+  min-height: 76px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   position: relative;
-  border-radius: 0 0 18px 18px;
-  padding: 8px 18px;
   z-index: 5;
+
+  padding: 10px 70px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 82, 54, 0.98),
+      rgba(17, 105, 68, 0.98),
+      rgba(12, 82, 54, 0.98)
+    );
+
+  border-bottom: 4px solid #eac55e;
+  border-radius: 0 0 18px 18px;
+
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.25);
 }
 
 .letters-game-topbar-title {
   margin: 0;
-  font-size: 22px;
-  font-weight: bold;
+
+  font-family: "Baloo 2", sans-serif;
+  font-size: 30px;
+  line-height: 1;
+
+  font-weight: 800;
+  color: #fff7d5;
+
+  text-shadow:
+    0 3px 0 #174f36,
+    0 5px 10px rgba(0, 0, 0, 0.28);
 }
 
-.letters-game-back {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  color: #222;
-  font-size: 22px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* =========================
+   PAGE INTRO
+========================= */
 
-.letters-game-back:hover {
-  transform: translateY(-50%) scale(1.05);
-}
-
-/* title area */
 .letters-game-header {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+
+  padding: 34px 20px 24px;
+
   text-align: center;
-  margin-top: 22px;
-  margin-bottom: 28px;
+
   position: relative;
   z-index: 2;
-  padding: 0 16px;
 }
 
 .header-mascots {
   display: flex;
   justify-content: center;
+  align-items: center;
+
   gap: 18px;
-  font-size: 34px;
-  margin-bottom: 12px;
+
+  font-size: 32px;
+
+  margin-bottom: 8px;
 }
 
 .header-mascots span {
   display: inline-block;
-  animation: bounceAnimal 2s infinite;
+  animation: bounceAnimal 2.2s ease-in-out infinite;
 }
 
 .header-mascots span:nth-child(2) {
-  animation-delay: 0.3s;
+  animation-delay: 0.25s;
 }
 
 .header-mascots span:nth-child(3) {
-  animation-delay: 0.6s;
+  animation-delay: 0.5s;
 }
 
 .letters-game-header p {
-  margin-top: 8px;
-  font-size: 16px;
-  color: #173b33;
-  font-weight: 700;
+  margin: 0;
+
+  font-family: "Baloo 2", sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+
+  color: #fff8d8;
+
+  text-shadow:
+    0 2px 0 rgba(23, 79, 54, 0.85),
+    0 3px 8px rgba(0, 0, 0, 0.28);
 }
 
-/* cards */
+/* =========================
+   GAME GRID
+========================= */
+
 .letters-game-container {
-  max-width: 860px;
+  width: min(1120px, 92%);
   margin: 0 auto;
+
+  padding: 0;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 22px;
+
   position: relative;
   z-index: 2;
-  padding: 0 20px;
 }
 
-.game-card {
-  background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(8px);
-  border-radius: 26px;
-  padding: 22px 22px;
-  margin-bottom: 18px;
+/* =========================
+   WOODEN GAME CARDS
+========================= */
+
+.letters-game-page .game-card {
+  width: 100%;
+  min-height: 190px;
+
+  position: relative;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  padding: 26px 28px;
+
   cursor: pointer;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
-  transition: all 0.25s ease;
-  min-height: 118px;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(169, 96, 45, 0.98),
+      rgba(116, 59, 27, 0.98)
+    );
+
+  border: 5px solid #e6bd67;
+
+  box-shadow:
+    0 9px 0 rgba(61, 32, 15, 0.55),
+    0 18px 32px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+
+  overflow: hidden;
 }
 
-.game-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.3);
+/* inner wooden border */
+
+.letters-game-page .game-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 9px;
+
+  border-radius: 20px;
+
+  border: 2px solid rgba(255, 220, 150, 0.25);
+
+  pointer-events: none;
 }
+
+/* subtle wood highlight */
+
+.letters-game-page .game-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -55px;
+  top: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 220, 150, 0.12);
+
+  pointer-events: none;
+}
+
+.letters-game-page .game-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 12px 0 rgba(61, 32, 15, 0.55),
+    0 22px 36px rgba(0, 0, 0, 0.30);
+
+  filter: brightness(1.04);
+}
+
+.letters-game-page .game-card:active {
+  transform: translateY(1px);
+
+  box-shadow:
+    0 5px 0 rgba(61, 32, 15, 0.55),
+    0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================
+   CARD CONTENT
+========================= */
 
 .card-left {
+  min-width: 0;
+
   display: flex;
   align-items: center;
-  gap: 16px;
+
+  gap: 20px;
+
+  position: relative;
+  z-index: 2;
 }
 
 .animal-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.45);
+  width: 78px;
+  height: 78px;
+
+  flex: 0 0 78px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
-  flex-shrink: 0;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf0,
+      #f4e5bd
+    );
+
+  border: 3px solid rgba(255, 255, 255, 0.65);
+
+  font-size: 36px;
+
+  box-shadow:
+    0 5px 0 rgba(78, 42, 18, 0.22),
+    0 8px 15px rgba(0, 0, 0, 0.16);
+}
+
+.card-text {
+  min-width: 0;
 }
 
 .card-text h2 {
   margin: 0 0 6px;
-  font-size: 22px;
-  color: #111;
+
+  font-family: "Baloo 2", sans-serif;
+  font-size: 26px;
+  line-height: 1.05;
+
+  color: #fff8df;
+
   font-weight: 800;
+
+  text-shadow:
+    0 2px 0 #633719;
 }
 
 .card-text p {
   margin: 0;
+
+  max-width: 360px;
+
   font-size: 15px;
-  color: #234236;
-  font-weight: 600;
   line-height: 1.4;
+
+  color: #fff0ca;
+
+  font-weight: 700;
 }
+
+/* =========================
+   ARROW
+========================= */
 
 .arrow {
+  flex: 0 0 auto;
+
+  position: relative;
+  z-index: 2;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 18px;
+
+  border-radius: 50%;
+
+  background: #238b57;
+
+  border: 3px solid #8fda8b;
+
+  color: white;
+
   font-size: 28px;
-  font-weight: bold;
-  color: #184c35;
-  flex-shrink: 0;
+  font-weight: 900;
+
+  line-height: 1;
+
+  box-shadow:
+    0 4px 0 rgba(30, 75, 44, 0.45);
 }
 
-/* bottom animals */
+/* =========================
+   BOTTOM ANIMALS
+========================= */
+
 .bottom-animals {
-  margin-top: 24px;
+  margin-top: 30px;
+
   display: flex;
   justify-content: center;
-  gap: 24px;
+  align-items: center;
+
+  gap: 28px;
+
   font-size: 32px;
+
   position: relative;
   z-index: 2;
 }
 
 .bottom-animals span {
-  animation: bounceAnimal 2.2s infinite;
+  display: inline-block;
+  animation: bounceAnimal 2.2s ease-in-out infinite;
 }
 
 .bottom-animals span:nth-child(2) {
-  animation-delay: 0.4s;
+  animation-delay: 0.35s;
 }
 
 .bottom-animals span:nth-child(3) {
-  animation-delay: 0.8s;
+  animation-delay: 0.7s;
 }
+
+/* =========================
+   ANIMATIONS
+========================= */
 
 @keyframes bounceAnimal {
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-6px);
   }
 }
 
-@keyframes floatUpDown {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
+/* =========================
+   TABLET
+========================= */
 
-@media (max-width: 768px) {
-  .letters-game-topbar {
-    min-height: 64px;
-    padding: 8px 14px;
-  }
-
-  .letters-game-back {
-    left: 14px;
-    width: 38px;
-    height: 38px;
-    font-size: 20px;
-  }
-
-  .letters-game-topbar-title {
-    font-size: 20px;
-  }
-
-  .letters-game-header {
-    margin-top: 18px;
-    margin-bottom: 22px;
-  }
-
-  .letters-game-header p {
-    font-size: 14px;
-  }
-
-  .header-mascots,
-  .bottom-animals {
-    font-size: 28px;
-  }
-
+@media (max-width: 900px) {
   .letters-game-container {
-    padding: 0 14px;
+    width: 94%;
+    gap: 18px;
   }
 
-  .game-card {
-    padding: 18px 16px;
-    min-height: 105px;
+  .letters-game-page .game-card {
+    min-height: 175px;
+    padding: 22px;
   }
 
   .animal-icon {
-    width: 58px;
-    height: 58px;
-    font-size: 24px;
+    width: 70px;
+    height: 70px;
+    flex-basis: 70px;
+    font-size: 32px;
   }
 
   .card-text h2 {
-    font-size: 18px;
+    font-size: 23px;
+  }
+
+  .card-text p {
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 650px) {
+  .letters-game-topbar {
+    min-height: 68px;
+    padding: 8px 16px;
+  }
+
+  .letters-game-topbar-title {
+    font-size: 25px;
+  }
+
+  .letters-game-header {
+    padding: 24px 14px 20px;
+  }
+
+  .header-mascots {
+    font-size: 28px;
+    gap: 14px;
+  }
+
+  .letters-game-header p {
+    font-size: 16px;
+  }
+
+  .letters-game-container {
+    width: 92%;
+
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .letters-game-page .game-card {
+    min-height: 150px;
+    padding: 20px;
+  }
+
+  .card-left {
+    gap: 15px;
+  }
+
+  .animal-icon {
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+    font-size: 28px;
+    border-radius: 17px;
+  }
+
+  .card-text h2 {
+    font-size: 21px;
   }
 
   .card-text p {
@@ -293,6 +541,15 @@
   }
 
   .arrow {
-    font-size: 22px;
+    width: 42px;
+    height: 42px;
+    font-size: 23px;
+    margin-left: 10px;
+  }
+
+  .bottom-animals {
+    margin-top: 26px;
+    gap: 22px;
+    font-size: 28px;
   }
 }

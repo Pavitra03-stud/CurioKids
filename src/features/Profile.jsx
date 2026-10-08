@@ -1,431 +1,3 @@
-// // import { useEffect, useState } from "react";
-// // import "../styles/Profile.css";
-// // import { useGame } from "../context/GameContext";
-
-// // export default function Profile() {
-// //   const { stars } = useGame();
-
-// //   const [name, setName] = useState("");
-// //   const [editing, setEditing] = useState(false);
-// //   const [selectedAvatar, setSelectedAvatar] = useState("🐵");
-
-// //   // 🎭 SKINS
-// //   const skins = [
-// //     { icon: "🐵", cost: 0 },
-// //     { icon: "🦊", cost: 5 },
-// //     { icon: "🐯", cost: 10 },
-// //     { icon: "🦁", cost: 15 },
-// //     { icon: "🐸", cost: 20 },
-// //   ];
-
-// //   // 🔥 LOAD DATA
-// //   useEffect(() => {
-// //     const child = JSON.parse(localStorage.getItem("childProfile"));
-// //     const avatar = localStorage.getItem("avatar");
-
-// //     if (child) setName(child.name);
-// //     if (avatar) setSelectedAvatar(avatar);
-// //   }, []);
-
-// //   // 💾 SAVE NAME
-// //   const saveName = () => {
-// //     if (!name.trim()) return;
-
-// //     const child = JSON.parse(localStorage.getItem("childProfile")) || {};
-// //     child.name = name.trim();
-
-// //     localStorage.setItem("childProfile", JSON.stringify(child));
-// //     setEditing(false);
-// //   };
-
-// //   // 🎯 SELECT AVATAR
-// //   const selectAvatar = (skin) => {
-// //     if (stars < skin.cost) {
-// //       alert("❌ Not enough stars!");
-// //       return;
-// //     }
-
-// //     setSelectedAvatar(skin.icon);
-// //     localStorage.setItem("avatar", skin.icon);
-// //   };
-
-// //   return (
-// //     <div className="profile-page">
-
-// //       {/* 👤 NAME SECTION */}
-// //       <div className="name-section">
-// //         {editing ? (
-// //           <>
-// //             <input
-// //               className="name-input"
-// //               value={name}
-// //               onChange={(e) => setName(e.target.value)}
-// //             />
-// //             <button className="save-btn" onClick={saveName}>
-// //               Save ✅
-// //             </button>
-// //           </>
-// //         ) : (
-// //           <>
-// //             <h1>👤 {name}</h1>
-// //             <button
-// //               className="edit-btn"
-// //               onClick={() => setEditing(true)}
-// //             >
-// //               ✏️ Edit
-// //             </button>
-// //           </>
-// //         )}
-// //       </div>
-
-// //       {/* 🎭 AVATAR */}
-// //       <div className="avatar-preview">
-// //         {selectedAvatar}
-// //       </div>
-
-// //       <h2>🎨 Choose Your Avatar</h2>
-
-// //       <div className="avatar-grid">
-// //         {skins.map((skin, i) => {
-// //           const unlocked = stars >= skin.cost;
-
-// //           return (
-// //             <div
-// //               key={i}
-// //               className={`avatar-card ${
-// //                 unlocked ? "unlocked" : "locked"
-// //               }`}
-// //               onClick={() => unlocked && selectAvatar(skin)}
-// //             >
-// //               <span className="avatar-icon">{skin.icon}</span>
-
-// //               {unlocked ? (
-// //                 <p>✅</p>
-// //               ) : (
-// //                 <p>🔒 {skin.cost}⭐</p>
-// //               )}
-// //             </div>
-// //           );
-// //         })}
-// //       </div>
-
-// //       {/* ⭐ STARS */}
-// //       <div className="stars-box">
-// //         ⭐ Stars: {stars}
-// //       </div>
-
-// //     </div>
-// //   );
-// // }
-
-
-
-
-
-// import { useEffect, useState } from "react";
-// import "../styles/Profile.css";
-// import { useGame } from "../context/GameContext";
-// import { db } from "../firebase";
-// import {
-//   doc,
-//   getDoc,
-//   setDoc,
-// } from "firebase/firestore";
-
-// export default function Profile() {
-//   const { stars = 0 } = useGame();
-
-//   const [name, setName] = useState("");
-//   const [editing, setEditing] = useState(false);
-//   const [selectedAvatar, setSelectedAvatar] = useState("🐵");
-//   const [loading, setLoading] = useState(true);
-
-//   // 🎭 SKINS
-//   const skins = [
-//     { icon: "🐵", cost: 0 },
-//     { icon: "🦊", cost: 5 },
-//     { icon: "🐯", cost: 10 },
-//     { icon: "🦁", cost: 15 },
-//     { icon: "🐸", cost: 20 },
-//   ];
-
-//   // 🔥 LOAD PROFILE FROM FIREBASE
-//   useEffect(() => {
-//     const loadProfile = async () => {
-//       try {
-//         const userId = localStorage.getItem("userId");
-
-//         if (!userId) {
-//           console.log("❌ No Firebase userId found");
-//           setLoading(false);
-//           return;
-//         }
-
-//         const userRef = doc(db, "users", userId);
-//         const snap = await getDoc(userRef);
-
-//         if (snap.exists()) {
-//           const data = snap.data();
-
-//           setName(data.name || "");
-//           setSelectedAvatar(data.avatar || "🐵");
-
-//           // Keep localStorage in sync
-//           const child = {
-//             ...JSON.parse(
-//               localStorage.getItem("childProfile") || "{}"
-//             ),
-//             name: data.name || "",
-//           };
-
-//           localStorage.setItem(
-//             "childProfile",
-//             JSON.stringify(child)
-//           );
-
-//           localStorage.setItem(
-//             "avatar",
-//             data.avatar || "🐵"
-//           );
-//         } else {
-//           // Fallback to localStorage if Firebase profile
-//           // does not exist yet
-//           const child = JSON.parse(
-//             localStorage.getItem("childProfile") || "{}"
-//           );
-
-//           const avatar =
-//             localStorage.getItem("avatar") || "🐵";
-
-//           setName(child.name || "");
-//           setSelectedAvatar(avatar);
-//         }
-//       } catch (error) {
-//         console.error(
-//           "❌ Failed to load profile:",
-//           error
-//         );
-
-//         // Fallback to localStorage
-//         const child = JSON.parse(
-//           localStorage.getItem("childProfile") || "{}"
-//         );
-
-//         const avatar =
-//           localStorage.getItem("avatar") || "🐵";
-
-//         setName(child.name || "");
-//         setSelectedAvatar(avatar);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     loadProfile();
-//   }, []);
-
-//   // 💾 SAVE NAME
-//   const saveName = async () => {
-//     if (!name.trim()) return;
-
-//     try {
-//       const userId = localStorage.getItem("userId");
-
-//       if (!userId) {
-//         alert("❌ User not logged in!");
-//         return;
-//       }
-
-//       const cleanName = name.trim();
-
-//       const userRef = doc(db, "users", userId);
-
-//       await setDoc(
-//         userRef,
-//         {
-//           name: cleanName,
-//         },
-//         {
-//           merge: true,
-//         }
-//       );
-
-//       // Keep localStorage synced
-//       const child = JSON.parse(
-//         localStorage.getItem("childProfile") || "{}"
-//       );
-
-//       child.name = cleanName;
-
-//       localStorage.setItem(
-//         "childProfile",
-//         JSON.stringify(child)
-//       );
-
-//       setName(cleanName);
-//       setEditing(false);
-
-//       alert("✅ Name saved!");
-//     } catch (error) {
-//       console.error(
-//         "❌ Failed to save name:",
-//         error
-//       );
-
-//       alert("❌ Could not save name!");
-//     }
-//   };
-
-//   // 🎯 SELECT AVATAR
-//   const selectAvatar = async (skin) => {
-//     if (stars < skin.cost) {
-//       alert("❌ Not enough stars!");
-//       return;
-//     }
-
-//     try {
-//       const userId = localStorage.getItem("userId");
-
-//       if (!userId) {
-//         alert("❌ User not logged in!");
-//         return;
-//       }
-
-//       const userRef = doc(db, "users", userId);
-
-//       await setDoc(
-//         userRef,
-//         {
-//           avatar: skin.icon,
-//         },
-//         {
-//           merge: true,
-//         }
-//       );
-
-//       setSelectedAvatar(skin.icon);
-
-//       // Keep localStorage synced
-//       localStorage.setItem(
-//         "avatar",
-//         skin.icon
-//       );
-
-//       alert("🎉 Avatar updated!");
-//     } catch (error) {
-//       console.error(
-//         "❌ Failed to save avatar:",
-//         error
-//       );
-
-//       alert("❌ Could not update avatar!");
-//     }
-//   };
-
-//   // ⏳ LOADING
-//   if (loading) {
-//     return (
-//       <div className="profile-page">
-//         <div className="name-section">
-//           <h1>Loading profile... 🌱</h1>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="profile-page">
-
-//       {/* 👤 NAME SECTION */}
-//       <div className="name-section">
-//         {editing ? (
-//           <>
-//             <input
-//               className="name-input"
-//               value={name}
-//               onChange={(e) =>
-//                 setName(e.target.value)
-//               }
-//               placeholder="Enter your name"
-//             />
-
-//             <button
-//               className="save-btn"
-//               onClick={saveName}
-//             >
-//               Save ✅
-//             </button>
-//           </>
-//         ) : (
-//           <>
-//             <h1>
-//               👤 {name || "Little Explorer"}
-//             </h1>
-
-//             <button
-//               className="edit-btn"
-//               onClick={() =>
-//                 setEditing(true)
-//               }
-//             >
-//               ✏️ Edit
-//             </button>
-//           </>
-//         )}
-//       </div>
-
-//       {/* 🎭 AVATAR */}
-//       <div className="avatar-preview">
-//         {selectedAvatar}
-//       </div>
-
-//       <h2>🎨 Choose Your Avatar</h2>
-
-//       <div className="avatar-grid">
-//         {skins.map((skin, i) => {
-//           const unlocked =
-//             stars >= skin.cost;
-
-//           return (
-//             <div
-//               key={i}
-//               className={`avatar-card ${
-//                 unlocked
-//                   ? "unlocked"
-//                   : "locked"
-//               }`}
-//               onClick={() =>
-//                 unlocked &&
-//                 selectAvatar(skin)
-//               }
-//             >
-//               <span className="avatar-icon">
-//                 {skin.icon}
-//               </span>
-
-//               {unlocked ? (
-//                 <p>✅</p>
-//               ) : (
-//                 <p>
-//                   🔒 {skin.cost}⭐
-//                 </p>
-//               )}
-//             </div>
-//           );
-//         })}
-//       </div>
-
-//       {/* ⭐ STARS */}
-//       <div className="stars-box">
-//         ⭐ Stars: {stars}
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
 import { useEffect, useState } from "react";
 import "../styles/Profile.css";
 
@@ -450,7 +22,7 @@ export default function Profile() {
   } = useGame();
 
   // =========================================================
-  // 👤 REAL PROFILE DATA
+  // 👤 PROFILE
   // =========================================================
 
   const [name, setName] = useState("");
@@ -461,15 +33,13 @@ export default function Profile() {
   // =========================================================
 
   const [editing, setEditing] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] =
-    useState("🐵");
+  const [selectedAvatar, setSelectedAvatar] = useState("🐵");
 
   // =========================================================
   // 🦊 JUNGLE FRIEND
   // =========================================================
 
-  const [jungleFriend, setJungleFriend] =
-    useState(null);
+  const [jungleFriend, setJungleFriend] = useState(null);
 
   // =========================================================
   // ⏳ LOADING
@@ -478,9 +48,24 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
 
   // =========================================================
+  // 🔔 CUSTOM NOTIFICATION
+  // =========================================================
+
+  const [notification, setNotification] = useState(null);
+
+  const showNotification = (message, type = "success") => {
+    setNotification({
+      message,
+      type,
+    });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 2200);
+  };
+
+  // =========================================================
   // 🎭 AVATAR SKINS
-  //
-  // These remain exactly the same as your current UI.
   // =========================================================
 
   const skins = [
@@ -513,16 +98,11 @@ export default function Profile() {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const userId =
-          localStorage.getItem("userId");
+        const userId = localStorage.getItem("userId");
 
         if (!userId) {
-          console.log(
-            "❌ No Firebase userId found"
-          );
-
+          console.log("❌ No Firebase userId found");
           setLoading(false);
-
           return;
         }
 
@@ -531,22 +111,16 @@ export default function Profile() {
           userId
         );
 
-        // ---------------------------------------------------
-        // FIREBASE USER DOCUMENT
-        // ---------------------------------------------------
-
         const userRef = doc(
           db,
           "users",
           userId
         );
 
-        const snap =
-          await getDoc(userRef);
+        const snap = await getDoc(userRef);
 
         if (snap.exists()) {
-          const data =
-            snap.data();
+          const data = snap.data();
 
           console.log(
             "🔥 Real Firebase profile:",
@@ -568,8 +142,7 @@ export default function Profile() {
             "";
 
           const realAge =
-            childProfile.age ||
-            "";
+            childProfile.age || "";
 
           setName(realName);
           setAge(realAge);
@@ -581,21 +154,16 @@ export default function Profile() {
           const realAvatar =
             data.avatar || "🐵";
 
-          setSelectedAvatar(
-            realAvatar
-          );
+          setSelectedAvatar(realAvatar);
 
           // =================================================
           // 🦊 JUNGLE FRIEND
           // =================================================
 
           const realFriend =
-            data.jungleFriend ||
-            null;
+            data.jungleFriend || null;
 
-          setJungleFriend(
-            realFriend
-          );
+          setJungleFriend(realFriend);
 
           // =================================================
           // LOCAL STORAGE CACHE
@@ -610,17 +178,13 @@ export default function Profile() {
 
           const updatedChild = {
             ...existingChild,
-
             name: realName,
-
             age: realAge,
           };
 
           localStorage.setItem(
             "childProfile",
-            JSON.stringify(
-              updatedChild
-            )
+            JSON.stringify(updatedChild)
           );
 
           localStorage.setItem(
@@ -631,16 +195,14 @@ export default function Profile() {
           if (realFriend) {
             localStorage.setItem(
               "jungleFriend",
-              JSON.stringify(
-                realFriend
-              )
+              JSON.stringify(realFriend)
             );
           }
 
         } else {
+
           // =================================================
-          // FALLBACK ONLY WHEN FIREBASE DOCUMENT DOESN'T
-          // EXIST
+          // FALLBACK
           // =================================================
 
           console.log(
@@ -684,14 +246,15 @@ export default function Profile() {
         }
 
       } catch (error) {
+
         console.error(
           "❌ Failed to load profile:",
           error
         );
 
-        // ===================================================
+        // =================================================
         // FALLBACK
-        // ===================================================
+        // =================================================
 
         try {
           const child =
@@ -730,6 +293,7 @@ export default function Profile() {
           );
 
         } catch (fallbackError) {
+
           console.error(
             "❌ Profile fallback failed:",
             fallbackError
@@ -756,18 +320,18 @@ export default function Profile() {
       String(age).trim();
 
     if (!cleanName) {
-      alert(
-        "Please enter your name."
+      showNotification(
+        "Please enter your name.",
+        "error"
       );
-
       return;
     }
 
     if (!cleanAge) {
-      alert(
-        "Please enter your age."
+      showNotification(
+        "Please enter your age.",
+        "error"
       );
-
       return;
     }
 
@@ -776,10 +340,10 @@ export default function Profile() {
         localStorage.getItem("userId");
 
       if (!userId) {
-        alert(
-          "❌ User not logged in!"
+        showNotification(
+          "User not logged in!",
+          "error"
         );
-
         return;
       }
 
@@ -802,8 +366,7 @@ export default function Profile() {
           : {};
 
       const existingChild =
-        existingData.childProfile ||
-        {};
+        existingData.childProfile || {};
 
       // =====================================================
       // SAVE CHILD PROFILE
@@ -811,9 +374,7 @@ export default function Profile() {
 
       const updatedChildProfile = {
         ...existingChild,
-
         name: cleanName,
-
         age: cleanAge,
       };
 
@@ -823,7 +384,6 @@ export default function Profile() {
           childProfile:
             updatedChildProfile,
 
-          // Compatibility field
           name: cleanName,
         },
         {
@@ -832,7 +392,7 @@ export default function Profile() {
       );
 
       // =====================================================
-      // LOCAL STORAGE CACHE
+      // LOCAL STORAGE
       // =====================================================
 
       localStorage.setItem(
@@ -842,28 +402,25 @@ export default function Profile() {
         )
       );
 
-      setName(
-        cleanName
-      );
-
-      setAge(
-        cleanAge
-      );
-
+      setName(cleanName);
+      setAge(cleanAge);
       setEditing(false);
 
-      alert(
-        "✅ Profile saved!"
+      showNotification(
+        "Profile saved! 🌱",
+        "success"
       );
 
     } catch (error) {
+
       console.error(
         "❌ Failed to save profile:",
         error
       );
 
-      alert(
-        "❌ Could not save profile!"
+      showNotification(
+        "Could not save profile!",
+        "error"
       );
     }
   };
@@ -873,21 +430,25 @@ export default function Profile() {
   // =========================================================
 
   const selectAvatar = async (skin) => {
+
     if (stars < skin.cost) {
-      alert(
-        "❌ Not enough stars!"
+      showNotification(
+        `You need ${skin.cost} ⭐ to unlock this avatar.`,
+        "error"
       );
 
       return;
     }
 
     try {
+
       const userId =
         localStorage.getItem("userId");
 
       if (!userId) {
-        alert(
-          "❌ User not logged in!"
+        showNotification(
+          "User not logged in!",
+          "error"
         );
 
         return;
@@ -909,27 +470,42 @@ export default function Profile() {
         }
       );
 
+      // =====================================================
+      // UPDATE UI
+      // =====================================================
+
       setSelectedAvatar(
         skin.icon
       );
+
+      // =====================================================
+      // UPDATE LOCAL STORAGE
+      // =====================================================
 
       localStorage.setItem(
         "avatar",
         skin.icon
       );
 
-      alert(
-        "🎉 Avatar updated!"
+      // =====================================================
+      // CUSTOM NOTIFICATION
+      // =====================================================
+
+      showNotification(
+        "Avatar updated! 🎉",
+        "success"
       );
 
     } catch (error) {
+
       console.error(
         "❌ Failed to save avatar:",
         error
       );
 
-      alert(
-        "❌ Could not update avatar!"
+      showNotification(
+        "Could not update avatar!",
+        "error"
       );
     }
   };
@@ -939,16 +515,6 @@ export default function Profile() {
   // =========================================================
 
   const changeJungleFriend = () => {
-    /*
-      Reuse the existing ChooseFriend screen.
-
-      This is important because your onboarding already
-      contains the real friend list, friend images,
-      unlock logic, and friend-saving logic.
-
-      We simply send the student there to choose again.
-    */
-
     navigate(
       "/choose-friend?mode=change"
     );
@@ -979,16 +545,19 @@ export default function Profile() {
   // =========================================================
 
   const getLevel = () => {
+
     if (stars < 5) return 1;
+
     if (stars < 15) return 2;
+
     if (stars < 30) return 3;
+
     if (stars < 50) return 4;
 
     return 5;
   };
 
-  const level =
-    getLevel();
+  const level = getLevel();
 
   // =========================================================
   // 🎨 UI
@@ -996,6 +565,30 @@ export default function Profile() {
 
   return (
     <div className="profile-page">
+
+      {/* ===================================================
+          🔔 CUSTOM NOTIFICATION
+      =================================================== */}
+
+      {notification && (
+        <div
+          className={`profile-notification ${
+            notification.type === "error"
+              ? "notification-error"
+              : "notification-success"
+          }`}
+        >
+          <div className="notification-icon">
+            {notification.type === "error"
+              ? "⚠️"
+              : "🎉"}
+          </div>
+
+          <span>
+            {notification.message}
+          </span>
+        </div>
+      )}
 
       {/* ===================================================
           👤 NAME SECTION
@@ -1073,6 +666,7 @@ export default function Profile() {
 
       </div>
 
+
       {/* ===================================================
           🎭 AVATAR
       =================================================== */}
@@ -1084,6 +678,7 @@ export default function Profile() {
       <h2>
         🎨 Choose Your Avatar
       </h2>
+
 
       <div className="avatar-grid">
 
@@ -1129,6 +724,7 @@ export default function Profile() {
 
       </div>
 
+
       {/* ===================================================
           🦊 JUNGLE FRIEND
       =================================================== */}
@@ -1148,6 +744,7 @@ export default function Profile() {
         >
           🦊 Your Jungle Friend
         </h2>
+
 
         {jungleFriend ? (
           <>
@@ -1212,9 +809,6 @@ export default function Profile() {
           </p>
         )}
 
-        {/* =================================================
-            CHANGE FRIEND
-        ================================================= */}
 
         <button
           className="edit-btn"
@@ -1230,6 +824,7 @@ export default function Profile() {
 
       </div>
 
+
       {/* ===================================================
           📊 REAL PROGRESS
       =================================================== */}
@@ -1240,6 +835,7 @@ export default function Profile() {
           marginTop: "24px",
         }}
       >
+
         ⭐ Stars:{" "}
         {loadingProgress
           ? "..."
@@ -1255,7 +851,7 @@ export default function Profile() {
 
         <br />
 
-        🌱 Level: {level}
+
       </div>
 
     </div>

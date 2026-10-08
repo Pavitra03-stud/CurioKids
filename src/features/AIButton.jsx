@@ -56,10 +56,16 @@
 //     </button>
 //   );
 // }
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AIButton() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Don't show the floating AI button on the AI Chat page
+  if (location.pathname === "/ai-chat") {
+    return null;
+  }
 
   return (
     <button

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/SoundTap.css";
 
 const animalData = [
@@ -11,8 +11,8 @@ const animalData = [
       "/sounds/dog.mp3",
       "/sounds/cat.mp3",
       "/sounds/cow.mp3",
-      "/sounds/lion.mp3"
-    ]
+      "/sounds/lion.mp3",
+    ],
   },
   {
     animal: "Cat",
@@ -23,8 +23,8 @@ const animalData = [
       "/sounds/dog.mp3",
       "/sounds/cat.mp3",
       "/sounds/duck.mp3",
-      "/sounds/lion.mp3"
-    ]
+      "/sounds/lion.mp3",
+    ],
   },
   {
     animal: "Cow",
@@ -35,8 +35,8 @@ const animalData = [
       "/sounds/dog.mp3",
       "/sounds/cat.mp3",
       "/sounds/cow.mp3",
-      "/sounds/horse.mp3"
-    ]
+      "/sounds/horse.mp3",
+    ],
   },
   {
     animal: "Duck",
@@ -47,8 +47,8 @@ const animalData = [
       "/sounds/lion.mp3",
       "/sounds/cat.mp3",
       "/sounds/dog.mp3",
-      "/sounds/duck.mp3"
-    ]
+      "/sounds/duck.mp3",
+    ],
   },
   {
     animal: "Lion",
@@ -59,8 +59,8 @@ const animalData = [
       "/sounds/lion.mp3",
       "/sounds/dog.mp3",
       "/sounds/cat.mp3",
-      "/sounds/cow.mp3"
-    ]
+      "/sounds/cow.mp3",
+    ],
   },
   {
     animal: "Horse",
@@ -71,13 +71,12 @@ const animalData = [
       "/sounds/dog.mp3",
       "/sounds/horse.mp3",
       "/sounds/cat.mp3",
-      "/sounds/duck.mp3"
-    ]
-  }
+      "/sounds/duck.mp3",
+    ],
+  },
 ];
 
 export default function SoundTap() {
-
   const firstVisit = !localStorage.getItem("soundtapLearned");
 
   const [mode, setMode] = useState(firstVisit ? "learn" : "game");
@@ -92,10 +91,55 @@ export default function SoundTap() {
   const [aiMessage, setAiMessage] = useState("");
   const [loadingAI, setLoadingAI] = useState(false);
 
+  const audioRef = useRef(null);
+  const autoNextTimer = useRef(null);
+
   const currentLearn = animalData[learnIndex];
   const currentGame = animalData[gameIndex];
 
-  // 🎤 SPEAK
+  // =========================================================
+  // STOP CURRENT AUDIO
+  // =========================================================
+
+  const stopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+  };
+
+  // =========================================================
+  // PLAY SOUND
+  // Only ONE sound can play at a time.
+  // =========================================================
+
+  const playSound = (sound) => {
+    stopAudio();
+
+    try {
+      const audio = new Audio(sound);
+
+      audioRef.current = audio;
+
+      audio.play().catch((error) => {
+        console.error("Unable to play sound:", error);
+      });
+
+      audio.onended = () => {
+        if (audioRef.current === audio) {
+          audioRef.current = null;
+        }
+      };
+    } catch (error) {
+      console.error("Unable to create audio:", error);
+    }
+  };
+
+  // =========================================================
+  // 🔊 SPEAK
+  // =========================================================
+
   const speakAI = (text) => {
     if (!text) return;
 
@@ -105,41 +149,36 @@ export default function SoundTap() {
     speechSynthesis.speak(utter);
   };
 
-  const playAnimalSound = (sound) => {
-    new Audio(sound).play();
-  };
-
-  const playOptionSound = (sound) => {
-    new Audio(sound).play();
-  };
-
+  // =========================================================
   // 🤖 AI TEACH
-  const teachAI = async () => {
+  // =========================================================
 
+  const teachAI = async () => {
     if (loadingAI) return;
 
-    const fallback =
-      `This is a ${currentLearn.animal}. Listen carefully to its sound.`;
+    const fallback = `This is a ${currentLearn.animal}. Listen carefully to its sound.`;
 
     setAiMessage(fallback);
     speakAI(fallback);
 
     try {
-
       setLoadingAI(true);
 
-      const res = await fetch("http://localhost:5000/ai/teach", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          topic: `Teach a child about ${currentLearn.animal} sound`
-        })
-      });
+      const res = await fetch(
+        "http://localhost:5000/ai/teach",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            topic: `Teach a child about ${currentLearn.animal} sound`,
+          }),
+        }
+      );
 
       if (!res.ok) {
-        throw new Error();
+        throw new Error("AI request failed");
       }
 
       const data = await res.json();
@@ -148,73 +187,104 @@ export default function SoundTap() {
         setAiMessage(data.explanation);
         speakAI(data.explanation);
       }
-
-    } catch {
+    } catch (error) {
       console.log("Using fallback AI");
     } finally {
       setLoadingAI(false);
     }
   };
 
-  // ✅ RUN AI ONLY WHEN LEARNING CARD CHANGES
-  useEffect(() => {
+  // =========================================================
+  // AI WHEN LEARN CARD CHANGES
+  // =========================================================
 
+  useEffect(() => {
     if (mode === "learn") {
       teachAI();
     }
+  }, [learnIndex, mode]);
 
-  }, [learnIndex]);
+  // =========================================================
+  // CLEANUP
+  // =========================================================
 
-  // 🎯 GAME SELECT
-  const handleSelect = (i) => {
+  useEffect(() => {
+    return () => {
+      stopAudio();
 
-    if (selected !== null) return;
+      if (autoNextTimer.current) {
+        clearTimeout(autoNextTimer.current);
+      }
 
-    setSelected(i);
+      speechSynthesis.cancel();
+    };
+  }, []);
 
-    if (i === currentGame.correctIndex) {
+  // =========================================================
+  // NEXT QUESTION
+  // =========================================================
 
-      const msg = "Correct. Great listening.";
-
-      setFeedback("Correct! 🎉");
-      setAiMessage(msg);
-
-      speakAI(msg);
-
-      setScore(prev => prev + 1);
-
-    } else {
-
-      const msg = "Not quite. Try again.";
-
-      setFeedback("Oops! Try again 💛");
-      setAiMessage(msg);
-
-      speakAI(msg);
-    }
-  };
-
-  // ➡️ NEXT QUESTION
   const nextQuestion = () => {
+    stopAudio();
 
-    // Clear everything from the previous question
+    if (autoNextTimer.current) {
+      clearTimeout(autoNextTimer.current);
+      autoNextTimer.current = null;
+    }
+
     setSelected(null);
     setFeedback("");
     setAiMessage("");
 
     if (gameIndex < animalData.length - 1) {
-
-      setGameIndex(prev => prev + 1);
-
+      setGameIndex((prev) => prev + 1);
     } else {
-
       setMode("result");
     }
   };
 
-  // 📘 LEARN MODE
-  if (mode === "learn") {
+  // =========================================================
+  // OPTION CLICK
+  // =========================================================
 
+  const handleSelect = (i) => {
+    // Correct answer already selected
+    if (selected !== null) return;
+
+    // Play ONLY the clicked option.
+    // No hover audio.
+    playSound(currentGame.options[i]);
+
+    if (i === currentGame.correctIndex) {
+      const msg = "Correct. Great listening.";
+
+      setSelected(i);
+      setFeedback("Correct! 🎉");
+      setAiMessage(msg);
+
+      setScore((prev) => prev + 1);
+
+      speakAI(msg);
+
+      // Automatically move forward.
+      autoNextTimer.current = setTimeout(() => {
+        nextQuestion();
+      }, 1200);
+    } else {
+      // Wrong answer does NOT lock the question.
+      setFeedback("Oops! Try again 💛");
+
+      setAiMessage("Not quite. Try again.");
+
+      speakAI("Not quite. Try again.");
+    }
+  };
+
+  // =========================================================
+  // LEARN MODE
+  // =========================================================
+
+  if (mode === "learn") {
     return (
       <div className="soundtap-container">
 
@@ -233,76 +303,104 @@ export default function SoundTap() {
             {currentLearn.animal}
           </div>
 
-          <button
-            onClick={() =>
-              playAnimalSound(currentLearn.sound)
-            }
-          >
-            🔊 Hear Me
-          </button>
+          <div className="soundtap-actions">
 
-          <button onClick={teachAI}>
-            {loadingAI ? "Thinking..." : "🤖 AI Teach"}
-          </button>
+            <button
+              className="audio-btn"
+              onClick={() =>
+                playSound(currentLearn.sound)
+              }
+            >
+              🔊 Hear Me
+            </button>
+
+            <button
+              className="ai-btn"
+              onClick={teachAI}
+              disabled={loadingAI}
+            >
+              {loadingAI
+                ? "Thinking..."
+                : "🤖 AI Teach"}
+            </button>
+
+          </div>
 
           {aiMessage && (
-            <div className="feedback">
+            <div className="feedback ai-feedback">
               🤖 {aiMessage}
             </div>
           )}
 
           <button
+            className="next-btn"
             onClick={() => {
 
-              if (learnIndex < animalData.length - 1) {
+              stopAudio();
 
-                setLearnIndex(prev => prev + 1);
+              if (
+                learnIndex <
+                animalData.length - 1
+              ) {
+                setLearnIndex(
+                  (prev) => prev + 1
+                );
 
                 setAiMessage("");
-
               } else {
-
                 localStorage.setItem(
                   "soundtapLearned",
                   "true"
                 );
 
                 setAiMessage("");
-
                 setMode("game");
               }
 
             }}
           >
-            {learnIndex < animalData.length - 1
+            {learnIndex <
+            animalData.length - 1
               ? "Next ➡"
               : "Start Game 🎮"}
           </button>
 
         </div>
-
       </div>
     );
   }
 
-  // 🎉 RESULT
-  if (mode === "result") {
+  // =========================================================
+  // RESULT
+  // =========================================================
 
+  if (mode === "result") {
     return (
       <div className="soundtap-container">
 
-        <div className="soundtap-card">
+        <h1 className="soundtap-title">
+          Match the Sound 🎧
+        </h1>
 
-          <h2>
-            🎉 Game Complete
+        <div className="soundtap-card result-card">
+
+          <div className="result-emoji">
+            🎉
+          </div>
+
+          <h2 className="result-title">
+            Game Complete!
           </h2>
 
-          <p>
+          <p className="result-score">
             Score: {score}/{animalData.length}
           </p>
 
           <button
+            className="next-btn"
             onClick={() => {
+
+              stopAudio();
 
               setGameIndex(0);
               setSelected(null);
@@ -322,7 +420,10 @@ export default function SoundTap() {
     );
   }
 
-  // 🎮 GAME MODE
+  // =========================================================
+  // GAME MODE
+  // =========================================================
+
   return (
     <div className="soundtap-container">
 
@@ -332,71 +433,97 @@ export default function SoundTap() {
 
       <div className="soundtap-card">
 
+        {/* ANIMAL IMAGE */}
+
         <img
+          className="animal-image"
           src={currentGame.image}
           alt={currentGame.animal}
         />
+
+        {/* ANIMAL NAME */}
 
         <div className="soundtap-word">
           {currentGame.animal}
         </div>
 
-        <button
-          onClick={() =>
-            playAnimalSound(currentGame.sound)
-          }
-        >
-          🔊 Hear Me
-        </button>
+        {/* HEAR BUTTON */}
+
+        <div className="soundtap-actions">
+
+          <button
+            className="audio-btn"
+            onClick={() =>
+              playSound(currentGame.sound)
+            }
+          >
+            🔊 Hear Me
+          </button>
+
+        </div>
+
+        {/* OPTIONS */}
 
         <div className="circle-container">
 
-          {[1, 2, 3, 4].map((num, i) => (
-
-            <div
-              key={i}
-
-              className={`circle ${
-                selected === i ? "selected" : ""
-              }`}
-
-              onMouseEnter={() =>
-                playOptionSound(
-                  currentGame.options[i]
-                )
-              }
-
-              onClick={() =>
-                handleSelect(i)
-              }
-            >
-              Option {num}
-            </div>
-
-          ))}
+          {[1, 2, 3, 4].map(
+            (num, i) => (
+              <button
+                key={i}
+                type="button"
+                className={`circle ${
+                  selected === i
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleSelect(i)
+                }
+              >
+                Option {num}
+              </button>
+            )
+          )}
 
         </div>
 
-        <div className="feedback">
-          {feedback}
-        </div>
+        {/* FEEDBACK */}
+
+        {feedback && (
+          <div
+            className={`feedback ${
+              feedback.startsWith(
+                "Correct"
+              )
+                ? "feedback-correct"
+                : "feedback-wrong"
+            }`}
+          >
+            {feedback}
+          </div>
+        )}
+
+        {/* AI MESSAGE */}
 
         {aiMessage && (
-          <div className="feedback">
+          <div className="feedback ai-feedback">
             🤖 {aiMessage}
           </div>
         )}
 
-        {selected !== null && (
+        {/* BACKUP NEXT BUTTON
+            Correct answer normally advances automatically. */}
 
-          <button onClick={nextQuestion}>
+        {selected !== null && (
+          <button
+            className="next-btn"
+            onClick={nextQuestion}
+          >
             Next ➡
           </button>
-
         )}
 
       </div>
-
     </div>
   );
 }

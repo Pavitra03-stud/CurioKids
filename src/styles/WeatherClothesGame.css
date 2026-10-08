@@ -1808,3 +1808,197 @@
 .weather-page .weather-main {
   background: transparent !important;
 }
+/* =========================================================
+   COMPLETION SCREEN FIX ONLY
+   DO NOT CHANGE ANY OTHER GAME SCREEN
+   ========================================================= */
+
+.weather-page .completion-main {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+
+  width: min(1100px, 94%) !important;
+  min-height: 0 !important;
+  height: auto !important;
+
+  padding: 38px 0 60px !important;
+}
+
+.weather-page .completion-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  width: min(650px, 94%) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  margin: 20px auto 45px !important;
+  padding: 38px 30px !important;
+
+  text-align: center !important;
+
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Keep every completion element stacked vertically */
+.weather-page .completion-card > * {
+  position: relative !important;
+
+  display: block !important;
+
+  width: auto !important;
+
+  flex: 0 0 auto !important;
+
+  align-self: center !important;
+
+  z-index: 2 !important;
+}
+
+/* Foxy */
+.weather-page .completion-mascot {
+  display: block !important;
+
+  width: auto !important;
+
+  margin: 0 auto 5px !important;
+
+  flex-shrink: 0 !important;
+}
+
+/* Weather Adventure badge */
+.weather-page .completion-tag {
+  display: inline-block !important;
+
+  width: fit-content !important;
+
+  margin: 0 auto !important;
+
+  flex-shrink: 0 !important;
+}
+
+/* Great Adventure */
+.weather-page .completion-card h1 {
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 12px 0 5px !important;
+
+  text-align: center !important;
+
+  flex-shrink: 0 !important;
+}
+
+/* Subtitle */
+.weather-page .completion-subtitle {
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 10px 0 20px !important;
+
+  text-align: center !important;
+
+  flex-shrink: 0 !important;
+}
+
+/* Score */
+.weather-page .score-board {
+  display: flex !important;
+  flex-direction: column !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: min(350px, 100%) !important;
+
+  margin: 18px auto !important;
+
+  flex-shrink: 0 !important;
+}
+
+/* Great Job / Perfect message */
+.weather-page .completion-message {
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 18px 0 !important;
+
+  text-align: center !important;
+
+  flex-shrink: 0 !important;
+}
+
+/* Message subtitle */
+.weather-page .completion-message span {
+  display: block !important;
+
+  width: 100% !important;
+
+  text-align: center !important;
+}
+
+/* Play Again */
+.weather-page .completion-card .start-game-btn {
+  display: block !important;
+
+  width: min(360px, 100%) !important;
+
+  margin: 20px auto 0 !important;
+
+  flex-shrink: 0 !important;
+}
+
+
+/* =========================================================
+   MOBILE COMPLETION
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .weather-page .completion-main {
+    width: 94% !important;
+
+    padding: 25px 0 45px !important;
+  }
+
+  .weather-page .completion-card {
+    width: 94% !important;
+
+    padding: 30px 18px !important;
+
+    margin-top: 10px !important;
+  }
+
+  .weather-page .completion-card h1 {
+    width: 100% !important;
+
+    font-size: clamp(36px, 10vw, 50px) !important;
+  }
+
+  .weather-page .score-board {
+    width: min(320px, 100%) !important;
+  }
+
+  .weather-page .completion-message {
+    width: 100% !important;
+  }
+}
+/* Fix completion "Great Job!" visibility */
+.weather-page .completion-message {
+  color: #ffffff !important;
+  text-shadow: 0 3px 0 rgba(70, 35, 15, 0.45) !important;
+}
+
+.weather-page .completion-message span {
+  color: #fff8df !important;
+  text-shadow: 0 2px 0 rgba(70, 35, 15, 0.35) !important;
+}

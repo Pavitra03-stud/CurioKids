@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap");
 
+
 /* =========================================================
    PATTERN COPY GAME
    CurioKids Jungle Theme
@@ -8,6 +9,11 @@
 * {
   box-sizing: border-box;
 }
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
 
 .pattern-page {
   min-height: 100vh;
@@ -169,7 +175,6 @@
 
   border-radius: 28px;
 
-  /* Wooden appearance */
   background:
     repeating-linear-gradient(
       0deg,
@@ -200,8 +205,6 @@
 }
 
 
-/* Wooden board inner highlight */
-
 .pattern-box::before {
   content: "";
 
@@ -217,7 +220,9 @@
 }
 
 
-/* Pattern emojis */
+/* =========================================================
+   PATTERN EMOJIS
+   ========================================================= */
 
 .pattern-box span {
   position: relative;
@@ -267,13 +272,13 @@
 }
 
 
-/* Wooden framed choice */
-
 .color-btn {
   width: 100%;
+
   min-height: 115px;
 
   display: grid;
+
   place-items: center;
 
   padding: 12px;
@@ -311,17 +316,6 @@
 }
 
 
-/* Inner cream button */
-
-.color-btn::after {
-  content: "";
-
-  position: absolute;
-}
-
-
-/* Hover */
-
 .color-btn:hover {
   transform: translateY(-5px);
 
@@ -331,8 +325,6 @@
     0 17px 24px rgba(45, 64, 35, 0.25);
 }
 
-
-/* Click */
 
 .color-btn:active {
   transform: translateY(3px);
@@ -446,94 +438,407 @@
 
 
 /* =========================================================
-   RESPONSIVE
+   ⭐ COMPLETION SCREEN
    ========================================================= */
 
-@media (max-width: 800px) {
+.pattern-complete {
+  position: relative;
 
-  .pattern-page {
-    padding: 95px 18px 40px;
+  z-index: 10;
+
+  width: min(620px, 92vw);
+
+  margin-top: 90px;
+
+  padding: 38px 45px 42px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  border: 7px solid #6e3f20;
+
+  border-radius: 30px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(92, 48, 22, 0.05) 0px,
+      rgba(92, 48, 22, 0.05) 3px,
+      transparent 3px,
+      transparent 10px
+    ),
+    linear-gradient(
+      145deg,
+      #c98542 0%,
+      #a9602d 48%,
+      #c47a3c 100%
+    );
+
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 208, 123, 0.4),
+    inset 0 0 0 10px rgba(82, 42, 19, 0.12),
+    0 9px 0 #633719,
+    0 22px 35px rgba(0, 0, 0, 0.35);
+
+  animation:
+    completionAppear 0.45s ease;
+}
+
+
+/* Inner wooden border */
+
+.pattern-complete::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 12px;
+
+  border: 2px solid
+    rgba(255, 224, 155, 0.38);
+
+  border-radius: 19px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   COMPLETION EMOJI
+   ========================================================= */
+
+.complete-emoji {
+  position: relative;
+
+  z-index: 2;
+
+  width: 78px;
+  height: 78px;
+
+  display: grid;
+
+  place-items: center;
+
+  margin-bottom: 8px;
+
+  border-radius: 50%;
+
+  background: #fff5d5;
+
+  border: 4px solid #e7bd63;
+
+  font-size: 3.2rem;
+
+  box-shadow:
+    0 6px 0 #70401f,
+    0 10px 18px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   COMPLETION TITLE
+   ========================================================= */
+
+.pattern-complete h2 {
+  position: relative;
+
+  z-index: 2;
+
+  margin: 8px 0 5px;
+
+  color: #fff8df;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(
+    2rem,
+    4vw,
+    2.8rem
+  );
+
+  font-weight: 800;
+
+  line-height: 1.05;
+
+  text-align: center;
+
+  text-shadow:
+    0 4px 0 #633719,
+    0 6px 12px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   COMPLETION SUBTITLE
+   ========================================================= */
+
+.complete-subtitle {
+  position: relative;
+
+  z-index: 2;
+
+  margin: 2px 0 22px;
+
+  color: #fff8df;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 17px;
+
+  font-weight: 900;
+
+  text-align: center;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================================================
+   SCORE CARD
+   ========================================================= */
+
+.final-score {
+  position: relative;
+
+  z-index: 2;
+
+  width: 250px;
+
+  min-height: 145px;
+
+  padding: 18px 25px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 4px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff4c5,
+      #f2d47e
+    );
+
+  border: 5px solid #e7bd63;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 7px 0 #70401f,
+    0 12px 22px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   SCORE LABEL
+   ========================================================= */
+
+.final-score span {
+  display: block;
+
+  color: #68431f;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  line-height: 1.1;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   SCORE NUMBER
+   ========================================================= */
+
+.final-score strong {
+  display: flex;
+
+  align-items: baseline;
+
+  justify-content: center;
+
+  color: #174f37;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 58px;
+
+  font-weight: 800;
+
+  line-height: 0.95;
+
+  text-shadow:
+    0 3px 0 rgba(115, 77, 25, 0.25);
+}
+
+
+/* =========================================================
+   SCORE / TOTAL
+   ========================================================= */
+
+.final-score strong small {
+  margin-left: 5px;
+
+  color: #68431f;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 32px;
+
+  font-weight: 800;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   SCORE MESSAGE
+   ========================================================= */
+
+.score-message {
+  position: relative;
+
+  z-index: 2;
+
+  margin: 22px 0 20px;
+
+  padding: 10px 22px;
+
+  min-height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 24px;
+
+  background:
+    rgba(255, 246, 207, 0.96);
+
+  border: 3px solid #e7bd63;
+
+  color: #174f37;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+  text-align: center;
+
+  box-shadow:
+    0 4px 0 #70401f,
+    0 7px 12px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   PLAY AGAIN
+   ========================================================= */
+
+.pattern-complete .next-btn {
+  position: relative;
+
+  z-index: 2;
+
+  width: 260px;
+
+  min-height: 56px;
+
+  margin-top: 2px;
+
+  padding: 13px 30px;
+
+  border: 4px solid #155333;
+
+  border-radius: 18px;
+
+  color: #fffdf0;
+
+  background:
+    linear-gradient(
+      180deg,
+      #55b96d,
+      #2f9653
+    );
+
+  box-shadow:
+    0 6px 0 #155333,
+    0 10px 18px rgba(0, 0, 0, 0.25);
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 17px;
+
+  font-weight: 900;
+}
+
+
+.pattern-complete .next-btn:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 10px 0 #155333,
+    0 15px 22px rgba(0, 0, 0, 0.28);
+}
+
+
+.pattern-complete .next-btn:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    0 3px 0 #155333,
+    0 6px 12px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   COMPLETION ANIMATION
+   ========================================================= */
+
+@keyframes completionAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px)
+      scale(0.96);
   }
 
-  .pattern-header {
-    min-height: 70px;
+  to {
+    opacity: 1;
 
-    padding: 10px 20px;
-  }
-
-  .pattern-box {
-    width: min(620px, 94vw);
-
-    min-height: 160px;
-
-    padding: 25px;
-
-    gap: 18px;
-  }
-
-  .pattern-box span {
-    width: 80px;
-    height: 80px;
-
-    font-size: 3rem;
-  }
-
-  .color-options {
-    width: min(620px, 94vw);
-
-    gap: 14px;
-  }
-
-  .color-btn {
-    min-height: 95px;
-
-    font-size: 2.8rem;
+    transform:
+      translateY(0)
+      scale(1);
   }
 }
 
 
-@media (max-width: 520px) {
-
-  .pattern-page {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .pattern-text {
-    font-size: 25px;
-  }
-
-  .pattern-box {
-    min-height: 145px;
-
-    padding: 20px 14px;
-
-    gap: 10px;
-  }
-
-  .pattern-box span {
-    width: 65px;
-    height: 65px;
-
-    font-size: 2.3rem;
-
-    border-width: 3px;
-  }
-
-  .color-options {
-    grid-template-columns: repeat(2, 1fr);
-
-    width: min(360px, 92vw);
-
-    gap: 16px;
-  }
-
-  .color-btn {
-    min-height: 100px;
-
-    font-size: 3rem;
-  }
-}
 /* =========================================================
    LARGE ROUND + SCORE
    ========================================================= */
@@ -585,6 +890,7 @@
     0 10px 18px rgba(0, 0, 0, 0.18);
 }
 
+
 .pattern-round span {
   font-size: 13px;
 
@@ -595,6 +901,7 @@
   color: #fff4c7;
 }
 
+
 .pattern-round strong {
   color: #ffe878;
 
@@ -604,6 +911,7 @@
 
   line-height: 1;
 }
+
 
 .pattern-round small {
   color: #fff4c7;
@@ -660,4 +968,194 @@
   font-weight: 800;
 
   white-space: nowrap;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .pattern-page {
+    padding: 95px 18px 40px;
+  }
+
+  .pattern-header {
+    min-height: 70px;
+
+    padding: 10px 20px;
+  }
+
+  .pattern-box {
+    width: min(620px, 94vw);
+
+    min-height: 160px;
+
+    padding: 25px;
+
+    gap: 18px;
+  }
+
+  .pattern-box span {
+    width: 80px;
+    height: 80px;
+
+    font-size: 3rem;
+  }
+
+  .color-options {
+    width: min(620px, 94vw);
+
+    gap: 14px;
+  }
+
+  .color-btn {
+    min-height: 95px;
+
+    font-size: 2.8rem;
+  }
+
+  .pattern-round {
+    left: 18px;
+    top: 88px;
+
+    min-width: 125px;
+
+    padding: 9px 15px;
+  }
+
+  .pattern-score {
+    right: 18px;
+    top: 88px;
+
+    min-width: 125px;
+
+    padding: 10px 15px;
+
+    font-size: 17px;
+  }
+
+  .pattern-complete {
+    width: min(600px, 94vw);
+
+    margin-top: 55px;
+
+    padding: 32px 25px 35px;
+  }
+}
+
+
+@media (max-width: 520px) {
+
+  .pattern-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .pattern-text {
+    font-size: 25px;
+  }
+
+  .pattern-box {
+    min-height: 145px;
+
+    padding: 20px 14px;
+
+    gap: 10px;
+  }
+
+  .pattern-box span {
+    width: 65px;
+    height: 65px;
+
+    font-size: 2.3rem;
+
+    border-width: 3px;
+  }
+
+  .color-options {
+    grid-template-columns: repeat(2, 1fr);
+
+    width: min(360px, 92vw);
+
+    gap: 16px;
+  }
+
+  .color-btn {
+    min-height: 100px;
+
+    font-size: 3rem;
+  }
+
+  .pattern-round {
+    position: relative;
+
+    top: auto;
+    left: auto;
+
+    margin-top: 5px;
+
+    min-width: 125px;
+  }
+
+  .pattern-score {
+    position: relative;
+
+    top: auto;
+    right: auto;
+
+    margin-top: 12px;
+
+    min-width: 125px;
+  }
+
+  .pattern-complete {
+    width: 94vw;
+
+    margin-top: 30px;
+
+    padding: 28px 16px 32px;
+
+    border-width: 6px;
+  }
+
+  .complete-emoji {
+    width: 68px;
+    height: 68px;
+
+    font-size: 2.7rem;
+  }
+
+  .pattern-complete h2 {
+    font-size: 2rem;
+  }
+
+  .complete-subtitle {
+    font-size: 15px;
+  }
+
+  .final-score {
+    width: 210px;
+
+    min-height: 130px;
+  }
+
+  .final-score strong {
+    font-size: 50px;
+  }
+
+  .final-score strong small {
+    font-size: 28px;
+  }
+
+  .score-message {
+    font-size: 16px;
+
+    padding: 9px 15px;
+  }
+
+  .pattern-complete .next-btn {
+    width: 220px;
+  }
 }

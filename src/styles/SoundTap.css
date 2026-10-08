@@ -1,14 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap");
 
-/* =====================================================
-   FULL SOUND TAP PAGE
-   ===================================================== */
+* {
+  box-sizing: border-box;
+}
 
 .soundtap-container {
   min-height: 100vh;
   width: 100%;
-
-  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
@@ -23,7 +21,8 @@
       rgba(20, 80, 35, 0.05),
       rgba(20, 80, 35, 0.05)
     ),
-    url("../assets/gamesHome.png") center center / cover fixed no-repeat;
+    url("../assets/gamesHome.png")
+      center center / cover fixed no-repeat;
 
   color: #173f31;
 }
@@ -55,8 +54,7 @@
 
 
 /* =====================================================
-   MAIN GAME PANEL
-   WOODEN STYLE
+   MAIN WOODEN CARD
    ===================================================== */
 
 .soundtap-card {
@@ -64,11 +62,13 @@
 
   min-height: 570px;
 
-  box-sizing: border-box;
-
   position: relative;
 
   padding: 35px 38px 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   text-align: center;
 
@@ -92,7 +92,9 @@
 }
 
 
-/* Inner wooden border */
+/* =====================================================
+   INNER BORDER
+   ===================================================== */
 
 .soundtap-card::before {
   content: "";
@@ -111,7 +113,9 @@
 }
 
 
-/* Decorative leaf */
+/* =====================================================
+   LEAF
+   ===================================================== */
 
 .soundtap-card::after {
   content: "🍃";
@@ -119,7 +123,6 @@
   position: absolute;
 
   top: 25px;
-
   left: 25px;
 
   font-size: 30px;
@@ -131,29 +134,29 @@
 
 
 /* =====================================================
-   KEEP CONTENT ABOVE DECORATION
+   CONTENT ABOVE DECORATION
    ===================================================== */
 
 .soundtap-card > * {
   position: relative;
-
   z-index: 1;
 }
 
 
 /* =====================================================
-   IMAGE
-   WHITE IMAGE AREA
+   ANIMAL IMAGE
    ===================================================== */
 
+.animal-image,
 .soundtap-card img {
   width: 230px !important;
-
   height: 260px !important;
+
+  flex-shrink: 0;
 
   display: block;
 
-  margin: 5px auto 15px;
+  margin: 0 auto 14px;
 
   object-fit: contain;
 
@@ -172,11 +175,13 @@
 
 
 /* =====================================================
-   WORD / ANIMAL NAME
+   ANIMAL NAME
    ===================================================== */
 
 .soundtap-word {
-  margin: 8px 0 18px;
+  width: 100%;
+
+  margin: 0 0 18px;
 
   font-family: "Baloo 2", sans-serif;
 
@@ -184,9 +189,11 @@
 
   font-weight: 800;
 
-  line-height: 1;
+  line-height: 1.05;
 
   color: #fff4d3;
+
+  text-align: center;
 
   text-shadow:
     0 3px 0 #60391e,
@@ -195,13 +202,42 @@
 
 
 /* =====================================================
-   HEAR ME BUTTON
+   ACTION BUTTON AREA
+   ===================================================== */
+
+.soundtap-actions {
+  width: 100%;
+
+  min-height: 50px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin: 0 auto;
+}
+
+
+/* =====================================================
+   HEAR ME
    ===================================================== */
 
 .audio-btn {
-  padding: 12px 27px;
+  display: inline-flex;
 
-  min-width: 145px;
+  align-items: center;
+
+  justify-content: center;
+
+  width: 160px;
+
+  height: 56px;
+
+  padding: 0;
 
   border-radius: 22px;
 
@@ -228,54 +264,123 @@
     0 4px 0 #145c3b,
     0 7px 12px rgba(0, 0, 0, 0.25);
 
-  transition: 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .audio-btn:hover {
   transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 0 #145c3b,
+    0 10px 15px rgba(0, 0, 0, 0.28);
+}
+
+.audio-btn:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    0 2px 0 #145c3b;
 }
 
 
 /* =====================================================
-   OPTIONS AREA
+   AI BUTTON
+   ===================================================== */
+
+.ai-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 150px;
+
+  height: 56px;
+
+  padding: 0;
+
+  border-radius: 22px;
+
+  border: 3px solid #e8bd62;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f5bd48,
+      #dc942d
+    );
+
+  color: #563519;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 15px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 0 #8a5525,
+    0 7px 12px rgba(0, 0, 0, 0.24);
+
+  transition: 0.2s ease;
+}
+
+.ai-btn:hover {
+  transform: translateY(-2px);
+}
+
+.ai-btn:disabled {
+  opacity: 0.7;
+
+  cursor: wait;
+
+  transform: none;
+}
+
+
+/* =====================================================
+   OPTIONS
    ===================================================== */
 
 .circle-container {
   width: 100%;
 
-  display: flex;
+  margin-top: 28px;
 
-  align-items: stretch;
+  display: grid;
 
-  justify-content: center;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
 
   gap: 14px;
 
-  margin-top: 28px;
+  align-items: stretch;
 
-  flex-wrap: nowrap;
+  justify-items: stretch;
 }
 
 
 /* =====================================================
-   WOODEN OPTION CARDS
-   FORCE RECTANGULAR SHAPE
+   OPTION BUTTON
    ===================================================== */
 
-.circle-container > *,
-.circle-container button,
-.circle-container div {
-  width: 110px !important;
-
-  min-width: 0 !important;
+.circle-container .circle {
+  width: 100% !important;
 
   height: 82px !important;
 
+  min-width: 0 !important;
+
   min-height: 82px !important;
 
-  flex: 1 1 0 !important;
+  margin: 0 !important;
 
-  box-sizing: border-box !important;
+  padding: 10px 5px !important;
 
   display: flex !important;
 
@@ -285,13 +390,11 @@
 
   text-align: center !important;
 
-  padding: 10px !important;
-
-  margin: 0 !important;
+  white-space: nowrap;
 
   border-radius: 16px !important;
 
-  /* WOOD */
+  border: 3px solid #e8bd62 !important;
 
   background:
     linear-gradient(
@@ -301,46 +404,26 @@
       #854720 100%
     ) !important;
 
-  /* GOLD BORDER */
+  color: #fff6d8 !important;
 
-  border: 3px solid #e8bd62 !important;
+  font-family: "Nunito", sans-serif !important;
 
-  /* WOODEN BOTTOM */
+  font-size: 15px !important;
+
+  font-weight: 900 !important;
+
+  line-height: 1 !important;
+
+  cursor: pointer;
 
   box-shadow:
     0 6px 0 #59361e,
     0 10px 16px rgba(0, 0, 0, 0.28) !important;
 
-  color: #fff6d8 !important;
-
-  font-family: "Nunito", sans-serif !important;
-
-  font-size: 16px !important;
-
-  line-height: 1.15 !important;
-
-  font-weight: 900 !important;
-
-  cursor: pointer;
-
-  position: relative;
-
-  overflow: hidden;
-
   transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease !important;
-}
-
-
-/* =====================================================
-   REMOVE ANY OLD CIRCLE STYLING
-   ===================================================== */
-
-.circle-container > *::before,
-.circle-container > *::after {
-  border-radius: 0 !important;
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
 
@@ -348,9 +431,7 @@
    OPTION HOVER
    ===================================================== */
 
-.circle-container > *:hover,
-.circle-container button:hover,
-.circle-container div:hover {
+.circle-container .circle:hover {
   transform: translateY(-4px) !important;
 
   background:
@@ -368,12 +449,10 @@
 
 
 /* =====================================================
-   OPTION ACTIVE / SELECTED
+   SELECTED CORRECT OPTION
    ===================================================== */
 
-.circle-container > *.selected,
-.circle-container > *.active,
-.circle-container > *:active {
+.circle-container .circle.selected {
   background:
     linear-gradient(
       145deg,
@@ -397,23 +476,63 @@
    ===================================================== */
 
 .feedback {
-  min-height: 30px;
+  width: min(430px, 100%);
 
-  margin-top: 20px;
+  min-height: 50px;
 
-  padding: 7px 20px;
+  margin: 22px auto 0;
+
+  padding: 10px 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 
   border-radius: 18px;
 
-  background: rgba(255, 244, 211, 0.15);
+  background: rgba(255, 244, 211, 0.95);
 
-  border: 2px solid rgba(255, 235, 180, 0.5);
+  border: 2px solid #e8bd62;
 
-  color: #fff7df;
+  color: #205b48;
 
-  font-size: 17px;
+  font-size: 16px;
 
   font-weight: 900;
+
+  line-height: 1.25;
+
+  text-align: center;
+
+  box-shadow:
+    0 5px 0 rgba(79, 45, 22, 0.25),
+    0 8px 14px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =====================================================
+   CORRECT / WRONG
+   ===================================================== */
+
+.feedback-correct {
+  color: #176343 !important;
+}
+
+.feedback-wrong {
+  color: #8a5428 !important;
+}
+
+
+/* =====================================================
+   AI MESSAGE
+   ===================================================== */
+
+.ai-feedback {
+  margin-top: 12px;
+
+  min-height: 52px;
 }
 
 
@@ -422,9 +541,19 @@
    ===================================================== */
 
 .next-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 150px;
+
+  height: 50px;
+
   margin-top: 20px;
 
-  padding: 12px 28px;
+  padding: 0;
 
   border-radius: 24px;
 
@@ -450,6 +579,93 @@
   box-shadow:
     0 4px 0 #145c3b,
     0 7px 12px rgba(0, 0, 0, 0.25);
+
+  transition: 0.2s ease;
+}
+
+.next-btn:hover {
+  transform: translateY(-2px);
+}
+
+.next-btn:active {
+  transform: translateY(2px);
+}
+
+
+/* =====================================================
+   RESULT
+   ===================================================== */
+
+.result-card {
+  min-height: 430px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.result-emoji {
+  font-size: 64px;
+
+  margin-bottom: 5px;
+}
+
+.result-title {
+  margin: 0;
+
+  color: #fff4d3;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 48px;
+
+  font-weight: 800;
+
+  text-align: center;
+
+  text-shadow:
+    0 3px 0 #60391e,
+    0 5px 8px rgba(0, 0, 0, 0.3);
+}
+
+.result-score {
+  margin: 14px 0 5px;
+
+  color: #fff8df;
+
+  font-size: 24px;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 2px 0 #60391e;
+}
+
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+  .soundtap-card {
+    width: min(600px, 94vw);
+
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .circle-container {
+    gap: 10px;
+  }
+
+  .circle-container .circle {
+    font-size: 14px !important;
+  }
 }
 
 
@@ -465,15 +681,20 @@
 
   .soundtap-title {
     font-size: 38px;
+
+    margin-bottom: 24px;
   }
 
   .soundtap-card {
     width: 95vw;
 
+    min-height: 540px;
+
     padding: 28px 15px 32px;
   }
 
-  .soundtap-card img {
+  .soundtap-card img,
+  .animal-image {
     width: 190px !important;
 
     height: 220px !important;
@@ -481,23 +702,104 @@
 
   .soundtap-word {
     font-size: 36px;
+
+    margin-bottom: 15px;
+  }
+
+  .soundtap-actions {
+    width: 100%;
+  }
+
+  .audio-btn {
+    width: 145px;
+
+    height: 52px;
+
+    font-size: 15px;
+  }
+
+  .ai-btn {
+    width: 135px;
+
+    height: 52px;
+
+    font-size: 14px;
   }
 
   .circle-container {
     gap: 8px;
+
+    margin-top: 24px;
   }
 
-  .circle-container > *,
-  .circle-container button,
-  .circle-container div {
+  .circle-container .circle {
     height: 70px !important;
 
     min-height: 70px !important;
 
-    padding: 5px !important;
+    font-size: 12px !important;
 
     border-radius: 13px !important;
+  }
 
-    font-size: 13px !important;
+  .feedback {
+    width: 100%;
+
+    min-height: 46px;
+
+    font-size: 14px;
+
+    padding: 8px 12px;
+  }
+
+  .next-btn {
+    width: 135px;
+
+    height: 46px;
+
+    font-size: 15px;
+  }
+
+  .result-title {
+    font-size: 38px;
+  }
+
+  .result-score {
+    font-size: 21px;
+  }
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+   ===================================================== */
+
+@media (max-width: 420px) {
+
+  .soundtap-card {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .soundtap-actions {
+    gap: 7px;
+  }
+
+  .audio-btn {
+    width: 135px;
+  }
+
+  .ai-btn {
+    width: 125px;
+  }
+
+  .circle-container {
+    gap: 6px;
+  }
+
+  .circle-container .circle {
+    font-size: 11px !important;
+
+    padding: 5px 2px !important;
   }
 }

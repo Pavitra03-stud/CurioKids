@@ -179,16 +179,9 @@ export default function PatternCopy({ goBack }) {
 
   /* =========================================================
      START GAME
-     
+
      IMPORTANT:
      We intentionally start a fresh game here.
-     
-     This prevents an old Firebase state such as:
-       showPattern: false
-       pattern: [...]
-     
-     from causing the first screen to say
-     "Repeat the pattern" with an empty board.
      ========================================================= */
 
   useEffect(() => {
@@ -402,7 +395,6 @@ export default function PatternCopy({ goBack }) {
 
     /*
      * Clear the wrong answer after a short delay.
-     * The child stays on the same round and can retry.
      */
 
     setTimeout(() => {
@@ -463,6 +455,10 @@ export default function PatternCopy({ goBack }) {
         </div>
 
 
+        {/* =================================================
+            BEAUTIFUL COMPLETION CARD
+            ================================================= */}
+
         <div className="pattern-complete">
 
           <div className="complete-emoji">
@@ -475,10 +471,12 @@ export default function PatternCopy({ goBack }) {
           </h2>
 
 
-          <p>
+          <p className="complete-subtitle">
             You finished all {TOTAL_ROUNDS} rounds!
           </p>
 
+
+          {/* SCORE */}
 
           <div className="final-score">
 
@@ -487,11 +485,16 @@ export default function PatternCopy({ goBack }) {
             </span>
 
             <strong>
-              {score} / {TOTAL_ROUNDS}
+              {score}
+              <small>
+                / {TOTAL_ROUNDS}
+              </small>
             </strong>
 
           </div>
 
+
+          {/* SCORE MESSAGE */}
 
           <p className="score-message">
 
@@ -504,6 +507,8 @@ export default function PatternCopy({ goBack }) {
 
           </p>
 
+
+          {/* PLAY AGAIN */}
 
           <button
             className="next-btn"
@@ -668,14 +673,6 @@ export default function PatternCopy({ goBack }) {
         {message}
 
       </h2>
-
-
-      {/* =====================================================
-          NO NEXT BUTTON
-          
-          Correct answer automatically moves
-          to the next round.
-          ===================================================== */}
 
     </div>
   );

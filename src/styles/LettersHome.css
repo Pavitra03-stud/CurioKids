@@ -1,148 +1,1158 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800;900&family=Nunito:wght@500;600;700;800;900&display=swap");
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
 .letters-home-page {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-}
-
-.letters-home-header {
-  background: #184c35;
-  color: white;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
-  border-radius: 0 0 14px 14px;
+
+  min-height: 100vh;
+  width: 100%;
+
+  padding-top: 64px;
+  padding-bottom: 40px;
+
+  overflow-x: hidden;
+
+  font-family: "Nunito", sans-serif;
+
+  color: #183b2a;
+
+  isolation: isolate;
 }
 
-.letters-home-header h1 {
-  font-size: 20px;
-  margin: 0;
-  font-weight: bold;
+
+/* =========================================================
+   JUNGLE BACKGROUND
+========================================================= */
+
+.letters-home-page::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  z-index: -10;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      rgba(20, 80, 50, 0.06),
+      rgba(20, 80, 50, 0.06)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
 
-.letters-back-btn {
+
+/* =========================================================
+   SOFT LIGHT
+========================================================= */
+
+.letters-home-page::after {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  z-index: -9;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 14% 25%,
+      rgba(255, 245, 170, 0.10),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 87% 35%,
+      rgba(255, 255, 255, 0.08),
+      transparent 22%
+    );
+}
+
+
+/* =========================================================
+   DECORATIVE CANOPY
+========================================================= */
+
+.letters-canopy {
+  position: fixed;
+
+  top: -70px;
+
+  width: 390px;
+  height: 180px;
+
+  z-index: -4;
+
+  pointer-events: none;
+
+  opacity: 0.7;
+}
+
+.letters-canopy-left {
+  left: -120px;
+}
+
+.letters-canopy-right {
+  right: -120px;
+
+  transform: scaleX(-1);
+}
+
+.letters-canopy span {
   position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  color: #222;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
 
-.letters-home-content {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 32px 20px 50px;
-  text-align: center;
-}
-
-.letters-home-subtitle {
-  font-size: 20px;
-  color: #173b33;
-  margin-bottom: 40px;
-  font-weight: 600;
-}
-
-.letters-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-  justify-content: center;
-}
-
-.letters-feature-card {
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 28px;
-  padding: 38px 28px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: center;
-  min-height: 260px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.letters-feature-card:hover {
-  transform: translateY(-6px);
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.letters-feature-icon {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 38px;
-  margin-bottom: 24px;
+
+  opacity: 0.7;
 }
 
-.learning-icon {
-  background: #efe3b8;
+.letters-canopy span:nth-child(1) {
+  left: 25%;
+  top: 55%;
 }
 
-.gaming-icon {
-  background: #e7dff7;
+.letters-canopy span:nth-child(2) {
+  left: 52%;
+  top: 24%;
 }
 
-.letters-feature-card h2 {
+.letters-canopy span:nth-child(3) {
+  right: 18%;
+  top: 48%;
+}
+
+
+/* =========================================================
+   MIST
+========================================================= */
+
+.letters-mist {
+  position: fixed;
+
+  border-radius: 50%;
+
+  filter: blur(45px);
+
+  pointer-events: none;
+
+  z-index: -3;
+
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.letters-mist-one {
+  width: 300px;
+  height: 130px;
+
+  left: -70px;
+  top: 320px;
+}
+
+.letters-mist-two {
+  width: 340px;
+  height: 140px;
+
+  right: -80px;
+  top: 620px;
+}
+
+
+/* =========================================================
+   FLOATING LEAVES
+========================================================= */
+
+.letters-floating-leaves {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+.letters-leaf {
+  position: absolute;
+
+  font-size: 27px;
+
+  opacity: 0.45;
+}
+
+.leaf-one {
+  left: 3%;
+  top: 43%;
+
+  transform: rotate(-18deg);
+}
+
+.leaf-two {
+  right: 4%;
+  top: 57%;
+
+  transform: rotate(20deg);
+}
+
+.leaf-three {
+  left: 91%;
+  top: 30%;
+
+  transform: rotate(-12deg);
+}
+
+
+/* =========================================================
+   NAVBAR
+   SAME STYLE AS GAMES HOME
+========================================================= */
+
+.letters-header {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 64px;
+
+  z-index: 9999;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #075c46;
+
+  border-bottom: 3px solid #e7c64f;
+
+  border-radius: 0 0 14px 14px;
+
+  box-shadow:
+    0 4px 12px rgba(17, 57, 38, 0.24);
+}
+
+
+/* =========================================================
+   NAVBAR TITLE
+========================================================= */
+
+.letters-navbar-title {
+  color: #fff4cf;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 23px;
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  text-shadow:
+    0 2px 0 #164a36;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.letters-back-button {
+  position: absolute;
+
+  left: 18px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #fff7dc;
+
+  color: #184c35;
+
+  font-family: "Nunito", sans-serif;
+
   font-size: 22px;
-  color: #111;
-  margin: 0 0 16px;
-  font-weight: bold;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 0 rgba(72, 47, 18, 0.18);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
-.letters-feature-card p {
-  font-size: 18px;
-  color: #234236;
-  line-height: 1.7;
+.letters-back-button:hover {
+  transform: translateY(calc(-50% - 2px));
+
+  box-shadow:
+    0 5px 0 rgba(72, 47, 18, 0.18);
+}
+
+.letters-back-button:active {
+  transform: translateY(calc(-50% + 1px));
+
+  box-shadow:
+    0 2px 0 rgba(72, 47, 18, 0.18);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.letters-content {
+  position: relative;
+
+  width: min(1180px, calc(100% - 50px));
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.letters-hero {
+  min-height: 250px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  padding:
+    32px 20px 12px;
+}
+
+.letters-hero-copy {
+  width: 100%;
+
+  max-width: 850px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO KICKER
+========================================================= */
+
+.letters-kicker {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 8px;
+
+  padding:
+    6px 14px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 250, 218, 0.90);
+
+  color: #286145;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.2px;
+}
+
+
+/* =========================================================
+   HERO HEADING
+========================================================= */
+
+.letters-hero h2 {
   margin: 0;
-  max-width: 300px;
+
+  color: #fff3c7;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(42px, 5vw, 64px);
+
+  line-height: 0.95;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #155039,
+    0 6px 12px rgba(36, 74, 42, 0.35);
 }
 
-.letters-back-btn:hover {
-  transform: translateY(-50%) scale(1.05);
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
+
+.letters-hero p {
+  max-width: 650px;
+
+  margin:
+    12px auto 14px;
+
+  color: #fff7dc;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  line-height: 1.4;
+
+  text-shadow:
+    0 2px 5px rgba(31, 71, 41, 0.30);
 }
 
-@media (max-width: 768px) {
-  .letters-cards-grid {
+
+/* =========================================================
+   TRAITS
+========================================================= */
+
+.letters-traits {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+.letters-traits span {
+  padding:
+    7px 13px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 250, 220, 0.92);
+
+  color: #235d43;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 3px 0 rgba(80, 77, 32, 0.13);
+}
+
+
+/* =========================================================
+   LETTER SECTION
+========================================================= */
+
+.letters-section {
+  position: relative;
+
+  margin-top: 5px;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.letters-section-heading {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
+}
+
+.letters-section-kicker {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #fff5cf;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.4px;
+
+  text-shadow:
+    0 2px 5px rgba(31, 71, 41, 0.35);
+}
+
+.letters-section-heading h2 {
+  margin: 0;
+
+  color: #fff8df;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(30px, 3.4vw, 42px);
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #155039,
+    0 5px 10px rgba(36, 74, 42, 0.30);
+}
+
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+.letters-count {
+  min-width: 125px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    10px 16px;
+
+  border-radius: 17px;
+
+  background:
+    rgba(255, 248, 212, 0.92);
+
+  color: #245d41;
+
+  box-shadow:
+    0 5px 0 rgba(71, 71, 33, 0.14);
+}
+
+.letters-count strong {
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 31px;
+
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+.letters-count span {
+  max-width: 65px;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  line-height: 1.2;
+
+  letter-spacing: 0.6px;
+}
+
+
+/* =========================================================
+   ZONE GRID
+========================================================= */
+
+.letters-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 22px;
+
+  max-width: 850px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   WOODEN CARDS
+========================================================= */
+
+.letters-card {
+  position: relative;
+
+  min-height: 245px;
+
+  padding: 19px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  border:
+    3px solid #e7c16a;
+
+  border-radius: 23px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #a96832 0%,
+      #b8753b 45%,
+      #9b5d2d 100%
+    );
+
+  box-shadow:
+    0 7px 0 #70401f,
+    0 12px 22px rgba(35, 55, 25, 0.32);
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.letters-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 11px 0 #70401f,
+    0 18px 28px rgba(35, 55, 25, 0.38);
+}
+
+.letters-card:active {
+  transform: translateY(1px);
+}
+
+
+/* =========================================================
+   CARD CATEGORY
+========================================================= */
+
+.letters-card-category {
+  align-self: flex-start;
+
+  padding:
+    6px 10px;
+
+  border-radius: 999px;
+
+  background: #fff3cf;
+
+  color: #286145;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 3px 0 rgba(86, 72, 28, 0.14);
+}
+
+
+/* =========================================================
+   CARD MAIN
+========================================================= */
+
+.letters-card-main {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 20px;
+}
+
+.letters-icon-wrap {
+  width: 76px;
+
+  height: 76px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 21px;
+
+  background: #fff7dc;
+
+  border:
+    2px solid rgba(255, 255, 255, 0.55);
+
+  font-size: 39px;
+
+  box-shadow:
+    0 5px 0 rgba(87, 62, 29, 0.18);
+}
+
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
+
+.letters-card-text {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.letters-card-text h3 {
+  margin: 0;
+
+  color: #fffbea;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 24px;
+
+  font-weight: 900;
+
+  line-height: 1.05;
+
+  text-shadow:
+    0 2px 0 #7b4828;
+}
+
+.letters-card-text p {
+  margin:
+    7px 0 0;
+
+  color: #fff3d7;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   CARD BOTTOM
+========================================================= */
+
+.letters-card-bottom {
+  margin-top: auto;
+
+  padding-top: 17px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.letters-practice-button {
+  min-width: 120px;
+
+  border: 0;
+
+  padding:
+    10px 13px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  border-radius: 12px;
+
+  background: #237b4d;
+
+  color: #fffbea;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 0 rgba(27, 69, 42, 0.30);
+
+  transition:
+    transform 0.17s ease,
+    background 0.17s ease;
+}
+
+.letters-practice-button:hover {
+  transform: translateY(-2px);
+
+  background: #2f8b59;
+}
+
+.letters-practice-button:active {
+  transform: translateY(1px);
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.letters-arrow {
+  font-size: 18px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   HELPER
+========================================================= */
+
+.letters-helper {
+  color: #ffeec1;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   CARD DECORATION
+========================================================= */
+
+.letters-card-leaf {
+  position: absolute;
+
+  right: 12px;
+
+  top: 74px;
+
+  font-size: 24px;
+
+  opacity: 0.32;
+
+  transform: rotate(18deg);
+
+  pointer-events: none;
+}
+
+.letters-number {
+  position: absolute;
+
+  right: 14px;
+
+  bottom: 12px;
+
+  color: rgba(255, 245, 214, 0.27);
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 42px;
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   JUNGLE TIP
+========================================================= */
+
+.letters-tip {
+  margin-top: 28px;
+
+  padding:
+    17px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  border-radius: 21px;
+
+  background:
+    rgba(255, 249, 220, 0.93);
+
+  border:
+    2px solid rgba(229, 197, 107, 0.90);
+
+  box-shadow:
+    0 6px 0 rgba(76, 74, 31, 0.14);
+}
+
+.letters-tip-icon {
+  width: 47px;
+
+  height: 47px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 15px;
+
+  background: #ffd84f;
+
+  font-size: 22px;
+
+  box-shadow:
+    0 4px 0 rgba(110, 87, 25, 0.18);
+}
+
+.letters-tip-content {
+  flex: 1;
+}
+
+.letters-tip-content strong {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #286145;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.2px;
+}
+
+.letters-tip-content p {
+  margin: 0;
+
+  color: #395d4a;
+
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+.letters-tip-plants {
+  font-size: 24px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .letters-content {
+    width: calc(100% - 32px);
+  }
+
+  .letters-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+
+    max-width: 700px;
   }
 
-  .letters-feature-card {
-    min-height: 220px;
-    padding: 30px 20px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .letters-home-page {
+    padding-top: 60px;
   }
 
-  .letters-feature-icon {
-    width: 74px;
-    height: 74px;
-    font-size: 32px;
-    margin-bottom: 18px;
+  .letters-header {
+    height: 60px;
   }
 
-  .letters-feature-card h2 {
+  .letters-navbar-title {
     font-size: 20px;
   }
 
-  .letters-feature-card p {
-    font-size: 16px;
+  .letters-back-button {
+    left: 12px;
+
+    width: 36px;
+    height: 36px;
+
+    font-size: 20px;
   }
 
-  .letters-home-subtitle {
+  .letters-content {
+    width: calc(100% - 18px);
+  }
+
+  .letters-hero {
+    min-height: 235px;
+
+    padding:
+      24px 8px 10px;
+  }
+
+  .letters-hero h2 {
+    font-size: 43px;
+  }
+
+  .letters-hero p {
+    font-size: 12px;
+  }
+
+  .letters-section-heading {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    margin-bottom: 17px;
+  }
+
+  .letters-section-heading h2 {
+    font-size: 31px;
+  }
+
+  .letters-count {
+    min-width: 0;
+  }
+
+  .letters-card {
+    min-height: 225px;
+  }
+
+  .letters-card-text h3 {
+    font-size: 22px;
+  }
+
+  .letters-tip {
+    align-items: flex-start;
+  }
+
+  .letters-tip-plants {
+    display: none;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .letters-navbar-title {
     font-size: 18px;
   }
+
+  .letters-hero h2 {
+    font-size: 37px;
+  }
+
+  .letters-card-main {
+    gap: 11px;
+  }
+
+  .letters-icon-wrap {
+    width: 64px;
+
+    height: 64px;
+
+    font-size: 32px;
+  }
+
+  .letters-card-text h3 {
+    font-size: 20px;
+  }
+
+  .letters-card-text p {
+    font-size: 11px;
+  }
+
+  .letters-practice-button {
+    min-width: 105px;
+
+    padding:
+      9px 10px;
+  }
+
+  .letters-helper {
+    font-size: 7px;
+  }
+
 }

@@ -32,9 +32,6 @@ export default function RhymingWords() {
   const [loading, setLoading] = useState(true);
   const [completed, setCompleted] = useState(false);
 
-  // IMPORTANT:
-  // State is used for button disabled/rendering.
-  // Ref is used only as a second safety lock.
   const [isAnswering, setIsAnswering] = useState(false);
 
   const initializedRef = useRef(false);
@@ -105,8 +102,6 @@ export default function RhymingWords() {
       setCorrectAnswer(data.answer);
       setOptions(data.options);
 
-      // ⭐ VERY IMPORTANT
-      // New question must always be clickable.
       setFeedback("");
       setIsAnswering(false);
       answeringRef.current = false;
@@ -126,7 +121,7 @@ export default function RhymingWords() {
       console.error("❌ Rhyming API error:", error);
 
       // =================================================
-      // FALLBACK QUESTION
+      // FALLBACK QUESTIONS
       // =================================================
 
       const fallbackQuestions = [
@@ -212,7 +207,6 @@ export default function RhymingWords() {
         },
       ];
 
-      // Pick random fallback question
       const randomIndex = Math.floor(
         Math.random() * fallbackQuestions.length
       );
@@ -224,7 +218,6 @@ export default function RhymingWords() {
       setCorrectAnswer(fallbackQuestion.correctAnswer);
       setOptions(fallbackQuestion.options);
 
-      // ⭐ RESET ANSWER LOCK
       setFeedback("");
       setIsAnswering(false);
       answeringRef.current = false;
@@ -245,7 +238,6 @@ export default function RhymingWords() {
   // =====================================================
 
   useEffect(() => {
-    // Firebase progress is still loading
     if (progressLoading) {
       console.log(
         "⏳ Waiting for GameContext Firebase load..."
@@ -253,9 +245,6 @@ export default function RhymingWords() {
       return;
     }
 
-    // VERY IMPORTANT:
-    // useGameProgress initially returns null.
-    // Wait until it has actually checked Firebase.
     if (savedState === null) {
       console.log(
         "⏳ Waiting for savedState from Firebase..."
@@ -263,7 +252,6 @@ export default function RhymingWords() {
       return;
     }
 
-    // Prevent duplicate initialization
     if (initializedRef.current) {
       return;
     }
@@ -376,10 +364,6 @@ export default function RhymingWords() {
   // =====================================================
 
   const handleAnswer = (selectedAnswer) => {
-    // Prevent clicks while:
-    // - loading
-    // - completed
-    // - another answer is being processed
     if (
       loading ||
       completed ||
@@ -444,9 +428,7 @@ export default function RhymingWords() {
           TOTAL_QUESTIONS
         ) {
           const percentage =
-            (newScore /
-              TOTAL_QUESTIONS) *
-            100;
+            (newScore / TOTAL_QUESTIONS) * 100;
 
           console.log(
             "🏆 Rhyming Words completed",
@@ -456,9 +438,7 @@ export default function RhymingWords() {
             }
           );
 
-          // ⭐ IMPORTANT:
-          // finish clears Firebase activeGames.
-          // Do NOT call save() after this.
+          // finish clears Firebase activeGames
           await finish(
             percentage,
             "AI Rhyming Words"
@@ -492,30 +472,24 @@ export default function RhymingWords() {
           }/${TOTAL_QUESTIONS}`
         );
 
-        // Show loading screen while AI generates
         setLoading(true);
-
         setFeedback("");
 
         const nextQuestion =
           await generateQuestionAI();
 
         if (!nextQuestion) {
-          throw new Error(
-            "Next question was not generated"
-          );
+          setIsAnswering(false);
+          answeringRef.current = false;
+          return;
         }
 
-        // Update question number AFTER
-        // successful generation
-        setQuestionCount(
-          nextQuestionNumber
-        );
+        const updatedQuestionCount =
+          nextQuestionNumber;
 
-        // ⭐ generateQuestionAI already unlocks
-        // the answer state.
-        setIsAnswering(false);
-        answeringRef.current = false;
+        setQuestionCount(
+          updatedQuestionCount
+        );
 
         // =================================================
         // SAVE NEXT QUESTION
@@ -524,40 +498,33 @@ export default function RhymingWords() {
         await save({
           currentWord:
             nextQuestion.currentWord,
-
           correctAnswer:
             nextQuestion.correctAnswer,
-
           options:
             nextQuestion.options,
-
           score: newScore,
-
           questionCount:
-            nextQuestionNumber,
-
+            updatedQuestionCount,
           feedback: "",
-
           completed: false,
         });
 
         console.log(
-          "💾 Next Rhyming Words question saved"
+          "💾 Next Rhyming question saved"
         );
 
-        // Safety unlock
+        setLoading(false);
         setIsAnswering(false);
         answeringRef.current = false;
       } catch (error) {
         console.error(
-          "❌ Error loading next question:",
+          "❌ Error processing answer:",
           error
         );
 
-        // NEVER leave game locked
+        setLoading(false);
         setIsAnswering(false);
         answeringRef.current = false;
-        setLoading(false);
       }
     }, 800);
   };
@@ -568,18 +535,18 @@ export default function RhymingWords() {
 
   const handlePlayAgain = async () => {
     console.log(
-      "🔄 Starting Rhyming Words again"
+      "🔄 Starting Rhyming Words again..."
     );
 
-    // Reset everything FIRST
     setScore(0);
     setQuestionCount(0);
-    setFeedback("");
     setCompleted(false);
-    setLoading(true);
+    setFeedback("");
 
     setIsAnswering(false);
     answeringRef.current = false;
+
+    setLoading(true);
 
     const question =
       await generateQuestionAI();
@@ -589,28 +556,17 @@ export default function RhymingWords() {
     }
 
     await save({
-      currentWord:
-        question.currentWord,
-
-      correctAnswer:
-        question.correctAnswer,
-
-      options:
-        question.options,
-
+      currentWord: question.currentWord,
+      correctAnswer: question.correctAnswer,
+      options: question.options,
       score: 0,
-
       questionCount: 0,
-
       feedback: "",
-
       completed: false,
     });
 
-    setLoading(false);
-
     console.log(
-      "💾 New Rhyming Words round saved"
+      "💾 New Rhyming Words game saved"
     );
   };
 
@@ -619,226 +575,252 @@ export default function RhymingWords() {
   // =====================================================
 
   const getPerformanceMessage = () => {
-    if (loading) {
-      return "";
+    const percentage =
+      (score / TOTAL_QUESTIONS) * 100;
+
+    if (percentage === 100) {
+      return "Amazing! You are a rhyming superstar! 🌟";
     }
 
-    if (!feedback && !completed) {
-      return "";
+    if (percentage >= 80) {
+      return "Excellent work! Your rhyming skills are great! 🎉";
     }
 
-    if (completed) {
-      const finalAccuracy =
-        (score /
-          TOTAL_QUESTIONS) *
-        100;
-
-      if (finalAccuracy >= 80) {
-        return "🌟 Excellent rhyming skills!";
-      }
-
-      if (finalAccuracy >= 50) {
-        return "👍 Good job! Keep going!";
-      }
-
-      return "💡 Keep practicing!";
+    if (percentage >= 60) {
+      return "Good job! Keep practicing your rhyming skills! 😊";
     }
 
-    if (questionCount <= 0) {
-      return "";
-    }
-
-    const accuracy =
-      (score /
-        questionCount) *
-      100;
-
-    if (accuracy >= 80) {
-      return "🌟 Excellent!";
-    }
-
-    if (accuracy >= 50) {
-      return "👍 Good job!";
-    }
-
-    return "💡 Keep practicing!";
+    return "Nice try! Let's practice some more rhyming words! 💪";
   };
 
   // =====================================================
-  // FIREBASE LOADING SCREEN
+  // LOADING SCREEN
   // =====================================================
 
-  if (progressLoading || savedState === null) {
+  if (
+    progressLoading ||
+    loading ||
+    !currentWord
+  ) {
     return (
       <div className="phonics-page">
-        <div className="letter-navbar">
-          <h2>🤖 AI Rhyming Words</h2>
-        </div>
-
-        <div className="word-display">
-          <div className="emoji">
-            ⏳
+        <nav className="phonics-navbar">
+          <div className="phonics-navbar-title">
+            🌿 CurioKids
           </div>
 
-          <h2>
-            Loading your progress...
-          </h2>
-        </div>
+          <div className="phonics-navbar-game">
+            🤖 AI Rhyming Words
+          </div>
+        </nav>
+
+        <main className="phonics-content loading-content">
+          <div className="word-display">
+            <div className="emoji">⏳</div>
+
+            <h2>
+              Getting your rhyming challenge ready...
+            </h2>
+
+            <p className="loading-text">
+              🌴 The jungle is preparing a word for you!
+            </p>
+          </div>
+        </main>
       </div>
     );
   }
 
   // =====================================================
-  // MAIN UI
+  // COMPLETED SCREEN
+  // =====================================================
+
+  if (completed) {
+    return (
+      <div className="phonics-page">
+        <nav className="phonics-navbar">
+          <div className="phonics-navbar-title">
+            🌿 CurioKids
+          </div>
+
+          <div className="phonics-navbar-game">
+            🤖 AI Rhyming Words
+          </div>
+        </nav>
+
+        <main className="phonics-content completed-content">
+          <div className="word-display completion-display">
+            <div className="emoji">🎉</div>
+
+            <h2>Round Completed!</h2>
+
+            <div className="final-score">
+              <span className="score-label">
+                Your Score
+              </span>
+
+              <span className="score-number">
+                {score}/{TOTAL_QUESTIONS}
+              </span>
+            </div>
+
+            <h3>
+              {getPerformanceMessage()}
+            </h3>
+
+            <button
+              className="option-btn play-again-btn"
+              onClick={handlePlayAgain}
+            >
+              🔄 Play Again
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // =====================================================
+  // MAIN GAME UI
   // =====================================================
 
   return (
     <div className="phonics-page">
+      {/* =================================================
+          NAVBAR
+      ================================================= */}
 
-      {/* HEADER */}
-
-      <div className="letter-navbar">
-        <h2>
-          🤖 AI Rhyming Words
-        </h2>
-      </div>
-
-      {/* GAME INFO */}
-
-      <div className="game-info">
-        <span>
-          Question:{" "}
-          {completed
-            ? TOTAL_QUESTIONS
-            : Math.min(
-                questionCount + 1,
-                TOTAL_QUESTIONS
-              )}
-          /{TOTAL_QUESTIONS}
-        </span>
-
-        <span>
-          Score: {score}
-        </span>
-      </div>
-
-      {/* COMPLETED */}
-
-      {completed ? (
-        <div className="word-display">
-
-          <div className="emoji">
-            🎉
-          </div>
-
-          <h2>
-            Round Completed!
-          </h2>
-
-          <h3>
-            Score: {score}/
-            {TOTAL_QUESTIONS}
-          </h3>
-
-          <p>
-            {score >= 4
-              ? "🌟 Excellent rhyming skills!"
-              : score >= 3
-              ? "👍 Great job! Keep practicing!"
-              : "💡 Keep practicing your rhyming words!"}
-          </p>
-
-          <button
-            className="option-btn"
-            onClick={handlePlayAgain}
-            disabled={loading}
-          >
-            🔄 Play Again
-          </button>
+      <nav className="phonics-navbar">
+        <div className="phonics-navbar-title">
+          🌿 CurioKids
         </div>
-      ) : (
-        <>
-          {/* WORD */}
 
-          <div className="word-display">
+        <div className="phonics-navbar-game">
+          🤖 AI Rhyming Words
+        </div>
+      </nav>
 
-            <div className="emoji">
-              {loading
-                ? "⏳"
-                : currentWord?.emoji ||
-                  "🔤"}
-            </div>
+      {/* =================================================
+          GAME CONTENT
+      ================================================= */}
 
-            <h2>
-              {loading
-                ? "Loading..."
-                : currentWord?.word ||
-                  "Loading..."}
-            </h2>
+      <main className="phonics-content">
+        <div className="game-info">
+          <span>
+            Question{" "}
+            <strong>
+              {questionCount + 1}
+            </strong>{" "}
+            / {TOTAL_QUESTIONS}
+          </span>
 
+          <span>
+            ⭐ Score:{" "}
+            <strong>{score}</strong>
+          </span>
+        </div>
+
+        {/* =================================================
+            CURRENT WORD
+        ================================================= */}
+
+        <div className="word-display">
+          <div className="emoji">
+            {currentWord.emoji}
           </div>
 
-          {/* QUESTION */}
+          <h2>{currentWord.word}</h2>
+        </div>
 
-          <h3>
-            Which word rhymes with:
-          </h3>
+        {/* =================================================
+            QUESTION
+        ================================================= */}
 
-          {/* OPTIONS */}
+        <h3>
+          Which word rhymes with{" "}
+          <span className="highlight-word">
+            "{currentWord.word}"
+          </span>
+          ?
+        </h3>
 
-          <div className="options-grid">
+        {/* =================================================
+            OPTIONS
+        ================================================= */}
 
-            {loading ? (
-              <p>
-                Generating a question...
-              </p>
+        <div className="options-grid">
+          {options.map(
+            (option, index) => (
+              <button
+                key={`${option}-${index}`}
+                className={`option-btn ${
+                  feedback === "correct" &&
+                  option === correctAnswer
+                    ? "correct-option"
+                    : ""
+                } ${
+                  feedback === "wrong" &&
+                  option === correctAnswer
+                    ? "correct-option"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleAnswer(option)
+                }
+                disabled={
+                  isAnswering ||
+                  loading
+                }
+              >
+                <span className="option-word">
+                  {option}
+                </span>
+              </button>
+            )
+          )}
+        </div>
+
+        {/* =================================================
+            FEEDBACK
+        ================================================= */}
+
+        {feedback && (
+          <div
+            className={`feedback ${
+              feedback === "correct"
+                ? "good"
+                : "wrong"
+            }`}
+          >
+            {feedback === "correct" ? (
+              <>
+                🎉 Great job!
+                <span>
+                  That's a rhyming word!
+                </span>
+              </>
             ) : (
-              options.map(
-                (word, index) => (
-                  <button
-                    key={`${word}-${index}`}
-                    type="button"
-                    className="option-btn"
-                    onClick={() =>
-                      handleAnswer(word)
-                    }
-                    disabled={
-                      loading ||
-                      completed ||
-                      isAnswering
-                    }
-                  >
-                    {word}
-                  </button>
-                )
-              )
+              <>
+                💭 Keep trying!
+                <span>
+                  The correct answer is{" "}
+                  <strong>
+                    {correctAnswer}
+                  </strong>
+                </span>
+              </>
             )}
-
           </div>
+        )}
 
-          {/* FEEDBACK */}
+        {/* =================================================
+            AI INFO
+        ================================================= */}
 
-          {feedback === "correct" && (
-            <div className="feedback good">
-              🎉 Correct!
-            </div>
-          )}
-
-          {feedback === "wrong" && (
-            <div className="feedback wrong">
-              ❌ Try again!
-            </div>
-          )}
-
-          {/* PERFORMANCE */}
-
-          <div className="ai-analysis">
-            <p>
-              {getPerformanceMessage()}
-            </p>
-          </div>
-        </>
-      )}
+        <div className="ai-analysis">
+          🤖 AI-powered rhyming challenge
+        </div>
+      </main>
     </div>
   );
 }

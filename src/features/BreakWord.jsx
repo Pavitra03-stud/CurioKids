@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import "../styles/BlendSounds.css";
+
+import "../styles/BreakWord.css";
 
 import { db } from "../firebase";
+
 import {
   doc,
   collection,
@@ -15,12 +17,20 @@ export default function BreakWord() {
   const TOTAL_QUESTIONS = 5;
   const GAME_ID = "break-word";
 
+  // =========================================================
+  // FIREBASE GAME PROGRESS
+  // =========================================================
+
   const {
     savedState,
     loading: progressLoading,
     save,
     finish,
   } = useGameProgress(GAME_ID);
+
+  // =========================================================
+  // GAME STATE
+  // =========================================================
 
   const [word, setWord] = useState("");
   const [options, setOptions] = useState([]);
@@ -71,7 +81,10 @@ export default function BreakWord() {
 
       return data;
     } catch (err) {
-      console.error("❌ Break Word error:", err);
+      console.error(
+        "❌ Break Word error:",
+        err
+      );
 
       const fallback = {
         word: "CAT",
@@ -103,6 +116,7 @@ export default function BreakWord() {
       console.log(
         "⏳ Waiting for Break Word Firebase progress..."
       );
+
       return;
     }
 
@@ -113,7 +127,7 @@ export default function BreakWord() {
       );
 
       // =====================================================
-      // 🔄 RESUME EXISTING GAME
+      // RESUME EXISTING GAME
       // =====================================================
 
       if (
@@ -129,7 +143,9 @@ export default function BreakWord() {
         );
 
         setWord(savedState.word);
+
         setOptions(savedState.options);
+
         setCorrectAnswer(
           savedState.correctAnswer
         );
@@ -149,14 +165,15 @@ export default function BreakWord() {
       }
 
       // =====================================================
-      // 🆕 NEW GAME
+      // NEW GAME
       // =====================================================
 
       console.log(
         "🆕 Starting new Break Word game"
       );
 
-      const data = await generateQuestionAI();
+      const data =
+        await generateQuestionAI();
 
       await save({
         question: 0,
@@ -181,19 +198,23 @@ export default function BreakWord() {
   // =========================================================
 
   const logActivity = async (finalScore) => {
-    const userId = localStorage.getItem("userId");
+    const userId =
+      localStorage.getItem("userId");
 
     if (!userId) return;
 
     try {
-      await addDoc(collection(db, "activity"), {
-        userId,
-        action: "play",
-        module: "phonics",
-        screen: "break-word",
-        score: finalScore,
-        timestamp: new Date(),
-      });
+      await addDoc(
+        collection(db, "activity"),
+        {
+          userId,
+          action: "play",
+          module: "phonics",
+          screen: "break-word",
+          score: finalScore,
+          timestamp: new Date(),
+        }
+      );
 
       console.log(
         "📊 Break Word activity saved"
@@ -210,7 +231,9 @@ export default function BreakWord() {
   // ☁️ FINAL RESULT
   // =========================================================
 
-  const saveScoreToFirestore = async (finalScore) => {
+  const saveScoreToFirestore = async (
+    finalScore
+  ) => {
     try {
       const userId =
         localStorage.getItem("userId");
@@ -223,10 +246,11 @@ export default function BreakWord() {
         userId
       );
 
-      const gameResultsRef = collection(
-        userRef,
-        "game_results"
-      );
+      const gameResultsRef =
+        collection(
+          userRef,
+          "game_results"
+        );
 
       const accuracy =
         (finalScore / TOTAL_QUESTIONS) * 100;
@@ -268,9 +292,9 @@ export default function BreakWord() {
 
     if (isCorrect) {
       setScore(updatedScore);
-      setMessage("✅ Correct!");
+      setMessage("correct");
     } else {
-      setMessage("❌ Try again!");
+      setMessage("wrong");
     }
 
     setTimeout(async () => {
@@ -280,12 +304,13 @@ export default function BreakWord() {
         questionCount + 1;
 
       // =====================================================
-      // 🏆 COMPLETE
+      // 🏆 COMPLETE ROUND
       // =====================================================
 
       if (nextCount === TOTAL_QUESTIONS) {
         const finalPercentage =
-          (updatedScore / TOTAL_QUESTIONS) * 100;
+          (updatedScore / TOTAL_QUESTIONS) *
+          100;
 
         console.log(
           "🏆 Break Word completed:",
@@ -294,18 +319,15 @@ export default function BreakWord() {
           TOTAL_QUESTIONS
         );
 
-        // ⭐ Stars + history + clear resume
         await finish(
           finalPercentage,
           "Break Word"
         );
 
-        // 📊 Activity
         await logActivity(
           finalPercentage
         );
 
-        // ☁️ Detailed result
         await saveScoreToFirestore(
           updatedScore
         );
@@ -315,7 +337,7 @@ export default function BreakWord() {
         );
 
         // ===================================================
-        // 🆕 START NEW ROUND
+        // NEW ROUND
         // ===================================================
 
         setScore(0);
@@ -329,7 +351,8 @@ export default function BreakWord() {
           score: 0,
           word: newData.word,
           options: newData.options,
-          correctAnswer: newData.answer,
+          correctAnswer:
+            newData.answer,
         });
 
         return;
@@ -351,7 +374,8 @@ export default function BreakWord() {
         score: updatedScore,
         word: newData.word,
         options: newData.options,
-        correctAnswer: newData.answer,
+        correctAnswer:
+          newData.answer,
       });
 
       console.log(
@@ -388,86 +412,244 @@ export default function BreakWord() {
   };
 
   // =========================================================
-  // ⏳ INITIAL LOADING
+  // ⏳ LOADING SCREEN
   // =========================================================
 
   if (!gameReady) {
     return (
-      <div className="blend-container">
-        <h2>🤖 Break the Word</h2>
+      <div className="break-page">
 
-        <div className="big-letter">
-          ⏳
-        </div>
+        <nav className="break-navbar">
 
-        <p>Loading your saved game...</p>
+          <div className="break-brand">
+            <span className="break-brand-icon">
+              🌿
+            </span>
+            CurioKids
+          </div>
+
+          <div className="break-navbar-title">
+            Break the Word
+          </div>
+
+        </nav>
+
+        <main className="break-main">
+
+          <section className="break-game-card break-loading-card">
+
+            <div className="break-loading-icon">
+              🤖
+            </div>
+
+            <h2>
+              Getting Your Challenge Ready
+            </h2>
+
+            <p>
+              Preparing a fun word puzzle for you...
+            </p>
+
+          </section>
+
+        </main>
+
       </div>
     );
   }
 
   // =========================================================
-  // 🎮 UI
+  // 🎮 MAIN GAME UI
   // =========================================================
 
   return (
-    <div className="blend-container">
+    <div className="break-page">
 
-      <h2>
-        🤖 Break the Word
-      </h2>
+      {/* =====================================================
+          NAVBAR
+      ===================================================== */}
 
-      <div className="game-info">
-        <span>
-          Question:{" "}
-          {questionCount + 1}/
-          {TOTAL_QUESTIONS}
-        </span>
+      <nav className="break-navbar">
 
-        <span>
-          Score: {score}
-        </span>
-      </div>
+        <div className="break-brand">
+          <span className="break-brand-icon">
+            🌿
+          </span>
 
-      {/* WORD */}
+          CurioKids
+        </div>
 
-      <div className="big-letter">
-        {loading ? "..." : word}
-      </div>
+        <div className="break-navbar-title">
+          🤖 Break the Word
+        </div>
 
-      <h3>
-        Break this word into sounds
-      </h3>
+      </nav>
 
-      {/* OPTIONS */}
+      {/* =====================================================
+          MAIN
+      ===================================================== */}
 
-      <div className="options">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          options.map((opt, i) => (
-            <button
-              key={i}
-              className="option-btn"
-              onClick={() =>
-                handleClick(opt)
-              }
-              disabled={!!message}
-            >
-              {opt}
-            </button>
-          ))
-        )}
-      </div>
+      <main className="break-main">
 
-      <p className="message">
-        {message}
-      </p>
+        <section className="break-game-card">
 
-      <div className="ai-analysis">
-        <p>
-          {getPerformanceMessage()}
-        </p>
-      </div>
+          {/* =================================================
+              SCORE / QUESTION
+          ================================================= */}
+
+          <div className="break-stats">
+
+            <div className="break-stat-pill">
+
+              <span className="break-stat-label">
+                Question
+              </span>
+
+              <strong>
+                {questionCount + 1}
+                <span className="break-stat-total">
+                  /{TOTAL_QUESTIONS}
+                </span>
+              </strong>
+
+            </div>
+
+            <div className="break-stat-pill">
+
+              <span className="break-stat-star">
+                ⭐
+              </span>
+
+              <span className="break-stat-label">
+                Score
+              </span>
+
+              <strong>
+                {score}
+              </strong>
+
+            </div>
+
+          </div>
+
+          {/* =================================================
+              WORD AREA
+          ================================================= */}
+
+          <section className="break-word-panel">
+
+            <div className="break-word-heading">
+              FIND THE SOUNDS
+            </div>
+
+            <div className="break-word-display">
+
+              {loading ? (
+                <span className="break-word-loading">
+                  ...
+                </span>
+              ) : (
+                word
+              )}
+
+            </div>
+
+            <div className="break-word-question">
+              Break this word into sounds
+            </div>
+
+          </section>
+
+          {/* =================================================
+              OPTIONS
+          ================================================= */}
+
+          <section className="break-options-section">
+
+            <div className="break-options-heading">
+              Choose the correct breakdown
+            </div>
+
+            <div className="break-options-grid">
+
+              {loading ? (
+                <div className="break-options-loading">
+                  Loading...
+                </div>
+              ) : (
+                options.map((opt, index) => {
+
+                  const isCorrect =
+                    message === "correct" &&
+                    opt === correctAnswer;
+
+                  const isWrong =
+                    message === "wrong" &&
+                    opt !== correctAnswer;
+
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      className={`break-option-card ${
+                        isCorrect
+                          ? "break-option-correct"
+                          : ""
+                      } ${
+                        isWrong
+                          ? "break-option-disabled"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleClick(opt)
+                      }
+                      disabled={!!message}
+                    >
+                      <span>
+                        {opt}
+                      </span>
+                    </button>
+                  );
+                })
+              )}
+
+            </div>
+
+          </section>
+
+          {/* =================================================
+              FEEDBACK
+          ================================================= */}
+
+          <div
+            className={`break-feedback ${
+              message === "correct"
+                ? "break-feedback-correct"
+                : ""
+            } ${
+              message === "wrong"
+                ? "break-feedback-wrong"
+                : ""
+            }`}
+          >
+            {message === "correct"
+              ? "🎉 Correct! Great job!"
+              : message === "wrong"
+              ? "💡 Not quite! Keep going!"
+              : ""}
+          </div>
+
+          {/* =================================================
+              PERFORMANCE
+          ================================================= */}
+
+          <div className="break-performance">
+            {getPerformanceMessage()}
+          </div>
+
+        </section>
+
+      </main>
 
     </div>
   );

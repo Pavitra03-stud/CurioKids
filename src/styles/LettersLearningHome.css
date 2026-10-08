@@ -1,358 +1,1096 @@
-.letters-learning-page {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  position: relative;
-  overflow-x: hidden;
-  padding-bottom: 40px;
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap");
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
 }
 
-/* top bar */
-.letters-learning-topbar {
-  background: #184c35;
-  color: white;
-  min-height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  border-radius: 0 0 18px 18px;
-  padding: 8px 18px;
-  z-index: 5;
-}
-
-/* back button */
-.letters-learning-back {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  color: #222;
-  font-size: 22px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
-  z-index: 10;
-}
-
-.letters-learning-back:hover {
-  transform: translateY(-50%) scale(1.05);
-}
-
-/* decorations */
-.letters-learning-decor {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  z-index: 0;
-}
-
-.decor-top-left {
-  width: 130px;
-  height: 130px;
-  top: 110px;
-  left: -35px;
-}
-
-.decor-middle-right {
-  width: 180px;
-  height: 180px;
-  top: 330px;
-  right: -60px;
-}
-
-.decor-bottom-left {
-  width: 150px;
-  height: 150px;
-  bottom: 120px;
-  left: -50px;
-}
-
-/* animals */
-.letters-learning-animals {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.top-animals {
-  margin-top: 0;
-  font-size: 28px;
-}
-
-.bottom-animals {
-  margin-top: 18px;
-  font-size: 26px;
-}
-
-/* header */
-.letters-learning-header {
-  text-align: center;
-  padding: 22px 20px 10px;
-  position: relative;
-  z-index: 1;
-}
-
-.letters-learning-header h1 {
-  margin: 0 0 8px;
-  font-size: 34px;
-  color: #111;
-  font-weight: bold;
-}
-
-.letters-learning-header p {
+html,
+body,
+#root {
   margin: 0;
-  font-size: 22px;
-  color: #173b33;
-  font-weight: 700;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
 }
 
-/* cards list */
-.letters-learning-list {
-  max-width: 850px;
-  margin: 28px auto 0;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
+.letters-learning-page {
   position: relative;
-  z-index: 1;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  padding-top: 78px;
+  padding-bottom: 52px;
+  font-family: "Nunito", sans-serif;
+  color: #174936;
+  isolation: isolate;
 }
 
-.letters-learning-card {
-  background: rgba(255, 255, 255, 0.24);
-  backdrop-filter: blur(8px);
-  border-radius: 24px;
-  padding: 22px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  cursor: pointer;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
-  transition: all 0.25s ease;
-  min-height: 120px;
+
+/* =========================================================
+   JUNGLE BACKGROUND
+========================================================= */
+
+.letters-learning-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 83, 60, 0.05),
+      rgba(86, 166, 91, 0.08),
+      rgba(221, 245, 193, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
 
-.letters-learning-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.33);
+
+/* =========================================================
+   SOFT LIGHT
+========================================================= */
+
+.letters-learning-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 15% 30%,
+      rgba(255, 244, 150, 0.18),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 85% 35%,
+      rgba(255, 255, 255, 0.16),
+      transparent 22%
+    );
 }
 
-/* icon */
-.letters-learning-icon {
-  width: 72px;
-  height: 72px;
+
+/* =========================================================
+   DECORATIVE CANOPY
+========================================================= */
+
+.letters-learning-canopy {
+  position: fixed;
+  top: -90px;
+  width: 430px;
+  height: 210px;
+  z-index: -4;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.letters-learning-canopy-left {
+  left: -130px;
+}
+
+.letters-learning-canopy-right {
+  right: -130px;
+  transform: scaleX(-1);
+}
+
+.letters-learning-canopy span {
+  position: absolute;
+  font-size: 42px;
+  opacity: 0.7;
+}
+
+.letters-learning-canopy span:nth-child(1) {
+  left: 25%;
+  top: 55%;
+}
+
+.letters-learning-canopy span:nth-child(2) {
+  left: 50%;
+  top: 25%;
+}
+
+.letters-learning-canopy span:nth-child(3) {
+  right: 18%;
+  top: 48%;
+}
+
+
+/* =========================================================
+   MIST
+========================================================= */
+
+.letters-learning-mist {
+  position: fixed;
   border-radius: 50%;
+  filter: blur(45px);
+  pointer-events: none;
+  z-index: -3;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.letters-learning-mist-one {
+  width: 380px;
+  height: 150px;
+  left: -100px;
+  top: 300px;
+}
+
+.letters-learning-mist-two {
+  width: 420px;
+  height: 170px;
+  right: -120px;
+  top: 620px;
+}
+
+
+/* =========================================================
+   FLOATING LEAVES
+========================================================= */
+
+.letters-learning-floating-leaves {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.learning-leaf {
+  position: absolute;
+  font-size: 28px;
+  opacity: 0.55;
+}
+
+.learning-leaf-one {
+  left: 3%;
+  top: 48%;
+  transform: rotate(-20deg);
+}
+
+.learning-leaf-two {
+  right: 4%;
+  top: 66%;
+  transform: rotate(20deg);
+}
+
+.learning-leaf-three {
+  left: 92%;
+  top: 38%;
+  transform: rotate(-15deg);
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.letters-learning-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 78px;
+  z-index: 9999;
+
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.45);
+  justify-content: space-between;
+
+  padding: 10px 5.2vw;
+
+  background: #075c46;
+  border-bottom: 4px solid #e7c64f;
+
+  box-shadow:
+    0 5px 18px rgba(20, 65, 42, 0.28);
 }
 
-.yellow {
-  background: #ffe082;
-}
 
-.blue {
-  background: #bbdefb;
-}
+/* =========================================================
+   BRAND
+========================================================= */
 
-.pink {
-  background: #f8bbd0;
-}
+.letters-learning-brand {
+  border: 0;
+  padding: 0;
 
-.purple {
-  background: #e1bee7;
-}
+  display: flex;
+  align-items: center;
+  gap: 13px;
 
-.green {
-  background: #c8e6c9;
-}
+  background: transparent;
+  color: white;
 
-.cyan {
-  background: #b2ebf2;
-}
-
-/* text */
-.letters-learning-text {
-  flex: 1;
+  cursor: pointer;
+  user-select: none;
   text-align: left;
 }
 
-.letters-learning-text h2 {
-  margin: 0 0 6px;
-  font-size: 21px;
-  color: #111;
-  font-weight: bold;
-}
+.letters-learning-brand-icon {
+  width: 52px;
+  height: 52px;
 
-.letters-learning-text p {
-  margin: 0;
-  font-size: 15px;
-  color: #234236;
-  line-height: 1.5;
-  font-weight: 600;
-}
-
-/* arrow */
-.letters-learning-arrow {
-  font-size: 28px;
-  font-weight: bold;
-  color: #184c35;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
+
+  border-radius: 15px;
+
+  background: #ffd84f;
+  border: 2px solid #f2c52e;
+
+  font-size: 27px;
+
+  box-shadow:
+    0 4px 0 rgba(70, 90, 32, 0.25);
 }
 
-/* footer */
-.letters-learning-footer {
-  max-width: 850px;
-  margin: 34px auto 0;
-  padding: 0 20px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
+.letters-learning-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
 }
 
-.letters-learning-progress {
-  background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(8px);
-  border-radius: 22px;
-  padding: 20px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
-}
-
-.letters-learning-progress h3 {
-  margin: 0 0 8px;
-  font-size: 24px;
-  color: #173b33;
-}
-
-.letters-learning-progress p {
+.letters-learning-brand-text h1 {
   margin: 0;
-  font-size: 16px;
-  color: #234236;
-  font-weight: 600;
-  line-height: 1.6;
+
+  color: #fffbea;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 29px;
+  font-weight: 900;
+
+  letter-spacing: -0.5px;
 }
 
-/* responsive */
-@media (max-width: 768px) {
-  .letters-learning-topbar {
-    min-height: 64px;
-    padding: 8px 14px;
-  }
+.letters-learning-brand-text span {
+  margin-top: 5px;
 
-  .letters-learning-back {
-    left: 14px;
-    width: 38px;
-    height: 38px;
-    font-size: 20px;
-  }
+  color: #fff1bb;
 
-  .top-animals {
-    font-size: 24px;
-    gap: 12px;
-  }
+  font-size: 12px;
+  font-weight: 900;
 
-  .letters-learning-header h1 {
-    font-size: 28px;
-  }
-
-  .letters-learning-header p {
-    font-size: 19px;
-  }
-
-  .letters-learning-list {
-    grid-template-columns: 1fr;
-  }
-
-  .letters-learning-card {
-    padding: 18px 16px;
-    min-height: 110px;
-  }
-
-  .letters-learning-icon {
-    width: 62px;
-    height: 62px;
-    font-size: 28px;
-  }
-
-  .letters-learning-text h2 {
-    font-size: 18px;
-  }
-
-  .letters-learning-text p {
-    font-size: 14px;
-  }
-
-  .letters-learning-arrow {
-    font-size: 24px;
-  }
-
-  .letters-learning-progress h3 {
-    font-size: 21px;
-  }
-
-  .letters-learning-progress p {
-    font-size: 14px;
-  }
+  letter-spacing: 1px;
 }
-/* 🌿 HEADER BAR */
-.letters-learning-topbar {
-  background: #184c35;
-  color: white;
-  height: 70px;
+
+
+/* =========================================================
+   HEADER MESSAGE
+========================================================= */
+
+.letters-learning-header-message {
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  border-radius: 0 0 20px 20px;
-  z-index: 5;
+  gap: 9px;
+
+  padding: 11px 21px;
+
+  border-radius: 999px;
+
+  background: #fff8d8;
+  color: #20543d;
+
+  box-shadow:
+    0 4px 0 rgba(94, 78, 25, 0.16);
 }
 
-/* 📝 TITLE CENTER */
-.letters-learning-title {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 0;
+.letters-learning-header-message span {
+  font-size: 17px;
 }
 
-/* 🔙 BACK BUTTON (LIKE IMAGE 2) */
+.letters-learning-header-message strong {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
 .letters-learning-back {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
+  border: 0;
 
-  background: #f2f2f2; /* light grey like image */
-  color: #222;
-  font-size: 22px;
-  font-weight: bold;
+  padding: 11px 18px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 999px;
+
+  background: #fff8d8;
+  color: #20543d;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 13px;
+  font-weight: 900;
 
   cursor: pointer;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  transition: 0.2s;
+  box-shadow:
+    0 4px 0 rgba(94, 78, 25, 0.16);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .letters-learning-back:hover {
-  transform: translateY(-50%) scale(1.08);
-  background: #ffffff;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 0 rgba(94, 78, 25, 0.16);
+}
+
+.letters-learning-back:active {
+  transform: translateY(1px);
+
+  box-shadow:
+    0 2px 0 rgba(94, 78, 25, 0.16);
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.letters-learning-content {
+  position: relative;
+
+  width: min(1180px, calc(100% - 50px));
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.letters-learning-hero {
+  min-height: 220px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 20px 10px;
+
+  text-align: center;
+}
+
+.letters-learning-hero-copy {
+  width: 100%;
+  max-width: 850px;
+
+  margin: 0 auto;
+}
+
+.letters-learning-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 8px;
+
+  padding: 6px 14px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 250, 218, 0.9);
+
+  color: #286145;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1.2px;
+}
+
+.letters-learning-hero h2 {
+  margin: 0;
+
+  color: #fff4c7;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(40px, 5vw, 62px);
+
+  line-height: 0.95;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #155039,
+    0 6px 12px rgba(36, 74, 42, 0.35);
+}
+
+.letters-learning-hero p {
+  margin: 12px auto 14px;
+
+  max-width: 650px;
+
+  color: #fff7dc;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 5px rgba(31, 71, 41, 0.3);
+}
+
+.letters-learning-traits {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+.letters-learning-traits span {
+  padding: 7px 13px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 250, 220, 0.9);
+
+  color: #235d43;
+
+  font-size: 11px;
+  font-weight: 900;
+
+  box-shadow:
+    0 3px 0 rgba(80, 77, 32, 0.13);
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.letters-learning-section {
+  position: relative;
+  margin-top: 5px;
+}
+
+.letters-learning-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
+}
+
+.letters-learning-section-kicker {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #fff5cf;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1.4px;
+
+  text-shadow:
+    0 2px 5px rgba(31, 71, 41, 0.35);
+}
+
+.letters-learning-section-heading h2 {
+  margin: 0;
+
+  color: #fff8df;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(30px, 3.5vw, 43px);
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #155039,
+    0 5px 10px rgba(36, 74, 42, 0.3);
+}
+
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+.letters-learning-count {
+  min-width: 122px;
+
+  padding: 10px 17px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 17px;
+
+  background: rgba(255, 248, 212, 0.92);
+
+  color: #245d41;
+
+  box-shadow:
+    0 5px 0 rgba(71, 71, 33, 0.14);
+}
+
+.letters-learning-count strong {
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 31px;
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+.letters-learning-count span {
+  max-width: 60px;
+
+  font-size: 9px;
+  font-weight: 900;
+
+  line-height: 1.2;
+
+  letter-spacing: 0.6px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.letters-learning-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   WOODEN CARDS
+========================================================= */
+
+.letters-learning-card {
+  position: relative;
+
+  min-height: 245px;
+
+  padding: 18px 19px 17px;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 23px;
+
+  border: 2px solid #e7c16a;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ab6a33 0%,
+      #bf7c3d 45%,
+      #9f5f2f 100%
+    );
+
+  box-shadow:
+    0 9px 0 rgba(77, 58, 28, 0.28),
+    0 18px 28px rgba(40, 83, 49, 0.2);
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.letters-learning-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 13px 0 rgba(77, 58, 28, 0.28),
+    0 24px 32px rgba(40, 83, 49, 0.22);
+}
+
+.letters-learning-card:active {
+  transform: translateY(1px);
+
+  box-shadow:
+    0 5px 0 rgba(77, 58, 28, 0.28),
+    0 12px 22px rgba(40, 83, 49, 0.18);
+}
+
+
+/* =========================================================
+   CARD CATEGORY
+========================================================= */
+
+.letters-learning-card-category {
+  align-self: flex-start;
+
+  padding: 6px 11px;
+
+  border-radius: 999px;
+
+  background: #fff5cd;
+
+  color: #286145;
+
+  font-size: 9px;
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 3px 0 rgba(86, 72, 28, 0.14);
+}
+
+
+/* =========================================================
+   CARD MAIN
+========================================================= */
+
+.letters-learning-card-main {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 18px;
+}
+
+.letters-learning-icon-wrap {
+  width: 74px;
+  height: 74px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 21px;
+
+  background: #fff7db;
+
+  border: 2px solid rgba(255, 255, 255, 0.55);
+
+  font-size: 38px;
+
+  box-shadow:
+    0 5px 0 rgba(87, 62, 29, 0.18);
+}
+
+.letters-learning-card-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.letters-learning-card-text h3 {
+  margin: 0;
+
+  color: #fffbea;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 24px;
+
+  line-height: 1.02;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 2px 0 #7b4828;
+}
+
+.letters-learning-card-text p {
+  margin: 7px 0 0;
+
+  color: #fff3d7;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   CARD BOTTOM
+========================================================= */
+
+.letters-learning-card-bottom {
+  margin-top: auto;
+
+  padding-top: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.letters-learning-action {
+  min-width: 120px;
+
+  border: 0;
+
+  padding: 10px 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  border-radius: 12px;
+
+  background: #237b4d;
+
+  color: #fffbea;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 0 rgba(27, 69, 42, 0.3);
+
+  transition:
+    transform 0.17s ease,
+    background 0.17s ease;
+}
+
+.letters-learning-action:hover {
+  transform: translateY(-2px);
+  background: #2f8b59;
+}
+
+.letters-learning-action:active {
+  transform: translateY(1px);
+}
+
+.letters-learning-arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.letters-learning-helper {
+  color: #ffeec1;
+
+  font-size: 8px;
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   DECORATION
+========================================================= */
+
+.letters-learning-card-leaf {
+  position: absolute;
+
+  right: 12px;
+  top: 74px;
+
+  font-size: 24px;
+
+  opacity: 0.32;
+
+  transform: rotate(18deg);
+
+  pointer-events: none;
+}
+
+.letters-learning-number {
+  position: absolute;
+
+  right: 15px;
+  bottom: 14px;
+
+  color: rgba(255, 245, 214, 0.3);
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 44px;
+  font-weight: 900;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   JUNGLE TIP
+========================================================= */
+
+.letters-learning-tip {
+  margin-top: 28px;
+
+  padding: 17px 21px;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  border-radius: 21px;
+
+  background: rgba(255, 249, 220, 0.92);
+
+  border: 2px solid rgba(229, 197, 107, 0.9);
+
+  box-shadow:
+    0 6px 0 rgba(76, 74, 31, 0.14);
+}
+
+.letters-learning-tip-icon {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 15px;
+
+  background: #ffd84f;
+
+  font-size: 23px;
+
+  box-shadow:
+    0 4px 0 rgba(110, 87, 25, 0.18);
+}
+
+.letters-learning-tip-content {
+  flex: 1;
+}
+
+.letters-learning-tip-content strong {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #286145;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.2px;
+}
+
+.letters-learning-tip-content p {
+  margin: 0;
+
+  color: #395d4a;
+
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+.letters-learning-tip-plants {
+  font-size: 24px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .letters-learning-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .letters-learning-section-heading {
+    align-items: center;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+  .letters-learning-page {
+    padding-top: 72px;
+  }
+
+  .letters-learning-header {
+    height: 72px;
+    padding: 8px 14px;
+  }
+
+  .letters-learning-brand-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    font-size: 23px;
+  }
+
+  .letters-learning-brand-text h1 {
+    font-size: 23px;
+  }
+
+  .letters-learning-brand-text span {
+    font-size: 9px;
+  }
+
+  .letters-learning-header-message {
+    display: none;
+  }
+
+  .letters-learning-back {
+    padding: 9px 13px;
+    font-size: 11px;
+  }
+
+  .letters-learning-content {
+    width: min(100% - 24px, 600px);
+  }
+
+  .letters-learning-hero {
+    min-height: 205px;
+    padding: 25px 10px 8px;
+  }
+
+  .letters-learning-hero h2 {
+    font-size: clamp(37px, 11vw, 50px);
+  }
+
+  .letters-learning-hero p {
+    font-size: 13px;
+    max-width: 500px;
+  }
+
+  .letters-learning-section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 17px;
+  }
+
+  .letters-learning-section-heading h2 {
+    font-size: 31px;
+  }
+
+  .letters-learning-count {
+    width: auto;
+    min-width: 0;
+  }
+
+  .letters-learning-grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .letters-learning-card {
+    min-height: 225px;
+  }
+
+  .letters-learning-card-text h3 {
+    font-size: 22px;
+  }
+
+  .letters-learning-tip {
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .letters-learning-tip-plants {
+    display: none;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .letters-learning-content {
+    width: calc(100% - 18px);
+  }
+
+  .letters-learning-brand-text h1 {
+    font-size: 20px;
+  }
+
+  .letters-learning-back {
+    padding: 8px 11px;
+    font-size: 10px;
+  }
+
+  .letters-learning-card-main {
+    gap: 11px;
+  }
+
+  .letters-learning-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    font-size: 32px;
+  }
+
+  .letters-learning-card-text h3 {
+    font-size: 20px;
+  }
+
+  .letters-learning-card-text p {
+    font-size: 11px;
+  }
+
+  .letters-learning-action {
+    min-width: 110px;
+    padding: 9px 11px;
+  }
+
+  .letters-learning-helper {
+    font-size: 7px;
+  }
+
 }

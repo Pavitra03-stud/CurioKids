@@ -1,100 +1,59 @@
-// import "../styles/GamesHome.css";
-// import { useNavigate } from "react-router-dom";
-
-// export default function GamesHome() {
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="games-page">
-
-//       <header className="games-topbar">
-
-
-//         <button className="games-back" onClick={() => navigate(-1)}>
-//           ←
-//         </button>
-
-
-//         <h1 className="games-topbar-title">🎮 Games</h1>
-//       </header>
-
-//       <div className="games-header">
-
-//         <div className="header-mascots">
-//           <span>🐯</span>
-//           <span>🦊</span>
-//           <span>🐻</span>
-//         </div>
-
-
-//       </div>
-
-
-//         <div
-//           className="games-card play"
-//           onClick={() => navigate("/games-play")}
-
-//           style={{ cursor: "pointer" }}
-
-//         >
-//           🎮 Game Zone
-//         </div>
-
-//       </div>
-
-  
-//   );
-// }
-
-
-
-
 import "../styles/GamesHome.css";
 import { useNavigate } from "react-router-dom";
 
 export default function GamesHome() {
   const navigate = useNavigate();
 
+  const goToGames = () => {
+    navigate("/games-play");
+  };
+
   return (
     <div className="games-page">
-      {/* ================= TOP BAR ================= */}
-      <header className="games-topbar">
-        {/* <button
-          className="games-back"
-          onClick={() => navigate(-1)}
-          aria-label="Go back"
-        >
-          ←
-        </button> */}
 
+      {/* =========================
+          FIXED SMALL TOP HEADER
+          ========================= */}
+      <header className="games-topbar">
         <h1 className="games-topbar-title">
-          🎮 Games
+          
         </h1>
       </header>
 
-      {/* ================= HEADER ================= */}
-      <div className="games-header">
+
+      {/* =========================
+          ANIMAL HEADER
+          ========================= */}
+      <section className="games-mascot-area">
         <div className="header-mascots">
           <span>🐯</span>
           <span>🦊</span>
           <span>🐻</span>
         </div>
-      </div>
+      </section>
 
-      {/* ================= GAME ZONE ================= */}
-      <div
-        className="games-card play"
-        onClick={() => navigate("/games-play")}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            navigate("/games-play");
-          }
-        }}
-      >
-        🎮 Game Zone
-      </div>
+
+      {/* =========================
+          GAME ZONE BOARD
+          ========================= */}
+      <main className="games-main">
+
+        <button
+          className="games-card"
+          onClick={goToGames}
+          type="button"
+        >
+          <span className="games-card-icon">
+            🎮
+          </span>
+
+          <span className="games-card-title">
+            Game Zone
+          </span>
+        </button>
+
+      </main>
+
     </div>
   );
 }

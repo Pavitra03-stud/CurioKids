@@ -181,6 +181,13 @@ app.get("/", (req, res) => {
 // USER IS CREATED ONLY AFTER OTP VERIFICATION.
 // =====================================================
 
+// =====================================================
+// REGISTER
+// IMPORTANT:
+// DO NOT CREATE FIREBASE USER HERE.
+// USER IS CREATED ONLY AFTER OTP VERIFICATION.
+// =====================================================
+
 app.post("/api/register", async (req, res) => {
   try {
     const name = String(req.body?.name || "").trim();
@@ -189,6 +196,10 @@ app.post("/api/register", async (req, res) => {
       .trim()
       .toLowerCase();
 
+    // -------------------------------------------------
+    // BASIC VALIDATION
+    // -------------------------------------------------
+
     if (!name || !email) {
       return res.status(400).json({
         success: false,
@@ -196,7 +207,10 @@ app.post("/api/register", async (req, res) => {
       });
     }
 
-    // Basic email validation
+    // -------------------------------------------------
+    // EMAIL VALIDATION
+    // -------------------------------------------------
+
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -207,16 +221,69 @@ app.post("/api/register", async (req, res) => {
       });
     }
 
-    console.log("📝 Register request:", {
+    // -------------------------------------------------
+    // CHECK IF USER ALREADY EXISTS
+    // -------------------------------------------------
+
+    try {
+      const existingUser =
+        await firebaseAuth.getUserByEmail(email);
+
+      if (existingUser) {
+        console.log(
+          "⚠️ Registration blocked - user already exists:",
+          email
+        );
+
+        return res.status(409).json({
+          success: false,
+          type: "USER_EXISTS",
+          message:
+            "User already registered! Please login 🔐",
+        });
+      }
+    } catch (error) {
+      // Firebase throws this when the user does not exist.
+      if (error.code !== "auth/user-not-found") {
+        throw error;
+      }
+    }
+
+    // -------------------------------------------------
+    // CHECK IF REGISTRATION / OTP IS ALREADY PENDING
+    // -------------------------------------------------
+
+    if (otpStore[email]) {
+      console.log(
+        "⚠️ Registration blocked - OTP already pending:",
+        email
+      );
+
+      return res.status(409).json({
+        success: false,
+        type: "USER_EXISTS",
+        message:
+          "This email is already registered. Please login 🔐",
+      });
+    }
+
+    // -------------------------------------------------
+    // LOG
+    // -------------------------------------------------
+
+    console.log("📝 New register request:", {
       name,
       email,
     });
 
-    // IMPORTANT:
-    // We intentionally DO NOT create a Firebase Auth user here.
+    // -------------------------------------------------
+    // IMPORTANT
     //
-    // Firebase user will be created only after the OTP
-    // has been successfully verified.
+    // We do NOT create Firebase user here.
+    //
+    // Firebase user will be created after OTP
+    // verification.
+    // -------------------------------------------------
 
     return res.json({
       success: true,
@@ -224,8 +291,12 @@ app.post("/api/register", async (req, res) => {
       name,
       email,
     });
+
   } catch (error) {
-    console.error("❌ Register error:", error);
+    console.error(
+      "❌ Register error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,

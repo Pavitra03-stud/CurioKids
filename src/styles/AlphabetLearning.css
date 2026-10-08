@@ -1,303 +1,834 @@
-.alphabet-video-page {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  padding-bottom: 30px;
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800;900&family=Nunito:wght@500;600;700;800;900&display=swap");
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+   JUNGLE BACKGROUND
+========================================================= */
+
+.alphabet-video-page {
+  position: relative;
+
+  min-height: 100vh;
+  width: 100%;
+
+  padding-top: 70px;
+  padding-bottom: 30px;
+
+  overflow-x: hidden;
+
+  font-family: "Nunito", sans-serif;
+
+  color: #fff8e5;
+
+  background: #4e9d45;
+
+  isolation: isolate;
+}
+
+.alphabet-video-page::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  z-index: -10;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 80, 50, 0.05),
+      rgba(53, 116, 55, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.alphabet-video-page::after {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  z-index: -9;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 12% 30%,
+      rgba(255, 246, 176, 0.15),
+      transparent 18%
+    ),
+    radial-gradient(
+      circle at 87% 32%,
+      rgba(255, 255, 255, 0.10),
+      transparent 20%
+    );
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .alphabet-video-header {
-  background: #184c35;
-  color: white;
-  height: 58px;
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 70px;
+
+  z-index: 1000;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  border-radius: 0 0 14px 14px;
+
+  padding: 8px 20px;
+
+  background: #075c46;
+
+  border-bottom: 4px solid #e7c64f;
+
+  border-radius: 0 0 16px 16px;
+
+  box-shadow:
+    0 5px 18px rgba(22, 55, 38, 0.30);
 }
 
 .alphabet-video-header h1 {
-  font-size: 20px;
   margin: 0;
-  font-weight: bold;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 27px;
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  color: #fff6d1;
+
+  text-shadow:
+    0 3px 0 #174f36,
+    0 5px 10px rgba(0, 0, 0, 0.22);
+
+  text-align: center;
 }
 
-.alphabet-video-back-btn {
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.alphabet-back-btn {
   position: absolute;
+
   left: 18px;
   top: 50%;
+
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  color: #222;
-  font-size: 20px;
+
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border: 0;
+
+  border-radius: 13px;
+
+  background: #fff6d7;
+
+  color: #245c41;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 22px;
+
+  font-weight: 900;
+
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  box-shadow:
+    0 4px 0 rgba(82, 69, 27, 0.20);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
+
+.alphabet-back-btn:hover {
+  transform: translateY(calc(-50% - 2px));
+
+  box-shadow:
+    0 6px 0 rgba(82, 69, 27, 0.20);
+}
+
+.alphabet-back-btn:active {
+  transform: translateY(calc(-50% + 1px));
+
+  box-shadow:
+    0 2px 0 rgba(82, 69, 27, 0.20);
+}
+
+
+/* =========================================================
+   CONTENT WRAPPER
+========================================================= */
 
 .alphabet-video-content {
-  padding: 24px 16px 40px;
-  max-width: 1100px;
+  width: min(1030px, calc(100% - 40px));
+
   margin: 0 auto;
+
+  padding-top: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+
+/* =========================================================
+   WOODEN BOARD
+========================================================= */
+
 .alphabet-video-stage {
-  min-height: 520px;
-  background: linear-gradient(180deg, #fffdf2 0%, #fff4dc 100%);
-  border: 4px solid #ff8a3d;
-  border-radius: 24px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   position: relative;
-  overflow: hidden;
+
+  width: min(980px, 100%);
+
+  min-height: 665px;
+
+  margin-top: 18px;
+
+  padding: 45px 50px 35px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 20px;
+
+  border-radius: 28px;
+
+  /* WOOD BOARD */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(92, 48, 22, 0.22) 0,
+      transparent 4%,
+      transparent 96%,
+      rgba(92, 48, 22, 0.22) 100%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.035) 0,
+      rgba(255, 255, 255, 0.035) 2px,
+      rgba(83, 43, 20, 0.025) 3px,
+      rgba(83, 43, 20, 0.025) 7px
+    ),
+    linear-gradient(
+      135deg,
+      #a96734 0%,
+      #b8753b 22%,
+      #a86532 45%,
+      #b57138 68%,
+      #995c2d 100%
+    );
+
+  border: 7px solid #e0aa62;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(89, 48, 23, 0.42),
+    inset 0 0 0 9px rgba(244, 195, 113, 0.24),
+    0 8px 0 rgba(70, 42, 23, 0.32),
+    0 18px 35px rgba(24, 62, 35, 0.30);
+
+  overflow: hidden;
 }
 
-.alphabet-bubble {
+
+/* =========================================================
+   BOARD INNER FRAME
+========================================================= */
+
+.alphabet-video-stage::before {
+  content: "";
+
   position: absolute;
+
+  inset: 10px;
+
+  border: 2px solid rgba(247, 206, 134, 0.38);
+
+  border-radius: 20px;
+
+  pointer-events: none;
+}
+
+.alphabet-video-stage::after {
+  content: "";
+
+  position: absolute;
+
+  width: 170px;
+  height: 170px;
+
+  left: -55px;
+  top: 58px;
+
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.45);
-  animation: bubbleFloat 6s ease-in-out infinite;
+
+  background:
+    rgba(255, 236, 182, 0.06);
+
+  pointer-events: none;
 }
 
-.bubble-one {
-  width: 120px;
-  height: 120px;
-  top: 30px;
-  left: 40px;
-}
 
-.bubble-two {
-  width: 80px;
-  height: 80px;
-  top: 90px;
-  right: 70px;
-  animation-delay: 1s;
-}
+/* =========================================================
+   BOARD CONTENT LAYER
+========================================================= */
 
-.bubble-three {
-  width: 140px;
-  height: 140px;
-  bottom: 30px;
-  left: 120px;
-  animation-delay: 2s;
-}
-
-.bubble-four {
-  width: 95px;
-  height: 95px;
-  bottom: 60px;
-  right: 90px;
-  animation-delay: 3s;
-}
-
-.alphabet-floating-letter {
-  font-size: 150px;
-  font-weight: bold;
-  color: #184c35;
-  line-height: 1;
-  animation: letterFloat 1.8s ease-in-out infinite;
-  z-index: 2;
-  text-shadow: 0 4px 0 rgba(255, 255, 255, 0.6);
-}
-
-.alphabet-animal-row {
-  margin-top: 10px;
+.alphabet-video-stage > * {
   position: relative;
   z-index: 2;
+}
+
+
+/* =========================================================
+   LETTER
+========================================================= */
+
+.alphabet-floating-letter {
+  margin-bottom: 5px;
+
+  color: #fff4c8;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(105px, 13vw, 155px);
+
+  line-height: 0.78;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 5px 0 #754524,
+    0 8px 13px rgba(70, 37, 17, 0.30);
+}
+
+
+/* =========================================================
+   ANIMAL
+========================================================= */
+
+.alphabet-animal-row {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 7px;
 }
 
 .alphabet-animal {
-  font-size: 120px;
-  animation: animalDance 1.2s ease-in-out infinite alternate;
-  position: relative;
-  z-index: 2;
+  width: 150px;
+  height: 150px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e2d7ff,
+      #c8b7f0
+    );
+
+  border: 4px solid #b8a5df;
+
+  font-size: 78px;
+
+  box-shadow:
+    0 7px 0 rgba(68, 42, 93, 0.22);
 }
+
+
+/* =========================================================
+   ANIMAL SHADOW
+========================================================= */
 
 .alphabet-animal-shadow {
-  width: 80px;
-  height: 16px;
-  background: rgba(0, 0, 0, 0.12);
+  position: absolute;
+
+  width: 108px;
+  height: 17px;
+
+  left: 50%;
+  bottom: -10px;
+
+  transform: translateX(-50%);
+
   border-radius: 50%;
-  margin: -8px auto 0;
-  filter: blur(1px);
+
+  background: rgba(48, 31, 15, 0.20);
+
+  filter: blur(5px);
 }
+
+
+/* =========================================================
+   ANIMAL NAME
+========================================================= */
 
 .alphabet-animal-name {
-  margin-top: 16px;
-  font-size: 34px;
-  font-weight: bold;
-  color: #184c35;
-  z-index: 2;
-  text-align: center;
+  margin-top: 13px;
+
+  color: #fff3c8;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 31px;
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #714322;
 }
+
+
+/* =========================================================
+   SONG LINE
+========================================================= */
 
 .alphabet-song-line {
-  margin-top: 18px;
-  background: rgba(255, 255, 255, 0.82);
-  border-radius: 18px;
-  padding: 14px 24px;
-  font-size: 28px;
-  font-weight: bold;
-  color: #184c35;
+  margin-top: 13px;
+
+  padding: 10px 22px;
+
+  border-radius: 15px;
+
+  background: #fffdf5;
+
+  color: #245e43;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
+
+  font-weight: 800;
+
   text-align: center;
-  z-index: 2;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 6px 0 rgba(72, 42, 19, 0.20);
 }
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
 
 .alphabet-progress-box {
-  margin-top: 22px;
-  background: #fff3bf;
-  color: #6b5600;
-  padding: 12px 18px;
-  border-radius: 16px;
-  font-size: 18px;
-  font-weight: bold;
-  z-index: 2;
+  margin-top: 13px;
+
+  padding: 9px 17px;
+
+  border-radius: 999px;
+
+  background: #fff0aa;
+
+  color: #705719;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 4px 0 rgba(74, 46, 18, 0.18);
 }
 
-.alphabet-audio-warning {
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.alphabet-video-controls {
+  width: min(760px, 100%);
+
   margin-top: 18px;
-  background: #fff1f1;
-  color: #a12b2b;
-  border: 2px solid #f0b7b7;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   CONTROL BUTTONS
+========================================================= */
+
+.alphabet-video-controls button {
+  min-width: 108px;
+
+  padding: 10px 16px;
+
+  border: 0;
+
+  border-radius: 13px;
+
+  color: white;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 0 rgba(48, 31, 15, 0.30);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.alphabet-video-controls button:hover {
+  transform: translateY(-2px);
+}
+
+.alphabet-video-controls button:active {
+  transform: translateY(1px);
+
+  box-shadow:
+    0 2px 0 rgba(48, 31, 15, 0.30);
+}
+
+
+/* PLAY */
+
+.alphabet-video-controls button:first-child {
+  background:
+    linear-gradient(
+      135deg,
+      #319d61,
+      #176e47
+    );
+}
+
+
+/* RESTART */
+
+.alphabet-video-controls button:nth-child(2) {
+  background:
+    linear-gradient(
+      135deg,
+      #f4a340,
+      #d87823
+    );
+}
+
+
+/* PREVIOUS */
+
+.alphabet-video-controls button:nth-child(3) {
+  background:
+    linear-gradient(
+      135deg,
+      #8074c7,
+      #5f52a7
+    );
+}
+
+
+/* NEXT */
+
+.alphabet-video-controls button:nth-child(4) {
+  background:
+    linear-gradient(
+      135deg,
+      #4a9ec4,
+      #26789f
+    );
+}
+
+
+/* =========================================================
+   LETTER SELECTOR
+========================================================= */
+
+.alphabet-letter-strip {
+  width: min(860px, 100%);
+
+  margin-top: 17px;
+
+  padding: 10px 13px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 6px;
+
+  flex-wrap: wrap;
+
   border-radius: 16px;
-  padding: 14px 16px;
-  font-size: 18px;
-  font-weight: bold;
+
+  background: rgba(255, 244, 207, 0.94);
+
+  border: 2px solid rgba(237, 188, 99, 0.75);
+
+  box-shadow:
+    0 5px 0 rgba(61, 40, 20, 0.14);
+}
+
+
+/* =========================================================
+   LETTER CHIPS
+========================================================= */
+
+.alphabet-letter-strip button {
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #fffaf0;
+
+  color: #276147;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 0 rgba(65, 47, 24, 0.15);
+
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease;
+}
+
+.alphabet-letter-strip button:hover {
+  transform: translateY(-2px);
+}
+
+.alphabet-letter-strip button.active {
+  background: #ffd84d;
+
+  color: #174936;
+
+  box-shadow:
+    0 4px 0 rgba(110, 77, 18, 0.20);
+}
+
+
+/* =========================================================
+   AUDIO WARNING
+========================================================= */
+
+.alphabet-audio-warning {
+  width: min(760px, 100%);
+
+  margin-top: 10px;
+
+  padding: 8px 12px;
+
+  border-radius: 12px;
+
+  background: rgba(255, 243, 191, 0.95);
+
+  border: 1px solid #e2bd65;
+
+  color: #715719;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
   text-align: center;
 }
 
 .alphabet-audio-warning span {
-  color: #184c35;
+  font-weight: 900;
 }
 
-.alphabet-video-controls {
-  margin-top: 24px;
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
 
-.alphabet-control-btn {
-  border: none;
-  padding: 14px 24px;
-  border-radius: 18px;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: inherit;
-  color: white;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
-}
+/* =========================================================
+   MOBILE
+========================================================= */
 
-.alphabet-control-btn.play {
-  background: #11c7c7;
-}
+@media (max-width: 767px) {
 
-.alphabet-control-btn.restart {
-  background: #7b5cff;
-}
-
-.alphabet-control-btn.prev {
-  background: #5f7cfa;
-}
-
-.alphabet-control-btn.next {
-  background: #ff8a3d;
-}
-
-.alphabet-letter-strip {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: repeat(13, 1fr);
-  gap: 10px;
-}
-
-.alphabet-letter-chip {
-  border: none;
-  background: #ffffff;
-  color: #184c35;
-  border-radius: 14px;
-  padding: 10px 0;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.alphabet-letter-chip:hover {
-  transform: scale(1.05);
-}
-
-.alphabet-letter-chip.active {
-  background: #ff8a3d;
-  color: white;
-}
-
-@keyframes letterFloat {
-  0% {
-    transform: translateY(0px) scale(1);
+  .alphabet-video-page {
+    padding-top: 64px;
+    padding-bottom: 22px;
   }
-  50% {
-    transform: translateY(-12px) scale(1.05);
-  }
-  100% {
-    transform: translateY(0px) scale(1);
-  }
-}
 
-@keyframes animalDance {
-  0% {
-    transform: translateX(-10px) rotate(-4deg);
+  .alphabet-video-header {
+    height: 64px;
   }
-  100% {
-    transform: translateX(10px) rotate(4deg);
-  }
-}
 
-@keyframes bubbleFloat {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-18px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-@media (max-width: 900px) {
-  .alphabet-letter-strip {
-    grid-template-columns: repeat(7, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
   .alphabet-video-header h1 {
-    font-size: 17px;
+    font-size: 21px;
+  }
+
+  .alphabet-back-btn {
+    left: 11px;
+
+    width: 38px;
+    height: 38px;
+
+    font-size: 19px;
+  }
+
+  .alphabet-video-content {
+    width: calc(100% - 18px);
+
+    padding-top: 8px;
   }
 
   .alphabet-video-stage {
-    min-height: 470px;
-    padding: 20px 14px;
+    min-height: 570px;
+
+    margin-top: 10px;
+
+    padding: 30px 17px 25px;
+
+    border-width: 5px;
+
+    border-radius: 22px;
   }
 
   .alphabet-floating-letter {
-    font-size: 100px;
+    font-size: 105px;
   }
 
   .alphabet-animal {
-    font-size: 84px;
+    width: 112px;
+    height: 112px;
+
+    font-size: 60px;
+  }
+
+  .alphabet-animal-name {
+    font-size: 27px;
+  }
+
+  .alphabet-song-line {
+    max-width: 290px;
+
+    font-size: 18px;
+
+    padding: 9px 15px;
+  }
+
+  .alphabet-video-controls {
+    gap: 7px;
+
+    margin-top: 14px;
+  }
+
+  .alphabet-video-controls button {
+    min-width: 88px;
+
+    padding: 9px 10px;
+
+    font-size: 10px;
+  }
+
+  .alphabet-letter-strip {
+    gap: 5px;
+
+    padding: 8px;
+
+    margin-top: 12px;
+  }
+
+  .alphabet-letter-strip button {
+    width: 27px;
+    height: 27px;
+
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .alphabet-video-header h1 {
+    font-size: 18px;
+  }
+
+  .alphabet-video-stage {
+    min-height: 530px;
+
+    padding: 25px 12px 20px;
+  }
+
+  .alphabet-floating-letter {
+    font-size: 91px;
+  }
+
+  .alphabet-animal {
+    width: 98px;
+    height: 98px;
+
+    font-size: 51px;
   }
 
   .alphabet-animal-name {
@@ -305,101 +836,27 @@
   }
 
   .alphabet-song-line {
-    font-size: 20px;
-    padding: 12px 14px;
+    max-width: 260px;
+
+    font-size: 16px;
   }
 
-  .alphabet-control-btn {
-    font-size: 17px;
-    padding: 12px 18px;
+  .alphabet-progress-box {
+    font-size: 10px;
   }
 
-  .alphabet-letter-strip {
-    grid-template-columns: repeat(5, 1fr);
+  .alphabet-video-controls button {
+    min-width: 78px;
+
+    padding: 8px 8px;
+
+    font-size: 9px;
   }
 
-  .alphabet-letter-chip {
-    font-size: 17px;
-  }
-}
-/* 📱 TABLET */
-@media (max-width: 768px) {
+  .alphabet-letter-strip button {
+    width: 25px;
+    height: 25px;
 
-  .alphabet-floating-letter {
-    font-size: 90px;
-  }
-
-  .alphabet-animal {
-    font-size: 70px;
-  }
-
-  .alphabet-song-line {
-    font-size: 22px;
-  }
-
-  .alphabet-video-stage {
-    min-height: auto;
-    padding: 20px;
-  }
-
-  .alphabet-letter-strip {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
-
-/* 📲 MOBILE */
-@media (max-width: 480px) {
-
-  .alphabet-video-content {
-    padding: 16px 10px;
-  }
-
-  .alphabet-floating-letter {
-    font-size: 70px;
-  }
-
-  .alphabet-animal {
-    font-size: 60px;
-  }
-
-  .alphabet-animal-name {
-    font-size: 20px;
-  }
-
-  .alphabet-song-line {
-    font-size: 18px;
-    padding: 10px;
-  }
-
-  .alphabet-control-btn {
-    width: 100%;
-    font-size: 15px;
-  }
-
-  .alphabet-letter-strip {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .alphabet-letter-chip {
-    font-size: 14px;
-    padding: 8px 0;
-  }
-}
-
-
-/* 💻 LARGE SCREENS */
-@media (min-width: 1200px) {
-
-  .alphabet-floating-letter {
-    font-size: 180px;
-  }
-
-  .alphabet-animal {
-    font-size: 140px;
-  }
-
-  .alphabet-letter-strip {
-    grid-template-columns: repeat(13, 1fr);
+    font-size: 11px;
   }
 }

@@ -1,112 +1,627 @@
+/* =========================================================
+   🌿 CURIOKIDS - STUDENT PROFILE
+   ========================================================= */
+
 .profile-page {
-  padding: 30px;
-  text-align: center;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #56ab2f, #a8e063);
-  font-family: "Comic Sans MS", cursive;
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 42px 20px 55px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 255, 255, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #4caf2f 0%,
+      #69cf3f 48%,
+      #a4df5d 100%
+    );
+
+  color: #173f1d;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
+
+  overflow-x: hidden;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  margin: 20px auto;
-  max-width: 350px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+
+/* =========================================================
+   👤 NAME SECTION
+   ========================================================= */
+
+.name-section {
+  width: 100%;
+  max-width: 720px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  margin-bottom: 22px;
 }
 
-.big {
-  font-size: 22px;
-  font-weight: bold;
+.name-section h1 {
+  margin: 0;
+
+  font-size: clamp(32px, 5vw, 48px);
+
+  line-height: 1.15;
+
+  font-weight: 900;
+
+  color: #113c1c;
+
+  text-shadow:
+    0 3px 0 rgba(255, 255, 255, 0.24);
 }
 
-.input {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-top: 10px;
+
+/* =========================================================
+   ✏️ EDIT MODE
+   ========================================================= */
+
+.name-input {
+  width: min(360px, 90%);
+
+  box-sizing: border-box;
+
+  padding: 14px 18px;
+
+  margin-bottom: 10px;
+
+  border: 3px solid #ffffff;
+
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  color: #173f1d;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  font-family: inherit;
+
+  outline: none;
+
+  box-shadow:
+    0 8px 18px rgba(40, 95, 31, 0.16);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
+
+.name-input:focus {
+  border-color: #ffbe16;
+
+  box-shadow:
+    0 0 0 4px rgba(255, 190, 22, 0.22),
+    0 8px 18px rgba(40, 95, 31, 0.16);
+
+  transform: translateY(-1px);
+}
+
+.name-input::placeholder {
+  color: #78917a;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   ✏️ EDIT BUTTON
+   ========================================================= */
+
+.edit-btn {
+  border: none;
+
+  padding: 11px 24px;
+
+  border-radius: 14px;
+
+  background: #12bfd0;
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 14px rgba(0, 100, 110, 0.2);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.edit-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 18px rgba(0, 100, 110, 0.24);
+
+  filter: brightness(1.04);
+}
+
+.edit-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   💾 SAVE BUTTON
+   ========================================================= */
 
 .save-btn {
-  margin-top: 10px;
-  background: #4caf50;
-  color: white;
-  padding: 8px 15px;
   border: none;
-  border-radius: 10px;
+
+  padding: 11px 28px;
+
+  border-radius: 14px;
+
+  background: #12bfd0;
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  font-family: inherit;
+
   cursor: pointer;
+
+  box-shadow:
+    0 7px 14px rgba(0, 100, 110, 0.2);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.friend-img {
-  width: 120px;
-  margin: 10px 0;
+.save-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 18px rgba(0, 100, 110, 0.25);
 }
 
-.change-btn {
-  background: orange;
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
+.save-btn:active {
+  transform: translateY(0);
 }
 
-.back-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-}
-.profile-page {
-  text-align: center;
-  padding: 30px;
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #56ab2f, #a8e063);
-  font-family: "Comic Sans MS", cursive;
-}
+
+/* =========================================================
+   🐵 AVATAR PREVIEW
+   ========================================================= */
 
 .avatar-preview {
-  font-size: 80px;
-  margin: 20px;
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 14px 0 20px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  border: 5px solid #ffd12f;
+
+  font-size: 66px;
+
+  line-height: 1;
+
+  box-shadow:
+    0 10px 25px rgba(35, 84, 28, 0.22);
+
+  animation:
+    profileFloat 3s ease-in-out infinite;
 }
+
+
+/* =========================================================
+   🎨 AVATAR TITLE
+   ========================================================= */
+
+.profile-page > h2 {
+  margin: 4px 0 16px;
+
+  color: #153e1d;
+
+  font-size: clamp(24px, 4vw, 32px);
+
+  font-weight: 900;
+
+  text-align: center;
+
+  text-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.18);
+}
+
+
+/* =========================================================
+   🎭 AVATAR GRID
+   ========================================================= */
 
 .avatar-grid {
+  width: 100%;
+  max-width: 620px;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 15px;
-  max-width: 400px;
-  margin: auto;
+
+  grid-template-columns:
+    repeat(5, minmax(90px, 1fr));
+
+  gap: 16px;
+
+  justify-content: center;
 }
+
+
+/* =========================================================
+   🃏 AVATAR CARD
+   ========================================================= */
 
 .avatar-card {
-  background: white;
-  border-radius: 15px;
-  padding: 10px;
+  min-height: 112px;
+
+  padding: 13px 10px;
+
+  box-sizing: border-box;
+
+  border-radius: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  text-align: center;
+
   cursor: pointer;
-  transition: 0.2s;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.avatar-card:hover {
-  transform: scale(1.1);
+.avatar-card.unlocked {
+  background: rgba(255, 255, 255, 0.82);
+
+  border: 3px solid transparent;
+
+  box-shadow:
+    0 7px 16px rgba(48, 101, 38, 0.15);
+}
+
+.avatar-card.unlocked:hover {
+  transform: translateY(-5px);
+
+  border-color: #ffd027;
+
+  box-shadow:
+    0 12px 22px rgba(48, 101, 38, 0.2);
+}
+
+.avatar-card.locked {
+  background: rgba(255, 255, 255, 0.38);
+
+  border: 3px solid rgba(255, 255, 255, 0.22);
+
+  cursor: not-allowed;
+
+  opacity: 0.75;
 }
 
 .avatar-icon {
-  font-size: 40px;
+  font-size: 46px;
+
+  line-height: 1;
+
+  display: block;
 }
 
-.locked {
-  opacity: 0.5;
+.avatar-card p {
+  margin: 0;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  color: #497648;
 }
 
-.unlocked {
-  border: 2px solid gold;
+
+/* =========================================================
+   🦊 JUNGLE FRIEND SECTION
+   ========================================================= */
+
+.profile-page > div[style*="marginTop"] {
+  width: min(620px, 94%);
+
+  box-sizing: border-box;
+
+  padding: 24px 20px;
+
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.8);
+
+  border: 3px solid rgba(255, 203, 35, 0.75);
+
+  box-shadow:
+    0 10px 24px rgba(51, 103, 42, 0.16);
+
+  backdrop-filter: blur(5px);
 }
+
+.profile-page > div[style*="marginTop"] h2 {
+  color: #194a22;
+
+  font-size: 25px;
+
+  font-weight: 900;
+}
+
+.profile-page > div[style*="marginTop"] img {
+  border: 4px solid #ffd12f;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 18px rgba(45, 92, 37, 0.18);
+
+  padding: 5px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ⭐ STARS BOX
+   ========================================================= */
 
 .stars-box {
-  margin-top: 20px;
-  background: white;
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-weight: bold;
+  width: min(340px, 92%);
+
+  box-sizing: border-box;
+
+  padding: 14px 22px;
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  border: 3px solid #ffffff;
+
+  color: #153e1d;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  text-align: center;
+
+  line-height: 1.8;
+
+  box-shadow:
+    0 9px 20px rgba(42, 91, 34, 0.18);
+}
+
+
+/* =========================================================
+   🌱 AGE TEXT
+   ========================================================= */
+
+.name-section p {
+  color: #28592f;
+
+  font-size: 18px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   🌟 LOADING
+   ========================================================= */
+
+.profile-page .name-section h1:only-child {
+  animation:
+    loadingPulse 1.3s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   ✨ FLOATING ANIMATION
+   ========================================================= */
+
+@keyframes profileFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+
+/* =========================================================
+   🌱 LOADING ANIMATION
+   ========================================================= */
+
+@keyframes loadingPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   📱 TABLET
+   ========================================================= */
+
+@media (max-width: 850px) {
+  .profile-page {
+    padding:
+      34px
+      18px
+      45px;
+  }
+
+  .avatar-grid {
+    grid-template-columns:
+      repeat(3, minmax(90px, 1fr));
+
+    max-width: 430px;
+  }
+}
+
+
+/* =========================================================
+   📱 MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+  .profile-page {
+    padding:
+      28px
+      14px
+      40px;
+  }
+
+  .name-section h1 {
+    font-size: 32px;
+  }
+
+  .avatar-preview {
+    width: 90px;
+    height: 90px;
+
+    font-size: 56px;
+
+    border-width: 4px;
+  }
+
+  .profile-page > h2 {
+    font-size: 24px;
+  }
+
+  .avatar-grid {
+    grid-template-columns:
+      repeat(2, minmax(115px, 1fr));
+
+    gap: 12px;
+
+    max-width: 340px;
+  }
+
+  .avatar-card {
+    min-height: 105px;
+  }
+
+  .avatar-icon {
+    font-size: 42px;
+  }
+
+  .profile-page > div[style*="marginTop"] {
+    width: 100%;
+
+    padding:
+      20px
+      15px;
+  }
+
+  .stars-box {
+    width: 100%;
+
+    font-size: 16px;
+  }
+}
+
+
+/* =========================================================
+   📱 VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 360px) {
+  .avatar-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    gap: 9px;
+  }
+
+  .avatar-card {
+    min-height: 98px;
+
+    padding: 10px;
+  }
+
+  .avatar-icon {
+    font-size: 38px;
+  }
+
+  .avatar-card p {
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   ♿ ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+.avatar-card:focus-visible {
+  outline: 3px solid #ffbe16;
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   🧹 REMOVE DEFAULT BUTTON FONT DIFFERENCES
+   ========================================================= */
+
+button {
+  font-family: inherit;
 }

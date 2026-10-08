@@ -1,151 +1,583 @@
-.games-page {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #7ac943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+/* =========================================================
+   CURIOKIDS GAMES HOME
+   JUNGLE + WOODEN GAME ZONE
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100%;
+
+  font-family:
+    "Nunito",
+    "Trebuchet MS",
+    sans-serif;
+}
+
+body {
   overflow-x: hidden;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
+.games-page {
   position: relative;
 
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  overflow-x: hidden;
+
+  color: #fff8df;
+
+  /*
+   * THE JUNGLE BACKGROUND
+   * Same artwork used by the CurioKids jungle pages.
+   */
+  background-image:
+    linear-gradient(
+      rgba(20, 80, 48, 0.08),
+      rgba(20, 80, 48, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
 }
 
-/* 🔵 Floating bubbles */
-.floating-bg {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.3;
-  z-index: 0;
-}
 
-.bubble1 {
-  width: 120px;
-  height: 120px;
-  background: #ffffff;
-  top: 10%;
-  left: 5%;
-}
+/* =========================================================
+   SMALL FIXED TOP HEADER
+   ========================================================= */
 
-.bubble2 {
-  width: 160px;
-  height: 160px;
-  background: #ffffff;
-  top: 40%;
-  right: 8%;
-}
-
-.bubble3 {
-  width: 100px;
-  height: 100px;
-  background: #ffffff;
-  bottom: 10%;
-  left: 15%;
-}
-
-/* 🔝 Topbar */
 .games-topbar {
-  background: #184c35;
-  color: white;
-  height: 78px;
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 58px;
+
+  z-index: 1000;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  z-index: 1;
+
+  margin: 0;
+  padding: 0;
+
+  background:
+    rgba(4, 78, 52, 0.97);
+
+  border: none;
+
+  border-bottom:
+    3px solid #e6bd52;
+
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.25);
 }
+
+
+/* =========================================================
+   HEADER TITLE
+   ========================================================= */
 
 .games-topbar-title {
   margin: 0;
+
+  padding: 0;
+
+  color:
+    rgba(255, 255, 255, 0.08);
+
   font-size: 22px;
-  font-weight: bold;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  user-select: none;
 }
 
-/* ⬅ Back button */
-.games-back {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  border: none;
-  border-radius: 50%;
-  background: #f2f2f2;
-  color: #184c35;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
-  transition: 0.2s ease;
-}
 
-.games-back:hover {
-  transform: translateY(-50%) scale(1.05);
-  background: #ffffff;
-}
+/* =========================================================
+   MASCOT AREA
+   ========================================================= */
 
-/* 🐯 Header section */
-.games-header {
-  text-align: center;
-  margin: 20px 0;
-  z-index: 1;
+.games-mascot-area {
   position: relative;
-}
 
-.header-mascots span {
-  font-size: 30px;
-  margin: 0 6px;
-}
+  width: 100%;
 
-.games-header p {
-  font-size: 20px;
-  color: #173b2f;
-  font-weight: bold;
-}
+  /*
+   * Space below the fixed header.
+   */
+  height: 118px;
 
-/* 🎯 CENTER AREA (IMPORTANT FIX) */
-.games-container {
-  flex: 1; /* takes remaining space */
+  margin: 0;
+  padding: 0;
+
+  padding-top: 76px;
+
   display: flex;
+
+  align-items: flex-start;
   justify-content: center;
-  align-items: center; /* PERFECT vertical center */
-  z-index: 1;
-  position: relative;
+
+  background: transparent;
+
+  z-index: 10;
 }
 
-/* 🧩 Card */
-.games-card {
-  background: #ddd0f1;
-  border-radius: 30px;
-  padding: 50px 40px;
-  min-width: 320px;
-  min-height: 180px;
 
-  box-shadow: 0 10px 25px rgba(70, 130, 40, 0.22);
-  cursor: pointer;
+/* =========================================================
+   MASCOT PILL
+   ========================================================= */
 
+.header-mascots {
   display: flex;
+
   align-items: center;
   justify-content: center;
 
-  font-size: 22px;
-  font-weight: bold;
+  gap: 20px;
 
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: max-content;
+
+  margin: 0;
+
+  padding:
+    6px 20px;
+
+  background:
+    rgba(5, 79, 51, 0.94);
+
+  border:
+    2px solid #e5b94f;
+
+  border-radius:
+    999px;
+
+  box-shadow:
+    0 4px 10px
+    rgba(0, 0, 0, 0.24);
 }
+
+
+/* =========================================================
+   MASCOTS
+   ========================================================= */
+
+.header-mascots span {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  margin: 0;
+  padding: 0;
+
+  font-size: 27px;
+
+  line-height: 1;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.games-main {
+  position: relative;
+
+  z-index: 20;
+
+  width: 100%;
+
+  min-height:
+    calc(100vh - 118px);
+
+  margin: 0;
+  padding:
+    20px 20px 80px;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: center;
+
+  background: transparent;
+}
+
+
+/* =========================================================
+   WOODEN GAME ZONE
+   ========================================================= */
+
+.games-card {
+  position: relative;
+
+  width: 600px;
+  max-width:
+    calc(100vw - 60px);
+
+  height: 190px;
+
+  margin: 0;
+
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  cursor: pointer;
+
+  border:
+    7px solid #633716;
+
+  border-radius:
+    24px;
+
+  /*
+   * WOODEN COLOR
+   */
+  background:
+    linear-gradient(
+      145deg,
+      #d39a5b 0%,
+      #c48648 28%,
+      #b8753c 58%,
+      #aa6632 100%
+    );
+
+  /*
+   * WOOD DEPTH
+   */
+  box-shadow:
+
+    inset
+    0 0 0 3px
+    rgba(255, 226, 169, 0.82),
+
+    inset
+    0 0 0 8px
+    rgba(91, 45, 18, 0.12),
+
+    inset
+    0 -18px 28px
+    rgba(67, 28, 9, 0.14),
+
+    0 8px 0
+    #43230f,
+
+    0 16px 28px
+    rgba(0, 0, 0, 0.30);
+
+  color:
+    #fff3d1;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   INNER WOOD BORDER
+   ========================================================= */
+
+.games-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+
+  border:
+    3px solid
+    rgba(255, 225, 170, 0.58);
+
+  border-radius:
+    15px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SOFT WOOD TEXTURE
+   IMPORTANT:
+   NO GRID LINES
+   ========================================================= */
+
+.games-card::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius:
+    16px;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 32%,
+      rgba(65, 28, 9, 0.06)
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   GAME ICON
+   ========================================================= */
+
+.games-card-icon {
+  position: relative;
+
+  z-index: 5;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 48px;
+
+  line-height: 1;
+
+  filter:
+    drop-shadow(
+      0 3px 3px
+      rgba(55, 25, 8, 0.45)
+    );
+}
+
+
+/* =========================================================
+   GAME ZONE TEXT
+   ========================================================= */
+
+.games-card-title {
+  position: relative;
+
+  z-index: 5;
+
+  color:
+    #fff4d2;
+
+  font-size: 42px;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  text-shadow:
+    0 3px 0 #70401d,
+    0 5px 8px
+    rgba(54, 24, 7, 0.38);
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
 
 .games-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 14px 30px rgba(70, 130, 40, 0.3);
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+
+    inset
+    0 0 0 3px
+    rgba(255, 226, 169, 0.82),
+
+    inset
+    0 0 0 8px
+    rgba(91, 45, 18, 0.12),
+
+    0 11px 0
+    #43230f,
+
+    0 20px 32px
+    rgba(0, 0, 0, 0.34);
 }
 
-/* 🐾 Bottom animals */
-.bottom-animals {
-  text-align: center;
-  margin: 20px 0;
+
+/* =========================================================
+   ACTIVE
+   ========================================================= */
+
+.games-card:active {
+  transform:
+    translateY(4px);
+
+  box-shadow:
+
+    inset
+    0 0 0 3px
+    rgba(255, 226, 169, 0.82),
+
+    0 4px 0
+    #43230f,
+
+    0 8px 15px
+    rgba(0, 0, 0, 0.25);
 }
 
-.bottom-animals span {
-  font-size: 32px;
-  margin: 0 10px;
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.games-card:focus-visible {
+  outline:
+    4px solid #ffe17a;
+
+  outline-offset:
+    5px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .games-topbar {
+    height: 56px;
+  }
+
+  .games-mascot-area {
+    height: 108px;
+
+    padding-top: 72px;
+  }
+
+  .games-main {
+    padding-top: 18px;
+  }
+
+  .games-card {
+    width: 540px;
+
+    height: 175px;
+  }
+
+  .games-card-title {
+    font-size: 36px;
+  }
+
+  .games-card-icon {
+    font-size: 42px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .games-topbar {
+    height: 54px;
+  }
+
+  .games-topbar-title {
+    font-size: 19px;
+  }
+
+  .games-mascot-area {
+    height: 100px;
+
+    padding-top: 67px;
+  }
+
+  .header-mascots {
+    gap: 12px;
+
+    padding:
+      5px 16px;
+  }
+
+  .header-mascots span {
+    width: 27px;
+    height: 27px;
+
+    font-size: 23px;
+  }
+
+  .games-main {
+    min-height: calc(100vh - 100px);
+
+    padding:
+      15px 15px 60px;
+  }
+
+  .games-card {
+    width:
+      calc(100vw - 30px);
+
+    max-width: none;
+
+    height: 150px;
+
+    border-width: 6px;
+
+    border-radius: 20px;
+
+    gap: 10px;
+  }
+
+  .games-card-icon {
+    font-size: 36px;
+  }
+
+  .games-card-title {
+    font-size: 30px;
+  }
 }

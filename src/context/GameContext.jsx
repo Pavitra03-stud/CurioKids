@@ -11,39 +11,160 @@ import {
   doc,
   setDoc,
   getDoc,
+  runTransaction,
 } from "firebase/firestore";
 
 const GameContext = createContext();
 
+// =========================================================
+// 🎁 REWARD MILESTONES
+// =========================================================
+
+export const REWARDS = [
+  {
+    id: "super-learner-badge",
+    icon: "🏅",
+    title: "Super Learner Badge",
+    cost: 3,
+    message:
+      "Amazing! You earned your first learning badge! 🌟",
+  },
+
+  {
+    id: "explorer-hat",
+    icon: "🎩",
+    title: "Explorer Hat",
+    cost: 6,
+    message:
+      "Your jungle adventure is growing! 🎩🌿",
+  },
+
+  {
+    id: "mini-game-ticket",
+    icon: "🎮",
+    title: "Mini Game Ticket",
+    cost: 10,
+    message:
+      "You unlocked a special mini-game reward! 🎮",
+  },
+
+  {
+    id: "rainbow-star",
+    icon: "🌈",
+    title: "Rainbow Star",
+    cost: 15,
+    message:
+      "You're shining brighter every day! 🌈⭐",
+  },
+
+  {
+    id: "butterfly-badge",
+    icon: "🦋",
+    title: "Butterfly Badge",
+    cost: 20,
+    message:
+      "You found a beautiful new milestone! 🦋",
+  },
+
+  {
+    id: "golden-leaf",
+    icon: "🍃",
+    title: "Golden Leaf",
+    cost: 25,
+    message:
+      "Your learning journey is becoming golden! 🍃✨",
+  },
+
+  {
+    id: "jungle-hero",
+    icon: "🦁",
+    title: "Jungle Hero",
+    cost: 30,
+    message:
+      "You're officially a Jungle Hero! 🦁🏆",
+  },
+
+  {
+    id: "jungle-treasure",
+    icon: "💎",
+    title: "Jungle Treasure",
+    cost: 40,
+    message:
+      "You discovered a precious jungle treasure! 💎",
+  },
+
+  {
+    id: "jungle-master",
+    icon: "👑",
+    title: "Jungle Master",
+    cost: 50,
+    message:
+      "WOW! You're a true Jungle Master! 👑🌴",
+  },
+
+  {
+    id: "grand-champion",
+    icon: "🏆",
+    title: "Grand Champion",
+    cost: 75,
+    message:
+      "An incredible achievement! You're a Grand Champion! 🏆",
+  },
+];
+
+// =========================================================
+// 🌴 PROVIDER
+// =========================================================
+
 export const GameProvider = ({ children }) => {
-  // =====================================================
+  // =======================================================
   // 👤 CURRENT USER
-  // =====================================================
+  // =======================================================
 
   const [userId, setUserId] = useState(
     localStorage.getItem("userId")
   );
 
-  // =====================================================
+  // =======================================================
   // ⭐ OVERALL PROGRESS
-  // =====================================================
+  // =======================================================
 
   const [stars, setStars] = useState(0);
+
   const [history, setHistory] = useState([]);
+
   const [streak, setStreak] = useState(0);
 
-  // =====================================================
+  // =======================================================
   // 🎮 ACTIVE / RESUME GAME PROGRESS
-  // =====================================================
+  // =======================================================
 
   const [activeGames, setActiveGames] = useState({});
+
+  // =======================================================
+  // 🎁 REWARDS
+  // =======================================================
+
+  const [claimedRewards, setClaimedRewards] =
+    useState([]);
+
+  // Reward queue for automatic popups
+  const [rewardQueue, setRewardQueue] =
+    useState([]);
+
+  const [currentReward, setCurrentReward] =
+    useState(null);
+
+  // =======================================================
+  // ⏳ LOADING
+  // =======================================================
 
   const [loadingProgress, setLoadingProgress] =
     useState(true);
 
-  // =====================================================
+  // =======================================================
   // 👤 WATCH FOR LOGIN USER CHANGES
-  // =====================================================
+  // =======================================================
 
   useEffect(() => {
     const checkUser = () => {
@@ -76,9 +197,9 @@ export const GameProvider = ({ children }) => {
     };
   }, []);
 
-  // =====================================================
+  // =======================================================
   // 📅 DATE HELPERS
-  // =====================================================
+  // =======================================================
 
   const getToday = () => {
     const date = new Date();
@@ -100,9 +221,42 @@ export const GameProvider = ({ children }) => {
     );
   };
 
-  // =====================================================
+  // =======================================================
+  // 🎁 SHOW NEXT REWARD
+  // =======================================================
+
+  useEffect(() => {
+    if (
+      !currentReward &&
+      rewardQueue.length > 0
+    ) {
+      const [nextReward, ...remaining] =
+        rewardQueue;
+
+      setCurrentReward(
+        nextReward
+      );
+
+      setRewardQueue(
+        remaining
+      );
+    }
+  }, [
+    currentReward,
+    rewardQueue,
+  ]);
+
+  // =======================================================
+  // 🎁 CLOSE REWARD POPUP
+  // =======================================================
+
+  const dismissReward = () => {
+    setCurrentReward(null);
+  };
+
+  // =======================================================
   // 🔥 LOAD USER PROGRESS
-  // =====================================================
+  // =======================================================
 
   const loadProgress = async (
     currentUserId
@@ -117,36 +271,66 @@ export const GameProvider = ({ children }) => {
       );
 
       const progressSnap =
-        await getDoc(progressRef);
+        await getDoc(
+          progressRef
+        );
 
-      if (progressSnap.exists()) {
+      if (
+        progressSnap.exists()
+      ) {
         const data =
           progressSnap.data();
 
+        // -----------------------------------------------
         // ⭐ STARS
+        // -----------------------------------------------
+
         setStars(
           Number(data.stars) || 0
         );
 
+        // -----------------------------------------------
         // 📚 HISTORY
+        // -----------------------------------------------
+
         setHistory(
-          Array.isArray(data.history)
+          Array.isArray(
+            data.history
+          )
             ? data.history
             : []
         );
 
+        // -----------------------------------------------
         // 🔥 STREAK
+        // -----------------------------------------------
+
         setStreak(
           Number(data.streak) || 0
         );
 
+        // -----------------------------------------------
         // 🎮 ACTIVE GAMES
+        // -----------------------------------------------
+
         setActiveGames(
           data.activeGames &&
           typeof data.activeGames ===
             "object"
             ? data.activeGames
             : {}
+        );
+
+        // -----------------------------------------------
+        // 🎁 CLAIMED REWARDS
+        // -----------------------------------------------
+
+        setClaimedRewards(
+          Array.isArray(
+            data.claimedRewards
+          )
+            ? data.claimedRewards
+            : []
         );
 
         console.log(
@@ -157,20 +341,31 @@ export const GameProvider = ({ children }) => {
             history: data.history,
             activeGames:
               data.activeGames,
+            claimedRewards:
+              data.claimedRewards,
           }
         );
+
       } else {
+        // -----------------------------------------------
         // 🆕 NEW USER
+        // -----------------------------------------------
 
         setStars(0);
+
         setHistory([]);
+
         setStreak(0);
+
         setActiveGames({});
+
+        setClaimedRewards([]);
 
         console.log(
           "🆕 No existing progress found."
         );
       }
+
     } catch (error) {
       console.error(
         "❌ Error loading user progress:",
@@ -178,42 +373,60 @@ export const GameProvider = ({ children }) => {
       );
 
       setStars(0);
+
       setHistory([]);
+
       setStreak(0);
+
       setActiveGames({});
+
+      setClaimedRewards([]);
+
     } finally {
       setLoadingProgress(false);
     }
   };
 
-  // =====================================================
+  // =======================================================
   // 🔄 RESET LOCAL STATE WHEN USER CHANGES
-  // =====================================================
+  // =======================================================
 
   useEffect(() => {
     setStars(0);
+
     setHistory([]);
+
     setStreak(0);
+
     setActiveGames({});
+
+    setClaimedRewards([]);
+
+    setRewardQueue([]);
+
+    setCurrentReward(null);
 
     if (!userId) {
       setLoadingProgress(false);
+
       return;
     }
 
     loadProgress(userId);
+
   }, [userId]);
 
-  // =====================================================
+  // =======================================================
   // 💾 SAVE GENERAL PROGRESS TO FIREBASE
-  // =====================================================
+  // =======================================================
 
   const saveToFirebase = async (
     currentUserId,
     newStars,
     newHistory,
     newStreak,
-    newActiveGames = activeGames
+    newActiveGames = activeGames,
+    newClaimedRewards = claimedRewards
   ) => {
     if (!currentUserId) {
       console.warn(
@@ -233,18 +446,26 @@ export const GameProvider = ({ children }) => {
       await setDoc(
         progressRef,
         {
-          userId: currentUserId,
+          userId:
+            currentUserId,
 
-          stars: newStars,
+          stars:
+            newStars,
 
-          history: newHistory,
+          history:
+            newHistory,
 
-          streak: newStreak,
+          streak:
+            newStreak,
 
           activeGames:
             newActiveGames,
 
-          updatedAt: new Date(),
+          claimedRewards:
+            newClaimedRewards,
+
+          updatedAt:
+            new Date(),
         },
         {
           merge: true,
@@ -255,6 +476,7 @@ export const GameProvider = ({ children }) => {
         "✅ Progress saved for user:",
         currentUserId
       );
+
     } catch (error) {
       console.error(
         "❌ Error saving progress:",
@@ -265,9 +487,9 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  // =====================================================
+  // =======================================================
   // 🎮 SAVE CURRENT GAME PROGRESS
-  // =====================================================
+  // =======================================================
 
   const saveGameProgress = async ({
     gameId,
@@ -298,11 +520,11 @@ export const GameProvider = ({ children }) => {
         userId
       );
 
-      // Read latest Firebase data first.
-      // This prevents overwriting another active game
-      // with an old React state.
+      // Read latest Firebase state
       const progressSnap =
-        await getDoc(progressRef);
+        await getDoc(
+          progressRef
+        );
 
       const firebaseData =
         progressSnap.exists()
@@ -328,16 +550,17 @@ export const GameProvider = ({ children }) => {
 
           ...extraData,
 
-          updatedAt: new Date(),
+          updatedAt:
+            new Date(),
         },
       };
 
-      // 🔄 UPDATE LOCAL STATE
+      // Update local state
       setActiveGames(
         currentGameProgress
       );
 
-      // 💾 SAVE TO FIREBASE
+      // Save to Firebase
       await setDoc(
         progressRef,
         {
@@ -346,7 +569,8 @@ export const GameProvider = ({ children }) => {
           activeGames:
             currentGameProgress,
 
-          updatedAt: new Date(),
+          updatedAt:
+            new Date(),
         },
         {
           merge: true,
@@ -355,8 +579,11 @@ export const GameProvider = ({ children }) => {
 
       console.log(
         `💾 ${gameId} progress saved:`,
-        currentGameProgress[gameId]
+        currentGameProgress[
+          gameId
+        ]
       );
+
     } catch (error) {
       console.error(
         `❌ Error saving ${gameId} progress:`,
@@ -365,9 +592,9 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  // =====================================================
+  // =======================================================
   // 📥 GET SAVED GAME PROGRESS
-  // =====================================================
+  // =======================================================
 
   const getGameProgress = (
     gameId
@@ -382,9 +609,9 @@ export const GameProvider = ({ children }) => {
     );
   };
 
-  // =====================================================
+  // =======================================================
   // 🗑️ CLEAR ONE GAME'S SAVED PROGRESS
-  // =====================================================
+  // =======================================================
 
   const clearGameProgress = async (
     gameId
@@ -406,15 +633,18 @@ export const GameProvider = ({ children }) => {
     }
 
     try {
-      const progressRef = doc(
-        db,
-        "progress",
-        userId
-      );
+      const progressRef =
+        doc(
+          db,
+          "progress",
+          userId
+        );
 
-      // Read latest Firebase state.
+      // Read latest Firebase state
       const progressSnap =
-        await getDoc(progressRef);
+        await getDoc(
+          progressRef
+        );
 
       const firebaseData =
         progressSnap.exists()
@@ -436,19 +666,20 @@ export const GameProvider = ({ children }) => {
         gameId
       ];
 
-      // 🔄 UPDATE LOCAL STATE
+      // Update local state
       setActiveGames(
         updatedActiveGames
       );
 
-      // 💾 SAVE FIREBASE
+      // Save only active games
       await setDoc(
         progressRef,
         {
           activeGames:
             updatedActiveGames,
 
-          updatedAt: new Date(),
+          updatedAt:
+            new Date(),
         },
         {
           merge: true,
@@ -458,6 +689,7 @@ export const GameProvider = ({ children }) => {
       console.log(
         `🗑️ ${gameId} saved progress cleared`
       );
+
     } catch (error) {
       console.error(
         `❌ Error clearing ${gameId} progress:`,
@@ -466,15 +698,12 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  // =====================================================
+  // =======================================================
   // ⭐ ADD STARS
-  // =====================================================
   //
-  // IMPORTANT:
-  // We read the LATEST Firebase progress first.
-  // We do NOT depend on possibly stale React state.
-  //
-  // =====================================================
+  // REAL FIREBASE TRANSACTION
+  // + AUTOMATIC REWARDS
+  // =======================================================
 
   const addStars = async (
     score,
@@ -498,172 +727,309 @@ export const GameProvider = ({ children }) => {
         }
       );
 
-      // -------------------------------------------------
-      // 🔥 READ LATEST FIREBASE PROGRESS
-      // -------------------------------------------------
+      const progressRef =
+        doc(
+          db,
+          "progress",
+          userId
+        );
 
-      const progressRef = doc(
+      // =====================================================
+      // 🔥 ATOMIC FIREBASE UPDATE
+      // =====================================================
+
+      let resultOfUpdate =
+        null;
+
+      await runTransaction(
         db,
-        "progress",
-        userId
-      );
+        async (transaction) => {
+          const progressSnap =
+            await transaction.get(
+              progressRef
+            );
 
-      const progressSnap =
-        await getDoc(progressRef);
+          const firebaseData =
+            progressSnap.exists()
+              ? progressSnap.data()
+              : {};
 
-      const firebaseData =
-        progressSnap.exists()
-          ? progressSnap.data()
-          : {};
+          // -----------------------------------------------
+          // CURRENT VALUES
+          // -----------------------------------------------
 
-      // -------------------------------------------------
-      // CURRENT FIREBASE VALUES
-      // -------------------------------------------------
+          const currentStars =
+            Number(
+              firebaseData.stars || 0
+            );
 
-      const currentStars =
-        Number(
-          firebaseData.stars || 0
-        );
+          const currentHistory =
+            Array.isArray(
+              firebaseData.history
+            )
+              ? firebaseData.history
+              : [];
 
-      const currentHistory =
-        Array.isArray(
-          firebaseData.history
-        )
-          ? firebaseData.history
-          : [];
+          const currentStreak =
+            Number(
+              firebaseData.streak || 0
+            );
 
-      const currentStreak =
-        Number(
-          firebaseData.streak || 0
-        );
+          const currentActiveGames =
+            firebaseData.activeGames &&
+            typeof firebaseData.activeGames ===
+              "object"
+              ? firebaseData.activeGames
+              : {};
 
-      // -------------------------------------------------
-      // ⭐ CALCULATE EARNED STARS
-      // -------------------------------------------------
+          const currentClaimedRewards =
+            Array.isArray(
+              firebaseData.claimedRewards
+            )
+              ? firebaseData.claimedRewards
+              : [];
 
-      let earned = 1;
+          // -----------------------------------------------
+          // ⭐ CALCULATE EARNED STARS
+          // -----------------------------------------------
 
-      if (Number(score) >= 90) {
-        earned = 3;
-      } else if (
-        Number(score) >= 70
-      ) {
-        earned = 2;
-      }
+          let earned = 1;
 
-      // -------------------------------------------------
-      // 📅 DATES
-      // -------------------------------------------------
+          if (
+            Number(score) >= 90
+          ) {
+            earned = 3;
+          } else if (
+            Number(score) >= 70
+          ) {
+            earned = 2;
+          }
 
-      const today =
-        getToday();
+          // -----------------------------------------------
+          // 📅 DATES
+          // -----------------------------------------------
 
-      const yesterday =
-        getYesterday();
+          const today =
+            getToday();
 
-      // -------------------------------------------------
-      // 🔥 CALCULATE STREAK
-      // -------------------------------------------------
+          const yesterday =
+            getYesterday();
 
-      let newStreak = 1;
+          // -----------------------------------------------
+          // 🔥 STREAK
+          // -----------------------------------------------
 
-      if (
-        currentHistory.length > 0
-      ) {
-        const lastActivity =
-          currentHistory[
-            currentHistory.length - 1
+          let newStreak = 1;
+
+          if (
+            currentHistory.length > 0
+          ) {
+            const lastActivity =
+              currentHistory[
+                currentHistory.length -
+                  1
+              ];
+
+            const lastDate =
+              lastActivity?.date;
+
+            if (
+              lastDate === today
+            ) {
+              newStreak =
+                currentStreak || 1;
+
+            } else if (
+              lastDate ===
+              yesterday
+            ) {
+              newStreak =
+                (currentStreak || 0) +
+                1;
+
+            } else {
+              newStreak = 1;
+            }
+          }
+
+          // -----------------------------------------------
+          // ⭐ NEW STAR TOTAL
+          // -----------------------------------------------
+
+          const newStars =
+            currentStars +
+            earned;
+
+          // -----------------------------------------------
+          // 📚 NEW ACTIVITY
+          // -----------------------------------------------
+
+          const newActivity = {
+            date: today,
+
+            score:
+              Number(score) || 0,
+
+            stars:
+              earned,
+
+            game:
+              gameName,
+          };
+
+          const newHistory = [
+            ...currentHistory,
+            newActivity,
           ];
 
-        const lastDate =
-          lastActivity?.date;
+          // -----------------------------------------------
+          // 🎁 DETECT NEW REWARDS
+          // -----------------------------------------------
+
+          const newlyUnlockedRewards =
+            REWARDS.filter(
+              (reward) =>
+                !currentClaimedRewards.includes(
+                  reward.id
+                ) &&
+                currentStars <
+                  reward.cost &&
+                newStars >=
+                  reward.cost
+            );
+
+          // -----------------------------------------------
+          // 🎁 STORE ALL NEWLY CLAIMED REWARDS
+          // -----------------------------------------------
+
+          const updatedClaimedRewards = [
+            ...currentClaimedRewards,
+
+            ...newlyUnlockedRewards.map(
+              (reward) =>
+                reward.id
+            ),
+          ];
+
+          // -----------------------------------------------
+          // 💾 SAVE FINAL FIREBASE DATA
+          // -----------------------------------------------
+
+          transaction.set(
+            progressRef,
+            {
+              userId,
+
+              stars:
+                newStars,
+
+              history:
+                newHistory,
+
+              streak:
+                newStreak,
+
+              activeGames:
+                currentActiveGames,
+
+              claimedRewards:
+                updatedClaimedRewards,
+
+              updatedAt:
+                new Date(),
+            },
+            {
+              merge: true,
+            }
+          );
+
+          // -----------------------------------------------
+          // RETURN DATA TO LOCAL UI
+          // -----------------------------------------------
+
+          resultOfUpdate = {
+            earned,
+
+            newStars,
+
+            newHistory,
+
+            newStreak,
+
+            updatedClaimedRewards,
+
+            newlyUnlockedRewards,
+          };
+        }
+      );
+
+      // =====================================================
+      // 🔄 UPDATE LOCAL STATE AFTER FIREBASE SUCCESS
+      // =====================================================
+
+      if (resultOfUpdate) {
+        setStars(
+          resultOfUpdate.newStars
+        );
+
+        setHistory(
+          resultOfUpdate.newHistory
+        );
+
+        setStreak(
+          resultOfUpdate.newStreak
+        );
+
+        setClaimedRewards(
+          resultOfUpdate.updatedClaimedRewards
+        );
+
+        setActiveGames(
+          (prev) => prev
+        );
+
+        // ===================================================
+        // 🎉 AUTOMATIC REWARD POPUP
+        // ===================================================
 
         if (
-          lastDate === today
+          resultOfUpdate
+            .newlyUnlockedRewards
+            .length > 0
         ) {
-          newStreak =
-            currentStreak || 1;
-        } else if (
-          lastDate === yesterday
-        ) {
-          newStreak =
-            (currentStreak || 0) + 1;
-        } else {
-          newStreak = 1;
+          console.log(
+            "🎉 NEW REWARDS UNLOCKED:",
+            resultOfUpdate
+              .newlyUnlockedRewards
+          );
+
+          setRewardQueue(
+            (previousQueue) => [
+              ...previousQueue,
+              ...resultOfUpdate
+                .newlyUnlockedRewards,
+            ]
+          );
         }
+
+        console.log(
+          "✅ FINAL PROGRESS SAVED:",
+          {
+            stars:
+              resultOfUpdate.newStars,
+
+            streak:
+              resultOfUpdate.newStreak,
+
+            earned:
+              resultOfUpdate.earned,
+
+            newRewards:
+              resultOfUpdate
+                .newlyUnlockedRewards,
+          }
+        );
       }
-
-      // -------------------------------------------------
-      // ⭐ NEW TOTAL STARS
-      // -------------------------------------------------
-
-      const newStars =
-        currentStars + earned;
-
-      // -------------------------------------------------
-      // 📚 NEW ACTIVITY
-      // -------------------------------------------------
-
-      const newActivity = {
-        date: today,
-
-        score:
-          Number(score) || 0,
-
-        stars: earned,
-
-        game: gameName,
-      };
-
-      // -------------------------------------------------
-      // 📚 NEW HISTORY
-      // -------------------------------------------------
-
-      const newHistory = [
-        ...currentHistory,
-        newActivity,
-      ];
-
-      // -------------------------------------------------
-      // 💾 SAVE FINAL PROGRESS TO FIREBASE
-      // -------------------------------------------------
-
-      await setDoc(
-        progressRef,
-        {
-          userId,
-
-          stars: newStars,
-
-          history: newHistory,
-
-          streak: newStreak,
-
-          updatedAt: new Date(),
-        },
-        {
-          merge: true,
-        }
-      );
-
-      // -------------------------------------------------
-      // 🔄 UPDATE LOCAL UI ONLY AFTER FIREBASE SUCCESS
-      // -------------------------------------------------
-
-      setStars(newStars);
-
-      setHistory(newHistory);
-
-      setStreak(newStreak);
-
-      console.log(
-        "✅ FINAL PROGRESS SAVED:",
-        {
-          stars: newStars,
-          streak: newStreak,
-          history: newHistory,
-        }
-      );
 
     } catch (error) {
       console.error(
@@ -675,9 +1041,9 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  // =====================================================
+  // =======================================================
   // 🏁 COMPLETE GAME
-  // =====================================================
+  // =======================================================
 
   const completeGame = async (
     score,
@@ -703,75 +1069,21 @@ export const GameProvider = ({ children }) => {
         }
       );
 
-      // -------------------------------------------------
-      // 1️⃣ SAVE STARS + HISTORY + STREAK
-      // -------------------------------------------------
+      // ---------------------------------------------------
+      // 1️⃣ SAVE STARS + HISTORY + STREAK + REWARDS
+      // ---------------------------------------------------
 
       await addStars(
         score,
         gameName
       );
 
-      // -------------------------------------------------
+      // ---------------------------------------------------
       // 2️⃣ REMOVE RESUME DATA
-      // -------------------------------------------------
+      // ---------------------------------------------------
 
       if (gameId) {
-        const progressRef =
-          doc(
-            db,
-            "progress",
-            userId
-          );
-
-        // Read latest Firebase state
-        const progressSnap =
-          await getDoc(
-            progressRef
-          );
-
-        const firebaseData =
-          progressSnap.exists()
-            ? progressSnap.data()
-            : {};
-
-        const existingActiveGames =
-          firebaseData.activeGames &&
-          typeof firebaseData.activeGames ===
-            "object"
-            ? firebaseData.activeGames
-            : {};
-
-        const updatedActiveGames = {
-          ...existingActiveGames,
-        };
-
-        delete updatedActiveGames[
-          gameId
-        ];
-
-        // Save ONLY activeGames.
-        // stars/history/streak remain untouched.
-        await setDoc(
-          progressRef,
-          {
-            activeGames:
-              updatedActiveGames,
-
-            updatedAt:
-              new Date(),
-          },
-          {
-            merge: true,
-          }
-        );
-
-        setActiveGames(
-          updatedActiveGames
-        );
-
-        console.log(
-          "🗑️ Resume progress cleared:",
+        await clearGameProgress(
           gameId
         );
       }
@@ -790,9 +1102,9 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  // =====================================================
+  // =======================================================
   // 🔄 RESET USER PROGRESS
-  // =====================================================
+  // =======================================================
 
   const resetProgress = async () => {
     if (!userId) {
@@ -805,15 +1117,25 @@ export const GameProvider = ({ children }) => {
 
     try {
       setStars(0);
+
       setHistory([]);
+
       setStreak(0);
+
       setActiveGames({});
 
-      const progressRef = doc(
-        db,
-        "progress",
-        userId
-      );
+      setClaimedRewards([]);
+
+      setRewardQueue([]);
+
+      setCurrentReward(null);
+
+      const progressRef =
+        doc(
+          db,
+          "progress",
+          userId
+        );
 
       await setDoc(
         progressRef,
@@ -828,7 +1150,10 @@ export const GameProvider = ({ children }) => {
 
           activeGames: {},
 
-          updatedAt: new Date(),
+          claimedRewards: [],
+
+          updatedAt:
+            new Date(),
         }
       );
 
@@ -836,6 +1161,7 @@ export const GameProvider = ({ children }) => {
         "✅ Progress reset for:",
         userId
       );
+
     } catch (error) {
       console.error(
         "❌ Error resetting progress:",
@@ -844,9 +1170,213 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  // =====================================================
+  // =======================================================
+  // 🎉 GLOBAL AUTOMATIC REWARD POPUP
+  //
+  // This appears on ANY page when a reward is unlocked.
+  // =======================================================
+
+  const rewardPopup =
+    currentReward ? (
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 99999,
+
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+
+          background:
+            "rgba(11, 55, 27, 0.45)",
+
+          backdropFilter:
+            "blur(5px)",
+
+          padding: "20px",
+        }}
+      >
+        <div
+          style={{
+            width: "min(430px, 92vw)",
+
+            padding:
+              "30px 24px",
+
+            borderRadius:
+              "28px",
+
+            textAlign: "center",
+
+            background:
+              "linear-gradient(180deg, #fffef2, #ffffff)",
+
+            border:
+              "5px solid #ffd12f",
+
+            boxShadow:
+              "0 25px 60px rgba(0,0,0,0.28)",
+
+            animation:
+              "rewardPop 0.35s ease-out",
+          }}
+        >
+          <div
+            style={{
+              fontSize:
+                "24px",
+
+              marginBottom:
+                "8px",
+            }}
+          >
+            ✨ ⭐ ✨
+          </div>
+
+          <div
+            style={{
+              fontSize:
+                "78px",
+
+              lineHeight: 1,
+
+              marginBottom:
+                "12px",
+            }}
+          >
+            {currentReward.icon}
+          </div>
+
+          <h2
+            style={{
+              margin:
+                "0 0 8px",
+
+              color:
+                "#18552c",
+
+              fontSize:
+                "28px",
+
+              fontWeight:
+                "900",
+            }}
+          >
+            🎉 Reward Unlocked!
+          </h2>
+
+          <h3
+            style={{
+              margin:
+                "0 0 10px",
+
+              color:
+                "#d49300",
+
+              fontSize:
+                "24px",
+
+              fontWeight:
+                "900",
+            }}
+          >
+            {currentReward.title}
+          </h3>
+
+          <p
+            style={{
+              margin:
+                "0 auto 16px",
+
+              maxWidth:
+                "330px",
+
+              color:
+                "#506c56",
+
+              fontSize:
+                "16px",
+
+              lineHeight:
+                "1.5",
+
+              fontWeight:
+                "600",
+            }}
+          >
+            {currentReward.message}
+          </p>
+
+          <div
+            style={{
+              marginBottom:
+                "20px",
+
+              padding:
+                "10px 14px",
+
+              borderRadius:
+                "14px",
+
+              background:
+                "#eef9df",
+
+              color:
+                "#315b36",
+
+              fontWeight:
+                "800",
+
+              fontSize:
+                "14px",
+            }}
+          >
+            ✅ Added to your rewards!
+          </div>
+
+          <button
+            onClick={
+              dismissReward
+            }
+            style={{
+              border:
+                "none",
+
+              padding:
+                "12px 28px",
+
+              borderRadius:
+                "14px",
+
+              background:
+                "#ffbd22",
+
+              color:
+                "#173d1f",
+
+              fontFamily:
+                "inherit",
+
+              fontSize:
+                "16px",
+
+              fontWeight:
+                "900",
+
+              cursor:
+                "pointer",
+            }}
+          >
+            Awesome! 🌈
+          </button>
+        </div>
+      </div>
+    ) : null;
+
+  // =======================================================
   // 📦 CONTEXT
-  // =====================================================
+  // =======================================================
 
   return (
     <GameContext.Provider
@@ -861,6 +1391,16 @@ export const GameProvider = ({ children }) => {
 
         // 🎮 RESUME PROGRESS
         activeGames,
+
+        // 🎁 REWARDS
+        rewards: REWARDS,
+        claimedRewards,
+
+        // Current automatic popup reward
+        currentReward,
+
+        // Close popup
+        dismissReward,
 
         // ⏳ LOADING
         loadingProgress,
@@ -878,12 +1418,32 @@ export const GameProvider = ({ children }) => {
         // 🔄 RELOAD
         reloadProgress: () => {
           if (userId) {
-            loadProgress(userId);
+            loadProgress(
+              userId
+            );
           }
         },
       }}
     >
       {children}
+
+      {rewardPopup}
+
+      <style>
+        {`
+          @keyframes rewardPop {
+            from {
+              opacity: 0;
+              transform: scale(0.8) translateY(20px);
+            }
+
+            to {
+              opacity: 1;
+              transform: scale(1) translateY(0);
+            }
+          }
+        `}
+      </style>
     </GameContext.Provider>
   );
 };

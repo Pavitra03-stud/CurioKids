@@ -12,10 +12,17 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+}
+
 .games-play-page {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   color: var(--ink);
   font-family: "Nunito", sans-serif;
   background: #b8df88;
@@ -23,13 +30,17 @@
   padding-bottom: 44px;
 }
 
-/* Use the SAME jungle artwork as the CurioKids home page. */
+/* =========================================================
+   JUNGLE BACKGROUND
+   ========================================================= */
+
 .games-play-page::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -4;
   pointer-events: none;
+
   background:
     linear-gradient(
       180deg,
@@ -39,24 +50,41 @@
       rgba(244, 248, 217, 0.14) 100%
     ),
     url("../assets/gamesHome.png");
+
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
   opacity: 1;
 }
 
-/* Soft jungle light, matching the home page atmosphere. */
 .games-play-page::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -3;
   pointer-events: none;
+
   background:
-    radial-gradient(circle at 16% 25%, rgba(255, 244, 145, 0.28), transparent 17%),
-    radial-gradient(circle at 88% 31%, rgba(255, 255, 255, 0.20), transparent 18%),
-    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.12));
+    radial-gradient(
+      circle at 16% 25%,
+      rgba(255, 244, 145, 0.28),
+      transparent 17%
+    ),
+    radial-gradient(
+      circle at 88% 31%,
+      rgba(255, 255, 255, 0.20),
+      transparent 18%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.02),
+      rgba(255,255,255,0.12)
+    );
 }
+
+/* =========================================================
+   JUNGLE DECORATION
+   ========================================================= */
 
 .jungle-canopy {
   position: absolute;
@@ -66,15 +94,38 @@
   top: -110px;
   border-radius: 50%;
   filter: blur(1px);
+
   background:
-    radial-gradient(circle at 20% 60%, #176947 0 45px, transparent 46px),
-    radial-gradient(circle at 45% 38%, #2e8c4e 0 58px, transparent 59px),
-    radial-gradient(circle at 70% 65%, #4aa64f 0 65px, transparent 66px),
-    radial-gradient(circle at 92% 42%, #247c48 0 55px, transparent 56px);
+    radial-gradient(
+      circle at 20% 60%,
+      #176947 0 45px,
+      transparent 46px
+    ),
+    radial-gradient(
+      circle at 45% 38%,
+      #2e8c4e 0 58px,
+      transparent 59px
+    ),
+    radial-gradient(
+      circle at 70% 65%,
+      #4aa64f 0 65px,
+      transparent 66px
+    ),
+    radial-gradient(
+      circle at 92% 42%,
+      #247c48 0 55px,
+      transparent 56px
+    );
 }
 
-.canopy-left { left: -100px; }
-.canopy-right { right: -100px; transform: scaleX(-1); }
+.canopy-left {
+  left: -100px;
+}
+
+.canopy-right {
+  right: -100px;
+  transform: scaleX(-1);
+}
 
 .jungle-mist {
   position: absolute;
@@ -107,34 +158,71 @@
   animation: leafFloat 5s ease-in-out infinite;
 }
 
-.leaf-a { left: 2%; top: 28%; }
-.leaf-b { right: 3%; top: 46%; animation-delay: 1.2s; }
-.leaf-c { left: 5%; bottom: 12%; animation-delay: 2s; }
-.leaf-d { right: 7%; bottom: 5%; animation-delay: 3s; }
+.leaf-a {
+  left: 2%;
+  top: 28%;
+}
+
+.leaf-b {
+  right: 3%;
+  top: 46%;
+  animation-delay: 1.2s;
+}
+
+.leaf-c {
+  left: 5%;
+  bottom: 12%;
+  animation-delay: 2s;
+}
+
+.leaf-d {
+  right: 7%;
+  bottom: 5%;
+  animation-delay: 3s;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 .games-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+
   z-index: 30;
+
+  width: 100%;
   min-height: 78px;
+
   padding: 11px clamp(18px, 5vw, 76px);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   background: rgba(7, 75, 54, .97);
+
   border-bottom: 4px solid #ffd34d;
-  box-shadow: 0 8px 24px rgba(16, 77, 48, .2);
+
+  box-shadow:
+    0 8px 24px rgba(16, 77, 48, .2);
 }
 
 .games-brand {
   border: 0;
   padding: 0;
+
   display: flex;
   align-items: center;
   gap: 12px;
+
   color: white;
   background: transparent;
+
   cursor: pointer;
+
   font-family: "Nunito", sans-serif;
   text-align: left;
 }
@@ -142,11 +230,17 @@
 .games-brand-icon {
   width: 47px;
   height: 47px;
+
   display: grid;
   place-items: center;
+
   border-radius: 15px;
+
   background: #ffd94e;
-  box-shadow: 0 4px 0 rgba(0,0,0,.12);
+
+  box-shadow:
+    0 4px 0 rgba(0,0,0,.12);
+
   font-size: 25px;
 }
 
@@ -174,248 +268,261 @@
   display: flex;
   align-items: center;
   gap: 7px;
+
   padding: 10px 17px;
+
   border: 2px solid rgba(255,255,255,.35);
   border-radius: 999px;
+
   color: #194f3c;
   background: #fff7c7;
-  box-shadow: 0 4px 0 rgba(0,0,0,.08);
+
+  box-shadow:
+    0 4px 0 rgba(0,0,0,.08);
+
   font-size: 12px;
   font-weight: 900;
 }
 
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
 .games-content {
   position: relative;
   z-index: 2;
+
   width: min(1120px, calc(100% - 34px));
+
   margin: 0 auto;
 }
 
+/* =========================================================
+   HERO
+   KEEP THIS AS THE JUNGLE HERO
+   ========================================================= */
+
 .games-hero {
-  min-height: 355px;
-  margin-top: 30px;
-  padding: 42px 48px 28px;
-  display: grid;
-  grid-template-columns: 1fr .88fr;
-  align-items: center;
-  gap: 25px;
-  overflow: hidden;
+  min-height: 360px;
+
+  margin-top: 0;
+
+  padding: 42px 24px 18px;
+
+  display: block;
+
+  text-align: center;
+
   position: relative;
-  border: 3px solid rgba(255,255,255,.8);
-  border-radius: 34px;
-  background:
-    linear-gradient(135deg, rgba(255,255,247,.87), rgba(225,248,192,.68)),
-    rgba(255,255,255,.7);
-  box-shadow:
-    0 15px 0 rgba(43, 105, 52, .12),
-    0 28px 50px rgba(39, 91, 47, .17);
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+
+  box-shadow: none;
 }
 
 .games-hero::after {
-  content: "";
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  left: -150px;
-  bottom: -190px;
-  border-radius: 50%;
-  background: rgba(93, 180, 81, .18);
+  display: none;
 }
 
 .hero-copy {
-  position: relative;
-  z-index: 3;
+  width: 100%;
+  max-width: 850px;
+
+  margin: 0 auto;
+  padding: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
 }
 
 .hero-kicker {
   width: fit-content;
+
+  margin-left: auto;
+  margin-right: auto;
+
   padding: 8px 13px;
+
   display: flex;
   align-items: center;
   gap: 6px;
+
   border: 2px solid #d8e99e;
   border-radius: 999px;
+
   color: #39774a;
-  background: #fffbdc;
+
+  background: rgba(255, 251, 220, .86);
+
   font-size: 10px;
   font-weight: 900;
   letter-spacing: .9px;
 }
 
 .hero-copy h1 {
-  margin: 13px 0 5px;
+  width: 100%;
+
+  margin: 15px auto 0;
+
   color: #164d39;
+
   font-family: "Baloo 2", sans-serif;
+
   font-size: clamp(49px, 6vw, 74px);
-  line-height: .84;
+
+  line-height: .9;
+
   font-weight: 800;
+
+  text-align: center;
+
+  text-shadow:
+    0 4px 12px rgba(255,255,255,.25);
 }
 
 .hero-copy h1 span {
   display: block;
+
   margin-top: 8px;
-  color: #f1bf35;
+
+  color: #fff0ad;
+
+  text-shadow:
+    0 3px 0 #285638,
+    0 5px 10px rgba(0,0,0,.35);
 }
 
 .hero-copy p {
-  max-width: 510px;
-  margin: 18px 0 15px;
+  max-width: 600px;
+
+  margin: 18px auto 15px;
+
   color: #3c6d53;
+
   font-size: 15px;
+
   line-height: 1.55;
+
   font-weight: 700;
+
+  text-align: center;
 }
 
 .hero-traits {
   display: flex;
+
   flex-wrap: wrap;
+
+  justify-content: center;
+
   gap: 8px;
 }
 
 .hero-traits span {
   padding: 7px 11px;
+
   border-radius: 999px;
+
   color: #246442;
+
   background: white;
+
   border: 2px solid #e2edc5;
+
   font-size: 11px;
+
   font-weight: 900;
 }
+
+/* Keep scene hidden because you wanted the text centered */
 
 .hero-scene {
-  height: 285px;
-  position: relative;
-  display: grid;
-  place-items: center;
+  display: none;
 }
 
-.hero-sun {
-  position: absolute;
-  width: 210px;
-  height: 210px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffe989 0 48%, #ffd65c 49% 65%, rgba(255,214,92,0) 66%);
-  opacity: .9;
-}
-
-.hero-tree {
-  position: absolute;
-  z-index: 2;
-  font-size: 70px;
-  filter: drop-shadow(0 8px 5px rgba(33,84,42,.15));
-}
-
-.tree-one { left: 1%; bottom: 45px; }
-.tree-two { right: 2%; bottom: 52px; }
-
-.hero-parrot {
-  position: relative;
-  z-index: 5;
-  margin-top: 10px;
-  font-size: 125px;
-  filter: drop-shadow(0 13px 7px rgba(37, 90, 46, .2));
-  animation: parrotFloat 3s ease-in-out infinite;
-}
-
-.hero-speech {
-  position: absolute;
-  z-index: 8;
-  right: 5%;
-  top: 22px;
-  min-width: 165px;
-  padding: 12px 15px;
-  border: 3px solid #355e48;
-  border-radius: 18px;
-  background: white;
-  box-shadow: 0 7px 0 rgba(47, 91, 56, .13);
-  transform: rotate(2deg);
-}
-
-.hero-speech::after {
-  content: "";
-  position: absolute;
-  left: 25px;
-  bottom: -17px;
-  width: 25px;
-  height: 25px;
-  background: white;
-  border-right: 3px solid #355e48;
-  border-bottom: 3px solid #355e48;
-  transform: rotate(45deg);
-}
-
-.hero-speech small,
-.hero-speech strong {
-  display: block;
-}
-
-.hero-speech small {
-  color: #e99b37;
-  font-size: 9px;
-  font-weight: 900;
-}
-
-.hero-speech strong {
-  margin-top: 3px;
-  color: #28543f;
-  font-family: "Baloo 2", sans-serif;
-  font-size: 17px;
-  line-height: 1.05;
-}
-
-.hero-ground {
-  position: absolute;
-  z-index: 7;
-  left: 16%;
-  right: 16%;
-  bottom: 21px;
-  display: flex;
-  justify-content: space-around;
-  font-size: 24px;
-}
+/* =========================================================
+   GAME SECTION
+   ========================================================= */
 
 .games-section {
-  margin-top: 42px;
+  margin-top: 18px;
 }
 
 .section-heading {
   margin-bottom: 19px;
+
   display: flex;
-  align-items: end;
+
+  align-items: flex-end;
+
   justify-content: space-between;
+
   gap: 20px;
 }
 
 .section-kicker {
-  color: #3d7d4e;
+  color: #f4e7bd;
+
   font-size: 10px;
+
   font-weight: 900;
+
   letter-spacing: 1.7px;
+
+  text-shadow:
+    0 2px 5px rgba(20,55,35,.8);
 }
 
 .section-heading h2 {
   margin: 3px 0 2px;
-  color: #174d39;
+
+  color: #fff3c4;
+
   font-family: "Baloo 2", sans-serif;
+
   font-size: clamp(32px, 4vw, 46px);
+
   line-height: .95;
+
+  text-shadow:
+    0 3px 0 #164a36,
+    0 5px 10px rgba(0,0,0,.4);
 }
 
 .section-heading p {
   margin: 0;
-  color: #3d7054;
+
+  color: #f5edcf;
+
   font-size: 13px;
+
   font-weight: 700;
+
+  text-shadow:
+    0 2px 5px rgba(20,55,35,.8);
 }
 
 .game-count {
   min-width: 120px;
+
   padding: 9px 14px;
+
   border: 2px solid rgba(78,137,72,.2);
+
   border-radius: 18px;
+
   text-align: center;
+
   background: rgba(255,255,245,.9);
-  box-shadow: 0 7px 18px rgba(41,91,53,.12);
+
+  box-shadow:
+    0 7px 18px rgba(41,91,53,.12);
 }
 
 .game-count strong,
@@ -425,47 +532,99 @@
 
 .game-count strong {
   color: #28724b;
+
   font-family: "Baloo 2", sans-serif;
+
   font-size: 27px;
+
   line-height: 1;
 }
 
 .game-count span {
   color: #66846b;
+
   font-size: 9px;
+
   font-weight: 900;
+
   text-transform: uppercase;
 }
 
+/* =========================================================
+   GAME GRID
+   ========================================================= */
+
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns: repeat(4, 1fr);
+
   gap: 18px;
 }
 
+/* =========================================================
+   WOODEN GAME CARDS
+   ONLY THIS PART WAS CHANGED
+   ========================================================= */
+
 .game-card {
   min-height: 282px;
+
   position: relative;
+
   overflow: hidden;
+
   padding: 20px 20px 64px;
-  border: 3px solid rgba(255,255,255,.92);
+
+  border: 4px solid #c98b45;
+
   border-radius: 29px;
+
   text-align: left;
+
   cursor: pointer;
+
   font-family: "Nunito", sans-serif;
+
+  /* WOODEN DESIGN */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.035) 0px,
+      rgba(255,255,255,.035) 3px,
+      transparent 3px,
+      transparent 9px
+    ),
+    linear-gradient(
+      145deg,
+      #9c612f 0%,
+      #b9773a 45%,
+      #8b5429 100%
+    );
+
   box-shadow:
-    0 11px 0 rgba(49,99,53,.11),
-    0 19px 30px rgba(37,93,48,.12);
-  transition: transform .22s ease, box-shadow .22s ease;
-  animation: cardIn .55s both ease-out;
+    inset 0 0 0 2px rgba(255,220,150,.18),
+    inset 0 0 25px rgba(70,35,15,.20),
+    0 7px 0 #70421f,
+    0 15px 28px rgba(37,93,48,.20);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+
+  animation:
+    cardIn .55s both ease-out;
+
   animation-delay: var(--game-delay);
 }
 
 .game-card:hover {
-  transform: translateY(-7px) rotate(-.4deg);
+  transform: translateY(-7px);
+
   box-shadow:
-    0 17px 0 rgba(49,99,53,.12),
-    0 28px 38px rgba(37,93,48,.17);
+    inset 0 0 0 2px rgba(255,225,160,.25),
+    0 10px 0 #70421f,
+    0 20px 32px rgba(37,93,48,.28);
 }
 
 .game-card:active {
@@ -474,123 +633,225 @@
 
 .card-glow {
   position: absolute;
+
   width: 170px;
   height: 170px;
+
   top: -80px;
   right: -60px;
+
   border-radius: 50%;
-  background: rgba(255,255,255,.35);
+
+  background: rgba(255,224,155,.14);
+
+  pointer-events: none;
 }
+
+/* =========================================================
+   CARD TOP
+   ========================================================= */
 
 .card-top {
   position: relative;
+
   z-index: 2;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 }
 
 .game-tag {
   padding: 5px 9px;
+
   border-radius: 999px;
+
   color: white;
+
   background: #237b4d;
+
   font-size: 9px;
+
   font-weight: 900;
+
   letter-spacing: 1px;
 }
 
 .game-number {
-  color: rgba(37,91,55,.22);
+  color: rgba(255,235,180,.55);
+
   font-family: "Baloo 2", sans-serif;
+
   font-size: 20px;
+
   font-weight: 800;
 }
 
+/* =========================================================
+   ICON
+   ========================================================= */
+
 .game-icon-wrap {
   position: relative;
+
   z-index: 2;
+
   width: 70px;
   height: 70px;
+
   margin: 13px 0 10px auto;
+
   display: grid;
+
   place-items: center;
-  border: 4px solid rgba(255,255,255,.8);
+
+  border: 4px solid #fff3cf;
+
   border-radius: 23px;
-  background: rgba(255,255,255,.36);
-  box-shadow: 0 8px 0 rgba(39,93,51,.1);
+
+  background: #f7edc9;
+
+  box-shadow:
+    0 5px 0 #8f5d2b,
+    0 8px 15px rgba(45,30,15,.25);
+
   transform: rotate(4deg);
 }
 
 .game-icon {
   font-size: 38px;
-  filter: drop-shadow(0 3px 2px rgba(30,66,43,.12));
+
+  filter:
+    drop-shadow(
+      0 3px 2px rgba(30,66,43,.12)
+    );
 }
+
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
 
 .game-card-content {
   position: relative;
+
   z-index: 3;
+
   padding-right: 4px;
 }
 
 .game-card-content h3 {
   margin: 0 0 5px;
-  color: #174d39;
+
+  color: #fff5d2;
+
   font-family: "Baloo 2", sans-serif;
+
   font-size: 25px;
+
   line-height: 1;
+
   font-weight: 800;
+
+  text-shadow:
+    0 2px 3px rgba(55,28,12,.7);
 }
 
 .game-card-content p {
   min-height: 39px;
+
   margin: 0;
-  color: #376b51;
+
+  color: #fff0ca;
+
   font-size: 13px;
+
   line-height: 1.35;
+
   font-weight: 700;
+
+  text-shadow:
+    0 1px 3px rgba(58,35,18,.6);
 }
 
 .game-helper {
   display: block;
+
   margin-top: 7px;
-  color: rgba(36,101,66,.7);
+
+  color: #d9efbd;
+
   font-size: 10px;
+
   font-weight: 900;
+
   text-transform: uppercase;
+
   letter-spacing: .8px;
 }
 
+/* =========================================================
+   PLAY BUTTON
+   ========================================================= */
+
 .play-button {
   position: absolute;
+
   z-index: 5;
+
   left: 20px;
+
   bottom: 17px;
+
   min-width: 88px;
+
   height: 35px;
+
   padding: 0 7px 0 12px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 7px;
+
+  border: 2px solid #9bd36c;
+
   border-radius: 999px;
+
   color: white;
+
   background: #237b4d;
-  box-shadow: 0 4px 0 rgba(22,74,48,.18);
+
+  box-shadow:
+    0 4px 0 #155331;
+
   font-size: 10px;
+
   font-weight: 900;
+
   letter-spacing: .8px;
 }
 
 .play-button b {
   width: 22px;
   height: 22px;
+
   display: grid;
+
   place-items: center;
+
   border-radius: 50%;
+
   color: white;
+
   background: rgba(255,255,255,.23);
+
   font-size: 19px;
+
   line-height: 1;
 }
 
@@ -600,53 +861,105 @@
 
 .card-leaves {
   position: absolute;
+
   right: 18px;
+
   bottom: 17px;
-  opacity: .35;
+
+  opacity: .4;
+
   font-size: 22px;
 }
 
-.game-card-sun { background: linear-gradient(145deg,#fff8c9,#ffe49c); }
-.game-card-sky { background: linear-gradient(145deg,#e5f6ff,#bfe7f7); }
-.game-card-leaf { background: linear-gradient(145deg,#e6f8cf,#bfe6a0); }
-.game-card-berry { background: linear-gradient(145deg,#f8e5f4,#e9c6e2); }
-.game-card-violet { background: linear-gradient(145deg,#eee5ff,#d8c7f4); }
-.game-card-orange { background: linear-gradient(145deg,#ffe8d1,#ffd0a4); }
-.game-card-aqua { background: linear-gradient(145deg,#d9f7ed,#b7e9d7); }
-.game-card-coral { background: linear-gradient(145deg,#ffe0df,#ffc2be); }
-.game-card-blue { background: linear-gradient(145deg,#dbeeff,#b9daf8); }
+/* =========================================================
+   KEEP EVERY CARD WOODEN
+   ========================================================= */
+
+.game-card-sun,
+.game-card-sky,
+.game-card-leaf,
+.game-card-berry,
+.game-card-violet,
+.game-card-orange,
+.game-card-aqua,
+.game-card-coral,
+.game-card-blue {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.035) 0px,
+      rgba(255,255,255,.035) 3px,
+      transparent 3px,
+      transparent 9px
+    ),
+    linear-gradient(
+      145deg,
+      #9c612f 0%,
+      #b9773a 45%,
+      #8b5429 100%
+    );
+}
+
+/* Different tag colors are kept */
 
 .game-card-orange .game-tag,
-.game-card-coral .game-tag { background: #d9782b; }
+.game-card-coral .game-tag {
+  background: #d9782b;
+}
 
 .game-card-blue .game-tag,
-.game-card-sky .game-tag { background: #397fc4; }
+.game-card-sky .game-tag {
+  background: #397fc4;
+}
 
 .game-card-violet .game-tag,
-.game-card-berry .game-tag { background: #8450b3; }
+.game-card-berry .game-tag {
+  background: #8450b3;
+}
 
-.game-card-aqua .game-tag { background: #279b79; }
+.game-card-aqua .game-tag {
+  background: #279b79;
+}
+
+/* =========================================================
+   JUNGLE TIP
+   ========================================================= */
 
 .games-tip {
   min-height: 72px;
+
   margin-top: 25px;
+
   padding: 11px 20px;
+
   display: flex;
+
   align-items: center;
+
   gap: 14px;
+
   border: 2px solid rgba(78,137,72,.17);
+
   border-radius: 23px;
+
   background: rgba(255,255,242,.92);
-  box-shadow: 0 10px 22px rgba(39,91,47,.12);
+
+  box-shadow:
+    0 10px 22px rgba(39,91,47,.12);
 }
 
 .tip-icon {
   width: 47px;
   height: 47px;
+
   display: grid;
+
   place-items: center;
+
   border-radius: 15px;
+
   background: #dff3bb;
+
   font-size: 28px;
 }
 
@@ -657,62 +970,66 @@
 
 .games-tip span {
   color: #70a04d;
+
   font-size: 9px;
+
   font-weight: 900;
+
   letter-spacing: 1.4px;
 }
 
 .games-tip strong {
   color: #315f42;
+
   font-family: "Baloo 2", sans-serif;
+
   font-size: 18px;
 }
 
 .tip-plants {
   margin-left: auto;
+
   color: #4f9b55;
+
   font-size: 21px;
+
   letter-spacing: 4px;
 }
 
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
 
-@keyframes parrotFloat {
-  0%,100% { transform: translateY(7px) rotate(-2deg); }
-  50% { transform: translateY(-7px) rotate(2deg); }
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes leafFloat {
-  0%,100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-10px) rotate(7deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(7deg);
+  }
 }
 
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
 @media (max-width: 900px) {
-  .games-hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding: 32px;
-  }
-
-  .hero-copy {
-    text-align: center;
-  }
-
-  .hero-kicker,
-  .hero-traits {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-traits {
-    justify-content: center;
-  }
-
-  .hero-scene {
-    height: 245px;
+  .games-play-page {
+    padding-top: 68px;
   }
 
   .games-grid {
@@ -723,13 +1040,16 @@
 @media (max-width: 620px) {
   .games-header {
     min-height: 68px;
+
     padding: 9px 14px;
   }
 
   .games-brand-icon {
     width: 39px;
     height: 39px;
+
     border-radius: 12px;
+
     font-size: 20px;
   }
 
@@ -743,6 +1063,7 @@
 
   .games-header-message {
     padding: 8px 10px;
+
     font-size: 9px;
   }
 
@@ -751,40 +1072,17 @@
   }
 
   .games-hero {
-    margin-top: 15px;
-    padding: 27px 20px 18px;
-    border-radius: 26px;
+    min-height: 300px;
+
+    padding: 25px 8px 8px;
   }
 
   .hero-copy h1 {
-    font-size: 48px;
+    font-size: 47px;
   }
 
   .hero-copy p {
-    font-size: 14px;
-  }
-
-  .hero-scene {
-    height: 215px;
-  }
-
-  .hero-sun {
-    width: 165px;
-    height: 165px;
-  }
-
-  .hero-parrot {
-    font-size: 100px;
-  }
-
-  .hero-speech {
-    right: 0;
-    min-width: 145px;
-    padding: 9px 12px;
-  }
-
-  .hero-speech strong {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .section-heading {
@@ -816,213 +1114,537 @@
     display: none;
   }
 }
+/* =========================================================
+   FINAL FIX: ALL GAME CARDS MUST BE SOLID WOOD
+   ========================================================= */
+
+.games-play-page .game-card,
+.games-play-page .game-card-sun,
+.games-play-page .game-card-sky,
+.games-play-page .game-card-leaf,
+.games-play-page .game-card-berry,
+.games-play-page .game-card-violet,
+.games-play-page .game-card-orange,
+.games-play-page .game-card-aqua,
+.games-play-page .game-card-coral,
+.games-play-page .game-card-blue {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 220, 150, 0.06) 0px,
+      rgba(255, 220, 150, 0.06) 3px,
+      transparent 3px,
+      transparent 10px
+    ),
+    linear-gradient(
+      145deg,
+      #9b612f 0%,
+      #b87538 45%,
+      #875027 100%
+    ) !important;
+
+  border: 4px solid #c98b45 !important;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 220, 150, 0.22),
+    inset 0 0 28px rgba(65, 32, 12, 0.22),
+    0 7px 0 #70421f,
+    0 15px 28px rgba(37, 70, 38, 0.22) !important;
+}
+
+
+/* Make the inside of the wooden cards solid too */
+.games-play-page .game-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  border-radius: inherit;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 7px,
+      rgba(255, 220, 150, 0.08) 8px,
+      transparent 10px
+    );
+
+  opacity: 1;
+
+  z-index: 1;
+}
+
+
+/* Keep card content above the wood texture */
+.games-play-page .card-top,
+.games-play-page .game-icon-wrap,
+.games-play-page .game-card-content,
+.games-play-page .play-button,
+.games-play-page .card-leaves {
+  position: relative;
+  z-index: 5;
+}
+
+
+/* Icon stays on top */
+.games-play-page .game-icon-wrap {
+  background: #f7edc9 !important;
+
+  border: 4px solid #fff3cf !important;
+
+  box-shadow:
+    0 5px 0 #8f5d2b,
+    0 8px 15px rgba(45, 30, 15, 0.25) !important;
+}
+
+
+/* White/yellow text for wooden cards */
+.games-play-page .game-card-content h3 {
+  color: #fff5d2 !important;
+
+  text-shadow:
+    0 2px 3px rgba(55, 28, 12, 0.8) !important;
+}
+
+.games-play-page .game-card-content p {
+  color: #fff0ca !important;
+
+  text-shadow:
+    0 1px 3px rgba(58, 35, 18, 0.65) !important;
+}
+
+.games-play-page .game-helper {
+  color: #d9efbd !important;
+}
+
+
+/* Wooden card hover */
+.games-play-page .game-card:hover {
+  transform: translateY(-7px);
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 225, 160, 0.28),
+    inset 0 0 28px rgba(65, 32, 12, 0.22),
+    0 10px 0 #70421f,
+    0 20px 32px rgba(37, 70, 38, 0.28) !important;
+}
+/* =========================================================
+   FINAL CARD ALIGNMENT ONLY
+   DO NOT CHANGE BACKGROUND / PAGE / HERO
+   ========================================================= */
+
+.games-play-page .game-card {
+  position: relative !important;
+  padding: 20px !important;
+}
+
+
+/* -------------------------
+   TOP TAG + NUMBER
+   ------------------------- */
+
+.games-play-page .game-card .card-top {
+  position: absolute !important;
+
+  top: 16px !important;
+  left: 18px !important;
+  right: 18px !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: space-between !important;
+
+  z-index: 10 !important;
+}
+
+
+/* -------------------------
+   ICON
+   ------------------------- */
+
+.games-play-page .game-card .game-icon-wrap {
+  position: absolute !important;
+
+  top: 65px !important;
+  left: 20px !important;
+
+  width: 65px !important;
+  height: 65px !important;
+
+  margin: 0 !important;
+
+  display: grid !important;
+
+  place-items: center !important;
+
+  z-index: 8 !important;
+
+  flex-shrink: 0 !important;
+}
+
+
+/* -------------------------
+   TITLE + DESCRIPTION
+   ------------------------- */
+
+.games-play-page .game-card .game-card-content {
+  position: absolute !important;
+
+  top: 66px !important;
+  left: 98px !important;
+  right: 15px !important;
+
+  width: auto !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: block !important;
+
+  text-align: left !important;
+
+  z-index: 9 !important;
+}
+
+
+/* TITLE */
+
+.games-play-page .game-card .game-card-content h3 {
+  margin: 0 0 6px !important;
+
+  width: 100% !important;
+
+  font-size: 21px !important;
+
+  line-height: 1.05 !important;
+
+  text-align: left !important;
+
+  white-space: normal !important;
+}
+
+
+/* DESCRIPTION */
+
+.games-play-page .game-card .game-card-content p {
+  margin: 0 !important;
+
+  width: 100% !important;
+
+  max-width: 155px !important;
+
+  min-height: 0 !important;
+
+  font-size: 10px !important;
+
+  line-height: 1.3 !important;
+
+  text-align: left !important;
+}
+
+
+/* HELPER TEXT */
+
+.games-play-page .game-card .game-helper {
+  display: block !important;
+
+  margin-top: 7px !important;
+
+  font-size: 8px !important;
+
+  line-height: 1.1 !important;
+
+  text-align: left !important;
+}
+
+
+/* -------------------------
+   PLAY BUTTON
+   ------------------------- */
+
+.games-play-page .game-card .play-button {
+  position: absolute !important;
+
+  left: 20px !important;
+  bottom: 17px !important;
+
+  width: 78px !important;
+  height: 32px !important;
+
+  margin: 0 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: space-between !important;
+
+  z-index: 20 !important;
+}
+
+
+/* -------------------------
+   LEAF
+   ------------------------- */
+
+.games-play-page .game-card .card-leaves {
+  position: absolute !important;
+
+  right: 18px !important;
+  bottom: 17px !important;
+
+  z-index: 6 !important;
+}
 
 
 /* =========================================================
-   FINAL JUNGLE PRESENTATION
-   No hero rectangle. Header stays fixed.
-========================================================= */
+   KEEP CARD CONTENT ABOVE WOOD TEXTURE
+   ========================================================= */
 
-.games-play-page {
-  overflow-x: hidden;
-  overflow-y: visible;
-  padding-top: 78px;
+.games-play-page .game-card::before {
+  z-index: 1 !important;
 }
 
-/* Keep the navigation permanently at the top while scrolling. */
-.games-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
+.games-play-page .game-card .card-top,
+.games-play-page .game-card .game-icon-wrap,
+.games-play-page .game-card .game-card-content,
+.games-play-page .game-card .play-button,
+.games-play-page .game-card .card-leaves {
+  z-index: 5 !important;
 }
-
-/* The hero is part of the jungle scene, not a card/panel. */
-.games-hero {
-  min-height: 330px;
-  margin-top: 0;
-  padding: 34px 8px 18px;
-  display: grid;
-  grid-template-columns: 1fr 0.82fr;
-  align-items: center;
-  gap: 20px;
-
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Remove the decorative panel shape completely. */
-.games-hero::after {
-  display: none;
-}
-
-/* Let the headline sit directly on the jungle artwork. */
-.hero-copy {
-  padding-left: 18px;
-}
-
-.hero-copy h1 {
-  text-shadow: 0 4px 12px rgba(255,255,255,.25);
-}
-
-.hero-copy p {
-  text-shadow: 0 2px 8px rgba(255,255,255,.18);
-}
-
-/* The little badge should still look like a small jungle label,
-   but not like a large container. */
-.hero-kicker {
-  background: rgba(255, 251, 220, .86);
-}
-
-/* Keep the animal scene floating naturally over the background. */
-.hero-scene {
-  background: transparent;
-}
-
-/* Make the jungle continue naturally behind the game section. */
-.games-section {
-  margin-top: 18px;
-}
-
-/* Mobile: keep the hero as an open jungle area too. */
-@media (max-width: 900px) {
-  .games-play-page {
-    padding-top: 68px;
-  }
-
-  .games-hero {
-    padding: 26px 12px 12px;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-    border-radius: 0;
-  }
-
-  .hero-copy {
-    padding-left: 0;
-  }
-}
-
-@media (max-width: 620px) {
-  .games-header {
-    min-height: 68px;
-  }
-
-  .games-play-page {
-    padding-top: 68px;
-  }
-
-  .games-hero {
-    margin-top: 0;
-    padding: 20px 4px 8px;
-  }
-}
-
-
 /* =========================================================
-   CENTERED HERO + TRUE TOP FIXED HEADER
-========================================================= */
+   FINAL FIX
+   HEADER + WOODEN CARD CONTENT ALIGNMENT
+   ========================================================= */
 
-/* Remove the default browser gap around the app. */
-html,
-body,
-#root {
-  margin: 0;
-  padding: 0;
-}
+/* -------------------------
+   FIXED HEADER
+   ------------------------- */
 
-/* Force the jungle navigation to touch the viewport top. */
 .games-header {
   position: fixed !important;
+
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
+
+  width: 100% !important;
+
+  z-index: 9999 !important;
+
   margin: 0 !important;
-  transform: none !important;
 }
 
-/* Keep the page content below the fixed navigation. */
+
+/* Leave enough room below the fixed header */
 .games-play-page {
-  padding-top: 78px;
+  padding-top: 78px !important;
 }
 
-/* Center the COMPLETE "Let's Play!" hero message. */
-.games-hero {
-  display: block;
-  min-height: 360px;
-  padding: 42px 24px 18px;
-  text-align: center;
+
+/* =========================================================
+   WOODEN CARDS
+   Keep the wooden background exactly as it is
+   ========================================================= */
+
+.games-play-page .game-card {
+  position: relative !important;
+
+  min-height: 282px !important;
+
+  padding: 20px 20px 64px !important;
+
+  overflow: hidden !important;
+
+  display: block !important;
 }
 
-/* The text block now occupies the full hero width. */
-.hero-copy {
-  width: 100%;
-  max-width: 850px;
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+/* =========================================================
+   TOP ROW
+   THINK / LISTEN / FOCUS + NUMBER
+   ========================================================= */
+
+.games-play-page .game-card .card-top {
+  position: relative !important;
+
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+
+  width: 100% !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: space-between !important;
+
+  z-index: 10 !important;
 }
 
-/* Center the jungle label. */
-.hero-kicker {
-  margin-left: auto;
-  margin-right: auto;
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.games-play-page .game-card .game-icon-wrap {
+  position: relative !important;
+
+  top: auto !important;
+  left: auto !important;
+
+  width: 70px !important;
+  height: 70px !important;
+
+  margin: 13px 0 10px auto !important;
+
+  display: grid !important;
+
+  place-items: center !important;
+
+  z-index: 5 !important;
 }
 
-/* Center both lines of the headline. */
-.hero-copy h1 {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+
+/* =========================================================
+   TITLE + DESCRIPTION
+   ========================================================= */
+
+.games-play-page .game-card .game-card-content {
+  position: relative !important;
+
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+
+  width: 100% !important;
+
+  margin: 0 !important;
+
+  padding-right: 4px !important;
+
+  display: block !important;
+
+  z-index: 6 !important;
+
+  text-align: left !important;
 }
 
-/* Center the description. */
-.hero-copy p {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+
+.games-play-page .game-card .game-card-content h3 {
+  position: relative !important;
+
+  margin: 0 0 5px !important;
+
+  width: 100% !important;
+
+  font-size: 25px !important;
+
+  line-height: 1 !important;
+
+  text-align: left !important;
 }
 
-/* Center Think / Focus / Play. */
-.hero-traits {
-  justify-content: center;
+
+.games-play-page .game-card .game-card-content p {
+  position: relative !important;
+
+  margin: 0 !important;
+
+  width: 100% !important;
+
+  min-height: 39px !important;
+
+  font-size: 13px !important;
+
+  line-height: 1.35 !important;
+
+  text-align: left !important;
 }
 
-/* The illustration is no longer used to push the text to the right. */
-.hero-scene {
-  display: none;
+
+.games-play-page .game-card .game-helper {
+  position: relative !important;
+
+  display: block !important;
+
+  margin-top: 7px !important;
+
+  font-size: 10px !important;
+
+  line-height: 1.15 !important;
 }
 
-/* Move the game section up naturally after the open hero. */
-.games-section {
-  margin-top: 0;
+
+/* =========================================================
+   PLAY BUTTON
+   ========================================================= */
+
+.games-play-page .game-card .play-button {
+  position: absolute !important;
+
+  left: 20px !important;
+
+  bottom: 17px !important;
+
+  top: auto !important;
+
+  right: auto !important;
+
+  width: auto !important;
+
+  min-width: 88px !important;
+
+  height: 35px !important;
+
+  margin: 0 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: space-between !important;
+
+  z-index: 20 !important;
 }
 
-@media (max-width: 900px) {
-  .games-play-page {
-    padding-top: 68px;
-  }
 
-  .games-hero {
-    min-height: 330px;
-    padding: 30px 14px 12px;
-  }
+/* =========================================================
+   LEAF
+   ========================================================= */
+
+.games-play-page .game-card .card-leaves {
+  position: absolute !important;
+
+  right: 18px !important;
+
+  bottom: 17px !important;
+
+  top: auto !important;
+  left: auto !important;
+
+  z-index: 6 !important;
 }
 
-@media (max-width: 620px) {
-  .games-play-page {
-    padding-top: 68px;
-  }
 
-  .games-hero {
-    min-height: 300px;
-    padding: 24px 8px 8px;
-  }
+/* =========================================================
+   WOODEN CARD TEXTURE
+   ========================================================= */
+
+.games-play-page .game-card::before {
+  z-index: 1 !important;
+}
+
+.games-play-page .game-card .card-top,
+.games-play-page .game-card .game-icon-wrap,
+.games-play-page .game-card .game-card-content,
+.games-play-page .game-card .play-button,
+.games-play-page .game-card .card-leaves {
+  z-index: 5 !important;
 }

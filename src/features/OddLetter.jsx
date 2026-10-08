@@ -203,11 +203,7 @@
 //             )}
 //           </div>
 
-//           {status && (
-//             <button className="odd-next-btn" onClick={handleNext}>
-//               {isLastQuestion ? "See Result" : "Next"}
-//             </button>
-//           )}
+//           
 //         </div>
 
 //         <div className="odd-bottom-animals">
@@ -222,7 +218,7 @@
 
 
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/OddLetter.css";
 import useGameProgress from "../hooks/useGameProgress";
 
@@ -319,6 +315,18 @@ export default function OddLetter({ goBack }) {
   const [restored, setRestored] =
     useState(false);
 
+  // Used only for the automatic move after a correct answer.
+  const timerRef = useRef(null);
+
+  // Clean up the automatic-next timer when leaving the game.
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
   // =========================================================
   // 🔥 RESTORE SAVED GAME
   // =========================================================
@@ -376,15 +384,12 @@ export default function OddLetter({ goBack }) {
   // 🎯 LETTER CLICK
   // =========================================================
 
-  const handleLetterClick = async (
-    index
-  ) => {
+  const handleLetterClick = (index) => {
     if (status) return;
     if (!currentQuestion) return;
 
     const isCorrect =
-      index ===
-      currentQuestion.answerIndex;
+      index === currentQuestion.answerIndex;
 
     const updatedScore = isCorrect
       ? score + 1
@@ -399,14 +404,75 @@ export default function OddLetter({ goBack }) {
     setStatus(updatedStatus);
     setScore(updatedScore);
 
-    // 💾 SAVE ANSWER STATE
-    await save({
-      currentIndex,
-      selectedIndex: index,
-      status: updatedStatus,
-      score: updatedScore,
-      finished: false,
+    /*
+     * Save in the background.
+     * It must NOT block the automatic transition.
+     */
+    Promise.resolve(
+      save({
+        currentIndex,
+        selectedIndex: index,
+        status: updatedStatus,
+        score: updatedScore,
+        finished: false,
+      })
+    ).catch((error) => {
+      console.error("Odd Letter save error:", error);
     });
+
+    /*
+     * Correct answer:
+     * show the correct state briefly, then automatically
+     * move to the next question.
+     */
+    if (isCorrect) {
+      timerRef.current = window.setTimeout(() => {
+        if (isLastQuestion) {
+          const percentage =
+            (updatedScore / questions.length) * 100;
+
+          Promise.resolve(
+            finish(percentage, "Odd Letter")
+          ).catch((error) => {
+            console.error("Odd Letter finish error:", error);
+          });
+
+          setFinished(true);
+
+          Promise.resolve(
+            save({
+              currentIndex: questions.length,
+              selectedIndex: null,
+              status: "",
+              score: updatedScore,
+              finished: true,
+            })
+          ).catch((error) => {
+            console.error("Odd Letter final save error:", error);
+          });
+
+          return;
+        }
+
+        const nextIndex = currentIndex + 1;
+
+        setCurrentIndex(nextIndex);
+        setSelectedIndex(null);
+        setStatus("");
+
+        Promise.resolve(
+          save({
+            currentIndex: nextIndex,
+            selectedIndex: null,
+            status: "",
+            score: updatedScore,
+            finished: false,
+          })
+        ).catch((error) => {
+          console.error("Odd Letter next-question save error:", error);
+        });
+      }, 750);
+    }
   };
 
   // =========================================================
@@ -478,6 +544,10 @@ export default function OddLetter({ goBack }) {
   // =========================================================
 
   const handleRestart = async () => {
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+    }
+
     setCurrentIndex(0);
     setSelectedIndex(null);
     setStatus("");
@@ -727,18 +797,6 @@ export default function OddLetter({ goBack }) {
             )}
 
           </div>
-
-          {/* NEXT */}
-          {status && (
-            <button
-              className="odd-next-btn"
-              onClick={handleNext}
-            >
-              {isLastQuestion
-                ? "See Result"
-                : "Next"}
-            </button>
-          )}
 
         </div>
 

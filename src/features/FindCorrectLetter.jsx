@@ -1,384 +1,3 @@
-// // import { useState, useEffect } from "react";
-// // import "../styles/FindCorrectLetter.css";
-
-// // // 🔥 Firebase
-// // import { db } from "../firebase";
-// // import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// // export default function FindCorrectLetter() {
-// //   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-// //   const TOTAL_QUESTIONS = 5;
-
-// //   // 🤖 States
-// //   const [targetLetter, setTargetLetter] = useState("");
-// //   const [options, setOptions] = useState([]);
-// //   const [feedback, setFeedback] = useState("");
-
-// //   const [score, setScore] = useState(0);
-// //   const [questionCount, setQuestionCount] = useState(0);
-
-// //   // 🤖 AI Question Generator (SAFE VERSION)
-// //   const generateQuestionAI = () => {
-// //     if (!letters || letters.length === 0) {
-// //       return {
-// //         question: "A",
-// //         options: ["A", "B", "C", "D", "E", "F"],
-// //       };
-// //     }
-
-// //     const correct =
-// //       letters[Math.floor(Math.random() * letters.length)];
-
-// //     const wrong = letters
-// //       .filter((l) => l !== correct)
-// //       .sort(() => 0.5 - Math.random())
-// //       .slice(0, 5);
-
-// //     const options = [...wrong, correct].sort(
-// //       () => 0.5 - Math.random()
-// //     );
-
-// //     return {
-// //       question: correct,
-// //       options,
-// //     };
-// //   };
-
-// //   const loadNewQuestion = () => {
-// //     const q = generateQuestionAI();
-
-// //     // ✅ SAFETY CHECK (fix empty UI bug)
-// //     if (!q.question || !q.options || q.options.length === 0) {
-// //       setTargetLetter("A");
-// //       setOptions(["A", "B", "C", "D", "E", "F"]);
-// //       return;
-// //     }
-
-// //     setTargetLetter(q.question);
-// //     setOptions(q.options);
-// //   };
-
-// //   useEffect(() => {
-// //     loadNewQuestion();
-// //   }, []);
-
-// //   // 📊 Save to Firestore
-// //   const saveScoreToFirestore = async (finalScore) => {
-// //     try {
-// //       const userEmail = "demo_user"; // later replace with logged user
-
-// //       const userRef = doc(db, "users", userEmail);
-// //       const gameResultsRef = collection(userRef, "game_results");
-
-// //       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-// //       await addDoc(gameResultsRef, {
-// //         score: finalScore,
-// //         totalQuestions: TOTAL_QUESTIONS,
-// //         accuracy: accuracy.toFixed(2),
-// //         createdAt: Timestamp.now(),
-// //         game: "FindCorrectLetter",
-// //       });
-
-// //       console.log("✅ Saved result");
-// //     } catch (error) {
-// //       console.error("❌ Error:", error);
-// //     }
-// //   };
-
-// //   // 🎯 Handle Answer
-// //   const handleClick = (letter) => {
-// //     if (questionCount >= TOTAL_QUESTIONS) return;
-
-// //     const isCorrect = letter === targetLetter;
-
-// //     if (isCorrect) {
-// //       setScore((prev) => prev + 1);
-// //       setFeedback("correct");
-// //     } else {
-// //       setFeedback("wrong");
-// //     }
-
-// //     setTimeout(async () => {
-// //       setFeedback("");
-
-// //       const nextCount = questionCount + 1;
-// //       const finalScore = score + (isCorrect ? 1 : 0);
-
-// //       setQuestionCount(nextCount);
-
-// //       // 🎯 END OF ROUND
-// //       if (nextCount === TOTAL_QUESTIONS) {
-// //         await saveScoreToFirestore(finalScore);
-
-// //         alert(
-// //           `🎯 Round Completed!\nScore: ${finalScore}/${TOTAL_QUESTIONS}`
-// //         );
-
-// //         // 🔁 RESET
-// //         setScore(0);
-// //         setQuestionCount(0);
-// //         loadNewQuestion();
-// //       } else {
-// //         loadNewQuestion();
-// //       }
-// //     }, 800);
-// //   };
-
-// //   // 📊 AI Analysis
-// //   const getPerformanceMessage = () => {
-// //     if (questionCount === 0) return "";
-
-// //     const accuracy = (score / questionCount) * 100;
-
-// //     if (accuracy > 80) return "🌟 Excellent!";
-// //     if (accuracy > 50) return "👍 Good job!";
-// //     return "💡 Keep practicing!";
-// //   };
-
-// //   return (
-// //     <div className="find-page">
-// //       <div className="letter-navbar">
-// //         <h2>🔎 AI Find the Correct Letter</h2>
-// //       </div>
-
-// //       <div className="game-info">
-// //         <span>
-// //           Question: {questionCount + 1}/{TOTAL_QUESTIONS}
-// //         </span>
-// //         <span>Score: {score}</span>
-// //       </div>
-
-// //       <h2 className="target-text">
-// //         Find: <span>{targetLetter || "..."}</span>
-// //       </h2>
-
-// //       <div className="letter-grid">
-// //         {options.length > 0 ? (
-// //           options.map((letter, index) => (
-// //             <button
-// //               key={index}
-// //               className="grid-letter"
-// //               onClick={() => handleClick(letter)}
-// //             >
-// //               {letter}
-// //             </button>
-// //           ))
-// //         ) : (
-// //           <p>Loading...</p>
-// //         )}
-// //       </div>
-
-// //       {feedback === "correct" && (
-// //         <div className="feedback good">🎉 Correct!</div>
-// //       )}
-
-// //       {feedback === "wrong" && (
-// //         <div className="feedback wrong">❌ Try Again</div>
-// //       )}
-
-// //       {/* 📊 Analysis */}
-// //       <div className="ai-analysis">
-// //         <p>{getPerformanceMessage()}</p>
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-
-
-// import { useState, useEffect } from "react";
-// import "../styles/FindCorrectLetter.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// export default function FindCorrectLetter() {
-//   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   // 🤖 States
-//   const [targetLetter, setTargetLetter] = useState("");
-//   const [options, setOptions] = useState([]);
-//   const [feedback, setFeedback] = useState("");
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   // 🤖 AI Question Generator (SAFE VERSION)
-//   const generateQuestionAI = () => {
-//     if (!letters || letters.length === 0) {
-//       return {
-//         question: "A",
-//         options: ["A", "B", "C", "D", "E", "F"],
-//       };
-//     }
-
-//     const correct =
-//       letters[Math.floor(Math.random() * letters.length)];
-
-//     const wrong = letters
-//       .filter((l) => l !== correct)
-//       .sort(() => 0.5 - Math.random())
-//       .slice(0, 5);
-
-//     const options = [...wrong, correct].sort(
-//       () => 0.5 - Math.random()
-//     );
-
-//     return {
-//       question: correct,
-//       options,
-//     };
-//   };
-
-//   const loadNewQuestion = () => {
-//     const q = generateQuestionAI();
-
-//     // ✅ SAFETY CHECK (fix empty UI bug)
-//     if (!q.question || !q.options || q.options.length === 0) {
-//       setTargetLetter("A");
-//       setOptions(["A", "B", "C", "D", "E", "F"]);
-//       return;
-//     }
-
-//     setTargetLetter(q.question);
-//     setOptions(q.options);
-//   };
-
-//   useEffect(() => {
-//     loadNewQuestion();
-//   }, []);
-
-//   // 📊 Save to Firestore
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user"; // later replace with logged user
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: "FindCorrectLetter",
-//       });
-
-//       console.log("✅ Saved result");
-//     } catch (error) {
-//       console.error("❌ Error:", error);
-//     }
-//   };
-
-//   // 🎯 Handle Answer
-//   const handleClick = (letter) => {
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = letter === targetLetter;
-
-//     if (isCorrect) {
-//       setScore((prev) => prev + 1);
-//       setFeedback("correct");
-//     } else {
-//       setFeedback("wrong");
-//     }
-
-//     setTimeout(async () => {
-//       setFeedback("");
-
-//       const nextCount = questionCount + 1;
-//       const finalScore = score + (isCorrect ? 1 : 0);
-
-//       setQuestionCount(nextCount);
-
-//       // 🎯 END OF ROUND
-//       if (nextCount === TOTAL_QUESTIONS) {
-//         await saveScoreToFirestore(finalScore);
-
-//         alert(
-//           `🎯 Round Completed!\nScore: ${finalScore}/${TOTAL_QUESTIONS}`
-//         );
-
-//         // 🔁 RESET
-//         setScore(0);
-//         setQuestionCount(0);
-//         loadNewQuestion();
-//       } else {
-//         loadNewQuestion();
-//       }
-//     }, 800);
-//   };
-
-//   // 📊 AI Analysis
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Excellent!";
-//     if (accuracy > 50) return "👍 Good job!";
-//     return "💡 Keep practicing!";
-//   };
-
-//   return (
-//     <div className="find-page">
-//       <div className="letter-navbar">
-//         <h2>🔎 AI Find the Correct Letter</h2>
-//       </div>
-
-//       <div className="game-info">
-//         <span>
-//           Question: {questionCount + 1}/{TOTAL_QUESTIONS}
-//         </span>
-//         <span>Score: {score}</span>
-//       </div>
-
-//       <h2 className="target-text">
-//         Find: <span>{targetLetter || "..."}</span>
-//       </h2>
-
-//       <div className="letter-grid">
-//         {options.length > 0 ? (
-//           options.map((letter, index) => (
-//             <button
-//               key={index}
-//               className="grid-letter"
-//               onClick={() => handleClick(letter)}
-//             >
-//               {letter}
-//             </button>
-//           ))
-//         ) : (
-//           <p>Loading...</p>
-//         )}
-//       </div>
-
-//       {feedback === "correct" && (
-//         <div className="feedback good">🎉 Correct!</div>
-//       )}
-
-//       {feedback === "wrong" && (
-//         <div className="feedback wrong">❌ Try Again</div>
-//       )}
-
-//       {/* 📊 Analysis */}
-//       <div className="ai-analysis">
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
 import { useEffect, useState } from "react";
 import "../styles/FindCorrectLetter.css";
 
@@ -409,6 +28,7 @@ const INITIAL_STATE = {
 };
 
 export default function FindCorrectLetter() {
+
   // =========================================================
   // GAME PROGRESS
   // =========================================================
@@ -456,6 +76,7 @@ export default function FindCorrectLetter() {
   // =========================================================
 
   const generateQuestion = () => {
+
     if (
       !LETTERS ||
       LETTERS.length === 0
@@ -516,13 +137,16 @@ export default function FindCorrectLetter() {
     currentQuestionCount =
       questionCount
   ) => {
-    const q = generateQuestion();
+
+    const q =
+      generateQuestion();
 
     if (
       !q.question ||
       !q.options ||
       q.options.length === 0
     ) {
+
       setTargetLetter("A");
 
       setOptions([
@@ -547,24 +171,40 @@ export default function FindCorrectLetter() {
       };
     }
 
-    setTargetLetter(q.question);
-    setOptions(q.options);
+    setTargetLetter(
+      q.question
+    );
+
+    setOptions(
+      q.options
+    );
 
     if (shouldSave) {
       await save({
-        targetLetter: q.question,
-        options: q.options,
+        targetLetter:
+          q.question,
+
+        options:
+          q.options,
+
         feedback: "",
-        score: currentScore,
+
+        score:
+          currentScore,
+
         questionCount:
           currentQuestionCount,
+
         completed: false,
       });
     }
 
     return {
-      targetLetter: q.question,
-      options: q.options,
+      targetLetter:
+        q.question,
+
+      options:
+        q.options,
     };
   };
 
@@ -573,7 +213,9 @@ export default function FindCorrectLetter() {
   // =========================================================
 
   useEffect(() => {
+
     if (progressLoading) return;
+
     if (restored) return;
 
     console.log(
@@ -582,6 +224,7 @@ export default function FindCorrectLetter() {
     );
 
     if (savedState) {
+
       setTargetLetter(
         savedState.targetLetter ?? ""
       );
@@ -614,11 +257,15 @@ export default function FindCorrectLetter() {
       ) {
         loadNewQuestion();
       }
+
     } else {
+
       loadNewQuestion();
+
     }
 
     setRestored(true);
+
   }, [
     progressLoading,
     savedState,
@@ -629,53 +276,64 @@ export default function FindCorrectLetter() {
   // SAVE GAME RESULT
   // =========================================================
 
-  const saveScoreToFirestore = async (
-    finalScore
-  ) => {
-    try {
-      const userId =
-        localStorage.getItem("userId");
+  const saveScoreToFirestore =
+    async (finalScore) => {
 
-      if (!userId) return;
+      try {
 
-      const gameResultsRef =
-        collection(
-          db,
-          "users",
-          userId,
-          "game_results"
+        const userId =
+          localStorage.getItem(
+            "userId"
+          );
+
+        if (!userId) return;
+
+        const gameResultsRef =
+          collection(
+            db,
+            "users",
+            userId,
+            "game_results"
+          );
+
+        const accuracy =
+          (finalScore /
+            TOTAL_QUESTIONS) *
+          100;
+
+        await addDoc(
+          gameResultsRef,
+          {
+            score:
+              finalScore,
+
+            totalQuestions:
+              TOTAL_QUESTIONS,
+
+            accuracy:
+              accuracy.toFixed(2),
+
+            createdAt:
+              Timestamp.now(),
+
+            game:
+              "FindCorrectLetter",
+          }
         );
 
-      const accuracy =
-        (finalScore /
-          TOTAL_QUESTIONS) *
-        100;
+        console.log(
+          "✅ Find Correct Letter result saved"
+        );
 
-      await addDoc(
-        gameResultsRef,
-        {
-          score: finalScore,
-          totalQuestions:
-            TOTAL_QUESTIONS,
-          accuracy:
-            accuracy.toFixed(2),
-          createdAt:
-            Timestamp.now(),
-          game:
-            "FindCorrectLetter",
-        }
-      );
+      } catch (error) {
 
-      console.log(
-        "✅ Find Correct Letter result saved"
-      );
-    } catch (error) {
-      console.error(
-        "❌ Error saving result:",
-        error
-      );
-    }
-  };
+        console.error(
+          "❌ Error saving result:",
+          error
+        );
+
+      }
+    };
 
   // =========================================================
   // HANDLE ANSWER
@@ -684,7 +342,9 @@ export default function FindCorrectLetter() {
   const handleClick = async (
     letter
   ) => {
+
     if (processing) return;
+
     if (gameFinished) return;
 
     if (
@@ -709,8 +369,13 @@ export default function FindCorrectLetter() {
         ? "correct"
         : "wrong";
 
-    setFeedback(newFeedback);
-    setScore(updatedScore);
+    setFeedback(
+      newFeedback
+    );
+
+    setScore(
+      updatedScore
+    );
 
     // -------------------------------------------------------
     // SAVE ANSWER
@@ -718,10 +383,17 @@ export default function FindCorrectLetter() {
 
     await save({
       targetLetter,
+
       options,
-      feedback: newFeedback,
-      score: updatedScore,
+
+      feedback:
+        newFeedback,
+
+      score:
+        updatedScore,
+
       questionCount,
+
       completed: false,
     });
 
@@ -730,12 +402,15 @@ export default function FindCorrectLetter() {
     // -------------------------------------------------------
 
     setTimeout(async () => {
+
       setFeedback("");
 
       const nextCount =
         questionCount + 1;
 
-      setQuestionCount(nextCount);
+      setQuestionCount(
+        nextCount
+      );
 
       // =====================================================
       // FINAL QUESTION
@@ -745,6 +420,7 @@ export default function FindCorrectLetter() {
         nextCount ===
         TOTAL_QUESTIONS
       ) {
+
         const finalPercentage =
           (updatedScore /
             TOTAL_QUESTIONS) *
@@ -753,9 +429,12 @@ export default function FindCorrectLetter() {
         console.log(
           "🏁 Find Correct Letter completed:",
           {
-            score: updatedScore,
+            score:
+              updatedScore,
+
             total:
               TOTAL_QUESTIONS,
+
             percentage:
               finalPercentage,
           }
@@ -777,11 +456,17 @@ export default function FindCorrectLetter() {
         // Save completion state
         await save({
           targetLetter,
+
           options,
+
           feedback: "",
-          score: updatedScore,
+
+          score:
+            updatedScore,
+
           questionCount:
             TOTAL_QUESTIONS,
+
           completed: true,
         });
 
@@ -808,16 +493,23 @@ export default function FindCorrectLetter() {
       await save({
         targetLetter:
           nextQuestion.question,
+
         options:
           nextQuestion.options,
+
         feedback: "",
-        score: updatedScore,
+
+        score:
+          updatedScore,
+
         questionCount:
           nextCount,
+
         completed: false,
       });
 
       setProcessing(false);
+
     }, 800);
   };
 
@@ -827,8 +519,12 @@ export default function FindCorrectLetter() {
 
   const getPerformanceMessage =
     () => {
-      if (questionCount === 0)
+
+      if (
+        questionCount === 0
+      ) {
         return "";
+      }
 
       const accuracy =
         (score /
@@ -852,18 +548,55 @@ export default function FindCorrectLetter() {
     progressLoading ||
     !restored
   ) {
+
     return (
       <div className="find-page">
 
-        <div className="letter-navbar">
-          <h2>
-            🔎 AI Find the Correct Letter
-          </h2>
+        <div className="find-navbar">
+
+          <div className="find-brand">
+
+            <span className="find-brand-icon">
+              🌴
+            </span>
+
+            <div>
+              <strong>
+                CurioKids
+              </strong>
+
+              <small>
+                Jungle Practice
+              </small>
+            </div>
+
+          </div>
+
+          <div className="find-navbar-title">
+            🔎 Find the Correct Letter
+          </div>
+
         </div>
 
-        <div className="target-text">
-          Restoring your progress...
-        </div>
+        <main className="find-main">
+
+          <div className="find-loading-card">
+
+            <div className="loading-icon">
+              🌿
+            </div>
+
+            <h2>
+              Restoring your adventure...
+            </h2>
+
+            <p>
+              Getting your letters ready!
+            </p>
+
+          </div>
+
+        </main>
 
       </div>
     );
@@ -874,6 +607,7 @@ export default function FindCorrectLetter() {
   // =========================================================
 
   if (gameFinished) {
+
     const percentage =
       (score /
         TOTAL_QUESTIONS) *
@@ -882,65 +616,145 @@ export default function FindCorrectLetter() {
     return (
       <div className="find-page">
 
-        <div className="letter-navbar">
-          <h2>
-            🔎 AI Find the Correct Letter
-          </h2>
-        </div>
+        <div className="find-navbar">
 
-        <div className="target-text">
+          <div className="find-brand">
 
-          <h2>
-            🏆 Round Completed!
-          </h2>
+            <span className="find-brand-icon">
+              🌴
+            </span>
 
-          <p>
-            🎯 Score:{" "}
-            {score}/
-            {TOTAL_QUESTIONS}
-          </p>
+            <div>
+              <strong>
+                CurioKids
+              </strong>
 
-          <p>
-            ⭐ Accuracy:{" "}
-            {percentage.toFixed(0)}%
-          </p>
+              <small>
+                Jungle Practice
+              </small>
+            </div>
 
-          <button
-            className="grid-letter"
-            onClick={async () => {
-              const firstQuestion =
-                generateQuestion();
+          </div>
 
-              setTargetLetter(
-                firstQuestion.question
-              );
-
-              setOptions(
-                firstQuestion.options
-              );
-
-              setFeedback("");
-              setScore(0);
-              setQuestionCount(0);
-              setGameFinished(false);
-              setProcessing(false);
-
-              await save({
-                targetLetter:
-                  firstQuestion.question,
-                options:
-                  firstQuestion.options,
-                feedback: "",
-                score: 0,
-                questionCount: 0,
-                completed: false,
-              });
-            }}
-          >
-            🎮 Play Again
-          </button>
+          <div className="find-navbar-title">
+            🔎 Find the Correct Letter
+          </div>
 
         </div>
+
+        <main className="find-main">
+
+          <section className="find-card completion-card">
+
+            <span className="find-leaf leaf-one">
+              🍃
+            </span>
+
+            <span className="find-leaf leaf-two">
+              🌿
+            </span>
+
+            <div className="completion-content">
+
+              <div className="completion-icon">
+                🎉
+              </div>
+
+              <span className="completion-kicker">
+                JUNGLE PRACTICE COMPLETE
+              </span>
+
+              <h1>
+                Amazing Work!
+              </h1>
+
+              <p>
+                You found the correct
+                letters!
+              </p>
+
+              <div className="final-score">
+
+                <span>
+                  ⭐
+                </span>
+
+                <strong>
+                  {score}
+                </strong>
+
+                <small>
+                  / {TOTAL_QUESTIONS}
+                </small>
+
+              </div>
+
+              <div className="accuracy">
+                {percentage.toFixed(0)}%
+              </div>
+
+              <div className="performance">
+                {getPerformanceMessage()}
+              </div>
+
+              <button
+                className="play-again-btn"
+                onClick={async () => {
+
+                  const firstQuestion =
+                    generateQuestion();
+
+                  setTargetLetter(
+                    firstQuestion.question
+                  );
+
+                  setOptions(
+                    firstQuestion.options
+                  );
+
+                  setFeedback("");
+
+                  setScore(0);
+
+                  setQuestionCount(0);
+
+                  setGameFinished(
+                    false
+                  );
+
+                  setProcessing(
+                    false
+                  );
+
+                  await save({
+                    targetLetter:
+                      firstQuestion.question,
+
+                    options:
+                      firstQuestion.options,
+
+                    feedback: "",
+
+                    score: 0,
+
+                    questionCount: 0,
+
+                    completed: false,
+                  });
+                }}
+              >
+                <span>🔄</span>
+
+                Play Again
+
+                <b>→</b>
+              </button>
+
+            </div>
+
+          </section>
+
+        </main>
 
       </div>
     );
@@ -953,93 +767,225 @@ export default function FindCorrectLetter() {
   return (
     <div className="find-page">
 
-      {/* Navbar */}
+      {/* NAVBAR */}
 
-      <div className="letter-navbar">
-        <h2>
-          🔎 AI Find the Correct Letter
-        </h2>
-      </div>
+      <header className="find-navbar">
 
-      {/* Game Info */}
+        <div className="find-brand">
 
-      <div className="game-info">
+          <span className="find-brand-icon">
+            🌴
+          </span>
 
-        <span>
-          Question:{" "}
-          {Math.min(
-            questionCount + 1,
-            TOTAL_QUESTIONS
-          )}
-          /
-          {TOTAL_QUESTIONS}
-        </span>
+          <div>
+            <strong>
+              CurioKids
+            </strong>
 
-        <span>
-          Score: {score}
-        </span>
+            <small>
+              Jungle Practice
+            </small>
+          </div>
 
-      </div>
+        </div>
 
-      {/* Target */}
+        <div className="find-navbar-title">
+          <span>🔎</span>
+          Find the Correct Letter
+        </div>
 
-      <h2 className="target-text">
-        Find:{" "}
-        <span>
-          {targetLetter || "..."}
-        </span>
-      </h2>
+      </header>
 
-      {/* Options */}
+      {/* MAIN */}
 
-      <div className="letter-grid">
+      <main className="find-main">
 
-        {options.length > 0 ? (
-          options.map(
-            (letter, index) => (
-              <button
-                key={index}
-                className="grid-letter"
-                onClick={() =>
-                  handleClick(letter)
-                }
-                disabled={processing}
-              >
-                {letter}
-              </button>
-            )
-          )
-        ) : (
+        <section className="find-heading">
+
+          <span className="find-kicker">
+            CURIOKIDS • JUNGLE PRACTICE
+          </span>
+
+          <h1>
+            Find the Letter 🔎
+          </h1>
+
           <p>
-            Loading...
+            Look carefully and find the
+            correct letter!
           </p>
-        )}
 
-      </div>
+        </section>
 
-      {/* Feedback */}
+        {/* GAME CARD */}
 
-      {feedback ===
-        "correct" && (
-        <div className="feedback good">
-          🎉 Correct!
-        </div>
-      )}
+        <section className="find-card">
 
-      {feedback ===
-        "wrong" && (
-        <div className="feedback wrong">
-          ❌ Try Again
-        </div>
-      )}
+          <span className="find-leaf leaf-one">
+            🍃
+          </span>
 
-      {/* Analysis */}
+          <span className="find-leaf leaf-two">
+            🌿
+          </span>
 
-      <div className="ai-analysis">
-        <p>
-          {getPerformanceMessage()}
-        </p>
-      </div>
+          {/* HEADER */}
+
+          <div className="find-game-header">
+
+            <div>
+
+              <span className="find-game-label">
+                LETTER HUNT
+              </span>
+
+              <h2>
+                Find the correct letter
+              </h2>
+
+            </div>
+
+            <div className="find-progress">
+
+              <strong>
+                {Math.min(
+                  questionCount + 1,
+                  TOTAL_QUESTIONS
+                )}
+              </strong>
+
+              <span>
+                / {TOTAL_QUESTIONS}
+              </span>
+
+              <small>
+                Question
+              </small>
+
+            </div>
+
+          </div>
+
+          {/* TARGET */}
+
+          <div className="target-area">
+
+            <span className="target-label">
+              FIND THIS LETTER
+            </span>
+
+            <div className="target-letter">
+              {targetLetter || "..."}
+            </div>
+
+            <p>
+              👀 Look at all the choices
+              and tap the matching letter!
+            </p>
+
+          </div>
+
+          {/* OPTIONS */}
+
+          <div className="options-title">
+            <span>🌿</span>
+            CHOOSE YOUR ANSWER
+          </div>
+
+          <div className="letter-grid">
+
+            {options.length > 0 ? (
+
+              options.map(
+                (letter, index) => (
+
+                  <button
+                    key={index}
+                    className={`grid-letter ${
+                      feedback === "correct" &&
+                      letter === targetLetter
+                        ? "correct-letter"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      handleClick(letter)
+                    }
+                    disabled={processing}
+                  >
+                    {letter}
+
+                    <span className="letter-check">
+                      ✓
+                    </span>
+
+                  </button>
+
+                )
+              )
+
+            ) : (
+
+              <p className="loading-text">
+                Loading...
+              </p>
+
+            )}
+
+          </div>
+
+          {/* FEEDBACK */}
+
+          {feedback ===
+            "correct" && (
+
+            <div className="feedback good">
+              🎉 Correct! Great job!
+            </div>
+
+          )}
+
+          {feedback ===
+            "wrong" && (
+
+            <div className="feedback wrong">
+              💡 Try again! Look carefully.
+            </div>
+
+          )}
+
+          {/* BOTTOM */}
+
+          <div className="find-bottom">
+
+            <div className="score-pill">
+
+              <span>
+                ⭐
+              </span>
+
+              <strong>
+                Score
+              </strong>
+
+              <b>
+                {score}
+              </b>
+
+              <span>
+                / {questionCount}
+              </span>
+
+            </div>
+
+            <div className="performance-pill">
+              {getPerformanceMessage()}
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
 
     </div>
   );

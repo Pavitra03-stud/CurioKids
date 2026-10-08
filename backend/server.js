@@ -13,9 +13,7 @@ import express from "express";
 import cors from "cors";
 
 import dotenv from "dotenv";
-
-import nodemailer from "nodemailer";
-
+import { Resend } from "resend";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { initializeApp, cert } from "firebase-admin/app";
@@ -200,19 +198,21 @@ console.log("🔥 SERVER STARTED");
 
 
 
-const transporter = nodemailer.createTransport({
+// const transporter = nodemailer.createTransport({
 
-  service: "gmail",
+//   service: "gmail",
 
-  auth: {
+//   auth: {
 
-    user: process.env.EMAIL_USER,
+//     user: process.env.EMAIL_USER,
 
-    pass: process.env.EMAIL_PASS,
+//     pass: process.env.EMAIL_PASS,
 
-  },
+//   },
 
-});
+// });
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 
 
@@ -696,14 +696,10 @@ app.post("/api/send-otp", async (req, res) => {
 
 
 
-    await transporter.sendMail({
-
-      from: process.env.EMAIL_USER,
-
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
       to: email,
-
       subject: "CurioKids OTP",
-
       html: `
 
         <div

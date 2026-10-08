@@ -548,10 +548,13 @@
 }
 
 .info-card:hover {
-  transform: translateY(-6px) rotate(-0.4deg);
-
-  box-shadow:
-    0 17px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(20, 61, 43, 0.68) !important;
+  transform: none !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  color: #ffffff !important;
+  transition: none !important;
 }
 
 .info-card h3 {
@@ -1110,10 +1113,13 @@
 }
 
 .info-card:hover {
-  background:
-    rgba(216, 243, 184, 0.25);
-
-  transform: translateY(-5px);
+  background: rgba(20, 61, 43, 0.68) !important;
+  transform: none !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  color: #ffffff !important;
+  transition: none !important;
 }
 
 .info-card h3 {
@@ -1233,4 +1239,91 @@
     background:
       rgba(255, 246, 215, 0.18);
   }
+}
+/* =========================================================
+   FINAL JUNGLE BACKGROUND + ALWAYS READABLE INFO CARDS
+   ========================================================= */
+
+/* Use the exact jungle background used by the Games page */
+.jungle-hero-page {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 93, 66, 0.08) 0%,
+      rgba(95, 173, 92, 0.12) 32%,
+      rgba(214, 246, 190, 0.08) 70%,
+      rgba(244, 248, 217, 0.14) 100%
+    ),
+    url("../assets/gamesHome.png") center top / cover fixed no-repeat;
+}
+
+/* Keep the information cards readable WITHOUT hover */
+.info-card {
+  background:
+    rgba(20, 61, 43, 0.68);
+
+  border:
+    2px solid rgba(216, 243, 184, 0.55);
+
+  color: #ffffff;
+
+  backdrop-filter: blur(5px);
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.18);
+
+  transition: none !important;
+}
+
+/* Hover should NOT be responsible for readability */
+.info-card:hover {
+  background: rgba(20, 61, 43, 0.68) !important;
+  transform: none !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  color: #ffffff !important;
+  transition: none !important;
+}
+
+.info-card h3 {
+  color: #fff8df;
+
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.45);
+}
+
+.info-card p {
+  color: rgba(255, 255, 255, 0.95);
+
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.35);
+}
+/* =========================================================
+   DISABLE INFO CARD HOVER COMPLETELY
+   ========================================================= */
+
+.info-card {
+  transition: none !important;
+}
+
+.info-card:hover {
+  background: rgba(20, 61, 43, 0.68) !important;
+  transform: none !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  color: #ffffff !important;
+  transition: none !important;
+}
+.jungle-hero-page {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 93, 66, 0.08) 0%,
+      rgba(95, 173, 92, 0.12) 32%,
+      rgba(214, 246, 190, 0.08) 70%,
+      rgba(244, 248, 217, 0.14) 100%
+    ),
+    url("../assets/gamesHome.png") center top / cover fixed no-repeat;
 }

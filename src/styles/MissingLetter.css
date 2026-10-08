@@ -1,125 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap");
+
 * {
   box-sizing: border-box;
 }
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
 
 .missing-page {
   min-height: 100vh;
   width: 100%;
 
-  padding: 28px 20px 60px;
-
   background:
-    radial-gradient(
-      circle at 8% 18%,
-      rgba(244, 221, 255, 0.7),
-      transparent 23%
-    ),
-    radial-gradient(
-      circle at 92% 15%,
-      rgba(255, 237, 182, 0.65),
-      transparent 24%
-    ),
     linear-gradient(
-      135deg,
-      #f9fbff 0%,
-      #f5f8ff 45%,
-      #f8f4ff 100%
-    );
+      rgba(15, 61, 37, 0.14),
+      rgba(15, 61, 37, 0.14)
+    ),
+    url("../assets/gamesHome.png");
 
-  color: #29364f;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 
-  font-family:
-    "Nunito",
-    "Poppins",
-    Arial,
-    sans-serif;
-}
-
-.missing-shell {
-  width: min(940px, 100%);
-  margin: 0 auto;
+  overflow-x: hidden;
 }
 
 /* =========================================================
-   HEADER
+   NAVBAR
 ========================================================= */
 
-.missing-header {
+.missing-navbar {
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  min-height: 72px;
+
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
 
-  padding: 25px 28px;
+  padding: 0 48px;
 
-  background: rgba(255, 255, 255, 0.96);
+  background: #1e5136;
 
-  border: 1px solid rgba(214, 220, 239, 0.7);
-
-  border-radius: 28px;
+  border-bottom: 4px solid #e0b54b;
 
   box-shadow:
-    0 15px 45px rgba(68, 75, 113, 0.08);
-
-  margin-bottom: 16px;
+    0 5px 16px rgba(0, 0, 0, 0.32);
 }
 
-.detective-badge {
-  width: 66px;
-  height: 66px;
-
+.missing-brand {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
 
-  flex-shrink: 0;
+  color: #fff4d2;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.missing-brand span {
+  font-size: 22px;
+}
+
+.missing-navbar-title {
+  color: #fff4d2;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.missing-main {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 35px 20px 60px;
+}
+
+/* =========================================================
+   GAME CARD
+========================================================= */
+
+.missing-game-card {
+  width: min(920px, 100%);
+
+  padding: 30px 40px 40px;
 
   background:
     linear-gradient(
       145deg,
-      #efe1ff,
-      #e0d0ff
+      #b96930,
+      #a45625 48%,
+      #91481d
     );
 
-  border-radius: 21px;
+  border: 4px solid #dfb248;
 
-  font-size: 33px;
+  border-radius: 30px;
 
   box-shadow:
-    inset 0 1px 0 white;
-}
+    0 9px 0 rgba(70, 36, 15, 0.68),
+    0 18px 40px rgba(0, 0, 0, 0.34);
 
-.eyebrow {
-  margin: 0 0 3px;
-
-  color: #9b82bf;
-
-  font-size: 10px;
-
-  font-weight: 900;
-
-  letter-spacing: 1.5px;
-}
-
-.missing-header h1 {
-  margin: 0;
-
-  color: #394467;
-
-  font-size: clamp(28px, 5vw, 42px);
-
-  line-height: 1;
-
-  font-weight: 900;
-}
-
-.missing-header p:last-child {
-  margin: 8px 0 0;
-
-  color: #7d879c;
-
-  font-size: 14px;
-
-  font-weight: 700;
+  text-align: center;
 }
 
 /* =========================================================
@@ -127,78 +138,63 @@
 ========================================================= */
 
 .missing-stats {
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 14px;
-
-  margin-bottom: 14px;
-}
-
-.stat-card {
   display: flex;
+  justify-content: center;
   align-items: center;
 
-  gap: 14px;
+  gap: 18px;
 
-  padding: 16px 20px;
-
-  background: white;
-
-  border-radius: 21px;
-
-  box-shadow:
-    0 9px 27px rgba(67, 75, 105, 0.07);
+  margin-bottom: 20px;
 }
 
-.stat-icon {
-  width: 48px;
-  height: 48px;
+.missing-stat-pill {
+  min-width: 165px;
+  height: 52px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 16px;
+  gap: 8px;
 
-  font-size: 22px;
+  padding: 0 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff8df,
+      #f3e1ae
+    );
+
+  border: 3px solid #dfb447;
+
+  border-radius: 30px;
+
+  color: #2c6042;
+
+  font-family: "Baloo 2", sans-serif;
+
+  box-shadow:
+    0 5px 0 #936625,
+    0 7px 13px rgba(0, 0, 0, 0.2);
 }
 
-.stat-icon.purple {
-  background: #f0e8ff;
+.missing-stat-pill span {
+  font-size: 15px;
+  font-weight: 800;
 }
 
-.stat-icon.yellow {
-  background: #fff3c8;
-}
-
-.stat-card span {
-  display: block;
-
-  margin-bottom: 3px;
-
-  color: #9ba3b4;
-
-  font-size: 9px;
-
+.missing-stat-pill strong {
+  font-size: 20px;
   font-weight: 900;
-
-  letter-spacing: 1px;
 }
 
-.stat-card strong {
-  color: #45506e;
+.missing-stat-pill small {
+  margin-left: 2px;
 
-  font-size: 24px;
+  color: #82917f;
 
-  font-weight: 900;
-}
-
-.stat-card strong small {
-  color: #a4aaba;
-
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* =========================================================
@@ -206,269 +202,221 @@
 ========================================================= */
 
 .missing-progress {
-  padding: 15px 19px;
+  width: min(650px, 100%);
 
-  margin-bottom: 17px;
-
-  background: white;
-
-  border-radius: 19px;
-
-  box-shadow:
-    0 8px 22px rgba(67, 75, 105, 0.06);
+  margin: 0 auto 25px;
 }
 
-.progress-heading {
+.missing-progress-top {
   display: flex;
-
   justify-content: space-between;
 
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 
-  color: #7c879b;
+  color: #ffe5a3;
 
-  font-size: 12px;
-
-  font-weight: 900;
+  font-size: 13px;
+  font-weight: 800;
 }
 
-.progress-heading strong {
-  color: #8d74bb;
+.missing-progress-top strong {
+  color: #fff1c8;
 }
 
-.progress-track {
-  height: 8px;
+.missing-progress-track {
+  width: 100%;
+  height: 9px;
 
   overflow: hidden;
 
-  background: #eceef5;
+  background: rgba(72, 36, 18, 0.65);
+
+  border: 1px solid rgba(255, 216, 125, 0.35);
 
   border-radius: 20px;
 }
 
-.progress-value {
+.missing-progress-fill {
   height: 100%;
 
   background:
     linear-gradient(
       90deg,
-      #b49ae4,
-      #8ec5d5
+      #f0c75b,
+      #ffe6a0
     );
 
   border-radius: 20px;
 
-  transition:
-    width 0.4s ease;
+  transition: width 0.4s ease;
 }
 
 /* =========================================================
-   MAIN DETECTIVE CARD
+   PUZZLE PANEL
 ========================================================= */
 
-.detective-card {
+.missing-puzzle-panel {
   position: relative;
 
-  padding: 38px 35px 42px;
+  padding: 30px 28px 35px;
 
-  background: white;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(91, 46, 23, 0.82),
+      rgba(104, 51, 23, 0.7)
+    );
 
-  border-radius: 34px;
+  border: 3px solid #d7a73e;
 
-  text-align: center;
+  border-radius: 25px;
 
   box-shadow:
-    0 20px 55px rgba(63, 70, 105, 0.1);
-
-  overflow: hidden;
-}
-
-.detective-card::before {
-  content: "";
-
-  position: absolute;
-
-  width: 190px;
-  height: 190px;
-
-  top: -110px;
-  right: -80px;
-
-  background: #eee6ff;
-
-  border-radius: 50%;
-
-  opacity: 0.7;
-}
-
-.detective-card::after {
-  content: "";
-
-  position: absolute;
-
-  width: 130px;
-  height: 130px;
-
-  bottom: -75px;
-  left: -55px;
-
-  background: #fff1c9;
-
-  border-radius: 50%;
-
-  opacity: 0.7;
+    inset 0 2px 9px rgba(0, 0, 0, 0.2);
 }
 
 /* =========================================================
-   CASE TAG
+   CASE
 ========================================================= */
 
-.case-tag {
-  position: relative;
-
-  z-index: 1;
-
+.missing-case-tag {
   display: inline-flex;
-
   align-items: center;
 
-  padding: 8px 15px;
+  padding: 7px 15px;
 
-  margin-bottom: 13px;
+  margin-bottom: 12px;
 
-  background: #f1eaff;
+  background:
+    rgba(255, 237, 175, 0.16);
 
-  color: #8b70b5;
+  border: 1px solid #e0b54b;
 
-  border-radius: 50px;
+  border-radius: 30px;
+
+  color: #ffe6a1;
 
   font-size: 10px;
 
   font-weight: 900;
 
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
 }
 
-.detective-card h2 {
-  position: relative;
-
-  z-index: 1;
-
+.missing-puzzle-panel h1 {
   margin: 0;
 
-  color: #3c4662;
+  color: #fff5d8;
 
-  font-size: clamp(25px, 4vw, 32px);
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: clamp(27px, 5vw, 35px);
+
+  font-weight: 800;
 }
 
-.question-description {
-  position: relative;
+.missing-question-description {
+  max-width: 520px;
 
-  z-index: 1;
+  margin: 7px auto 24px;
 
-  max-width: 500px;
-
-  margin: 8px auto 26px;
-
-  color: #8b94a6;
+  color: #ffe5b0;
 
   font-size: 14px;
 
   font-weight: 700;
 
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 /* =========================================================
-   MYSTERY WORD
+   WORD
 ========================================================= */
 
-.mystery-word {
-  position: relative;
+.missing-word-box {
+  min-height: 125px;
 
-  z-index: 1;
-
-  min-height: 115px;
+  width: fit-content;
+  max-width: 100%;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
-  gap: 12px;
+  gap: 9px;
 
-  margin: 0 auto 25px;
+  margin: 0 auto 22px;
 
   padding: 18px 25px;
 
-  width: fit-content;
-
-  max-width: 100%;
-
   background:
     linear-gradient(
-      135deg,
-      #faf8ff,
-      #f4f8ff
+      145deg,
+      #fff8df,
+      #f0dca4
     );
 
-  border: 2px solid #ece8f7;
+  border: 4px solid #dfb34a;
 
-  border-radius: 25px;
+  border-radius: 24px;
 
   box-shadow:
-    inset 0 2px 5px rgba(70, 75, 110, 0.03);
+    0 7px 0 #80511e,
+    0 12px 20px rgba(0, 0, 0, 0.22);
 }
 
-.normal-letter {
-  min-width: 56px;
+.missing-normal-letter {
+  min-width: 55px;
   height: 68px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: #414b68;
+  color: #286043;
 
-  font-size: clamp(35px, 7vw, 52px);
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(36px, 7vw, 51px);
 
   font-weight: 900;
 }
 
-.mystery-letter {
-  min-width: 64px;
-  height: 74px;
+.missing-word-letter {
+  min-width: 63px;
+  height: 72px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   background:
-    linear-gradient(
-      145deg,
-      #fff4c8,
-      #ffe8a4
+    repeating-linear-gradient(
+      135deg,
+      #fff5cf,
+      #fff5cf 8px,
+      #f8e4aa 8px,
+      #f8e4aa 16px
     );
 
-  color: #b18a2d;
+  border: 3px dashed #cfa63e;
 
-  border: 3px dashed #d7b95c;
+  border-radius: 17px;
 
-  border-radius: 18px;
+  color: #ae8420;
 
-  font-size: clamp(32px, 6vw, 47px);
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(34px, 6vw, 47px);
 
   font-weight: 900;
 
   animation:
-    mysteryPulse 1.8s
+    missingPulse 1.7s
     infinite ease-in-out;
 }
 
-@keyframes mysteryPulse {
+@keyframes missingPulse {
   0%,
   100% {
     transform: scale(1);
@@ -479,15 +427,15 @@
   }
 }
 
-.word-loading {
-  font-size: 42px;
+.missing-word-loading {
+  font-size: 43px;
 
   animation:
-    detectiveSpin 1s
-    infinite linear;
+    missingSpin 1s
+    linear infinite;
 }
 
-@keyframes detectiveSpin {
+@keyframes missingSpin {
   to {
     transform: rotate(360deg);
   }
@@ -497,33 +445,29 @@
    HINT
 ========================================================= */
 
-.detective-hint {
-  position: relative;
-
-  z-index: 1;
+.missing-hint {
+  width: min(560px, 100%);
 
   display: flex;
-
   align-items: center;
 
   gap: 12px;
 
-  width: min(550px, 100%);
+  margin: 0 auto 25px;
 
-  margin: 0 auto 28px;
+  padding: 13px 17px;
 
-  padding: 14px 17px;
+  background:
+    rgba(255, 238, 180, 0.13);
 
-  background: #fffaf0;
+  border: 1px solid rgba(255, 221, 136, 0.4);
 
-  border: 1px solid #f5e9c8;
-
-  border-radius: 18px;
+  border-radius: 17px;
 
   text-align: left;
 }
 
-.hint-icon {
+.missing-hint-icon {
   width: 40px;
   height: 40px;
 
@@ -533,27 +477,32 @@
 
   flex-shrink: 0;
 
-  background: #fff0b9;
+  background:
+    linear-gradient(
+      145deg,
+      #fff3c5,
+      #e8c975
+    );
 
-  border-radius: 13px;
+  border-radius: 12px;
 
-  font-size: 20px;
+  font-size: 19px;
 }
 
-.detective-hint strong {
+.missing-hint strong {
   display: block;
 
-  color: #826d39;
+  color: #ffe7a7;
 
   font-size: 12px;
 
   font-weight: 900;
 }
 
-.detective-hint p {
+.missing-hint p {
   margin: 3px 0 0;
 
-  color: #9b8b67;
+  color: #f6dca8;
 
   font-size: 11px;
 
@@ -561,153 +510,177 @@
 }
 
 /* =========================================================
-   ANSWER AREA
+   ANSWER HEADING
 ========================================================= */
 
-.answer-heading {
-  position: relative;
+.missing-answer-heading {
+  margin-bottom: 16px;
 
-  z-index: 1;
+  color: #ffe5a1;
 
-  margin-bottom: 17px;
+  font-family: "Baloo 2", sans-serif;
 
-  color: #68728a;
+  font-size: 16px;
 
-  font-size: 14px;
-
-  font-weight: 900;
+  font-weight: 800;
 }
 
-.letter-circles {
-  position: relative;
+/* =========================================================
+   OPTIONS CONTAINER
+========================================================= */
 
-  z-index: 1;
+.missing-letter-options {
+  display: grid;
 
-  display: flex;
+  grid-template-columns:
+    repeat(4, minmax(100px, 1fr));
 
-  justify-content: center;
+  gap: 15px;
 
-  flex-wrap: wrap;
+  max-width: 700px;
 
-  gap: 17px;
+  margin: 0 auto;
 }
 
-.letter-circle {
-  width: 78px;
-  height: 78px;
+/* =========================================================
+   LETTER BUTTON
+========================================================= */
+
+.missing-letter-button {
+  width: 100%;
+  height: 82px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  border: 0;
+  border: 3px solid #d7a943;
 
-  border-radius: 50%;
+  border-radius: 19px;
 
-  cursor: pointer;
+  background:
+    linear-gradient(
+      145deg,
+      #fff9e4,
+      #f0dda5
+    );
 
-  color: white;
+  color: #2b6044;
 
-  font-size: 27px;
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 31px;
 
   font-weight: 900;
 
+  cursor: pointer;
+
   box-shadow:
-    0 7px 0 rgba(70, 75, 110, 0.16),
-    0 12px 22px rgba(67, 74, 104, 0.1);
+    0 7px 0 #956725,
+    0 10px 15px rgba(0, 0, 0, 0.22);
 
   transition:
     transform 0.18s ease,
-    box-shadow 0.18s ease;
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
-.letter-circle:hover:not(:disabled) {
+.missing-letter-button:hover:not(:disabled) {
   transform: translateY(-5px);
 
+  background:
+    linear-gradient(
+      145deg,
+      #fffde9,
+      #ffe8a5
+    );
+
   box-shadow:
-    0 11px 0 rgba(70, 75, 110, 0.16),
-    0 18px 27px rgba(67, 74, 104, 0.14);
+    0 12px 0 #956725,
+    0 16px 20px rgba(0, 0, 0, 0.25);
 }
 
-.letter-circle:active:not(:disabled) {
+.missing-letter-button:active:not(:disabled) {
   transform: translateY(3px);
 
   box-shadow:
-    0 3px 0 rgba(70, 75, 110, 0.16);
+    0 4px 0 #956725;
 }
 
-.circle-0 {
-  background:
-    linear-gradient(
-      145deg,
-      #8f7cc4,
-      #7462ad
-    );
-}
-
-.circle-1 {
-  background:
-    linear-gradient(
-      145deg,
-      #77aeb9,
-      #5796a3
-    );
-}
-
-.circle-2 {
-  background:
-    linear-gradient(
-      145deg,
-      #e0aa55,
-      #cc8e34
-    );
-}
-
-.circle-3 {
-  background:
-    linear-gradient(
-      145deg,
-      #d58a9d,
-      #c36d85
-    );
-}
-
-.letter-circle:disabled {
+.missing-letter-button:disabled {
   cursor: default;
 }
 
-.letter-correct {
+/* =========================================================
+   OPTION VARIATION
+========================================================= */
+
+.missing-option-0 {
   background:
     linear-gradient(
       145deg,
-      #83c779,
-      #55aa62
-    ) !important;
-
-  animation:
-    correctPop 0.35s ease;
+      #fff9e4,
+      #f0dda5
+    );
 }
 
-.letter-wrong {
+.missing-option-1 {
   background:
     linear-gradient(
       145deg,
-      #dc9a8b,
-      #c87967
-    ) !important;
-
-  animation:
-    wrongShake 0.35s ease;
+      #f9f2d6,
+      #e9d39a
+    );
 }
 
-@keyframes correctPop {
+.missing-option-2 {
+  background:
+    linear-gradient(
+      145deg,
+      #fff8df,
+      #efdca6
+    );
+}
+
+.missing-option-3 {
+  background:
+    linear-gradient(
+      145deg,
+      #faf3d8,
+      #e7d09a
+    );
+}
+
+/* =========================================================
+   CORRECT
+========================================================= */
+
+.missing-letter-correct {
+  background:
+    linear-gradient(
+      145deg,
+      #dff4b8,
+      #b9dc87
+    ) !important;
+
+  border-color: #70a84c !important;
+
+  color: #285f37 !important;
+
+  box-shadow:
+    0 6px 0 #648f45 !important;
+
+  animation:
+    missingCorrect 0.35s ease;
+}
+
+@keyframes missingCorrect {
   0% {
     transform: scale(1);
   }
 
   55% {
-    transform: scale(1.16);
+    transform: scale(1.08);
   }
 
   100% {
@@ -715,18 +688,41 @@
   }
 }
 
-@keyframes wrongShake {
+/* =========================================================
+   WRONG
+========================================================= */
+
+.missing-letter-wrong {
+  background:
+    linear-gradient(
+      145deg,
+      #ffe0d4,
+      #f1b29a
+    ) !important;
+
+  border-color: #d68a6c !important;
+
+  color: #984d38 !important;
+
+  box-shadow:
+    0 6px 0 #b36d54 !important;
+
+  animation:
+    missingWrong 0.35s ease;
+}
+
+@keyframes missingWrong {
   0%,
   100% {
     transform: translateX(0);
   }
 
   25% {
-    transform: translateX(-6px);
+    transform: translateX(-5px);
   }
 
   75% {
-    transform: translateX(6px);
+    transform: translateX(5px);
   }
 }
 
@@ -734,184 +730,197 @@
    FEEDBACK
 ========================================================= */
 
-.answer-feedback {
-  position: relative;
-
-  z-index: 1;
-
+.missing-feedback {
   width: fit-content;
 
-  max-width: 90%;
+  max-width: 95%;
 
-  margin: 22px auto 0;
+  margin: 20px auto 0;
 
-  padding: 11px 18px;
+  padding: 11px 20px;
 
-  border-radius: 50px;
+  border-radius: 30px;
 
-  font-size: 12px;
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: 16px;
+
+  font-weight: 800;
 }
 
-.correct-feedback {
-  background: #e5f6e0;
+.missing-feedback-correct {
+  background:
+    #dff1bb;
 
-  color: #4c8b4e;
+  border: 2px solid #74a950;
+
+  color: #30643b;
 }
 
-.wrong-feedback {
-  background: #fff0eb;
+.missing-feedback-wrong {
+  background:
+    #ffe2c4;
 
-  color: #a96354;
+  border: 2px solid #d6a05a;
+
+  color: #85552c;
 }
 
 /* =========================================================
    BOTTOM TIP
 ========================================================= */
 
-.detective-tip {
+.missing-tip {
   display: flex;
 
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   gap: 7px;
 
   margin-top: 16px;
 
-  color: #929bad;
+  color: #fff0c9;
 
-  font-size: 11px;
+  font-size: 12px;
 
   font-weight: 800;
 
   text-align: center;
 }
 
-.detective-tip p {
+.missing-tip p {
   margin: 0;
 }
 
 /* =========================================================
-   LOADING
+   LOADING CARD
 ========================================================= */
 
-.missing-loading {
-  min-height: 75vh;
+.missing-loading-card {
+  width: min(620px, 100%);
 
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
+  padding: 55px 30px;
 
   text-align: center;
-}
 
-.detective-icon {
-  width: 90px;
-  height: 90px;
+  background:
+    linear-gradient(
+      145deg,
+      #a85a28,
+      #8e451c
+    );
 
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  background: #eee5ff;
+  border: 4px solid #dfb248;
 
   border-radius: 30px;
 
-  font-size: 45px;
-
-  animation:
-    floatDetective 1.8s
-    infinite ease-in-out;
+  box-shadow:
+    0 9px 0 rgba(70, 36, 15, 0.65),
+    0 18px 35px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes floatDetective {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
+.missing-loading-icon {
+  width: 82px;
+  height: 82px;
 
-  50% {
-    transform: translateY(-9px);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff3c8,
+      #e8c56c
+    );
+
+  border: 3px solid #dcae45;
+
+  border-radius: 22px;
+
+  font-size: 40px;
+
+  box-shadow:
+    0 7px 0 #875a22;
 }
 
-.missing-loading h2 {
-  margin: 20px 0 7px;
+.missing-loading-card h2 {
+  margin: 0 0 8px;
 
-  color: #454f6c;
+  color: #fff5d7;
 
-  font-size: 22px;
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: 29px;
+
+  font-weight: 800;
 }
 
-.missing-loading p {
+.missing-loading-card p {
   margin: 0;
 
-  color: #929bac;
+  color: #ffe8b0;
 
-  font-size: 13px;
+  font-size: 15px;
 
   font-weight: 700;
 }
 
-.loading-dots {
+.missing-loading-dots {
   display: flex;
 
-  gap: 6px;
+  justify-content: center;
 
-  margin-top: 18px;
+  gap: 7px;
+
+  margin-top: 20px;
 }
 
-.loading-dots span {
+.missing-loading-dots span {
   width: 8px;
   height: 8px;
 
-  background: #9b86c6;
+  background: #f0c75b;
 
   border-radius: 50%;
 
   animation:
-    loadingDot 1s
+    missingDot 1s
     infinite ease-in-out;
 }
 
-.loading-dots span:nth-child(2) {
+.missing-loading-dots span:nth-child(2) {
   animation-delay: 0.15s;
 }
 
-.loading-dots span:nth-child(3) {
+.missing-loading-dots span:nth-child(3) {
   animation-delay: 0.3s;
 }
 
-@keyframes loadingDot {
+@keyframes missingDot {
   0%,
   100% {
     transform: translateY(0);
-
     opacity: 0.5;
   }
 
   50% {
     transform: translateY(-6px);
-
     opacity: 1;
   }
 }
 
-.answer-loading {
+.missing-answer-loading {
+  grid-column: 1 / -1;
+
   padding: 18px;
 
-  color: #8e98aa;
+  color: #ffe7af;
 
-  font-size: 13px;
+  font-size: 14px;
 
   font-weight: 800;
 }
@@ -920,125 +929,150 @@
    COMPLETION
 ========================================================= */
 
-.completion-card {
-  max-width: 650px;
+.missing-completion-card {
+  width: min(650px, 100%);
 
-  margin: 60px auto 0;
-
-  padding: 45px 30px;
-
-  background: white;
-
-  border-radius: 34px;
+  padding: 45px 35px;
 
   text-align: center;
-
-  box-shadow:
-    0 20px 55px rgba(63, 70, 105, 0.1);
-}
-
-.completion-icon {
-  width: 92px;
-  height: 92px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  margin: 0 auto 12px;
 
   background:
     linear-gradient(
       145deg,
-      #fff1b7,
-      #ffe4a0
+      #a85b29,
+      #8e451d
     );
 
-  border-radius: 50%;
+  border: 4px solid #dfb248;
 
-  font-size: 45px;
+  border-radius: 30px;
+
+  box-shadow:
+    0 9px 0 rgba(70, 36, 15, 0.65),
+    0 18px 40px rgba(0, 0, 0, 0.32);
 }
 
-.completion-stars {
-  margin-bottom: 13px;
+.missing-trophy {
+  width: 92px;
+  height: 92px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff4c9,
+      #e7c469
+    );
+
+  border: 3px solid #dcae45;
+
+  border-radius: 24px;
+
+  font-size: 45px;
+
+  box-shadow:
+    0 7px 0 #835521;
+}
+
+.missing-stars {
+  margin-bottom: 12px;
 
   font-size: 17px;
 
   letter-spacing: 3px;
 }
 
-.completion-label {
-  margin: 0;
+.missing-complete-label {
+  color: #f5d16e;
 
-  color: #a08bc1;
-
-  font-size: 10px;
+  font-size: 11px;
 
   font-weight: 900;
 
   letter-spacing: 2px;
 }
 
-.completion-card h1 {
-  margin: 7px 0;
+.missing-completion-card h1 {
+  margin: 6px 0;
 
-  color: #3e4864;
+  color: #fff5d7;
+
+  font-family: "Baloo 2", sans-serif;
 
   font-size: clamp(29px, 5vw, 40px);
 
-  font-weight: 900;
+  font-weight: 800;
 }
 
-.completion-subtitle {
-  margin: 0 0 24px;
+.missing-complete-text {
+  margin: 8px 0 23px;
 
-  color: #8a94a6;
+  color: #ffe9b5;
 
   font-size: 14px;
 
   font-weight: 700;
 }
 
-.final-score {
+/* =========================================================
+   FINAL SCORE
+========================================================= */
+
+.missing-final-score {
   padding: 18px;
 
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 
-  background: #f7f5ff;
+  background:
+    rgba(71, 36, 18, 0.68);
 
-  border-radius: 22px;
+  border: 2px solid #d4a33d;
+
+  border-radius: 20px;
 }
 
-.final-score span {
+.missing-final-score span {
   display: block;
 
-  color: #8d91a4;
+  color: #f4d582;
 
-  font-size: 11px;
+  font-size: 10px;
 
   font-weight: 900;
+
+  letter-spacing: 1px;
 }
 
-.final-score strong {
+.missing-final-score strong {
   display: block;
 
-  margin-top: 3px;
+  margin-top: 2px;
 
-  color: #7561a7;
+  color: #fff4d0;
+
+  font-family: "Baloo 2", sans-serif;
 
   font-size: 42px;
 
   font-weight: 900;
 }
 
-.final-score small {
-  color: #a9a6b7;
+.missing-final-score small {
+  color: #dbcda9;
 
   font-size: 18px;
 }
 
-.performance-card {
+/* =========================================================
+   PERFORMANCE
+========================================================= */
+
+.missing-performance {
   display: flex;
 
   align-items: center;
@@ -1049,29 +1083,32 @@
 
   margin-bottom: 20px;
 
-  background: #fffaf0;
+  background:
+    rgba(255, 238, 180, 0.12);
+
+  border: 1px solid rgba(255, 221, 136, 0.35);
 
   border-radius: 18px;
 
   text-align: left;
 }
 
-.performance-emoji {
+.missing-performance-icon {
   font-size: 30px;
 }
 
-.performance-card strong {
-  color: #625b72;
+.missing-performance strong {
+  color: #ffe9b2;
 
-  font-size: 13px;
+  font-size: 14px;
 
   font-weight: 900;
 }
 
-.performance-card p {
+.missing-performance p {
   margin: 3px 0 0;
 
-  color: #958c9f;
+  color: #f0d8a6;
 
   font-size: 11px;
 
@@ -1080,162 +1117,195 @@
   line-height: 1.5;
 }
 
-.play-again-btn {
-  padding: 14px 24px;
+/* =========================================================
+   PLAY AGAIN
+========================================================= */
 
-  border: 0;
+.missing-play-again {
+  padding: 14px 26px;
+
+  border: none;
 
   border-radius: 16px;
 
   background:
     linear-gradient(
       135deg,
-      #806db2,
-      #668fa8
+      #286c49,
+      #58a754
     );
 
   color: white;
 
-  font-size: 13px;
+  font-family: "Baloo 2", sans-serif;
 
-  font-weight: 900;
+  font-size: 16px;
+
+  font-weight: 800;
 
   cursor: pointer;
 
   box-shadow:
-    0 8px 20px rgba(100, 87, 144, 0.2);
+    0 6px 0 #194c34;
 
-  transition: 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
-.play-again-btn:hover {
+.missing-play-again:hover {
   transform: translateY(-3px);
+
+  box-shadow:
+    0 9px 0 #194c34;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+  .missing-navbar {
+    padding: 0 28px;
+  }
+
+  .missing-game-card {
+    padding: 27px;
+  }
 }
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media (max-width: 650px) {
-  .missing-page {
-    padding: 14px 11px 35px;
+@media (max-width: 600px) {
+  .missing-navbar {
+    min-height: 64px;
+
+    padding: 0 16px;
   }
 
-  .missing-header {
-    padding: 18px;
-
-    gap: 13px;
-
-    border-radius: 22px;
-  }
-
-  .detective-badge {
-    width: 52px;
-    height: 52px;
-
-    border-radius: 16px;
-
-    font-size: 26px;
-  }
-
-  .missing-header h1 {
-    font-size: 27px;
-  }
-
-  .missing-header p:last-child {
-    font-size: 11px;
-  }
-
-  .missing-stats {
-    gap: 9px;
-  }
-
-  .stat-card {
-    padding: 12px;
-
-    gap: 9px;
-  }
-
-  .stat-icon {
-    width: 39px;
-    height: 39px;
-
-    border-radius: 12px;
-
-    font-size: 17px;
-  }
-
-  .stat-card strong {
+  .missing-brand {
     font-size: 20px;
   }
 
-  .detective-card {
-    padding: 28px 14px 32px;
-
-    border-radius: 25px;
+  .missing-brand span {
+    font-size: 18px;
   }
 
-  .mystery-word {
-    gap: 5px;
-
-    padding: 12px;
-
-    border-radius: 20px;
+  .missing-navbar-title {
+    font-size: 17px;
   }
 
-  .normal-letter {
-    min-width: 43px;
-    height: 58px;
+  .missing-main {
+    padding: 20px 10px 45px;
+  }
+
+  .missing-game-card {
+    padding: 20px 14px 28px;
+
+    border-radius: 24px;
+  }
+
+  .missing-stats {
+    gap: 10px;
+  }
+
+  .missing-stat-pill {
+    min-width: 140px;
+
+    height: 47px;
+
+    padding: 0 12px;
+  }
+
+  .missing-stat-pill span {
+    font-size: 14px;
+  }
+
+  .missing-stat-pill strong {
+    font-size: 17px;
+  }
+
+  .missing-puzzle-panel {
+    padding: 24px 12px 30px;
+
+    border-radius: 21px;
+  }
+
+  .missing-word-box {
+    padding: 13px;
+
+    gap: 4px;
+  }
+
+  .missing-normal-letter {
+    min-width: 42px;
+    height: 57px;
 
     font-size: 32px;
   }
 
-  .mystery-letter {
+  .missing-word-letter {
     min-width: 49px;
     height: 62px;
 
     font-size: 29px;
   }
 
-  .detective-hint {
-    text-align: left;
+  .missing-letter-options {
+    grid-template-columns:
+      repeat(2, minmax(100px, 1fr));
 
-    padding: 12px;
-  }
-
-  .letter-circles {
     gap: 12px;
   }
 
-  .letter-circle {
-    width: 66px;
-    height: 66px;
+  .missing-letter-button {
+    height: 70px;
 
-    font-size: 23px;
+    font-size: 27px;
   }
 
-  .completion-card {
-    margin-top: 25px;
-
+  .missing-completion-card {
     padding: 35px 20px;
 
-    border-radius: 27px;
+    border-radius: 26px;
   }
 }
 
-@media (max-width: 400px) {
-  .letter-circle {
-    width: 59px;
-    height: 59px;
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
-    font-size: 21px;
+@media (max-width: 390px) {
+  .missing-navbar-title {
+    font-size: 15px;
   }
 
-  .normal-letter {
-    min-width: 37px;
+  .missing-stats {
+    flex-direction: column;
   }
 
-  .mystery-letter {
-    min-width: 43px;
+  .missing-stat-pill {
+    width: 175px;
+  }
+
+  .missing-normal-letter {
+    min-width: 36px;
+    height: 53px;
+
+    font-size: 29px;
+  }
+
+  .missing-word-letter {
+    min-width: 42px;
+    height: 57px;
+
+    font-size: 27px;
+  }
+
+  .missing-letter-options {
+    grid-template-columns:
+      repeat(2, 1fr);
   }
 }

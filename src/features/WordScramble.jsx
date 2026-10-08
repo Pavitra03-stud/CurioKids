@@ -1,172 +1,5 @@
-// import { useState, useEffect } from "react";
-// import "../styles/BlendSounds.css";
-
-// // 🔥 Firebase
-// import { db } from "../firebase";
-// import { doc, collection, addDoc, Timestamp } from "firebase/firestore";
-
-// export default function WordScramble() {
-
-//   const TOTAL_QUESTIONS = 5;
-
-//   const [scrambled, setScrambled] = useState("");
-//   const [options, setOptions] = useState([]);
-//   const [correctAnswer, setCorrectAnswer] = useState("");
-
-//   const [score, setScore] = useState(0);
-//   const [questionCount, setQuestionCount] = useState(0);
-
-//   const [message, setMessage] = useState("");
-//   const [loading, setLoading] = useState(true);
-
-//   // 🤖 AI QUESTION
-//   const generateQuestionAI = async () => {
-//     try {
-//       setLoading(true);
-
-//       const res = await fetch("http://localhost:5000/api/generate-scramble", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       });
-
-//       const data = await res.json();
-
-//       if (!data.scrambled || !data.options || !data.answer) {
-//         throw new Error("Invalid data");
-//       }
-
-//       setScrambled(data.scrambled);
-//       setOptions(data.options);
-//       setCorrectAnswer(data.answer);
-
-//     } catch (err) {
-//       console.error(err);
-
-//       setScrambled("TAC");
-//       setOptions(["cat","act","cut","bat"]);
-//       setCorrectAnswer("cat");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     generateQuestionAI();
-//   }, []);
-
-//   // ☁️ SAVE
-//   const saveScoreToFirestore = async (finalScore) => {
-//     try {
-//       const userEmail = "demo_user";
-
-//       const userRef = doc(db, "users", userEmail);
-//       const gameResultsRef = collection(userRef, "game_results");
-
-//       const accuracy = (finalScore / TOTAL_QUESTIONS) * 100;
-
-//       await addDoc(gameResultsRef, {
-//         score: finalScore,
-//         totalQuestions: TOTAL_QUESTIONS,
-//         accuracy: accuracy.toFixed(2),
-//         createdAt: Timestamp.now(),
-//         game: "WordScramble_AI"
-//       });
-
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   // 🎯 HANDLE CLICK
-//   const handleClick = (word) => {
-
-//     if (questionCount >= TOTAL_QUESTIONS) return;
-
-//     const isCorrect = word === correctAnswer;
-//     const updatedScore = isCorrect ? score + 1 : score;
-
-//     setMessage(isCorrect ? "✅ Correct!" : "❌ Try again!");
-
-//     setTimeout(async () => {
-
-//       setMessage("");
-
-//       const next = questionCount + 1;
-//       setQuestionCount(next);
-
-//       if (next === TOTAL_QUESTIONS) {
-
-//         await saveScoreToFirestore(updatedScore);
-
-//         alert(`🎯 Round Completed!\nScore: ${updatedScore}/${TOTAL_QUESTIONS}`);
-
-//         setScore(0);
-//         setQuestionCount(0);
-//         generateQuestionAI();
-
-//       } else {
-//         setScore(updatedScore);
-//         generateQuestionAI();
-//       }
-
-//     }, 800);
-//   };
-
-//   // 📊 ANALYSIS
-//   const getPerformanceMessage = () => {
-//     if (questionCount === 0) return "";
-
-//     const accuracy = (score / questionCount) * 100;
-
-//     if (accuracy > 80) return "🌟 Excellent!";
-//     if (accuracy > 50) return "👍 Good job!";
-//     return "💡 Practice spelling!";
-//   };
-
-//   return (
-//     <div className="blend-container">
-
-//       <h2>🤖 Word Scramble</h2>
-
-//       <div className="game-info">
-//         Question {questionCount + 1}/5 | Score: {score}
-//       </div>
-
-//       <div className="big-letter">
-//         {loading ? "..." : scrambled}
-//       </div>
-
-//       <h3>Unscramble the word</h3>
-
-//       <div className="options">
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           options.map((w, i) => (
-//             <button key={i} onClick={() => handleClick(w)}>
-//               {w}
-//             </button>
-//           ))
-//         )}
-//       </div>
-
-//       <p>{message}</p>
-
-//       <div className="ai-analysis">
-//         <p>{getPerformanceMessage()}</p>
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
-
 import { useEffect, useState } from "react";
-import "../styles/BlendSounds.css";
+import "../styles/WordScramble.css";
 
 // 🔥 Firebase
 import { db } from "../firebase";
@@ -199,32 +32,17 @@ export default function WordScramble() {
   // STATES
   // =====================================================
 
-  const [scrambled, setScrambled] =
-    useState("");
+  const [scrambled, setScrambled] = useState("");
+  const [options, setOptions] = useState([]);
+  const [correctAnswer, setCorrectAnswer] = useState("");
 
-  const [options, setOptions] =
-    useState([]);
+  const [score, setScore] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
 
-  const [correctAnswer, setCorrectAnswer] =
-    useState("");
-
-  const [score, setScore] =
-    useState(0);
-
-  const [questionCount, setQuestionCount] =
-    useState(0);
-
-  const [message, setMessage] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(false);
-
-  const [gameOver, setGameOver] =
-    useState(false);
-
-  const [locked, setLocked] =
-    useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [locked, setLocked] = useState(false);
 
   // =====================================================
   // GENERATE AI QUESTION
@@ -239,16 +57,13 @@ export default function WordScramble() {
         {
           method: "POST",
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
           },
         }
       );
 
       if (!res.ok) {
-        throw new Error(
-          "Failed to generate question"
-        );
+        throw new Error("Failed to generate question");
       }
 
       const data = await res.json();
@@ -258,9 +73,7 @@ export default function WordScramble() {
         !data.options ||
         !data.answer
       ) {
-        throw new Error(
-          "Invalid AI data"
-        );
+        throw new Error("Invalid AI data");
       }
 
       return {
@@ -269,20 +82,12 @@ export default function WordScramble() {
         correctAnswer: data.answer,
       };
     } catch (err) {
-      console.error(
-        "❌ AI Scramble Error:",
-        err
-      );
+      console.error("❌ AI Scramble Error:", err);
 
       // 🔥 Fallback question
       return {
         scrambled: "TAC",
-        options: [
-          "cat",
-          "act",
-          "cut",
-          "bat",
-        ],
+        options: ["cat", "act", "cut", "bat"],
         correctAnswer: "cat",
       };
     } finally {
@@ -305,51 +110,26 @@ export default function WordScramble() {
     if (
       savedState &&
       savedState.scrambled &&
-      Array.isArray(
-        savedState.options
-      ) &&
+      Array.isArray(savedState.options) &&
       savedState.correctAnswer
     ) {
-      console.log(
-        "✅ Resuming Word Scramble"
-      );
+      console.log("✅ Resuming Word Scramble");
 
-      setScrambled(
-        savedState.scrambled
-      );
+      setScrambled(savedState.scrambled);
+      setOptions(savedState.options);
+      setCorrectAnswer(savedState.correctAnswer);
 
-      setOptions(
-        savedState.options
-      );
-
-      setCorrectAnswer(
-        savedState.correctAnswer
-      );
-
-      setScore(
-        savedState.score || 0
-      );
-
-      setQuestionCount(
-        savedState.questionCount || 0
-      );
-
-      setMessage(
-        savedState.message || ""
-      );
-
-      setGameOver(
-        savedState.gameOver || false
-      );
+      setScore(savedState.score || 0);
+      setQuestionCount(savedState.questionCount || 0);
+      setMessage(savedState.message || "");
+      setGameOver(savedState.gameOver || false);
 
       setLocked(false);
 
       return;
     }
 
-    console.log(
-      "🆕 Starting new Word Scramble"
-    );
+    console.log("🆕 Starting new Word Scramble");
 
     startNewQuestion();
   }, [progressLoading]);
@@ -359,20 +139,11 @@ export default function WordScramble() {
   // =====================================================
 
   const startNewQuestion = async () => {
-    const question =
-      await generateQuestionAI();
+    const question = await generateQuestionAI();
 
-    setScrambled(
-      question.scrambled
-    );
-
-    setOptions(
-      question.options
-    );
-
-    setCorrectAnswer(
-      question.correctAnswer
-    );
+    setScrambled(question.scrambled);
+    setOptions(question.options);
+    setCorrectAnswer(question.correctAnswer);
 
     setScore(0);
     setQuestionCount(0);
@@ -381,12 +152,9 @@ export default function WordScramble() {
     setLocked(false);
 
     await save({
-      scrambled:
-        question.scrambled,
-      options:
-        question.options,
-      correctAnswer:
-        question.correctAnswer,
+      scrambled: question.scrambled,
+      options: question.options,
+      correctAnswer: question.correctAnswer,
       score: 0,
       questionCount: 0,
       message: "",
@@ -403,33 +171,27 @@ export default function WordScramble() {
       locked ||
       gameOver ||
       loading ||
-      questionCount >=
-        TOTAL_QUESTIONS
+      questionCount >= TOTAL_QUESTIONS
     ) {
       return;
     }
 
     setLocked(true);
 
-    const isCorrect =
-      word === correctAnswer;
+    const isCorrect = word === correctAnswer;
 
-    const updatedScore =
-      isCorrect
-        ? score + 1
-        : score;
+    const updatedScore = isCorrect
+      ? score + 1
+      : score;
 
-    const feedback =
-      isCorrect
-        ? "✅ Correct!"
-        : "❌ Try again!";
+    const feedback = isCorrect
+      ? "✅ Correct!"
+      : "❌ Try again!";
 
     setScore(updatedScore);
-
     setMessage(feedback);
 
-    const next =
-      questionCount + 1;
+    const next = questionCount + 1;
 
     setQuestionCount(next);
 
@@ -437,44 +199,34 @@ export default function WordScramble() {
     // FINAL QUESTION
     // ===================================================
 
-    if (
-      next ===
-      TOTAL_QUESTIONS
-    ) {
-      setTimeout(
-        async () => {
-          const percentage =
-            (updatedScore /
-              TOTAL_QUESTIONS) *
-            100;
+    if (next === TOTAL_QUESTIONS) {
+      setTimeout(async () => {
+        const percentage =
+          (updatedScore / TOTAL_QUESTIONS) * 100;
 
-          // Save completed state
-          await save({
-            scrambled,
-            options,
-            correctAnswer,
-            score: updatedScore,
-            questionCount: next,
-            message: feedback,
-            gameOver: true,
-          });
+        // Save completed state
+        await save({
+          scrambled,
+          options,
+          correctAnswer,
+          score: updatedScore,
+          questionCount: next,
+          message: feedback,
+          gameOver: true,
+        });
 
-          // Save result
-          await saveScoreToFirestore(
-            updatedScore
-          );
+        // Save result
+        await saveScoreToFirestore(updatedScore);
 
-          // Global progress
-          await finish(
-            percentage,
-            "Word Scramble"
-          );
+        // Global progress
+        await finish(
+          percentage,
+          "Word Scramble"
+        );
 
-          setGameOver(true);
-          setLocked(false);
-        },
-        800
-      );
+        setGameOver(true);
+        setLocked(false);
+      }, 800);
 
       return;
     }
@@ -486,30 +238,18 @@ export default function WordScramble() {
     setTimeout(async () => {
       setMessage("");
 
-      const question =
-        await generateQuestionAI();
+      const question = await generateQuestionAI();
 
-      setScrambled(
-        question.scrambled
-      );
-
-      setOptions(
-        question.options
-      );
-
-      setCorrectAnswer(
-        question.correctAnswer
-      );
+      setScrambled(question.scrambled);
+      setOptions(question.options);
+      setCorrectAnswer(question.correctAnswer);
 
       setLocked(false);
 
       await save({
-        scrambled:
-          question.scrambled,
-        options:
-          question.options,
-        correctAnswer:
-          question.correctAnswer,
+        scrambled: question.scrambled,
+        options: question.options,
+        correctAnswer: question.correctAnswer,
         score: updatedScore,
         questionCount: next,
         message: "",
@@ -522,91 +262,70 @@ export default function WordScramble() {
   // SAVE RESULT
   // =====================================================
 
-  const saveScoreToFirestore =
-    async (finalScore) => {
-      try {
-        const userId =
-          localStorage.getItem(
-            "userId"
-          );
+  const saveScoreToFirestore = async (finalScore) => {
+    try {
+      const userId = localStorage.getItem("userId");
 
-        if (!userId) {
-          console.warn(
-            "❌ No Firebase user ID"
-          );
-          return;
-        }
-
-        const userRef = doc(
-          db,
-          "users",
-          userId
-        );
-
-        const gameResultsRef =
-          collection(
-            userRef,
-            "game_results"
-          );
-
-        const accuracy =
-          (finalScore /
-            TOTAL_QUESTIONS) *
-          100;
-
-        await addDoc(
-          gameResultsRef,
-          {
-            score: finalScore,
-            totalQuestions:
-              TOTAL_QUESTIONS,
-            accuracy:
-              accuracy.toFixed(2),
-            createdAt:
-              Timestamp.now(),
-            game:
-              "WordScramble_AI",
-          }
-        );
-
-        console.log(
-          "✅ Word Scramble result saved"
-        );
-      } catch (error) {
-        console.error(
-          "❌ Error saving result:",
-          error
-        );
+      if (!userId) {
+        console.warn("❌ No Firebase user ID");
+        return;
       }
-    };
+
+      const userRef = doc(
+        db,
+        "users",
+        userId
+      );
+
+      const gameResultsRef = collection(
+        userRef,
+        "game_results"
+      );
+
+      const accuracy =
+        (finalScore / TOTAL_QUESTIONS) * 100;
+
+      await addDoc(gameResultsRef, {
+        score: finalScore,
+        totalQuestions: TOTAL_QUESTIONS,
+        accuracy: accuracy.toFixed(2),
+        createdAt: Timestamp.now(),
+        game: "WordScramble_AI",
+      });
+
+      console.log(
+        "✅ Word Scramble result saved"
+      );
+    } catch (error) {
+      console.error(
+        "❌ Error saving result:",
+        error
+      );
+    }
+  };
 
   // =====================================================
   // PERFORMANCE
   // =====================================================
 
-  const getPerformanceMessage =
-    () => {
-      if (
-        questionCount === 0
-      ) {
-        return "";
-      }
+  const getPerformanceMessage = () => {
+    if (questionCount === 0) {
+      return "";
+    }
 
-      const accuracy =
-        (score /
-          questionCount) *
-        100;
+    const accuracy =
+      (score / questionCount) * 100;
 
-      if (accuracy > 80) {
-        return "🌟 Excellent!";
-      }
+    if (accuracy > 80) {
+      return "🌟 Excellent!";
+    }
 
-      if (accuracy > 50) {
-        return "👍 Good job!";
-      }
+    if (accuracy > 50) {
+      return "👍 Good job!";
+    }
 
-      return "💡 Practice spelling!";
-    };
+    return "💡 Practice spelling!";
+  };
 
   // =====================================================
   // PLAY AGAIN
@@ -615,20 +334,11 @@ export default function WordScramble() {
   const playAgain = async () => {
     setLoading(true);
 
-    const question =
-      await generateQuestionAI();
+    const question = await generateQuestionAI();
 
-    setScrambled(
-      question.scrambled
-    );
-
-    setOptions(
-      question.options
-    );
-
-    setCorrectAnswer(
-      question.correctAnswer
-    );
+    setScrambled(question.scrambled);
+    setOptions(question.options);
+    setCorrectAnswer(question.correctAnswer);
 
     setScore(0);
     setQuestionCount(0);
@@ -637,12 +347,9 @@ export default function WordScramble() {
     setLocked(false);
 
     await save({
-      scrambled:
-        question.scrambled,
-      options:
-        question.options,
-      correctAnswer:
-        question.correctAnswer,
+      scrambled: question.scrambled,
+      options: question.options,
+      correctAnswer: question.correctAnswer,
       score: 0,
       questionCount: 0,
       message: "",
@@ -656,16 +363,30 @@ export default function WordScramble() {
 
   if (progressLoading) {
     return (
-      <div className="blend-container">
+      <div className="blend-page">
+        <nav className="blend-navbar">
+          <div className="brand-title">
+            🌿 CurioKids
+          </div>
 
-        <h2>
-          🤖 Word Scramble
-        </h2>
+          <div className="game-title">
+            🤖 Word Scramble
+          </div>
+        </nav>
 
-        <p>
-          🌱 Loading your progress...
-        </p>
+        <main className="blend-content">
+          <div className="blend-card loading-card">
+            <div className="loading-icon">
+              🦋
+            </div>
 
+            <h2>Loading your adventure...</h2>
+
+            <p>
+              🌱 Getting your game ready!
+            </p>
+          </div>
+        </main>
       </div>
     );
   }
@@ -676,39 +397,54 @@ export default function WordScramble() {
 
   if (gameOver) {
     const percentage =
-      (score /
-        TOTAL_QUESTIONS) *
-      100;
+      (score / TOTAL_QUESTIONS) * 100;
 
     return (
-      <div className="blend-container">
+      <div className="blend-page">
+        <nav className="blend-navbar">
+          <div className="brand-title">
+            🌿 CurioKids
+          </div>
 
-        <h2>
-          🏆 Word Scramble Complete!
-        </h2>
+          <div className="game-title">
+            🤖 Word Scramble
+          </div>
+        </nav>
 
-        <div className="game-info">
-          Score: {score}/
-          {TOTAL_QUESTIONS}
-        </div>
+        <main className="blend-content">
+          <div className="blend-card completion-card">
 
-        <div className="big-letter">
-          {percentage.toFixed(0)}%
-        </div>
+            <div className="completion-icon">
+              🏆
+            </div>
 
-        <div className="ai-analysis">
-          <p>
-            {getPerformanceMessage()}
-          </p>
-        </div>
+            <h1>
+              Word Scramble Complete!
+            </h1>
 
-        <button
-          className="option-btn"
-          onClick={playAgain}
-        >
-          🔄 Play Again
-        </button>
+            <div className="score-pill">
+              ⭐ Score: {score}/{TOTAL_QUESTIONS}
+            </div>
 
+            <div className="percentage-box">
+              {percentage.toFixed(0)}%
+            </div>
+
+            <div className="ai-analysis">
+              <span>🌟</span>
+              <p>
+                {getPerformanceMessage()}
+              </p>
+            </div>
+
+            <button
+              className="play-again-btn"
+              onClick={playAgain}
+            >
+              🔄 Play Again
+            </button>
+          </div>
+        </main>
       </div>
     );
   }
@@ -718,64 +454,132 @@ export default function WordScramble() {
   // =====================================================
 
   return (
-    <div className="blend-container">
+    <div className="blend-page">
 
-      <h2>
-        🤖 Word Scramble
-      </h2>
+      {/* NAVBAR */}
+      <nav className="blend-navbar">
+        <div className="brand-title">
+          🌿 CurioKids
+        </div>
 
-      <div className="game-info">
-        Question{" "}
-        {questionCount + 1}/
-        {TOTAL_QUESTIONS}{" "}
-        | Score: {score}
-      </div>
+        <div className="game-title">
+          🤖 Word Scramble
+        </div>
+      </nav>
 
-      <div className="big-letter">
-        {loading
-          ? "..."
-          : scrambled}
-      </div>
+      {/* MAIN CONTENT */}
+      <main className="blend-content">
 
-      <h3>
-        Unscramble the word
-      </h3>
+        <div className="blend-card">
 
-      <div className="options">
+          {/* GAME HEADER */}
+          <div className="game-header">
 
-        {loading ? (
-          <p>
-            Loading...
-          </p>
-        ) : (
-          options.map(
-            (word, index) => (
-              <button
-                key={index}
-                onClick={() =>
-                  handleClick(
-                    word
-                  )
-                }
-                disabled={
-                  locked
-                }
-              >
-                {word}
-              </button>
-            )
-          )
-        )}
+            <div className="instruction-badge">
+              ✨ Word Adventure
+            </div>
 
-      </div>
+            <div className="game-info">
+              <span>
+                Question {questionCount + 1}/
+                {TOTAL_QUESTIONS}
+              </span>
 
-      <p>{message}</p>
+              <span className="divider">
+                •
+              </span>
 
-      <div className="ai-analysis">
-        <p>
-          {getPerformanceMessage()}
-        </p>
-      </div>
+              <span>
+                ⭐ Score: {score}
+              </span>
+            </div>
+
+          </div>
+
+          {/* SCRAMBLED WORD */}
+          <div className="scramble-section">
+
+            <div className="scramble-label">
+              🔤 Unscramble Me!
+            </div>
+
+            <div className="big-letter">
+              {loading ? "..." : scrambled}
+            </div>
+
+            <p className="question-text">
+              Rearrange the letters and find
+              the correct word!
+            </p>
+
+          </div>
+
+          {/* OPTIONS */}
+          <div className="options-section">
+
+            <h3>
+              🌟 Choose the correct word
+            </h3>
+
+            <div className="options">
+
+              {loading ? (
+                <div className="loading-options">
+                  <span>🌱</span>
+                  Loading...
+                </div>
+              ) : (
+                options.map((word, index) => (
+                  <button
+                    key={index}
+                    className="word-option"
+                    onClick={() =>
+                      handleClick(word)
+                    }
+                    disabled={locked}
+                  >
+                    <span className="option-letter">
+                      {String.fromCharCode(
+                        65 + index
+                      )}
+                    </span>
+
+                    <span>
+                      {word}
+                    </span>
+                  </button>
+                ))
+              )}
+
+            </div>
+
+          </div>
+
+          {/* FEEDBACK */}
+          {message && (
+            <div
+              className={`feedback-message ${
+                message.includes("Correct")
+                  ? "correct"
+                  : "wrong"
+              }`}
+            >
+              {message}
+            </div>
+          )}
+
+          {/* AI ANALYSIS */}
+          <div className="ai-analysis">
+            <span>🧠</span>
+
+            <p>
+              {getPerformanceMessage()}
+            </p>
+          </div>
+
+        </div>
+
+      </main>
 
     </div>
   );

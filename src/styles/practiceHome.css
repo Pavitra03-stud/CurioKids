@@ -1,301 +1,1265 @@
-/* 🌿 MAIN PAGE */
-.practice-home {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #b7e77a, #5bbd3e);
-  font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
-  padding-bottom: 80px;
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap");
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
 }
 
-/* 🌴 NAVBAR */
-.practice-navbar {
-  display: flex;
-  align-items: center;
-  padding: 18px 40px;
-  background: #1b4332;
-  color: white;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.practice-title {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* 🌱 SUBTITLE */
-.practice-subtitle {
-  padding: 25px 40px;
-  font-size: 18px;
-  color: #184e3b;
-}
-
-/* 🌟 SECTION TITLES */
-.section-title {
-  margin: 40px 40px 15px 40px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #1b4332;
-  border-left: 6px solid #ffd166;
-  padding-left: 10px;
-}
-
-/* 🧩 GRID */
-.practice-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
-  padding: 0 40px;
-}
-
-/* 🎯 CARD */
-.practice-card {
-  background: #fff8dc;
-  border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.practice-card:hover {
-  transform: translateY(-8px) scale(1.05);
-  background: #fff3c4;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-}
-
-.practice-card .emoji {
-  font-size: 40px;
-  display: block;
-  margin-bottom: 15px;
-}
-
-.practice-card h3 {
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 1.4;
-}
-
-/* 📱 RESPONSIVE */
-@media (max-width: 768px) {
-  .practice-navbar {
-    padding: 15px 20px;
-  }
-
-  .practice-grid {
-    padding: 0 20px;
-  }
-
-  .section-title {
-    margin: 30px 20px 15px 20px;
-  }
-
-  .practice-subtitle {
-    padding: 20px;
-  }
-}
-/* 🌿 PAGE */
-.practice-home {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #b7e77a, #5bbd3e);
-  font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
-}
-
-/* 🌴 NAVBAR */
-.practice-navbar {
-  display: flex;
-  align-items: center;
-  padding: 18px 40px;
-  background: #1b4332;
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.practice-navbar h1 {
-  font-size: 22px;
+html,
+body,
+#root {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
 }
 
-/* 🔙 BACK BUTTON */
-.back-btn {
-  background: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
 
-.back-btn:hover {
-  transform: scale(1.1);
-}
+/* =========================================================
+   MAIN PAGE
+========================================================= */
 
-/* 🌱 SUBTITLE */
-.practice-subtitle {
-  padding: 25px 40px;
-  font-size: 18px;
-  color: #184e3b;
-}
+.practice-home-page {
+  position: relative;
 
-/* 🌟 SECTION TITLE */
-.section-title {
-  margin: 40px 40px 15px 40px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #1b4332;
-}
-
-/* 🧩 GRID */
-.practice-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
-  padding: 0 40px;
-}
-
-/* 🎯 CARD */
-.practice-card {
-  background: #fff8dc;
-  border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.practice-card:hover {
-  transform: translateY(-8px) scale(1.05);
-  background: #fff3c4;
-}
-
-.practice-card .emoji {
-  font-size: 40px;
-  display: block;
-  margin-bottom: 15px;
-}
-
-.practice-card h3 {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* 📱 RESPONSIVE */
-@media (max-width: 768px) {
-  .practice-navbar {
-    padding: 15px 20px;
-  }
-
-  .practice-grid {
-    padding: 0 20px;
-  }
-
-  .section-title {
-    margin: 30px 20px 15px 20px;
-  }
-
-  .practice-subtitle {
-    padding: 20px;
-  }
-}
-/* 🌿 PAGE */
-.practice-home {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #b7e77a, #5bbd3e);
-  font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+  width: 100%;
+
+  overflow-x: hidden;
+
+  padding-top: 78px;
+  padding-bottom: 50px;
+
+  font-family: "Nunito", sans-serif;
+
+  color: #174936;
+
+  isolation: isolate;
 }
 
-/* 🌴 FIXED NAVBAR */
-.practice-navbar {
+
+/* =========================================================
+   JUNGLE BACKGROUND
+========================================================= */
+
+.practice-home-page::before {
+  content: "";
+
   position: fixed;
+  inset: 0;
+
+  z-index: -10;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 83, 60, 0.05),
+      rgba(86, 166, 91, 0.08),
+      rgba(221, 245, 193, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   SOFT LIGHT OVER BACKGROUND
+========================================================= */
+
+.practice-home-page::after {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  z-index: -9;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 15% 30%,
+      rgba(255, 244, 150, 0.18),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 85% 35%,
+      rgba(255, 255, 255, 0.16),
+      transparent 22%
+    );
+}
+
+
+/* =========================================================
+   DECORATIVE CANOPY
+========================================================= */
+
+.practice-canopy {
+  position: fixed;
+
+  top: -90px;
+
+  width: 430px;
+  height: 210px;
+
+  z-index: -4;
+
+  pointer-events: none;
+
+  opacity: 0.8;
+}
+
+.practice-canopy-left {
+  left: -130px;
+}
+
+.practice-canopy-right {
+  right: -130px;
+  transform: scaleX(-1);
+}
+
+.practice-canopy span {
+  position: absolute;
+
+  font-size: 42px;
+
+  opacity: 0.7;
+}
+
+.practice-canopy span:nth-child(1) {
+  left: 25%;
+  top: 55%;
+}
+
+.practice-canopy span:nth-child(2) {
+  left: 50%;
+  top: 25%;
+}
+
+.practice-canopy span:nth-child(3) {
+  right: 18%;
+  top: 48%;
+}
+
+
+/* =========================================================
+   MIST
+========================================================= */
+
+.practice-mist {
+  position: fixed;
+
+  border-radius: 50%;
+
+  filter: blur(45px);
+
+  pointer-events: none;
+
+  z-index: -3;
+
+  background: rgba(255, 255, 255, 0.20);
+}
+
+.practice-mist-one {
+  width: 380px;
+  height: 150px;
+
+  left: -100px;
+  top: 300px;
+}
+
+.practice-mist-two {
+  width: 420px;
+  height: 170px;
+
+  right: -120px;
+  top: 620px;
+}
+
+
+/* =========================================================
+   FLOATING LEAVES
+========================================================= */
+
+.practice-floating-leaves {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+.practice-leaf {
+  position: absolute;
+
+  font-size: 28px;
+
+  opacity: 0.55;
+}
+
+.practice-leaf.leaf-one {
+  left: 3%;
+  top: 48%;
+
+  transform: rotate(-20deg);
+}
+
+.practice-leaf.leaf-two {
+  right: 4%;
+  top: 66%;
+
+  transform: rotate(20deg);
+}
+
+.practice-leaf.leaf-three {
+  left: 92%;
+  top: 38%;
+
+  transform: rotate(-15deg);
+}
+
+
+/* =========================================================
+   FIXED NAVBAR
+========================================================= */
+
+.practice-header {
+  position: fixed;
+
   top: 0;
   left: 0;
-  width: 100%;
-  height: 65px;
-  background: #1b4332;
-  color: white;
+  right: 0;
+
+  height: 78px;
+
+  z-index: 9999;
+
   display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 10px 5.2vw;
+
+  background: #075c46;
+
+  border-bottom: 4px solid #e7c64f;
+
+  box-shadow:
+    0 5px 18px rgba(20, 65, 42, 0.28);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.practice-brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  cursor: pointer;
+
+  user-select: none;
+}
+
+.practice-brand-icon {
+  width: 52px;
+  height: 52px;
+
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 15px;
+
+  background: #ffd84f;
+
+  border: 2px solid #f2c52e;
+
+  font-size: 27px;
+
+  box-shadow:
+    0 4px 0 rgba(70, 90, 32, 0.25);
+}
+
+.practice-brand-text {
+  display: flex;
+
+  flex-direction: column;
+
+  line-height: 1;
+}
+
+.practice-brand-text h1 {
+  margin: 0;
+
+  color: #fffbea;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 29px;
+
+  font-weight: 900;
+
+  letter-spacing: -0.5px;
+}
+
+.practice-brand-text span {
+  margin-top: 5px;
+
+  color: #fff1bb;
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   HEADER MESSAGE
+========================================================= */
+
+.practice-header-message {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 11px 21px;
+
+  border-radius: 999px;
+
+  background: #fff8d8;
+
+  color: #20543d;
+
+  box-shadow:
+    0 4px 0 rgba(94, 78, 25, 0.16);
+}
+
+.practice-header-message span {
+  font-size: 17px;
+}
+
+.practice-header-message strong {
+  font-size: 13px;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.practice-content {
+  position: relative;
+
+  width: min(1180px, calc(100% - 50px));
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.practice-hero {
+  min-height: 220px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 30px 20px 10px;
+
+  text-align: center;
+}
+
+.practice-hero-copy {
+  width: 100%;
+  max-width: 850px;
+
+  margin: 0 auto;
+}
+
+.practice-kicker {
+  display: inline-flex;
+
   align-items: center;
   justify-content: center;
-  z-index: 2000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+  margin-bottom: 8px;
+
+  padding: 6px 14px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 250, 218, 0.90);
+
+  color: #286145;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.2px;
 }
 
-/* LEFT SIDE BACK BUTTON */
-.navbar-left {
-  position: absolute;
-  left: 20px;
+.practice-hero h2 {
+  margin: 0;
+
+  color: #fff4c7;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: clamp(40px, 5vw, 62px);
+
+  line-height: 0.95;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #155039,
+    0 6px 12px rgba(36, 74, 42, 0.35);
 }
 
-/* CENTER TITLE */
-.navbar-title {
-  font-size: 20px;
-  font-weight: bold;
+.practice-hero p {
+  margin: 12px auto 14px;
+
+  max-width: 650px;
+
+  color: #fff7dc;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 5px rgba(31, 71, 41, 0.3);
 }
 
-/* CONTENT BELOW NAVBAR */
-.practice-content {
-  padding-top: 90px;
-  padding-left: 40px;
-  padding-right: 40px;
+.practice-traits {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
 }
-.practice-intro {
-  font-size: 18px;
-  margin-bottom: 30px;
-  color: #184e3b;
+
+.practice-traits span {
+  padding: 7px 13px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 250, 220, 0.90);
+
+  color: #235d43;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 3px 0 rgba(80, 77, 32, 0.13);
 }
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
 
 .practice-section {
-  margin-bottom: 50px;
-}
-.practice-card {
-  background: #fff8dc;
-  border-radius: 18px;
-  padding: 25px 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   position: relative;
+
+  margin-top: 4px;
+}
+
+.practice-section-heading {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 20px;
+
+  padding: 0 2px;
+}
+
+.practice-section-kicker {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #fff1bd;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+
+  text-shadow:
+    0 2px 4px rgba(26, 71, 43, 0.35);
+}
+
+.practice-section-heading h2 {
+  margin: 0;
+
+  color: #fff1c4;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 38px;
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 3px 0 #164a36,
+    0 5px 8px rgba(0, 0, 0, 0.32);
+}
+
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+.practice-count {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 10px 15px;
+
+  border-radius: 18px;
+
+  background: #fff8d9;
+
+  border: 2px solid #e1b94d;
+
+  box-shadow:
+    0 4px 0 #a77a2d,
+    0 7px 13px rgba(40, 67, 36, 0.17);
+}
+
+.practice-count strong {
+  color: #237b4d;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 27px;
+
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+.practice-count span {
+  color: #52725b;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.practice-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 24px 20px;
+
+  width: 100%;
+}
+
+
+/* =========================================================
+   WOODEN CARD
+========================================================= */
+
+.practice-card {
+  position: relative;
+
+  width: 100%;
+  height: 220px;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  border: 3px solid #e7c16a;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #a96832 0%,
+      #b8753b 45%,
+      #9b5d2d 100%
+    );
+
+  box-shadow:
+    0 7px 0 #70401f,
+    0 12px 22px rgba(35, 55, 25, 0.35);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.practice-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 175px;
+  height: 175px;
+
+  right: -65px;
+  top: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 220, 150, 0.14);
+
+  pointer-events: none;
 }
 
 .practice-card:hover {
-  transform: translateY(-6px) scale(1.04);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 12px 0 #70401f,
+    0 18px 30px rgba(30, 65, 35, 0.38);
 }
 
-.card-emoji {
-  font-size: 40px;
-  margin-bottom: 10px;
+
+/* =========================================================
+   CATEGORY TAG
+========================================================= */
+
+.practice-card-category {
+  position: absolute;
+
+  top: 17px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 30;
+
+  min-width: 80px;
+
+  padding: 6px 13px;
+
+  border-radius: 999px;
+
+  background: #fff4d0;
+
+  color: #17563e;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.9px;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 2px 0 rgba(88, 58, 24, 0.18);
 }
 
-.card-title {
-  font-weight: bold;
-  font-size: 18px;
+
+/* =========================================================
+   CARD MAIN AREA
+========================================================= */
+
+.practice-card-main {
+  position: absolute;
+
+  top: 72px;
+
+  left: 20px;
+  right: 18px;
+
+  display: grid;
+
+  grid-template-columns: 72px minmax(0, 1fr);
+
+  column-gap: 15px;
+
+  align-items: center;
+
+  z-index: 10;
 }
 
-.locked {
-  opacity: 0.6;
-  cursor: not-allowed;
+
+/* =========================================================
+   ICON — NO EXTRA WHITE CIRCLE OUTSIDE IT
+========================================================= */
+
+.practice-icon-wrap {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  background: #fff8df;
+
+  border: 3px solid #fff1c9;
+
+  box-shadow:
+    0 4px 0 rgba(91, 51, 25, 0.30),
+    0 6px 12px rgba(0, 0, 0, 0.18);
+
+  transform: rotate(2deg);
 }
 
-.card-lock {
-  font-size: 12px;
-  margin-top: 10px;
-  color: #d62828;
-  font-weight: bold;
+.practice-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  font-size: 34px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.practice-card-text {
+  min-width: 0;
+
+  width: 100%;
+}
+
+.practice-card-text h3 {
+  margin: 0 0 6px;
+
+  color: #fff5d7;
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 21px;
+
+  line-height: 1.05;
+
+  font-weight: 900;
+
+  text-align: left;
+
+  text-shadow:
+    0 2px 3px rgba(62, 34, 16, 0.75);
+
+  overflow-wrap: break-word;
+}
+
+.practice-card-text p {
+  margin: 0;
+
+  color: #fff0c9;
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 10.5px;
+
+  line-height: 1.35;
+
+  font-weight: 700;
+
+  text-align: left;
+
+  overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   BOTTOM AREA
+========================================================= */
+
+.practice-card-bottom {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: 0;
+
+  height: 57px;
+
+  z-index: 40;
+}
+
+
+/* =========================================================
+   PRACTICE BUTTON
+========================================================= */
+
+.practice-button {
+  position: absolute;
+
+  left: 19px;
+  bottom: 14px;
+
+  width: 96px;
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 8px 0 13px;
+
+  border: 2px solid #9bd36c;
+
+  border-radius: 999px;
+
+  background: #237b4d;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 0 #155331,
+    0 6px 10px rgba(25, 55, 30, 0.25);
+
+  font-family: "Nunito", sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.practice-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 0 #155331,
+    0 8px 12px rgba(25, 55, 30, 0.25);
+}
+
+.practice-button:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    0 2px 0 #155331;
+}
+
+.practice-arrow {
+  width: 24px;
+  height: 24px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.22);
+
+  font-size: 19px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   HELPER
+========================================================= */
+
+.practice-helper {
+  position: absolute;
+
+  right: 18px;
+  bottom: 18px;
+
+  max-width: 115px;
+
+  color: #f5dfad;
+
+  font-size: 8px;
+
+  line-height: 1.15;
+
+  font-weight: 900;
+
+  text-align: right;
+
+  letter-spacing: 0.4px;
+}
+
+
+/* =========================================================
+   LEAF
+========================================================= */
+
+.practice-card-leaf {
+  position: absolute;
+
+  right: 18px;
+  bottom: 42px;
+
+  font-size: 20px;
+
+  opacity: 0.55;
+
+  transform: rotate(-15deg);
+}
+
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.practice-number {
+  position: absolute;
+
+  right: 15px;
+  top: 13px;
+
+  color: rgba(255, 239, 195, 0.18);
+
+  font-family: "Baloo 2", sans-serif;
+
+  font-size: 17px;
+
+  font-weight: 900;
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   JUNGLE TIP
+========================================================= */
+
+.practice-tip {
+  position: relative;
+
+  margin-top: 30px;
+
+  min-height: 72px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 13px 20px;
+
+  border-radius: 22px;
+
+  background: #fff7d5;
+
+  border: 2px solid #e4c66c;
+
+  box-shadow:
+    0 6px 0 #a77c35,
+    0 10px 18px rgba(41, 72, 41, 0.18);
+}
+
+.practice-tip-icon {
+  width: 45px;
+  height: 45px;
+
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 14px;
+
+  background: #f6d967;
+
+  font-size: 23px;
+}
+
+.practice-tip strong {
+  display: block;
+
+  color: #216044;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.practice-tip p {
+  margin: 3px 0 0;
+
+  color: #5a6e4f;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+.practice-tip-plants {
+  margin-left: auto;
+
+  font-size: 25px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .practice-content {
+    width: min(900px, calc(100% - 36px));
+  }
+
+  .practice-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .practice-home-page {
+    padding-top: 68px;
+  }
+
+  .practice-header {
+    height: 68px;
+
+    padding: 8px 14px;
+  }
+
+  .practice-brand-icon {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 13px;
+
+    font-size: 23px;
+  }
+
+  .practice-brand-text h1 {
+    font-size: 24px;
+  }
+
+  .practice-brand-text span {
+    font-size: 9px;
+  }
+
+  .practice-header-message {
+    padding: 9px 12px;
+  }
+
+  .practice-header-message strong {
+    display: none;
+  }
+
+  .practice-content {
+    width: calc(100% - 24px);
+  }
+
+  .practice-hero {
+    min-height: 205px;
+
+    padding-top: 25px;
+  }
+
+  .practice-hero h2 {
+    font-size: 43px;
+  }
+
+  .practice-hero p {
+    font-size: 12px;
+  }
+
+  .practice-section-heading {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+
+  .practice-section-heading h2 {
+    font-size: 31px;
+  }
+
+  .practice-count {
+    align-self: flex-start;
+  }
+
+  .practice-grid {
+    grid-template-columns: 1fr;
+
+    gap: 22px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .practice-brand-text h1 {
+    font-size: 21px;
+  }
+
+  .practice-brand-text span {
+    font-size: 8px;
+  }
+
+  .practice-header-message {
+    padding: 8px 10px;
+  }
+
+  .practice-hero {
+    min-height: 190px;
+  }
+
+  .practice-hero h2 {
+    font-size: 37px;
+  }
+
+  .practice-traits span {
+    font-size: 9px;
+
+    padding: 6px 10px;
+  }
+
+  .practice-card {
+    height: 220px;
+  }
+
+  .practice-card-main {
+    left: 17px;
+    right: 14px;
+
+    grid-template-columns:
+      62px minmax(0, 1fr);
+
+    column-gap: 13px;
+  }
+
+  .practice-icon-wrap {
+    width: 60px;
+    height: 60px;
+  }
+
+  .practice-icon {
+    font-size: 29px;
+  }
+
+  .practice-card-text h3 {
+    font-size: 18px;
+  }
+
+  .practice-card-text p {
+    font-size: 10px;
+  }
+
+  .practice-button {
+    left: 16px;
+
+    width: 92px;
+  }
+
+  .practice-helper {
+    right: 14px;
+
+    max-width: 95px;
+
+    font-size: 7px;
+  }
+
+  .practice-card-leaf {
+    right: 13px;
+  }
+
+  .practice-tip {
+    padding: 12px;
+
+    gap: 10px;
+  }
+
+  .practice-tip-plants {
+    display: none;
+  }
 }

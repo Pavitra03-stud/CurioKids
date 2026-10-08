@@ -1,717 +1,699 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap");
+
 /* =========================================================
    CURIOKIDS - SEQUENCE BUILDER
-   Letters + Numbers
-========================================================= */
+   OLD GAME MODEL
+   ========================================================= */
 
-.sequence-page {
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.blend-container {
   min-height: 100vh;
   width: 100%;
-  box-sizing: border-box;
 
-  padding: 35px 20px 70px;
+  padding: 0 20px 55px;
 
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
+  font-family: "Nunito", sans-serif;
+
+  color: #3d2b1d;
 
   background:
-    radial-gradient(
-      circle at 8% 15%,
-      rgba(255, 236, 163, 0.35),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 92% 20%,
-      rgba(190, 240, 180, 0.4),
-      transparent 28%
-    ),
     linear-gradient(
-      135deg,
-      #f8fff4 0%,
-      #e8f8df 50%,
-      #f5fbe9 100%
-    );
+      rgba(18, 67, 39, 0.08),
+      rgba(18, 67, 39, 0.1)
+    ),
+    url("../assets/gamesHome.png");
 
-  color: #185941;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 
-  font-family:
-    "Nunito",
-    "Arial Rounded MT Bold",
-    Arial,
-    sans-serif;
+  overflow-x: hidden;
+
+  position: relative;
 }
 
-
 /* =========================================================
-   MAIN GAME CONTAINER
-========================================================= */
+   TITLE
+   ========================================================= */
 
-.sequence-container {
-  width: min(760px, 100%);
+.blend-container > h2:first-child {
+  width: min(600px, 92%);
 
-  box-sizing: border-box;
+  min-height: 92px;
+
+  margin: 0 auto 24px;
+
+  padding: 14px 28px;
 
   display: flex;
-  flex-direction: column;
+
   align-items: center;
-
-  gap: 18px;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.sequence-header {
-  width: 100%;
-
-  padding: 34px 28px;
-
-  box-sizing: border-box;
-
-  border-radius: 28px;
-
-  background: rgba(255, 255, 255, 0.96);
-
-  box-shadow:
-    0 12px 35px rgba(45, 101, 73, 0.12);
-
-  text-align: center;
-}
-
-.sequence-header h1 {
-  margin: 0;
-
-  color: #185941;
-
-  font-size: clamp(30px, 5vw, 48px);
-
-  line-height: 1.25;
-
-  font-weight: 900;
-
-  letter-spacing: -0.5px;
-}
-
-.sequence-header p {
-  margin: 12px 0 0;
-
-  color: #6b8879;
-
-  font-size: 18px;
-
-  font-weight: 700;
-}
-
-
-/* =========================================================
-   SCORE BAR
-========================================================= */
-
-.sequence-score {
-  width: 100%;
-
-  padding: 18px 25px;
-
-  box-sizing: border-box;
-
-  border-radius: 20px;
-
-  background: rgba(255, 255, 255, 0.9);
-
-  box-shadow:
-    0 8px 25px rgba(45, 101, 73, 0.08);
-
-  display: flex;
 
   justify-content: center;
 
-  align-items: center;
+  text-align: center;
 
-  font-size: 21px;
+  background:
+    linear-gradient(
+      145deg,
+      #175335,
+      #21663f,
+      #175335
+    );
 
-  font-weight: 900;
+  border: 4px solid #e2b846;
 
-  color: #28684f;
+  border-radius: 0 0 20px 20px;
+
+  box-shadow:
+    0 6px 0 #79562d,
+    0 10px 20px rgba(0, 0, 0, 0.3);
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: clamp(26px, 4vw, 36px);
+
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  color: #fff8dc;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 1000;
 }
 
+/* =========================================================
+   GAME INFO
+   ========================================================= */
+
+.game-info {
+  width: min(700px, 100%);
+
+  min-height: 52px;
+
+  margin: 0 auto 25px;
+
+  padding: 11px 22px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff3cc,
+      #f4d78c
+    );
+
+  border: 3px solid #c79340;
+
+  border-radius: 50px;
+
+  box-shadow:
+    0 6px 0 #976334,
+    0 9px 16px rgba(0, 0, 0, 0.17);
+
+  color: #4f3721;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 17px;
+
+  font-weight: 800;
+
+  position: relative;
+
+  z-index: 10;
+}
+
+/* =========================================================
+   MAIN WOODEN GAME BOARD
+   ========================================================= */
+
+.blend-container > h3,
+.blend-container > .sounds,
+.blend-container > .options,
+.blend-container > .ai-analysis,
+.game-info {
+  position: relative;
+  z-index: 5;
+}
+
+/*
+  Everything after the title/info belongs visually
+  to the wooden board.
+
+  We can't wrap existing JSX without changing logic,
+  so use the game sections themselves as one visual flow.
+*/
 
 /* =========================================================
    QUESTION
-========================================================= */
+   ========================================================= */
 
-.sequence-question {
-  width: 100%;
+.blend-container > h3 {
+  width: min(1050px, 100%);
 
-  padding: 28px 20px 18px;
+  margin: 0 auto 20px;
 
-  text-align: center;
-}
-
-.sequence-question h2 {
-  margin: 0;
-
-  color: #1b6048;
-
-  font-size: clamp(25px, 4vw, 34px);
-
-  font-weight: 900;
-}
-
-
-/* =========================================================
-   SEQUENCE CARD
-========================================================= */
-
-.sequence-display {
-  width: 100%;
-
-  padding: 30px 22px;
-
-  box-sizing: border-box;
-
-  border-radius: 28px;
-
-  background: rgba(255, 255, 255, 0.96);
-
-  box-shadow:
-    0 14px 38px rgba(45, 101, 73, 0.12);
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  gap: 18px;
-
-  flex-wrap: wrap;
-}
-
-
-/* =========================================================
-   SEQUENCE ITEMS
-========================================================= */
-
-.sequence-item {
-  width: 82px;
-
-  height: 82px;
-
-  border-radius: 22px;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  box-sizing: border-box;
+  padding: 28px 30px 10px;
 
   background:
     linear-gradient(
       145deg,
-      #ffffff,
-      #eef9e8
+      #9a6036,
+      #b77441,
+      #935833
     );
 
-  border: 3px solid #d7ebcf;
+  border-left: 5px solid #6d4126;
 
-  color: #195940;
+  border-right: 5px solid #6d4126;
 
-  font-size: 34px;
+  border-top: 5px solid #6d4126;
 
-  font-weight: 900;
+  border-radius: 28px 28px 0 0;
 
   box-shadow:
-    0 8px 18px rgba(45, 101, 73, 0.1);
+    inset 0 3px 0 #cf9251;
+
+  text-align: center;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: clamp(27px, 4vw, 40px);
+
+  line-height: 1.15;
+
+  font-weight: 800;
+
+  color: #fff9df;
+
+  text-shadow:
+    0 3px 0 #684024;
 }
 
+/* =========================================================
+   SEQUENCE ROW
+   ========================================================= */
+
+.sounds {
+  width: min(1050px, 100%);
+
+  margin: -20px auto 0;
+
+  padding: 18px 35px 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+
+  background:
+    linear-gradient(
+      145deg,
+      #9a6036,
+      #b77441,
+      #935833
+    );
+
+  border-left: 5px solid #6d4126;
+
+  border-right: 5px solid #6d4126;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(
+      214,
+      154,
+      86,
+      0.2
+    );
+}
+
+/* =========================================================
+   SEQUENCE BOX
+   ========================================================= */
+
+.sound-box {
+  width: 92px;
+
+  height: 92px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex: 0 0 92px;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff3c8,
+      #e8c873
+    );
+
+  border: 4px solid #704527;
+
+  color: #4e3420;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 38px !important;
+
+  font-weight: 800 !important;
+
+  box-shadow:
+    0 6px 0 #704528,
+    0 9px 14px rgba(0, 0, 0, 0.18);
+}
 
 /* Missing item */
 
-.sequence-item.missing {
+.sound-box:last-child {
   background:
     linear-gradient(
       145deg,
-      #e5f9d8,
-      #d3f1c2
+      #f5dc8f,
+      #e6be63
     );
 
-  border: 3px dashed #8fc77c;
+  border: 4px dashed #ad7a34;
 
-  color: #57904b;
+  color: #624426;
 
-  font-size: 38px;
+  animation:
+    missingPulse 1.8s ease-in-out infinite;
 }
 
+@keyframes missingPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
 
 /* =========================================================
    OPTIONS
-========================================================= */
+   ========================================================= */
 
-.sequence-options {
-  width: 100%;
+.blend-container > .options {
+  width: min(1050px, 100%);
+
+  margin: 0 auto;
+
+  padding: 5px 35px 35px;
 
   display: grid;
 
   grid-template-columns:
     repeat(3, minmax(120px, 1fr));
 
-  gap: 18px;
+  gap: 15px;
 
-  padding: 5px 0;
+  background:
+    linear-gradient(
+      145deg,
+      #9a6036,
+      #b77441,
+      #935833
+    );
+
+  border-left: 5px solid #6d4126;
+
+  border-right: 5px solid #6d4126;
+
+  border-bottom: 5px solid #6d4126;
+
+  border-radius: 0 0 28px 28px;
+
+  box-shadow:
+    inset 0 -3px 0 #cf9251,
+    0 12px 0 #50301d,
+    0 20px 35px rgba(0, 0, 0, 0.28);
 }
-
 
 /* =========================================================
    OPTION BUTTON
-========================================================= */
+   ========================================================= */
 
-.sequence-option {
-  min-height: 78px;
-
-  border: none;
-
-  border-radius: 21px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #d9f6d0,
-      #c5ebba
-    );
-
-  color: #185941;
-
-  font-size: 28px;
-
-  font-weight: 900;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 8px 18px rgba(45, 101, 73, 0.14);
-
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    background 0.18s ease;
-}
-
-.sequence-option:hover:not(:disabled) {
-  transform: translateY(-5px);
-
-  background:
-    linear-gradient(
-      145deg,
-      #c9efbd,
-      #b8e6a9
-    );
-
-  box-shadow:
-    0 13px 25px rgba(45, 101, 73, 0.2);
-}
-
-.sequence-option:active:not(:disabled) {
-  transform: scale(0.95);
-}
-
-
-/* =========================================================
-   CORRECT / WRONG STATES
-========================================================= */
-
-.sequence-option.correct {
-  background:
-    linear-gradient(
-      145deg,
-      #a9e89a,
-      #86d879
-    );
-
-  color: #174e34;
-
-  border: 3px solid #68bd59;
-}
-
-.sequence-option.wrong {
-  background:
-    linear-gradient(
-      145deg,
-      #ffe0d9,
-      #ffc9be
-    );
-
-  color: #9b493c;
-
-  border: 3px solid #eea99d;
-}
-
-
-/* =========================================================
-   FEEDBACK
-========================================================= */
-
-.sequence-feedback {
+.options button {
   width: 100%;
 
-  min-height: 35px;
+  min-height: 76px;
 
-  padding: 12px 18px;
+  padding: 10px 18px;
 
-  box-sizing: border-box;
-
-  text-align: center;
-
-  font-size: 20px;
-
-  font-weight: 800;
-
-  color: #39735b;
-}
-
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-.sequence-progress {
-  width: 100%;
-
-  padding: 18px 22px;
-
-  box-sizing: border-box;
-
-  border-radius: 20px;
-
-  background: rgba(255, 255, 255, 0.85);
-
-  box-shadow:
-    0 7px 20px rgba(45, 101, 73, 0.08);
-}
-
-.sequence-progress-top {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 10px;
-
-  color: #477762;
-
-  font-size: 15px;
-
-  font-weight: 800;
-}
-
-.sequence-progress-bar {
-  width: 100%;
-
-  height: 12px;
-
-  overflow: hidden;
-
-  border-radius: 20px;
-
-  background: #dfe9df;
-}
-
-.sequence-progress-fill {
-  height: 100%;
-
-  border-radius: 20px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #4caf50,
-      #82c341
-    );
-
-  transition: width 0.4s ease;
-}
-
-
-/* =========================================================
-   COMPLETION CARD
-========================================================= */
-
-.sequence-complete {
-  width: 100%;
-
-  padding: 35px 25px;
-
-  box-sizing: border-box;
-
-  border-radius: 28px;
-
-  background: rgba(255, 255, 255, 0.96);
-
-  box-shadow:
-    0 14px 40px rgba(45, 101, 73, 0.14);
-
-  text-align: center;
-}
-
-.sequence-complete h2 {
-  margin: 0 0 10px;
-
-  font-size: 34px;
-
-  color: #185941;
-
-  font-weight: 900;
-}
-
-.sequence-complete p {
-  margin: 8px 0;
-
-  color: #557a69;
-
-  font-size: 19px;
-
-  font-weight: 700;
-}
-
-
-/* =========================================================
-   PLAY AGAIN
-========================================================= */
-
-.sequence-restart {
-  margin-top: 20px;
-
-  padding: 15px 30px;
-
-  border: none;
+  border: 4px solid #704527;
 
   border-radius: 18px;
 
   background:
     linear-gradient(
-      135deg,
-      #4caf50,
-      #78c850
+      145deg,
+      #fff2c6,
+      #e8c874
     );
 
-  color: white;
+  color: #4e3420;
 
-  font-size: 18px;
+  font-family: "Baloo 2", cursive;
 
-  font-weight: 900;
+  font-size: 28px;
+
+  font-weight: 800;
 
   cursor: pointer;
 
   box-shadow:
-    0 8px 18px rgba(61, 130, 68, 0.22);
+    0 6px 0 #704528,
+    0 9px 14px rgba(0, 0, 0, 0.18);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 }
 
-.sequence-restart:hover {
-  transform: translateY(-3px);
+.options button:hover:not(:disabled) {
+  transform: translateY(-4px);
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff9df,
+      #f1d787
+    );
 
   box-shadow:
-    0 12px 25px rgba(61, 130, 68, 0.3);
+    0 9px 0 #704528,
+    0 13px 18px rgba(0, 0, 0, 0.2);
 }
 
+.options button:active:not(:disabled) {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 3px 0 #704528;
+}
+
+.options button:disabled {
+  cursor: default;
+}
 
 /* =========================================================
-   FOCUS ACCESSIBILITY
-========================================================= */
+   CORRECT / WRONG
+   Existing JSX uses inline colors,
+   so these reinforce the visual states.
+   ========================================================= */
 
-.sequence-option:focus-visible,
-.sequence-restart:focus-visible {
-  outline: 4px solid #9bd88e;
+.options button[style*="#d9f7df"] {
+  background:
+    linear-gradient(
+      145deg,
+      #d9f2ce,
+      #a9d98e
+    ) !important;
 
-  outline-offset: 4px;
+  border-color: #4c9f4f !important;
+
+  color: #286138 !important;
 }
 
+.options button[style*="#ffe1df"] {
+  background:
+    linear-gradient(
+      145deg,
+      #ffe3d9,
+      #f5c1b4
+    ) !important;
+
+  border-color: #cd6d5d !important;
+
+  color: #843b2d !important;
+}
 
 /* =========================================================
-   TABLET
-========================================================= */
+   MESSAGE
+   ========================================================= */
 
-@media (max-width: 700px) {
+.blend-container > p[style] {
+  width: min(700px, 100%);
 
-  .sequence-page {
-    padding: 25px 15px 55px;
-  }
+  min-height: 38px;
 
-  .sequence-header {
-    padding: 27px 20px;
-  }
+  margin: 15px auto 0;
 
-  .sequence-header h1 {
-    font-size: 34px;
-  }
+  padding: 9px 18px;
 
-  .sequence-display {
-    gap: 12px;
+  text-align: center;
 
-    padding: 25px 15px;
-  }
+  color: #fff0ce !important;
 
-  .sequence-item {
-    width: 70px;
-    height: 70px;
+  font-family: "Baloo 2", cursive;
 
-    border-radius: 19px;
+  font-size: 16px;
 
-    font-size: 29px;
-  }
-
-  .sequence-options {
-    gap: 12px;
-  }
-
-  .sequence-option {
-    min-height: 68px;
-
-    font-size: 24px;
-  }
+  font-weight: 800 !important;
 }
 
+/* =========================================================
+   PERFORMANCE
+   ========================================================= */
+
+.ai-analysis {
+  width: min(700px, 100%);
+
+  margin: 20px auto 0;
+
+  padding: 14px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(
+      255,
+      241,
+      195,
+      0.97
+    );
+
+  border: 3px solid #c89343;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 5px 0 #8d5d30;
+
+  color: #3f6642;
+
+  text-align: center;
+}
+
+.ai-analysis p {
+  margin: 0;
+
+  font-family: "Baloo 2", cursive;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  color: #476c4a;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.blend-container:has(
+  > h2:not(.game-title)
+) {
+  text-align: center;
+}
+
+.blend-container > h2 {
+  font-family: "Baloo 2", cursive;
+}
 
 /* =========================================================
    MOBILE
-========================================================= */
+   ========================================================= */
 
-@media (max-width: 480px) {
-
-  .sequence-page {
-    padding: 16px 12px 45px;
+@media (max-width: 700px) {
+  .blend-container {
+    padding: 0 10px 40px;
   }
 
-  .sequence-container {
-    gap: 12px;
+  .blend-container > h2:first-child {
+    width: 94%;
+
+    min-height: 78px;
+
+    padding: 10px 16px;
+
+    margin-bottom: 20px;
+
+    font-size: 25px;
+
+    border-radius: 0 0 18px 18px;
   }
 
-  .sequence-header {
-    padding: 22px 15px;
+  .game-info {
+    min-height: 46px;
 
-    border-radius: 22px;
+    padding: 9px 14px;
+
+    font-size: 13px;
+
+    margin-bottom: 18px;
   }
 
-  .sequence-header h1 {
-    font-size: 28px;
+  /* Question */
+
+  .blend-container > h3 {
+    margin-bottom: 0;
+
+    padding: 24px 15px 10px;
+
+    font-size: 27px;
+
+    border-width: 4px;
   }
 
-  .sequence-header p {
-    font-size: 15px;
-  }
+  /* Sequence */
 
-  .sequence-score {
-    padding: 14px;
+  .sounds {
+    margin-top: -1px;
 
-    border-radius: 16px;
-
-    font-size: 17px;
-  }
-
-  .sequence-question {
-    padding: 18px 10px 10px;
-  }
-
-  .sequence-question h2 {
-    font-size: 23px;
-  }
-
-  .sequence-display {
-    padding: 20px 10px;
+    padding: 12px 15px 24px;
 
     gap: 8px;
 
-    border-radius: 22px;
+    border-width: 4px;
   }
 
-  .sequence-item {
-    width: 58px;
-    height: 58px;
+  .sound-box {
+    width: 64px;
 
-    border-radius: 15px;
+    height: 64px;
+
+    flex-basis: 64px;
+
+    border-width: 3px;
+
+    border-radius: 14px;
+
+    font-size: 27px !important;
+  }
+
+  /* Options */
+
+  .blend-container > .options {
+    padding: 4px 15px 27px;
+
+    gap: 9px;
+
+    border-width: 4px;
+  }
+
+  .options button {
+    min-height: 62px;
+
+    padding: 8px;
+
+    border-width: 3px;
+
+    border-radius: 14px;
 
     font-size: 23px;
   }
 
-  .sequence-item.missing {
-    font-size: 27px;
+  .blend-container > p[style] {
+    font-size: 13px !important;
   }
 
-  .sequence-options {
-    grid-template-columns:
-      repeat(3, 1fr);
+  .ai-analysis {
+    padding: 10px 14px;
 
-    gap: 9px;
+    border-width: 2px;
+
+    font-size: 12px;
   }
 
-  .sequence-option {
-    min-height: 60px;
-
-    border-radius: 15px;
-
-    font-size: 21px;
-  }
-
-  .sequence-progress {
-    padding: 14px 15px;
-
-    border-radius: 16px;
-  }
-
-  .sequence-feedback {
-    font-size: 17px;
-  }
-
-  .sequence-complete {
-    padding: 28px 18px;
-
-    border-radius: 22px;
-  }
-
-  .sequence-complete h2 {
-    font-size: 28px;
+  .ai-analysis p {
+    font-size: 12px;
   }
 }
-
 
 /* =========================================================
    SMALL PHONES
-========================================================= */
+   ========================================================= */
 
-@media (max-width: 350px) {
+@media (max-width: 400px) {
+  .blend-container > h2:first-child {
+    font-size: 22px;
+  }
 
-  .sequence-item {
-    width: 50px;
-    height: 50px;
+  .game-info {
+    font-size: 11px;
+  }
+
+  .blend-container > h3 {
+    font-size: 24px;
+  }
+
+  .sound-box {
+    width: 56px;
+
+    height: 56px;
+
+    flex-basis: 56px;
+
+    font-size: 23px !important;
+  }
+
+  .options button {
+    min-height: 55px;
 
     font-size: 20px;
-  }
-
-  .sequence-option {
-    min-height: 54px;
-
-    font-size: 18px;
-  }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  .sequence-option,
-  .sequence-restart,
-  .sequence-progress-fill {
-    transition: none;
   }
 }

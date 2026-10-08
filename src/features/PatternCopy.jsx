@@ -1,98 +1,4 @@
-// import { useState, useEffect } from "react";
-// import "../styles/PatternCopy.css";
-
-// const COLORS = ["🔴", "🔵", "🟢", "🟡"];
-
-// export default function PatternCopy({ goBack }) {
-//   const [pattern, setPattern] = useState([]);
-//   const [userInput, setUserInput] = useState([]);
-//   const [showPattern, setShowPattern] = useState(true);
-//   const [message, setMessage] = useState("");
-
-//   useEffect(() => {
-//     generatePattern();
-//   }, []);
-
-//   const generatePattern = () => {
-//     const newPattern = Array.from({ length: 3 }, () =>
-//       COLORS[Math.floor(Math.random() * COLORS.length)]
-//     );
-//     setPattern(newPattern);
-//     setUserInput([]);
-//     setShowPattern(true);
-//     setMessage("");
-
-//     setTimeout(() => setShowPattern(false), 2000);
-//   };
-
-//   const handleClick = (color) => {
-//     if (showPattern) return;
-
-//     const newInput = [...userInput, color];
-//     setUserInput(newInput);
-
-//     if (newInput.length === pattern.length) {
-//       if (JSON.stringify(newInput) === JSON.stringify(pattern)) {
-//         setMessage("Great job! 🌟");
-//       } else {
-//         setMessage("Try again 💛");
-//       }
-//     }
-//   };
-
-//   return (
-//     <div className="pattern-page">
-
-//       {/* Header */}
-//       <div className="pattern-header">
-//         <button className="back-btn" onClick={goBack}>⬅</button>
-//         <h1>Pattern Copy Game</h1>
-//       </div>
-
-//       {/* Instruction */}
-//       <p className="pattern-text">
-//         {showPattern ? "Remember the pattern" : "Repeat the pattern"}
-//       </p>
-
-//       {/* Pattern Display */}
-//       <div className="pattern-box">
-//         {showPattern
-//           ? pattern.map((c, i) => <span key={i}>{c}</span>)
-//           : userInput.map((c, i) => <span key={i}>{c}</span>)
-//         }
-//       </div>
-
-//       {/* Choices */}
-//       <div className="color-options">
-//         {COLORS.map((c, i) => (
-//           <div
-//             key={i}
-//             className="color-btn"
-//             onClick={() => handleClick(c)}
-//           >
-//             {c}
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Feedback */}
-//       <h2 className="feedback">{message}</h2>
-
-//       {/* Next */}
-//       {message && (
-//         <button className="next-btn" onClick={generatePattern}>
-//           Next →
-//         </button>
-//       )}
-//     </div>
-//   );
-// }
-
-
-
-
-
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/PatternCopy.css";
 import useGameProgress from "../hooks/useGameProgress";
 
@@ -100,110 +6,99 @@ const COLORS = ["🔴", "🔵", "🟢", "🟡"];
 
 const GAME_ID = "pattern-copy";
 
+const TOTAL_ROUNDS = 5;
+
 const INITIAL_STATE = {
   pattern: [],
   userInput: [],
   showPattern: true,
   message: "",
+  round: 1,
+  score: 0,
+  completed: false,
 };
 
 export default function PatternCopy({ goBack }) {
   const {
-    savedState,
-    loading: progressLoading,
     save,
-  } = useGameProgress(GAME_ID, INITIAL_STATE);
+    loading: progressLoading,
+  } = useGameProgress(
+    GAME_ID,
+    INITIAL_STATE
+  );
+
+  /* =========================================================
+     STATE
+     ========================================================= */
 
   const [pattern, setPattern] = useState([]);
+
   const [userInput, setUserInput] = useState([]);
-  const [showPattern, setShowPattern] = useState(true);
+
+  const [showPattern, setShowPattern] =
+    useState(true);
+
   const [message, setMessage] = useState("");
 
-  const [restored, setRestored] = useState(false);
-  const [timer, setTimer] = useState(null);
+  const [round, setRound] = useState(1);
 
-  // =========================================================
-  // 🔥 RESTORE SAVED GAME
-  // =========================================================
+  const [score, setScore] = useState(0);
 
-  useEffect(() => {
-    if (progressLoading) return;
-    if (restored) return;
+  const [completed, setCompleted] =
+    useState(false);
 
-    console.log(
-      "🔥 Pattern Copy saved state:",
-      savedState
-    );
+  const [gameReady, setGameReady] =
+    useState(false);
 
-    if (
-      savedState &&
-      savedState.pattern?.length
-    ) {
-      setPattern(savedState.pattern);
-      setUserInput(
-        savedState.userInput || []
-      );
-      setShowPattern(
-        savedState.showPattern ?? true
-      );
-      setMessage(
-        savedState.message || ""
-      );
+  const timerRef = useRef(null);
 
-      setRestored(true);
+  const nextRoundTimerRef =
+    useRef(null);
 
-      /*
-       * If the saved game was still showing
-       * the pattern, continue the timer.
-       */
-      if (savedState.showPattern) {
-        const timeout = setTimeout(() => {
-          setShowPattern(false);
 
-          save({
-            pattern: savedState.pattern,
-            userInput:
-              savedState.userInput || [],
-            showPattern: false,
-            message:
-              savedState.message || "",
-          });
-        }, 2000);
-
-        setTimer(timeout);
-      }
-
-      return;
-    }
-
-    // No saved game → start a new pattern
-    setRestored(true);
-    generatePattern();
-
-    return;
-  }, [
-    progressLoading,
-    savedState,
-    restored,
-  ]);
-
-  // =========================================================
-  // 🧹 CLEANUP TIMER
-  // =========================================================
+  /* =========================================================
+     CLEANUP
+     ========================================================= */
 
   useEffect(() => {
     return () => {
-      if (timer) {
-        clearTimeout(timer);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      if (nextRoundTimerRef.current) {
+        clearTimeout(
+          nextRoundTimerRef.current
+        );
       }
     };
-  }, [timer]);
+  }, []);
 
-  // =========================================================
-  // 🎲 GENERATE PATTERN
-  // =========================================================
 
-  const generatePattern = async () => {
+  /* =========================================================
+     GENERATE PATTERN
+     ========================================================= */
+
+  const generatePattern = async (
+    nextRound = 1,
+    currentScore = 0
+  ) => {
+
+    /* Clear old timers */
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    if (nextRoundTimerRef.current) {
+      clearTimeout(
+        nextRoundTimerRef.current
+      );
+    }
+
+
+    /* Create a new 3-color pattern */
+
     const newPattern = Array.from(
       { length: 3 },
       () =>
@@ -214,47 +109,138 @@ export default function PatternCopy({ goBack }) {
         ]
     );
 
+
+    /* Update screen */
+
     setPattern(newPattern);
+
     setUserInput([]);
+
     setShowPattern(true);
+
     setMessage("");
 
-    // 💾 Save newly generated pattern
+    setRound(nextRound);
+
+    setScore(currentScore);
+
+    setCompleted(false);
+
+
+    /* Save current round */
+
     await save({
       pattern: newPattern,
+
       userInput: [],
+
       showPattern: true,
+
       message: "",
+
+      round: nextRound,
+
+      score: currentScore,
+
+      completed: false,
     });
 
-    const timeout = setTimeout(async () => {
-      setShowPattern(false);
-
-      await save({
-        pattern: newPattern,
-        userInput: [],
-        showPattern: false,
-        message: "",
-      });
-    }, 2000);
-
-    setTimer(timeout);
-  };
-
-  // =========================================================
-  // 🎯 COLOR CLICK
-  // =========================================================
-
-  const handleClick = async (color) => {
-    if (showPattern) return;
 
     /*
-     * Don't allow more clicks after
-     * the answer has already been completed.
+     * Keep the pattern visible for 2 seconds.
      */
-    if (userInput.length >= pattern.length) {
+
+    timerRef.current = setTimeout(
+      async () => {
+
+        setShowPattern(false);
+
+        await save({
+          pattern: newPattern,
+
+          userInput: [],
+
+          showPattern: false,
+
+          message: "",
+
+          round: nextRound,
+
+          score: currentScore,
+
+          completed: false,
+        });
+
+      },
+      2000
+    );
+  };
+
+
+  /* =========================================================
+     START GAME
+     
+     IMPORTANT:
+     We intentionally start a fresh game here.
+     
+     This prevents an old Firebase state such as:
+       showPattern: false
+       pattern: [...]
+     
+     from causing the first screen to say
+     "Repeat the pattern" with an empty board.
+     ========================================================= */
+
+  useEffect(() => {
+
+    if (progressLoading) {
       return;
     }
+
+    if (gameReady) {
+      return;
+    }
+
+    setGameReady(true);
+
+    generatePattern(1, 0);
+
+  }, [
+    progressLoading,
+    gameReady,
+  ]);
+
+
+  /* =========================================================
+     HANDLE COLOR CLICK
+     ========================================================= */
+
+  const handleClick = async (color) => {
+
+    /* Don't allow clicking while pattern is visible */
+
+    if (showPattern) {
+      return;
+    }
+
+
+    /* Don't allow clicks after game completion */
+
+    if (completed) {
+      return;
+    }
+
+
+    /* Don't allow extra clicks */
+
+    if (
+      userInput.length >= pattern.length
+    ) {
+      return;
+    }
+
+
+    /* Add selected color */
 
     const newInput = [
       ...userInput,
@@ -263,85 +249,302 @@ export default function PatternCopy({ goBack }) {
 
     setUserInput(newInput);
 
-    // =======================================================
-    // 💾 SAVE PARTIAL ANSWER
-    // =======================================================
 
-    if (newInput.length < pattern.length) {
+    /* =======================================================
+       PARTIAL ANSWER
+       ======================================================= */
+
+    if (
+      newInput.length < pattern.length
+    ) {
+
       await save({
         pattern,
+
         userInput: newInput,
+
         showPattern: false,
+
         message: "",
+
+        round,
+
+        score,
+
+        completed: false,
       });
 
       return;
     }
 
-    // =======================================================
-    // 🏆 CHECK ANSWER
-    // =======================================================
+
+    /* =======================================================
+       CHECK COMPLETE ANSWER
+       ======================================================= */
 
     const isCorrect =
       JSON.stringify(newInput) ===
       JSON.stringify(pattern);
 
-    const newMessage = isCorrect
-      ? "Great job! 🌟"
-      : "Try again 💛";
 
-    setMessage(newMessage);
+    /* =======================================================
+       CORRECT
+       ======================================================= */
 
-    // 💾 Save completed attempt
+    if (isCorrect) {
+
+      const newScore = score + 1;
+
+      setMessage(
+        "Great job! 🌟"
+      );
+
+      setScore(newScore);
+
+
+      await save({
+        pattern,
+
+        userInput: newInput,
+
+        showPattern: false,
+
+        message: "Great job! 🌟",
+
+        round,
+
+        score: newScore,
+
+        completed: false,
+      });
+
+
+      /*
+       * Small delay so the child can see
+       * "Great job!" before the next pattern.
+       */
+
+      nextRoundTimerRef.current =
+        setTimeout(async () => {
+
+          /* ================================
+             FINAL ROUND
+             ================================ */
+
+          if (
+            round >= TOTAL_ROUNDS
+          ) {
+
+            setCompleted(true);
+
+            await save({
+              pattern,
+
+              userInput: newInput,
+
+              showPattern: false,
+
+              message:
+                "Great job! 🌟",
+
+              round:
+                TOTAL_ROUNDS,
+
+              score: newScore,
+
+              completed: true,
+            });
+
+            return;
+          }
+
+
+          /* ================================
+             NEXT ROUND
+             ================================ */
+
+          generatePattern(
+            round + 1,
+            newScore
+          );
+
+        }, 900);
+
+      return;
+    }
+
+
+    /* =======================================================
+       WRONG ANSWER
+       ======================================================= */
+
+    setMessage(
+      "Try again 💛"
+    );
+
+
     await save({
       pattern,
-      userInput: newInput,
+
+      userInput: [],
+
       showPattern: false,
-      message: newMessage,
+
+      message: "Try again 💛",
+
+      round,
+
+      score,
+
+      completed: false,
     });
+
+
+    /*
+     * Clear the wrong answer after a short delay.
+     * The child stays on the same round and can retry.
+     */
+
+    setTimeout(() => {
+
+      setUserInput([]);
+
+      setMessage("");
+
+    }, 700);
   };
 
-  // =========================================================
-  // ⏳ LOADING
-  // =========================================================
 
-  if (progressLoading || !restored) {
+  /* =========================================================
+     LOADING
+     ========================================================= */
+
+  if (
+    progressLoading ||
+    !gameReady ||
+    pattern.length === 0
+  ) {
+
     return (
       <div className="pattern-page">
-        <div className="pattern-header">
-          <button
-            className="back-btn"
-            onClick={goBack}
-          >
-            ⬅
-          </button>
 
-          <h1>Pattern Copy Game</h1>
+        <div className="pattern-header">
+
+          <h1>
+            Pattern Copy Game
+          </h1>
+
         </div>
 
         <p className="pattern-text">
-          Loading your game... 🌱
+          Getting your jungle pattern ready... 🌱
         </p>
+
       </div>
     );
   }
 
-  // =========================================================
-  // 🎮 UI
-  // =========================================================
+
+  /* =========================================================
+     COMPLETED
+     ========================================================= */
+
+  if (completed) {
+
+    return (
+      <div className="pattern-page">
+
+        <div className="pattern-header">
+
+          <h1>
+            Pattern Copy Game
+          </h1>
+
+        </div>
+
+
+        <div className="pattern-complete">
+
+          <div className="complete-emoji">
+            🎉
+          </div>
+
+
+          <h2>
+            Jungle Adventure Complete!
+          </h2>
+
+
+          <p>
+            You finished all {TOTAL_ROUNDS} rounds!
+          </p>
+
+
+          <div className="final-score">
+
+            <span>
+              YOUR SCORE
+            </span>
+
+            <strong>
+              {score} / {TOTAL_ROUNDS}
+            </strong>
+
+          </div>
+
+
+          <p className="score-message">
+
+            {score === TOTAL_ROUNDS
+              ? "Perfect memory! 🧠🌟"
+              : score >= 3
+                ? "Great jungle memory! 🌿"
+                : "Keep practising your memory! 💚"
+            }
+
+          </p>
+
+
+          <button
+            className="next-btn"
+            onClick={() => {
+
+              setCompleted(false);
+
+              setRound(1);
+
+              setScore(0);
+
+              setMessage("");
+
+              setUserInput([]);
+
+              generatePattern(1, 0);
+
+            }}
+          >
+            Play Again ↻
+          </button>
+
+        </div>
+
+      </div>
+    );
+  }
+
+
+  /* =========================================================
+     GAME UI
+     ========================================================= */
 
   return (
     <div className="pattern-page">
 
-      {/* Header */}
-      <div className="pattern-header">
+      {/* =====================================================
+          HEADER
+          ===================================================== */}
 
-        {/* <button
-          className="back-btn"
-          onClick={goBack}
-        >
-          ⬅
-        </button> */}
+      <div className="pattern-header">
 
         <h1>
           Pattern Copy Game
@@ -349,61 +552,130 @@ export default function PatternCopy({ goBack }) {
 
       </div>
 
-      {/* Instruction */}
+
+      {/* =====================================================
+          ROUND
+          ===================================================== */}
+
+      <div className="pattern-round">
+
+        <span>
+          ROUND
+        </span>
+
+        <strong>
+          {round}
+        </strong>
+
+        <small>
+          / {TOTAL_ROUNDS}
+        </small>
+
+      </div>
+
+
+      {/* =====================================================
+          SCORE
+          ===================================================== */}
+
+      <div className="pattern-score">
+
+        ⭐ Score: {score}
+
+      </div>
+
+
+      {/* =====================================================
+          INSTRUCTION
+          ===================================================== */}
+
       <p className="pattern-text">
+
         {showPattern
           ? "Remember the pattern"
-          : "Repeat the pattern"}
+          : "Repeat the pattern"
+        }
+
       </p>
 
-      {/* Pattern Display */}
+
+      {/* =====================================================
+          PATTERN BOARD
+          ===================================================== */}
+
       <div className="pattern-box">
 
         {showPattern
-          ? pattern.map((color, i) => (
-              <span key={i}>
-                {color}
-              </span>
-            ))
-          : userInput.map((color, i) => (
-              <span key={i}>
-                {color}
-              </span>
-            ))}
+
+          ? pattern.map(
+              (color, index) => (
+
+                <span key={index}>
+                  {color}
+                </span>
+
+              )
+            )
+
+          : userInput.map(
+              (color, index) => (
+
+                <span key={index}>
+                  {color}
+                </span>
+
+              )
+            )
+
+        }
 
       </div>
 
-      {/* Choices */}
+
+      {/* =====================================================
+          COLOR OPTIONS
+          ===================================================== */}
+
       <div className="color-options">
 
-        {COLORS.map((color, i) => (
-          <div
-            key={i}
-            className="color-btn"
-            onClick={() =>
-              handleClick(color)
-            }
-          >
-            {color}
-          </div>
-        ))}
+        {COLORS.map(
+          (color, index) => (
+
+            <div
+              key={index}
+
+              className="color-btn"
+
+              onClick={() =>
+                handleClick(color)
+              }
+            >
+              {color}
+            </div>
+
+          )
+        )}
 
       </div>
 
-      {/* Feedback */}
+
+      {/* =====================================================
+          FEEDBACK
+          ===================================================== */}
+
       <h2 className="feedback">
+
         {message}
+
       </h2>
 
-      {/* Next */}
-      {message && (
-        <button
-          className="next-btn"
-          onClick={generatePattern}
-        >
-          Next →
-        </button>
-      )}
+
+      {/* =====================================================
+          NO NEXT BUTTON
+          
+          Correct answer automatically moves
+          to the next round.
+          ===================================================== */}
 
     </div>
   );

@@ -163,16 +163,17 @@ export default function SoundTap() {
 
     try {
       setLoadingAI(true);
-
-      const res = await fetch(`import.meta.env.VITE_BACKEND_URL/ai-teach`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          topic: `Teach a child about ${currentLearn.animal} sound`
-        })
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/ai/teach`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            topic: `Teach a child about ${currentLearn.animal} sound`
+          })
+        });
 
       if (!res.ok) {
         throw new Error("AI request failed");
@@ -357,7 +358,7 @@ export default function SoundTap() {
             }}
           >
             {learnIndex <
-            animalData.length - 1
+              animalData.length - 1
               ? "Next ➡"
               : "Start Game 🎮"}
           </button>
@@ -468,11 +469,10 @@ export default function SoundTap() {
               <button
                 key={i}
                 type="button"
-                className={`circle ${
-                  selected === i
+                className={`circle ${selected === i
                     ? "selected"
                     : ""
-                }`}
+                  }`}
                 onClick={() =>
                   handleSelect(i)
                 }
@@ -488,13 +488,12 @@ export default function SoundTap() {
 
         {feedback && (
           <div
-            className={`feedback ${
-              feedback.startsWith(
-                "Correct"
-              )
+            className={`feedback ${feedback.startsWith(
+              "Correct"
+            )
                 ? "feedback-correct"
                 : "feedback-wrong"
-            }`}
+              }`}
           >
             {feedback}
           </div>

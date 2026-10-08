@@ -1,261 +1,11 @@
-// // import React, { useEffect, useState } from "react";
-// // import "../styles/ArrangeNumbersGame.css";
-
-// // function shuffleArray(array) {
-// //   return [...array].sort(() => Math.random() - 0.5);
-// // }
-
-// // export default function ArrangeNumbersGame() {
-// //   const [numbers, setNumbers] = useState([]);
-// //   const [shuffled, setShuffled] = useState([]);
-// //   const [selected, setSelected] = useState([]);
-// //   const [message, setMessage] = useState("Arrange numbers in order");
-// //   const [level, setLevel] = useState(1);
-
-// //   // generate numbers based on level
-// //   useEffect(() => {
-// //     const max = level === 1 ? 5 : level === 2 ? 10 : 15;
-// //     const nums = Array.from({ length: max }, (_, i) => i + 1);
-// //     setNumbers(nums);
-// //     setShuffled(shuffleArray(nums));
-// //     setSelected([]);
-// //   }, [level]);
-
-// //   const handleClick = (num) => {
-// //     if (selected.includes(num)) return;
-
-// //     const newSelected = [...selected, num];
-// //     setSelected(newSelected);
-
-// //     if (newSelected.length === numbers.length) {
-// //       if (JSON.stringify(newSelected) === JSON.stringify(numbers)) {
-// //         setMessage("🎉 Correct! Well done!");
-// //       } else {
-// //         setMessage("❌ Wrong order! Try again.");
-// //       }
-// //     }
-// //   };
-
-// //   const handleReset = () => {
-// //     setShuffled(shuffleArray(numbers));
-// //     setSelected([]);
-// //     setMessage("Try again");
-// //   };
-
-// //   const handleNextLevel = () => {
-// //     setLevel((prev) => (prev < 3 ? prev + 1 : 1));
-// //   };
-
-// //   return (
-// //     <div className="arrange-page">
-// //       <div className="arrange-card">
-
-// //         <h1>🔢 Arrange the Numbers</h1>
-// //         <p>Tap numbers in the correct order</p>
-
-// //         <div className="level-box">
-// //           <span>Level: {level}</span>
-// //         </div>
-
-// //         {/* Selected Output */}
-// //         <div className="output-box">
-// //           {selected.map((num, index) => (
-// //             <div key={index} className="number-box selected">
-// //               {num}
-// //             </div>
-// //           ))}
-// //         </div>
-
-// //         {/* Number Options */}
-// //         <div className="numbers-grid">
-// //           {shuffled.map((num) => (
-// //             <button
-// //               key={num}
-// //               className={`number-btn ${
-// //                 selected.includes(num) ? "disabled" : ""
-// //               }`}
-// //               onClick={() => handleClick(num)}
-// //               disabled={selected.includes(num)}
-// //             >
-// //               {num}
-// //             </button>
-// //           ))}
-// //         </div>
-
-// //         <div className="message-box">
-// //           <p>{message}</p>
-// //         </div>
-
-// //         <div className="btn-group">
-// //           <button onClick={handleReset} className="reset-btn">
-// //             Reset
-// //           </button>
-// //           <button onClick={handleNextLevel} className="next-btn">
-// //             Next Level
-// //           </button>
-// //         </div>
-
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-
-
-
-// import React, { useEffect, useMemo, useState } from "react";
-// import "../styles/ArrangeNumbersGame.css";
-
-// const levels = [
-//   { id: 1, title: "Easy", type: "ascending", range: 10, count: 5, unlocked: true },
-//   { id: 2, title: "Easy", type: "descending", range: 10, count: 5, unlocked: true },
-//   { id: 3, title: "Medium", type: "ascending", range: 50, count: 8, unlocked: true },
-//   { id: 4, title: "Medium", type: "descending", range: 50, count: 8, unlocked: true },
-//   { id: 5, title: "Hard", type: "ascending", range: 100, count: 10, unlocked: true },
-//   { id: 6, title: "Hard", type: "descending", range: 100, count: 10, unlocked: true },
-// ];
-
-// function shuffleArray(array) {
-//   const newArray = [...array];
-//   for (let i = newArray.length - 1; i > 0; i -= 1) {
-//     const j = Math.floor(Math.random() * (i + 1));
-//     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-//   }
-//   return newArray;
-// }
-
-// function generateUniqueNumbers(range, count) {
-//   const allNumbers = Array.from({ length: range }, (_, i) => i + 1);
-//   return shuffleArray(allNumbers).slice(0, count);
-// }
-
-// export default function ArrangeNumbersGame() {
-//   const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
-//   const [questionNumbers, setQuestionNumbers] = useState([]);
-//   const [shuffledNumbers, setShuffledNumbers] = useState([]);
-//   const [selectedNumbers, setSelectedNumbers] = useState([]);
-//   const [message, setMessage] = useState("Tap numbers in the correct order");
-//   const [completed, setCompleted] = useState(false);
-
-//   const currentLevel = levels[currentLevelIndex];
-
-//   const correctOrder = useMemo(() => {
-//     const sorted = [...questionNumbers].sort((a, b) => a - b);
-//     return currentLevel.type === "ascending" ? sorted : sorted.reverse();
-//   }, [questionNumbers, currentLevel]);
-
-//   const loadLevel = (level) => {
-//     const numbers = generateUniqueNumbers(level.range, level.count);
-//     setQuestionNumbers(numbers);
-//     setShuffledNumbers(shuffleArray(numbers));
-//     setSelectedNumbers([]);
-//     setCompleted(false);
-//     setMessage(
-//       level.type === "ascending"
-//         ? "Arrange from smallest to biggest"
-//         : "Arrange from biggest to smallest"
-//     );
-//   };
-
-//   useEffect(() => {
-//     loadLevel(currentLevel);
-//   }, [currentLevelIndex]);
-
-//   const handleNumberClick = (number) => {
-//     if (completed || selectedNumbers.includes(number)) return;
-
-//     const nextIndex = selectedNumbers.length;
-//     const expectedNumber = correctOrder[nextIndex];
-
-//     if (number === expectedNumber) {
-//       const updated = [...selectedNumbers, number];
-//       setSelectedNumbers(updated);
-
-//       if (updated.length === correctOrder.length) {
-//         setCompleted(true);
-//         setMessage("🎉 Super! You arranged all numbers correctly");
-//       } else {
-//         setMessage(`Good! Next number is ${correctOrder[updated.length]}`);
-//       }
-//     } else {
-//       setMessage(`Oops! Choose ${expectedNumber}`);
-//     }
-//   };
-
-//   const handleReset = () => {
-//     setSelectedNumbers([]);
-//     setCompleted(false);
-//     setMessage(
-//       currentLevel.type === "ascending"
-//         ? "Arrange from smallest to biggest"
-//         : "Arrange from biggest to smallest"
-//     );
-//   };
-
-//   const handleNextLevel = () => {
-//     const nextIndex = (currentLevelIndex + 1) % levels.length;
-//     setCurrentLevelIndex(nextIndex);
-//   };
-
-//   return (
-//     <div className="arrange-page">
-//       <div className="arrange-card">
-//         <div className="top-bar">
-//           <h1>🔢 Arrange the Numbers</h1>
-//           <p>Tap numbers in the correct order</p>
-//         </div>
-
-//         <div className="level-box">
-//           <span>
-//             Level: {currentLevel.id} | {currentLevel.title} |{" "}
-//             {currentLevel.type === "ascending" ? "Ascending" : "Descending"}
-//           </span>
-//         </div>
-
-//         <div className="numbers-section">
-//           {shuffledNumbers.map((number) => (
-//             <button
-//               key={number}
-//               className={`number-chip ${selectedNumbers.includes(number) ? "used" : ""}`}
-//               onClick={() => handleNumberClick(number)}
-//               disabled={selectedNumbers.includes(number)}
-//             >
-//               {number}
-//             </button>
-//           ))}
-//         </div>
-
-//         <div className="answer-box">
-//           <h3>Arrange numbers in order</h3>
-//           <div className="answer-row">
-//             {correctOrder.map((_, index) => (
-//               <div key={index} className="answer-slot">
-//                 {selectedNumbers[index] ?? ""}
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         <div className="message-box">
-//           <p>{message}</p>
-//         </div>
-
-//         <button className="reset-btn" onClick={handleReset}>
-//           Reset
-//         </button>
-
-//         <button className="next-btn" onClick={handleNextLevel}>
-//           Next Level
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
-
 import React, { useEffect, useMemo, useState } from "react";
+
 import "../styles/ArrangeNumbersGame.css";
+
 import useGameProgress from "../hooks/useGameProgress";
+
+// SAME IMAGE USED IN NUMBER GAMES HOME
+import arrangeNumbersIcon from "../assets/03-arrange-numbers.png";
 
 const GAME_ID = "arrange-numbers";
 
@@ -266,7 +16,6 @@ const levels = [
     type: "ascending",
     range: 10,
     count: 5,
-    unlocked: true,
   },
   {
     id: 2,
@@ -274,7 +23,6 @@ const levels = [
     type: "descending",
     range: 10,
     count: 5,
-    unlocked: true,
   },
   {
     id: 3,
@@ -282,7 +30,6 @@ const levels = [
     type: "ascending",
     range: 50,
     count: 8,
-    unlocked: true,
   },
   {
     id: 4,
@@ -290,7 +37,6 @@ const levels = [
     type: "descending",
     range: 50,
     count: 8,
-    unlocked: true,
   },
   {
     id: 5,
@@ -298,7 +44,6 @@ const levels = [
     type: "ascending",
     range: 100,
     count: 10,
-    unlocked: true,
   },
   {
     id: 6,
@@ -306,9 +51,12 @@ const levels = [
     type: "descending",
     range: 100,
     count: 10,
-    unlocked: true,
   },
 ];
+
+/* =========================================================
+   SHUFFLE
+========================================================= */
 
 function shuffleArray(array) {
   const newArray = [...array];
@@ -325,6 +73,10 @@ function shuffleArray(array) {
   return newArray;
 }
 
+/* =========================================================
+   GENERATE NUMBERS
+========================================================= */
+
 function generateUniqueNumbers(range, count) {
   const allNumbers = Array.from(
     { length: range },
@@ -333,6 +85,10 @@ function generateUniqueNumbers(range, count) {
 
   return shuffleArray(allNumbers).slice(0, count);
 }
+
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 export default function ArrangeNumbersGame() {
   const {
@@ -344,7 +100,7 @@ export default function ArrangeNumbersGame() {
     questionNumbers: [],
     shuffledNumbers: [],
     selectedNumbers: [],
-    message: "Tap numbers in the correct order",
+    message: "Arrange the numbers",
     completed: false,
   });
 
@@ -361,58 +117,76 @@ export default function ArrangeNumbersGame() {
     useState([]);
 
   const [message, setMessage] = useState(
-    "Tap numbers in the correct order"
+    "Arrange the numbers"
   );
 
   const [completed, setCompleted] = useState(false);
 
   const [restored, setRestored] = useState(false);
 
+  const [showCompletionPopup, setShowCompletionPopup] =
+    useState(false);
+
+  const [wholeGameCompleted, setWholeGameCompleted] =
+    useState(false);
+
   const currentLevel = levels[currentLevelIndex];
+
+  /* =========================================================
+     CORRECT ORDER
+  ========================================================= */
 
   const correctOrder = useMemo(() => {
     const sorted = [...questionNumbers].sort(
       (a, b) => a - b
     );
 
-    return currentLevel.type === "ascending"
-      ? sorted
-      : sorted.reverse();
+    if (currentLevel.type === "ascending") {
+      return sorted;
+    }
+
+    return sorted.reverse();
   }, [questionNumbers, currentLevel]);
 
-  /*
-   * 🔄 RESTORE SAVED PROGRESS
-   */
+  /* =========================================================
+     RESTORE FIREBASE PROGRESS
+  ========================================================= */
+
   useEffect(() => {
     if (progressLoading || !savedState) return;
 
-    console.log(
-      "🔢 Arrange Numbers saved state:",
-      savedState
-    );
-
-    const savedLevelIndex =
+    const savedLevel =
       savedState.currentLevelIndex ?? 0;
 
-    const savedQuestionNumbers =
-      savedState.questionNumbers ?? [];
+    const safeLevel =
+      savedLevel >= 0 &&
+      savedLevel < levels.length
+        ? savedLevel
+        : 0;
 
-    const savedShuffledNumbers =
-      savedState.shuffledNumbers ?? [];
+    setCurrentLevelIndex(safeLevel);
 
-    setCurrentLevelIndex(savedLevelIndex);
+    setQuestionNumbers(
+      Array.isArray(savedState.questionNumbers)
+        ? savedState.questionNumbers
+        : []
+    );
 
-    setQuestionNumbers(savedQuestionNumbers);
-
-    setShuffledNumbers(savedShuffledNumbers);
+    setShuffledNumbers(
+      Array.isArray(savedState.shuffledNumbers)
+        ? savedState.shuffledNumbers
+        : []
+    );
 
     setSelectedNumbers(
-      savedState.selectedNumbers ?? []
+      Array.isArray(savedState.selectedNumbers)
+        ? savedState.selectedNumbers
+        : []
     );
 
     setMessage(
-      savedState.message ??
-        "Tap numbers in the correct order"
+      savedState.message ||
+        "Arrange the numbers"
     );
 
     setCompleted(
@@ -422,12 +196,10 @@ export default function ArrangeNumbersGame() {
     setRestored(true);
   }, [progressLoading, savedState]);
 
-  /*
-   * 🎲 CREATE FIRST QUESTION
-   *
-   * Only generate random numbers if there is
-   * no saved question.
-   */
+  /* =========================================================
+     CREATE FIRST QUESTION
+  ========================================================= */
+
   useEffect(() => {
     if (!restored) return;
 
@@ -453,38 +225,22 @@ export default function ArrangeNumbersGame() {
       setCompleted(false);
       setMessage(initialMessage);
 
-      save({
+      void save({
         currentLevelIndex,
         questionNumbers: numbers,
         shuffledNumbers: shuffled,
         selectedNumbers: [],
-        completed: false,
         message: initialMessage,
+        completed: false,
       });
     }
   }, [restored, currentLevelIndex]);
 
-  /*
-   * 💾 SAVE PROGRESS
-   */
-  const saveCurrentProgress = async (
-    overrides = {}
-  ) => {
-    await save({
-      currentLevelIndex,
-      questionNumbers,
-      shuffledNumbers,
-      selectedNumbers,
-      message,
-      completed,
-      ...overrides,
-    });
-  };
+  /* =========================================================
+     NUMBER CLICK
+  ========================================================= */
 
-  /*
-   * 🔢 NUMBER CLICK
-   */
-  const handleNumberClick = async (number) => {
+  const handleNumberClick = (number) => {
     if (
       completed ||
       selectedNumbers.includes(number)
@@ -497,90 +253,125 @@ export default function ArrangeNumbersGame() {
     const expectedNumber =
       correctOrder[nextIndex];
 
-    /*
-     * ✅ CORRECT ANSWER
-     */
+    /* =======================================================
+       CORRECT NUMBER
+    ======================================================= */
+
     if (number === expectedNumber) {
-      const updated = [
+      const updatedNumbers = [
         ...selectedNumbers,
         number,
       ];
 
-      setSelectedNumbers(updated);
+      setSelectedNumbers(updatedNumbers);
 
-      /*
-       * 🎉 LEVEL COMPLETED
-       */
+      /* =====================================================
+         COMPLETED
+      ===================================================== */
+
       if (
-        updated.length ===
+        updatedNumbers.length ===
         correctOrder.length
       ) {
         const successMessage =
-          "🎉 Super! You arranged all numbers correctly";
+          "🎉 Amazing! All numbers are correct!";
+
+        const isLastLevel =
+          currentLevelIndex ===
+          levels.length - 1;
 
         setCompleted(true);
+
         setMessage(successMessage);
 
-        await save({
+        setWholeGameCompleted(isLastLevel);
+
+        /*
+         * SHOW POPUP IMMEDIATELY
+         *
+         * Do NOT wait for Firebase.
+         */
+        setShowCompletionPopup(true);
+
+        /*
+         * Save in background
+         */
+        void save({
           currentLevelIndex,
           questionNumbers,
           shuffledNumbers,
-          selectedNumbers: updated,
+          selectedNumbers: updatedNumbers,
           message: successMessage,
           completed: true,
         });
-      } else {
-        const nextNumber =
-          correctOrder[updated.length];
 
-        const nextMessage =
-          `Good! Next number is ${nextNumber}`;
-
-        setMessage(nextMessage);
-
-        await save({
-          currentLevelIndex,
-          questionNumbers,
-          shuffledNumbers,
-          selectedNumbers: updated,
-          message: nextMessage,
-          completed: false,
-        });
+        return;
       }
-    } else {
-      /*
-       * ❌ WRONG ANSWER
-       */
-      const wrongMessage =
-        `Oops! Choose ${expectedNumber}`;
 
-      setMessage(wrongMessage);
+      /* =====================================================
+         NOT FINISHED YET
+      ===================================================== */
 
-      await save({
+      const nextNumber =
+        correctOrder[updatedNumbers.length];
+
+      const nextMessage =
+        `Good! Next number is ${nextNumber}`;
+
+      setMessage(nextMessage);
+
+      void save({
         currentLevelIndex,
         questionNumbers,
         shuffledNumbers,
-        selectedNumbers,
-        message: wrongMessage,
+        selectedNumbers: updatedNumbers,
+        message: nextMessage,
         completed: false,
       });
+
+      return;
     }
+
+    /* =======================================================
+       WRONG NUMBER
+    ======================================================= */
+
+    const wrongMessage =
+      `Oops! Choose ${expectedNumber}`;
+
+    setMessage(wrongMessage);
+
+    void save({
+      currentLevelIndex,
+      questionNumbers,
+      shuffledNumbers,
+      selectedNumbers,
+      message: wrongMessage,
+      completed: false,
+    });
   };
 
-  /*
-   * 🔄 RESET CURRENT LEVEL
-   */
-  const handleReset = async () => {
+  /* =========================================================
+     RESET
+  ========================================================= */
+
+  const handleReset = () => {
     const resetMessage =
       currentLevel.type === "ascending"
         ? "Arrange from smallest to biggest"
         : "Arrange from biggest to smallest";
 
     setSelectedNumbers([]);
+
     setCompleted(false);
+
+    setShowCompletionPopup(false);
+
+    setWholeGameCompleted(false);
+
     setMessage(resetMessage);
 
-    await save({
+    void save({
       currentLevelIndex,
       questionNumbers,
       shuffledNumbers,
@@ -590,13 +381,65 @@ export default function ArrangeNumbersGame() {
     });
   };
 
-  /*
-   * ➡️ NEXT LEVEL
-   */
-  const handleNextLevel = async () => {
+  /* =========================================================
+     NEXT LEVEL
+  ========================================================= */
+
+  const handleNextLevel = () => {
     const nextIndex =
-      (currentLevelIndex + 1) %
-      levels.length;
+      currentLevelIndex + 1;
+
+    /*
+     * FINAL LEVEL
+     * Start again from level 1
+     */
+
+    if (nextIndex >= levels.length) {
+      const firstLevel = levels[0];
+
+      const numbers = generateUniqueNumbers(
+        firstLevel.range,
+        firstLevel.count
+      );
+
+      const shuffled = shuffleArray(numbers);
+
+      const nextMessage =
+        firstLevel.type === "ascending"
+          ? "Arrange from smallest to biggest"
+          : "Arrange from biggest to smallest";
+
+      setCurrentLevelIndex(0);
+
+      setQuestionNumbers(numbers);
+
+      setShuffledNumbers(shuffled);
+
+      setSelectedNumbers([]);
+
+      setCompleted(false);
+
+      setMessage(nextMessage);
+
+      setShowCompletionPopup(false);
+
+      setWholeGameCompleted(false);
+
+      void save({
+        currentLevelIndex: 0,
+        questionNumbers: numbers,
+        shuffledNumbers: shuffled,
+        selectedNumbers: [],
+        message: nextMessage,
+        completed: false,
+      });
+
+      return;
+    }
+
+    /*
+     * NEXT NORMAL LEVEL
+     */
 
     const nextLevel = levels[nextIndex];
 
@@ -613,13 +456,22 @@ export default function ArrangeNumbersGame() {
         : "Arrange from biggest to smallest";
 
     setCurrentLevelIndex(nextIndex);
+
     setQuestionNumbers(numbers);
+
     setShuffledNumbers(shuffled);
+
     setSelectedNumbers([]);
+
     setCompleted(false);
+
     setMessage(nextMessage);
 
-    await save({
+    setShowCompletionPopup(false);
+
+    setWholeGameCompleted(false);
+
+    void save({
       currentLevelIndex: nextIndex,
       questionNumbers: numbers,
       shuffledNumbers: shuffled,
@@ -629,103 +481,255 @@ export default function ArrangeNumbersGame() {
     });
   };
 
-  /*
-   * ⏳ LOADING
-   */
+  /* =========================================================
+     LOADING
+  ========================================================= */
+
   if (progressLoading || !restored) {
     return (
       <div className="arrange-page">
-        <div className="arrange-card">
-          <div className="top-bar">
-            <h1>🔢 Arrange the Numbers</h1>
-            <p>Loading your progress...</p>
+
+        <div className="arrange-card loading-card">
+
+          <div className="arrange-header">
+
+            <img
+              src={arrangeNumbersIcon}
+              alt="Arrange Numbers"
+              className="arrange-icon"
+            />
+
+            <div>
+              <h1>Arrange the Numbers</h1>
+
+              <p>
+                Loading your progress...
+              </p>
+            </div>
+
           </div>
+
         </div>
+
       </div>
     );
   }
 
+  /* =========================================================
+     MAIN PAGE
+  ========================================================= */
+
   return (
     <div className="arrange-page">
+
       <div className="arrange-card">
-        <div className="top-bar">
-          <h1>🔢 Arrange the Numbers</h1>
 
-          <p>
-            Tap numbers in the correct order
-          </p>
+        {/* ===================================================
+            HEADER
+        =================================================== */}
+
+        <div className="arrange-header">
+
+          <div className="arrange-title-area">
+
+            <img
+              src={arrangeNumbersIcon}
+              alt="Arrange Numbers"
+              className="arrange-icon"
+            />
+
+            <div>
+
+              <h1>
+                Arrange the Numbers
+              </h1>
+
+              <p>
+                Tap numbers in the correct order
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="level-badge">
+            LEVEL {currentLevel.id}
+          </div>
+
         </div>
 
-        <div className="level-box">
-          <span>
-            Level: {currentLevel.id} |{" "}
-            {currentLevel.title} |{" "}
+        {/* ===================================================
+            INSTRUCTION
+        =================================================== */}
+
+        <div className="instruction-card">
+
+          <div className="instruction-icon">
             {currentLevel.type === "ascending"
-              ? "Ascending"
-              : "Descending"}
-          </span>
+              ? "⬆️"
+              : "⬇️"}
+          </div>
+
+          <div>
+
+            <strong>
+              {currentLevel.type === "ascending"
+                ? "Smallest → Biggest"
+                : "Biggest → Smallest"}
+            </strong>
+
+            <span>
+              {currentLevel.title} •{" "}
+              {currentLevel.count} numbers
+            </span>
+
+          </div>
+
         </div>
 
-        <div className="numbers-section">
-          {shuffledNumbers.map((number) => (
-            <button
-              key={number}
-              className={`number-chip ${
-                selectedNumbers.includes(number)
-                  ? "used"
-                  : ""
-              }`}
-              onClick={() =>
-                handleNumberClick(number)
-              }
-              disabled={
-                selectedNumbers.includes(number) ||
-                completed
-              }
-            >
-              {number}
-            </button>
-          ))}
+        {/* ===================================================
+            NUMBER OPTIONS
+        =================================================== */}
+
+        <div className="numbers-card">
+
+          <h2>
+            🔢 Choose the numbers
+          </h2>
+
+          <div className="numbers-grid">
+
+            {shuffledNumbers.map((number) => (
+              <button
+                key={number}
+                className={`number-chip ${
+                  selectedNumbers.includes(number)
+                    ? "used"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleNumberClick(number)
+                }
+                disabled={
+                  selectedNumbers.includes(number) ||
+                  completed
+                }
+              >
+                {number}
+              </button>
+            ))}
+
+          </div>
+
         </div>
 
-        <div className="answer-box">
-          <h3>
-            Arrange numbers in order
-          </h3>
+        {/* ===================================================
+            ANSWER
+        =================================================== */}
+
+        <div className="answer-card">
+
+          <h2>
+            ✨ Your Answer
+          </h2>
 
           <div className="answer-row">
-            {correctOrder.map(
-              (_, index) => (
-                <div
-                  key={index}
-                  className="answer-slot"
-                >
-                  {selectedNumbers[index] ??
-                    ""}
-                </div>
-              )
-            )}
+
+            {correctOrder.map((_, index) => (
+              <div
+                key={index}
+                className={`answer-slot ${
+                  selectedNumbers[index] !==
+                  undefined
+                    ? "filled"
+                    : ""
+                }`}
+              >
+                {selectedNumbers[index] ?? ""}
+              </div>
+            ))}
+
           </div>
+
         </div>
 
-        <div className="message-box">
-          <p>{message}</p>
+        {/* ===================================================
+            MESSAGE
+        =================================================== */}
+
+        <div
+          className={`message-card ${
+            completed
+              ? "message-success"
+              : ""
+          }`}
+        >
+          {message}
         </div>
+
+        {/* ===================================================
+            RESET ONLY
+            No useless arrow / next button here
+        =================================================== */}
 
         <button
           className="reset-btn"
           onClick={handleReset}
         >
-          Reset
+          🔄 Reset
         </button>
 
-        <button
-          className="next-btn"
-          onClick={handleNextLevel}
-        >
-          Next Level
-        </button>
       </div>
+
+      {/* =====================================================
+          COMPLETION POPUP
+      ===================================================== */}
+
+      {showCompletionPopup && (
+        <div className="completion-overlay">
+
+          <div className="completion-popup">
+
+            <div className="popup-image-circle">
+
+              <img
+                src={arrangeNumbersIcon}
+                alt="Arrange Numbers"
+                className="popup-icon"
+              />
+
+            </div>
+
+            <div className="popup-stars">
+              ⭐ ⭐ ⭐
+            </div>
+
+            <h2>
+              {wholeGameCompleted
+                ? "Amazing! You Did It!"
+                : "Great Job!"}
+            </h2>
+
+            <p>
+              {wholeGameCompleted
+                ? "You completed all 6 levels!"
+                : `You completed Level ${currentLevel.id} perfectly!`}
+            </p>
+
+            <button
+              className="popup-next-btn"
+              onClick={handleNextLevel}
+            >
+              {wholeGameCompleted
+                ? "START AGAIN →"
+                : "NEXT LEVEL →"}
+            </button>
+
+          </div>
+
+        </div>
+      )}
+
     </div>
   );
 }

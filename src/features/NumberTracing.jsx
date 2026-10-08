@@ -1,980 +1,157 @@
-// // import React, { useEffect, useRef, useState } from "react";
-// // import "../styles/NumberTracing.css";
-
-// // const numbersData = [
-// //   { number: "1", word: "One", objects: ["🍎"] },
-// //   { number: "2", word: "Two", objects: ["🍎", "🍎"] },
-// //   { number: "3", word: "Three", objects: ["🍎", "🍎", "🍎"] },
-// //   { number: "4", word: "Four", objects: ["⭐", "⭐", "⭐", "⭐"] },
-// //   { number: "5", word: "Five", objects: ["🎈", "🎈", "🎈", "🎈", "🎈"] },
-// //   { number: "6", word: "Six", objects: ["🐝", "🐝", "🐝", "🐝", "🐝", "🐝"] },
-// //   { number: "7", word: "Seven", objects: ["🌸", "🌸", "🌸", "🌸", "🌸", "🌸", "🌸"] },
-// //   { number: "8", word: "Eight", objects: ["🦋", "🦋", "🦋", "🦋", "🦋", "🦋", "🦋", "🦋"] },
-// //   { number: "9", word: "Nine", objects: ["🍇", "🍇", "🍇", "🍇", "🍇", "🍇", "🍇", "🍇", "🍇"] },
-// //   { number: "10", word: "Ten", objects: ["🌟", "🌟", "🌟", "🌟", "🌟", "🌟", "🌟", "🌟", "🌟", "🌟"] },
-// // ];
-
-// // export default function NumberTracing() {
-// //   const canvasRef = useRef(null);
-// //   const [currentIndex, setCurrentIndex] = useState(0);
-// //   const [step, setStep] = useState(1);
-// //   const [isDrawing, setIsDrawing] = useState(false);
-// //   const [glow, setGlow] = useState(false);
-// //   const [message, setMessage] = useState("Trace the number carefully");
-// //   const [completedSteps, setCompletedSteps] = useState({
-// //     1: false,
-// //     2: false,
-// //     3: false,
-// //   });
-
-// //   const currentNumber = numbersData[currentIndex];
-
-// //   useEffect(() => {
-// //     resetBoard();
-// //   }, [currentIndex, step]);
-
-// //   const getCanvas = () => canvasRef.current;
-
-// //   const getContext = () => {
-// //     const canvas = getCanvas();
-// //     if (!canvas) return null;
-// //     return canvas.getContext("2d");
-// //   };
-
-// //   const clearCanvas = () => {
-// //     const canvas = getCanvas();
-// //     const ctx = getContext();
-// //     if (!canvas || !ctx) return;
-// //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-// //   };
-
-// //   const resetBoard = () => {
-// //     clearCanvas();
-// //     setGlow(false);
-// //     setIsDrawing(false);
-// //     setMessage(getStepMessage(step));
-// //   };
-
-// //   const getStepMessage = (currentStep) => {
-// //     if (currentStep === 1) return "Trace on the dotted number";
-// //     if (currentStep === 2) return "Trace on the outline number";
-// //     return "Write the number by yourself";
-// //   };
-
-// //   const getPointerPosition = (event) => {
-// //     const canvas = getCanvas();
-// //     const rect = canvas.getBoundingClientRect();
-
-// //     if (event.touches && event.touches.length > 0) {
-// //       return {
-// //         x: event.touches[0].clientX - rect.left,
-// //         y: event.touches[0].clientY - rect.top,
-// //       };
-// //     }
-
-// //     return {
-// //       x: event.clientX - rect.left,
-// //       y: event.clientY - rect.top,
-// //     };
-// //   };
-
-// //   const startDrawing = (event) => {
-// //     const ctx = getContext();
-// //     if (!ctx) return;
-
-// //     const pos = getPointerPosition(event);
-// //     ctx.beginPath();
-// //     ctx.moveTo(pos.x, pos.y);
-// //     ctx.lineWidth = 8;
-// //     ctx.lineCap = "round";
-// //     ctx.lineJoin = "round";
-// //     ctx.strokeStyle = "black";
-
-// //     setIsDrawing(true);
-// //     setGlow(true);
-// //     setMessage("Good! Keep tracing...");
-// //   };
-
-// //   const draw = (event) => {
-// //     if (!isDrawing) return;
-
-// //     const ctx = getContext();
-// //     if (!ctx) return;
-
-// //     const pos = getPointerPosition(event);
-// //     ctx.lineTo(pos.x, pos.y);
-// //     ctx.stroke();
-// //   };
-
-// //   const stopDrawing = () => {
-// //     if (!isDrawing) return;
-
-// //     setIsDrawing(false);
-// //     setGlow(true);
-// //     setCompletedSteps((prev) => ({
-// //       ...prev,
-// //       [step]: true,
-// //     }));
-
-// //     if (step === 1) {
-// //       setMessage("Great! Dotted tracing done");
-// //     } else if (step === 2) {
-// //       setMessage("Awesome! Outline tracing done");
-// //     } else {
-// //       setMessage("Wonderful! Free writing done");
-// //     }
-// //   };
-
-// //   const handleRepeat = () => {
-// //     clearCanvas();
-// //     setGlow(false);
-// //     setMessage(getStepMessage(step));
-// //   };
-
-// //   const handleNext = () => {
-// //     if (step < 3) {
-// //       setStep((prev) => prev + 1);
-// //       return;
-// //     }
-
-// //     setStep(1);
-// //     setCompletedSteps({
-// //       1: false,
-// //       2: false,
-// //       3: false,
-// //     });
-// //     setCurrentIndex((prev) => (prev + 1) % numbersData.length);
-// //   };
-
-// //   const handlePrev = () => {
-// //     if (step > 1) {
-// //       setStep((prev) => prev - 1);
-// //       return;
-// //     }
-
-// //     const previousIndex =
-// //       currentIndex === 0 ? numbersData.length - 1 : currentIndex - 1;
-
-// //     setCurrentIndex(previousIndex);
-// //     setStep(3);
-// //     setCompletedSteps({
-// //       1: false,
-// //       2: false,
-// //       3: false,
-// //     });
-// //   };
-
-// //   const getGuideClass = () => {
-// //     if (step === 1) return "trace-guide dotted-guide";
-// //     if (step === 2) return "trace-guide outline-guide";
-// //     return "trace-guide free-guide";
-// //   };
-
-// //   const getStepTitle = () => {
-// //     if (step === 1) return "Step 1 - Dotted Trace";
-// //     if (step === 2) return "Step 2 - Outline Trace";
-// //     return "Step 3 - Free Writing";
-// //   };
-
-// //   return (
-// //     <div className="number-tracing-page">
-// //       <div className="trace-bg bubble1"></div>
-// //       <div className="trace-bg bubble2"></div>
-// //       <div className="trace-bg bubble3"></div>
-
-// //       <header className="number-tracing-header">
-// //         <h1>🔢 Magic Number Writing</h1>
-// //         <p>See → Trace → Repeat → Write</p>
-// //       </header>
-
-// //       <div className="number-tracing-card">
-// //         <div className="number-top-section">
-// //           <div className="number-display-box">
-// //             <div className="main-number">{currentNumber.number}</div>
-// //             <div className="main-word">{currentNumber.word}</div>
-// //           </div>
-
-// //           <div className="objects-display-box">
-// //             <h3>Count the objects</h3>
-// //             <div className="objects-row">
-// //               {currentNumber.objects.map((item, index) => (
-// //                 <span key={index} className="object-item">
-// //                   {item}
-// //                 </span>
-// //               ))}
-// //             </div>
-// //           </div>
-// //         </div>
-
-// //         <div className="practice-header">
-// //           <h2>{getStepTitle()}</h2>
-// //           <p>{message}</p>
-// //         </div>
-
-// //         <div className={`trace-board ${glow ? "board-glow" : ""}`}>
-// //           {step !== 3 && (
-// //             <div className={getGuideClass()}>{currentNumber.number}</div>
-// //           )}
-
-// //           {step === 3 && (
-// //             <div className="free-write-placeholder">
-// //               Write {currentNumber.number} here
-// //             </div>
-// //           )}
-
-// //           <canvas
-// //             ref={canvasRef}
-// //             width={420}
-// //             height={320}
-// //             className="trace-canvas"
-// //             onMouseDown={startDrawing}
-// //             onMouseMove={draw}
-// //             onMouseUp={stopDrawing}
-// //             onMouseLeave={stopDrawing}
-// //             onTouchStart={startDrawing}
-// //             onTouchMove={draw}
-// //             onTouchEnd={stopDrawing}
-// //           />
-// //         </div>
-
-// //         <div className="step-progress">
-// //           <div className={`step-dot ${step === 1 ? "active" : ""} ${completedSteps[1] ? "done" : ""}`}>
-// //             1
-// //           </div>
-// //           <div className={`step-line ${completedSteps[1] ? "done-line" : ""}`}></div>
-// //           <div className={`step-dot ${step === 2 ? "active" : ""} ${completedSteps[2] ? "done" : ""}`}>
-// //             2
-// //           </div>
-// //           <div className={`step-line ${completedSteps[2] ? "done-line" : ""}`}></div>
-// //           <div className={`step-dot ${step === 3 ? "active" : ""} ${completedSteps[3] ? "done" : ""}`}>
-// //             3
-// //           </div>
-// //         </div>
-
-// //         <div className="button-row">
-// //           <button className="trace-btn" onClick={handlePrev}>
-// //             ⬅ Previous
-// //           </button>
-// //           <button className="trace-btn repeat-btn" onClick={handleRepeat}>
-// //             🔄 Repeat
-// //           </button>
-// //           <button className="trace-btn" onClick={handleNext}>
-// //             Next ➡
-// //           </button>
-// //         </div>
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-
-
-
-// import React, { useEffect, useRef, useState } from "react";
-// import "../styles/NumberTracing.css";
-
-// /* ---------- OBJECT IMAGES ---------- */
-
-// const objectIcons = [
-//   "🍎",
-//   "⭐",
-//   "🎈",
-//   "🐝",
-//   "🌸",
-//   "🦋",
-//   "🍇",
-//   "🌟",
-//   "🚗",
-//   "🐟",
-// ];
-
-// /* ---------- GENERATE NUMBERS ---------- */
-
-// const generateNumbers = (max) => {
-//   const data = [];
-
-//   for (let i = 1; i <= max; i++) {
-//     const icon =
-//       objectIcons[(i - 1) % objectIcons.length];
-
-//     data.push({
-//       number: i.toString(),
-//       word: i.toString(),
-//       objects: Array(
-//         i > 10 ? 10 : i
-//       ).fill(icon),
-//     });
-//   }
-
-//   return data;
-// };
-
-// export default function NumberTracing() {
-//   const canvasRef = useRef(null);
-
-//   /* SCREEN CONTROL */
-
-//   const [screen, setScreen] =
-//     useState("levels");
-
-//   const [level, setLevel] =
-//     useState(null);
-
-//   const [numbersData, setNumbersData] =
-//     useState([]);
-
-//   /* EXISTING STATES */
-
-//   const [currentIndex, setCurrentIndex] =
-//     useState(0);
-
-//   const [step, setStep] =
-//     useState(1);
-
-//   const [isDrawing, setIsDrawing] =
-//     useState(false);
-
-//   const [glow, setGlow] =
-//     useState(false);
-
-//   const [message, setMessage] =
-//     useState(
-//       "Trace the number carefully"
-//     );
-
-//   const currentNumber =
-//     numbersData[currentIndex] || {
-//       number: "",
-//       word: "",
-//       objects: [],
-//     };
-
-//   /* ---------- LEVEL CLICK ---------- */
-
-//   const handleLevelClick = (lvl) => {
-//     setLevel(lvl);
-//     setCurrentIndex(0);
-
-//     if (lvl === 1)
-//       setNumbersData(generateNumbers(10));
-
-//     if (lvl === 2)
-//       setNumbersData(generateNumbers(50));
-
-//     if (lvl === 3)
-//       setNumbersData(generateNumbers(100));
-
-//     setScreen("tracing");
-//   };
-
-//   /* ---------- CANVAS ---------- */
-
-//   useEffect(() => {
-//     resetBoard();
-//   }, [currentIndex, step]);
-
-//   const getCanvas = () => canvasRef.current;
-
-//   const getContext = () => {
-//     const canvas = getCanvas();
-//     if (!canvas) return null;
-//     return canvas.getContext("2d");
-//   };
-
-//   const clearCanvas = () => {
-//     const canvas = getCanvas();
-//     const ctx = getContext();
-
-//     if (!canvas || !ctx) return;
-
-//     ctx.clearRect(
-//       0,
-//       0,
-//       canvas.width,
-//       canvas.height
-//     );
-//   };
-
-//   const resetBoard = () => {
-//     clearCanvas();
-//     setGlow(false);
-//     setIsDrawing(false);
-//     setMessage(getStepMessage(step));
-//   };
-
-//   const getStepMessage = (s) => {
-//     if (s === 1)
-//       return "Trace on the dotted number";
-
-//     if (s === 2)
-//       return "Trace on the outline number";
-
-//     return "Write the number yourself";
-//   };
-
-//   const getPointerPosition = (event) => {
-//     const canvas = getCanvas();
-//     const rect =
-//       canvas.getBoundingClientRect();
-
-//     if (event.touches) {
-//       return {
-//         x:
-//           event.touches[0].clientX -
-//           rect.left,
-//         y:
-//           event.touches[0].clientY -
-//           rect.top,
-//       };
-//     }
-
-//     return {
-//       x: event.clientX - rect.left,
-//       y: event.clientY - rect.top,
-//     };
-//   };
-
-//   const startDrawing = (event) => {
-//     const ctx = getContext();
-//     if (!ctx) return;
-
-//     const pos =
-//       getPointerPosition(event);
-
-//     ctx.beginPath();
-//     ctx.moveTo(pos.x, pos.y);
-//     ctx.lineWidth = 8;
-//     ctx.lineCap = "round";
-//     ctx.strokeStyle = "black";
-
-//     setIsDrawing(true);
-//     setGlow(true);
-//     setMessage(
-//       "Good! Keep tracing..."
-//     );
-//   };
-
-//   const draw = (event) => {
-//     if (!isDrawing) return;
-
-//     const ctx = getContext();
-//     if (!ctx) return;
-
-//     const pos =
-//       getPointerPosition(event);
-
-//     ctx.lineTo(pos.x, pos.y);
-//     ctx.stroke();
-//   };
-
-//   const stopDrawing = () => {
-//     if (!isDrawing) return;
-
-//     setIsDrawing(false);
-//     setGlow(true);
-//   };
-
-//   /* ---------- BUTTONS ---------- */
-
-//   const handleRepeat = () => {
-//     clearCanvas();
-//     setGlow(false);
-//   };
-
-//   const handleNext = () => {
-//     if (step < 3) {
-//       setStep(step + 1);
-//       return;
-//     }
-
-//     setStep(1);
-
-//     setCurrentIndex((prev) =>
-//       prev + 1 < numbersData.length
-//         ? prev + 1
-//         : 0
-//     );
-//   };
-
-//   const handlePrev = () => {
-//     if (step > 1) {
-//       setStep(step - 1);
-//       return;
-//     }
-
-//     const previousIndex =
-//       currentIndex === 0
-//         ? numbersData.length - 1
-//         : currentIndex - 1;
-
-//     setCurrentIndex(previousIndex);
-//     setStep(3);
-//   };
-
-//   const getGuideClass = () => {
-//     if (step === 1)
-//       return "trace-guide dotted-guide";
-
-//     if (step === 2)
-//       return "trace-guide outline-guide";
-
-//     return "trace-guide free-guide";
-//   };
-
-//   const getStepTitle = () => {
-//     if (step === 1)
-//       return "Step 1 - Dotted Trace";
-
-//     if (step === 2)
-//       return "Step 2 - Outline Trace";
-
-//     return "Step 3 - Free Writing";
-//   };
-
-//   /* ================= LEVEL PAGE ================= */
-
-//   if (screen === "levels") {
-//     return (
-//       <div className="number-tracing-page">
-
-//         <header className="number-tracing-header">
-//           <h1>Choose a Level</h1>
-//         </header>
-
-//         <div className="level-container">
-
-//           <button
-//             className="level-card"
-//             onClick={() =>
-//               handleLevelClick(1)
-//             }
-//           >
-//             Level 1
-//             <br />
-//             Learn 1 to 10
-//           </button>
-
-//           <button
-//             className="level-card"
-//             onClick={() =>
-//               handleLevelClick(2)
-//             }
-//           >
-//             Level 2
-//             <br />
-//             Learn 1 to 50
-//           </button>
-
-//           <button
-//             className="level-card"
-//             onClick={() =>
-//               handleLevelClick(3)
-//             }
-//           >
-//             Level 3
-//             <br />
-//             Learn 1 to 100
-//           </button>
-
-//         </div>
-
-//       </div>
-//     );
-//   }
-
-//   /* ================= TRACING PAGE ================= */
-
-//   return (
-//     <div className="number-tracing-page">
-
-//       <button
-//         className="trace-btn"
-//         onClick={() =>
-//           setScreen("levels")
-//         }
-//       >
-//         ⬅ Back to Levels
-//       </button>
-
-//       <div className="number-tracing-card">
-
-//         <div className="number-top-section">
-
-//           <div className="number-display-box">
-//             <div className="main-number">
-//               {currentNumber.number}
-//             </div>
-
-//             <div className="main-word">
-//               {currentNumber.word}
-//             </div>
-//           </div>
-
-//           <div className="objects-display-box">
-//             <h3>Count the objects</h3>
-
-//             <div className="objects-row">
-//               {currentNumber.objects.map(
-//                 (item, index) => (
-//                   <span
-//                     key={index}
-//                     className="object-item"
-//                   >
-//                     {item}
-//                   </span>
-//                 )
-//               )}
-//             </div>
-
-//           </div>
-
-//         </div>
-
-//         <div className="practice-header">
-//           <h2>{getStepTitle()}</h2>
-//           <p>{message}</p>
-//         </div>
-
-//         <div
-//           className={`trace-board ${
-//             glow ? "board-glow" : ""
-//           }`}
-//         >
-
-//           {step !== 3 && (
-//             <div
-//               className={
-//                 getGuideClass()
-//               }
-//             >
-//               {
-//                 currentNumber.number
-//               }
-//             </div>
-//           )}
-
-//           <canvas
-//             ref={canvasRef}
-//             width={420}
-//             height={320}
-//             className="trace-canvas"
-//             onMouseDown={
-//               startDrawing
-//             }
-//             onMouseMove={draw}
-//             onMouseUp={
-//               stopDrawing
-//             }
-//             onMouseLeave={
-//               stopDrawing
-//             }
-//             onTouchStart={
-//               startDrawing
-//             }
-//             onTouchMove={draw}
-//             onTouchEnd={
-//               stopDrawing
-//             }
-//           />
-
-//         </div>
-
-//         <div className="button-row">
-
-//           <button
-//             className="trace-btn"
-//             onClick={handlePrev}
-//           >
-//             ⬅ Previous
-//           </button>
-
-//           <button
-//             className="trace-btn repeat-btn"
-//             onClick={handleRepeat}
-//           >
-//             🔄 Repeat
-//           </button>
-
-//           <button
-//             className="trace-btn"
-//             onClick={handleNext}
-//           >
-//             Next ➡
-//           </button>
-
-//         </div>
-
-//       </div>
-
-//     </div>
-//   );
-// }
-
-
-
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../styles/NumberTracing.css";
-import useGameProgress from "../hooks/useGameProgress";
-
-/* ---------- GAME ID ---------- */
-
-const GAME_ID = "number-tracing";
-
-/* ---------- OBJECT IMAGES ---------- */
-
-const objectIcons = [
-  "🍎",
-  "⭐",
-  "🎈",
-  "🐝",
-  "🌸",
-  "🦋",
-  "🍇",
-  "🌟",
-  "🚗",
-  "🐟",
-];
-
-/* ---------- GENERATE NUMBERS ---------- */
-
-const generateNumbers = (max) => {
-  const data = [];
-
-  for (let i = 1; i <= max; i++) {
-    const icon =
-      objectIcons[(i - 1) % objectIcons.length];
-
-    data.push({
-      number: i.toString(),
-      word: i.toString(),
-      objects: Array(
-        i > 10 ? 10 : i
-      ).fill(icon),
-    });
-  }
-
-  return data;
-};
+import numberTracingImage from "../assets/number_tracing.png";
 
 export default function NumberTracing() {
-  const canvasRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { level } = useParams();
 
-  /* =========================================================
-     FIREBASE GAME PROGRESS
-  ========================================================= */
-
-  const initialProgress = {
-    screen: "levels",
-    level: null,
-    currentIndex: 0,
-    step: 1,
-    numbersData: [],
-    message: "Trace the number carefully",
-  };
-
-  const {
-    savedState,
-    loading: progressLoading,
-    save,
-  } = useGameProgress(
-    GAME_ID,
-    initialProgress
+  const isLevelPage = location.pathname.startsWith(
+    "/number-tracing/level/"
   );
 
-  /* =========================================================
-     SCREEN CONTROL
-  ========================================================= */
+  /* =====================================================
+     LEVEL INFORMATION
+  ===================================================== */
 
-  const [screen, setScreen] =
-    useState("levels");
+  const levels = [
+    {
+      id: 1,
+      title: "Level 1",
+      subtitle: "Learn 1 to 10",
+      startNumber:1,
+      maxNumber: 10,
+      className: "level-one",
+    },
+    {
+      id: 2,
+      title: "Level 2",
+      subtitle: "Learn 11 to 50",
+      startNumber:11,
+      maxNumber: 50,
+      className: "level-two",
+    },
+    {
+      id: 3,
+      title: "Level 3",
+      subtitle: "Learn 51 to 100",
+      startNumber:51,
+      maxNumber: 100,
+      className: "level-three",
+    },
+  ];
 
-  const [level, setLevel] =
-    useState(null);
+  const selectedLevel =
+    levels.find((item) => item.id === Number(level)) || levels[0];
 
-  const [numbersData, setNumbersData] =
-    useState([]);
-
-  /* =========================================================
-     EXISTING STATES
-  ========================================================= */
-
-  const [currentIndex, setCurrentIndex] =
-    useState(0);
-
-  const [step, setStep] =
-    useState(1);
-
-  const [isDrawing, setIsDrawing] =
-    useState(false);
-
-  const [glow, setGlow] =
-    useState(false);
-
-  const [message, setMessage] =
-    useState(
-      "Trace the number carefully"
-    );
-
-  const [restored, setRestored] =
-    useState(false);
-
-  /* =========================================================
-     RESTORE FIREBASE PROGRESS
-  ========================================================= */
-
-  useEffect(() => {
-    if (progressLoading) return;
-    if (restored) return;
-
-    console.log(
-      "🔥 Number Tracing saved state:",
-      savedState
-    );
-
-    if (savedState) {
-      setScreen(
-        savedState.screen || "levels"
-      );
-
-      setLevel(
-        savedState.level ?? null
-      );
-
-      setCurrentIndex(
-        savedState.currentIndex ?? 0
-      );
-
-      setStep(
-        savedState.step ?? 1
-      );
-
-      setNumbersData(
-        savedState.numbersData || []
-      );
-
-      setMessage(
-        savedState.message ||
-          "Trace the number carefully"
-      );
-    }
-
-    setRestored(true);
-  }, [
-    progressLoading,
-    savedState,
-    restored,
-  ]);
-
-  /* =========================================================
-     SAVE CURRENT GAME STATE
-  ========================================================= */
-
-  const saveCurrentState = async (
-    overrides = {}
-  ) => {
-    await save({
-      screen,
-      level,
-      currentIndex,
-      step,
-      numbersData,
-      message,
-      ...overrides,
-    });
-  };
-
-  /* =========================================================
-     LEVEL CLICK
-  ========================================================= */
-
-  const handleLevelClick = async (lvl) => {
-    let generatedNumbers = [];
-
-    if (lvl === 1) {
-      generatedNumbers =
-        generateNumbers(10);
-    }
-
-    if (lvl === 2) {
-      generatedNumbers =
-        generateNumbers(50);
-    }
-
-    if (lvl === 3) {
-      generatedNumbers =
-        generateNumbers(100);
-    }
-
-    setLevel(lvl);
-    setCurrentIndex(0);
-    setStep(1);
-    setNumbersData(generatedNumbers);
-    setMessage(
-      "Trace the number carefully"
-    );
-    setScreen("tracing");
-
-    /* 💾 SAVE LEVEL */
-    await save({
-      screen: "tracing",
-      level: lvl,
-      currentIndex: 0,
-      step: 1,
-      numbersData: generatedNumbers,
-      message:
-        "Trace the number carefully",
-    });
-  };
-
-  /* =========================================================
+  /* =====================================================
      CURRENT NUMBER
-  ========================================================= */
+  ===================================================== */
 
-  const currentNumber =
-    numbersData[currentIndex] || {
-      number: "",
-      word: "",
-      objects: [],
-    };
+ const [currentNumber, setCurrentNumber] = useState(
+  selectedLevel.startNumber
+); 
 
-  /* =========================================================
+  /* =====================================================
      CANVAS
-  ========================================================= */
+  ===================================================== */
+
+  const canvasRef = useRef(null);
+  const isDrawing = useRef(false);
+
+  /* =====================================================
+     RESET WHEN RETURNING TO HOME
+  ===================================================== */
 
   useEffect(() => {
-    if (
-      !restored ||
-      progressLoading ||
-      screen !== "tracing"
-    ) {
-      return;
+    if (!isLevelPage) {
+      setCurrentNumber(1);
+    }
+  }, [location.pathname, isLevelPage]);
+
+  /* =====================================================
+     CLEAR CANVAS WHEN NUMBER CHANGES
+  ===================================================== */
+
+  useEffect(() => {
+    if (isLevelPage) {
+      clearCanvas();
+    }
+  }, [currentNumber, isLevelPage]);
+
+  /* =====================================================
+     CANVAS HELPERS
+  ===================================================== */
+
+  const getCanvasPosition = (event) => {
+    const canvas = canvasRef.current;
+
+    if (!canvas) {
+      return { x: 0, y: 0 };
     }
 
-    resetBoard();
-  }, [
-    currentIndex,
-    step,
-    restored,
-    progressLoading,
-    screen,
-  ]);
+    const rect = canvas.getBoundingClientRect();
 
-  const getCanvas = () =>
-    canvasRef.current;
+    return {
+      x:
+        (event.clientX - rect.left) *
+        (canvas.width / rect.width),
 
-  const getContext = () => {
-    const canvas = getCanvas();
+      y:
+        (event.clientY - rect.top) *
+        (canvas.height / rect.height),
+    };
+  };
 
-    if (!canvas) return null;
+  const startDrawing = (event) => {
+    const canvas = canvasRef.current;
 
-    return canvas.getContext("2d");
+    if (!canvas) return;
+
+    isDrawing.current = true;
+
+    const ctx = canvas.getContext("2d");
+
+    const { x, y } = getCanvasPosition(event);
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+
+    canvas.setPointerCapture(event.pointerId);
+  };
+
+  const draw = (event) => {
+    if (!isDrawing.current) return;
+
+    const canvas = canvasRef.current;
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    const { x, y } = getCanvasPosition(event);
+
+    ctx.lineWidth = 10;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#3c9b55";
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => {
+    isDrawing.current = false;
   };
 
   const clearCanvas = () => {
-    const canvas = getCanvas();
-    const ctx = getContext();
+    const canvas = canvasRef.current;
 
-    if (!canvas || !ctx) return;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
 
     ctx.clearRect(
       0,
@@ -984,507 +161,362 @@ export default function NumberTracing() {
     );
   };
 
-  const resetBoard = () => {
-    clearCanvas();
+  /* =====================================================
+     SPEAK NUMBER
+  ===================================================== */
 
-    setGlow(false);
-    setIsDrawing(false);
+  const speakNumber = () => {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
 
-    setMessage(
-      getStepMessage(step)
-    );
-  };
+      const speech = new SpeechSynthesisUtterance(
+        numberToWord(currentNumber)
+      );
 
-  const getStepMessage = (s) => {
-    if (s === 1)
-      return "Trace on the dotted number";
+      speech.rate = 0.8;
+      speech.pitch = 1.1;
 
-    if (s === 2)
-      return "Trace on the outline number";
-
-    return "Write the number yourself";
-  };
-
-  /* =========================================================
-     POINTER POSITION
-  ========================================================= */
-
-  const getPointerPosition = (event) => {
-    const canvas = getCanvas();
-
-    if (!canvas) {
-      return {
-        x: 0,
-        y: 0,
-      };
+      window.speechSynthesis.speak(speech);
     }
+  };
 
-    const rect =
-      canvas.getBoundingClientRect();
+  /* =====================================================
+     NUMBER TO WORD
+  ===================================================== */
 
-    if (event.touches) {
-      return {
-        x:
-          event.touches[0].clientX -
-          rect.left,
-        y:
-          event.touches[0].clientY -
-          rect.top,
-      };
+  const numberToWord = (number) => {
+    const words = [
+      "",
+      "One",
+      "Two",
+      "Three",
+      "Four",
+      "Five",
+      "Six",
+      "Seven",
+      "Eight",
+      "Nine",
+      "Ten",
+      "Eleven",
+      "Twelve",
+      "Thirteen",
+      "Fourteen",
+      "Fifteen",
+      "Sixteen",
+      "Seventeen",
+      "Eighteen",
+      "Nineteen",
+      "Twenty",
+      "Twenty One",
+      "Twenty Two",
+      "Twenty Three",
+      "Twenty Four",
+      "Twenty Five",
+      "Twenty Six",
+      "Twenty Seven",
+      "Twenty Eight",
+      "Twenty Nine",
+      "Thirty",
+      "Thirty One",
+      "Thirty Two",
+      "Thirty Three",
+      "Thirty Four",
+      "Thirty Five",
+      "Thirty Six",
+      "Thirty Seven",
+      "Thirty Eight",
+      "Thirty Nine",
+      "Forty",
+      "Forty One",
+      "Forty Two",
+      "Forty Three",
+      "Forty Four",
+      "Forty Five",
+      "Forty Six",
+      "Forty Seven",
+      "Forty Eight",
+      "Forty Nine",
+      "Fifty",
+      "Fifty One",
+      "Fifty Two",
+      "Fifty Three",
+      "Fifty Four",
+      "Fifty Five",
+      "Fifty Six",
+      "Fifty Seven",
+      "Fifty Eight",
+      "Fifty Nine",
+      "Sixty",
+      "Sixty One",
+      "Sixty Two",
+      "Sixty Three",
+      "Sixty Four",
+      "Sixty Five",
+      "Sixty Six",
+      "Sixty Seven",
+      "Sixty Eight",
+      "Sixty Nine",
+      "Seventy",
+      "Seventy One",
+      "Seventy Two",
+      "Seventy Three",
+      "Seventy Four",
+      "Seventy Five",
+      "Seventy Six",
+      "Seventy Seven",
+      "Seventy Eight",
+      "Seventy Nine",
+      "Eighty",
+      "Eighty One",
+      "Eighty Two",
+      "Eighty Three",
+      "Eighty Four",
+      "Eighty Five",
+      "Eighty Six",
+      "Eighty Seven",
+      "Eighty Eight",
+      "Eighty Nine",
+      "Ninety",
+      "Ninety One",
+      "Ninety Two",
+      "Ninety Three",
+      "Ninety Four",
+      "Ninety Five",
+      "Ninety Six",
+      "Ninety Seven",
+      "Ninety Eight",
+      "Ninety Nine",
+      "One Hundred",
+    ];
+
+    return words[number] || String(number);
+  };
+
+  /* =====================================================
+     NEXT NUMBER
+  ===================================================== */
+
+  const nextNumber = () => {
+    if (currentNumber < selectedLevel.maxNumber) {
+      setCurrentNumber((prev) => prev + 1);
     }
-
-    return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    };
   };
 
-  /* =========================================================
-     DRAWING
-  ========================================================= */
+  /* =====================================================
+     PREVIOUS NUMBER
+  ===================================================== */
 
-  const startDrawing = (event) => {
-    event.preventDefault();
-
-    const ctx = getContext();
-
-    if (!ctx) return;
-
-    const pos =
-      getPointerPosition(event);
-
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    ctx.lineWidth = 8;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "black";
-
-    setIsDrawing(true);
-    setGlow(true);
-    setMessage(
-      "Good! Keep tracing..."
-    );
-  };
-
-  const draw = (event) => {
-    event.preventDefault();
-
-    if (!isDrawing) return;
-
-    const ctx = getContext();
-
-    if (!ctx) return;
-
-    const pos =
-      getPointerPosition(event);
-
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-  };
-
-  const stopDrawing = (event) => {
-    if (event) {
-      event.preventDefault();
+  const previousNumber = () => {
+    if (currentNumber > 1) {
+      setCurrentNumber((prev) => prev - 1);
     }
-
-    if (!isDrawing) return;
-
-    setIsDrawing(false);
-    setGlow(true);
   };
 
-  /* =========================================================
-     REPEAT
-  ========================================================= */
+  /* =====================================================
+     LEVEL SELECTION PAGE
+  ===================================================== */
 
-  const handleRepeat = async () => {
-    clearCanvas();
-    setGlow(false);
-
-    const resetMessage =
-      getStepMessage(step);
-
-    setMessage(resetMessage);
-
-    await saveCurrentState({
-      message: resetMessage,
-    });
-  };
-
-  /* =========================================================
-     NEXT
-  ========================================================= */
-
-  const handleNext = async () => {
-    /* -----------------------------------------
-       STEP 1 → STEP 2
-    ----------------------------------------- */
-
-    if (step < 3) {
-      const nextStep = step + 1;
-
-      const nextMessage =
-        getStepMessage(nextStep);
-
-      setStep(nextStep);
-      setMessage(nextMessage);
-
-      await save({
-        screen: "tracing",
-        level,
-        currentIndex,
-        step: nextStep,
-        numbersData,
-        message: nextMessage,
-      });
-
-      return;
-    }
-
-    /* -----------------------------------------
-       STEP 3 → NEXT NUMBER
-    ----------------------------------------- */
-
-    setStep(1);
-
-    const nextIndex =
-      currentIndex + 1 <
-      numbersData.length
-        ? currentIndex + 1
-        : 0;
-
-    const nextMessage =
-      getStepMessage(1);
-
-    setCurrentIndex(nextIndex);
-    setMessage(nextMessage);
-
-    await save({
-      screen: "tracing",
-      level,
-      currentIndex: nextIndex,
-      step: 1,
-      numbersData,
-      message: nextMessage,
-    });
-  };
-
-  /* =========================================================
-     PREVIOUS
-  ========================================================= */
-
-  const handlePrev = async () => {
-    /* -----------------------------------------
-       STEP 3 → STEP 2
-    ----------------------------------------- */
-
-    if (step > 1) {
-      const previousStep =
-        step - 1;
-
-      const previousMessage =
-        getStepMessage(previousStep);
-
-      setStep(previousStep);
-      setMessage(previousMessage);
-
-      await save({
-        screen: "tracing",
-        level,
-        currentIndex,
-        step: previousStep,
-        numbersData,
-        message: previousMessage,
-      });
-
-      return;
-    }
-
-    /* -----------------------------------------
-       STEP 1 → PREVIOUS NUMBER STEP 3
-    ----------------------------------------- */
-
-    const previousIndex =
-      currentIndex === 0
-        ? numbersData.length - 1
-        : currentIndex - 1;
-
-    const previousMessage =
-      getStepMessage(3);
-
-    setCurrentIndex(previousIndex);
-    setStep(3);
-    setMessage(previousMessage);
-
-    await save({
-      screen: "tracing",
-      level,
-      currentIndex: previousIndex,
-      step: 3,
-      numbersData,
-      message: previousMessage,
-    });
-  };
-
-  /* =========================================================
-     BACK TO LEVELS
-  ========================================================= */
-
-  const handleBackToLevels = async () => {
-    setScreen("levels");
-
-    await save({
-      screen: "levels",
-      level,
-      currentIndex,
-      step,
-      numbersData,
-      message,
-    });
-  };
-
-  /* =========================================================
-     GUIDE CLASS
-  ========================================================= */
-
-  const getGuideClass = () => {
-    if (step === 1)
-      return "trace-guide dotted-guide";
-
-    if (step === 2)
-      return "trace-guide outline-guide";
-
-    return "trace-guide free-guide";
-  };
-
-  /* =========================================================
-     STEP TITLE
-  ========================================================= */
-
-  const getStepTitle = () => {
-    if (step === 1)
-      return "Step 1 - Dotted Trace";
-
-    if (step === 2)
-      return "Step 2 - Outline Trace";
-
-    return "Step 3 - Free Writing";
-  };
-
-  /* =========================================================
-     LOADING
-  ========================================================= */
-
-  if (progressLoading || !restored) {
+  if (!isLevelPage) {
     return (
-      <div className="number-tracing-page">
-        <div className="number-tracing-card">
-          <div className="practice-header">
-            <h2>
-              Loading your practice...
-            </h2>
+      <div className="nt-page">
 
-            <p>
-              Restoring your progress ✨
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  /* =========================================================
-     LEVEL PAGE
-  ========================================================= */
-
-  if (screen === "levels") {
-    return (
-      <div className="number-tracing-page">
-
-        <header className="number-tracing-header">
-          <h1>Choose a Level</h1>
+        {/* HEADER */}
+        <header className="nt-header">
+          <h1>✏️ Number Tracing</h1>
         </header>
 
-        <div className="level-container">
+        {/* MAIN */}
+        <main className="nt-content">
 
-          <button
-            className="level-card"
-            onClick={() =>
-              handleLevelClick(1)
-            }
-          >
-            Level 1
-            <br />
-            Learn 1 to 10
-          </button>
+          <section className="nt-level-board">
 
-          <button
-            className="level-card"
-            onClick={() =>
-              handleLevelClick(2)
-            }
-          >
-            Level 2
-            <br />
-            Learn 1 to 50
-          </button>
+            {/* ICON */}
+            <div className="nt-level-icon">
+              <img
+                src={numberTracingImage}
+                alt="Number Tracing"
+              />
+            </div>
 
-          <button
-            className="level-card"
-            onClick={() =>
-              handleLevelClick(3)
-            }
-          >
-            Level 3
-            <br />
-            Learn 1 to 100
-          </button>
+            {/* TITLE */}
+            <h2 className="nt-level-title">
+              Choose a Level
+            </h2>
 
-        </div>
+            <p className="nt-level-subtitle">
+              Learn numbers by tracing them step by step
+            </p>
+
+            {/* LEVEL CARDS */}
+            <div className="nt-level-container">
+
+              {levels.map((item) => (
+                <div
+                  key={item.id}
+                  className={`nt-level-card ${item.className}`}
+                  onClick={() =>
+                    navigate(
+                      `/number-tracing/level/${item.id}`
+                    )
+                  }
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === "Enter" ||
+                      event.key === " "
+                    ) {
+                      event.preventDefault();
+
+                      navigate(
+                        `/number-tracing/level/${item.id}`
+                      );
+                    }
+                  }}
+                >
+
+                  <h2>
+                    {item.title}
+                  </h2>
+
+                  <p>
+                    {item.subtitle}
+                  </p>
+
+                  <div className="nt-level-arrow">
+                    →
+                  </div>
+
+                </div>
+              ))}
+
+            </div>
+
+          </section>
+
+        </main>
 
       </div>
     );
   }
 
-  /* =========================================================
-     TRACING PAGE
-  ========================================================= */
+  /* =====================================================
+     LEVEL LEARNING PAGE
+  ===================================================== */
 
   return (
-    <div className="number-tracing-page">
+    <div className="nt-page">
 
-      <button
-        className="trace-btn"
-        onClick={
-          handleBackToLevels
-        }
-      >
-        ⬅ Back to Levels
-      </button>
+      {/* HEADER */}
+      <header className="nt-header">
+        <h1>
+          ✏️ Number Tracing
+        </h1>
+      </header>
 
-      <div className="number-tracing-card">
+      {/* CONTENT */}
+      <main className="nt-learning-container">
 
-        <div className="number-top-section">
+        <section className="nt-learning-board">
 
-          <div className="number-display-box">
-
-            <div className="main-number">
-              {currentNumber.number}
-            </div>
-
-            <div className="main-word">
-              {currentNumber.word}
-            </div>
-
+          {/* LEVEL BADGE */}
+          <div className="nt-learning-level-badge">
+            {selectedLevel.title}
           </div>
 
-          <div className="objects-display-box">
-
-            <h3>
-              Count the objects
-            </h3>
-
-            <div className="objects-row">
-
-              {currentNumber.objects.map(
-                (item, index) => (
-                  <span
-                    key={index}
-                    className="object-item"
-                  >
-                    {item}
-                  </span>
-                )
-              )}
-
-            </div>
-
+          {/* NUMBER */}
+          <div className="nt-learning-number">
+            {currentNumber}
           </div>
 
-        </div>
-
-        <div className="practice-header">
-
-          <h2>
-            {getStepTitle()}
+          {/* WORD */}
+          <h2 className="nt-learning-word">
+            {numberToWord(currentNumber)}
           </h2>
 
-          <p>
-            {message}
+          <p className="nt-learning-instruction">
+            Trace the number with your finger
           </p>
 
-        </div>
+          {/* TRACE AREA */}
+          <div className="nt-trace-wrapper">
 
-        <div
-          className={`trace-board ${
-            glow ? "board-glow" : ""
-          }`}
-        >
+            <div className="nt-trace-guide">
+              {currentNumber}
+            </div>
 
-          {step !== 3 && (
-            <div
-              className={
-                getGuideClass()
+            <canvas
+              ref={canvasRef}
+              className="nt-trace-canvas"
+              width={600}
+              height={330}
+              onPointerDown={startDrawing}
+              onPointerMove={draw}
+              onPointerUp={stopDrawing}
+              onPointerLeave={stopDrawing}
+            />
+
+          </div>
+
+          {/* MESSAGE */}
+          <div className="nt-learning-message">
+            Trace number {currentNumber} ✨
+          </div>
+
+          {/* BUTTONS */}
+          <div className="nt-actions">
+
+            <button
+              className="nt-btn prev"
+              onClick={previousNumber}
+              disabled={currentNumber === 1}
+            >
+              ← Previous
+            </button>
+
+            <button
+              className="nt-btn.clear"
+              onClick={clearCanvas}
+            >
+              🧹 Clear
+            </button>
+
+            <button
+              className="nt-btn repeat"
+              onClick={speakNumber}
+            >
+              🔊 Repeat
+            </button>
+
+            <button
+              className="nt-btn next"
+              onClick={nextNumber}
+              disabled={
+                currentNumber ===
+                selectedLevel.maxNumber
               }
             >
-              {
-                currentNumber.number
-              }
-            </div>
-          )}
+              Next →
+            </button>
 
-          <canvas
-            ref={canvasRef}
-            width={420}
-            height={320}
-            className="trace-canvas"
-            onMouseDown={
-              startDrawing
-            }
-            onMouseMove={draw}
-            onMouseUp={
-              stopDrawing
-            }
-            onMouseLeave={
-              stopDrawing
-            }
-            onTouchStart={
-              startDrawing
-            }
-            onTouchMove={draw}
-            onTouchEnd={
-              stopDrawing
-            }
-          />
+          </div>
 
-        </div>
+          {/* PROGRESS */}
+          <div className="nt-progress">
 
-        <div className="button-row">
+            <span>
+              Number {currentNumber}
+            </span>
 
-          <button
-            className="trace-btn"
-            onClick={handlePrev}
-          >
-            ⬅ Previous
-          </button>
+            <span>
+              of {selectedLevel.maxNumber}
+            </span>
 
-          <button
-            className="trace-btn repeat-btn"
-            onClick={handleRepeat}
-          >
-            🔄 Repeat
-          </button>
+          </div>
 
-          <button
-            className="trace-btn"
-            onClick={handleNext}
-          >
-            Next ➡
-          </button>
+        </section>
 
-        </div>
-
-      </div>
+      </main>
 
     </div>
   );

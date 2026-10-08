@@ -1,284 +1,963 @@
-/* PAGE */
+/* =========================================================
+   STORY BASED NUMBERS
+   FOREST THEME
+========================================================= */
+
 .sb-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", sans-serif;
+  width: 100%;
+
+  background-image: url("../assets/gamesHome.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+
+  color: #fff;
+
+  overflow-x: hidden;
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
+
 .sb-header {
-  background: #184c35;
-  color: white;
-  height: 60px;
+  min-height: 88px;
+  width: 100%;
+
+  background: rgba(7, 70, 47, 0.96);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border-radius: 0 0 24px 24px;
+
+  border-bottom: 3px solid #e6bd35;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.28);
+
   position: relative;
-  border-radius: 0 0 16px 16px;
+
+  z-index: 5;
 }
 
 .sb-header h1 {
   margin: 0;
-  font-size: 20px;
-  font-weight: bold;
+
+  color: #fff9d8;
+
+  font-size: 28px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.3px;
+
+  text-shadow:
+    0 3px 5px rgba(0, 0, 0, 0.35);
 }
 
-/* ========================= */
-/* LEVEL SELECTION */
-/* ========================= */
+/* =========================================================
+   LEVEL SELECTION AREA
+========================================================= */
 
 .sb-level-container {
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 88px);
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
+  padding: 40px 30px;
 }
+
+/* =========================================================
+   MAIN BROWN BOARD
+========================================================= */
 
 .sb-level-card {
-  width: 100%;
-  max-width: 600px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 28px;
-  padding: 40px;
+  width: min(1060px, 92%);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(132, 76, 25, 0.95),
+      rgba(102, 57, 20, 0.94)
+    );
+
+  border: 2px solid rgba(238, 194, 57, 0.95);
+
+  border-radius: 32px;
+
+  /* Smaller than before */
+  padding: 38px 45px 42px;
+
   text-align: center;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  backdrop-filter: blur(10px);
+
+  position: relative;
+
+  overflow: hidden;
 }
 
-.sb-level-title {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
+/* =========================================================
+   BOARD DECORATION
+========================================================= */
+
+.sb-level-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 250px;
+  height: 250px;
+
+  right: -100px;
+  top: -110px;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  border-radius: 50%;
+
+  pointer-events: none;
 }
+
+/* =========================================================
+   LEVEL ICON
+========================================================= */
+
+.sb-level-icon {
+  width: 90px;
+  height: 90px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  border-radius: 22px;
+
+  font-size: 50px;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.2);
+
+  position: relative;
+
+  z-index: 2;
+}
+
+/* =========================================================
+   LEVEL TITLE
+========================================================= */
+
+.sb-level-title {
+  margin: 0;
+
+  color: #fff7d6;
+
+  font-size: 30px;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 3px 5px rgba(0, 0, 0, 0.3);
+
+  position: relative;
+
+  z-index: 2;
+}
+
+.sb-level-description {
+  margin: 8px 0 28px;
+
+  color: #fff1c2;
+
+  font-size: 17px;
+
+  font-weight: 600;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+/* =========================================================
+   LEVEL GRID
+========================================================= */
 
 .sb-level-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 26px;
+
+  width: 100%;
+
+  position: relative;
+
+  z-index: 2;
 }
+
+/* =========================================================
+   LEVEL BOX
+========================================================= */
 
 .sb-level-box {
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
+  min-height: 175px;
+
+  border-radius: 24px;
+
+  padding: 24px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
   cursor: pointer;
-  transition: 0.25s;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+
+  border: 2px solid rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.22);
+
+  position: relative;
+
+  overflow: hidden;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
 }
 
+/* =========================================================
+   LEVEL BOX SHINE
+========================================================= */
+
+.sb-level-box::before {
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  top: -65px;
+  right: -20px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.16);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   LEVEL BOX HOVER
+========================================================= */
+
 .sb-level-box:hover {
-  transform: translateY(-5px);
-  background: #ffe082;
+  transform: translateY(-7px);
+
+  box-shadow:
+    0 20px 32px rgba(0, 0, 0, 0.28);
+
+  filter: brightness(1.05);
+}
+
+.sb-level-box:active {
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   LEVEL COLORS
+========================================================= */
+
+.sb-level-one {
+  background:
+    linear-gradient(
+      135deg,
+      #ffd45c,
+      #e8a92f
+    );
+}
+
+.sb-level-two {
+  background:
+    linear-gradient(
+      135deg,
+      #4db3ec,
+      #2d83c4
+    );
+}
+
+.sb-level-three {
+  background:
+    linear-gradient(
+      135deg,
+      #a96bdd,
+      #7542a7
+    );
+}
+
+/* =========================================================
+   LEVEL BOX CONTENT
+========================================================= */
+
+.sb-level-box-content {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
 }
 
 .sb-level-box h2 {
   margin: 0;
-  font-size: 22px;
+
+  color: white;
+
+  font-size: 27px;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 3px 5px rgba(0, 0, 0, 0.25);
 }
 
 .sb-level-box p {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #555;
+  margin: 9px 0 18px;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 700;
 }
 
-/* ========================= */
-/* STORY MODE */
-/* ========================= */
+/* =========================================================
+   LEVEL ARROW
+========================================================= */
+
+.sb-level-arrow {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  color: #18563e;
+
+  font-size: 22px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.22);
+
+  transition:
+    transform 0.25s ease;
+}
+
+.sb-level-two .sb-level-arrow {
+  color: #17689d;
+}
+
+.sb-level-three .sb-level-arrow {
+  color: #70419e;
+}
+
+.sb-level-box:hover .sb-level-arrow {
+  transform: translateX(5px);
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.sb-loading-card {
+  max-width: 600px;
+
+  padding: 55px 40px;
+}
+
+.sb-loading-icon {
+  font-size: 58px;
+
+  margin-bottom: 18px;
+}
+
+.sb-loading-card h2 {
+  margin: 0;
+
+  color: #fff7d6;
+
+  font-size: 27px;
+}
+
+.sb-loading-card p {
+  margin-top: 10px;
+
+  color: #ffe9af;
+
+  font-size: 16px;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   STORY PAGE CONTAINER
+========================================================= */
 
 .sb-container {
-  padding: 30px;
+  width: min(1200px, 94%);
+
+  margin: 0 auto;
+
+  padding: 38px 0 60px;
+
   text-align: center;
 }
 
-/* NUMBER CARDS */
-.sb-card-row {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
+/* =========================================================
+   PROGRESS AREA
+========================================================= */
+
+.sb-progress-area {
+  margin-bottom: 26px;
 }
 
-.sb-card {
-  width: 70px;
-  height: 70px;
-  background: white;
-  border-radius: 18px;
-  font-size: 28px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.3s;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+.sb-progress-label {
+  display: inline-block;
+
+  padding: 8px 18px;
+
+  margin-bottom: 14px;
+
+  background: rgba(16, 65, 44, 0.9);
+
+  border: 1px solid rgba(255, 218, 96, 0.8);
+
+  border-radius: 30px;
+
+  color: #fff6cf;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  box-shadow:
+    0 6px 15px rgba(0, 0, 0, 0.22);
 }
 
-/* ACTIVE GLOW */
-.sb-card.active {
-  background: #ffe082;
-  transform: scale(1.2);
-  box-shadow: 0 0 20px #ff9800;
-}
+/* =========================================================
+   PROGRESS STRIP
+========================================================= */
 
-/* STORY TEXT */
-.sb-story-box {
-  background: rgba(255,255,255,0.75);
-  padding: 22px;
-  border-radius: 20px;
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  color: #173b33;
-}
-
-/* PLAY BUTTON */
-.sb-play-btn {
-  background: #ff8a3d;
-  border: none;
-  padding: 14px 30px;
-  font-size: 20px;
-  border-radius: 20px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-.sb-play-btn:hover {
-  transform: scale(1.05);
-}
-
-/* BACK BUTTON */
-.sb-back-btn {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #f5f5f5;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-/* ========================= */
-/* RESPONSIVE */
-/* ========================= */
-
-@media (max-width: 768px) {
-  .sb-level-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .sb-card {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-  }
-
-  .sb-story-box {
-    font-size: 18px;
-  }
-}
 .sb-progress-strip {
   display: flex;
+
   justify-content: center;
-  gap: 10px;
+
+  gap: 9px;
+
   flex-wrap: wrap;
-  margin-bottom: 20px;
+
+  max-height: 150px;
+
+  overflow-y: auto;
+
+  padding: 8px 5px;
 }
 
+/* =========================================================
+   MINI NUMBER CARD
+========================================================= */
+
 .sb-mini-card {
-  width: 52px;
-  height: 52px;
-  background: white;
+  width: 48px;
+  height: 48px;
+
+  flex: 0 0 auto;
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
   border-radius: 14px;
+
+  background:
+    rgba(255, 255, 255, 0.9);
+
+  color: #31523f;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
-  font-size: 22px;
-  font-weight: bold;
+
+  font-family: inherit;
+
+  font-size: 17px;
+
+  font-weight: 800;
+
   cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  transition: 0.25s;
+
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sb-mini-card:hover {
+  transform: translateY(-3px);
 }
 
 .sb-mini-card.active {
   background: #ffe082;
+
+  color: #68400c;
+
   transform: scale(1.1);
-  box-shadow: 0 0 18px #ff9800;
+
+  box-shadow:
+    0 0 0 3px rgba(255, 222, 113, 0.25),
+    0 7px 16px rgba(0, 0, 0, 0.25);
 }
 
+/* =========================================================
+   MAIN STORY CARD
+========================================================= */
+
 .sb-main-story-card {
-  max-width: 760px;
+  width: min(900px, 100%);
+
   margin: 0 auto;
-  background: rgba(255,255,255,0.85);
-  border-radius: 26px;
-  padding: 30px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.16);
-  text-align: center;
+
+  padding: 38px 40px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(116, 69, 27, 0.95),
+      rgba(87, 51, 21, 0.94)
+    );
+
+  border: 2px solid rgba(238, 194, 57, 0.9);
+
+  border-radius: 30px;
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.3);
+
+  backdrop-filter: blur(10px);
+}
+
+/* =========================================================
+   STORY TOP
+========================================================= */
+
+.sb-story-top {
+  margin-bottom: 26px;
 }
 
 .sb-story-number {
-  font-size: 64px;
-  font-weight: bold;
-  color: #184c35;
+  font-size: 76px;
+
   line-height: 1;
+
+  font-weight: 900;
+
+  color: #fff2a9;
+
+  text-shadow:
+    0 4px 7px rgba(0, 0, 0, 0.3);
 }
 
 .sb-story-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #173b33;
-  margin: 10px 0 18px;
+  margin-top: 12px;
+
+  font-size: 30px;
+
+  font-weight: 800;
+
+  color: white;
+
+  text-shadow:
+    0 3px 5px rgba(0, 0, 0, 0.25);
 }
+
+/* =========================================================
+   OBJECT AREA
+========================================================= */
 
 .sb-story-image-card {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  min-height: 100px;
-  margin-bottom: 18px;
+  min-height: 115px;
+
+  padding: 18px;
+
+  margin-bottom: 25px;
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(60px, 1fr));
+
+  gap: 10px;
+
+  max-height: 330px;
+
+  overflow-y: auto;
 }
 
+/* =========================================================
+   STORY OBJECT
+========================================================= */
+
 .sb-story-emoji {
-  width: 62px;
-  height: 62px;
-  background: white;
-  border-radius: 16px;
+  min-width: 54px;
+  min-height: 54px;
+
+  background:
+    rgba(255, 255, 255, 0.95);
+
+  border-radius: 15px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
-  font-size: 34px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.14);
-  animation: sbPop 0.3s ease;
+
+  font-size: 32px;
+
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.15);
+
+  animation:
+    sbPop 0.3s ease;
 }
 
 @keyframes sbPop {
   0% {
     transform: scale(0.7);
+
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
+
     opacity: 1;
   }
 }
 
+/* =========================================================
+   STORY TEXT
+========================================================= */
+
+.sb-story-box {
+  padding: 25px 28px;
+
+  background:
+    rgba(255, 248, 220, 0.96);
+
+  border-radius: 22px;
+
+  border: 1px solid rgba(255, 213, 91, 0.7);
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.sb-story-text {
+  color: #284538;
+
+  font-size: 21px;
+
+  line-height: 1.6;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
 .sb-actions {
-  margin-top: 22px;
+  margin-top: 28px;
+
   display: flex;
+
   justify-content: center;
-  gap: 14px;
+
+  align-items: center;
+
+  gap: 16px;
+
   flex-wrap: wrap;
 }
 
-.sb-play-btn.prev {
-  background: #7e57c2;
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.sb-play-btn {
+  min-width: 170px;
+
+  border: none;
+
+  padding: 14px 22px;
+
+  border-radius: 30px;
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 17px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
+.sb-play-btn:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 12px 22px rgba(0, 0, 0, 0.3);
+
+  filter: brightness(1.06);
+}
+
+.sb-play-btn:active {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+.sb-play-btn.prev {
+  background:
+    linear-gradient(
+      135deg,
+      #8b62c9,
+      #6943a2
+    );
+}
+
+/* =========================================================
+   PLAY
+========================================================= */
+
+.sb-play-btn.play {
+  background:
+    linear-gradient(
+      135deg,
+      #ff9b4a,
+      #ed6d2c
+    );
+}
+
+/* =========================================================
+   NEXT
+========================================================= */
+
 .sb-play-btn.next {
-  background: #11c7c7;
+  background:
+    linear-gradient(
+      135deg,
+      #22c9c5,
+      #129b9b
+    );
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .sb-level-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sb-level-card {
+    width: min(600px, 94%);
+
+    padding: 35px 25px 40px;
+  }
+
+  .sb-level-box {
+    min-height: 145px;
+  }
+
+  .sb-main-story-card {
+    padding: 30px 22px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .sb-header {
+    min-height: 72px;
+  }
+
+  .sb-header h1 {
+    font-size: 21px;
+  }
+
+  .sb-level-container {
+    padding: 30px 15px;
+  }
+
+  .sb-level-card {
+  width: min(1040px, 92%);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(145, 88, 35, 0.96),
+      rgba(111, 67, 25, 0.96)
+    );
+
+  border: 2px solid #e6bd35;
+
+  border-radius: 30px;
+
+  padding: 38px 45px 40px;
+
+  text-align: center;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+  .sb-level-icon {
+    width: 75px;
+    height: 75px;
+
+    font-size: 42px;
+  }
+
+  .sb-level-title {
+    font-size: 27px;
+  }
+
+  .sb-level-description {
+    font-size: 15px;
+  }
+
+  .sb-level-box {
+    min-height: 140px;
+
+    border-radius: 21px;
+  }
+
+  .sb-level-box h2 {
+    font-size: 24px;
+  }
+
+  .sb-level-box p {
+    font-size: 15px;
+  }
+
+  .sb-story-number {
+    font-size: 60px;
+  }
+
+  .sb-story-title {
+    font-size: 24px;
+  }
+
+  .sb-story-text {
+    font-size: 18px;
+  }
+
+  .sb-story-image-card {
+    grid-template-columns:
+      repeat(auto-fit, minmax(48px, 1fr));
+
+    max-height: 280px;
+  }
+
+  .sb-story-emoji {
+    min-width: 45px;
+    min-height: 45px;
+
+    font-size: 25px;
+  }
+
+  .sb-play-btn {
+    width: 100%;
+  }
 }

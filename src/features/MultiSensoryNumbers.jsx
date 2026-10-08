@@ -194,10 +194,11 @@
 // }
 
 
-
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 import "../styles/MultiSensoryNumbers.css";
+import multiSensoryImage from "../assets/multi_sensory.png";
 import useGameProgress from "../hooks/useGameProgress";
 
 const GAME_ID = "multi-sensory-numbers";
@@ -209,7 +210,7 @@ const levels = {
 };
 
 /* =========================================================
-   NUMBER WORD
+   NUMBER WORDS
 ========================================================= */
 
 function getWord(n) {
@@ -224,6 +225,16 @@ function getWord(n) {
     8: "Eight",
     9: "Nine",
     10: "Ten",
+    11: "Eleven",
+    12: "Twelve",
+    13: "Thirteen",
+    14: "Fourteen",
+    15: "Fifteen",
+    16: "Sixteen",
+    17: "Seventeen",
+    18: "Eighteen",
+    19: "Nineteen",
+    20: "Twenty",
   };
 
   return words[n] || `${n}`;
@@ -254,10 +265,9 @@ function getEmoji(n) {
    COMPONENT
 ========================================================= */
 
-export default function MultiSensoryNumbers({
-  goBack,
-}) {
+export default function MultiSensoryNumbers({ goBack }) {
   const navigate = useNavigate();
+  const { level } = useParams();
 
   /* =========================================================
      FIREBASE PROGRESS
@@ -274,71 +284,84 @@ export default function MultiSensoryNumbers({
     savedState,
     loading: progressLoading,
     save,
-  } = useGameProgress(
-    GAME_ID,
-    initialState
-  );
+  } = useGameProgress(GAME_ID, initialState);
 
   /* =========================================================
      STATES
   ========================================================= */
 
-  const [selectedLevel, setSelectedLevel] =
-    useState(null);
+  const [selectedLevel, setSelectedLevel] = useState(null);
 
-  const [current, setCurrent] =
-    useState(1);
+  const [current, setCurrent] = useState(1);
 
-  const [visibleCount, setVisibleCount] =
-    useState(0);
+  const [visibleCount, setVisibleCount] = useState(0);
 
-  const [message, setMessage] =
-    useState(
-      "Let’s learn slowly 😊"
-    );
+  const [message, setMessage] = useState(
+    "Let’s learn slowly 😊"
+  );
 
-  const [restored, setRestored] =
-    useState(false);
+  const [restored, setRestored] = useState(false);
 
-  const intervalRef =
-    useRef(null);
-
-  const timeoutRef =
-    useRef(null);
+  const intervalRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   /* =========================================================
-     RESTORE PROGRESS
+     LEVEL FROM URL
+     
+     IMPORTANT:
+     Whenever the URL changes to:
+     
+     /multi-sensory-numbers/level/1
+     /multi-sensory-numbers/level/2
+     /multi-sensory-numbers/level/3
+     
+     we ALWAYS start from number 1.
+  ========================================================= */
+
+  useEffect(() => {
+    if (level) {
+      const levelNumber = Number(level);
+
+      if (levels[levelNumber]) {
+        setSelectedLevel(levelNumber);
+
+        // Always restart from 1
+        setCurrent(1);
+
+        // Number 1 has one object
+        setVisibleCount(1);
+
+        setMessage("Let’s learn slowly 😊");
+      }
+    } else {
+      // Level selection page
+      setSelectedLevel(null);
+      setCurrent(1);
+      setVisibleCount(0);
+      setMessage("Let’s learn slowly 😊");
+    }
+  }, [level]);
+
+  /* =========================================================
+     WAIT FOR FIREBASE
+
+     We DO NOT restore current number here.
+
+     This is intentional because every time the user
+     enters a level, learning must restart from 1.
   ========================================================= */
 
   useEffect(() => {
     if (progressLoading) return;
-    if (restored) return;
 
-    console.log(
-      "🔥 Multi-Sensory Numbers saved state:",
-      savedState
-    );
-
-    if (savedState) {
-      setSelectedLevel(
-        savedState.selectedLevel ?? null
+    if (!restored) {
+      console.log(
+        "🔥 Multi-Sensory Numbers saved state:",
+        savedState
       );
 
-      setCurrent(
-        savedState.current ?? 1
-      );
-
-      setVisibleCount(
-        savedState.visibleCount ?? 0
-      );
-
-      setMessage(
-        savedState.message ||
-          "Let’s learn slowly 😊"
-      );
+      setRestored(true);
     }
-
-    setRestored(true);
   }, [
     progressLoading,
     savedState,
@@ -366,29 +389,21 @@ export default function MultiSensoryNumbers({
     utterance.pitch = 1;
     utterance.volume = 1;
 
-    window.speechSynthesis.speak(
-      utterance
-    );
+    window.speechSynthesis.speak(utterance);
   };
 
   /* =========================================================
-     CLEAN TIMERS
+     CLEAR TIMERS
   ========================================================= */
 
   const clearTeachingTimers = () => {
     if (intervalRef.current) {
-      clearInterval(
-        intervalRef.current
-      );
-
+      clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
 
     if (timeoutRef.current) {
-      clearTimeout(
-        timeoutRef.current
-      );
-
+      clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
   };
@@ -397,77 +412,75 @@ export default function MultiSensoryNumbers({
      START TEACHING
   ========================================================= */
 
-  const startTeaching = async (
-    number = current
-  ) => {
+  const startTeaching = async (number = current) => {
     if (!selectedLevel) return;
 
-    clearTeachingTimers();
+    const currentLevel = levels[selectedLevel];
 
-    setVisibleCount(0);
+    /*
+      Safety check:
+      Never allow a number outside the selected level.
+    */
+
+    if (
+      number < currentLevel.min ||
+      number > currentLevel.max
+    ) {
+      return;
+    }
+
+    clearTeachingTimers();
 
     const teachingMessage =
       `This is number ${number}`;
 
     setMessage(teachingMessage);
 
+    /*
+      EXACT NUMBER OF OBJECTS
+
+      1  -> 1 object
+      2  -> 2 objects
+      5  -> 5 objects
+      10 -> 10 objects
+      20 -> 20 objects
+      etc.
+    */
+
+    setVisibleCount(number);
+
     await save({
       selectedLevel,
       current: number,
-      visibleCount: 0,
+      visibleCount: number,
       message: teachingMessage,
     });
 
     speakText(
-      `This is number ${number}. ${getWord(
-        number
-      )}.`
+      `This is number ${number}. ${getWord(number)}.`
     );
 
-    let count = 0;
+    /*
+      After speaking, show completed message.
+    */
 
-    const maxShow = Math.min(
-      number,
-      10
-    );
+    timeoutRef.current = setTimeout(async () => {
+      const learnedMessage =
+        `We learned number ${number} 🌟`;
 
-    intervalRef.current =
-      setInterval(() => {
-        count += 1;
+      setMessage(learnedMessage);
 
-        setVisibleCount(count);
+      speakText(
+        `Number ${number}. ${getWord(number)}.`
+      );
 
-        if (
-          count >= maxShow
-        ) {
-          clearTeachingTimers();
-
-          timeoutRef.current =
-            setTimeout(async () => {
-              const learnedMessage =
-                `We learned number ${number} 🌟`;
-
-              setMessage(
-                learnedMessage
-              );
-
-              speakText(
-                `Number ${number}. ${getWord(
-                  number
-                )}.`
-              );
-
-              await save({
-                selectedLevel,
-                current: number,
-                visibleCount:
-                  maxShow,
-                message:
-                  learnedMessage,
-              });
-            }, 500);
-        }
-      }, 500);
+      await save({
+        selectedLevel,
+        current: number,
+        visibleCount: number,
+        message: learnedMessage,
+      });
+    }, 1000);
   };
 
   /* =========================================================
@@ -488,40 +501,27 @@ export default function MultiSensoryNumbers({
   }, []);
 
   /* =========================================================
-     LEVEL CHANGE
-  ========================================================= */
-
-  useEffect(() => {
-    if (!selectedLevel) return;
-    if (!restored) return;
-
-    /*
-      Don't automatically restart the saved number here.
-      The restored current number should remain.
-    */
-  }, [
-    selectedLevel,
-    restored,
-  ]);
-
-  /* =========================================================
      NEXT NUMBER
   ========================================================= */
 
   const nextNumber = async () => {
     if (!selectedLevel) return;
 
-    const currentLevel =
-      levels[selectedLevel];
+    const currentLevel = levels[selectedLevel];
 
     const next =
-      current <
-      currentLevel.max
+      current < currentLevel.max
         ? current + 1
         : currentLevel.min;
 
     setCurrent(next);
-    setVisibleCount(0);
+
+    /*
+      Immediately show the correct number
+      of objects.
+    */
+
+    setVisibleCount(next);
 
     const nextMessage =
       `This is number ${next}`;
@@ -531,7 +531,7 @@ export default function MultiSensoryNumbers({
     await save({
       selectedLevel,
       current: next,
-      visibleCount: 0,
+      visibleCount: next,
       message: nextMessage,
     });
 
@@ -545,17 +545,21 @@ export default function MultiSensoryNumbers({
   const prevNumber = async () => {
     if (!selectedLevel) return;
 
-    const currentLevel =
-      levels[selectedLevel];
+    const currentLevel = levels[selectedLevel];
 
     const previous =
-      current >
-      currentLevel.min
+      current > currentLevel.min
         ? current - 1
         : currentLevel.max;
 
     setCurrent(previous);
-    setVisibleCount(0);
+
+    /*
+      Immediately show the correct number
+      of objects.
+    */
+
+    setVisibleCount(previous);
 
     const previousMessage =
       `This is number ${previous}`;
@@ -565,7 +569,7 @@ export default function MultiSensoryNumbers({
     await save({
       selectedLevel,
       current: previous,
-      visibleCount: 0,
+      visibleCount: previous,
       message: previousMessage,
     });
 
@@ -573,7 +577,7 @@ export default function MultiSensoryNumbers({
   };
 
   /* =========================================================
-     LOADING
+     LOADING SCREEN
   ========================================================= */
 
   if (
@@ -582,6 +586,7 @@ export default function MultiSensoryNumbers({
   ) {
     return (
       <div className="ms-home-page">
+
         <header className="ms-home-header">
           <h1>
             👀👂✋ Multi-Sensory Numbers
@@ -589,9 +594,14 @@ export default function MultiSensoryNumbers({
         </header>
 
         <div className="ms-home-content">
+
           <div className="ms-home-center-card">
+
             <div className="ms-home-icon">
-              🔢
+              <img
+                src={multiSensoryImage}
+                alt="Multi Sensory Numbers"
+              />
             </div>
 
             <h2>
@@ -599,16 +609,19 @@ export default function MultiSensoryNumbers({
             </h2>
 
             <p>
-              Restoring your progress ✨
+              Preparing your lesson ✨
             </p>
+
           </div>
+
         </div>
+
       </div>
     );
   }
 
   /* =========================================================
-     LEVEL SELECTION
+     LEVEL SELECTION PAGE
   ========================================================= */
 
   if (!selectedLevel) {
@@ -616,11 +629,9 @@ export default function MultiSensoryNumbers({
       <div className="ms-home-page">
 
         <header className="ms-home-header">
-
           <h1>
             👀👂✋ Multi-Sensory Numbers
           </h1>
-
         </header>
 
         <div className="ms-home-content">
@@ -628,7 +639,10 @@ export default function MultiSensoryNumbers({
           <div className="ms-home-center-card">
 
             <div className="ms-home-icon">
-              🔢
+              <img
+                src={multiSensoryImage}
+                alt="Multi Sensory Numbers"
+              />
             </div>
 
             <h2>
@@ -636,17 +650,29 @@ export default function MultiSensoryNumbers({
             </h2>
 
             <p>
-              Start learning numbers
-              step by step
+              Start learning numbers step by step
             </p>
 
             <div className="ms-home-level-grid">
 
+              {/* =================================================
+                  LEVEL 1
+              ================================================= */}
+
               <div
                 className="ms-home-level-card"
-                onClick={() =>
-                  setSelectedLevel(1)
-                }
+                onClick={() => {
+                  setSelectedLevel(1);
+                  setCurrent(1);
+                  setVisibleCount(1);
+                  setMessage(
+                    "Let’s learn slowly 😊"
+                  );
+
+                  navigate(
+                    "/multi-sensory-numbers/level/1"
+                  );
+                }}
               >
                 <div className="ms-home-level-title">
                   Level 1
@@ -657,11 +683,24 @@ export default function MultiSensoryNumbers({
                 </div>
               </div>
 
+              {/* =================================================
+                  LEVEL 2
+              ================================================= */}
+
               <div
                 className="ms-home-level-card"
-                onClick={() =>
-                  setSelectedLevel(2)
-                }
+                onClick={() => {
+                  setSelectedLevel(2);
+                  setCurrent(1);
+                  setVisibleCount(1);
+                  setMessage(
+                    "Let’s learn slowly 😊"
+                  );
+
+                  navigate(
+                    "/multi-sensory-numbers/level/2"
+                  );
+                }}
               >
                 <div className="ms-home-level-title">
                   Level 2
@@ -672,11 +711,24 @@ export default function MultiSensoryNumbers({
                 </div>
               </div>
 
+              {/* =================================================
+                  LEVEL 3
+              ================================================= */}
+
               <div
                 className="ms-home-level-card"
-                onClick={() =>
-                  setSelectedLevel(3)
-                }
+                onClick={() => {
+                  setSelectedLevel(3);
+                  setCurrent(1);
+                  setVisibleCount(1);
+                  setMessage(
+                    "Let’s learn slowly 😊"
+                  );
+
+                  navigate(
+                    "/multi-sensory-numbers/level/3"
+                  );
+                }}
               >
                 <div className="ms-home-level-title">
                   Level 3
@@ -712,18 +764,22 @@ export default function MultiSensoryNumbers({
     <div className="ms-level-page">
 
       <header className="ms-level-header">
-
         <h1>
-          👀👂✋{" "}
-          {currentLevel.label}
+          👀👂✋ {currentLevel.label}
         </h1>
-
       </header>
 
       <div className="ms-level-content">
 
-        {/* TOP ROW */}
+        {/* =====================================================
+            TOP ROW
+        ===================================================== */}
+
         <div className="ms-level-top-row">
+
+          {/* ===================================================
+              BIG NUMBER CARD
+          =================================================== */}
 
           <div className="ms-level-big-card">
 
@@ -749,28 +805,28 @@ export default function MultiSensoryNumbers({
 
           </div>
 
-          {/* OBJECTS */}
+          {/* ===================================================
+              OBJECT PANEL
+          =================================================== */}
+
           <div className="ms-level-panel">
 
             <div className="ms-level-panel-title">
-              Let’s learn number{" "}
-              {current}
+              Let’s learn number {current}
             </div>
 
             <div className="ms-level-objects-row">
 
               {Array.from({
                 length: visibleCount,
-              }).map(
-                (_, index) => (
-                  <div
-                    key={index}
-                    className="ms-level-object-card"
-                  >
-                    {getEmoji(current)}
-                  </div>
-                )
-              )}
+              }).map((_, index) => (
+                <div
+                  key={index}
+                  className="ms-level-object-card"
+                >
+                  {getEmoji(current)}
+                </div>
+              ))}
 
             </div>
 
@@ -782,19 +838,23 @@ export default function MultiSensoryNumbers({
 
         </div>
 
-        {/* MESSAGE */}
+        {/* =====================================================
+            MESSAGE
+        ===================================================== */}
+
         <div className="ms-level-message">
           {message}
         </div>
 
-        {/* ACTIONS */}
+        {/* =====================================================
+            BUTTONS
+        ===================================================== */}
+
         <div className="ms-level-actions">
 
           <button
             className="ms-level-btn prev"
-            onClick={
-              prevNumber
-            }
+            onClick={prevNumber}
           >
             ← Previous
           </button>
@@ -802,9 +862,7 @@ export default function MultiSensoryNumbers({
           <button
             className="ms-level-btn repeat"
             onClick={() =>
-              startTeaching(
-                current
-              )
+              startTeaching(current)
             }
           >
             🔊 Repeat
@@ -812,9 +870,7 @@ export default function MultiSensoryNumbers({
 
           <button
             className="ms-level-btn next"
-            onClick={
-              nextNumber
-            }
+            onClick={nextNumber}
           >
             Next →
           </button>

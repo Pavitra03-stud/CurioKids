@@ -1,331 +1,18 @@
-// import React, { useEffect, useState } from "react";
-// import "../styles/NumberMatchAnimals.css";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-// const animalsList = ["🐶", "🐱", "🐰", "🐟", "🐦", "🦋"];
-
-// function shuffle(array) {
-//   return [...array].sort(() => Math.random() - 0.5);
-// }
-
-// function generateRound() {
-//   const numbers = [1, 2, 3, 4]; // easy level
-//   const shuffledAnimals = shuffle(animalsList).slice(0, numbers.length);
-
-//   return numbers.map((num, index) => ({
-//     id: index,
-//     number: num,
-//     animal: shuffledAnimals[index],
-//   }));
-// }
-
-// export default function NumberMatchAnimals() {
-//   const [pairs, setPairs] = useState([]);
-//   const [numbers, setNumbers] = useState([]);
-//   const [animals, setAnimals] = useState([]);
-
-//   const [selectedNumber, setSelectedNumber] = useState(null);
-//   const [matched, setMatched] = useState({});
-//   const [message, setMessage] = useState("Match the number with animals");
-//   const [score, setScore] = useState(0);
-
-//   const loadGame = () => {
-//     const data = generateRound();
-//     setPairs(data);
-//     setNumbers(shuffle(data));
-//     setAnimals(shuffle(data));
-//     setMatched({});
-//     setSelectedNumber(null);
-//     setMessage("Match the number with animals");
-//   };
-
-//   useEffect(() => {
-//     loadGame();
-//   }, []);
-
-//   const handleNumberClick = (item) => {
-//     if (matched[item.id]) return;
-//     setSelectedNumber(item);
-//     setMessage(`Now select animals for ${item.number}`);
-//   };
-
-//   const handleAnimalClick = (item) => {
-//     if (!selectedNumber || matched[item.id]) return;
-
-//     if (selectedNumber.id === item.id) {
-//       setMatched((prev) => ({ ...prev, [item.id]: true }));
-//       setScore((prev) => prev + 1);
-//       setMessage("✅ Correct match!");
-
-//       setSelectedNumber(null);
-//     } else {
-//       setMessage("❌ Try again!");
-//     }
-//   };
-
-//   const isCompleted = Object.keys(matched).length === pairs.length;
-
-//   return (
-//     <div className="match-page">
-//       <div className="match-card">
-//         <h1>🐾 Number Match</h1>
-//         <p>Match the number with correct animals</p>
-
-//         <div className="match-container">
-//           {/* Numbers */}
-//           <div className="column">
-//             <h3>Numbers</h3>
-//             {numbers.map((item) => (
-//               <button
-//                 key={item.id}
-//                 className={`number-box ${
-//                   selectedNumber?.id === item.id ? "selected" : ""
-//                 } ${matched[item.id] ? "matched" : ""}`}
-//                 onClick={() => handleNumberClick(item)}
-//               >
-//                 {item.number}
-//               </button>
-//             ))}
-//           </div>
-
-//           {/* Animals */}
-//           <div className="column">
-//             <h3>Animals</h3>
-//             {animals.map((item) => (
-//               <button
-//                 key={item.id}
-//                 className={`animal-box ${matched[item.id] ? "matched" : ""}`}
-//                 onClick={() => handleAnimalClick(item)}
-//               >
-//                 {item.animal.repeat(item.number)}
-//               </button>
-//             ))}
-//           </div>
-//         </div>
-
-//         <div className="message-box">
-//           <p>{message}</p>
-//         </div>
-
-//         <div className="score-box">Score: {score}</div>
-
-//         {isCompleted && (
-//           <div className="done-box">🎉 All matched! Great job!</div>
-//         )}
-
-//         <div className="btn-group">
-//           <button onClick={loadGame}>Reset</button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-// import React, { useEffect, useState } from "react";
-// import "../styles/NumberMatchAnimals.css";
-
-// const animalPool = ["🐶", "🐱", "🐰", "🐟", "🦋", "🐦", "🐢", "🦊", "🐻", "🐼"];
-
-// const levels = [
-//   { id: 1, title: "Easy", pairCount: 4, maxNumber: 5 },
-//   { id: 2, title: "Medium", pairCount: 6, maxNumber: 8 },
-//   { id: 3, title: "Hard", pairCount: 8, maxNumber: 10 },
-// ];
-
-// function shuffleArray(array) {
-//   const newArray = [...array];
-//   for (let i = newArray.length - 1; i > 0; i -= 1) {
-//     const j = Math.floor(Math.random() * (i + 1));
-//     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-//   }
-//   return newArray;
-// }
-
-// function getUniqueNumbers(count, maxNumber) {
-//   const nums = Array.from({ length: maxNumber }, (_, i) => i + 1);
-//   return shuffleArray(nums).slice(0, count);
-// }
-
-// function generateRound(level) {
-//   const chosenNumbers = getUniqueNumbers(level.pairCount, level.maxNumber);
-//   const chosenAnimals = shuffleArray(animalPool).slice(0, level.pairCount);
-
-//   const pairs = chosenNumbers.map((number, index) => ({
-//     id: `${level.id}-${index + 1}`,
-//     number,
-//     animal: chosenAnimals[index],
-//   }));
-
-//   return {
-//     numberCards: shuffleArray(pairs),
-//     animalCards: shuffleArray(pairs),
-//   };
-// }
-
-// export default function NumberMatchAnimals() {
-//   const [selectedLevel, setSelectedLevel] = useState(levels[0]);
-//   const [numberCards, setNumberCards] = useState([]);
-//   const [animalCards, setAnimalCards] = useState([]);
-//   const [selectedNumber, setSelectedNumber] = useState(null);
-//   const [matchedIds, setMatchedIds] = useState([]);
-//   const [message, setMessage] = useState("Match the number with correct animals");
-//   const [score, setScore] = useState(0);
-
-//   const loadRound = (level = selectedLevel) => {
-//     const { numberCards, animalCards } = generateRound(level);
-//     setNumberCards(numberCards);
-//     setAnimalCards(animalCards);
-//     setSelectedNumber(null);
-//     setMatchedIds([]);
-//     setMessage("Match the number with correct animals");
-//     setScore(0);
-//   };
-
-//   useEffect(() => {
-//     loadRound(selectedLevel);
-//   }, [selectedLevel]);
-
-//   const handleNumberClick = (item) => {
-//     if (matchedIds.includes(item.id)) return;
-//     setSelectedNumber(item);
-//     setMessage(`Now select the animal group for ${item.number}`);
-//   };
-
-//   const handleAnimalClick = (item) => {
-//     if (!selectedNumber || matchedIds.includes(item.id)) return;
-
-//     if (selectedNumber.id === item.id) {
-//       const updatedMatched = [...matchedIds, item.id];
-//       setMatchedIds(updatedMatched);
-//       setScore((prev) => prev + 1);
-//       setSelectedNumber(null);
-
-//       if (updatedMatched.length === numberCards.length) {
-//         setMessage("🎉 All matches are correct! Great job!");
-//       } else {
-//         setMessage("✅ Correct match!");
-//       }
-//     } else {
-//       setMessage("❌ Wrong match. Try another animal group.");
-//     }
-//   };
-
-//   const handleLevelChange = (level) => {
-//     setSelectedLevel(level);
-//   };
-
-//   const isCompleted = matchedIds.length === numberCards.length && numberCards.length > 0;
-
-//   return (
-//     <div className="match-page">
-//       <div className="match-card">
-//         <div className="match-top-bar">
-//           <h1>🐾 Number Match</h1>
-//           <p>Match the number with correct animals</p>
-//         </div>
-
-//         <div className="level-row">
-//           {levels.map((level) => (
-//             <button
-//               key={level.id}
-//               className={`level-btn ${selectedLevel.id === level.id ? "active-level" : ""}`}
-//               onClick={() => handleLevelChange(level)}
-//             >
-//               {level.title}
-//             </button>
-//           ))}
-//         </div>
-
-//         <div className="level-info">
-//           <span>
-//             Level: {selectedLevel.title} | Matches: {selectedLevel.pairCount}
-//           </span>
-//         </div>
-
-//         <div className="match-columns">
-//           <div className="match-column">
-//             <h2>Numbers</h2>
-//             {numberCards.map((item) => (
-//               <button
-//                 key={`number-${item.id}`}
-//                 className={`match-box number-box ${
-//                   selectedNumber?.id === item.id ? "selected-box" : ""
-//                 } ${matchedIds.includes(item.id) ? "matched-box" : ""}`}
-//                 onClick={() => handleNumberClick(item)}
-//                 disabled={matchedIds.includes(item.id)}
-//               >
-//                 {item.number}
-//               </button>
-//             ))}
-//           </div>
-
-//           <div className="match-column">
-//             <h2>Animals</h2>
-//             {animalCards.map((item) => (
-//               <button
-//                 key={`animal-${item.id}`}
-//                 className={`match-box animal-box ${
-//                   matchedIds.includes(item.id) ? "matched-box" : ""
-//                 }`}
-//                 onClick={() => handleAnimalClick(item)}
-//                 disabled={matchedIds.includes(item.id)}
-//               >
-//                 {item.animal.repeat(item.number)}
-//               </button>
-//             ))}
-//           </div>
-//         </div>
-
-//         <div className="message-box">
-//           <p>{message}</p>
-//         </div>
-
-//         <div className="score-box">
-//           <span>Score: {score}</span>
-//         </div>
-
-//         {isCompleted && (
-//           <div className="done-box">
-//             🎉 You matched all {selectedLevel.pairCount} pairs!
-//           </div>
-//         )}
-
-//         <div className="button-row">
-//           <button className="reset-btn" onClick={() => loadRound(selectedLevel)}>
-//             Reset
-//           </button>
-//           <button className="next-btn" onClick={() => loadRound(selectedLevel)}>
-//             Next Round
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-import React, { useEffect, useState } from "react";
 import "../styles/NumberMatchAnimals.css";
 import useGameProgress from "../hooks/useGameProgress";
 
 const GAME_ID = "number-match-animals";
 
-const animalPool = [
-  "🐶",
-  "🐱",
-  "🐰",
-  "🐟",
-  "🦋",
-  "🐦",
-  "🐢",
-  "🦊",
-  "🐻",
-  "🐼",
-];
+/* =========================================================
+   LEVELS
+========================================================= */
 
 const levels = [
   {
@@ -349,14 +36,47 @@ const levels = [
 ];
 
 /* =========================================================
+   ANIMALS
+========================================================= */
+
+const animalPool = [
+  "🐶",
+  "🐻",
+  "🐟",
+  "🐢",
+  "🐱",
+  "🦋",
+  "🐼",
+  "🦊",
+  "🐰",
+  "🐦",
+];
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+const initialState = {
+  selectedLevelId: 1,
+  numberCards: [],
+  animalCards: [],
+  selectedNumber: null,
+  matchedIds: [],
+  message:
+    "Choose a number, then find the matching animals.",
+  score: 0,
+  completed: false,
+};
+
+/* =========================================================
    SHUFFLE
 ========================================================= */
 
 function shuffleArray(array) {
-  const newArray = [...array];
+  const result = [...array];
 
   for (
-    let i = newArray.length - 1;
+    let i = result.length - 1;
     i > 0;
     i -= 1
   ) {
@@ -364,32 +84,13 @@ function shuffleArray(array) {
       Math.random() * (i + 1)
     );
 
-    [newArray[i], newArray[j]] = [
-      newArray[j],
-      newArray[i],
+    [result[i], result[j]] = [
+      result[j],
+      result[i],
     ];
   }
 
-  return newArray;
-}
-
-/* =========================================================
-   UNIQUE NUMBERS
-========================================================= */
-
-function getUniqueNumbers(
-  count,
-  maxNumber
-) {
-  const nums = Array.from(
-    { length: maxNumber },
-    (_, i) => i + 1
-  );
-
-  return shuffleArray(nums).slice(
-    0,
-    count
-  );
+  return result;
 }
 
 /* =========================================================
@@ -397,33 +98,97 @@ function getUniqueNumbers(
 ========================================================= */
 
 function generateRound(level) {
-  const chosenNumbers =
-    getUniqueNumbers(
-      level.pairCount,
-      level.maxNumber
-    );
+  const numbers = shuffleArray(
+    Array.from(
+      {
+        length: level.maxNumber,
+      },
+      (_, index) => index + 1
+    )
+  ).slice(
+    0,
+    level.pairCount
+  );
 
-  const chosenAnimals =
-    shuffleArray(animalPool).slice(
-      0,
-      level.pairCount
-    );
+  const animals = shuffleArray(
+    animalPool
+  ).slice(
+    0,
+    level.pairCount
+  );
 
-  const pairs = chosenNumbers.map(
+  const pairs = numbers.map(
     (number, index) => ({
-      id: `${level.id}-${index + 1}`,
+      id: `${level.id}-${Date.now()}-${index}`,
       number,
-      animal:
-        chosenAnimals[index],
+      animal: animals[index],
     })
   );
 
-  return {
-    numberCards:
-      shuffleArray(pairs),
+  /* -----------------------------------------
+     Shuffle numbers
+  ----------------------------------------- */
 
-    animalCards:
-      shuffleArray(pairs),
+  const numberCards =
+    shuffleArray(pairs);
+
+  /* -----------------------------------------
+     Shuffle animals separately
+  ----------------------------------------- */
+
+  let animalCards =
+    shuffleArray(pairs);
+
+  /*
+   * Prevent correct pairs from accidentally
+   * appearing at the same row position.
+   */
+  let samePosition =
+    animalCards.some(
+      (animal, index) =>
+        animal.id ===
+        numberCards[index].id
+    );
+
+  let attempts = 0;
+
+  while (
+    samePosition &&
+    attempts < 30
+  ) {
+    animalCards =
+      shuffleArray(pairs);
+
+    samePosition =
+      animalCards.some(
+        (animal, index) =>
+          animal.id ===
+          numberCards[index].id
+      );
+
+    attempts += 1;
+  }
+
+  /* -----------------------------------------
+     Fallback
+  ----------------------------------------- */
+
+  if (
+    samePosition &&
+    level.pairCount > 1
+  ) {
+    [
+      animalCards[0],
+      animalCards[1],
+    ] = [
+      animalCards[1],
+      animalCards[0],
+    ];
+  }
+
+  return {
+    numberCards,
+    animalCards,
   };
 }
 
@@ -432,17 +197,9 @@ function generateRound(level) {
 ========================================================= */
 
 export default function NumberMatchAnimals() {
-  const initialState = {
-    selectedLevelId: 1,
-    numberCards: [],
-    animalCards: [],
-    selectedNumber: null,
-    matchedIds: [],
-    message:
-      "Match the number with correct animals",
-    score: 0,
-    completed: false,
-  };
+  /* =======================================================
+     FIREBASE
+  ======================================================= */
 
   const {
     savedState,
@@ -454,67 +211,127 @@ export default function NumberMatchAnimals() {
     initialState
   );
 
-  /* =========================================================
-     STATES
-  ========================================================= */
+  /* =======================================================
+     STATE
+  ======================================================= */
 
-  const [selectedLevel, setSelectedLevel] =
-    useState(levels[0]);
+  const [
+    selectedLevel,
+    setSelectedLevel,
+  ] = useState(levels[0]);
 
-  const [numberCards, setNumberCards] =
-    useState([]);
+  const [
+    numberCards,
+    setNumberCards,
+  ] = useState([]);
 
-  const [animalCards, setAnimalCards] =
-    useState([]);
+  const [
+    animalCards,
+    setAnimalCards,
+  ] = useState([]);
 
-  const [selectedNumber, setSelectedNumber] =
-    useState(null);
+  const [
+    selectedNumber,
+    setSelectedNumber,
+  ] = useState(null);
 
-  const [matchedIds, setMatchedIds] =
-    useState([]);
+  const [
+    matchedIds,
+    setMatchedIds,
+  ] = useState([]);
 
-  const [message, setMessage] =
-    useState(
-      "Match the number with correct animals"
-    );
+  const [
+    message,
+    setMessage,
+  ] = useState(
+    "Choose a number, then find the matching animals."
+  );
 
-  const [score, setScore] =
-    useState(0);
+  const [
+    score,
+    setScore,
+  ] = useState(0);
 
-  const [completed, setCompleted] =
-    useState(false);
+  const [
+    completed,
+    setCompleted,
+  ] = useState(false);
 
-  const [restored, setRestored] =
-    useState(false);
+  const [
+    restored,
+    setRestored,
+  ] = useState(false);
 
-  /* =========================================================
-     RESTORE SAVED GAME
-  ========================================================= */
+  /* =======================================================
+     POPUP
+  ======================================================= */
+
+  const [
+    showCompletionPopup,
+    setShowCompletionPopup,
+  ] = useState(false);
+
+  /* =======================================================
+     MATCH ANIMATION
+  ======================================================= */
+
+  const [
+    connection,
+    setConnection,
+  ] = useState(null);
+
+  const [
+    animatingMatch,
+    setAnimatingMatch,
+  ] = useState(null);
+
+  /* =======================================================
+     REFS
+  ======================================================= */
+
+  const boardRef =
+    useRef(null);
+
+  const numberRefs =
+    useRef({});
+
+  const animalRefs =
+    useRef({});
+
+  /* =======================================================
+     RESTORE
+  ======================================================= */
 
   useEffect(() => {
-    if (progressLoading) return;
-    if (restored) return;
-
-    console.log(
-      "🔥 Number Match Animals saved state:",
-      savedState
-    );
+    if (
+      progressLoading ||
+      restored
+    ) {
+      return;
+    }
 
     if (
       savedState &&
-      savedState.numberCards?.length > 0
+      Array.isArray(
+        savedState.numberCards
+      ) &&
+      savedState.numberCards.length > 0
     ) {
       const savedLevel =
         levels.find(
           (level) =>
             level.id ===
-            savedState.selectedLevelId
+            Number(
+              savedState.selectedLevelId
+            )
         ) || levels[0];
 
-      setSelectedLevel(savedLevel);
+      setSelectedLevel(
+        savedLevel
+      );
 
       setNumberCards(
-        savedState.numberCards || []
+        savedState.numberCards
       );
 
       setAnimalCards(
@@ -522,7 +339,8 @@ export default function NumberMatchAnimals() {
       );
 
       setSelectedNumber(
-        savedState.selectedNumber || null
+        savedState.selectedNumber ||
+          null
       );
 
       setMatchedIds(
@@ -531,35 +349,35 @@ export default function NumberMatchAnimals() {
 
       setMessage(
         savedState.message ||
-          "Match the number with correct animals"
+          "Choose a number, then find the matching animals."
       );
 
       setScore(
-        savedState.score || 0
+        Number(savedState.score) || 0
       );
 
       setCompleted(
-        Boolean(savedState.completed)
+        Boolean(
+          savedState.completed
+        )
       );
     } else {
-      /* No saved round → create first round */
-      const firstLevel = levels[0];
+      const round =
+        generateRound(
+          levels[0]
+        );
 
-      const {
-        numberCards,
-        animalCards,
-      } = generateRound(firstLevel);
-
-      setSelectedLevel(firstLevel);
-      setNumberCards(numberCards);
-      setAnimalCards(animalCards);
-      setSelectedNumber(null);
-      setMatchedIds([]);
-      setMessage(
-        "Match the number with correct animals"
+      setSelectedLevel(
+        levels[0]
       );
-      setScore(0);
-      setCompleted(false);
+
+      setNumberCards(
+        round.numberCards
+      );
+
+      setAnimalCards(
+        round.animalCards
+      );
     }
 
     setRestored(true);
@@ -569,11 +387,11 @@ export default function NumberMatchAnimals() {
     restored,
   ]);
 
-  /* =========================================================
-     SAVE STATE
-  ========================================================= */
+  /* =======================================================
+     SAVE
+  ======================================================= */
 
-  const saveCurrentState = async (
+  const saveGame = async (
     overrides = {}
   ) => {
     await save({
@@ -598,154 +416,263 @@ export default function NumberMatchAnimals() {
     });
   };
 
-  /* =========================================================
-     LOAD ROUND
-  ========================================================= */
+  /* =======================================================
+     CREATE CONNECTION
+  ======================================================= */
 
-  const loadRound = async (
-    level = selectedLevel
-  ) => {
-    const {
-      numberCards,
-      animalCards,
-    } = generateRound(level);
+  const createConnection =
+    useCallback((id) => {
+      const board =
+        boardRef.current;
 
-    const initialMessage =
-      "Match the number with correct animals";
+      const numberElement =
+        numberRefs.current[id];
 
-    setNumberCards(numberCards);
-    setAnimalCards(animalCards);
-    setSelectedNumber(null);
-    setMatchedIds([]);
-    setMessage(initialMessage);
-    setScore(0);
-    setCompleted(false);
+      const animalElement =
+        animalRefs.current[id];
 
-    /* 💾 SAVE NEW ROUND */
-    await save({
-      selectedLevelId: level.id,
-      numberCards,
-      animalCards,
-      selectedNumber: null,
-      matchedIds: [],
-      message: initialMessage,
-      score: 0,
-      completed: false,
-    });
-  };
+      if (
+        !board ||
+        !numberElement ||
+        !animalElement
+      ) {
+        return;
+      }
 
-  /* =========================================================
-     LEVEL CHANGE
-  ========================================================= */
+      const boardRect =
+        board.getBoundingClientRect();
 
-  const handleLevelChange = async (
-    level
-  ) => {
-    setSelectedLevel(level);
+      const numberRect =
+        numberElement.getBoundingClientRect();
 
-    await loadRound(level);
-  };
+      const animalRect =
+        animalElement.getBoundingClientRect();
 
-  /* =========================================================
-     NUMBER CLICK
-  ========================================================= */
+      setConnection({
+        start: {
+          x:
+            numberRect.right -
+            boardRect.left,
 
-  const handleNumberClick = async (
-    item
-  ) => {
-    if (
-      matchedIds.includes(item.id)
-    ) {
-      return;
-    }
+          y:
+            numberRect.top -
+            boardRect.top +
+            numberRect.height / 2,
+        },
 
-    const newMessage = `Now select the animal group for ${item.number}`;
+        end: {
+          x:
+            animalRect.left -
+            boardRect.left,
 
-    setSelectedNumber(item);
-    setMessage(newMessage);
+          y:
+            animalRect.top -
+            boardRect.top +
+            animalRect.height / 2,
+        },
+      });
+    }, []);
 
-    await saveCurrentState({
-      selectedNumber: item,
-      message: newMessage,
-    });
-  };
+  /* =======================================================
+     NEW ROUND
+  ======================================================= */
 
-  /* =========================================================
-     ANIMAL CLICK
-  ========================================================= */
+  const startNewRound =
+    async (
+      level = selectedLevel
+    ) => {
+      const round =
+        generateRound(level);
 
-  const handleAnimalClick = async (
-    item
-  ) => {
-    if (!selectedNumber) return;
+      const newMessage =
+        "Choose a number, then find the matching animals.";
 
-    if (
-      matchedIds.includes(item.id)
-    ) {
-      return;
-    }
+      setSelectedLevel(level);
 
-    /* -----------------------------------------
-       CORRECT MATCH
-    ----------------------------------------- */
-
-    if (
-      selectedNumber.id === item.id
-    ) {
-      const updatedMatched = [
-        ...matchedIds,
-        item.id,
-      ];
-
-      const updatedScore =
-        score + 1;
-
-      const isLastMatch =
-        updatedMatched.length ===
-        numberCards.length;
-
-      const newMessage = isLastMatch
-        ? "🎉 All matches are correct! Great job!"
-        : "✅ Correct match!";
-
-      setMatchedIds(
-        updatedMatched
+      setNumberCards(
+        round.numberCards
       );
 
-      setScore(updatedScore);
+      setAnimalCards(
+        round.animalCards
+      );
 
       setSelectedNumber(null);
 
+      setMatchedIds([]);
+
       setMessage(newMessage);
 
-      /* ---------------------------------------
-         GAME COMPLETE
-      --------------------------------------- */
+      setScore(0);
 
-      if (isLastMatch) {
-        const percentage =
-          (updatedScore /
-            numberCards.length) *
-          100;
+      setCompleted(false);
 
-        console.log(
-          "🏁 Number Match completed:",
-          {
-            score: updatedScore,
-            total:
-              numberCards.length,
-            percentage,
-          }
+      setShowCompletionPopup(
+        false
+      );
+
+      setConnection(null);
+
+      setAnimatingMatch(null);
+
+      await save({
+        selectedLevelId:
+          level.id,
+
+        numberCards:
+          round.numberCards,
+
+        animalCards:
+          round.animalCards,
+
+        selectedNumber: null,
+
+        matchedIds: [],
+
+        message: newMessage,
+
+        score: 0,
+
+        completed: false,
+      });
+    };
+
+  /* =======================================================
+     LEVEL
+  ======================================================= */
+
+  const handleLevelChange =
+    async (level) => {
+      await startNewRound(
+        level
+      );
+    };
+
+  /* =======================================================
+     NUMBER CLICK
+  ======================================================= */
+
+  const handleNumberClick =
+    async (item) => {
+      if (
+        completed ||
+        matchedIds.includes(
+          item.id
+        )
+      ) {
+        return;
+      }
+
+      setSelectedNumber(
+        item
+      );
+
+      const newMessage =
+        `Find the group with ${item.number} ${
+          item.number === 1
+            ? "animal"
+            : "animals"
+        }.`;
+
+      setMessage(
+        newMessage
+      );
+
+      await saveGame({
+        selectedNumber:
+          item,
+
+        message:
+          newMessage,
+      });
+    };
+
+  /* =======================================================
+     ANIMAL CLICK
+  ======================================================= */
+
+  const handleAnimalClick =
+    async (item) => {
+      if (
+        completed ||
+        matchedIds.includes(
+          item.id
+        )
+      ) {
+        return;
+      }
+
+      if (!selectedNumber) {
+        setMessage(
+          "First choose a number!"
         );
 
-        await finish(
-          percentage,
-          "Number Match Animals"
+        return;
+      }
+
+      /* ===================================================
+         CORRECT
+      =================================================== */
+
+      if (
+        selectedNumber.id ===
+        item.id
+      ) {
+        const updatedMatchedIds =
+          [
+            ...matchedIds,
+            item.id,
+          ];
+
+        const updatedScore =
+          score + 1;
+
+        const gameFinished =
+          updatedMatchedIds.length ===
+          numberCards.length;
+
+        const newMessage =
+          gameFinished
+            ? "🎉 Amazing! You matched everything!"
+            : "✨ Perfect match!";
+
+        /*
+         * Wait for the matched class
+         * to appear, then calculate
+         * the exact positions.
+         */
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            createConnection(
+              item.id
+            );
+          });
+        });
+
+        setAnimatingMatch(
+          item.id
         );
 
-        setCompleted(true);
+        setMatchedIds(
+          updatedMatchedIds
+        );
+
+        setScore(
+          updatedScore
+        );
+
+        setSelectedNumber(
+          null
+        );
+
+        setMessage(
+          newMessage
+        );
 
         await save({
+          selectedLevel:
+            selectedLevel.id,
+
           selectedLevelId:
             selectedLevel.id,
 
@@ -756,63 +683,243 @@ export default function NumberMatchAnimals() {
           selectedNumber: null,
 
           matchedIds:
-            updatedMatched,
+            updatedMatchedIds,
 
-          message: newMessage,
+          message:
+            newMessage,
 
-          score: updatedScore,
+          score:
+            updatedScore,
 
-          completed: true,
+          completed:
+            gameFinished,
         });
+
+        /* ===============================================
+           FINISHED
+        ================================================ */
+
+        if (gameFinished) {
+          setCompleted(true);
+
+          setTimeout(() => {
+            setConnection(null);
+
+            setAnimatingMatch(
+              null
+            );
+
+            setShowCompletionPopup(
+              true
+            );
+          }, 1000);
+
+          void finish(
+            100,
+            "Number Match Animals"
+          );
+
+          return;
+        }
+
+        /* ===============================================
+           NORMAL MATCH
+        ================================================ */
+
+        setTimeout(() => {
+          setConnection(null);
+
+          setAnimatingMatch(
+            null
+          );
+        }, 900);
 
         return;
       }
 
-      /* ---------------------------------------
-         SAVE CORRECT MATCH
-      --------------------------------------- */
+      /* ===================================================
+         WRONG
+      =================================================== */
 
-      await save({
-        selectedLevelId:
-          selectedLevel.id,
+      const wrongMessage =
+        "❌ Not this group. Try again!";
 
-        numberCards,
+      setMessage(
+        wrongMessage
+      );
 
-        animalCards,
+      await saveGame({
+        selectedNumber,
 
-        selectedNumber: null,
-
-        matchedIds:
-          updatedMatched,
-
-        message: newMessage,
-
-        score: updatedScore,
-
-        completed: false,
+        message:
+          wrongMessage,
       });
+    };
 
-      return;
-    }
+  /* =======================================================
+     RESET
+  ======================================================= */
 
-    /* -----------------------------------------
-       WRONG MATCH
-    ----------------------------------------- */
+  const handleReset =
+    async () => {
+      await startNewRound(
+        selectedLevel
+      );
+    };
 
-    const wrongMessage =
-      "❌ Wrong match. Try another animal group.";
+  /* =======================================================
+     PLAY AGAIN
+  ======================================================= */
 
-    setMessage(wrongMessage);
+  const handlePlayAgain =
+    async () => {
+      await startNewRound(
+        selectedLevel
+      );
+    };
 
-    await saveCurrentState({
-      selectedNumber,
-      message: wrongMessage,
-    });
+  /* =======================================================
+     NUMBER CARD
+  ======================================================= */
+
+  const renderNumberCard = (
+    item
+  ) => {
+    return (
+      <button
+        key={
+          `number-${item.id}`
+        }
+        ref={(element) => {
+          numberRefs.current[
+            item.id
+          ] = element;
+        }}
+        className={`
+          match-box
+          number-box
+
+          ${
+            selectedNumber?.id ===
+            item.id
+              ? "selected-box"
+              : ""
+          }
+
+          ${
+            matchedIds.includes(
+              item.id
+            )
+              ? "matched-box"
+              : ""
+          }
+
+          ${
+            animatingMatch ===
+            item.id
+              ? "matching-animation"
+              : ""
+          }
+        `}
+        onClick={() =>
+          handleNumberClick(item)
+        }
+        disabled={
+          completed ||
+          matchedIds.includes(
+            item.id
+          )
+        }
+      >
+        <span>
+          {item.number}
+        </span>
+
+        {matchedIds.includes(
+          item.id
+        ) && (
+          <span className="check">
+            ✓
+          </span>
+        )}
+      </button>
+    );
   };
 
-  /* =========================================================
+  /* =======================================================
+     ANIMAL CARD
+  ======================================================= */
+
+  const renderAnimalCard = (
+    item
+  ) => {
+    return (
+      <button
+        key={
+          `animal-${item.id}`
+        }
+        ref={(element) => {
+          animalRefs.current[
+            item.id
+          ] = element;
+        }}
+        className={`
+          match-box
+          animal-box
+
+          ${
+            matchedIds.includes(
+              item.id
+            )
+              ? "matched-box"
+              : ""
+          }
+
+          ${
+            animatingMatch ===
+            item.id
+              ? "matching-animation"
+              : ""
+          }
+        `}
+        onClick={() =>
+          handleAnimalClick(item)
+        }
+        disabled={
+          completed ||
+          matchedIds.includes(
+            item.id
+          )
+        }
+      >
+        <div className="animal-icons">
+          {Array.from(
+            {
+              length:
+                item.number,
+            },
+            (_, index) => (
+              <span key={index}>
+                {item.animal}
+              </span>
+            )
+          )}
+        </div>
+
+        {matchedIds.includes(
+          item.id
+        ) && (
+          <span className="check">
+            ✓
+          </span>
+        )}
+      </button>
+    );
+  };
+
+  /* =======================================================
      LOADING
-  ========================================================= */
+  ======================================================= */
 
   if (
     progressLoading ||
@@ -820,163 +927,361 @@ export default function NumberMatchAnimals() {
   ) {
     return (
       <div className="match-page">
-        <div className="match-card">
 
-          <div className="match-top-bar">
-            <h1>
-              🐾 Number Match
-            </h1>
+        <div className="match-card loading-card">
 
-            <p>
-              Loading your game...
-            </p>
+          <div className="match-header">
+
+            <div className="match-title-area">
+
+              <div className="match-header-icon">
+                🔢
+              </div>
+
+              <div>
+                <h1>
+                  Number Match
+                </h1>
+
+                <p>
+                  Loading your game...
+                </p>
+              </div>
+
+            </div>
+
           </div>
 
         </div>
+
       </div>
     );
   }
 
-  /* =========================================================
+  /* =======================================================
      UI
-  ========================================================= */
+  ======================================================= */
 
   return (
     <div className="match-page">
 
       <div className="match-card">
 
-        {/* TOP BAR */}
-        <div className="match-top-bar">
+        {/* =================================================
+            HEADER
+        ================================================= */}
 
-          <h1>
-            🐾 Number Match
-          </h1>
+        <div className="match-header">
 
-          <p>
-            Match the number with correct
-            animals
-          </p>
+          <div className="match-title-area">
+
+            <div className="match-header-icon">
+              🔢
+            </div>
+
+            <div>
+
+              <h1>
+                Number Match
+              </h1>
+
+              <p>
+                Count the animals and find the matching number
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="score-badge">
+            ⭐ {score}
+          </div>
 
         </div>
 
-        {/* LEVELS */}
+        {/* =================================================
+            LEVELS
+        ================================================= */}
+
         <div className="level-row">
 
-          {levels.map((level) => (
-            <button
-              key={level.id}
-              className={`level-btn ${
-                selectedLevel.id ===
-                level.id
-                  ? "active-level"
-                  : ""
-              }`}
-              onClick={() =>
-                handleLevelChange(level)
-              }
-            >
-              {level.title}
-            </button>
-          ))}
+          {levels.map(
+            (level) => (
+              <button
+                key={level.id}
+                className={`level-btn ${
+                  selectedLevel.id ===
+                  level.id
+                    ? "active-level"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleLevelChange(
+                    level
+                  )
+                }
+              >
+                {level.title}
+              </button>
+            )
+          )}
 
         </div>
 
-        {/* LEVEL INFO */}
-        <div className="level-info">
+        {/* =================================================
+            INSTRUCTION
+        ================================================= */}
 
-          <span>
-            Level:{" "}
-            {selectedLevel.title} |
-            {" "}
-            Matches:{" "}
-            {selectedLevel.pairCount}
+        <div className="kid-instruction">
+
+          <span className="instruction-emoji">
+            💡
           </span>
 
-        </div>
+          <div>
 
-        {/* MATCH COLUMNS */}
-        <div className="match-columns">
+            <strong>
+              Count the animals!
+            </strong>
 
-          {/* NUMBERS */}
-          <div className="match-column">
-
-            <h2>
-              Numbers
-            </h2>
-
-            {numberCards.map(
-              (item) => (
-                <button
-                  key={`number-${item.id}`}
-                  className={`match-box number-box ${
-                    selectedNumber?.id ===
-                    item.id
-                      ? "selected-box"
-                      : ""
-                  } ${
-                    matchedIds.includes(
-                      item.id
-                    )
-                      ? "matched-box"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    handleNumberClick(
-                      item
-                    )
-                  }
-                  disabled={matchedIds.includes(
-                    item.id
-                  )}
-                >
-                  {item.number}
-                </button>
-              )
-            )}
-
-          </div>
-
-          {/* ANIMALS */}
-          <div className="match-column">
-
-            <h2>
-              Animals
-            </h2>
-
-            {animalCards.map(
-              (item) => (
-                <button
-                  key={`animal-${item.id}`}
-                  className={`match-box animal-box ${
-                    matchedIds.includes(
-                      item.id
-                    )
-                      ? "matched-box"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    handleAnimalClick(
-                      item
-                    )
-                  }
-                  disabled={matchedIds.includes(
-                    item.id
-                  )}
-                >
-                  {item.animal.repeat(
-                    item.number
-                  )}
-                </button>
-              )
-            )}
+            <p>
+              Choose a number, then find the animal group with the same amount.
+            </p>
 
           </div>
 
         </div>
 
-        {/* MESSAGE */}
-        <div className="message-box">
+        {/* =================================================
+            MATCH BOARD
+        ================================================= */}
+
+        <div
+          className="match-board"
+          ref={boardRef}
+        >
+
+          {/* ===============================================
+              CONNECTION
+          ================================================ */}
+
+          {connection && (
+            <svg
+              className="connection-svg"
+              width="100%"
+              height="100%"
+              preserveAspectRatio="none"
+            >
+
+              <defs>
+
+                <linearGradient
+                  id="matchGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+
+                  <stop
+                    offset="0%"
+                    stopColor="#ffd34d"
+                  />
+
+                  <stop
+                    offset="50%"
+                    stopColor="#ffffff"
+                  />
+
+                  <stop
+                    offset="100%"
+                    stopColor="#64c957"
+                  />
+
+                </linearGradient>
+
+                <filter
+                  id="matchGlow"
+                  x="-50%"
+                  y="-50%"
+                  width="200%"
+                  height="200%"
+                >
+
+                  <feGaussianBlur
+                    stdDeviation="3"
+                    result="blur"
+                  />
+
+                  <feMerge>
+
+                    <feMergeNode
+                      in="blur"
+                    />
+
+                    <feMergeNode
+                      in="SourceGraphic"
+                    />
+
+                  </feMerge>
+
+                </filter>
+
+              </defs>
+
+              {/* Glow */}
+              <line
+                x1={
+                  connection.start.x
+                }
+                y1={
+                  connection.start.y
+                }
+                x2={
+                  connection.end.x
+                }
+                y2={
+                  connection.end.y
+                }
+                className="connection-glow"
+              />
+
+              {/* Main beam */}
+              <line
+                x1={
+                  connection.start.x
+                }
+                y1={
+                  connection.start.y
+                }
+                x2={
+                  connection.end.x
+                }
+                y2={
+                  connection.end.y
+                }
+                className="connection-line"
+                stroke="url(#matchGradient)"
+                filter="url(#matchGlow)"
+              />
+
+              {/* Moving spark */}
+              <circle
+                cx={
+                  connection.start.x
+                }
+                cy={
+                  connection.start.y
+                }
+                r="7"
+                className="travel-light"
+              >
+
+                <animate
+                  attributeName="cx"
+                  from={
+                    connection.start.x
+                  }
+                  to={
+                    connection.end.x
+                  }
+                  dur="0.7s"
+                  fill="freeze"
+                />
+
+                <animate
+                  attributeName="cy"
+                  from={
+                    connection.start.y
+                  }
+                  to={
+                    connection.end.y
+                  }
+                  dur="0.7s"
+                  fill="freeze"
+                />
+
+              </circle>
+
+              {/* Burst */}
+              <circle
+                cx={
+                  connection.end.x
+                }
+                cy={
+                  connection.end.y
+                }
+                className="end-burst"
+              />
+
+            </svg>
+          )}
+
+          {/* ===============================================
+              NUMBER COLUMN
+          ================================================ */}
+
+          <section className="game-column">
+
+            <div className="column-title">
+              <span>
+                🔢
+              </span>
+
+              <h2>
+                Numbers
+              </h2>
+            </div>
+
+            <div className="card-list">
+
+              {numberCards.map(
+                renderNumberCard
+              )}
+
+            </div>
+
+          </section>
+
+          {/* ===============================================
+              ANIMAL COLUMN
+          ================================================ */}
+
+          <section className="game-column">
+
+            <div className="column-title">
+              <span>
+                🐾
+              </span>
+
+              <h2>
+                Animals
+              </h2>
+            </div>
+
+            <div className="card-list">
+
+              {animalCards.map(
+                renderAnimalCard
+              )}
+
+            </div>
+
+          </section>
+
+        </div>
+
+        {/* =================================================
+            MESSAGE
+        ================================================= */}
+
+        <div
+          className={`message-box ${
+            completed
+              ? "success-message"
+              : ""
+          }`}
+        >
 
           <p>
             {message}
@@ -984,52 +1289,74 @@ export default function NumberMatchAnimals() {
 
         </div>
 
-        {/* SCORE */}
-        <div className="score-box">
+        {/* =================================================
+            BOTTOM
+        ================================================= */}
 
-          <span>
-            Score: {score}
+        <div className="bottom-row">
+
+          <span className="progress-label">
+            {matchedIds.length} /{" "}
+            {numberCards.length} matched
           </span>
-
-        </div>
-
-        {/* COMPLETED */}
-        {completed && (
-          <div className="done-box">
-            🎉 You matched all{" "}
-            {selectedLevel.pairCount}{" "}
-            pairs!
-          </div>
-        )}
-
-        {/* BUTTONS */}
-        <div className="button-row">
 
           <button
             className="reset-btn"
-            onClick={() =>
-              loadRound(
-                selectedLevel
-              )
+            onClick={
+              handleReset
             }
           >
-            Reset
-          </button>
-
-          <button
-            className="next-btn"
-            onClick={() =>
-              loadRound(
-                selectedLevel
-              )
-            }
-          >
-            Next Round
+            🔄 Reset
           </button>
 
         </div>
 
       </div>
+
+      {/* ===================================================
+          COMPLETION POPUP
+      =================================================== */}
+
+      {showCompletionPopup && (
+        <div className="popup-overlay">
+
+          <div className="completion-popup">
+
+            <div className="popup-face">
+              🐾
+            </div>
+
+            <div className="popup-stars">
+              ⭐ ✨ ⭐
+            </div>
+
+            <h2>
+              Amazing Job!
+            </h2>
+
+            <p>
+              You matched all{" "}
+              {numberCards.length}{" "}
+              pairs!
+            </p>
+
+            <div className="popup-score">
+              🏆 Score: {score}
+            </div>
+
+            <button
+              className="popup-next-btn"
+              onClick={
+                handlePlayAgain
+              }
+            >
+              PLAY AGAIN →
+            </button>
+
+          </div>
+
+        </div>
+      )}
 
     </div>
   );

@@ -1,158 +1,813 @@
+/* =========================================================
+   NUMBERS LEARNING HOME
+   Same visual language as Numbers Home
+   ========================================================= */
+
 .numbers-learning-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  width: 100%;
   position: relative;
   overflow-x: hidden;
-  padding-bottom: 40px;
+
+  background:
+    linear-gradient(
+      rgba(18, 48, 30, 0.08),
+      rgba(18, 48, 30, 0.08)
+    ),
+    url("../assets/gamesHome.png") center top / cover fixed no-repeat;
+
+  font-family: "Trebuchet MS", "Comic Sans MS", sans-serif;
+  color: #fff8df;
+
+  padding-bottom: 55px;
 }
 
-/* TOP BAR */
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 .numbers-learning-topbar {
-  background: #184c35;
-  color: white;
   min-height: 72px;
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+
+  background: rgba(8, 76, 51, 0.96);
+
+  border-bottom: 3px solid #f4c95d;
   border-radius: 0 0 18px 18px;
-  padding: 8px 18px;
+
+  position: relative;
+  z-index: 10;
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.22);
 }
 
 .numbers-learning-title {
-  font-size: 22px;
-  font-weight: bold;
+  margin: 0;
+
+  color: #fffdf0;
+
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  letter-spacing: 0.3px;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* BACK BUTTON */
-.numbers-learning-back {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
-}
 
-.numbers-learning-back:hover {
-  transform: translateY(-50%) scale(1.05);
-}
+/* =========================================================
+   DECORATIVE BACKGROUND CIRCLES
+   ========================================================= */
 
-/* DECOR */
 .numbers-learning-decor {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  pointer-events: none;
+
+  backdrop-filter: blur(2px);
 }
 
 .decor-top-left {
-  width: 130px;
-  height: 130px;
-  top: 110px;
-  left: -35px;
+  width: 150px;
+  height: 150px;
+
+  top: 180px;
+  left: -70px;
 }
 
 .decor-middle-right {
-  width: 180px;
-  height: 180px;
-  top: 330px;
-  right: -60px;
+  width: 190px;
+  height: 190px;
+
+  top: 480px;
+  right: -85px;
 }
 
 .decor-bottom-left {
-  width: 150px;
-  height: 150px;
-  bottom: 120px;
-  left: -50px;
+  width: 170px;
+  height: 170px;
+
+  bottom: 100px;
+  left: -75px;
 }
 
-/* ICON ROW */
-.numbers-learning-animals {
+
+/* =========================================================
+   TOP ICON AREA
+   ========================================================= */
+
+.numbers-learning-header {
   display: flex;
   justify-content: center;
-  gap: 16px;
+
+  margin-top: 25px;
+  margin-bottom: 35px;
+
+  position: relative;
+  z-index: 2;
+}
+
+.numbers-learning-animals {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 22px;
+
+  min-width: 145px;
+
+  padding: 13px 25px;
+
+  border-radius: 50px;
+
+  background: rgba(255, 248, 220, 0.88);
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.18);
+
+  backdrop-filter: blur(8px);
 }
 
 .top-animals {
-  font-size: 28px;
+  font-size: 29px;
 }
 
-/* CARDS */
+
+/* =========================================================
+   CARDS GRID
+   ========================================================= */
+
 .numbers-learning-list {
-  max-width: 850px;
-  margin: 28px auto;
-  padding: 0 20px;
+  width: min(1000px, calc(100% - 40px));
+
+  margin: 0 auto;
+
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 24px;
+
+  position: relative;
+  z-index: 3;
 }
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
 
 .numbers-learning-card {
-  background: rgba(255, 255, 255, 0.24);
-  border-radius: 24px;
-  padding: 22px;
-  display: flex;
+  min-height: 170px;
+
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns: 105px 1fr;
+
+  grid-template-rows: auto auto;
+
+  column-gap: 24px;
+  row-gap: 5px;
+
   align-items: center;
-  gap: 16px;
+
+  padding: 25px 28px;
+
+  border-radius: 25px;
+
   cursor: pointer;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
-  transition: 0.25s;
+
+  /*
+    Same brown family as Numbers Home.
+    Glass effect keeps the jungle visible.
+  */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(139, 86, 34, 0.88),
+      rgba(164, 101, 39, 0.78)
+    );
+
+  border: 2px solid rgba(244, 201, 93, 0.85);
+
+  box-shadow:
+    0 12px 28px rgba(44, 24, 8, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+
+  backdrop-filter: blur(10px);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
+
+
+/* subtle shine */
+
+.numbers-learning-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 120px;
+  height: 120px;
+
+  right: -25px;
+  top: -35px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.09);
+
+  pointer-events: none;
+}
+
+
+/* hover */
 
 .numbers-learning-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-7px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(151, 91, 34, 0.93),
+      rgba(177, 111, 43, 0.86)
+    );
+
+  box-shadow:
+    0 18px 35px rgba(39, 22, 7, 0.36),
+    0 0 0 2px rgba(255, 221, 121, 0.18);
 }
 
-/* ICON */
+.numbers-learning-card:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+
+/* keyboard focus */
+
+.numbers-learning-card:focus-visible {
+  outline: 3px solid #ffe49a;
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   IMAGE CONTAINER
+   ========================================================= */
+
 .numbers-learning-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  grid-row: 1 / span 2;
+
+  width: 92px;
+  height: 92px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  position: relative;
+  z-index: 2;
+
+  border: 2px solid rgba(255, 255, 255, 0.85);
+
+  box-shadow:
+    0 7px 16px rgba(0, 0, 0, 0.22);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.yellow { background: #ffe082; }
-.blue { background: #bbdefb; }
-.pink { background: #f8bbd0; }
-.purple { background: #e1bee7; }
-.green { background: #c8e6c9; }
+.numbers-learning-card:hover
+.numbers-learning-icon {
+  transform: scale(1.06) rotate(-2deg);
 
-/* TEXT */
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.27);
+}
+
+
+/* =========================================================
+   YOUR GENERATED IMAGES
+   ========================================================= */
+
+.numbers-learning-icon::before {
+  content: "";
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+/* Multi Sensory */
+
+.numbers-learning-icon.yellow {
+  background: #ffe082;
+}
+
+.numbers-learning-icon.yellow::before {
+  background-image: url("../assets/multi_sensory.png");
+}
+
+
+/* Story Based */
+
+.numbers-learning-icon.blue {
+  background: #bde7f5;
+}
+
+.numbers-learning-icon.blue::before {
+  background-image: url("../assets/story_based.png");
+}
+
+
+/* Number Tracing */
+
+.numbers-learning-icon.pink {
+  background: #f5b5d0;
+}
+
+.numbers-learning-icon.pink::before {
+  background-image: url("../assets/number_tracing.png");
+}
+
+
+/* Descending Orders */
+
+.numbers-learning-icon.purple {
+  background: #d5b4e8;
+}
+
+.numbers-learning-icon.purple::before {
+  background-image: url("../assets/descending_orders.png");
+}
+
+
+/* Number Line */
+
+.numbers-learning-icon.green {
+  background: #c8e3a8;
+}
+
+.numbers-learning-icon.green::before {
+  background-image: url("../assets/number_line_learning.png");
+}
+
+
+/*
+   Hide the emoji text from JSX because the
+   generated PNG is now being used.
+*/
+
+.numbers-learning-icon {
+  font-size: 0;
+}
+
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+.numbers-learning-text {
+  position: relative;
+  z-index: 2;
+
+  align-self: end;
+}
+
 .numbers-learning-text h2 {
-  margin: 0;
-  font-size: 20px;
+  margin: 0 0 5px;
+
+  color: #fff9e8;
+
+  font-size: clamp(20px, 2vw, 25px);
+
+  line-height: 1.15;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.28);
 }
 
 .numbers-learning-text p {
   margin: 0;
+
+  color: #fff3d0;
+
   font-size: 14px;
-  color: #234236;
+
+  font-weight: 600;
+
+  line-height: 1.4;
+
+  max-width: 330px;
 }
 
-/* ARROW */
-.numbers-learning-arrow {
-  margin-left: auto;
-  font-size: 24px;
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.numbers-learning-card::before {
+  pointer-events: none;
 }
 
-/* FOOTER */
+
+/*
+   Since the current JSX doesn't contain a button element,
+   the card itself remains clickable.
+
+   If you add a real button later, this styling is ready.
+*/
+
+.numbers-learning-btn {
+  grid-column: 2;
+
+  justify-self: start;
+
+  margin-top: 7px;
+
+  padding: 8px 18px;
+
+  border: none;
+  border-radius: 30px;
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.4px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.numbers-learning-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 14px rgba(0, 0, 0, 0.25);
+
+  filter: brightness(1.08);
+}
+
+
+/* button colours */
+
+.yellow-btn {
+  background: #168a55;
+}
+
+.blue-btn {
+  background: #1686b7;
+}
+
+.pink-btn {
+  background: #c84d83;
+}
+
+.purple-btn {
+  background: #7747b5;
+}
+
+.green-btn {
+  background: #278c50;
+}
+
+
+/* =========================================================
+   FOOTER / NUMBER ZONE
+   ========================================================= */
+
 .numbers-learning-footer {
+  width: min(1000px, calc(100% - 40px));
+
+  margin: 38px auto 0;
+
+  position: relative;
+  z-index: 3;
+
   text-align: center;
-  margin-top: 30px;
 }
 
 .numbers-learning-progress {
+  padding: 20px 25px;
+
+  border-radius: 22px;
+
+  background: rgba(255, 248, 220, 0.91);
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+
+  box-shadow:
+    0 10px 24px rgba(44, 24, 8, 0.18);
+
+  color: #5c351d;
+
+  backdrop-filter: blur(8px);
+}
+
+.numbers-learning-progress h3 {
+  margin: 0 0 5px;
+
+  font-size: 20px;
+
+  font-weight: 800;
+}
+
+.numbers-learning-progress p {
+  margin: 0;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .numbers-learning-list {
+    grid-template-columns: 1fr;
+
+    width: min(650px, calc(100% - 30px));
+  }
+
+  .numbers-learning-card {
+    min-height: 155px;
+  }
+
+}
+
+
+@media (max-width: 520px) {
+
+  .numbers-learning-topbar {
+    min-height: 62px;
+  }
+
+  .numbers-learning-title {
+    font-size: 22px;
+  }
+
+  .numbers-learning-header {
+    margin-top: 20px;
+    margin-bottom: 25px;
+  }
+
+  .numbers-learning-list {
+    width: calc(100% - 24px);
+
+    gap: 16px;
+  }
+
+  .numbers-learning-card {
+    min-height: 145px;
+
+    grid-template-columns: 78px 1fr;
+
+    column-gap: 16px;
+
+    padding: 20px;
+  }
+
+  .numbers-learning-icon {
+    width: 72px;
+    height: 72px;
+
+    border-radius: 17px;
+  }
+
+  .numbers-learning-text h2 {
+    font-size: 19px;
+  }
+
+  .numbers-learning-text p {
+    font-size: 13px;
+  }
+
+  .numbers-learning-footer {
+    width: calc(100% - 24px);
+  }
+
+}
+
+
+/* =========================================================
+   SMALL ANIMATION
+   ========================================================= */
+
+@keyframes learningFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.numbers-learning-header {
+  animation: learningFloat 4s ease-in-out infinite;
+}
+/* =========================================================
+   POLISHED CARD BUTTONS
+   ========================================================= */
+
+.numbers-learning-btn {
+  grid-column: 2;
+  justify-self: start;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-width: 125px;
+  height: 38px;
+
+  padding: 0 7px 0 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  color: #fffdf2;
+
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    filter 0.22s ease;
+}
+
+
+/* Arrow circle */
+
+.numbers-learning-btn::after {
+  content: "→";
+
+  width: 26px;
+  height: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
   background: rgba(255, 255, 255, 0.22);
-  padding: 20px;
-  border-radius: 20px;
+
+  font-size: 15px;
+  font-weight: 900;
+
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease;
+}
+
+
+/* Hover */
+
+.numbers-learning-btn:hover {
+  transform: translateY(-3px);
+
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.28),
+    0 0 14px rgba(255, 220, 130, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.numbers-learning-btn:hover::after {
+  transform: translateX(3px);
+
+  background: rgba(255, 255, 255, 0.32);
+}
+
+
+/* Click */
+
+.numbers-learning-btn:active {
+  transform: translateY(-1px) scale(0.97);
+
+  box-shadow:
+    0 4px 9px rgba(0, 0, 0, 0.22);
+}
+
+
+/* Keyboard focus */
+
+.numbers-learning-btn:focus-visible {
+  outline: 3px solid rgba(255, 231, 157, 0.8);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   BUTTON COLORS
+   ========================================================= */
+
+.yellow-btn {
+  background: linear-gradient(
+    135deg,
+    #15965b,
+    #087a48
+  );
+}
+
+.blue-btn {
+  background: linear-gradient(
+    135deg,
+    #1598c9,
+    #087ca9
+  );
+}
+
+.pink-btn {
+  background: linear-gradient(
+    135deg,
+    #d55388,
+    #b6386d
+  );
+}
+
+.purple-btn {
+  background: linear-gradient(
+    135deg,
+    #8054c6,
+    #6335a5
+  );
+}
+
+.green-btn {
+  background: linear-gradient(
+    135deg,
+    #35a85b,
+    #208546
+  );
+}
+
+
+/* =========================================================
+   BUTTON TEXT
+   ========================================================= */
+
+.numbers-learning-btn span {
+  position: relative;
+  z-index: 1;
 }

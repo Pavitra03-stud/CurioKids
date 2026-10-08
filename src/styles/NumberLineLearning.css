@@ -1,662 +1,498 @@
-/* .numberline-page {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px 16px;
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-}
-
-.numberline-card {
-  width: 100%;
-  max-width: 1240px;
-  background: #f5f5f5;
-  border-radius: 30px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
-  padding: 28px;
-}
-
-.top-section {
-  text-align: center;
-  margin-bottom: 24px;
-  position: relative;
-}
-
-.top-section h1 {
-  margin: 0;
-  color: #184c35;
-  font-size: 2.2rem;
-}
-
-.top-section p {
-  margin-top: 8px;
-  color: #355b44;
-  font-size: 1.05rem;
-}
-
-.rule-box {
-  background: #ffffff;
-  border-radius: 22px;
-  padding: 20px;
-  margin-bottom: 24px;
-  border: 2px dashed #b8d989;
-  text-align: center;
-}
-
-.rule-box h2 {
-  margin: 0 0 10px;
-  color: #184c35;
-}
-
-.rule-box p {
-  margin: 8px 0;
-  color: #355b44;
-  font-size: 1.05rem;
-}
-
-.voice-toggle-box {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.voice-btn {
-  background: #20bcc3;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.voice-btn:hover {
-  opacity: 0.92;
-}
-
-.levels-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.level-box {
-  border: none;
-  border-radius: 24px;
-  background: #ffffff;
-  padding: 24px 18px;
-  cursor: pointer;
-  text-align: center;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-}
-
-.level-box:hover {
-  transform: translateY(-4px);
-}
-
-.level-circle {
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  background: #73c943;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 14px;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.level-box h3 {
-  margin: 0;
-  color: #184c35;
-  font-size: 1.3rem;
-}
-
-.level-box p {
-  margin: 10px 0;
-  color: #4f6b57;
-}
-
-.level-box span {
-  display: inline-block;
-  margin-top: 8px;
-  font-weight: bold;
-  color: #184c35;
-}
-
-.lesson-top {
-  padding-top: 4px;
-}
-
-.back-btn {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: white;
-  border: none;
-  border-radius: 14px;
-  padding: 10px 16px;
-  font-weight: bold;
-  color: #184c35;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-}
-
-.lesson-layout {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 22px;
-}
-
-.lesson-main {
-  background: #edf4ea;
-  border: 2px solid #b9d59d;
-  border-radius: 24px;
-  padding: 20px;
-}
-
-.teach-box {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 16px;
-  border: 2px dashed #b8d989;
-}
-
-.teach-box h2 {
-  margin: 0 0 10px;
-  color: #184c35;
-}
-
-.teach-box p {
-  margin: 8px 0;
-  color: #355b44;
-}
-
-.example-text {
-  font-weight: bold;
-}
-
-.teach-actions {
-  margin-top: 12px;
-}
-
-.activity-box {
-  margin-top: 18px;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 14px;
-  border: 2px dashed #b8d989;
-  text-align: center;
-}
-
-.activity-box h3 {
-  margin: 0;
-  color: #184c35;
-}
-
-.number-line-wrapper {
-  position: relative;
-  margin-top: 28px;
-  min-height: 180px;
-  padding: 30px 10px 20px;
-}
-
-.line-track {
-  position: absolute;
-  left: 2%;
-  right: 2%;
-  top: 95px;
-  height: 6px;
-  background: #184c35;
-  border-radius: 10px;
-}
-
-.line-point {
-  position: absolute;
-  top: 20px;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.frog-marker {
-  font-size: 1.8rem;
-  line-height: 1;
-}
-
-.point-btn {
-  min-width: 58px;
-  height: 52px;
-  border: none;
-  border-radius: 14px;
-  background: #ffd166;
-  color: #184c35;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 0 8px;
-}
-
-.point-btn:hover {
-  transform: translateY(-2px);
-}
-
-.target-btn {
-  outline: 4px solid #20bcc3;
-  outline-offset: 2px;
-}
-
-.selected-btn {
-  background: #73c943;
-  color: white;
-}
-
-.message-box {
-  margin-top: 18px;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 16px;
-  border: 2px solid #dbe8d2;
-}
-
-.message-box p {
-  margin: 0;
-  color: #184c35;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.05rem;
-}
-
-.done-box {
-  margin-top: 14px;
-  background: #dff7d6;
-  border: 2px solid #8fd17f;
-  color: #1f6b2b;
-  font-weight: bold;
-  border-radius: 16px;
-  padding: 12px;
-  text-align: center;
-}
-
-.lesson-side {
-  background: #f6f3e9;
-  border: 2px solid #e1cc80;
-  border-radius: 24px;
-  padding: 20px;
-}
-
-.side-card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 16px;
-  border: 2px dashed #b8d989;
-  margin-bottom: 18px;
-}
-
-.side-card h3 {
-  margin: 0 0 10px;
-  color: #184c35;
-  text-align: center;
-}
-
-.side-card p {
-  margin: 8px 0;
-  color: #355b44;
-}
-
-.button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.reset-btn,
-.next-btn {
-  border: none;
-  border-radius: 16px;
-  padding: 14px 16px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.reset-btn {
-  background: #f2c75c;
-  color: #184c35;
-}
-
-.next-btn {
-  background: #73c943;
-  color: #fff;
-}
-
-.reset-btn:hover,
-.next-btn:hover,
-.back-btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.95;
-}
-
-@media (max-width: 950px) {
-  .levels-grid,
-  .lesson-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .back-btn {
-    position: static;
-    margin-bottom: 14px;
-  }
-
-  .number-line-wrapper {
-    overflow-x: auto;
-  }
-}
-
-@media (max-width: 600px) {
-  .numberline-card {
-    padding: 18px;
-  }
-
-  .top-section h1 {
-    font-size: 1.7rem;
-  }
-
-  .point-btn {
-    min-width: 48px;
-    height: 46px;
-    font-size: 0.85rem;
-  }
-
-  .frog-marker {
-    font-size: 1.4rem;
-  }
-} */
-
+/* =========================================================
+   NUMBER LINE LEARNING
+   JUNGLE + BROWN BOARD THEME
+========================================================= */
 
 .number-line-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  padding-bottom: 24px;
+  width: 100%;
+
+  background-image:
+    linear-gradient(
+      rgba(20, 65, 42, 0.08),
+      rgba(20, 65, 42, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
+  padding-bottom: 40px;
 }
 
+
+/* =========================================================
+   GREEN HEADER
+========================================================= */
+
 .number-line-header {
-  background: #184c35;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  border-bottom-left-radius: 14px;
-  border-bottom-right-radius: 14px;
+  height: 86px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 77, 51, 0.98),
+      rgba(0, 91, 61, 0.95)
+    );
+
+  color: #fff8dc;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom:
+    2px solid #f2c94c;
+
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+
   margin: 0 6px;
+
+  box-shadow:
+    0 6px 18px
+    rgba(0, 0, 0, 0.25);
+
+  position: relative;
+  z-index: 10;
 }
 
 .number-line-header h1 {
   margin: 0;
-  font-size: 2rem;
+
+  font-size:
+    clamp(25px, 3vw, 36px);
+
+  font-weight: 800;
+
+  color: #fff8dc;
+
+  text-shadow:
+    0 3px 5px
+    rgba(0, 0, 0, 0.35);
 }
+
+
+/* =========================================================
+   BROWN MAIN BOARD
+========================================================= */
 
 .number-line-levels-wrapper,
 .number-line-content {
+
   width: 100%;
   max-width: 1120px;
-  margin: 20px auto 0;
-  padding: 0 16px;
+
+  margin: 55px auto 0;
+
+  padding:
+    42px 48px 48px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(157, 98, 39, 0.97),
+      rgba(116, 68, 25, 0.97)
+    );
+
+  border:
+    2px solid #e6b84c;
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 18px 35px
+    rgba(0, 0, 0, 0.30),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.15);
+
+  position: relative;
+
+  overflow: hidden;
 }
 
-.level-top-box,
-.right-learning-card,
-.middle-learning-box {
-  background: rgba(212, 241, 177, 0.7);
-  border-radius: 22px;
-  padding: 22px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+
+/* Brown board decorative circle */
+
+.number-line-levels-wrapper::before,
+.number-line-content::before {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+  height: 190px;
+
+  top: -75px;
+  right: -45px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  pointer-events: none;
 }
+
+
+/* =========================================================
+   LEVEL TOP BOX
+========================================================= */
 
 .level-top-box {
+  background:
+    rgba(255, 247, 215, 0.96);
+
+  border:
+    2px dashed #e6bd4e;
+
+  border-radius: 22px;
+
+  padding: 22px;
+
   text-align: center;
-  margin-bottom: 22px;
+
+  margin-bottom: 24px;
+
+  box-shadow:
+    0 10px 22px
+    rgba(0, 0, 0, 0.18);
+
+  position: relative;
+  z-index: 1;
 }
 
 .level-top-box h2 {
-  margin: 0 0 8px;
-  color: #123f2e;
+  margin:
+    0 0 8px;
+
+  color: #69451e;
+
   font-size: 2rem;
 }
 
 .level-top-box p {
   margin: 0;
-  color: #184c35;
+
+  color: #69451e;
+
   font-size: 1.05rem;
 }
 
+
+/* =========================================================
+   LEVEL GRID
+========================================================= */
+
 .level-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 20px;
+
+  position: relative;
+  z-index: 1;
 }
+
+
+/* =========================================================
+   LEVEL CARDS
+========================================================= */
 
 .level-card {
-  background: #efefef;
-  border: 3px solid #ff8a33;
-  border-radius: 22px;
-  padding: 24px 18px;
+
+  min-height: 190px;
+
+  padding:
+    27px 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
   cursor: pointer;
-  text-align: center;
-  color: #123f2e;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  border-radius: 22px;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.6);
+
+  box-shadow:
+    0 10px 22px
+    rgba(0, 0, 0, 0.25),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.3);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+
+  position: relative;
+
+  overflow: hidden;
+
+  font-family: inherit;
 }
+
+
+/* Card shine */
+
+.level-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 110px;
+  height: 110px;
+
+  top: -45px;
+  right: -25px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.15);
+
+  pointer-events: none;
+}
+
+
+/* LEVEL 1 */
+
+.level-card:nth-child(1) {
+  background:
+    linear-gradient(
+      145deg,
+      #f4c95d,
+      #d99832
+    );
+
+  border-color:
+    #ffe7a1;
+}
+
+
+/* LEVEL 2 */
+
+.level-card:nth-child(2) {
+  background:
+    linear-gradient(
+      145deg,
+      #55aee8,
+      #347fc0
+    );
+
+  border-color:
+    #a9ddff;
+}
+
+
+/* LEVEL 3 */
+
+.level-card:nth-child(3) {
+  background:
+    linear-gradient(
+      145deg,
+      #a86fd3,
+      #7846a7
+    );
+
+  border-color:
+    #d8b7f3;
+}
+
+
+/* Hover */
 
 .level-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  transform:
+    translateY(-7px)
+    scale(1.015);
+
+  filter:
+    brightness(1.07);
+
+  box-shadow:
+    0 18px 32px
+    rgba(0, 0, 0, 0.32),
+
+    0 0 0 2px
+    rgba(255, 255, 255, 0.18);
 }
+
+.level-card:active {
+  transform:
+    translateY(-2px)
+    scale(0.98);
+}
+
+
+/* =========================================================
+   LEVEL NUMBER
+========================================================= */
 
 .level-number {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 14px;
+
+  width: 72px;
+  height: 72px;
+
+  margin:
+    0 auto 15px;
+
   border-radius: 50%;
-  background: #73c943;
+
+  background:
+    #72d43b;
+
   color: white;
-  font-size: 1.6rem;
-  font-weight: bold;
+
+  font-size: 28px;
+
+  font-weight: 900;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
+  box-shadow:
+    0 8px 16px
+    rgba(0, 0, 0, 0.25);
+
+  position: relative;
+  z-index: 1;
 }
 
+
+/* =========================================================
+   LEVEL TEXT
+========================================================= */
+
 .level-card h3 {
-  margin: 0 0 8px;
-  font-size: 1.4rem;
+
+  margin:
+    0 0 8px;
+
+  color: #fff;
+
+  font-size: 22px;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 2px 4px
+    rgba(0, 0, 0, 0.3);
+
+  position: relative;
+  z-index: 1;
 }
 
 .level-card p {
+
   margin: 0;
-  font-size: 1rem;
-}
 
-.top-learning-row {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 20px;
-  align-items: start;
-}
+  color:
+    rgba(255, 255, 255, 0.95);
 
-.main-number-card {
-  min-height: 290px;
-  background: #efefef;
-  border: 3px solid #ff8a33;
-  border-radius: 22px;
-  padding: 24px 18px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  font-size: 15px;
 
-.frog-icon {
-  font-size: 4.2rem;
-  margin-bottom: 14px;
-}
+  font-weight: 600;
 
-.main-number {
-  font-size: 5rem;
-  font-weight: bold;
-  color: #111;
-  line-height: 1;
-}
-
-.main-label {
-  margin-top: 18px;
-  font-size: 1.8rem;
-  color: #184c35;
-}
-
-.right-learning-card h2,
-.middle-learning-box h2 {
-  margin: 0 0 16px;
-  text-align: center;
-  color: #123f2e;
-  font-size: 2rem;
-}
-
-.mini-card-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.mini-card {
-  width: 140px;
-  min-height: 160px;
-  background: #efefef;
-  border: 3px solid #ff8a33;
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #111;
-}
-
-.current-mini {
-  background: #fff7de;
-}
-
-.mini-title {
-  font-size: 1rem;
-  margin-bottom: 12px;
-  color: #184c35;
-  font-weight: bold;
-}
-
-.mini-value {
-  font-size: 3.2rem;
-  font-weight: bold;
-}
-
-.middle-learning-box {
-  margin-top: 24px;
-}
-
-.number-line-track-wrapper {
   position: relative;
-  min-height: 170px;
-  margin-top: 20px;
-  padding: 20px 12px 0;
-  overflow-x: auto;
+  z-index: 1;
 }
 
-.number-line-track {
-  position: absolute;
-  top: 100px;
-  left: 2%;
-  right: 2%;
-  height: 6px;
-  background: #184c35;
-  border-radius: 999px;
-}
 
-.line-point-box {
-  position: absolute;
-  top: 34px;
-  transform: translateX(-50%);
+/* =========================================================
+   ONE SIMPLE ARROW
+========================================================= */
+
+.level-arrow {
+
+  margin-top: 15px;
+
+  width: 38px;
+  height: 38px;
+
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
 
-.line-frog {
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.line-point {
-  min-width: 58px;
-  height: 52px;
-  padding: 0 10px;
-  border-radius: 14px;
-  background: #efefef;
-  border: 3px solid #ff8a33;
-  display: flex;
   align-items: center;
   justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.95);
+
+  color: #69451e;
+
+  font-size: 21px;
+
   font-weight: bold;
-  color: #111;
-  font-size: 1rem;
+
+  box-shadow:
+    0 4px 8px
+    rgba(0, 0, 0, 0.18);
+
+  position: relative;
+  z-index: 2;
+
+  transition:
+    transform 0.25s ease;
 }
 
-.current-point {
-  background: #20bcc3;
-  color: white;
-  border-color: #20bcc3;
+.level-card:hover .level-arrow {
+  transform:
+    translateX(4px);
 }
 
-.before-point,
-.after-point {
-  background: #fff7de;
+
+/* Make absolutely sure there is
+   no second CSS arrow */
+
+.level-card::after {
+  content: none !important;
 }
 
-.info-row {
-  display: grid;
-  grid-template-columns: 1fr 150px;
-  gap: 14px;
-  margin-top: 22px;
-}
 
-.info-bar {
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 16px;
-  padding: 14px 18px;
-  color: #184c35;
-  font-size: 1.2rem;
-}
-
-.level-badge-box {
-  background: #f8ecaf;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #7a5c00;
-  font-size: 1.3rem;
-  font-weight: bold;
-}
+/* =========================================================
+   VOICE / BUTTONS
+========================================================= */
 
 .bottom-controls {
+
   display: flex;
+
   justify-content: center;
+
+  align-items: center;
+
   gap: 16px;
+
   flex-wrap: wrap;
+
   margin-top: 20px;
+
+  position: relative;
+  z-index: 1;
 }
 
 .bottom-controls.single {
@@ -666,105 +502,660 @@
 .speak-btn,
 .nav-btn,
 .back-action-btn {
+
   border: none;
+
   border-radius: 18px;
-  padding: 14px 22px;
+
+  padding:
+    14px 22px;
+
   font-size: 1rem;
+
   font-weight: bold;
+
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .speak-btn {
-  background: #20bcc3;
+
+  background:
+    #20bcc3;
+
   color: white;
 }
 
 .nav-btn {
-  background: #ff8a33;
+
+  background:
+    #ff8a33;
+
   color: white;
 }
 
 .next-nav-btn {
-  background: #73c943;
+
+  background:
+    #73c943;
 }
 
 .back-action-btn {
-  background: #184c35;
+
+  background:
+    #184c35;
+
   color: white;
 }
 
 .speak-btn:hover,
 .nav-btn:hover,
 .back-action-btn:hover {
-  transform: translateY(-2px);
+
+  transform:
+    translateY(-2px);
+
   opacity: 0.95;
 }
 
 .speak-btn:disabled,
 .nav-btn:disabled,
 .back-action-btn:disabled {
+
   opacity: 0.5;
+
   cursor: not-allowed;
 }
 
-.progress-text {
-  margin-top: 14px;
+
+/* =========================================================
+   LEARNING TOP ROW
+========================================================= */
+
+.top-learning-row {
+
+  display: grid;
+
+  grid-template-columns:
+    340px 1fr;
+
+  gap: 20px;
+
+  align-items: stretch;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   MAIN NUMBER CARD
+========================================================= */
+
+.main-number-card {
+
+  min-height: 290px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(168, 105, 42, 0.96),
+      rgba(116, 67, 25, 0.96)
+    );
+
+  border:
+    2px solid #e5b94e;
+
+  border-radius: 24px;
+
+  padding:
+    24px 18px;
+
   text-align: center;
-  font-size: 1.3rem;
-  color: #123f2e;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  box-shadow:
+    0 15px 30px
+    rgba(0, 0, 0, 0.22);
+}
+
+.frog-icon {
+
+  font-size: 48px;
+
+  margin-bottom: 10px;
+}
+
+.main-number {
+
+  color: #fff9df;
+
+  font-size: 6rem;
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  text-shadow:
+    0 5px 8px
+    rgba(0, 0, 0, 0.3);
+}
+
+.main-label {
+
+  margin-top: 12px;
+
+  color: #f2dfb6;
+
+  font-size: 1.5rem;
+
   font-weight: bold;
 }
 
+
+/* =========================================================
+   RIGHT LEARNING CARD
+========================================================= */
+
+.right-learning-card {
+
+  background:
+    rgba(255, 247, 215, 0.96);
+
+  border:
+    2px solid #e6bd4e;
+
+  border-radius: 22px;
+
+  padding: 22px;
+
+  box-shadow:
+    0 10px 22px
+    rgba(0, 0, 0, 0.18);
+
+  position: relative;
+  z-index: 1;
+}
+
+.right-learning-card h2 {
+
+  margin:
+    0 0 20px;
+
+  text-align: center;
+
+  color: #69451e;
+}
+
+
+/* =========================================================
+   MINI CARDS
+========================================================= */
+
+.mini-card-row {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+}
+
+.mini-card {
+
+  width: 130px;
+
+  min-height: 145px;
+
+  background:
+    #f9efd0;
+
+  border:
+    2px solid #e6bd4e;
+
+  border-radius: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 6px 12px
+    rgba(0, 0, 0, 0.14);
+}
+
+.current-mini {
+
+  background:
+    #f4c95d;
+}
+
+.mini-title {
+
+  color: #69451e;
+
+  font-size: 1rem;
+
+  font-weight: bold;
+
+  margin-bottom: 8px;
+}
+
+.mini-value {
+
+  color: #69451e;
+
+  font-size: 3rem;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   MIDDLE NUMBER LINE BOX
+========================================================= */
+
+.middle-learning-box {
+
+  margin-top: 20px;
+
+  background:
+    rgba(255, 247, 215, 0.96);
+
+  border:
+    2px solid #e6bd4e;
+
+  border-radius: 22px;
+
+  padding: 22px;
+
+  box-shadow:
+    0 10px 22px
+    rgba(0, 0, 0, 0.18);
+
+  position: relative;
+  z-index: 1;
+}
+
+.middle-learning-box h2 {
+
+  margin:
+    0 0 10px;
+
+  text-align: center;
+
+  color: #69451e;
+
+  font-size: 1.7rem;
+}
+
+
+/* =========================================================
+   NUMBER LINE TRACK
+========================================================= */
+
+.number-line-track-wrapper {
+
+  position: relative;
+
+  min-height: 190px;
+
+  margin-top: 10px;
+
+  padding:
+    30px 10px 20px;
+
+  overflow: hidden;
+}
+
+.number-line-track {
+
+  position: absolute;
+
+  left: 2%;
+  right: 2%;
+
+  top: 105px;
+
+  height: 7px;
+
+  background:
+    #69451e;
+
+  border-radius:
+    999px;
+
+  box-shadow:
+    0 3px 7px
+    rgba(0, 0, 0, 0.25);
+}
+
+.line-point-box {
+
+  position: absolute;
+
+  top: 35px;
+
+  transform:
+    translateX(-50%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.line-frog {
+
+  font-size: 30px;
+
+  line-height: 1;
+
+  filter:
+    drop-shadow(
+      0 3px 3px
+      rgba(0, 0, 0, 0.25)
+    );
+}
+
+
+/* =========================================================
+   NUMBER POINTS
+========================================================= */
+
+.line-point {
+
+  min-width: 55px;
+
+  height: 50px;
+
+  padding:
+    0 8px;
+
+  border-radius: 14px;
+
+  background:
+    #f4c95d;
+
+  border:
+    2px solid #e6bd4e;
+
+  color: #69451e;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 5px 10px
+    rgba(0, 0, 0, 0.18);
+}
+
+.current-point {
+
+  background:
+    #20bcc3;
+
+  border-color:
+    #8deef2;
+
+  color: white;
+
+  transform:
+    scale(1.08);
+}
+
+.before-point,
+.after-point {
+
+  background:
+    #f9efd0;
+}
+
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.info-row {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 170px;
+
+  gap: 14px;
+
+  margin-top: 22px;
+
+  position: relative;
+  z-index: 1;
+}
+
+.info-bar {
+
+  background:
+    rgba(255, 247, 215, 0.96);
+
+  border:
+    2px solid #e6bd4e;
+
+  border-radius: 16px;
+
+  padding:
+    14px 18px;
+
+  color: #69451e;
+
+  font-size: 1.1rem;
+
+  font-weight: 600;
+}
+
+.level-badge-box {
+
+  background:
+    #f8ecaf;
+
+  border:
+    2px solid #e6bd4e;
+
+  border-radius: 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color:
+    #7a5c00;
+
+  font-size: 1.2rem;
+
+  font-weight: bold;
+}
+
+
+.number-line-level-icon {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 15px;
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-text {
+
+  margin-top: 14px;
+
+  text-align: center;
+
+  font-size: 1.3rem;
+
+  color: #fff8df;
+
+  font-weight: bold;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media (max-width: 950px) {
+
+  .number-line-levels-wrapper,
+  .number-line-content {
+
+    padding:
+      32px 24px 38px;
+
+    margin-top: 35px;
+  }
+
   .level-grid {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
   }
 
   .top-learning-row {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
   }
 
   .info-row {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
+  }
+
+  .number-line-track-wrapper {
+
+    overflow-x: auto;
   }
 }
 
+
 @media (max-width: 600px) {
+
+  .number-line-header {
+
+    height: 72px;
+  }
+
   .number-line-header h1 {
-    font-size: 1.45rem;
+
+    font-size: 23px;
+  }
+
+  .number-line-levels-wrapper,
+  .number-line-content {
+
+    padding:
+      26px 16px 32px;
+
+    border-radius: 24px;
+  }
+
+  .level-top-box h2 {
+
+    font-size: 1.5rem;
+  }
+
+  .level-card {
+
+    min-height: 175px;
+  }
+
+  .level-number {
+
+    width: 62px;
+    height: 62px;
+
+    font-size: 24px;
   }
 
   .main-number {
+
     font-size: 3.8rem;
   }
 
   .main-label {
+
     font-size: 1.4rem;
   }
 
   .mini-card {
+
     width: 110px;
+
     min-height: 130px;
   }
 
   .mini-value {
+
     font-size: 2.4rem;
   }
 
-  .right-learning-card h2,
-  .middle-learning-box h2,
-  .level-top-box h2 {
+  .middle-learning-box h2 {
+
     font-size: 1.5rem;
   }
 
   .info-bar {
+
     font-size: 1rem;
   }
 
   .line-point {
+
     min-width: 48px;
+
     height: 44px;
+
     font-size: 0.85rem;
+  }
+
+  .level-arrow {
+
+    width: 36px;
+    height: 36px;
+
+    font-size: 19px;
   }
 }

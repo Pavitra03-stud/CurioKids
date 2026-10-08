@@ -1,287 +1,1919 @@
-/* .match-page {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Comic Sans MS";
-}
-
-.match-card {
-  background: #fff;
-  border-radius: 24px;
-  padding: 24px;
-  width: 90%;
-  max-width: 900px;
-  text-align: center;
-}
-
-.match-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.column {
-  width: 45%;
-}
-
-.number-box,
-.animal-box {
-  width: 100%;
-  padding: 14px;
-  margin: 10px 0;
-  border-radius: 14px;
-  border: none;
-  font-size: 1.4rem;
-  font-weight: bold;
-  cursor: pointer;
-  background: #ffd166;
-}
-
-.animal-box {
-  background: #bde0fe;
-  font-size: 1.6rem;
-}
-
-.selected {
-  background: #73c943 !important;
-  color: white;
-}
-
-.matched {
-  background: #caffbf !important;
-  cursor: not-allowed;
-}
-
-.message-box {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #184c35;
-}
-
-.score-box {
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.done-box {
-  margin-top: 12px;
-  color: green;
-  font-weight: bold;
-}
-
-.btn-group {
-  margin-top: 16px;
-}
-
-button:hover {
-  opacity: 0.9;
-} */
-
+/* =========================================================
+   NUMBER MATCH
+========================================================= */
 
 .match-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
+  width: 100%;
+
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 24px 16px;
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  align-items: flex-start;
+
+  padding: 18px 14px 30px;
+
+  box-sizing: border-box;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
+  background:
+    linear-gradient(
+      rgba(20, 65, 42, 0.08),
+      rgba(20, 65, 42, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
+
+
+/* =========================================================
+   BOARD
+========================================================= */
 
 .match-card {
   width: 100%;
-  max-width: 980px;
-  background: #f5f5f5;
+  max-width: 1040px;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(173, 105, 44, 0.97),
+      rgba(137, 78, 31, 0.96)
+    );
+
+  border:
+    2px solid #f2ce83;
+
   border-radius: 28px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
-  padding: 28px;
-  text-align: center;
+
+  box-shadow:
+    0 15px 35px
+      rgba(52, 28, 10, 0.35);
 }
 
-.match-top-bar h1 {
-  margin: 0;
-  font-size: 2.2rem;
-  color: #000;
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.match-header {
+  min-height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 10px 16px;
+
+  background:
+    #fff9e1;
+
+  border-radius:
+    20px;
+
+  box-shadow:
+    0 6px 15px
+      rgba(65, 34, 9, 0.15);
 }
 
-.match-top-bar p {
-  margin-top: 8px;
-  font-size: 1.05rem;
-  color: #000;
+
+.match-title-area {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
 }
+
+
+.match-header-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  border-radius:
+    16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f8d96b,
+      #e6b63b
+    );
+
+  font-size:
+    27px;
+
+  box-shadow:
+    0 5px 10px
+      rgba(80, 43, 12, 0.18);
+
+  animation:
+    softFloat
+    3.5s
+    ease-in-out
+    infinite;
+}
+
+
+.match-header h1 {
+  margin:
+    0;
+
+  color:
+    #603619;
+
+  font-size:
+    27px;
+
+  line-height:
+    1;
+}
+
+
+.match-header p {
+  margin:
+    5px 0 0;
+
+  color:
+    #80512d;
+
+  font-size:
+    12px;
+
+  font-weight:
+    700;
+}
+
+
+/* =========================================================
+   SCORE
+========================================================= */
+
+.score-badge {
+  padding:
+    9px 16px;
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4d36b,
+      #dfa92e
+    );
+
+  color:
+    #603619;
+
+  font-size:
+    15px;
+
+  font-weight:
+    900;
+
+  white-space:
+    nowrap;
+
+  box-shadow:
+    0 4px 9px
+      rgba(
+        74,
+        39,
+        10,
+        0.16
+      );
+}
+
+
+/* =========================================================
+   LEVELS
+========================================================= */
 
 .level-row {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 18px;
+  margin-top:
+    13px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  gap:
+    10px;
 }
+
 
 .level-btn {
-  border: none;
-  border-radius: 14px;
-  padding: 10px 18px;
-  background: #ffd166;
-  color: #184c35;
-  font-weight: bold;
-  cursor: pointer;
+  min-width:
+    105px;
+
+  padding:
+    9px 18px;
+
+  border:
+    none;
+
+  border-radius:
+    999px;
+
+  background:
+    #fff9e1;
+
+  color:
+    #603619;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
+  font-size:
+    14px;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 4px 8px
+      rgba(
+        69,
+        37,
+        11,
+        0.13
+      );
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
 }
+
+
+.level-btn:hover {
+  transform:
+    translateY(-2px);
+}
+
 
 .active-level {
-  background: #73c943;
-  color: white;
+  background:
+    linear-gradient(
+      135deg,
+      #f4d36b,
+      #dfa92e
+    );
 }
 
-.level-info {
-  margin-top: 14px;
-  font-weight: bold;
-  color: #184c35;
+
+/* =========================================================
+   INSTRUCTION
+========================================================= */
+
+.kid-instruction {
+  margin-top:
+    12px;
+
+  min-height:
+    62px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    12px;
+
+  padding:
+    9px 16px;
+
+  box-sizing:
+    border-box;
+
+  background:
+    #fff9e1;
+
+  border-radius:
+    18px;
+
+  box-shadow:
+    0 5px 12px
+      rgba(
+        65,
+        34,
+        9,
+        0.14
+      );
 }
 
-.match-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-top: 26px;
+
+.instruction-emoji {
+  width:
+    40px;
+
+  height:
+    40px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    #f4d36b;
+
+  font-size:
+    21px;
 }
 
-.match-column h2 {
-  margin-bottom: 14px;
-  color: #000;
-  font-size: 1.6rem;
+
+.kid-instruction strong {
+  display:
+    block;
+
+  color:
+    #603619;
+
+  font-size:
+    17px;
 }
+
+
+.kid-instruction p {
+  margin:
+    2px 0 0;
+
+  color:
+    #80512d;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+}
+
+
+/* =========================================================
+   MATCH BOARD
+   SAME STRUCTURE FOR ALL SCREEN SIZES
+========================================================= */
+
+.match-board {
+  position:
+    relative;
+
+  margin-top:
+    16px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 0.85fr)
+    minmax(0, 1.4fr);
+
+  gap:
+    14px;
+
+  padding:
+    14px;
+
+  box-sizing:
+    border-box;
+
+  background:
+    rgba(
+      255,
+      249,
+      225,
+      0.52
+    );
+
+  border-radius:
+    22px;
+}
+
+
+/* =========================================================
+   CONNECTION SVG
+========================================================= */
+
+.connection-svg {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  z-index:
+    100;
+
+  pointer-events:
+    none;
+
+  overflow:
+    visible;
+}
+
+
+.connection-glow {
+  fill:
+    none;
+
+  stroke:
+    #ffe36b;
+
+  stroke-width:
+    13;
+
+  stroke-linecap:
+    round;
+
+  opacity:
+    0.2;
+
+  stroke-dasharray:
+    14 12;
+
+  animation:
+    beamFlow
+    0.7s
+    linear
+    infinite;
+}
+
+
+.connection-line {
+  fill:
+    none;
+
+  stroke-width:
+    5;
+
+  stroke-linecap:
+    round;
+
+  stroke-dasharray:
+    900;
+
+  stroke-dashoffset:
+    900;
+
+  animation:
+    drawBeam
+    0.65s
+    ease-out
+    forwards;
+}
+
+
+.travel-light {
+  fill:
+    #ffffff;
+
+  stroke:
+    #ffe35a;
+
+  stroke-width:
+    4;
+
+  filter:
+    drop-shadow(
+      0 0 7px
+      #ffe35a
+    );
+}
+
+
+.end-burst {
+  r:
+    5;
+
+  fill:
+    #fff5a3;
+
+  opacity:
+    0;
+
+  animation:
+    burst
+    0.7s
+    ease-out
+    forwards;
+}
+
+
+/* =========================================================
+   GAME COLUMNS
+========================================================= */
+
+.game-column {
+  position:
+    relative;
+
+  z-index:
+    10;
+
+  min-width:
+    0;
+
+  padding:
+    13px;
+
+  background:
+    #fff9e1;
+
+  border-radius:
+    20px;
+
+  box-shadow:
+    0 6px 14px
+      rgba(
+        66,
+        35,
+        10,
+        0.13
+      );
+}
+
+
+/* =========================================================
+   COLUMN TITLE
+========================================================= */
+
+.column-title {
+  height:
+    37px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  margin-bottom:
+    9px;
+}
+
+
+.column-title span {
+  font-size:
+    22px;
+}
+
+
+.column-title h2 {
+  margin:
+    0;
+
+  color:
+    #603619;
+
+  font-size:
+    20px;
+
+  font-weight:
+    900;
+}
+
+
+/* =========================================================
+   VERTICAL LIST
+========================================================= */
+
+.card-list {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    10px;
+}
+
+
+/* =========================================================
+   COMMON CARD
+========================================================= */
 
 .match-box {
-  width: 100%;
-  min-height: 58px;
-  border: none;
-  border-radius: 16px;
-  margin-bottom: 16px;
-  font-size: 2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    74px;
+
+  flex:
+    none;
+
+  border:
+    none;
+
+  border-radius:
+    17px;
+
+  cursor:
+    pointer;
+
+  box-sizing:
+    border-box;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
 }
 
-.match-box:hover {
-  transform: translateY(-2px);
+
+.match-box:hover:not(:disabled) {
+  transform:
+    translateY(-2px);
 }
+
+
+/* =========================================================
+   NUMBER CARD
+========================================================= */
 
 .number-box {
-  background: #f2c75c;
-  color: #ffffff;
-  font-size: 2rem;
+  background:
+    linear-gradient(
+      145deg,
+      #f9db70,
+      #e8b941
+    );
+
+  color:
+    #603619;
+
+  font-size:
+    32px;
+
+  font-weight:
+    900;
+
+  box-shadow:
+    0 5px 0 #b77d21,
+    0 8px 13px
+      rgba(
+        74,
+        40,
+        10,
+        0.13
+      );
 }
+
+
+.number-box > span:first-child {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+}
+
+
+/* =========================================================
+   ANIMAL CARD
+========================================================= */
 
 .animal-box {
-  background: #a9c8e5;
-  color: #000;
-  font-size: 2rem;
-  padding: 12px;
+  padding:
+    7px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #bfe6f4,
+      #91c9e2
+    );
+
+  color:
+    #3e5260;
+
+  box-shadow:
+    0 5px 0 #679db7,
+    0 8px 13px
+      rgba(
+        47,
+        81,
+        99,
+        0.13
+      );
 }
+
+
+/* 
+   Always 5 columns:
+   1–5 animals  = 1 row
+   6–10 animals = 2 rows
+*/
+
+.animal-icons {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+  grid-template-rows:
+    repeat(2, 1fr);
+
+  align-items: center;
+  justify-items: center;
+
+  gap: 2px;
+
+  overflow: visible;
+}
+
+/* =========================================================
+   BIGGER ANIMAL ICONS
+========================================================= */
+
+.animal-icons span {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 24px;
+  line-height: 1;
+
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 800px) {
+  .animal-icons span {
+    font-size: 21px;
+    transform: scale(1.08);
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+  .animal-icons span {
+    font-size: 19px;
+    transform: scale(1.08);
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+  .animal-icons span {
+    font-size: 17px;
+    transform: scale(1.06);
+  }
+}
+
+/* =========================================================
+   SELECTED
+========================================================= */
 
 .selected-box {
-  outline: 4px solid #73c943;
-  outline-offset: 2px;
+  outline:
+    4px solid #66bd47;
+
+  outline-offset:
+    2px;
+
+  transform:
+    scale(1.02);
+
+  box-shadow:
+    0 0 0 4px
+      rgba(
+        103,
+        189,
+        73,
+        0.17
+      ),
+    0 5px 0 #5aa23e;
 }
+
+
+/* =========================================================
+   MATCHED
+========================================================= */
 
 .matched-box {
-  background: #b8e6ad !important;
-  color: #ffffff;
-  cursor: not-allowed;
+  background:
+    linear-gradient(
+      145deg,
+      #e3f7cf,
+      #c6eca4
+    ) !important;
+
+  color:
+    #356522 !important;
+
+  box-shadow:
+    0 5px 0 #78aa4d !important;
+
+  cursor:
+    not-allowed;
 }
+
+
+/* =========================================================
+   MATCH ANIMATION
+========================================================= */
+
+.matching-animation {
+  z-index:
+    200;
+
+  animation:
+    matchFlash
+    0.8s
+    ease-out;
+}
+
+
+@keyframes matchFlash {
+  0% {
+    transform:
+      scale(1);
+
+    filter:
+      brightness(1);
+  }
+
+  30% {
+    transform:
+      scale(1.05);
+
+    filter:
+      brightness(1.28);
+  }
+
+  60% {
+    transform:
+      scale(1.02);
+
+    filter:
+      brightness(1.12);
+  }
+
+  100% {
+    transform:
+      scale(1);
+
+    filter:
+      brightness(1);
+  }
+}
+
+
+/* =========================================================
+   CHECK
+========================================================= */
+
+.check {
+  position:
+    absolute;
+
+  top:
+    6px;
+
+  right:
+    6px;
+
+  width:
+    23px;
+
+  height:
+    23px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    #55a936;
+
+  color:
+    white;
+
+  font-size:
+    13px;
+
+  font-weight:
+    900;
+
+  animation:
+    checkIn
+    0.3s
+    ease-out;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
 
 .message-box {
-  margin-top: 20px;
-  background: #eaf2e4;
-  border: 1px dashed #a7cf7e;
-  border-radius: 18px;
-  padding: 18px;
+  margin-top:
+    13px;
+
+  min-height:
+    48px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  padding:
+    7px 14px;
+
+  box-sizing:
+    border-box;
+
+  background:
+    #fff9e1;
+
+  border:
+    2px dashed #ddc47a;
+
+  border-radius:
+    16px;
+
+  text-align:
+    center;
 }
+
 
 .message-box p {
-  margin: 0;
-  color: #184c35;
-  font-size: 1.2rem;
-  font-weight: bold;
+  margin:
+    0;
+
+  color:
+    #603619;
+
+  font-size:
+    14px;
+
+  font-weight:
+    900;
 }
 
-.score-box {
-  margin-top: 12px;
+
+.success-message {
+  background:
+    #def4c7;
+
+  border-color:
+    #80bd4d;
 }
 
-.score-box span {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #000;
+
+/* =========================================================
+   BOTTOM
+========================================================= */
+
+.bottom-row {
+  margin-top:
+    13px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    10px;
 }
 
-.done-box {
-  margin-top: 14px;
-  background: #dff7d6;
-  border: 2px solid #8fd17f;
-  color: #1f6b2b;
-  font-weight: bold;
-  border-radius: 16px;
-  padding: 12px;
+
+.progress-label {
+  padding:
+    8px 14px;
+
+  border-radius:
+    13px;
+
+  background:
+    #fff9e1;
+
+  color:
+    #603619;
+
+  font-size:
+    12px;
+
+  font-weight:
+    900;
 }
 
-.button-row {
-  display: flex;
-  gap: 14px;
-  margin-top: 18px;
-  flex-wrap: wrap;
-}
-
-.reset-btn,
-.next-btn {
-  flex: 1;
-  border: none;
-  border-radius: 14px;
-  padding: 14px 16px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
 
 .reset-btn {
-  background: #20bcc3;
-  color: #ffffff;
+  min-width:
+    135px;
+
+  min-height:
+    45px;
+
+  border:
+    none;
+
+  border-radius:
+    15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c4bd0,
+      #5d2ba7
+    );
+
+  color:
+    white;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
+  font-size:
+    14px;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 4px 0 #45207d;
 }
 
-.next-btn {
-  background: #73c943;
-  color: #ffffff;
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.popup-overlay {
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    99999;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  padding:
+    20px;
+
+  box-sizing:
+    border-box;
+
+  background:
+    rgba(
+      25,
+      44,
+      31,
+      0.72
+    );
+
+  backdrop-filter:
+    blur(5px);
+
+  animation:
+    overlayIn
+    0.25s
+    ease-out;
 }
 
-.reset-btn:hover,
-.next-btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.95;
+
+.completion-popup {
+  width:
+    min(
+      410px,
+      94vw
+    );
+
+  padding:
+    28px 24px;
+
+  box-sizing:
+    border-box;
+
+  text-align:
+    center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffbea,
+      #fff2c4
+    );
+
+  border:
+    4px solid #e5c148;
+
+  border-radius:
+    28px;
+
+  box-shadow:
+    0 25px 55px
+      rgba(
+        0,
+        0,
+        0,
+        0.38
+      );
+
+  animation:
+    popupIn
+    0.4s
+    cubic-bezier(
+      0.17,
+      0.89,
+      0.32,
+      1.28
+    );
 }
 
-@media (max-width: 700px) {
-  .match-columns {
-    grid-template-columns: 1fr;
-    gap: 20px;
+
+.popup-face {
+  width:
+    88px;
+
+  height:
+    88px;
+
+  margin:
+    0 auto 9px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffe89a,
+      #f3ca4d
+    );
+
+  font-size:
+    47px;
+}
+
+
+.popup-stars {
+  font-size:
+    20px;
+
+  letter-spacing:
+    4px;
+}
+
+
+.completion-popup h2 {
+  margin:
+    10px 0 7px;
+
+  color:
+    #603619;
+
+  font-size:
+    27px;
+}
+
+
+.completion-popup p {
+  margin:
+    0 0 15px;
+
+  color:
+    #80512d;
+
+  font-size:
+    14px;
+
+  font-weight:
+    700;
+}
+
+
+.popup-score {
+  display:
+    inline-block;
+
+  margin-bottom:
+    15px;
+
+  padding:
+    8px 15px;
+
+  border-radius:
+    13px;
+
+  background:
+    #f3d16a;
+
+  color:
+    #603619;
+
+  font-size:
+    14px;
+
+  font-weight:
+    900;
+}
+
+
+.popup-next-btn {
+  width:
+    100%;
+
+  min-height:
+    54px;
+
+  border:
+    none;
+
+  border-radius:
+    16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2dbb6d,
+      #14864b
+    );
+
+  color:
+    white;
+
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+
+  font-size:
+    17px;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 5px 0 #0c6638;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes drawBeam {
+  from {
+    stroke-dashoffset:
+      900;
   }
+
+  to {
+    stroke-dashoffset:
+      0;
+  }
+}
+
+
+@keyframes beamFlow {
+  from {
+    stroke-dashoffset:
+      0;
+  }
+
+  to {
+    stroke-dashoffset:
+      -52;
+  }
+}
+
+
+@keyframes burst {
+  0% {
+    opacity:
+      0;
+
+    r:
+      4;
+  }
+
+  35% {
+    opacity:
+      1;
+
+    r:
+      15;
+  }
+
+  100% {
+    opacity:
+      0;
+
+    r:
+      28;
+  }
+}
+
+
+@keyframes checkIn {
+  from {
+    transform:
+      scale(0);
+
+    opacity:
+      0;
+  }
+
+  to {
+    transform:
+      scale(1);
+
+    opacity:
+      1;
+  }
+}
+
+
+@keyframes softFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-3px);
+  }
+}
+
+
+@keyframes hintGlow {
+  0%,
+  100% {
+    opacity:
+      0.7;
+  }
+
+  50% {
+    opacity:
+      1;
+  }
+}
+
+
+@keyframes overlayIn {
+  from {
+    opacity:
+      0;
+  }
+
+  to {
+    opacity:
+      1;
+  }
+}
+
+
+@keyframes popupIn {
+  from {
+    opacity:
+      0;
+
+    transform:
+      scale(0.75)
+      translateY(20px);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      scale(1)
+      translateY(0);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   SAME TWO-COLUMN STRUCTURE
+========================================================= */
+
+@media (max-width: 800px) {
 
   .match-card {
-    padding: 18px;
+    padding:
+      15px;
   }
 
-  .match-top-bar h1 {
-    font-size: 1.8rem;
+  .match-header h1 {
+    font-size:
+      23px;
+  }
+
+  .match-header p {
+    font-size:
+      11px;
+  }
+
+  .match-board {
+    grid-template-columns:
+      minmax(0, 0.8fr)
+      minmax(0, 1.4fr);
+
+    gap:
+      9px;
+
+    padding:
+      9px;
+  }
+
+  .game-column {
+    padding:
+      9px;
+  }
+
+  .column-title {
+    height:
+      32px;
+
+    margin-bottom:
+      7px;
+  }
+
+  .column-title h2 {
+    font-size:
+      17px;
+  }
+
+  .column-title span {
+    font-size:
+      19px;
+  }
+
+  .card-list {
+    gap:
+      7px;
   }
 
   .match-box {
-    font-size: 1.5rem;
+    height:
+      68px;
+
+    border-radius:
+      15px;
   }
 
-  .button-row {
-    flex-direction: column;
+  .number-box {
+    font-size:
+      28px;
+  }
+
+  .animal-icons span {
+    font-size:
+      15px;
+  }
+
+  .check {
+    width:
+      20px;
+
+    height:
+      20px;
+
+    font-size:
+      11px;
+
+    top:
+      4px;
+
+    right:
+      4px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+
+  .match-page {
+    padding:
+      8px 6px 22px;
+  }
+
+  .match-card {
+    padding:
+      9px;
+
+    border-radius:
+      20px;
+  }
+
+  .match-header {
+    min-height:
+      60px;
+
+    padding:
+      7px 9px;
+
+    border-radius:
+      15px;
+  }
+
+  .match-header-icon {
+    width:
+      39px;
+
+    height:
+      39px;
+
+    font-size:
+      20px;
+  }
+
+  .match-title-area {
+    gap:
+      7px;
+  }
+
+  .match-header h1 {
+    font-size:
+      18px;
+  }
+
+  .match-header p {
+    display:
+      none;
+  }
+
+  .score-badge {
+    padding:
+      6px 9px;
+
+    font-size:
+      11px;
+  }
+
+  .level-row {
+    gap:
+      5px;
+  }
+
+  .level-btn {
+    min-width:
+      76px;
+
+    padding:
+      7px 9px;
+
+    font-size:
+      11px;
+  }
+
+  .kid-instruction {
+    min-height:
+      53px;
+
+    padding:
+      7px 9px;
+
+    justify-content:
+      flex-start;
+  }
+
+  .instruction-emoji {
+    width:
+      32px;
+
+    height:
+      32px;
+
+    font-size:
+      17px;
+  }
+
+  .kid-instruction strong {
+    font-size:
+      12px;
+  }
+
+  .kid-instruction p {
+    font-size:
+      8px;
+  }
+
+  /*
+     SAME TWO-COLUMN GAME
+     No stacking.
+  */
+
+  .match-board {
+    grid-template-columns:
+      minmax(0, 0.8fr)
+      minmax(0, 1.35fr);
+
+    gap:
+      6px;
+
+    padding:
+      6px;
+
+    border-radius:
+      17px;
+  }
+
+  .game-column {
+    padding:
+      6px;
+
+    border-radius:
+      14px;
+  }
+
+  .column-title {
+    height:
+      28px;
+
+    margin-bottom:
+      6px;
+  }
+
+  .column-title h2 {
+    font-size:
+      12px;
+  }
+
+  .column-title span {
+    font-size:
+      15px;
+  }
+
+  .card-list {
+    gap:
+      6px;
+  }
+
+  .match-box {
+    height:
+      62px;
+
+    border-radius:
+      12px;
+  }
+
+  .number-box {
+    font-size:
+      24px;
+  }
+
+  .animal-box {
+    padding:
+      4px;
+  }
+
+  .animal-icons {
+    grid-template-columns:
+      repeat(
+        5,
+        minmax(0, 1fr)
+      );
+
+    grid-template-rows:
+      repeat(
+        2,
+        1fr
+      );
+  }
+
+  .animal-icons span {
+    font-size:
+      clamp(
+        10px,
+        4vw,
+        15px
+      );
+  }
+
+  .connection-svg {
+    z-index:
+      300;
+  }
+
+  .message-box {
+    min-height:
+      43px;
+
+    margin-top:
+      9px;
+  }
+
+  .message-box p {
+    font-size:
+      10px;
+  }
+
+  .bottom-row {
+    flex-direction:
+      column;
+
+    gap:
+      7px;
+  }
+
+  .progress-label,
+  .reset-btn {
+    width:
+      100%;
+
+    box-sizing:
+      border-box;
+
+    text-align:
+      center;
+  }
+
+  .reset-btn {
+    min-height:
+      40px;
+
+    font-size:
+      12px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .match-board {
+    grid-template-columns:
+      minmax(0, 0.78fr)
+      minmax(0, 1.3fr);
+
+    gap:
+      5px;
+  }
+
+  .game-column {
+    padding:
+      5px;
+  }
+
+  .match-box {
+    height:
+      57px;
+  }
+
+  .number-box {
+    font-size:
+      21px;
+  }
+
+  .animal-icons span {
+    font-size:
+      10px;
+  }
+
+  .column-title h2 {
+    font-size:
+      11px;
+  }
+
+  .column-title span {
+    font-size:
+      13px;
   }
 }

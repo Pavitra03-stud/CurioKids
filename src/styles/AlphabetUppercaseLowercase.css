@@ -1,403 +1,1206 @@
+/* =========================================================
+   CURIOKIDS - UPPERCASE & LOWERCASE LEARNING
+   FULL UI
+   JUNGLE BACKGROUND + WOODEN BOARD PANELS
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
 .ul-puzzle-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #a9d86e, #73c943);
+
+  background:
+    linear-gradient(
+      rgba(42, 101, 50, 0.08),
+      rgba(42, 101, 50, 0.08)
+    ),
+    url("../assets/gamesHome.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  padding-bottom: 30px;
+
+  padding-bottom: 35px;
+
+  overflow-x: hidden;
 }
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .ul-puzzle-header {
   background: #184c35;
+
   color: white;
-  height: 58px;
+
+  height: 68px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   position: relative;
-  border-radius: 0 0 14px 14px;
+
+  border-radius: 0 0 16px 16px;
+
+  border-bottom: 4px solid #e7c64f;
+
+  box-shadow:
+    0 5px 16px rgba(18, 52, 32, 0.30);
+
+  z-index: 10;
 }
 
+
 .ul-puzzle-header h1 {
-  font-size: 20px;
+  font-family: "Baloo 2", "Comic Sans MS", sans-serif;
+
+  font-size: 28px;
+
+  line-height: 1;
+
   margin: 0;
-  font-weight: bold;
+
+  font-weight: 900;
+
+  color: #fff5d0;
+
+  text-shadow:
+    0 3px 0 #123f2e,
+    0 5px 8px rgba(0, 0, 0, 0.22);
 }
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
 
 .ul-back-btn {
   position: absolute;
+
   left: 18px;
+
   top: 50%;
+
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
+
+  width: 42px;
+
+  height: 42px;
+
   border: none;
-  border-radius: 50%;
-  background: #f5f5f5;
-  color: #222;
-  font-size: 20px;
+
+  border-radius: 13px;
+
+  background: #fff7da;
+
+  color: #184c35;
+
+  font-size: 22px;
+
+  font-weight: bold;
+
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  box-shadow:
+    0 4px 0 rgba(70, 48, 20, 0.18);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
+
+.ul-back-btn:hover {
+  transform: translateY(calc(-50% - 2px));
+
+  box-shadow:
+    0 6px 0 rgba(70, 48, 20, 0.18);
+}
+
+
+.ul-back-btn:active {
+  transform: translateY(calc(-50% + 1px));
+
+  box-shadow:
+    0 2px 0 rgba(70, 48, 20, 0.18);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
 .ul-puzzle-content {
-  padding: 24px 16px 40px;
+  padding: 26px 18px 45px;
+
   max-width: 1200px;
+
   margin: 0 auto;
 }
 
+
+/* =========================================================
+   TOP ROW
+========================================================= */
+
 .ul-top-row {
   display: grid;
+
   grid-template-columns: 360px 1fr;
+
   gap: 22px;
+
   align-items: start;
 }
 
+
+/* =========================================================
+   BIG CARD
+   KEEPING EXISTING WHITE CARD UI
+========================================================= */
+
 .ul-big-card {
   background: #f4f4f4;
+
   border: 4px solid #ff8a3d;
+
   border-radius: 18px;
+
   min-height: 350px;
+
   position: relative;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.20);
+
   overflow: hidden;
-  animation: floatCard 2.5s ease-in-out infinite;
+
+  animation:
+    floatCard 2.5s ease-in-out infinite;
 }
+
+
+/* =========================================================
+   BIG CARD LETTER
+========================================================= */
 
 .ul-card-letter {
   position: absolute;
+
   font-size: 52px;
+
   font-weight: bold;
+
   color: #111;
 }
+
 
 .ul-card-letter.upper {
   top: 12px;
+
   left: 16px;
 }
 
+
 .ul-card-letter.lower {
   bottom: 18px;
+
   right: 20px;
 }
 
+
+/* =========================================================
+   BIG CARD IMAGE
+========================================================= */
+
 .ul-card-image {
   height: 100%;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   font-size: 120px;
 }
 
+
+/* =========================================================
+   BIG CARD DIVIDER
+========================================================= */
+
 .ul-card-divider {
   position: absolute;
+
   top: 54px;
+
   bottom: 54px;
+
   left: 50%;
+
   transform: translateX(-50%);
-  border-left: 2px dashed rgba(255, 132, 0, 0.7);
+
+  border-left:
+    2px dashed rgba(255, 132, 0, 0.7);
 }
+
+
+/* =========================================================
+   BIG CARD WORD
+========================================================= */
 
 .ul-card-word {
   position: absolute;
+
   bottom: 14px;
+
   left: 18px;
+
   font-size: 24px;
+
   font-weight: bold;
+
   color: #184c35;
 }
 
-.ul-grid-panel {
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 18px;
-  padding: 16px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+
+/* =========================================================
+   WOODEN BOARD HELPER
+========================================================= */
+
+.ul-grid-panel,
+.ul-puzzle-area {
+  position: relative;
+
+  overflow: hidden;
 }
+
+
+/* =========================================================
+   GRID PANEL - WOODEN BOARD
+========================================================= */
+
+.ul-grid-panel {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 2px,
+      rgba(80, 42, 20, 0.025) 3px,
+      rgba(80, 42, 20, 0.025) 7px
+    ),
+    linear-gradient(
+      135deg,
+      #a96734 0%,
+      #b8753b 22%,
+      #a86532 45%,
+      #b57138 68%,
+      #995c2d 100%
+    );
+
+  border: 5px solid #dca55c;
+
+  border-radius: 22px;
+
+  padding: 18px;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(89, 48, 23, 0.40),
+    inset 0 0 0 8px rgba(244, 195, 113, 0.16),
+    0 8px 0 rgba(70, 42, 23, 0.30),
+    0 15px 28px rgba(28, 64, 37, 0.24);
+}
+
+
+/* Inner wooden frame */
+
+.ul-grid-panel::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 9px;
+
+  border: 2px solid rgba(247, 206, 134, 0.30);
+
+  border-radius: 17px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   GRID TITLE
+========================================================= */
 
 .ul-grid-title {
-  font-size: 22px;
-  font-weight: bold;
-  color: #173b33;
-  margin-bottom: 14px;
+  position: relative;
+
+  z-index: 2;
+
+  font-family: "Baloo 2", "Comic Sans MS", sans-serif;
+
+  font-size: 25px;
+
+  font-weight: 900;
+
+  color: #fff3c8;
+
+  margin-bottom: 16px;
+
   text-align: center;
+
+  text-shadow:
+    0 3px 0 #704322;
 }
 
+
+/* =========================================================
+   GRID
+========================================================= */
+
 .ul-grid {
+  position: relative;
+
+  z-index: 2;
+
   display: grid;
-  grid-template-columns: repeat(4, minmax(90px, 1fr));
+
+  grid-template-columns:
+    repeat(4, minmax(90px, 1fr));
+
   gap: 12px;
 }
 
+
+/* =========================================================
+   GRID TILE
+========================================================= */
+
 .ul-grid-tile {
   min-height: 88px;
-  border: none;
+
+  border: 3px solid #e7bf68;
+
   border-radius: 14px;
-  background: #ffffff;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf5,
+      #fff3d5
+    );
+
   cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.14);
-  transition: transform 0.2s ease, background 0.2s ease;
+
+  box-shadow:
+    0 6px 0 rgba(70, 44, 20, 0.20),
+    0 8px 13px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   justify-content: center;
 }
 
+
 .ul-grid-tile:hover {
-  transform: scale(1.06);
+  transform: translateY(-3px) scale(1.04);
+
+  box-shadow:
+    0 8px 0 rgba(70, 44, 20, 0.20),
+    0 12px 16px rgba(0, 0, 0, 0.14);
 }
+
 
 .ul-grid-tile.selected {
   background: #ffe08a;
+
+  border-color: #f1ba3d;
+
   transform: scale(1.05);
+
+  box-shadow:
+    0 7px 0 rgba(98, 67, 20, 0.20);
 }
+
+
+/* =========================================================
+   TILE CONTENT
+========================================================= */
 
 .tile-main {
   font-size: 30px;
+
   font-weight: bold;
+
   color: #111;
 }
 
+
 .tile-type {
   font-size: 12px;
+
   font-weight: bold;
+
   color: #4d4d4d;
+
   margin-top: 4px;
 }
 
+
+/* =========================================================
+   BOTTOM ROW
+========================================================= */
+
 .ul-bottom-row {
-  margin-top: 24px;
+  margin-top: 28px;
 }
+
+
+/* =========================================================
+   PUZZLE AREA - WOODEN BOARD
+========================================================= */
 
 .ul-puzzle-area {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 2px,
+      rgba(80, 42, 20, 0.025) 3px,
+      rgba(80, 42, 20, 0.025) 7px
+    ),
+    linear-gradient(
+      135deg,
+      #a96734 0%,
+      #b8753b 22%,
+      #a86532 45%,
+      #b57138 68%,
+      #995c2d 100%
+    );
+
+  border: 5px solid #dca55c;
+
+  border-radius: 23px;
+
+  padding: 22px;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(89, 48, 23, 0.40),
+    inset 0 0 0 8px rgba(244, 195, 113, 0.16),
+    0 8px 0 rgba(70, 42, 23, 0.30),
+    0 16px 30px rgba(28, 64, 37, 0.24);
 }
+
+
+/* Inner wooden frame */
+
+.ul-puzzle-area::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 9px;
+
+  border: 2px solid rgba(247, 206, 134, 0.30);
+
+  border-radius: 18px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   PUZZLE TITLE
+========================================================= */
 
 .ul-puzzle-title {
-  font-size: 24px;
+  position: relative;
+
+  z-index: 2;
+
+  font-family: "Baloo 2", "Comic Sans MS", sans-serif;
+
+  font-size: 27px;
+
   text-align: center;
-  font-weight: bold;
-  color: #173b33;
+
+  font-weight: 900;
+
+  color: #fff3c8;
+
+  margin-bottom: 19px;
+
+  text-shadow:
+    0 3px 0 #704322;
+}
+
+
+/* =========================================================
+   PUZZLE VISUAL
+========================================================= */
+
+.ul-puzzle-visual {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 18px;
+
+  flex-wrap: wrap;
+
   margin-bottom: 18px;
 }
 
-.ul-puzzle-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
+
+/* =========================================================
+   SPLIT PIECES
+========================================================= */
 
 .ul-split-piece {
   width: 180px;
+
   height: 210px;
-  background: #fff;
-  border: 4px solid #ff8a3d;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf4,
+      #fff1d2
+    );
+
+  border:
+    4px solid #ff8a3d;
+
+  box-shadow:
+    0 8px 0 rgba(72, 43, 18, 0.20),
+    0 8px 16px rgba(0, 0, 0, 0.14);
+
   display: flex;
+
   flex-direction: column;
+
   justify-content: space-between;
+
   padding: 16px;
-  transition: transform 0.25s ease;
+
+  transition:
+    transform 0.25s ease;
 }
+
 
 .ul-split-piece:hover {
   transform: translateY(-4px);
 }
 
+
 .left-piece {
-  border-radius: 18px 6px 6px 18px;
+  border-radius:
+    18px 6px 6px 18px;
 }
 
+
 .right-piece {
-  border-radius: 6px 18px 18px 6px;
+  border-radius:
+    6px 18px 18px 6px;
 }
+
+
+/* =========================================================
+   PIECE LETTER
+========================================================= */
 
 .piece-letter {
   font-size: 48px;
+
   font-weight: bold;
+
   color: #111;
 }
 
+
+/* =========================================================
+   PIECE IMAGE
+========================================================= */
+
 .piece-image {
   font-size: 78px;
+
   text-align: center;
+
   flex: 1;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 }
 
+
+/* =========================================================
+   DROP ZONES
+========================================================= */
+
 .ul-drop-zones {
+  position: relative;
+
+  z-index: 2;
+
   display: flex;
+
   justify-content: center;
+
   gap: 16px;
+
   flex-wrap: wrap;
 }
 
+
 .ul-drop-box {
   min-width: 220px;
+
   padding: 16px 22px;
+
   border: none;
+
   border-radius: 18px;
-  background: #ffffff;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf4,
+      #fff0cd
+    );
+
   color: #173b33;
+
   font-size: 22px;
+
   font-weight: bold;
+
   cursor: pointer;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
-  transition: transform 0.2s ease, background 0.2s ease;
+
+  box-shadow:
+    0 7px 0 rgba(71, 44, 18, 0.18),
+    0 8px 16px rgba(0, 0, 0, 0.14);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
+
 
 .ul-drop-box:hover {
   transform: scale(1.04);
 }
 
+
 .ul-drop-box.done {
   background: #2e7d32;
+
   color: white;
 }
 
+
+/* =========================================================
+   INFO ROW
+========================================================= */
+
 .ul-info-row {
+  position: relative;
+
+  z-index: 2;
+
   margin-top: 22px;
+
   display: flex;
+
   justify-content: space-between;
+
   gap: 16px;
+
   flex-wrap: wrap;
+
   align-items: center;
 }
 
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
 .ul-message {
   flex: 1;
+
   min-width: 260px;
-  background: rgba(255, 255, 255, 0.78);
+
+  background:
+    rgba(255, 255, 255, 0.90);
+
   padding: 14px 18px;
+
   border-radius: 16px;
+
   font-size: 20px;
+
   font-weight: bold;
+
   color: #184c35;
+
+  box-shadow:
+    0 6px 13px rgba(69, 44, 20, 0.13);
 }
+
+
+/* =========================================================
+   SCORE
+========================================================= */
 
 .ul-score {
   background: #fff3bf;
+
   color: #6b5600;
+
   padding: 14px 18px;
+
   border-radius: 16px;
+
   font-size: 20px;
+
   font-weight: bold;
+
+  box-shadow:
+    0 6px 12px rgba(69, 44, 20, 0.13);
 }
 
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
 .ul-actions {
+  position: relative;
+
+  z-index: 2;
+
   margin-top: 22px;
+
   display: flex;
+
   justify-content: center;
+
   gap: 16px;
+
   flex-wrap: wrap;
 }
 
+
+/* =========================================================
+   ACTION BUTTON
+========================================================= */
+
 .ul-action-btn {
   border: none;
+
   padding: 14px 28px;
+
   border-radius: 18px;
+
   font-size: 22px;
+
   font-weight: bold;
+
   cursor: pointer;
+
   font-family: inherit;
+
   color: white;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
+
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.16);
+
+  transition:
+    transform 0.18s ease;
 }
+
+
+.ul-action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+
+.ul-action-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+
+/* =========================================================
+   SPEAK
+========================================================= */
 
 .ul-action-btn.speak {
-  background: #11c7c7;
+  background:
+    linear-gradient(
+      135deg,
+      #1cc9c9,
+      #079999
+    );
 }
 
+
+/* =========================================================
+   NEXT
+========================================================= */
+
 .ul-action-btn.next {
-  background: #ff8a3d;
+  background:
+    linear-gradient(
+      135deg,
+      #ff9d51,
+      #ed7427
+    );
 }
+
+
+/* =========================================================
+   DISABLED
+========================================================= */
 
 .ul-action-btn:disabled {
   background: #9e9e9e;
+
   cursor: not-allowed;
 }
 
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
 .ul-progress {
+  position: relative;
+
+  z-index: 2;
+
   margin-top: 18px;
+
   text-align: center;
+
   font-size: 18px;
+
   font-weight: bold;
-  color: #173b33;
+
+  color: #fff0c6;
+
+  text-shadow:
+    0 2px 4px rgba(56, 36, 18, 0.45);
 }
+
+
+/* =========================================================
+   SHAKE
+========================================================= */
 
 .shake {
-  animation: shakeBox 0.35s ease;
+  animation:
+    shakeBox 0.35s ease;
 }
+
 
 @keyframes shakeBox {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-6px); }
-  100% { transform: translateX(0); }
+
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-6px);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  75% {
+    transform: translateX(-6px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+
 }
+
+
+/* =========================================================
+   FLOAT CARD
+========================================================= */
 
 @keyframes floatCard {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0); }
+
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+
 }
 
+
+/* =========================================================
+   TABLET
+========================================================= */
+
 @media (max-width: 900px) {
+
   .ul-top-row {
     grid-template-columns: 1fr;
   }
 
+
   .ul-big-card {
     max-width: 360px;
+
     width: 100%;
+
     margin: 0 auto;
   }
 
+
   .ul-grid {
-    grid-template-columns: repeat(3, minmax(80px, 1fr));
+    grid-template-columns:
+      repeat(3, minmax(80px, 1fr));
   }
+
 }
 
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media (max-width: 600px) {
-  .ul-puzzle-header h1 {
-    font-size: 17px;
+
+  .ul-puzzle-page {
+    background-attachment: scroll;
   }
 
-  .ul-grid {
-    grid-template-columns: repeat(2, minmax(80px, 1fr));
+
+  .ul-puzzle-header {
+    height: 64px;
   }
+
+
+  .ul-puzzle-header h1 {
+    font-size: 18px;
+
+    padding: 0 55px;
+  }
+
+
+  .ul-back-btn {
+    width: 38px;
+
+    height: 38px;
+
+    left: 12px;
+
+    font-size: 19px;
+  }
+
+
+  .ul-puzzle-content {
+    padding:
+      18px 12px 32px;
+  }
+
+
+  .ul-top-row {
+    gap: 16px;
+  }
+
+
+  .ul-grid-panel {
+    padding: 15px;
+  }
+
+
+  .ul-grid-title {
+    font-size: 21px;
+  }
+
+
+  .ul-grid {
+    grid-template-columns:
+      repeat(2, minmax(80px, 1fr));
+
+    gap: 10px;
+  }
+
+
+  .ul-grid-tile {
+    min-height: 82px;
+  }
+
 
   .ul-drop-box {
     min-width: 100%;
+
     font-size: 18px;
   }
+
 
   .ul-card-image {
     font-size: 90px;
   }
 
+
   .piece-image {
     font-size: 60px;
   }
+
 
   .ul-card-letter,
   .piece-letter {
     font-size: 38px;
   }
 
+
   .ul-message,
   .ul-score {
     font-size: 17px;
   }
 
+
   .ul-action-btn {
     font-size: 18px;
+
     padding: 12px 22px;
   }
+
+
+  .ul-puzzle-area {
+    padding: 18px 14px;
+  }
+
+
+  .ul-puzzle-title {
+    font-size: 21px;
+  }
+
+
+  .ul-split-piece {
+    width: 150px;
+
+    height: 185px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .ul-grid {
+    grid-template-columns:
+      repeat(2, minmax(75px, 1fr));
+  }
+
+
+  .ul-grid-tile {
+    min-height: 76px;
+  }
+
+
+  .tile-main {
+    font-size: 26px;
+  }
+
+
+  .tile-type {
+    font-size: 10px;
+  }
+
+
+  .ul-split-piece {
+    width: 135px;
+
+    height: 170px;
+
+    padding: 12px;
+  }
+
+
+  .piece-letter {
+    font-size: 34px;
+  }
+
+
+  .piece-image {
+    font-size: 52px;
+  }
+
+
+  .ul-message {
+    min-width: 100%;
+  }
+
+
+  .ul-score {
+    width: 100%;
+
+    text-align: center;
+  }
+
+
+  .ul-action-btn {
+    width: 100%;
+  }
+
 }

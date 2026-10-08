@@ -267,7 +267,8 @@ export default function App() {
 
       </Routes>
 
-      <AIButton />
+      {window.location.pathname !== "/ai-chat" && <AIButton />}
+      
     </GameProvider>
   );
 }

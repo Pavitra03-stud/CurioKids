@@ -1,95 +1,227 @@
 /* =========================================================
    🌿 CURIOKIDS AI CHAT
-   Clean + polished UI
-   Visual styling only
+   JUNGLE BOARD THEME
    ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    "Comic Sans MS",
+    "Trebuchet MS",
+    sans-serif;
+}
 
 
 /* =========================================================
-   🌌 GLOBAL APP
+   🌳 MAIN FOREST
    ========================================================= */
 
 .app-container {
-  display: flex;
   width: 100%;
   height: 100vh;
+
+  display: flex;
+
   overflow: hidden;
 
-  background:
-    radial-gradient(circle at top right, rgba(245, 158, 11, 0.08), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.06), transparent 30%),
-    #0f172a;
+  position: relative;
 
-  color: #e5e7eb;
-  font-family: "Segoe UI", sans-serif;
+  background:
+    url("../assets/gamesHome.png")
+    center / cover
+    no-repeat fixed;
+
+  color: #4b301d;
+}
+
+
+/* subtle forest depth */
+.app-container::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(25, 50, 30, 0.30),
+      transparent 30%,
+      transparent 75%,
+      rgba(25, 50, 30, 0.12)
+    );
+
+  z-index: 0;
 }
 
 
 /* =========================================================
-   📁 SIDEBAR
+   🌳 SIDEBAR
    ========================================================= */
 
 .sidebar {
-  width: 260px;
-  min-width: 260px;
+  width: 285px;
+  min-width: 285px;
   height: 100vh;
-  box-sizing: border-box;
 
-  padding: 22px 18px;
+  padding: 18px 16px;
 
-  background: rgba(2, 6, 23, 0.96);
-  border-right: 1px solid #1e293b;
+  position: relative;
+
+  z-index: 10;
 
   overflow-y: auto;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(77, 49, 29, 0.97),
+      rgba(52, 37, 26, 0.97)
+    );
+
+  border-right:
+    5px solid #b88a45;
+
+  box-shadow:
+    8px 0 25px
+    rgba(0, 0, 0, 0.30);
 }
 
-.sidebar h3 {
-  margin: 0 0 20px;
-  padding: 0 6px;
 
-  color: #ffffff;
-  font-size: 21px;
-  font-weight: 800;
+/* wooden grain */
+.sidebar::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.15;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 20px,
+      rgba(255, 220, 150, 0.20) 21px,
+      transparent 24px
+    );
 }
 
 
 /* =========================================================
-   🔥 NEW CHAT BUTTON
+   🤖 TITLE
+   ========================================================= */
+
+.sidebar h3 {
+  position: relative;
+  z-index: 2;
+
+  margin:
+    5px 0 18px;
+
+  padding:
+    15px 10px;
+
+  text-align: center;
+
+  color: #56361d;
+
+  font-size: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f7e2a1,
+      #e8c56c
+    );
+
+  border:
+    3px solid #c39a4c;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 5px 0 #70431f,
+    0 9px 18px
+    rgba(0, 0, 0, 0.30);
+}
+
+
+/* =========================================================
+   🌿 NEW CHAT
    ========================================================= */
 
 .new-chat {
+  position: relative;
+  z-index: 2;
+
   width: 100%;
 
-  padding: 13px 16px;
-  margin-bottom: 18px;
+  padding:
+    13px 15px;
 
   border: none;
-  border-radius: 13px;
 
-  background: linear-gradient(135deg, #f59e0b, #fb923c);
+  border-radius: 15px;
 
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
+  color: #263e32;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  font-weight: 900;
 
   cursor: pointer;
 
+  background:
+    linear-gradient(
+      145deg,
+      #b8dc72,
+      #76b957
+    );
+
+  border:
+    2px solid #d8ed9e;
+
+  box-shadow:
+    0 5px 0 #3e7437,
+    0 9px 17px
+    rgba(0, 0, 0, 0.25);
+
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .new-chat:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.05);
+  transform:
+    translateY(-3px);
 
   box-shadow:
-    0 8px 20px rgba(245, 158, 11, 0.22);
+    0 7px 0 #3e7437,
+    0 12px 20px
+    rgba(0, 0, 0, 0.28);
 }
 
 .new-chat:active {
-  transform: translateY(0);
+  transform:
+    translateY(2px);
 }
 
 
@@ -98,52 +230,170 @@
    ========================================================= */
 
 .chat-list {
+  position: relative;
+  z-index: 2;
+
   display: flex;
+
   flex-direction: column;
-  gap: 6px;
+
+  gap: 9px;
+
+  margin-top: 17px;
 }
 
+
 .chat-item {
-  padding: 11px 12px;
+  display: flex;
 
-  border-radius: 10px;
+  align-items: center;
 
-  background: transparent;
+  gap: 5px;
 
-  color: #cbd5e1;
-  font-size: 14px;
+  min-height: 52px;
 
-  cursor: pointer;
+  padding:
+    5px 7px 5px 12px;
+
+  border-radius: 15px;
+
+  background:
+    rgba(202, 164, 91, 0.12);
+
+  border:
+    2px solid
+    rgba(218, 185, 115, 0.14);
 
   transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .chat-item:hover {
-  background: #1e293b;
-  color: white;
+  transform:
+    translateX(4px);
 
-  transform: translateX(3px);
+  background:
+    rgba(202, 164, 91, 0.22);
+}
+
+
+.chat-item.active {
+  background:
+    linear-gradient(
+      145deg,
+      #f4df9e,
+      #e7c56b
+    );
+
+  border-color:
+    #d2a64f;
+
+  box-shadow:
+    0 4px 0 #744820;
 }
 
 
 /* =========================================================
-   ✨ ACTIVE CHAT
-   Supports both possible class names
+   💬 CHAT SELECT
    ========================================================= */
 
-.chat-item.active,
-.chat-item.active-chat {
-  background: rgba(245, 158, 11, 0.12);
+.chat-select {
+  flex: 1;
 
-  color: #ffffff;
+  min-width: 0;
 
-  border: 1px solid rgba(245, 158, 11, 0.45);
+  border: none;
 
-  box-shadow:
-    inset 3px 0 0 #f59e0b;
+  background: transparent;
+
+  color: #fff6dc;
+
+  text-align: left;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  padding:
+    8px 3px;
+}
+
+.chat-item.active .chat-select {
+  color: #51311d;
+}
+
+
+/* =========================================================
+   🗑️ DELETE
+   ========================================================= */
+
+.delete-chat {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  background:
+    rgba(72, 39, 25, 0.35);
+
+  color: #ffe9c3;
+
+  opacity: 0.65;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.delete-chat:hover {
+  opacity: 1;
+
+  transform:
+    scale(1.08);
+
+  background:
+    #9d4e43;
+}
+
+.chat-item.active .delete-chat {
+  color: #59311d;
+
+  background:
+    rgba(255, 255, 255, 0.30);
+}
+
+
+/* =========================================================
+   🌱 NO CHATS
+   ========================================================= */
+
+.no-chats {
+  padding: 18px 10px;
+
+  text-align: center;
+
+  color: #f4e8c6;
+
+  font-size: 14px;
 }
 
 
@@ -153,40 +403,112 @@
 
 .chat-section {
   flex: 1;
+
   min-width: 0;
 
   height: 100vh;
 
   display: flex;
+
   flex-direction: column;
 
-  background: #0f172a;
+  position: relative;
+
+  z-index: 2;
+
+  overflow: hidden;
+
+  background: transparent;
 }
 
 
 /* =========================================================
-   🤖 HEADER
+   🪵 HEADER BOARD
    ========================================================= */
 
 .chat-header {
-  position: relative;
-
   flex-shrink: 0;
 
-  padding: 17px 20px;
+  position: relative;
 
-  background: rgba(2, 6, 23, 0.94);
+  z-index: 20;
 
-  border-bottom: 1px solid #1e293b;
+  margin:
+    14px 22px 0;
 
-  color: #ffffff;
-
-  font-size: 22px;
-  font-weight: 800;
+  padding:
+    14px 22px;
 
   text-align: center;
 
-  backdrop-filter: blur(12px);
+  color: #55361e;
+
+  font-size: 25px;
+
+  font-weight: 900;
+
+  /*
+    WOODEN BOARD
+  */
+
+  background:
+    linear-gradient(
+      145deg,
+      #d8ad62,
+      #b77c3c
+    );
+
+  border:
+    4px solid #7d4c28;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 6px 0 #54331d,
+    0 12px 25px
+    rgba(0, 0, 0, 0.30);
+}
+
+
+/* board grain */
+.chat-header::before {
+  content: "🌿";
+
+  position: absolute;
+
+  left: 14px;
+  top: -12px;
+
+  font-size: 25px;
+
+  animation:
+    leafSway 4s ease-in-out infinite;
+}
+
+
+/* green underline */
+.chat-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 105px;
+  height: 6px;
+
+  bottom: -6px;
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  border-radius: 10px;
+
+  background:
+    #72ad43;
+
+  box-shadow:
+    0 2px 8px
+    rgba(43, 88, 38, 0.50);
 }
 
 
@@ -196,53 +518,54 @@
 
 .chat-box {
   flex: 1;
+
   min-height: 0;
 
   overflow-y: auto;
 
-  padding: 28px 36px;
+  padding:
+    30px 42px 25px;
 
   scroll-behavior: smooth;
 
   scrollbar-width: thin;
-  scrollbar-color: #475569 transparent;
+
+  scrollbar-color:
+    #a8793e
+    rgba(60, 40, 20, 0.18);
 }
 
 
-/* Chrome scrollbar */
-
-.chat-box::-webkit-scrollbar,
-.sidebar::-webkit-scrollbar {
-  width: 7px;
+.chat-box::-webkit-scrollbar {
+  width: 9px;
 }
 
-.chat-box::-webkit-scrollbar-track,
-.sidebar::-webkit-scrollbar-track {
-  background: transparent;
+.chat-box::-webkit-scrollbar-track {
+  background:
+    rgba(55, 37, 21, 0.15);
 }
 
-.chat-box::-webkit-scrollbar-thumb,
-.sidebar::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 10px;
-}
+.chat-box::-webkit-scrollbar-thumb {
+  border-radius: 20px;
 
-.chat-box::-webkit-scrollbar-thumb:hover,
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background:
+    #9d713d;
 }
 
 
 /* =========================================================
-   🧱 MESSAGE ROW
+   💬 MESSAGE ROW
    ========================================================= */
 
 .msg-row {
-  display: flex;
-
   width: 100%;
 
-  margin-bottom: 18px;
+  display: flex;
+
+  margin-bottom: 25px;
+
+  animation:
+    messageIn 0.4s ease both;
 }
 
 .msg-row.left {
@@ -255,539 +578,1212 @@
 
 
 /* =========================================================
-   💬 MESSAGE BUBBLE
+   🪵 MESSAGE BOARD
    ========================================================= */
 
 .msg {
-  max-width: 72%;
+  position: relative;
 
-  padding: 14px 18px;
+  max-width: 68%;
 
-  border-radius: 18px;
+  padding:
+    17px 21px;
+
+  border-radius: 17px;
 
   font-size: 15px;
-  line-height: 1.6;
 
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  line-height: 1.65;
 
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.12);
-
-  animation: messageAppear 0.2s ease;
-}
-
-
-/* =========================================================
-   🤖 AI MESSAGE
-   ========================================================= */
-
-.msg-row.left .msg {
-  background: #1e293b;
-
-  color: #e5e7eb;
-
-  border: 1px solid rgba(148, 163, 184, 0.08);
-
-  border-bottom-left-radius: 6px;
-}
-
-
-/* =========================================================
-   👤 USER MESSAGE
-   ========================================================= */
-
-.msg-row.right .msg {
-  background: linear-gradient(
-    135deg,
-    #f59e0b,
-    #fb923c
-  );
-
-  color: white;
-
-  border-bottom-right-radius: 6px;
-
-  box-shadow:
-    0 7px 20px rgba(245, 158, 11, 0.18);
-}
-
-
-/* =========================================================
-   📝 AI RESPONSE FORMATTING
-   ========================================================= */
-
-.ai-line {
-  margin: 5px 0;
-}
-
-.ai-heading {
-  margin-top: 14px;
-  margin-bottom: 7px;
-
-  color: #ffffff;
-
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.ai-bullet {
-  margin: 7px 0;
-  padding-left: 5px;
-}
-
-.ai-space {
-  height: 8px;
-}
-
-
-/* =========================================================
-   🎮 CURIOKIDS GAME LINK
-   ========================================================= */
-
-.ai-game-link {
-  margin: 14px 0;
-}
-
-.ai-game-link a {
-  display: inline-block;
-
-  padding: 10px 16px;
-
-  border-radius: 12px;
-
-  background: linear-gradient(
-    135deg,
-    #f59e0b,
-    #fb923c
-  );
-
-  color: white;
-
-  text-decoration: none;
-
-  font-size: 14px;
-  font-weight: 700;
-
-  box-shadow:
-    0 5px 14px rgba(245, 158, 11, 0.16);
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-}
-
-.ai-game-link a:hover {
-  transform: translateY(-2px);
-
-  filter: brightness(1.06);
-
-  box-shadow:
-    0 8px 18px rgba(245, 158, 11, 0.24);
-}
-
-.ai-game-link a:active {
-  transform: translateY(0);
-}
-
-
-/* =========================================================
-   ✨ INPUT AREA
-   ========================================================= */
-
-.chat-input {
-  flex-shrink: 0;
-
-  display: flex;
-  align-items: center;
-
-  gap: 12px;
-
-  padding: 15px 22px;
-
-  margin-right: 80px;
-
-  background: rgba(2, 6, 23, 0.96);
-
-  border-top: 1px solid #1e293b;
-}
-
-
-/* =========================================================
-   ⌨ INPUT
-   ========================================================= */
-
-.chat-input input {
-  flex: 1;
-  min-width: 0;
-
-  padding: 13px 17px;
-
-  border: 1px solid #334155;
-  border-radius: 16px;
-
-  outline: none;
-
-  background: #1e293b;
-
-  color: white;
-
-  font-family: inherit;
-  font-size: 15px;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-
-.chat-input input::placeholder {
-  color: #94a3b8;
-}
-
-.chat-input input:focus {
-  background: #243247;
-
-  border-color: rgba(245, 158, 11, 0.65);
-
-  box-shadow:
-    0 0 0 3px rgba(245, 158, 11, 0.08);
-}
-
-
-/* =========================================================
-   🚀 SEND BUTTON
-   ========================================================= */
-
-.chat-input button {
-  flex-shrink: 0;
-
-  padding: 12px 21px;
-
-  border: none;
-  border-radius: 16px;
-
-  background: linear-gradient(
-    135deg,
-    #f59e0b,
-    #fb923c
-  );
-
-  color: white;
-
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-}
-
-.chat-input button:hover:not(:disabled) {
-  transform: translateY(-2px);
-
-  filter: brightness(1.05);
-
-  box-shadow:
-    0 7px 17px rgba(245, 158, 11, 0.22);
-}
-
-.chat-input button:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.chat-input button:disabled {
-  opacity: 0.5;
-
-  cursor: not-allowed;
-}
-
-
-/* =========================================================
-   🤖 TYPING
-   ========================================================= */
-
-.typing {
-  color: #94a3b8;
-
-  font-size: 14px;
-}
-
-
-/* =========================================================
-   💬 TYPING DOTS
-   ========================================================= */
-
-.typing-dots {
-  display: flex;
-
-  align-items: center;
-
-  gap: 5px;
-
-  padding: 8px;
-}
-
-.typing-dots span {
-  width: 7px;
-  height: 7px;
-
-  background: #94a3b8;
-
-  border-radius: 50%;
-
-  animation: bounce 1.2s infinite;
-}
-
-.typing-dots span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.typing-dots span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-
-/* =========================================================
-   🛑 STOP BUTTON
-   ========================================================= */
-
-.stop-btn {
-  margin-top: 8px;
-
-  padding: 6px 11px;
-
-  border: none;
-  border-radius: 9px;
-
-  background: #ef4444;
-
-  color: white;
-
-  font-size: 12px;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.stop-btn:hover {
-  filter: brightness(1.1);
-}
-
-
-/* =========================================================
-   🤖 AVATAR
-   ========================================================= */
-
-.avatar {
-  margin-right: 8px;
-
-  font-size: 20px;
-}
-
-
-/* =========================================================
-   🤖 FLOATING BOT
-   ========================================================= */
-
-.bot-float {
-  position: fixed;
-
-  right: 24px;
-  bottom: 88px;
-
-  width: 56px;
-  height: 56px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #22c55e;
-
-  border-radius: 50%;
-
-  font-size: 24px;
-
-  box-shadow:
-    0 10px 25px rgba(0, 0, 0, 0.45);
-
-  cursor: pointer;
-
-  z-index: 1000;
+  word-break: break-word;
 
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.bot-float:hover {
-  transform: translateY(-3px) scale(1.04);
+
+/* =========================================================
+   🤖 AI = WOODEN BOARD
+   ========================================================= */
+
+.msg-row.left .msg {
+  color: #4b2d19;
+
+  /*
+    This is intentionally WOOD,
+    not white.
+  */
+
+  background:
+    linear-gradient(
+      145deg,
+      #e0b96e,
+      #c9934b
+    );
+
+  border:
+    3px solid #805128;
+
+  border-bottom-left-radius: 7px;
 
   box-shadow:
-    0 13px 28px rgba(0, 0, 0, 0.5);
+    0 5px 0 #603a20,
+    0 11px 22px
+    rgba(0, 0, 0, 0.25);
+}
+
+
+/* wood highlight */
+.msg-row.left .msg::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border:
+    1px solid
+    rgba(255, 238, 184, 0.25);
+
+  border-radius: 11px;
+
+  pointer-events: none;
+}
+
+
+/* leaf */
+.msg-row.left .msg::before {
+  content: "🍃";
+
+  position: absolute;
+
+  left: -15px;
+  top: -15px;
+
+  font-size: 19px;
+
+  animation:
+    leafSway 4s ease-in-out infinite;
 }
 
 
 /* =========================================================
-   🧭 BACK BUTTON
+   👧 USER = DEEP FOREST TEAL
    ========================================================= */
 
-.back-btn {
+.msg-row.right .msg {
+  color: #f7ffe9;
+
+  background:
+    linear-gradient(
+      145deg,
+      #347d70,
+      #245d58
+    );
+
+  border:
+    3px solid #83c49a;
+
+  border-bottom-right-radius: 7px;
+
+  box-shadow:
+    0 5px 0 #173f3c,
+    0 11px 22px
+    rgba(0, 0, 0, 0.28);
+}
+
+
+/* user bubble shine */
+.msg-row.right .msg::after {
+  content: "";
+
   position: absolute;
 
-  left: 15px;
-  top: 10px;
+  inset: 6px;
 
-  padding: 7px 11px;
+  border:
+    1px solid
+    rgba(220, 255, 215, 0.16);
 
-  border: none;
-  border-radius: 8px;
+  border-radius: 10px;
 
-  background: #1e293b;
+  pointer-events: none;
+}
 
-  color: white;
+
+/* =========================================================
+   🌿 AI TEXT
+   ========================================================= */
+
+.ai-line {
+  margin:
+    5px 0;
+}
+
+.ai-heading {
+  margin:
+    14px 0 8px;
+
+  color: #275f36;
+
+  font-size: 17px;
+
+  font-weight: 900;
+}
+
+.ai-bullet {
+  margin:
+    8px 0;
+
+  color: #50321c;
+}
+
+.ai-space {
+  height: 8px;
+}
+
+.msg strong {
+  color: #235f2f;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   🎮 GAME BUTTON
+   ========================================================= */
+
+.ai-game-link {
+  margin:
+    17px 0 4px;
+}
+
+.ai-game-link a {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding:
+    11px 17px;
+
+  border-radius: 13px;
+
+  color: #f7ffe9;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 900;
+
+  background:
+    linear-gradient(
+      145deg,
+      #4c9b43,
+      #327437
+    );
+
+  border:
+    2px solid #9bd878;
+
+  box-shadow:
+    0 4px 0 #24582c;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.ai-game-link a:hover {
+  transform:
+    translateY(-3px);
+}
+
+
+/* =========================================================
+   ⌨️ INPUT BOARD
+   ========================================================= */
+
+.chat-input {
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin:
+    0 22px 17px;
+
+  padding:
+    9px;
+
+  position: relative;
+
+  z-index: 30;
+
+  /*
+    WOODEN INPUT BOARD
+  */
+
+  background:
+    linear-gradient(
+      145deg,
+      #b77c3c,
+      #89552d
+    );
+
+  border:
+    4px solid #674020;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 0 #4a2c19,
+    0 12px 25px
+    rgba(0, 0, 0, 0.30);
+}
+
+
+/* =========================================================
+   📝 INPUT
+   ========================================================= */
+
+.chat-input input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding:
+    13px 17px;
+
+  border:
+    3px solid #a77a3d;
+
+  border-radius: 13px;
+
+  outline: none;
+
+  background:
+    #ead29a;
+
+  color: #49301d;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  box-shadow:
+    inset 0 2px 5px
+    rgba(0, 0, 0, 0.13);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.chat-input input::placeholder {
+  color: #765a39;
+}
+
+.chat-input input:focus {
+  border-color:
+    #72a94c;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(114, 169, 76, 0.20);
+}
+
+
+/* =========================================================
+   🌿 SEND BUTTON
+   ========================================================= */
+
+.chat-input button {
+  min-width: 88px;
+
+  padding:
+    13px 18px;
+
+  border-radius: 13px;
+
+  border:
+    2px solid #9fd27b;
+
+  color: #f5ffe8;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  font-weight: 900;
 
   cursor: pointer;
 
-  transition: background 0.2s ease;
+  background:
+    linear-gradient(
+      145deg,
+      #4b9461,
+      #32704f
+    );
+
+  box-shadow:
+    0 4px 0 #214d39;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
-.back-btn:hover {
-  background: #334155;
+.chat-input button:hover:not(:disabled) {
+  transform:
+    translateY(-2px);
+
+  filter:
+    brightness(1.08);
+}
+
+.chat-input button:active:not(:disabled) {
+  transform:
+    translateY(2px);
+}
+
+.chat-input button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
 }
 
 
 /* =========================================================
-   🌱 EMPTY CHAT
+   🤖 EMPTY STATE
    ========================================================= */
 
 .empty-chat {
-  min-height: 60%;
+  min-height: 65%;
 
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
   justify-content: center;
 
   text-align: center;
 
-  color: #cbd5e1;
+  padding: 35px;
+
+  color: #fff2c8;
+
+  text-shadow:
+    0 2px 5px
+    rgba(0, 0, 0, 0.45);
 }
 
 .empty-icon {
-  margin-bottom: 12px;
+  width: 90px;
+  height: 90px;
 
-  font-size: 46px;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 17px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #d6e88c,
+      #79b65b
+    );
+
+  border:
+    4px solid #e7f2b4;
+
+  font-size: 37px;
+
+  box-shadow:
+    0 6px 0 #3c7138,
+    0 12px 25px
+    rgba(0, 0, 0, 0.28);
+
+  animation:
+    friendlyBot 3s ease-in-out infinite;
 }
 
 .empty-chat h3 {
-  margin: 5px 0 8px;
+  margin:
+    5px 0 8px;
 
-  color: white;
+  font-size: 25px;
 
-  font-size: 21px;
+  color: #fff4cb;
 }
 
 .empty-chat p {
-  max-width: 420px;
+  max-width: 450px;
 
   margin: 0;
 
-  color: #94a3b8;
+  font-size: 15px;
 
   line-height: 1.6;
+
+  color: #fff1ca;
 }
 
 
 /* =========================================================
-   🎭 ROLE SWITCH
+   🤖 THINKING
    ========================================================= */
 
-.role-switch {
-  margin-top: 8px;
+.typing {
+  color: #f7ffe7 !important;
 }
 
-.role-switch button {
-  margin: 0 5px;
+.typing::after {
+  content: " ...";
 
-  padding: 6px 13px;
+  animation:
+    dots 1.2s infinite;
+}
 
-  border: none;
-  border-radius: 20px;
+/* =========================================================
+   🌿 CURIOKIDS AI - SIDEBAR
+   ========================================================= */
 
-  background: rgba(255, 255, 255, 0.08);
+.sidebar {
+  width: 285px;
+  min-width: 285px;
+  height: 100vh;
+  box-sizing: border-box;
 
-  color: white;
+  padding: 22px 16px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #173f2d 0%,
+      #1f5238 50%,
+      #163b2b 100%
+    );
+
+  border-right: 4px solid #b8d879;
+
+  box-shadow:
+    6px 0 20px rgba(0, 0, 0, 0.35);
+
+  overflow-y: auto;
+
+  position: relative;
+  z-index: 20;
+}
+
+
+/* Sidebar scrollbar */
+
+.sidebar::-webkit-scrollbar {
+  width: 7px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #123426;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #8fbd62;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #b5db7c;
+}
+
+
+/* Sidebar title */
+
+.sidebar h3 {
+  margin: 4px 4px 20px;
+
+  color: #f5e8c8;
+
+  font-size: 22px;
+  font-weight: 900;
+
+  text-align: center;
+
+  letter-spacing: 0.3px;
+
+  text-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   🆕 NEW CHAT BUTTON
+   ========================================================= */
+
+.new-chat {
+  width: 100%;
+
+  padding: 13px 16px;
+
+  border: 2px solid #789b4c;
+  border-radius: 14px;
+
+  background: #d8e9ae;
+  color: #294a2d;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 900;
 
   cursor: pointer;
 
-  transition: 0.2s ease;
+  box-shadow:
+    0 5px 0 #6e8c4e;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
-.role-switch button:hover {
-  background: rgba(255, 255, 255, 0.14);
+.new-chat:hover {
+  background: #e6f2c2;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 0 #6e8c4e;
 }
 
-.role-switch .active {
-  background: linear-gradient(
-    45deg,
-    #f59e0b,
-    #ff7a18
-  );
+.new-chat:active {
+  transform: translateY(3px);
 
-  color: white;
+  box-shadow:
+    0 2px 0 #6e8c4e;
 }
 
 
 /* =========================================================
-   ✨ MESSAGE ANIMATION
+   💬 CHAT LIST
    ========================================================= */
 
-@keyframes messageAppear {
+.chat-list {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+
+/* No chats text */
+
+.chat-list > p {
+  margin: 10px 4px;
+
+  color: #dcebc8;
+
+  font-size: 14px;
+  text-align: center;
+}
+
+
+/* =========================================================
+   💬 CHAT ITEM
+   ========================================================= */
+
+.chat-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 5px;
+
+  box-sizing: border-box;
+
+  border-radius: 13px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 2px solid transparent;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.chat-item:hover {
+  background: rgba(255, 255, 255, 0.11);
+
+  transform: translateX(2px);
+}
+
+
+/* Active chat */
+
+.chat-item.active {
+  background: rgba(216, 233, 174, 0.18);
+
+  border-color: #a9cf70;
+}
+
+
+/* =========================================================
+   💬 CHAT SELECT BUTTON
+   ========================================================= */
+
+.chat-select {
+  flex: 1;
+  min-width: 0;
+
+  padding: 11px 10px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #f2e8d0;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+.chat-select:hover {
+  background: rgba(255, 255, 255, 0.08);
+
+  color: #ffffff;
+}
+
+
+/* Active chat button */
+
+.chat-item.active .chat-select {
+  color: #f5f0d8;
+}
+
+
+/* =========================================================
+   🗑️ DELETE CHAT BUTTON
+   ========================================================= */
+
+.delete-chat {
+  width: 39px;
+  height: 39px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+
+  background: rgba(120, 50, 43, 0.55);
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.delete-chat:hover {
+  background: #b84f45;
+
+  border-color: #e28a80;
+
+  transform: scale(1.08);
+}
+
+.delete-chat:active {
+  transform: scale(0.94);
+}
+
+
+/* =========================================================
+   🗑️ DELETE CONFIRMATION OVERLAY
+   ========================================================= */
+
+.delete-confirm-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(20, 48, 32, 0.68);
+
+  backdrop-filter: blur(6px);
+
+  animation: deleteOverlayIn 0.2s ease;
+}
+
+
+/* =========================================================
+   🗑️ DELETE CONFIRMATION CARD
+   ========================================================= */
+
+.delete-confirm-card {
+  width: min(430px, 92vw);
+
+  box-sizing: border-box;
+
+  padding: 30px 26px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f4d58d,
+      #c99750
+    );
+
+  border: 4px solid #795126;
+
+  border-radius: 26px;
+
+  box-shadow:
+    0 8px 0 #4d321b,
+    0 20px 45px rgba(0, 0, 0, 0.4);
+
+  animation: deleteCardIn 0.25s ease;
+}
+
+
+/* =========================================================
+   🗑️ DELETE ICON
+   ========================================================= */
+
+.delete-confirm-icon {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e7c568;
+
+  border: 3px solid #a77c35;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 4px 0 #765526;
+
+  animation: deleteIconPop 0.35s ease;
+}
+
+
+/* =========================================================
+   📝 DELETE TEXT
+   ========================================================= */
+
+.delete-confirm-card h2 {
+  margin: 8px 0 10px;
+
+  color: #4d3019;
+
+  font-size: 25px;
+  font-weight: 900;
+}
+
+.delete-confirm-card p {
+  margin: 0 auto 24px;
+
+  max-width: 330px;
+
+  color: #51371f;
+
+  font-size: 16px;
+
+  line-height: 1.5;
+}
+
+.delete-confirm-card strong {
+  color: #245d38;
+}
+
+
+/* =========================================================
+   🔘 DELETE BUTTONS
+   ========================================================= */
+
+.delete-confirm-buttons {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 14px;
+}
+
+
+/* Both buttons */
+
+.delete-cancel-btn,
+.delete-confirm-btn {
+  min-width: 135px;
+
+  padding: 12px 18px;
+
+  border-radius: 14px;
+
+  font-family: inherit;
+
+  font-size: 15px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+
+/* Keep chat */
+
+.delete-cancel-btn {
+  border: 2px solid #52733c;
+
+  background: #d8e9ae;
+
+  color: #294a2d;
+
+  box-shadow:
+    0 4px 0 #78945b;
+}
+
+.delete-cancel-btn:hover {
+  background: #e5f1c1;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 0 #78945b;
+}
+
+
+/* Delete */
+
+.delete-confirm-btn {
+  border: 2px solid #8f443b;
+
+  background: #c85e52;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 0 #74352f;
+}
+
+.delete-confirm-btn:hover {
+  background: #d76b5f;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 0 #74352f;
+}
+
+
+/* Press */
+
+.delete-cancel-btn:active,
+.delete-confirm-btn:active {
+  transform: translateY(2px);
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   ✨ ANIMATIONS
+   ========================================================= */
+
+@keyframes deleteOverlayIn {
   from {
     opacity: 0;
-    transform: translateY(4px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+  }
+}
+
+
+@keyframes deleteCardIn {
+  from {
+    opacity: 0;
+
+    transform:
+      scale(0.85)
+      translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      scale(1)
+      translateY(0);
+  }
+}
+
+
+@keyframes deleteIconPop {
+  from {
+    opacity: 0;
+
+    transform: scale(0.5) rotate(-15deg);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1) rotate(0);
   }
 }
 
 
 /* =========================================================
-   💬 TYPING ANIMATION
+   📱 MOBILE
    ========================================================= */
 
-@keyframes bounce {
-  0%,
-  80%,
-  100% {
-    transform: scale(0);
+@media (max-width: 700px) {
+
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+
+    padding: 18px 11px;
   }
 
-  40% {
-    transform: scale(1);
+  .sidebar h3 {
+    font-size: 18px;
+  }
+
+  .new-chat {
+    font-size: 13px;
+
+    padding: 11px 10px;
+  }
+
+  .chat-select {
+    font-size: 12px;
+
+    padding: 10px 7px;
+  }
+
+  .delete-chat {
+    width: 34px;
+    height: 34px;
+
+    font-size: 14px;
+  }
+
+  .delete-confirm-card {
+    padding: 25px 18px;
+  }
+
+  .delete-confirm-card h2 {
+    font-size: 21px;
+  }
+
+  .delete-confirm-card p {
+    font-size: 14px;
+  }
+
+  .delete-confirm-buttons {
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .delete-cancel-btn,
+  .delete-confirm-btn {
+    width: 100%;
   }
 }
 
 
 /* =========================================================
-   📱 TABLET / MOBILE
+   📱 SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .sidebar {
+    width: 185px;
+    min-width: 185px;
+
+    padding: 15px 8px;
+  }
+
+  .sidebar h3 {
+    font-size: 16px;
+
+    margin-bottom: 15px;
+  }
+
+  .chat-item {
+    gap: 4px;
+  }
+
+  .chat-select {
+    font-size: 11px;
+
+    padding: 9px 5px;
+  }
+
+  .delete-chat {
+    width: 31px;
+    height: 31px;
+
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   ✨ ANIMATIONS
+   ========================================================= */
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(12px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes leafSway {
+  0%,
+  100% {
+    transform:
+      rotate(-8deg);
+  }
+
+  50% {
+    transform:
+      rotate(10deg);
+  }
+}
+
+@keyframes friendlyBot {
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-6px);
+  }
+}
+
+@keyframes dots {
+  0% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
+}
+
+
+/* =========================================================
+   💻 TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 230px;
+    min-width: 230px;
+  }
+
+  .chat-box {
+    padding:
+      25px 24px;
+  }
+
+  .msg {
+    max-width: 78%;
+  }
+}
+
+
+/* =========================================================
+   📱 MOBILE
    ========================================================= */
 
 @media (max-width: 768px) {
-
   .app-container {
-    flex-direction: column;
+    height: 100dvh;
+
+    background-attachment: scroll;
   }
 
   .sidebar {
@@ -796,131 +1792,158 @@
 
   .chat-section {
     width: 100%;
-    height: 100vh;
+
+    height: 100dvh;
   }
 
   .chat-header {
-    padding: 14px;
+    margin:
+      8px 8px 0;
+
+    padding:
+      12px 10px;
 
     font-size: 19px;
+
+    border-radius: 15px;
   }
 
   .chat-box {
-    padding: 18px 14px;
+    padding:
+      20px 12px;
   }
 
   .msg {
-    max-width: 85%;
+    max-width: 89%;
 
-    padding: 12px 15px;
+    padding:
+      12px 14px;
 
     font-size: 14px;
+
+    line-height: 1.55;
+  }
+
+  .msg-row {
+    margin-bottom: 17px;
   }
 
   .chat-input {
-    padding: 11px 12px;
+    margin:
+      0 8px 8px;
 
-    margin-right: 0;
+    padding:
+      7px;
 
-    gap: 8px;
+    gap: 7px;
+
+    border-radius: 15px;
   }
 
   .chat-input input {
-    padding: 11px 13px;
+    padding:
+      11px 12px;
 
     font-size: 14px;
   }
 
   .chat-input button {
-    padding: 11px 15px;
+    min-width: 65px;
+
+    padding:
+      10px 11px;
 
     font-size: 14px;
   }
 
-  .bot-float {
-    width: 46px;
-    height: 46px;
+  .empty-icon {
+    width: 75px;
+    height: 75px;
 
-    right: 14px;
-    bottom: 75px;
+    font-size: 30px;
+  }
 
+  .empty-chat h3 {
     font-size: 20px;
+  }
+
+  .empty-chat p {
+    font-size: 14px;
   }
 }
 
 
 /* =========================================================
-   📱 SMALL MOBILE
+   📱 SMALL PHONE
    ========================================================= */
 
 @media (max-width: 480px) {
-
   .chat-header {
     font-size: 17px;
-    padding: 12px;
+
+    padding:
+      10px 8px;
   }
 
   .chat-box {
-    padding: 12px 10px;
+    padding:
+      14px 8px;
   }
 
   .msg {
-    max-width: 90%;
+    max-width: 93%;
 
-    padding: 10px 12px;
+    padding:
+      10px 12px;
 
     font-size: 13px;
-
-    line-height: 1.5;
   }
 
   .chat-input {
-    padding: 9px 10px;
+    margin:
+      0 6px 6px;
+
+    padding: 6px;
   }
 
   .chat-input input {
-    padding: 10px 12px;
+    padding:
+      9px;
 
     font-size: 13px;
   }
 
   .chat-input button {
-    padding: 9px 12px;
+    min-width: 57px;
+
+    padding:
+      9px;
 
     font-size: 13px;
-  }
-
-  .ai-heading {
-    font-size: 15px;
   }
 
   .ai-game-link a {
-    padding: 9px 13px;
+    padding:
+      9px 12px;
 
     font-size: 13px;
-  }
-
-  .bot-float {
-    width: 42px;
-    height: 42px;
-
-    right: 12px;
-    bottom: 70px;
-
-    font-size: 18px;
   }
 }
 
 
 /* =========================================================
-   💻 LARGE SCREENS
+   💻 LARGE SCREEN
    ========================================================= */
 
 @media (min-width: 1200px) {
+  .sidebar {
+    width: 290px;
+    min-width: 290px;
+  }
 
   .chat-box {
-    padding-left: 44px;
-    padding-right: 44px;
+    padding-left: 55px;
+    padding-right: 55px;
   }
 
   .msg {

@@ -317,6 +317,7 @@ import {
   serverTimestamp,
   doc,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 const WORKER_URL =
@@ -337,6 +338,9 @@ export default function AIChat() {
   const [currentChatIndex, setCurrentChatIndex] = useState(null);
 
   const [loadingChats, setLoadingChats] = useState(true);
+
+  // 🗑️ Delete confirmation popup
+  const [chatToDelete, setChatToDelete] = useState(null);
 
   const chatEndRef = useRef(null);
 
@@ -451,7 +455,88 @@ export default function AIChat() {
     setChatHistory(selectedChat.messages || []);
     setCurrentChatIndex(index);
   };
+  // 🗑️ DELETE CHAT
+  // 🗑️ DELETE CHAT
+const deleteChat = (index) => {
+  const selectedChat = allChats[index];
 
+  if (!selectedChat?.id) return;
+
+  // Open our own website popup
+  setChatToDelete({
+    index,
+    chat: selectedChat,
+  });
+};
+
+
+// ✅ CONFIRM DELETE CHAT
+const confirmDeleteChat = async () => {
+  if (!chatToDelete) return;
+
+  const { index, chat } = chatToDelete;
+
+  try {
+    // Delete from Firebase
+    const chatRef = doc(
+      db,
+      "users",
+      userId,
+      "ai_chats",
+      chat.id
+    );
+
+    await deleteDoc(chatRef);
+
+    // Remove from local UI
+    const updatedChats = allChats.filter(
+      (_, i) => i !== index
+    );
+
+    setAllChats(updatedChats);
+
+    // If deleted chat was currently open
+    if (currentChatIndex === index) {
+      if (updatedChats.length === 0) {
+        setChatHistory([]);
+        setCurrentChatIndex(null);
+      } else {
+        const newIndex = Math.min(
+          index,
+          updatedChats.length - 1
+        );
+
+        setCurrentChatIndex(newIndex);
+
+        setChatHistory(
+          updatedChats[newIndex].messages || []
+        );
+      }
+    }
+
+    // If deleting a chat before the current one
+    else if (
+      currentChatIndex !== null &&
+      index < currentChatIndex
+    ) {
+      setCurrentChatIndex(
+        currentChatIndex - 1
+      );
+    }
+
+    // Close popup
+    setChatToDelete(null);
+
+  } catch (error) {
+    console.error(
+      "❌ Error deleting chat:",
+      error
+    );
+
+    // Close popup
+    setChatToDelete(null);
+  }
+};
   // =========================================================
   // 💾 SAVE CHAT TO FIRESTORE
   // =========================================================
@@ -757,7 +842,7 @@ const renderAIText = (text) => {
               🤖🌱
             </div>
 
-            <h3>Loading Jungle AI...</h3>
+            <h3>Loading CurioKids AI...</h3>
 
             <p>
               Getting your previous chats ready ✨
@@ -777,7 +862,7 @@ const renderAIText = (text) => {
       {/* 📁 SIDEBAR */}
       <div className="sidebar">
 
-        <h3>🤖 Jungle AI</h3>
+        <h3>🤖 CurioKids AI</h3>
 
         <button
           className="new-chat"
@@ -789,24 +874,40 @@ const renderAIText = (text) => {
         <div className="chat-list">
 
           {allChats.length === 0 ? (
-            <p style={{ padding: "10px" }}>
-              No chats yet
-            </p>
-          ) : (
-            allChats.map((chat, i) => (
-              <div
-                key={chat.id || i}
-                className={`chat-item ${
-                  currentChatIndex === i
-                    ? "active"
-                    : ""
-                }`}
-                onClick={() => loadChat(i)}
-              >
-                💬 Chat {i + 1}
-              </div>
-            ))
-          )}
+  <p style={{ padding: "10px" }}>
+    No chats yet
+  </p>
+) : (
+  allChats.map((chat, i) => (
+    <div
+      key={chat.id || i}
+      className={`chat-item ${
+        currentChatIndex === i
+          ? "active"
+          : ""
+      }`}
+    >
+      <button
+        className="chat-select"
+        onClick={() => loadChat(i)}
+      >
+        💬 Chat {i + 1}
+      </button>
+
+      <button
+        className="delete-chat"
+        onClick={(e) => {
+          e.stopPropagation();
+          deleteChat(i);
+        }}
+        title="Delete chat"
+        aria-label={`Delete Chat ${i + 1}`}
+      >
+        🗑️
+      </button>
+    </div>
+  ))
+)}
 
         </div>
       </div>
@@ -816,7 +917,7 @@ const renderAIText = (text) => {
 
         {/* HEADER */}
         <div className="chat-header">
-          🤖 Jungle AI Chat
+          🤖 CurioKids AI Chat
         </div>
 
         {/* CHAT MESSAGES */}
@@ -830,7 +931,7 @@ const renderAIText = (text) => {
               </div>
 
               <h3>
-                Hi! I'm Jungle AI 👋
+                Hi! I'm CurioKids AI 👋
               </h3>
 
               <p>
@@ -903,9 +1004,62 @@ const renderAIText = (text) => {
             {loading ? "..." : "Send"}
           </button>
 
-        </div>
+                </div>
+
+        {/* 🗑️ DELETE CHAT CONFIRMATION */}
+
+        {chatToDelete && (
+          <div
+            className="delete-confirm-overlay"
+            onClick={() => setChatToDelete(null)}
+          >
+
+            <div
+              className="delete-confirm-card"
+              onClick={(e) => e.stopPropagation()}
+            >
+
+              <div className="delete-confirm-icon">
+                🗑️
+              </div>
+
+              <h2>
+                Delete this chat?
+              </h2>
+
+              <p>
+                Are you sure you want to delete{" "}
+                <strong>
+                  Chat {chatToDelete.index + 1}
+                </strong>
+                ?
+              </p>
+
+              <div className="delete-confirm-buttons">
+
+                <button
+                  className="delete-cancel-btn"
+                  onClick={() => setChatToDelete(null)}
+                >
+                  Keep Chat
+                </button>
+
+                <button
+                  className="delete-confirm-btn"
+                  onClick={confirmDeleteChat}
+                >
+                  Delete
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
 
       </div>
     </div>
+
   );
 }

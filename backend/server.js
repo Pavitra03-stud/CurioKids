@@ -695,8 +695,7 @@ app.post("/api/send-otp", async (req, res) => {
     console.log(`📧 Sending OTP to ${email}`);
 
 
-
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: "onboarding@resend.dev",
       to: email,
       subject: "CurioKids OTP",
@@ -778,11 +777,20 @@ app.post("/api/send-otp", async (req, res) => {
 
 
 
+    if (error) {
+      console.error("❌ Resend error:", error);
+
+      return res.status(500).json({
+        success: false,
+        message: "Email failed ❌",
+      });
+    }
+
     console.log(
-
-      `✅ OTP sent successfully: ${email}`
-
+      `✅ OTP sent successfully: ${email}`,
+      data?.id
     );
+
 
 
 

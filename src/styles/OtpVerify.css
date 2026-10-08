@@ -1,0 +1,1053 @@
+/* =========================================================
+   CURIOKIDS OTP PAGE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.otp-page {
+  min-height: 100vh;
+  width: 100%;
+
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family:
+    "Trebuchet MS",
+    "Segoe UI",
+    sans-serif;
+
+  background-image:
+    linear-gradient(
+      rgba(229, 249, 216, 0.14),
+      rgba(75, 143, 49, 0.18)
+    ),
+    url("https://kmkm.com/free-clipart/rainforest-clip-art/tropical-jungle-with-waterfall-green-forest-background.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  isolation: isolate;
+}
+
+/* =========================================================
+   SOFT OVERLAY
+   ========================================================= */
+
+.otp-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 38%,
+      rgba(255, 255, 255, 0.72),
+      rgba(255, 255, 255, 0.15) 44%,
+      rgba(45, 106, 43, 0.06) 100%
+    );
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.otp-brand {
+  position: relative;
+  z-index: 10;
+
+  text-align: center;
+
+  margin-top: 25px;
+}
+
+.otp-brand-title {
+  position: relative;
+
+  font-size:
+    clamp(
+      2.8rem,
+      5vw,
+      4.4rem
+    );
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  letter-spacing: -3px;
+
+  text-shadow:
+    0 3px 0 rgba(255, 255, 255, 0.85),
+    0 8px 20px rgba(34, 80, 42, 0.15);
+}
+
+.otp-brand-curio {
+  color: #185c43;
+}
+
+.otp-brand-kids {
+  color: #f1aa25;
+}
+
+.otp-brand-sprout {
+  position: absolute;
+
+  top: -17px;
+  left: 48%;
+
+  font-size: 1.5rem;
+}
+
+.otp-brand-tagline {
+  margin-top: 7px;
+
+  color: #657b60;
+
+  font-size: 0.95rem;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.otp-main {
+  width: 100%;
+
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    28px 20px
+    80px;
+
+  position: relative;
+  z-index: 5;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.otp-card {
+  width:
+    min(
+      545px,
+      100%
+    );
+
+  padding:
+    34px 40px
+    28px;
+
+  text-align: center;
+
+  background:
+    rgba(
+      255,
+      253,
+      244,
+      0.96
+    );
+
+  border:
+    2px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.92
+    );
+
+  border-radius:
+    32px;
+
+  box-shadow:
+    0 30px 70px
+    rgba(
+      50,
+      95,
+      45,
+      0.26
+    );
+
+  backdrop-filter:
+    blur(14px);
+}
+
+/* =========================================================
+   LOCK
+   ========================================================= */
+
+.otp-lock-area {
+  position: relative;
+
+  width: 72px;
+  height: 70px;
+
+  margin:
+    0 auto
+    2px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.otp-lock {
+  font-size: 3rem;
+
+  filter:
+    drop-shadow(
+      0 5px 8px
+      rgba(0, 0, 0, 0.11)
+    );
+}
+
+.otp-lock-sprout {
+  position: absolute;
+
+  top: -6px;
+
+  font-size: 1.3rem;
+}
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.otp-card h1 {
+  margin:
+    3px 0
+    7px;
+
+  color:
+    #174f3a;
+
+  font-size:
+    clamp(
+      2rem,
+      4vw,
+      2.75rem
+    );
+
+  line-height: 1.1;
+
+  font-weight: 900;
+
+  letter-spacing: -1px;
+}
+
+.otp-subtitle {
+  margin:
+    0 0 20px;
+
+  color:
+    #84947c;
+
+  font-size:
+    0.98rem;
+
+  font-weight:
+    600;
+}
+
+/* =========================================================
+   EMAIL BOX
+   ========================================================= */
+
+.otp-email-box {
+  width: 100%;
+
+  min-height: 62px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding:
+    10px 17px;
+
+  margin-bottom:
+    22px;
+
+  border-radius:
+    18px;
+
+  background:
+    rgba(
+      239,
+      247,
+      232,
+      0.92
+    );
+
+  border:
+    1px solid
+    #d4e5c6;
+}
+
+.otp-email-icon {
+  font-size:
+    1.3rem;
+}
+
+.otp-email-content {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+.otp-email-content small {
+  margin-bottom: 2px;
+
+  color:
+    #8a987f;
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    700;
+}
+
+.otp-email-content strong {
+  max-width: 100%;
+
+  color:
+    #285f48;
+
+  font-size:
+    0.9rem;
+
+  font-weight:
+    800;
+
+  word-break:
+    break-word;
+}
+
+/* =========================================================
+   OTP BOXES
+   ========================================================= */
+
+.otp-input-container {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin:
+    0 0 22px;
+}
+
+.otp-box {
+  width: 57px;
+  height: 63px;
+
+  border:
+    2px solid
+    #c5dcb8;
+
+  border-radius:
+    15px;
+
+  outline: none;
+
+  background:
+    #fffefa;
+
+  color:
+    #20563f;
+
+  text-align:
+    center;
+
+  font-family:
+    inherit;
+
+  font-size:
+    1.55rem;
+
+  font-weight:
+    900;
+
+  box-shadow:
+    0 5px 12px
+    rgba(
+      53,
+      102,
+      48,
+      0.06
+    );
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.otp-box:focus {
+  border-color:
+    #70b355;
+
+  background:
+    #fbfff6;
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 0 0 5px
+    rgba(
+      112,
+      179,
+      85,
+      0.14
+    );
+}
+
+.otp-box-filled {
+  border-color:
+    #70b355;
+
+  background:
+    #f5fbe9;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.otp-error {
+  margin:
+    0 0 14px;
+
+  padding:
+    10px 14px;
+
+  border-radius:
+    13px;
+
+  background:
+    #fff0ed;
+
+  color:
+    #bc5045;
+
+  font-size:
+    0.86rem;
+
+  font-weight:
+    700;
+}
+
+/* =========================================================
+   VERIFY BUTTON
+   ========================================================= */
+
+.verify-otp-button {
+  width: 100%;
+
+  height: 61px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  border:
+    none;
+
+  border-radius:
+    32px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffd64c 0%,
+      #ffb52c 100%
+    );
+
+  color:
+    #164f3b;
+
+  font-family:
+    inherit;
+
+  font-size:
+    1.1rem;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 8px 0 #df9928,
+    0 15px 27px
+    rgba(
+      177,
+      117,
+      22,
+      0.2
+    );
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.verify-otp-button:hover:not(:disabled) {
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 0 #df9928,
+    0 18px 30px
+    rgba(
+      177,
+      117,
+      22,
+      0.23
+    );
+}
+
+.verify-otp-button:active:not(:disabled) {
+  transform:
+    translateY(5px);
+
+  box-shadow:
+    0 3px 0 #df9928,
+    0 8px 15px
+    rgba(
+      177,
+      117,
+      22,
+      0.15
+    );
+}
+
+.verify-otp-button:disabled {
+  opacity:
+    0.68;
+
+  cursor:
+    not-allowed;
+}
+
+/* =========================================================
+   RESEND
+   ========================================================= */
+
+.otp-resend-area {
+  margin-top:
+    21px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+.resend-label {
+  color:
+    #8b9783;
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    600;
+}
+
+.resend-timer {
+  color:
+    #397452;
+
+  font-size:
+    0.93rem;
+
+  font-weight:
+    900;
+}
+
+.resend-button {
+  border:
+    none;
+
+  padding:
+    9px 18px;
+
+  border-radius:
+    20px;
+
+  background:
+    #eef7e9;
+
+  color:
+    #2f7b4f;
+
+  font-family:
+    inherit;
+
+  font-size:
+    0.9rem;
+
+  font-weight:
+    900;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease;
+}
+
+.resend-button:hover {
+  transform:
+    translateY(-1px);
+
+  background:
+    #e3f1da;
+}
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+.otp-security {
+  display:
+    inline-block;
+
+  margin-top:
+    16px;
+
+  padding:
+    8px 15px;
+
+  border-radius:
+    20px;
+
+  background:
+    #eff6e9;
+
+  color:
+    #899580;
+
+  font-size:
+    0.71rem;
+
+  font-weight:
+    700;
+}
+
+/* =========================================================
+   DECORATIVE LEAVES
+   ========================================================= */
+
+.otp-leaf {
+  position:
+    absolute;
+
+  z-index:
+    3;
+
+  pointer-events:
+    none;
+
+  opacity:
+    0.75;
+
+  animation:
+    otpLeafFloat
+    6s
+    ease-in-out
+    infinite;
+}
+
+.otp-leaf-one {
+  left:
+    9%;
+
+  top:
+    32%;
+
+  font-size:
+    2rem;
+}
+
+.otp-leaf-two {
+  left:
+    4%;
+
+  bottom:
+    23%;
+
+  font-size:
+    1.7rem;
+
+  animation-delay:
+    1.5s;
+}
+
+.otp-leaf-three {
+  right:
+    10%;
+
+  top:
+    55%;
+
+  font-size:
+    2rem;
+
+  animation-delay:
+    2.5s;
+}
+
+@keyframes otpLeafFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg);
+  }
+
+  50% {
+    transform:
+      translateY(-13px)
+      rotate(10deg);
+  }
+}
+
+/* =========================================================
+   BUTTERFLY
+   ========================================================= */
+
+.otp-butterfly {
+  position:
+    absolute;
+
+  right:
+    17%;
+
+  top:
+    25%;
+
+  z-index:
+    4;
+
+  font-size:
+    2.4rem;
+
+  pointer-events:
+    none;
+
+  animation:
+    otpButterflyFloat
+    4s
+    ease-in-out
+    infinite;
+}
+
+@keyframes otpButterflyFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(-5deg);
+  }
+
+  50% {
+    transform:
+      translateY(-12px)
+      rotate(8deg);
+  }
+}
+
+/* =========================================================
+   FLOWERS
+   ========================================================= */
+
+.otp-flower {
+  position:
+    absolute;
+
+  z-index:
+    3;
+
+  pointer-events:
+    none;
+
+  font-size:
+    2.3rem;
+}
+
+.otp-flower-one {
+  left:
+    8%;
+
+  bottom:
+    8%;
+}
+
+.otp-flower-two {
+  right:
+    8%;
+
+  bottom:
+    9%;
+}
+
+/* =========================================================
+   CHATBOT
+   ========================================================= */
+
+.otp-chatbot {
+  position:
+    fixed;
+
+  right:
+    24px;
+
+  bottom:
+    20px;
+
+  width:
+    62px;
+
+  height:
+    62px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    none;
+
+  border-radius:
+    50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #5ada7b,
+      #23ad65
+    );
+
+  font-size:
+    1.8rem;
+
+  cursor:
+    pointer;
+
+  z-index:
+    30;
+
+  box-shadow:
+    0 10px 25px
+    rgba(
+      30,
+      111,
+      60,
+      0.28
+    );
+
+  transition:
+    transform 0.2s ease;
+}
+
+.otp-chatbot:hover {
+  transform:
+    scale(1.08);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .otp-brand {
+    margin-top:
+      20px;
+  }
+
+  .otp-main {
+    padding-top:
+      22px;
+  }
+
+  .otp-butterfly {
+    right:
+      7%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .otp-page {
+    background-position:
+      58% center;
+  }
+
+  .otp-brand {
+    margin-top:
+      18px;
+  }
+
+  .otp-brand-title {
+    font-size:
+      2.9rem;
+  }
+
+  .otp-brand-tagline {
+    font-size:
+      0.78rem;
+  }
+
+  .otp-main {
+    padding:
+      22px
+      14px
+      78px;
+  }
+
+  .otp-card {
+    padding:
+      27px
+      17px
+      23px;
+
+    border-radius:
+      26px;
+  }
+
+  .otp-card h1 {
+    font-size:
+      1.85rem;
+  }
+
+  .otp-subtitle {
+    font-size:
+      0.85rem;
+  }
+
+  .otp-email-box {
+    min-height:
+      58px;
+
+    padding:
+      9px 12px;
+  }
+
+  .otp-email-content strong {
+    font-size:
+      0.76rem;
+  }
+
+  .otp-input-container {
+    gap:
+      5px;
+  }
+
+  .otp-box {
+    width:
+      44px;
+
+    height:
+      53px;
+
+    border-radius:
+      12px;
+
+    font-size:
+      1.22rem;
+  }
+
+  .verify-otp-button {
+    height:
+      57px;
+  }
+
+  .otp-butterfly {
+    display:
+      none;
+  }
+
+  .otp-leaf {
+    opacity:
+      0.5;
+  }
+
+  .otp-chatbot {
+    width:
+      55px;
+
+    height:
+      55px;
+
+    right:
+      15px;
+
+    bottom:
+      15px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+  }
+}

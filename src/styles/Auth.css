@@ -1,41 +1,804 @@
-.auth-container {
-  height: 100vh;
+/* =========================================================
+   CURIOKIDS LOGIN PAGE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    "Trebuchet MS",
+    "Segoe UI",
+    sans-serif;
+}
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  background-image:
+    linear-gradient(
+      rgba(235, 250, 220, 0.18),
+      rgba(91, 154, 61, 0.18)
+    ),
+    url("https://kmkm.com/free-clipart/rainforest-clip-art/tropical-jungle-with-waterfall-green-forest-background.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom, #a8e063, #56ab2f);
 }
 
-.auth-container h2 {
-  margin-bottom: 20px;
-  color: #1b5e20;
+/* =========================================================
+   SOFT OVERLAY
+   ========================================================= */
+
+.login-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(231, 250, 220, 0.12),
+      rgba(74, 142, 47, 0.12)
+    );
+
+  pointer-events: none;
+  z-index: -1;
 }
 
-form {
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.login-brand {
+  position: relative;
+  z-index: 10;
+
+  margin-top: 35px;
+
+  text-align: center;
+}
+
+.brand-title {
+  position: relative;
+
+  font-size:
+    clamp(
+      3rem,
+      5vw,
+      4.8rem
+    );
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  letter-spacing: -3px;
+
+  text-shadow:
+    0 3px 0 rgba(255, 255, 255, 0.8),
+    0 8px 20px rgba(36, 79, 44, 0.14);
+}
+
+.brand-curio {
+  color: #185c43;
+}
+
+.brand-kids {
+  color: #f1aa25;
+}
+
+.brand-sprout {
+  position: absolute;
+
+  top: -18px;
+  left: 48%;
+
+  font-size: 1.6rem;
+}
+
+.brand-tagline {
+  margin-top: 8px;
+
+  color: #6e8064;
+
+  font-size: 1rem;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+/* =========================================================
+   LOGIN CONTENT
+   ========================================================= */
+
+.login-content {
+  width: 100%;
+
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  justify-content: center;
+
+  padding:
+    48px 20px
+    100px;
 }
 
-input {
-  padding: 12px;
-  width: 250px;
-  border-radius: 10px;
+/* =========================================================
+   LOGIN CARD
+   ========================================================= */
+
+.login-card {
+  width:
+    min(
+      560px,
+      100%
+    );
+
+  padding:
+    42px
+    48px
+    34px;
+
+  border-radius: 34px;
+
+  background:
+    rgba(
+      255,
+      253,
+      244,
+      0.96
+    );
+
+  border:
+    2px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.9
+    );
+
+  box-shadow:
+    0 30px 70px
+    rgba(
+      49,
+      93,
+      48,
+      0.25
+    );
+
+  backdrop-filter:
+    blur(12px);
+
+  text-align: center;
+}
+
+/* =========================================================
+   LOCK
+   ========================================================= */
+
+.login-lock {
+  position: relative;
+
+  width: 70px;
+  height: 72px;
+
+  margin: 0 auto 5px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.lock {
+  font-size: 3.1rem;
+
+  filter:
+    drop-shadow(
+      0 5px 7px
+      rgba(0, 0, 0, 0.12)
+    );
+}
+
+.lock-sprout {
+  position: absolute;
+
+  top: -6px;
+
+  font-size: 1.35rem;
+}
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.login-card h1 {
+  margin:
+    3px 0
+    7px;
+
+  color: #174f3a;
+
+  font-size:
+    clamp(
+      2.2rem,
+      4vw,
+      3rem
+    );
+
+  line-height: 1.1;
+
+  font-weight: 900;
+
+  letter-spacing: -1px;
+}
+
+.login-subtitle {
+  margin:
+    0 0 27px;
+
+  color: #85947b;
+
+  font-size: 1.05rem;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   EMAIL INPUT
+   ========================================================= */
+
+.login-input-wrapper {
+  position: relative;
+
+  width: 100%;
+
+  margin-bottom: 16px;
+}
+
+.email-icon {
+  position: absolute;
+
+  left: 22px;
+  top: 50%;
+
+  transform:
+    translateY(-50%);
+
+  font-size: 1.15rem;
+
+  z-index: 2;
+}
+
+.login-input-wrapper input {
+  width: 100%;
+
+  height: 64px;
+
+  padding:
+    0 22px
+    0 60px;
+
+  border:
+    2px solid
+    #c7dcb8;
+
+  border-radius: 34px;
+
+  outline: none;
+
+  background:
+    rgba(
+      255,
+      255,
+      251,
+      0.95
+    );
+
+  color: #315a46;
+
+  font-size: 1rem;
+
+  font-family: inherit;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.login-input-wrapper input::placeholder {
+  color: #a4afa0;
+}
+
+.login-input-wrapper input:focus {
+  border-color: #70b455;
+
+  box-shadow:
+    0 0 0 5px
+    rgba(
+      112,
+      180,
+      85,
+      0.12
+    );
+
+  transform:
+    translateY(-1px);
+}
+
+.login-input-wrapper input:disabled {
+  opacity: 0.65;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.login-error {
+  margin:
+    0 0 14px;
+
+  padding:
+    10px
+    14px;
+
+  border-radius: 12px;
+
+  background:
+    #fff0ed;
+
+  color:
+    #bf5248;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   SEND OTP
+   ========================================================= */
+
+.send-otp-btn {
+  width: 100%;
+
+  height: 64px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
   border: none;
+
+  border-radius: 34px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffd54c 0%,
+      #ffb72d 100%
+    );
+
+  color:
+    #17503b;
+
+  font-family: inherit;
+
+  font-size: 1.15rem;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 0 #df9827,
+    0 14px 25px
+    rgba(
+      185,
+      123,
+      22,
+      0.2
+    );
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-button {
-  padding: 12px;
+.send-otp-btn:hover:not(:disabled) {
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 0 #df9827,
+    0 18px 28px
+    rgba(
+      185,
+      123,
+      22,
+      0.22
+    );
+}
+
+.send-otp-btn:active:not(:disabled) {
+  transform:
+    translateY(5px);
+
+  box-shadow:
+    0 3px 0 #df9827,
+    0 8px 15px
+    rgba(
+      185,
+      123,
+      22,
+      0.15
+    );
+}
+
+.send-otp-btn:disabled {
+  opacity: 0.7;
+
+  cursor:
+    not-allowed;
+}
+
+/* =========================================================
+   REGISTER
+   ========================================================= */
+
+.register-text {
+  margin:
+    25px 0 14px;
+
+  color:
+    #7e8d73;
+
+  font-size: 1rem;
+
+  font-weight: 600;
+}
+
+.register-text span {
+  color:
+    #2e8752;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease;
+}
+
+.register-text span:hover {
+  color:
+    #17663d;
+}
+
+/* =========================================================
+   PRIVACY NOTE
+   ========================================================= */
+
+.privacy-note {
+  display: inline-block;
+
+  padding:
+    9px 17px;
+
   border-radius: 20px;
-  border: none;
-  background: orange;
-  color: white;
-  cursor: pointer;
+
+  background:
+    rgba(
+      235,
+      245,
+      226,
+      0.9
+    );
+
+  color:
+    #899681;
+
+  font-size: 0.76rem;
+
+  font-weight: 700;
 }
 
-.switch-text {
-  margin-top: 15px;
+/* =========================================================
+   FLOATING LEAVES
+   ========================================================= */
+
+.login-leaf {
+  position: absolute;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  opacity: 0.75;
+
+  animation:
+    leafFloat 6s
+    ease-in-out
+    infinite;
+}
+
+.leaf-one {
+  left: 12%;
+  top: 34%;
+
+  font-size: 2rem;
+}
+
+.leaf-two {
+  left: 5%;
+  top: 67%;
+
+  font-size: 1.6rem;
+
+  animation-delay: 1.5s;
+}
+
+.leaf-three {
+  right: 9%;
+  top: 50%;
+
+  font-size: 1.9rem;
+
+  animation-delay: 2.5s;
+}
+
+@keyframes leafFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg);
+  }
+
+  50% {
+    transform:
+      translateY(-13px)
+      rotate(10deg);
+  }
+}
+
+/* =========================================================
+   BUTTERFLY
+   ========================================================= */
+
+.login-butterfly {
+  position: absolute;
+
+  right: 17%;
+  top: 29%;
+
+  z-index: 4;
+
+  font-size: 2.4rem;
+
+  pointer-events: none;
+
+  animation:
+    butterflyFloat
+    4s ease-in-out
+    infinite;
+}
+
+@keyframes butterflyFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(-5deg);
+  }
+
+  50% {
+    transform:
+      translateY(-12px)
+      rotate(8deg);
+  }
+}
+
+/* =========================================================
+   FLOWERS
+   ========================================================= */
+
+.login-flower {
+  position: absolute;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  font-size: 2.4rem;
+}
+
+.flower-one {
+  left: 8%;
+  bottom: 9%;
+}
+
+.flower-two {
+  right: 9%;
+  bottom: 8%;
+}
+
+/* =========================================================
+   CHATBOT
+   ========================================================= */
+
+.login-chatbot {
+  position: fixed;
+
+  right: 24px;
+  bottom: 20px;
+
+  width: 62px;
+  height: 62px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #59dc7c,
+      #24ae66
+    );
+
+  font-size: 1.8rem;
+
   cursor: pointer;
-  color: #1b5e20;
+
+  box-shadow:
+    0 10px 25px
+    rgba(
+      31,
+      112,
+      62,
+      0.28
+    );
+
+  z-index: 30;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.login-chatbot:hover {
+  transform:
+    scale(1.08);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .login-brand {
+    margin-top: 25px;
+  }
+
+  .login-content {
+    padding-top: 35px;
+  }
+
+  .login-card {
+    width:
+      min(
+        520px,
+        100%
+      );
+  }
+
+  .login-butterfly {
+    right: 8%;
+  }
+
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .login-page {
+    background-position:
+      58% center;
+  }
+
+  .login-brand {
+    margin-top: 22px;
+  }
+
+  .brand-title {
+    font-size: 3rem;
+  }
+
+  .brand-tagline {
+    font-size: 0.85rem;
+  }
+
+  .login-content {
+    padding:
+      35px 15px
+      90px;
+  }
+
+  .login-card {
+    padding:
+      30px 21px
+      24px;
+
+    border-radius: 27px;
+  }
+
+  .login-card h1 {
+    font-size: 2rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .login-input-wrapper input {
+    height: 58px;
+
+    padding-left: 55px;
+  }
+
+  .send-otp-btn {
+    height: 58px;
+  }
+
+  .login-butterfly {
+    display: none;
+  }
+
+  .login-leaf {
+    opacity: 0.5;
+  }
+
+  .login-chatbot {
+    width: 55px;
+    height: 55px;
+
+    right: 15px;
+    bottom: 15px;
+  }
+
 }

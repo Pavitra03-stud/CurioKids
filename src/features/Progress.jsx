@@ -404,96 +404,10 @@ export default function Progress() {
           MAIN GRID
       ===================================================== */}
 
-      <main className="progress-grid">
+      <main className="progress-grid progress-grid-clean">
 
         {/* ===================================================
             OVERALL PROGRESS
-        =================================================== */}
-
-        <section className="progress-card overall-card">
-
-          <div className="card-heading">
-
-            <div className="card-heading-icon">
-              📚
-            </div>
-
-            <div>
-              <span>
-                YOUR JOURNEY
-              </span>
-
-              <h2>
-                Overall Progress
-              </h2>
-            </div>
-
-          </div>
-
-          <div className="level-display">
-
-            <div className="level-circle">
-              {level.emoji}
-            </div>
-
-            <div>
-
-              <span className="level-small">
-                CURRENT LEVEL
-              </span>
-
-              <h3>
-                {level.name}
-              </h3>
-
-            </div>
-
-          </div>
-
-          <div className="journey-progress">
-
-            <div className="journey-progress-top">
-
-              <span>
-                Progress to next level
-              </span>
-
-              <strong>
-                {level.progress}%
-              </strong>
-
-            </div>
-
-            <div className="journey-track">
-
-              <div
-                className="journey-fill"
-                style={{
-                  width: `${level.progress}%`,
-                }}
-              />
-
-            </div>
-
-          </div>
-
-          <div className="journey-message">
-
-            <span>
-              🌟
-            </span>
-
-            <p>
-              Every little step makes you
-              stronger!
-            </p>
-
-          </div>
-
-        </section>
-
-        {/* ===================================================
-            PERFORMANCE
         =================================================== */}
 
         <section className="progress-card performance-card">
@@ -709,89 +623,7 @@ export default function Progress() {
             ACHIEVEMENTS
         =================================================== */}
 
-        <section className="progress-card achievements-card">
-
-          <div className="card-heading">
-
-            <div className="card-heading-icon">
-              🏆
-            </div>
-
-            <div>
-              <span>
-                REWARDS
-              </span>
-
-              <h2>
-                Achievements
-              </h2>
-            </div>
-
-          </div>
-
-          <div className="achievement-summary">
-
-            <div className="achievement-big">
-              ⭐
-            </div>
-
-            <div>
-
-              <strong>
-                {stars}
-              </strong>
-
-              <span>
-                Stars earned
-              </span>
-
-            </div>
-
-          </div>
-
-          <div className="badge-grid">
-
-            {Array.from({
-              length: Math.min(
-                Math.max(
-                  Math.floor(stars / 5),
-                  0
-                ),
-                8
-              ),
-            }).map((_, index) => (
-
-              <div
-                className="achievement-badge earned"
-                key={index}
-              >
-                🏅
-              </div>
-
-            ))}
-
-            {stars < 5 && (
-              <div className="achievement-badge locked">
-                🔒
-              </div>
-            )}
-
-          </div>
-
-          <p className="achievement-message">
-
-            {stars >= 30
-              ? "You're a true Jungle Master! 🏆"
-              : stars >= 15
-              ? "You're becoming a Jungle Hero! 🌳"
-              : stars >= 5
-              ? "Great job, Explorer! 🌿"
-              : "Keep learning to unlock your first badge! 🌱"}
-
-          </p>
-
-        </section>
-
+      
       </main>
 
       {/* =====================================================

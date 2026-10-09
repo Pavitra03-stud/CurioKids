@@ -945,19 +945,10 @@ export default function Login() {
             </span>
           </p>
 
-          <div className="privacy-note">
-            🔐 Your learning space is safe and private
-          </div>
         </div>
       </main>
 
-      <button
-        className="login-chatbot"
-        type="button"
-        aria-label="CurioKids assistant"
-      >
-        🤖
-      </button>
+      
     </div>
   );
 }

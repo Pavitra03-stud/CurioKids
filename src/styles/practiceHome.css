@@ -232,32 +232,35 @@ body,
 /* =========================================================
    FIXED NAVBAR
 ========================================================= */
+/* NAVBAR: MATCH JUNGLE HERO */
 
 .practice-header {
   position: fixed;
-
   top: 0;
   left: 0;
   right: 0;
 
   height: 78px;
-
   z-index: 9999;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 
   padding: 10px 5.2vw;
 
-  background: #075c46;
+  background: linear-gradient(
+    180deg,
+    rgba(31, 43, 18, 0.90),
+    rgba(31, 43, 18, 0.76)
+  );
 
-  border-bottom: 4px solid #e7c64f;
+  border-bottom: 3px solid rgba(231, 198, 79, 0.85);
 
-  box-shadow:
-    0 5px 18px rgba(20, 65, 42, 0.28);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 
@@ -337,37 +340,56 @@ body,
 /* =========================================================
    HEADER MESSAGE
 ========================================================= */
+.practice-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 78px;
+  z-index: 9999;
 
-.practice-header-message {
   display: flex;
-
   align-items: center;
+  justify-content: center;
 
-  gap: 9px;
+  padding: 10px 5.2vw;
 
-  padding: 11px 21px;
+  background: linear-gradient(
+    180deg,
+    rgba(31, 43, 18, 0.90),
+    rgba(31, 43, 18, 0.76)
+  );
 
-  border-radius: 999px;
+  border-bottom: 3px solid rgba(231, 198, 79, 0.85);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
 
-  background: #fff8d8;
-
-  color: #20543d;
-
-  box-shadow:
-    0 4px 0 rgba(94, 78, 25, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.practice-header-message span {
-  font-size: 17px;
+.practice-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
 }
 
-.practice-header-message strong {
-  font-size: 13px;
+.practice-brand-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 
+.practice-brand-text h1 {
+  margin: 0;
+  color: #fff4d2;
+  font-family: "Baloo 2", sans-serif;
+  font-size: 29px;
   font-weight: 900;
+  letter-spacing: -0.5px;
 }
-
-
 /* =========================================================
    MAIN CONTENT
 ========================================================= */

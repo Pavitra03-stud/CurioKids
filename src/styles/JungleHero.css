@@ -1758,3 +1758,23 @@
     animation: none !important;
   }
 }
+.navbar-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.brand-curio {
+  color: #185c43;
+}
+
+.brand-kids {
+  color: #f1aa25;
+}
+
+.brand-sprout {
+  position: absolute;
+  top: -18px;
+  left: 48%;
+  font-size: 1.6rem;
+}

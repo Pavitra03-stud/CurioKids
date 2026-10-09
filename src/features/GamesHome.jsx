@@ -14,11 +14,11 @@ export default function GamesHome() {
       {/* =========================
           FIXED SMALL TOP HEADER
           ========================= */}
-      <header className="games-topbar">
-        <h1 className="games-topbar-title">
-          
-        </h1>
-      </header>
+     <header className="games-topbar">
+  <h1 className="games-topbar-title">
+    🎮 Games Zone
+  </h1>
+</header>
 
 
       {/* =========================

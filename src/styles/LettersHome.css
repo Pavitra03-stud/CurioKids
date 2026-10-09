@@ -234,33 +234,65 @@ body,
    SAME STYLE AS GAMES HOME
 ========================================================= */
 
+/* =========================================================
+   NAVBAR
+   MATCH PRACTICE HOME
+========================================================= */
+
 .letters-header {
   position: fixed;
-
   top: 0;
   left: 0;
   right: 0;
 
-  height: 64px;
-
+  height: 78px;
   z-index: 9999;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
-  background: #075c46;
+  background: linear-gradient(
+    180deg,
+    rgba(31, 43, 18, 0.90),
+    rgba(31, 43, 18, 0.76)
+  );
 
-  border-bottom: 3px solid #e7c64f;
+  border-bottom: 3px solid rgba(231, 198, 79, 0.85);
+  border-radius: 0;
 
-  border-radius: 0 0 14px 14px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
 
-  box-shadow:
-    0 4px 12px rgba(17, 57, 38, 0.24);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
+/* Keep the title centered and cream-colored */
+.letters-navbar-title {
+  color: #fff4d2;
+  font-family: "Baloo 2", sans-serif;
+  font-size: 27px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive navbar */
+@media (max-width: 600px) {
+  .letters-header {
+    height: 60px;
+  }
+
+  .letters-navbar-title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .letters-navbar-title {
+    font-size: 18px;
+  }
+}
 
 /* =========================================================
    NAVBAR TITLE

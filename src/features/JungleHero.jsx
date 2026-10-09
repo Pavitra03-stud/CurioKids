@@ -995,10 +995,11 @@ export default function JungleHero() {
       =================================================== */}
 
       <div className="hero-navbar">
-
-        <div className="navbar-title">
-          🌴 CurioKids
-        </div>
+<div className="navbar-title">
+  <span className="brand-sprout">🌱</span>
+  <span className="brand-curio">Curio</span>
+  <span className="brand-kids">Kids</span>
+</div>
 
       </div>
 

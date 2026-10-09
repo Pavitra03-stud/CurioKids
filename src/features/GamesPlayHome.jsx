@@ -1,3 +1,4 @@
+
 import "../styles/GamesPlayHome.css";
 import { useNavigate } from "react-router-dom";
 
@@ -82,16 +83,6 @@ const games = [
     path: "/letter-blast",
     helper: "Find the first letter",
   },
-  // {
-  //   id: "ninja",
-  //   icon: "🥷",
-  //   title: "Number Ninja",
-  //   description: "Slice the correct number and become a counting ninja.",
-  //   tag: "NUMBERS",
-  //   color: "blue",
-  //   path: "/number-ninja",
-  //   helper: "Slice & count",
-  // },
 ];
 
 export default function GamesPlayHome() {
@@ -109,24 +100,9 @@ export default function GamesPlayHome() {
       <div className="floating-jungle-leaf leaf-c">🍂</div>
       <div className="floating-jungle-leaf leaf-d">🌿</div>
 
-      <header className="games-header">
-        <button
-          className="games-brand"
-          type="button"
-          onClick={() => navigate("/kids-home")}
-          aria-label="Go to CurioKids home"
-        >
-          <span className="games-brand-icon">🌴</span>
-          <span>
-            <strong>CurioKids</strong>
-            <small>Jungle Games</small>
-          </span>
-        </button>
-
-        <div className="games-header-message">
-          <span>🌿</span>
-          Pick a game and explore!
-        </div>
+      {/* Centered Games Zone navbar */}
+      <header className="games-header games-zone-navbar">
+        <h1 className="games-zone-title">🎮 Games Zone</h1>
       </header>
 
       <main className="games-content">
@@ -153,8 +129,6 @@ export default function GamesPlayHome() {
               <span>🎯 Play</span>
             </div>
           </div>
-
-         
         </section>
 
         <section className="games-section">
@@ -214,7 +188,9 @@ export default function GamesPlayHome() {
           <div className="tip-icon">🦥</div>
           <div>
             <span>JUNGLE TIP</span>
-            <strong>Take your time. Your brain learns best when you feel happy! 💚</strong>
+            <strong>
+              Take your time. Your brain learns best when you feel happy! 💚
+            </strong>
           </div>
           <div className="tip-plants">🌿 ✨ 🍃</div>
         </section>

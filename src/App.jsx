@@ -1,5 +1,4 @@
-import { Routes, Route } from "react-router-dom";
-
+import { Routes, Route, useLocation } from "react-router-dom";
 /* 🌱 Entry */
 import PublicHome from "./features/PublicHome";
 
@@ -119,6 +118,8 @@ import DescendingOrderLearning from "./features/DescendingOrderLearning";
 import NumberLineLearning from "./features/NumberLineLearning";
 
 export default function App() {
+    const location = useLocation();
+
   return (
     <GameProvider>
       <Routes>
@@ -269,10 +270,9 @@ export default function App() {
 
       </Routes>
 
-      {window.location.pathname !== "/ai-chat" && <AIButton />}
-
-      
-
+{!["/", "/login", "/child-register", "/parent-register", "/ai-chat"].includes(location.pathname) && (
+  <AIButton />
+)}
     </GameProvider>
   );
 }

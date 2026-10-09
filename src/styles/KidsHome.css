@@ -167,36 +167,37 @@ button {
 /* =========================================================
    NAVBAR
    ========================================================= */
+/* =========================================================
+   NAVBAR: MATCH JUNGLE HERO
+   ========================================================= */
 
 .kids-navbar {
   position: sticky;
-
   top: 0;
-  left: 0;
+  z-index: 50;
 
-  z-index: 1000;
-
-  width: 100%;
-
-  min-height: 70px;
-
-  padding: 8px 28px;
+  height: 74px;
 
   display: flex;
-
+  justify-content: space-between;
   align-items: center;
 
-  justify-content: space-between;
+  padding: 0 34px;
 
-  background: #075d3f;
+  background: linear-gradient(
+    180deg,
+    rgba(48, 30, 17, 0.78),
+    rgba(48, 30, 17, 0.58)
+  );
 
-  border-bottom: 3px solid #e9c72d;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
-  box-shadow:
-    0 7px 20px rgba(7, 58, 38, 0.3);
+  border-bottom: 3px solid rgba(255, 216, 77, 0.6);
 
-  box-sizing: border-box;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
 }
+
 
 /* PLAIN CURIOKIDS TEXT */
 
@@ -579,14 +580,10 @@ button {
     0 5px 0 rgba(255, 255, 255, 0.22),
     0 8px 18px rgba(14, 71, 48, 0.18);
 }
-
 .hero-copy h1 span {
   display: block;
-
-  color: #fff19a;
-
-  text-shadow:
-    0 5px 0 rgba(113, 91, 23, 0.25);
+  color: #084b38;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.22);
 }
 
 .hero-copy h1 strong {
@@ -1483,4 +1480,386 @@ button {
   .profile-dropdown {
     width: 235px;
   }
+}
+.brand-curio {
+  color: #185c43;
+}
+
+.brand-kids {
+  color: #f1aa25;
+}
+
+.brand-sprout {
+  position: absolute;
+  top: -18px;
+  left: 48%;
+  font-size: 1.6rem;
+}
+.navbar-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* =========================================================
+   JUNGLE ADVENTURE INTRO
+   ========================================================= */
+
+.hero-section {
+  min-height: 610px;
+}
+
+.hero-copy {
+  width: min(850px, 100%);
+  padding-top: 30px;
+}
+
+.hero-adventure {
+  width: 100%;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: adventureFadeIn 0.8s ease both;
+}
+
+.hero-mascot {
+  font-size: clamp(54px, 7vw, 76px);
+  line-height: 1.1;
+  filter: drop-shadow(0 7px 5px rgba(30, 70, 35, 0.2));
+  animation: mascotFloat 3s ease-in-out infinite;
+}
+
+.hero-adventure-title {
+  margin-top: 8px;
+  color: #fff8cf;
+  font-family: "Baloo 2", sans-serif;
+  font-size: clamp(21px, 2.5vw, 29px);
+  font-weight: 800;
+  line-height: 1.25;
+  text-shadow:
+    0 3px 5px rgba(14, 65, 39, 0.8),
+    0 1px 2px rgba(14, 65, 39, 0.8);
+}
+
+.hero-adventure-subtitle {
+  max-width: 95%;
+  margin-top: 5px;
+  color: #ffffff;
+  font-size: clamp(12px, 1.5vw, 15px);
+  font-weight: 800;
+  line-height: 1.5;
+  text-shadow: 0 2px 5px rgba(13, 57, 35, 0.9);
+}
+
+.hero-sparkles {
+  margin-top: 9px;
+  font-size: 22px;
+  letter-spacing: 12px;
+  animation: sparkleFloat 3s ease-in-out infinite;
+}
+
+.hero-sparkles span {
+  display: inline-block;
+}
+
+/* Gentle floating mascot */
+@keyframes mascotFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+  }
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes adventureFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive spacing */
+@media (max-width: 900px) {
+  .hero-section {
+    min-height: 570px;
+  }
+
+  .hero-adventure {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 650px) {
+  .hero-section {
+    min-height: 535px;
+  }
+
+  .hero-adventure {
+    margin-top: 14px;
+  }
+
+  .hero-mascot {
+    font-size: 54px;
+  }
+
+  .hero-adventure-title {
+    font-size: 21px;
+  }
+
+  .hero-adventure-subtitle {
+    font-size: 12px;
+  }
+
+  .hero-sparkles {
+    font-size: 18px;
+    letter-spacing: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-section {
+    min-height: 500px;
+  }
+
+  .hero-adventure-title {
+    font-size: 19px;
+  }
+
+  .hero-adventure-subtitle {
+    font-size: 11px;
+  }
+}
+
+/* ===== FIX HERO TEXT VISIBILITY ===== */
+
+.hero-section {
+  min-height: 610px;
+  overflow: visible;
+}
+
+.hero-copy {
+  width: min(850px, 100%);
+  padding: 30px 16px 0;
+}
+
+.hero-adventure {
+  margin-top: 12px;
+  gap: 0;
+}
+
+.hero-mascot {
+  font-size: clamp(48px, 6vw, 66px);
+  line-height: 1.2;
+  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.25));
+}
+
+.hero-adventure-title {
+  margin-top: 8px;
+  color: #fff9d6;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 900;
+  text-shadow:
+    0 2px 4px #174b31,
+    0 4px 9px rgba(0, 0, 0, 0.75);
+}
+
+.hero-adventure-subtitle {
+  max-width: 100%;
+  margin-top: 10px;
+  padding: 0 10px;
+  color: #ffffff;
+  font-size: clamp(13px, 1.5vw, 16px);
+  font-weight: 900;
+  text-shadow:
+    0 2px 4px #174b31,
+    0 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+.hero-sparkles {
+  margin-top: 12px;
+  color: #fff4a8;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
+}
+
+/* ===== KEEP ZONE HEADING VISIBLE ===== */
+
+.zone-section {
+  position: relative;
+  z-index: 3;
+}
+
+.section-heading {
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+.section-heading > div:first-child {
+  min-width: 0;
+}
+
+.section-heading h2,
+.section-heading p,
+.section-kicker {
+  overflow-wrap: anywhere;
+}
+
+.section-heading h2 {
+  color: #fff9d8;
+  text-shadow:
+    0 2px 4px #174b31,
+    0 5px 10px rgba(0, 0, 0, 0.8);
+}
+
+.section-heading p,
+.section-kicker {
+  color: #ffffff;
+  text-shadow:
+    0 2px 4px #174b31,
+    0 3px 7px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== RESPONSIVE SPACING ===== */
+
+@media (max-width: 900px) {
+  .hero-section {
+    min-height: 570px;
+  }
+
+  .hero-copy {
+    padding-top: 25px;
+  }
+}
+
+@media (max-width: 650px) {
+  .hero-section {
+    min-height: 535px;
+  }
+
+  .hero-copy {
+    padding: 18px 8px 0;
+  }
+
+  .hero-adventure-title {
+    font-size: 21px;
+  }
+
+  .hero-adventure-subtitle {
+    font-size: 12px;
+  }
+
+  .section-heading {
+    text-align: center;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(27px, 7vw, 33px);
+    line-height: 1.15;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-section {
+    min-height: 500px;
+  }
+
+  .hero-adventure-title {
+    font-size: 19px;
+  }
+
+  .hero-adventure-subtitle {
+    font-size: 11px;
+  }
+}
+
+/* FORCE JUNGLE HERO TEXT TO BE READABLE */
+
+.kids-home .hero-copy .hero-adventure-title {
+  display: block !important;
+  color: #fffbe3 !important;
+  font-family: "Baloo 2", sans-serif !important;
+  font-size: clamp(21px, 2.5vw, 29px) !important;
+  font-weight: 900 !important;
+  line-height: 1.35 !important;
+  text-align: center !important;
+  text-shadow:
+    0 2px 3px #103d29,
+    0 4px 8px rgba(0, 0, 0, 0.95) !important;
+  margin: 10px auto 0 !important;
+  opacity: 1 !important;
+}
+
+.kids-home .hero-copy .hero-adventure-subtitle {
+  display: block !important;
+  width: 100% !important;
+  max-width: 700px !important;
+  color: #ffffff !important;
+  font-size: clamp(13px, 1.6vw, 16px) !important;
+  font-weight: 900 !important;
+  line-height: 1.6 !important;
+  text-align: center !important;
+  text-shadow:
+    0 2px 3px #103d29,
+    0 4px 8px rgba(0, 0, 0, 0.95) !important;
+  margin: 8px auto 0 !important;
+  padding: 0 12px !important;
+  opacity: 1 !important;
+}
+
+.kids-home .hero-copy .hero-mascot {
+  display: block !important;
+  font-size: clamp(48px, 6vw, 66px) !important;
+  line-height: 1.2 !important;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+.kids-home .hero-copy .hero-sparkles {
+  color: #fff5a8 !important;
+  opacity: 1 !important;
+  margin-top: 12px !important;
+  text-shadow: 0 2px 5px #103d29 !important;
+}
+
+/* Keep the zone heading readable too */
+
+.kids-home .section-heading h2 {
+  color: #fffbe0 !important;
+  text-shadow:
+    0 2px 4px #103d29,
+    0 5px 10px rgba(0, 0, 0, 0.9) !important;
+}
+
+.kids-home .section-heading p,
+.kids-home .section-heading .section-kicker {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  text-shadow:
+    0 2px 4px #103d29,
+    0 4px 8px rgba(0, 0, 0, 0.9) !important;
+}
+.kids-home .hero-copy h1 span {
+  color: #084b38 !important;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.22) !important;
 }

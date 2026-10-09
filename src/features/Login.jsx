@@ -40,7 +40,7 @@
 //       console.log("🔐 Sending login OTP...");
 
 //       const res = await fetch(
-       
+//         `${import.meta.env.VITE_API_URL}/api/send-otp`,
 //         {
 //           method: "POST",
 
@@ -301,27 +301,23 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { sendSignInLinkToEmail } from "firebase/auth";
+import { auth } from "../firebase";
 import "../styles/Auth.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const navigate = useNavigate();
 
-  // =========================================================
-  // LOGIN
-  // =========================================================
-
   const handleLogin = async () => {
     setError("");
+    setSent(false);
 
     const cleanEmail = email.trim().toLowerCase();
-
-    // =======================================================
-    // VALIDATION
-    // =======================================================
 
     if (!cleanEmail) {
       setError("Enter your email 📧");
@@ -338,58 +334,47 @@ export default function Login() {
     setLoading(true);
 
     try {
-      console.log("🔐 Sending login OTP...");
+      const actionCodeSettings = {
+        url: `${window.location.origin}/otp`,
+        handleCodeInApp: true,
+      };
 
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/send-otp`,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({
-            email: cleanEmail,
-          }),
-        }
+      await sendSignInLinkToEmail(
+        auth,
+        cleanEmail,
+        actionCodeSettings
       );
 
-      const data = await res.json();
+      localStorage.setItem("loginEmail", cleanEmail);
+      localStorage.setItem("emailForSignIn", cleanEmail);
 
-      console.log("📩 OTP response:", data);
+      setSent(true);
 
-      if (!res.ok) {
-        setError(
-          data.message || "Failed to send OTP ❌"
-        );
-
-        return;
-      }
-
-      // =====================================================
-      // SAVE EMAIL
-      // =====================================================
-
-      localStorage.setItem(
-        "loginEmail",
-        cleanEmail
-      );
-
-      console.log(
-        "📧 Login OTP sent successfully"
-      );
-
-      alert("OTP sent to your email 📧");
-
-      navigate("/otp");
+      console.log("✅ Firebase sign-in link sent");
 
     } catch (err) {
-      console.error("❌ Login error:", err);
+      console.error("❌ Firebase email-link error:", err);
 
-      setError(
-        "Unable to connect to server 😢"
-      );
+      if (
+        err.code === "auth/unauthorized-continue-uri" ||
+        err.code === "auth/invalid-continue-uri"
+      ) {
+        setError(
+          "This website URL is not authorized in Firebase."
+        );
+      } else if (err.code === "auth/invalid-email") {
+        setError("Please enter a valid email address.");
+      } else if (
+        err.code === "auth/operation-not-allowed"
+      ) {
+        setError(
+          "Email link sign-in is not enabled in Firebase."
+        );
+      } else {
+        setError(
+          err.message || "Could not send the sign-in link."
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -397,167 +382,110 @@ export default function Login() {
 
   return (
     <div className="login-page">
-
-      {/* =====================================================
-          BACKGROUND OVERLAY
-      ===================================================== */}
-
       <div className="login-overlay"></div>
 
-      {/* =====================================================
-          TOP BRAND
-      ===================================================== */}
-
       <header className="login-brand">
-
         <div className="brand-title">
-          <span className="brand-curio">
-            Curio
-          </span>
-
-          <span className="brand-kids">
-            Kids
-          </span>
-
-          <span className="brand-sprout">
-            🌱
-          </span>
+          <span className="brand-curio">Curio</span>
+          <span className="brand-kids">Kids</span>
+          <span className="brand-sprout">🌱</span>
         </div>
 
         <div className="brand-tagline">
           Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow
         </div>
-
       </header>
 
-      {/* =====================================================
-          DECORATIVE ELEMENTS
-      ===================================================== */}
-
-      <div className="login-leaf leaf-one">
-        🍃
-      </div>
-
-      <div className="login-leaf leaf-two">
-        🌿
-      </div>
-
-      <div className="login-leaf leaf-three">
-        🍃
-      </div>
-
-      <div className="login-butterfly">
-        🦋
-      </div>
-
-      <div className="login-flower flower-one">
-        🌺
-      </div>
-
-      <div className="login-flower flower-two">
-        🌸
-      </div>
-
-      {/* =====================================================
-          LOGIN CARD
-      ===================================================== */}
+      <div className="login-leaf leaf-one">🍃</div>
+      <div className="login-leaf leaf-two">🌿</div>
+      <div className="login-leaf leaf-three">🍃</div>
+      <div className="login-butterfly">🦋</div>
+      <div className="login-flower flower-one">🌺</div>
+      <div className="login-flower flower-two">🌸</div>
 
       <main className="login-content">
-
         <div className="login-card">
-
-          {/* =================================================
-              LOCK
-          ================================================= */}
-
           <div className="login-lock">
-            <span className="lock-sprout">
-              🌱
-            </span>
-
-            <span className="lock">
-              🔒
-            </span>
+            <span className="lock-sprout">🌱</span>
+            <span className="lock">🔒</span>
           </div>
 
-          {/* =================================================
-              HEADING
-          ================================================= */}
-
-          <h1>
-            Welcome Back
-          </h1>
+          <h1>Welcome Back</h1>
 
           <p className="login-subtitle">
             Let's continue your learning adventure!
           </p>
 
-          {/* =================================================
-              EMAIL
-          ================================================= */}
-
           <div className="login-input-wrapper">
-
-            <span className="email-icon">
-              ✉️
-            </span>
+            <span className="email-icon">✉️</span>
 
             <input
               type="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
-              disabled={loading}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError("");
+                setSent(false);
+              }}
+              disabled={loading || sent}
               autoComplete="email"
               onKeyDown={(e) => {
-                if (
-                  e.key === "Enter" &&
-                  !loading
-                ) {
+                if (e.key === "Enter" && !loading && !sent) {
                   handleLogin();
                 }
               }}
             />
-
           </div>
 
-          {/* =================================================
-              ERROR
-          ================================================= */}
-
           {error && (
-            <p className="login-error">
+            <p className="login-error" role="alert">
               {error}
             </p>
           )}
 
-          {/* =================================================
-              SEND OTP
-          ================================================= */}
+          {sent && (
+            <div className="login-success" role="status">
+              <p>🌿 Sign-in link sent successfully!</p>
+              <p>
+                Check <strong>{email.trim().toLowerCase()}</strong>
+                {" "}and open the link on this device to continue.
+              </p>
+              <p>
+                If you don't see it, check your spam folder.
+              </p>
+            </div>
+          )}
 
-          <button
-            className="send-otp-btn"
-            onClick={handleLogin}
-            disabled={loading}
-          >
-            <span>
-              ✈️
-            </span>
+          {!sent && (
+            <button
+              className="send-otp-btn"
+              type="button"
+              onClick={handleLogin}
+              disabled={loading}
+            >
+              <span>✉️</span>
+              {loading
+                ? "Sending link..."
+                : "Send Sign-in Link"}
+            </button>
+          )}
 
-            {loading
-              ? "Sending OTP..."
-              : "Send OTP"}
-          </button>
-
-          {/* =================================================
-              REGISTER
-          ================================================= */}
+          {sent && (
+            <button
+              className="send-otp-btn"
+              type="button"
+              onClick={() => {
+                setSent(false);
+                setError("");
+              }}
+            >
+              Use another email
+            </button>
+          )}
 
           <p className="register-text">
             New here?{" "}
-
             <span
               onClick={() => {
                 if (!loading) {
@@ -569,21 +497,11 @@ export default function Login() {
             </span>
           </p>
 
-          {/* =================================================
-              PRIVACY
-          ================================================= */}
-
           <div className="privacy-note">
             🔐 Your learning space is safe and private
           </div>
-
         </div>
-
       </main>
-
-      {/* =====================================================
-          CHATBOT
-      ===================================================== */}
 
       <button
         className="login-chatbot"
@@ -592,7 +510,6 @@ export default function Login() {
       >
         🤖
       </button>
-
     </div>
   );
 }

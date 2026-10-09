@@ -1,1141 +1,2306 @@
-// // import { useState, useRef, useEffect } from "react";
-// // import { useNavigate } from "react-router-dom";
-
-// // import { auth, db } from "../firebase";
+// import { useState, useRef, useEffect } from "react";
 
-// // import {
-// //   signInWithCustomToken,
-// //   getIdTokenResult,
-// // } from "firebase/auth";
-
-// // import {
-// //   doc,
-// //   getDoc,
-// //   setDoc,
-// // } from "firebase/firestore";
-
-// // export default function OtpVerify() {
-// //   const navigate = useNavigate();
-
-// //   // =========================================================
-// //   // EMAIL
-// //   // =========================================================
-
-// //   const email = (
-// //     localStorage.getItem("loginEmail") || ""
-// //   )
-// //     .trim()
-// //     .toLowerCase();
+// import { useNavigate } from "react-router-dom";
 
-// //   // =========================================================
-// //   // STATE
-// //   // =========================================================
 
-// //   const [otp, setOtp] = useState(
-// //     new Array(6).fill("")
-// //   );
 
-// //   const [error, setError] = useState("");
-// //   const [loading, setLoading] = useState(false);
-// //   const [timer, setTimer] = useState(30);
+// import { auth, db } from "../firebase";
 
-// //   const inputsRef = useRef([]);
 
-// //   // =========================================================
-// //   // RESEND TIMER
-// //   // =========================================================
 
-// //   useEffect(() => {
-// //     if (timer <= 0) {
-// //       return;
-// //     }
+// import {
 
-// //     const interval = setInterval(() => {
-// //       setTimer((prev) => prev - 1);
-// //     }, 1000);
+//   signInWithCustomToken,
 
-// //     return () => clearInterval(interval);
-// //   }, [timer]);
+//   getIdTokenResult,
 
-// //   // =========================================================
-// //   // OTP INPUT
-// //   // =========================================================
+// } from "firebase/auth";
 
-// //   const handleChange = (value, index) => {
-// //     if (!/^[0-9]?$/.test(value)) {
-// //       return;
-// //     }
 
-// //     const newOtp = [...otp];
-
-// //     newOtp[index] = value;
-
-// //     setOtp(newOtp);
-
-// //     setError("");
 
-// //     if (value && index < 5) {
-// //       inputsRef.current[index + 1]?.focus();
-// //     }
-// //   };
+// import {
 
-// //   // =========================================================
-// //   // BACKSPACE
-// //   // =========================================================
-
-// //   const handleKeyDown = (event, index) => {
-// //     if (
-// //       event.key === "Backspace" &&
-// //       !otp[index] &&
-// //       index > 0
-// //     ) {
-// //       inputsRef.current[index - 1]?.focus();
-// //     }
-// //   };
-
-// //   // =========================================================
-// //   // SAFE LOCAL STORAGE READER
-// //   // =========================================================
-
-// //   const getLocalStorageObject = (key) => {
-// //     try {
-// //       const value =
-// //         localStorage.getItem(key);
-
-// //       if (!value) {
-// //         return null;
-// //       }
-
-// //       return JSON.parse(value);
-
-// //     } catch (storageError) {
-// //       console.error(
-// //         `❌ Failed to parse ${key}:`,
-// //         storageError
-// //       );
-
-// //       return null;
-// //     }
-// //   };
-
-// //   // =========================================================
-// //   // VERIFY OTP
-// //   // =========================================================
-
-// //   const verifyOtp = async () => {
-// //     setError("");
-
-// //     const finalOtp = otp.join("");
-
-// //     // =======================================================
-// //     // VALIDATION
-// //     // =======================================================
-
-// //     if (!email) {
-// //       setError(
-// //         "Email not found. Please login again."
-// //       );
-
-// //       return;
-// //     }
-
-// //     if (finalOtp.length !== 6) {
-// //       setError(
-// //         "Please enter the complete OTP."
-// //       );
-
-// //       return;
-// //     }
-
-// //     setLoading(true);
-
-// //     try {
-// //       // =====================================================
-// //       // 1. VERIFY OTP WITH BACKEND
-// //       // =====================================================
-
-// //       const response = await fetch(
-// //         "http://localhost:5000/api/verify-otp",
-// //         {
-// //           method: "POST",
-
-// //           headers: {
-// //             "Content-Type": "application/json",
-// //           },
-
-// //           body: JSON.stringify({
-// //             email,
-// //             otp: finalOtp,
-// //           }),
-// //         }
-// //       );
-
-// //       const data = await response.json();
-
-// //       console.log(
-// //         "🔐 OTP response:",
-// //         data
-// //       );
-
-// //       if (!response.ok) {
-// //         setError(
-// //           data.message ||
-// //             "Invalid OTP. Please try again."
-// //         );
-
-// //         return;
-// //       }
-
-// //       // =====================================================
-// //       // 2. FIREBASE CUSTOM TOKEN
-// //       // =====================================================
-
-// //       if (!data.customToken) {
-// //         setError(
-// //           "Firebase login token was not received."
-// //         );
-
-// //         return;
-// //       }
-
-// //       // =====================================================
-// //       // 3. FIREBASE LOGIN
-// //       // =====================================================
-
-// //       console.log(
-// //         "🔥 Signing into Firebase..."
-// //       );
-
-// //       const userCredential =
-// //         await signInWithCustomToken(
-// //           auth,
-// //           data.customToken
-// //         );
-
-// //       const firebaseUser =
-// //         userCredential.user;
-
-// //       const uid =
-// //         firebaseUser.uid;
-
-// //       console.log(
-// //         "✅ Firebase login successful"
-// //       );
-
-// //       console.log(
-// //         "👤 Firebase UID:",
-// //         uid
-// //       );
-
-// //       // =====================================================
-// //       // 4. SAVE REAL FIREBASE UID
-// //       // =====================================================
-
-// //       localStorage.setItem(
-// //         "userId",
-// //         uid
-// //       );
-
-// //       // =====================================================
-// //       // 5. ADMIN CHECK
-// //       // =====================================================
-
-// //       let isAdmin = false;
-
-// //       try {
-// //         const tokenResult =
-// //           await getIdTokenResult(
-// //             firebaseUser,
-// //             true
-// //           );
-
-// //         isAdmin =
-// //           tokenResult.claims.admin === true;
-
-// //         console.log(
-// //           "👑 Admin:",
-// //           isAdmin
-// //         );
-
-// //       } catch (adminError) {
-// //         console.warn(
-// //           "⚠️ Admin check failed:",
-// //           adminError
-// //         );
-// //       }
-
-// //       // =====================================================
-// //       // 6. GET USER DOCUMENT
-// //       //
-// //       // IMPORTANT:
-// //       //
-// //       // We ONLY use:
-// //       //
-// //       // users/{firebaseUID}
-// //       //
-// //       // We DO NOT try:
-// //       //
-// //       // users/{email}
-// //       //
-// //       // because Firestore rules are UID based.
-// //       // =====================================================
-
-// //       const userRef = doc(
-// //         db,
-// //         "users",
-// //         uid
-// //       );
-
-// //       const userSnap =
-// //         await getDoc(userRef);
-
-// //       const userExists =
-// //         userSnap.exists();
-
-// //       const existingUser =
-// //         userExists
-// //           ? userSnap.data()
-// //           : null;
-
-// //       console.log(
-// //         "🔥 User exists:",
-// //         userExists
-// //       );
-
-// //       console.log(
-// //         "🔥 Existing Firebase data:",
-// //         existingUser
-// //       );
-
-// //       // =====================================================
-// //       // 7. PROFILE DATA
-// //       // =====================================================
-
-// //       let childProfile =
-// //         existingUser?.childProfile ||
-// //         null;
-
-// //       let parentProfile =
-// //         existingUser?.parentProfile ||
-// //         null;
-
-// //       let jungleFriend =
-// //         existingUser?.jungleFriend ||
-// //         null;
-
-// //       // =====================================================
-// //       // 8. BRAND NEW USER
-// //       //
-// //       // Only a brand-new Firebase user reads the registration
-// //       // information stored temporarily in localStorage.
-// //       // =====================================================
-
-// //       if (!userExists) {
-// //         console.log(
-// //           "🆕 NEW FIREBASE USER → reading registration data"
-// //         );
-
-// //         // ---------------------------------------------------
-// //         // CHILD PROFILE
-// //         // ---------------------------------------------------
-
-// //         const savedChild =
-// //           getLocalStorageObject(
-// //             "childProfile"
-// //           );
-
-// //         if (
-// //           savedChild &&
-// //           savedChild.name
-// //         ) {
-// //           childProfile = {
-// //             name: String(
-// //               savedChild.name
-// //             ).trim(),
-
-// //             age:
-// //               savedChild.age !== undefined &&
-// //               savedChild.age !== null
-// //                 ? String(savedChild.age)
-// //                 : "",
-
-// //             createdAt:
-// //               savedChild.createdAt ||
-// //               new Date().toISOString(),
-// //           };
-
-// //           console.log(
-// //             "👧 Registration child:",
-// //             childProfile
-// //           );
-// //         }
-
-// //         // ---------------------------------------------------
-// //         // PARENT PROFILE
-// //         // ---------------------------------------------------
-
-// //         const savedParent =
-// //           getLocalStorageObject(
-// //             "parentProfile"
-// //           ) ||
-// //           getLocalStorageObject(
-// //             "tempParent"
-// //           );
-
-// //         if (savedParent) {
-// //           parentProfile = {
-// //             parentName:
-// //               savedParent.parentName ||
-// //               "",
-
-// //             email:
-// //               savedParent.email ||
-// //               firebaseUser.email ||
-// //               email,
-// //           };
-
-// //           console.log(
-// //             "👨‍👩‍👧 Registration parent:",
-// //             parentProfile
-// //           );
-// //         }
-
-// //         // ---------------------------------------------------
-// //         // JUNGLE FRIEND
-// //         //
-// //         // New user must choose friend separately.
-// //         // ---------------------------------------------------
-
-// //         jungleFriend = null;
-
-// //         localStorage.removeItem(
-// //           "jungleFriend"
-// //         );
-
-// //         console.log(
-// //           "🦊 New user → friend will be selected later"
-// //         );
-
-// //       } else {
-// //         // ===================================================
-// //         // EXISTING USER
-// //         //
-// //         // Firebase is the only source of truth.
-// //         // ===================================================
-
-// //         console.log(
-// //           "✅ EXISTING USER → Firebase data only"
-// //         );
-
-// //         console.log(
-// //           "🚫 Ignoring temporary localStorage profile data"
-// //         );
-// //       }
-
-// //       // =====================================================
-// //       // 9. SAVE PROFILE TO UID DOCUMENT
-// //       // =====================================================
-
-// //       const profileData = {
-// //         uid,
-
-// //         email:
-// //           firebaseUser.email ||
-// //           email,
-
-// //         verified: true,
-
-// //         childProfile:
-// //           childProfile || null,
-
-// //         parentProfile:
-// //           parentProfile || null,
-
-// //         jungleFriend:
-// //           jungleFriend || null,
-
-// //         // Compatibility field
-// //         name:
-// //           childProfile?.name ||
-// //           existingUser?.name ||
-// //           "",
-
-// //         avatar:
-// //           existingUser?.avatar ||
-// //           "🐵",
-
-// //         createdAt:
-// //           existingUser?.createdAt ||
-// //           new Date().toISOString(),
-
-// //         lastLogin:
-// //           new Date().toISOString(),
-// //       };
-
-// //       await setDoc(
-// //         userRef,
-// //         profileData,
-// //         {
-// //           merge: true,
-// //         }
-// //       );
-
-// //       console.log(
-// //         "✅ User profile saved to UID document"
-// //       );
-
-// //       // =====================================================
-// //       // 10. READ FINAL FIREBASE DATA
-// //       // =====================================================
-
-// //       const latestUserSnap =
-// //         await getDoc(userRef);
-
-// //       const firebaseUserData =
-// //         latestUserSnap.exists()
-// //           ? latestUserSnap.data()
-// //           : {};
-
-// //       console.log(
-// //         "🔥 FINAL FIREBASE DATA:",
-// //         firebaseUserData
-// //       );
-
-// //       // =====================================================
-// //       // 11. UPDATE LOCAL STORAGE CACHE
-// //       //
-// //       // Firebase = source of truth
-// //       // localStorage = cache only
-// //       // =====================================================
-
-// //       // -----------------------------------------------------
-// //       // CHILD
-// //       // -----------------------------------------------------
-
-// //       if (
-// //         firebaseUserData.childProfile
-// //       ) {
-// //         localStorage.setItem(
-// //           "childProfile",
-// //           JSON.stringify(
-// //             firebaseUserData.childProfile
-// //           )
-// //         );
-// //       } else {
-// //         localStorage.removeItem(
-// //           "childProfile"
-// //         );
-// //       }
-
-// //       // -----------------------------------------------------
-// //       // PARENT
-// //       // -----------------------------------------------------
-
-// //       if (
-// //         firebaseUserData.parentProfile
-// //       ) {
-// //         localStorage.setItem(
-// //           "parentProfile",
-// //           JSON.stringify(
-// //             firebaseUserData.parentProfile
-// //           )
-// //         );
-// //       } else {
-// //         localStorage.removeItem(
-// //           "parentProfile"
-// //         );
-// //       }
-
-// //       // -----------------------------------------------------
-// //       // FRIEND
-// //       // -----------------------------------------------------
-
-// //       if (
-// //         firebaseUserData.jungleFriend
-// //       ) {
-// //         localStorage.setItem(
-// //           "jungleFriend",
-// //           JSON.stringify(
-// //             firebaseUserData.jungleFriend
-// //           )
-// //         );
-// //       } else {
-// //         localStorage.removeItem(
-// //           "jungleFriend"
-// //         );
-// //       }
-
-// //       // -----------------------------------------------------
-// //       // EMAIL
-// //       // -----------------------------------------------------
-
-// //       localStorage.setItem(
-// //         "loginEmail",
-// //         firebaseUserData.email ||
-// //           firebaseUser.email ||
-// //           email
-// //       );
-
-// //       // =====================================================
-// //       // 12. CREATE PROGRESS DOCUMENT IF NEEDED
-// //       // =====================================================
-
-// //       const progressRef = doc(
-// //         db,
-// //         "progress",
-// //         uid
-// //       );
-
-// //       const progressSnap =
-// //         await getDoc(progressRef);
-
-// //       if (!progressSnap.exists()) {
-// //         await setDoc(
-// //           progressRef,
-// //           {
-// //             userId: uid,
-// //             stars: 0,
-// //             streak: 0,
-// //             history: [],
-// //             activeGames: {},
-// //           }
-// //         );
-
-// //         console.log(
-// //           "🌱 Progress document created"
-// //         );
-// //       } else {
-// //         console.log(
-// //           "📊 Progress document already exists"
-// //         );
-// //       }
-
-// //       // =====================================================
-// //       // 13. CHECK PROFILE COMPLETION
-// //       // =====================================================
-
-// //       const hasChildProfile =
-// //         Boolean(
-// //           firebaseUserData
-// //             ?.childProfile
-// //             ?.name
-// //         ) &&
-// //         Boolean(
-// //           firebaseUserData
-// //             ?.childProfile
-// //             ?.age
-// //         );
-
-// //       const hasJungleFriend =
-// //         Boolean(
-// //           firebaseUserData
-// //             ?.jungleFriend
-// //             ?.name
-// //         );
-
-// //       console.log(
-// //         "👧 Child profile:",
-// //         firebaseUserData?.childProfile
-// //       );
-
-// //       console.log(
-// //         "🦊 Jungle friend:",
-// //         firebaseUserData?.jungleFriend
-// //       );
-
-// //       console.log(
-// //         "👧 Child profile complete:",
-// //         hasChildProfile
-// //       );
-
-// //       console.log(
-// //         "🦊 Friend selected:",
-// //         hasJungleFriend
-// //       );
-
-// //       // =====================================================
-// //       // 14. ADMIN
-// //       // =====================================================
-
-// //       if (isAdmin) {
-// //         console.log(
-// //           "👑 Admin → /admin"
-// //         );
-
-// //         navigate("/admin");
-
-// //         return;
-// //       }
-
-// //       // =====================================================
-// //       // 15. BRAND NEW USER
-// //       // =====================================================
-
-// //       if (!userExists) {
-// //         console.log(
-// //           "🆕 BRAND NEW USER → Choose Friend"
-// //         );
-
-// //         localStorage.setItem(
-// //           "appProgress",
-// //           "child-created"
-// //         );
-
-// //         localStorage.removeItem(
-// //           "jungleFriend"
-// //         );
-
-// //         navigate(
-// //           "/choose-friend"
-// //         );
-
-// //         return;
-// //       }
-
-// //       // =====================================================
-// //       // 16. EXISTING COMPLETE USER
-// //       // =====================================================
-
-// //       if (
-// //         hasChildProfile &&
-// //         hasJungleFriend
-// //       ) {
-// //         console.log(
-// //           "✅ EXISTING COMPLETE USER → Jungle Hero"
-// //         );
-
-// //         localStorage.setItem(
-// //           "appProgress",
-// //           "friend-chosen"
-// //         );
-
-// //         navigate(
-// //           "/jungle-hero"
-// //         );
-
-// //         return;
-// //       }
-
-// //       // =====================================================
-// //       // 17. EXISTING INCOMPLETE USER
-// //       // =====================================================
-
-// //       console.log(
-// //         "🆕 EXISTING INCOMPLETE USER → Choose Friend"
-// //       );
-
-// //       navigate(
-// //         "/choose-friend"
-// //       );
-
-// //     } catch (error) {
-// //       console.error(
-// //         "❌ OTP verification error:",
-// //         error
-// //       );
-
-// //       // Keep the useful Firebase error
-// //       // in the console, but show a cleaner
-// //       // message to the user.
-// //       if (
-// //         error?.code ===
-// //         "permission-denied"
-// //       ) {
-// //         setError(
-// //           "Firebase permission denied. Please check your Firestore rules."
-// //         );
-// //       } else {
-// //         setError(
-// //           error?.message ||
-// //             "Something went wrong. Please try again."
-// //         );
-// //       }
-
-// //     } finally {
-// //       setLoading(false);
-// //     }
-// //   };
-
-// //   // =========================================================
-// //   // RESEND OTP
-// //   // =========================================================
-
-// //   const resendOtp = async () => {
-// //     setError("");
-
-// //     if (!email) {
-// //       setError(
-// //         "Email not found. Please login again."
-// //       );
-
-// //       return;
-// //     }
-
-// //     try {
-// //       const response =
-// //         await fetch(
-// //           "http://localhost:5000/api/send-otp",
-// //           {
-// //             method: "POST",
-
-// //             headers: {
-// //               "Content-Type":
-// //                 "application/json",
-// //             },
-
-// //             body: JSON.stringify({
-// //               email,
-// //             }),
-// //           }
-// //         );
-
-// //       const data =
-// //         await response.json();
-
-// //       if (!response.ok) {
-// //         setError(
-// //           data.message ||
-// //             "Failed to resend OTP."
-// //         );
-
-// //         return;
-// //       }
-
-// //       setOtp(
-// //         new Array(6).fill("")
-// //       );
-
-// //       setTimer(30);
-
-// //       inputsRef.current[0]?.focus();
-
-// //       alert(
-// //         "OTP resent successfully 📧"
-// //       );
-
-// //     } catch (error) {
-// //       console.error(
-// //         "❌ Resend OTP error:",
-// //         error
-// //       );
-
-// //       setError(
-// //         "Failed to resend OTP."
-// //       );
-// //     }
-// //   };
-
-// //   // =========================================================
-// //   // UI
-// //   // =========================================================
-
-// //   return (
-// //     <div style={styles.container}>
-
-// //       <div style={styles.card}>
-
-// //         <h2>
-// //           🔐 Enter OTP
-// //         </h2>
-
-// //         <p>
-// //           Sent to {email}
-// //         </p>
-
-// //         {/* OTP INPUTS */}
-
-// //         <div style={styles.otpContainer}>
-
-// //           {otp.map(
-// //             (digit, index) => (
-// //               <input
-// //                 key={index}
-
-// //                 ref={(element) => {
-// //                   inputsRef.current[index] =
-// //                     element;
-// //                 }}
-
-// //                 type="text"
-
-// //                 inputMode="numeric"
-
-// //                 maxLength={1}
-
-// //                 value={digit}
-
-// //                 onChange={(event) =>
-// //                   handleChange(
-// //                     event.target.value,
-// //                     index
-// //                   )
-// //                 }
-
-// //                 onKeyDown={(event) =>
-// //                   handleKeyDown(
-// //                     event,
-// //                     index
-// //                   )
-// //                 }
-
-// //                 style={
-// //                   styles.otpInput
-// //                 }
-
-// //                 autoComplete={
-// //                   index === 0
-// //                     ? "one-time-code"
-// //                     : "off"
-// //                 }
-// //               />
-// //             )
-// //           )}
-
-// //         </div>
-
-// //         {/* VERIFY */}
-
-// //         <button
-// //           onClick={verifyOtp}
-// //           disabled={loading}
-// //           style={{
-// //             ...styles.button,
-// //             opacity: loading
-// //               ? 0.7
-// //               : 1,
-// //           }}
-// //         >
-// //           {loading
-// //             ? "Verifying..."
-// //             : "Verify OTP"}
-// //         </button>
-
-// //         {/* RESEND */}
-
-// //         {timer > 0 ? (
-// //           <p style={styles.timer}>
-// //             Resend OTP in {timer}s
-// //           </p>
-// //         ) : (
-// //           <button
-// //             onClick={resendOtp}
-// //             style={styles.resend}
-// //           >
-// //             Resend OTP
-// //           </button>
-// //         )}
-
-// //         {/* ERROR */}
-
-// //         {error && (
-// //           <p style={styles.error}>
-// //             {error}
-// //           </p>
-// //         )}
-
-// //       </div>
-
-// //     </div>
-// //   );
-// // }
-
-// // // =========================================================
-// // // STYLES
-// // // =========================================================
-
-// // const styles = {
-// //   container: {
-// //     minHeight: "100vh",
-
-// //     display: "flex",
-
-// //     justifyContent: "center",
-
-// //     alignItems: "center",
-
-// //     background:
-// //       "linear-gradient(135deg, #dff5dc, #bde7b8)",
-
-// //     padding: "20px",
-
-// //     boxSizing: "border-box",
-// //   },
-
-// //   card: {
-// //     background:
-// //       "rgba(255,255,255,0.96)",
-
-// //     padding: "35px",
-
-// //     borderRadius: "22px",
-
-// //     width: "380px",
-
-// //     maxWidth: "100%",
-
-// //     textAlign: "center",
-
-// //     boxShadow:
-// //       "0 15px 40px rgba(0,0,0,0.15)",
-// //   },
-
-// //   otpContainer: {
-// //     display: "flex",
-
-// //     justifyContent: "center",
-
-// //     gap: "9px",
-
-// //     margin: "25px 0",
-// //   },
-
-// //   otpInput: {
-// //     width: "45px",
-
-// //     height: "52px",
-
-// //     fontSize: "22px",
-
-// //     fontWeight: "700",
-
-// //     textAlign: "center",
-
-// //     borderRadius: "10px",
-
-// //     border:
-// //       "2px solid #6bcb77",
-
-// //     outline: "none",
-
-// //     boxSizing: "border-box",
-// //   },
-
-// //   button: {
-// //     width: "100%",
-
-// //     padding: "13px",
-
-// //     background: "#ff9f1c",
-
-// //     color: "#fff",
-
-// //     border: "none",
-
-// //     borderRadius: "11px",
-
-// //     cursor: "pointer",
-
-// //     fontWeight: "700",
-
-// //     fontSize: "16px",
-// //   },
-
-// //   resend: {
-// //     marginTop: "12px",
-
-// //     background: "none",
-
-// //     border: "none",
-
-// //     color: "#2d6a4f",
-
-// //     cursor: "pointer",
-
-// //     fontWeight: "700",
-
-// //     fontSize: "14px",
-// //   },
-
-// //   timer: {
-// //     marginTop: "12px",
-
-// //     color: "#666",
-
-// //     fontSize: "14px",
-// //   },
-
-// //   error: {
-// //     marginTop: "12px",
-
-// //     color: "#d62828",
-
-// //     fontSize: "14px",
-
-// //     lineHeight: "1.4",
-// //   },
-// // };
+//   doc,
+
+//   getDoc,
+
+//   setDoc,
+
+// } from "firebase/firestore";
+
+
+
+// import "../styles/OtpVerify.css";
+
+// const API_URL = import.meta.env.VITE_API_URL;
+
+
+
+// export default function OtpVerify() {
+
+//   const navigate = useNavigate();
+
+
+
+//   // =========================================================
+
+//   // EMAIL
+
+//   // =========================================================
+
+
+
+//   const email = (
+
+//     localStorage.getItem("loginEmail") || ""
+
+//   )
+
+//     .trim()
+
+//     .toLowerCase();
+
+
+
+//   // =========================================================
+
+//   // STATE
+
+//   // =========================================================
+
+
+
+//   const [otp, setOtp] = useState(
+
+//     new Array(6).fill("")
+
+//   );
+
+
+
+//   const [error, setError] = useState("");
+
+//   const [loading, setLoading] = useState(false);
+
+//   const [timer, setTimer] = useState(30);
+
+
+
+//   const inputsRef = useRef([]);
+
+
+
+//   // =========================================================
+
+//   // RESEND TIMER
+
+//   // =========================================================
+
+
+
+//   useEffect(() => {
+
+//     if (timer <= 0) {
+
+//       return;
+
+//     }
+
+
+
+//     const interval = setInterval(() => {
+
+//       setTimer((prev) => prev - 1);
+
+//     }, 1000);
+
+
+
+//     return () => clearInterval(interval);
+
+//   }, [timer]);
+
+
+
+//   // =========================================================
+
+//   // OTP INPUT
+
+//   // =========================================================
+
+
+
+//   const handleChange = (value, index) => {
+
+//     if (!/^[0-9]?$/.test(value)) {
+
+//       return;
+
+//     }
+
+
+
+//     const newOtp = [...otp];
+
+
+
+//     newOtp[index] = value;
+
+
+
+//     setOtp(newOtp);
+
+
+
+//     setError("");
+
+
+
+//     if (value && index < 5) {
+
+//       inputsRef.current[index + 1]?.focus();
+
+//     }
+
+//   };
+
+
+
+//   // =========================================================
+
+//   // BACKSPACE
+
+//   // =========================================================
+
+
+
+//   const handleKeyDown = (event, index) => {
+
+//     if (
+
+//       event.key === "Backspace" &&
+
+//       !otp[index] &&
+
+//       index > 0
+
+//     ) {
+
+//       inputsRef.current[index - 1]?.focus();
+
+//     }
+
+//   };
+
+
+
+//   // =========================================================
+
+//   // SAFE LOCAL STORAGE READER
+
+//   // =========================================================
+
+
+
+//   const getLocalStorageObject = (key) => {
+
+//     try {
+
+//       const value =
+
+//         localStorage.getItem(key);
+
+
+
+//       if (!value) {
+
+//         return null;
+
+//       }
+
+
+
+//       return JSON.parse(value);
+
+//     } catch (storageError) {
+
+//       console.error(
+
+//         `❌ Failed to parse ${key}:`,
+
+//         storageError
+
+//       );
+
+
+
+//       return null;
+
+//     }
+
+//   };
+
+
+
+//   // =========================================================
+
+//   // VERIFY OTP
+
+//   // =========================================================
+
+
+
+//   const verifyOtp = async () => {
+
+//     setError("");
+
+
+
+//     const finalOtp = otp.join("");
+
+
+
+//     // =======================================================
+
+//     // VALIDATION
+
+//     // =======================================================
+
+
+
+//     if (!email) {
+
+//       setError(
+
+//         "Email not found. Please login again."
+
+//       );
+
+
+
+//       return;
+
+//     }
+
+
+
+//     if (finalOtp.length !== 6) {
+
+//       setError(
+
+//         "Please enter the complete OTP."
+
+//       );
+
+
+
+//       return;
+
+//     }
+
+
+
+//     setLoading(true);
+
+
+
+//     try {
+
+//       // =====================================================
+
+//       // 1. VERIFY OTP WITH BACKEND
+
+//       // =====================================================
+
+
+
+//       const response = await fetch(
+
+//         `${import.meta.env.VITE_API_URL}/api/verify-otp`,
+
+//         {
+
+//           method: "POST",
+
+
+
+//           headers: {
+
+//             "Content-Type": "application/json",
+
+//           },
+
+
+
+//           body: JSON.stringify({
+
+//             email,
+
+//             otp: finalOtp,
+
+//           }),
+
+//         }
+
+//       );
+
+
+
+//       const data = await response.json();
+
+
+
+//       console.log(
+
+//         "🔐 OTP response:",
+
+//         data
+
+//       );
+
+
+
+//       if (!response.ok) {
+
+//         setError(
+
+//           data.message ||
+
+//             "Invalid OTP. Please try again."
+
+//         );
+
+
+
+//         return;
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 2. FIREBASE CUSTOM TOKEN
+
+//       // =====================================================
+
+
+
+//       if (!data.customToken) {
+
+//         setError(
+
+//           "Firebase login token was not received."
+
+//         );
+
+
+
+//         return;
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 3. FIREBASE LOGIN
+
+//       // =====================================================
+
+
+
+//       console.log(
+
+//         "🔥 Signing into Firebase..."
+
+//       );
+
+
+
+//       const userCredential =
+
+//         await signInWithCustomToken(
+
+//           auth,
+
+//           data.customToken
+
+//         );
+
+
+
+//       const firebaseUser =
+
+//         userCredential.user;
+
+
+
+//       const uid =
+
+//         firebaseUser.uid;
+
+
+
+//       console.log(
+
+//         "✅ Firebase login successful"
+
+//       );
+
+
+
+//       console.log(
+
+//         "👤 Firebase UID:",
+
+//         uid
+
+//       );
+
+
+
+//       // =====================================================
+
+//       // 4. SAVE REAL FIREBASE UID
+
+//       // =====================================================
+
+
+
+//       localStorage.setItem(
+
+//         "userId",
+
+//         uid
+
+//       );
+
+
+
+//       // =====================================================
+
+//       // 5. ADMIN CHECK
+
+//       // =====================================================
+
+
+
+//       let isAdmin = false;
+
+
+
+//       try {
+
+//         const tokenResult =
+
+//           await getIdTokenResult(
+
+//             firebaseUser,
+
+//             true
+
+//           );
+
+
+
+//         isAdmin =
+
+//           tokenResult.claims.admin === true;
+
+
+
+//         console.log(
+
+//           "👑 Admin:",
+
+//           isAdmin
+
+//         );
+
+//       } catch (adminError) {
+
+//         console.warn(
+
+//           "⚠️ Admin check failed:",
+
+//           adminError
+
+//         );
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 6. GET USER DOCUMENT
+
+//       //
+
+//       // IMPORTANT:
+
+//       //
+
+//       // We ONLY use:
+
+//       //
+
+//       // users/{firebaseUID}
+
+//       //
+
+//       // We DO NOT try:
+
+//       //
+
+//       // users/{email}
+
+//       //
+
+//       // because Firestore rules are UID based.
+
+//       // =====================================================
+
+
+
+//       const userRef = doc(
+
+//         db,
+
+//         "users",
+
+//         uid
+
+//       );
+
+
+
+//       const userSnap =
+
+//         await getDoc(userRef);
+
+
+
+//       const userExists =
+
+//         userSnap.exists();
+
+
+
+//       const existingUser =
+
+//         userExists
+
+//           ? userSnap.data()
+
+//           : null;
+
+
+
+//       console.log(
+
+//         "🔥 User exists:",
+
+//         userExists
+
+//       );
+
+
+
+//       console.log(
+
+//         "🔥 Existing Firebase data:",
+
+//         existingUser
+
+//       );
+
+
+
+//       // =====================================================
+
+//       // 7. PROFILE DATA
+
+//       // =====================================================
+
+
+
+//       let childProfile =
+
+//         existingUser?.childProfile ||
+
+//         null;
+
+
+
+//       let parentProfile =
+
+//         existingUser?.parentProfile ||
+
+//         null;
+
+
+
+//       let jungleFriend =
+
+//         existingUser?.jungleFriend ||
+
+//         null;
+
+
+
+//       // =====================================================
+
+//       // 8. BRAND NEW USER
+
+//       //
+
+//       // Only a brand-new Firebase user reads the registration
+
+//       // information stored temporarily in localStorage.
+
+//       // =====================================================
+
+
+
+//       if (!userExists) {
+
+//         console.log(
+
+//           "🆕 NEW FIREBASE USER → reading registration data"
+
+//         );
+
+
+
+//         // ---------------------------------------------------
+
+//         // CHILD PROFILE
+
+//         // ---------------------------------------------------
+
+
+
+//         const savedChild =
+
+//           getLocalStorageObject(
+
+//             "childProfile"
+
+//           );
+
+
+
+//         if (
+
+//           savedChild &&
+
+//           savedChild.name
+
+//         ) {
+
+//           childProfile = {
+
+//             name: String(
+
+//               savedChild.name
+
+//             ).trim(),
+
+
+
+//             age:
+
+//               savedChild.age !== undefined &&
+
+//               savedChild.age !== null
+
+//                 ? String(savedChild.age)
+
+//                 : "",
+
+
+
+//             createdAt:
+
+//               savedChild.createdAt ||
+
+//               new Date().toISOString(),
+
+//           };
+
+
+
+//           console.log(
+
+//             "👧 Registration child:",
+
+//             childProfile
+
+//           );
+
+//         }
+
+
+
+//         // ---------------------------------------------------
+
+//         // PARENT PROFILE
+
+//         // ---------------------------------------------------
+
+
+
+//         const savedParent =
+
+//           getLocalStorageObject(
+
+//             "parentProfile"
+
+//           ) ||
+
+//           getLocalStorageObject(
+
+//             "tempParent"
+
+//           );
+
+
+
+//         if (savedParent) {
+
+//           parentProfile = {
+
+//             parentName:
+
+//               savedParent.parentName ||
+
+//               "",
+
+
+
+//             email:
+
+//               savedParent.email ||
+
+//               firebaseUser.email ||
+
+//               email,
+
+//           };
+
+
+
+//           console.log(
+
+//             "👨‍👩‍👧 Registration parent:",
+
+//             parentProfile
+
+//           );
+
+//         }
+
+
+
+//         // ---------------------------------------------------
+
+//         // JUNGLE FRIEND
+
+//         //
+
+//         // New user must choose friend separately.
+
+//         // ---------------------------------------------------
+
+
+
+//         jungleFriend = null;
+
+
+
+//         localStorage.removeItem(
+
+//           "jungleFriend"
+
+//         );
+
+
+
+//         console.log(
+
+//           "🦊 New user → friend will be selected later"
+
+//         );
+
+//       } else {
+
+//         // ===================================================
+
+//         // EXISTING USER
+
+//         //
+
+//         // Firebase is the only source of truth.
+
+//         // ===================================================
+
+
+
+//         console.log(
+
+//           "✅ EXISTING USER → Firebase data only"
+
+//         );
+
+
+
+//         console.log(
+
+//           "🚫 Ignoring temporary localStorage profile data"
+
+//         );
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 9. SAVE PROFILE TO UID DOCUMENT
+
+//       // =====================================================
+
+
+
+//       const profileData = {
+
+//         uid,
+
+
+
+//         email:
+
+//           firebaseUser.email ||
+
+//           email,
+
+
+
+//         verified: true,
+
+
+
+//         childProfile:
+
+//           childProfile || null,
+
+
+
+//         parentProfile:
+
+//           parentProfile || null,
+
+
+
+//         jungleFriend:
+
+//           jungleFriend || null,
+
+
+
+//         // Compatibility field
+
+//         name:
+
+//           childProfile?.name ||
+
+//           existingUser?.name ||
+
+//           "",
+
+
+
+//         avatar:
+
+//           existingUser?.avatar ||
+
+//           "🐵",
+
+
+
+//         createdAt:
+
+//           existingUser?.createdAt ||
+
+//           new Date().toISOString(),
+
+
+
+//         lastLogin:
+
+//           new Date().toISOString(),
+
+//       };
+
+
+
+//       await setDoc(
+
+//         userRef,
+
+//         profileData,
+
+//         {
+
+//           merge: true,
+
+//         }
+
+//       );
+
+
+
+//       console.log(
+
+//         "✅ User profile saved to UID document"
+
+//       );
+
+
+
+//       // =====================================================
+
+//       // 10. READ FINAL FIREBASE DATA
+
+//       // =====================================================
+
+
+
+//       const latestUserSnap =
+
+//         await getDoc(userRef);
+
+
+
+//       const firebaseUserData =
+
+//         latestUserSnap.exists()
+
+//           ? latestUserSnap.data()
+
+//           : {};
+
+
+
+//       console.log(
+
+//         "🔥 FINAL FIREBASE DATA:",
+
+//         firebaseUserData
+
+//       );
+
+
+
+//       // =====================================================
+
+//       // 11. UPDATE LOCAL STORAGE CACHE
+
+//       //
+
+//       // Firebase = source of truth
+
+//       // localStorage = cache only
+
+//       // =====================================================
+
+
+
+//       // -----------------------------------------------------
+
+//       // CHILD
+
+//       // -----------------------------------------------------
+
+
+
+//       if (
+
+//         firebaseUserData.childProfile
+
+//       ) {
+
+//         localStorage.setItem(
+
+//           "childProfile",
+
+//           JSON.stringify(
+
+//             firebaseUserData.childProfile
+
+//           )
+
+//         );
+
+//       } else {
+
+//         localStorage.removeItem(
+
+//           "childProfile"
+
+//         );
+
+//       }
+
+
+
+//       // -----------------------------------------------------
+
+//       // PARENT
+
+//       // -----------------------------------------------------
+
+
+
+//       if (
+
+//         firebaseUserData.parentProfile
+
+//       ) {
+
+//         localStorage.setItem(
+
+//           "parentProfile",
+
+//           JSON.stringify(
+
+//             firebaseUserData.parentProfile
+
+//           )
+
+//         );
+
+//       } else {
+
+//         localStorage.removeItem(
+
+//           "parentProfile"
+
+//         );
+
+//       }
+
+
+
+//       // -----------------------------------------------------
+
+//       // FRIEND
+
+//       // -----------------------------------------------------
+
+
+
+//       if (
+
+//         firebaseUserData.jungleFriend
+
+//       ) {
+
+//         localStorage.setItem(
+
+//           "jungleFriend",
+
+//           JSON.stringify(
+
+//             firebaseUserData.jungleFriend
+
+//           )
+
+//         );
+
+//       } else {
+
+//         localStorage.removeItem(
+
+//           "jungleFriend"
+
+//         );
+
+//       }
+
+
+
+//       // -----------------------------------------------------
+
+//       // EMAIL
+
+//       // -----------------------------------------------------
+
+
+
+//       localStorage.setItem(
+
+//         "loginEmail",
+
+//         firebaseUserData.email ||
+
+//           firebaseUser.email ||
+
+//           email
+
+//       );
+
+
+
+//       // =====================================================
+
+//       // 12. CREATE PROGRESS DOCUMENT IF NEEDED
+
+//       // =====================================================
+
+
+
+//       const progressRef = doc(
+
+//         db,
+
+//         "progress",
+
+//         uid
+
+//       );
+
+
+
+//       const progressSnap =
+
+//         await getDoc(progressRef);
+
+
+
+//       if (!progressSnap.exists()) {
+
+//         await setDoc(
+
+//           progressRef,
+
+//           {
+
+//             userId: uid,
+
+//             stars: 0,
+
+//             streak: 0,
+
+//             history: [],
+
+//             activeGames: {},
+
+//           }
+
+//         );
+
+
+
+//         console.log(
+
+//           "🌱 Progress document created"
+
+//         );
+
+//       } else {
+
+//         console.log(
+
+//           "📊 Progress document already exists"
+
+//         );
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 13. CHECK PROFILE COMPLETION
+
+//       // =====================================================
+
+
+
+//       const hasChildProfile =
+
+//         Boolean(
+
+//           firebaseUserData
+
+//             ?.childProfile
+
+//             ?.name
+
+//         ) &&
+
+//         Boolean(
+
+//           firebaseUserData
+
+//             ?.childProfile
+
+//             ?.age
+
+//         );
+
+
+
+//       const hasJungleFriend =
+
+//         Boolean(
+
+//           firebaseUserData
+
+//             ?.jungleFriend
+
+//             ?.name
+
+//         );
+
+
+
+//       console.log(
+
+//         "👧 Child profile:",
+
+//         firebaseUserData?.childProfile
+
+//       );
+
+
+
+//       console.log(
+
+//         "🦊 Jungle friend:",
+
+//         firebaseUserData?.jungleFriend
+
+//       );
+
+
+
+//       console.log(
+
+//         "👧 Child profile complete:",
+
+//         hasChildProfile
+
+//       );
+
+
+
+//       console.log(
+
+//         "🦊 Friend selected:",
+
+//         hasJungleFriend
+
+//       );
+
+
+
+//       // =====================================================
+
+//       // 14. ADMIN
+
+//       // =====================================================
+
+
+
+//       if (isAdmin) {
+
+//         console.log(
+
+//           "👑 Admin → /admin"
+
+//         );
+
+
+
+//         navigate("/admin");
+
+
+
+//         return;
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 15. BRAND NEW USER
+
+//       // =====================================================
+
+
+
+//       if (!userExists) {
+
+//         console.log(
+
+//           "🆕 BRAND NEW USER → Choose Friend"
+
+//         );
+
+
+
+//         localStorage.setItem(
+
+//           "appProgress",
+
+//           "child-created"
+
+//         );
+
+
+
+//         localStorage.removeItem(
+
+//           "jungleFriend"
+
+//         );
+
+
+
+//         navigate(
+
+//           "/choose-friend"
+
+//         );
+
+
+
+//         return;
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 16. EXISTING COMPLETE USER
+
+//       // =====================================================
+
+
+
+//       if (
+
+//         hasChildProfile &&
+
+//         hasJungleFriend
+
+//       ) {
+
+//         console.log(
+
+//           "✅ EXISTING COMPLETE USER → Jungle Hero"
+
+//         );
+
+
+
+//         localStorage.setItem(
+
+//           "appProgress",
+
+//           "friend-chosen"
+
+//         );
+
+
+
+//         navigate(
+
+//           "/jungle-hero"
+
+//         );
+
+
+
+//         return;
+
+//       }
+
+
+
+//       // =====================================================
+
+//       // 17. EXISTING INCOMPLETE USER
+
+//       // =====================================================
+
+
+
+//       console.log(
+
+//         "🆕 EXISTING INCOMPLETE USER → Choose Friend"
+
+//       );
+
+
+
+//       navigate(
+
+//         "/choose-friend"
+
+//       );
+
+
+
+//     } catch (error) {
+
+//       console.error(
+
+//         "❌ OTP verification error:",
+
+//         error
+
+//       );
+
+
+
+//       // Keep the useful Firebase error
+
+//       // in the console, but show a cleaner
+
+//       // message to the user.
+
+
+
+//       if (
+
+//         error?.code ===
+
+//         "permission-denied"
+
+//       ) {
+
+//         setError(
+
+//           "Firebase permission denied. Please check your Firestore rules."
+
+//         );
+
+//       } else {
+
+//         setError(
+
+//           error?.message ||
+
+//             "Something went wrong. Please try again."
+
+//         );
+
+//       }
+
+
+
+//     } finally {
+
+//       setLoading(false);
+
+//     }
+
+//   };
+
+
+
+//   // =========================================================
+
+//   // RESEND OTP
+
+//   // =========================================================
+
+
+
+//   const resendOtp = async () => {
+
+//     setError("");
+
+
+
+//     if (!email) {
+
+//       setError(
+
+//         "Email not found. Please login again."
+
+//       );
+
+
+
+//       return;
+
+//     }
+
+
+
+//     try {
+
+//       const response =
+
+//         await fetch(
+
+//           `${import.meta.env.VITE_API_URL}/api/send-otp`,
+
+//           {
+
+//             method: "POST",
+
+
+
+//             headers: {
+
+//               "Content-Type":
+
+//                 "application/json",
+
+//             },
+
+
+
+//             body: JSON.stringify({
+
+//               email,
+
+//             }),
+
+//           }
+
+//         );
+
+
+
+//       const data =
+
+//         await response.json();
+
+
+
+//       if (!response.ok) {
+
+//         setError(
+
+//           data.message ||
+
+//             "Failed to resend OTP."
+
+//         );
+
+
+
+//         return;
+
+//       }
+
+
+
+//       setOtp(
+
+//         new Array(6).fill("")
+
+//       );
+
+
+
+//       setTimer(30);
+
+
+
+//       inputsRef.current[0]?.focus();
+
+
+
+//       alert(
+
+//         "OTP resent successfully 📧"
+
+//       );
+
+
+
+//     } catch (error) {
+
+//       console.error(
+
+//         "❌ Resend OTP error:",
+
+//         error
+
+//       );
+
+
+
+//       setError(
+
+//         "Failed to resend OTP."
+
+//       );
+
+//     }
+
+//   };
+
+
+
+//   // =========================================================
+
+//   // UI ONLY
+
+//   // =========================================================
+
+
+
+//   return (
+
+//     <div className="otp-page">
+
+
+
+//       {/* Background overlay */}
+
+//       <div className="otp-overlay"></div>
+
+
+
+//       {/* =====================================================
+
+//           BRAND
+
+//       ===================================================== */}
+
+
+
+//       <header className="otp-brand">
+
+
+
+//         <div className="otp-brand-title">
+
+
+
+//           <span className="otp-brand-curio">
+
+//             Curio
+
+//           </span>
+
+
+
+//           <span className="otp-brand-kids">
+
+//             Kids
+
+//           </span>
+
+
+
+//           <span className="otp-brand-sprout">
+
+//             🌱
+
+//           </span>
+
+
+
+//         </div>
+
+
+
+//         <div className="otp-brand-tagline">
+
+//           Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow
+
+//         </div>
+
+
+
+//       </header>
+
+
+
+//       {/* =====================================================
+
+//           DECORATIONS
+
+//       ===================================================== */}
+
+
+
+//       <div className="otp-leaf otp-leaf-one">
+
+//         🍃
+
+//       </div>
+
+
+
+//       <div className="otp-leaf otp-leaf-two">
+
+//         🌿
+
+//       </div>
+
+
+
+//       <div className="otp-leaf otp-leaf-three">
+
+//         🍃
+
+//       </div>
+
+
+
+//       <div className="otp-butterfly">
+
+//         🦋
+
+//       </div>
+
+
+
+//       <div className="otp-flower otp-flower-one">
+
+//         🌺
+
+//       </div>
+
+
+
+//       <div className="otp-flower otp-flower-two">
+
+//         🌸
+
+//       </div>
+
+
+
+//       {/* =====================================================
+
+//           MAIN
+
+//       ===================================================== */}
+
+
+
+//       <main className="otp-main">
+
+
+
+//         <div className="otp-card">
+
+
+
+//           {/* =================================================
+
+//               LOCK
+
+//           ================================================= */}
+
+
+
+//           <div className="otp-lock-area">
+
+
+
+//             <span className="otp-lock-sprout">
+
+//               🌱
+
+//             </span>
+
+
+
+//             <span className="otp-lock">
+
+//               🔐
+
+//             </span>
+
+
+
+//           </div>
+
+
+
+//           {/* =================================================
+
+//               HEADING
+
+//           ================================================= */}
+
+
+
+//           <h1>
+
+//             Verify Your Journey
+
+//           </h1>
+
+
+
+//           <p className="otp-subtitle">
+
+//             Enter the code we sent to your email
+
+//           </p>
+
+
+
+//           {/* =================================================
+
+//               EMAIL
+
+//           ================================================= */}
+
+
+
+//           <div className="otp-email-box">
+
+
+
+//             <span className="otp-email-icon">
+
+//               ✉️
+
+//             </span>
+
+
+
+//             <div className="otp-email-content">
+
+
+
+//               <small>
+
+//                 Verification code sent to
+
+//               </small>
+
+
+
+//               <strong>
+
+//                 {email || "your email"}
+
+//               </strong>
+
+
+
+//             </div>
+
+
+
+//           </div>
+
+
+
+//           {/* =================================================
+
+//               OTP INPUTS
+
+//           ================================================= */}
+
+
+
+//           <div className="otp-input-container">
+
+
+
+//             {otp.map(
+
+//               (digit, index) => (
+
+//                 <input
+
+//                   key={index}
+
+
+
+//                   ref={(element) => {
+
+//                     inputsRef.current[index] =
+
+//                       element;
+
+//                   }}
+
+
+
+//                   className={
+
+//                     `otp-box ${
+
+//                       digit
+
+//                         ? "otp-box-filled"
+
+//                         : ""
+
+//                     }`
+
+//                   }
+
+
+
+//                   type="text"
+
+
+
+//                   inputMode="numeric"
+
+
+
+//                   maxLength={1}
+
+
+
+//                   value={digit}
+
+
+
+//                   onChange={(event) =>
+
+//                     handleChange(
+
+//                       event.target.value,
+
+//                       index
+
+//                     )
+
+//                   }
+
+
+
+//                   onKeyDown={(event) =>
+
+//                     handleKeyDown(
+
+//                       event,
+
+//                       index
+
+//                     )
+
+//                   }
+
+
+
+//                   autoComplete={
+
+//                     index === 0
+
+//                       ? "one-time-code"
+
+//                       : "off"
+
+//                   }
+
+//                 />
+
+//               )
+
+//             )}
+
+
+
+//           </div>
+
+
+
+//           {/* =================================================
+
+//               ERROR
+
+//           ================================================= */}
+
+
+
+//           {error && (
+
+//             <div className="otp-error">
+
+//               ⚠️ {error}
+
+//             </div>
+
+//           )}
+
+
+
+//           {/* =================================================
+
+//               VERIFY
+
+//           ================================================= */}
+
+
+
+//           <button
+
+//             className="verify-otp-button"
+
+//             onClick={verifyOtp}
+
+//             disabled={loading}
+
+//           >
+
+
+
+//             <span>
+
+//               🌿
+
+//             </span>
+
+
+
+//             {loading
+
+//               ? "Verifying..."
+
+//               : "Verify OTP"}
+
+
+
+//           </button>
+
+
+
+//           {/* =================================================
+
+//               RESEND
+
+//           ================================================= */}
+
+
+
+//           <div className="otp-resend-area">
+
+
+
+//             {timer > 0 ? (
+
+//               <>
+
+//                 <span className="resend-label">
+
+//                   Didn’t receive the code?
+
+//                 </span>
+
+
+
+//                 <span className="resend-timer">
+
+//                   Resend OTP in {timer}s
+
+//                 </span>
+
+//               </>
+
+//             ) : (
+
+//               <button
+
+//                 onClick={resendOtp}
+
+//                 className="resend-button"
+
+//               >
+
+//                 🔄 Resend OTP
+
+//               </button>
+
+//             )}
+
+
+
+//           </div>
+
+
+
+//           {/* =================================================
+
+//               SECURITY NOTE
+
+//           ================================================= */}
+
+
+
+//           <div className="otp-security">
+
+//             🔐 Your verification is secure and private
+
+//           </div>
+
+
+
+//         </div>
+
+
+
+//       </main>
+
+
+
+//       {/* =====================================================
+
+//           CHATBOT
+
+//       ===================================================== */}
+
+
+
+//       <button
+
+//         className="otp-chatbot"
+
+//         type="button"
+
+//         aria-label="CurioKids assistant"
+
+//       >
+
+//         🤖
+
+//       </button>
+
+
+
+//     </div>
+
+//   );
+
+// }
+
 
 
 
 
 // import { useState, useRef, useEffect } from "react";
+
 // import { useNavigate } from "react-router-dom";
 
 // import { auth, db } from "../firebase";
 
 // import {
-//   signInWithCustomToken,
+//   isSignInWithEmailLink,
+//   signInWithEmailLink,
 //   getIdTokenResult,
 // } from "firebase/auth";
 
 // import {
+
 //   doc,
+
 //   getDoc,
+
 //   setDoc,
+
 // } from "firebase/firestore";
 
 // import "../styles/OtpVerify.css";
 
 // export default function OtpVerify() {
+
 //   const navigate = useNavigate();
 
 //   // =========================================================
+
 //   // EMAIL
+
 //   // =========================================================
 
 //   const email = (
+
 //     localStorage.getItem("loginEmail") || ""
+
 //   )
+
 //     .trim()
+
 //     .toLowerCase();
 
 //   // =========================================================
+
 //   // STATE
+
 //   // =========================================================
 
 //   const [otp, setOtp] = useState(
+
 //     new Array(6).fill("")
+
 //   );
 
 //   const [error, setError] = useState("");
+
 //   const [loading, setLoading] = useState(false);
+
 //   const [timer, setTimer] = useState(30);
 
 //   const inputsRef = useRef([]);
 
+//   // Automatically complete sign-in when Firebase returns the user to this page.
+//   useEffect(() => {
+//     if (isSignInWithEmailLink(auth, window.location.href)) {
+//       verifyOtp();
+//     }
+//     // Run once on page entry; the Firebase link is the trigger.
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
+
 //   // =========================================================
+
 //   // RESEND TIMER
+
 //   // =========================================================
 
 //   useEffect(() => {
+
 //     if (timer <= 0) {
+
 //       return;
+
 //     }
 
 //     const interval = setInterval(() => {
+
 //       setTimer((prev) => prev - 1);
+
 //     }, 1000);
 
 //     return () => clearInterval(interval);
+
 //   }, [timer]);
 
 //   // =========================================================
+
 //   // OTP INPUT
+
 //   // =========================================================
 
 //   const handleChange = (value, index) => {
+
 //     if (!/^[0-9]?$/.test(value)) {
+
 //       return;
+
 //     }
 
 //     const newOtp = [...otp];
@@ -1147,732 +2312,1056 @@
 //     setError("");
 
 //     if (value && index < 5) {
+
 //       inputsRef.current[index + 1]?.focus();
+
 //     }
+
 //   };
 
 //   // =========================================================
+
 //   // BACKSPACE
+
 //   // =========================================================
 
 //   const handleKeyDown = (event, index) => {
+
 //     if (
+
 //       event.key === "Backspace" &&
+
 //       !otp[index] &&
+
 //       index > 0
+
 //     ) {
+
 //       inputsRef.current[index - 1]?.focus();
+
 //     }
+
 //   };
 
 //   // =========================================================
+
 //   // SAFE LOCAL STORAGE READER
+
 //   // =========================================================
 
 //   const getLocalStorageObject = (key) => {
+
 //     try {
+
 //       const value =
+
 //         localStorage.getItem(key);
 
 //       if (!value) {
+
 //         return null;
+
 //       }
 
 //       return JSON.parse(value);
+
 //     } catch (storageError) {
+
 //       console.error(
+
 //         `❌ Failed to parse ${key}:`,
+
 //         storageError
+
 //       );
 
 //       return null;
+
 //     }
+
 //   };
 
 //   // =========================================================
+
 //   // VERIFY OTP
+
 //   // =========================================================
 
 //   const verifyOtp = async () => {
 //     setError("");
 
-//     const finalOtp = otp.join("");
-
-//     // =======================================================
-//     // VALIDATION
-//     // =======================================================
-
-//     if (!email) {
-//       setError(
-//         "Email not found. Please login again."
-//       );
-
-//       return;
-//     }
-
-//     if (finalOtp.length !== 6) {
-//       setError(
-//         "Please enter the complete OTP."
-//       );
-
+//     if (!isSignInWithEmailLink(auth, window.location.href)) {
+//       setError("Please open the sign-in link sent to your email.");
 //       return;
 //     }
 
 //     setLoading(true);
 
 //     try {
-//       // =====================================================
-//       // 1. VERIFY OTP WITH BACKEND
-//       // =====================================================
+//       let emailForSignIn =
+//         localStorage.getItem("emailForSignIn") ||
+//         localStorage.getItem("loginEmail") ||
+//         "";
 
-//       const response = await fetch(
-//         "http://localhost:5000/api/verify-otp",
-//         {
-//           method: "POST",
+//       if (!emailForSignIn) {
+//         emailForSignIn = window.prompt(
+//           "Enter the email address that received the sign-in link:"
+//         ) || "";
+//       }
 
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
+//       emailForSignIn = emailForSignIn.trim().toLowerCase();
 
-//           body: JSON.stringify({
-//             email,
-//             otp: finalOtp,
-//           }),
-//         }
-//       );
-
-//       const data = await response.json();
-
-//       console.log(
-//         "🔐 OTP response:",
-//         data
-//       );
-
-//       if (!response.ok) {
-//         setError(
-//           data.message ||
-//             "Invalid OTP. Please try again."
-//         );
-
+//       if (!emailForSignIn) {
+//         setError("Email is required to complete sign-in.");
 //         return;
 //       }
 
-//       // =====================================================
-//       // 2. FIREBASE CUSTOM TOKEN
-//       // =====================================================
-
-//       if (!data.customToken) {
-//         setError(
-//           "Firebase login token was not received."
-//         );
-
-//         return;
-//       }
-
-//       // =====================================================
-//       // 3. FIREBASE LOGIN
-//       // =====================================================
-
-//       console.log(
-//         "🔥 Signing into Firebase..."
+//       const userCredential = await signInWithEmailLink(
+//         auth,
+//         emailForSignIn,
+//         window.location.href
 //       );
 
-//       const userCredential =
-//         await signInWithCustomToken(
-//           auth,
-//           data.customToken
-//         );
+//       const firebaseUser = userCredential.user;
+//       const uid = firebaseUser.uid;
 
-//       const firebaseUser =
-//         userCredential.user;
+//       localStorage.removeItem("emailForSignIn");
+//       window.history.replaceState({}, document.title, "/otp");
 
-//       const uid =
-//         firebaseUser.uid;
-
-//       console.log(
-//         "✅ Firebase login successful"
-//       );
-
-//       console.log(
-//         "👤 Firebase UID:",
-//         uid
-//       );
-
-//       // =====================================================
 //       // 4. SAVE REAL FIREBASE UID
+
 //       // =====================================================
 
 //       localStorage.setItem(
+
 //         "userId",
+
 //         uid
+
 //       );
 
 //       // =====================================================
+
 //       // 5. ADMIN CHECK
+
 //       // =====================================================
 
 //       let isAdmin = false;
 
 //       try {
+
 //         const tokenResult =
+
 //           await getIdTokenResult(
+
 //             firebaseUser,
+
 //             true
+
 //           );
 
 //         isAdmin =
+
 //           tokenResult.claims.admin === true;
 
 //         console.log(
+
 //           "👑 Admin:",
+
 //           isAdmin
+
 //         );
+
 //       } catch (adminError) {
+
 //         console.warn(
+
 //           "⚠️ Admin check failed:",
+
 //           adminError
+
 //         );
+
 //       }
 
 //       // =====================================================
+
 //       // 6. GET USER DOCUMENT
+
 //       //
+
 //       // IMPORTANT:
+
 //       //
+
 //       // We ONLY use:
+
 //       //
+
 //       // users/{firebaseUID}
+
 //       //
+
 //       // We DO NOT try:
+
 //       //
+
 //       // users/{email}
+
 //       //
+
 //       // because Firestore rules are UID based.
+
 //       // =====================================================
 
 //       const userRef = doc(
+
 //         db,
+
 //         "users",
+
 //         uid
+
 //       );
 
 //       const userSnap =
+
 //         await getDoc(userRef);
 
 //       const userExists =
+
 //         userSnap.exists();
 
 //       const existingUser =
+
 //         userExists
+
 //           ? userSnap.data()
+
 //           : null;
 
 //       console.log(
+
 //         "🔥 User exists:",
+
 //         userExists
+
 //       );
 
 //       console.log(
+
 //         "🔥 Existing Firebase data:",
+
 //         existingUser
+
 //       );
 
 //       // =====================================================
+
 //       // 7. PROFILE DATA
+
 //       // =====================================================
 
 //       let childProfile =
+
 //         existingUser?.childProfile ||
+
 //         null;
 
 //       let parentProfile =
+
 //         existingUser?.parentProfile ||
+
 //         null;
 
 //       let jungleFriend =
+
 //         existingUser?.jungleFriend ||
+
 //         null;
 
 //       // =====================================================
+
 //       // 8. BRAND NEW USER
+
 //       //
+
 //       // Only a brand-new Firebase user reads the registration
+
 //       // information stored temporarily in localStorage.
+
 //       // =====================================================
 
 //       if (!userExists) {
+
 //         console.log(
+
 //           "🆕 NEW FIREBASE USER → reading registration data"
+
 //         );
 
 //         // ---------------------------------------------------
+
 //         // CHILD PROFILE
+
 //         // ---------------------------------------------------
 
 //         const savedChild =
+
 //           getLocalStorageObject(
+
 //             "childProfile"
+
 //           );
 
 //         if (
+
 //           savedChild &&
+
 //           savedChild.name
+
 //         ) {
+
 //           childProfile = {
+
 //             name: String(
+
 //               savedChild.name
+
 //             ).trim(),
 
 //             age:
+
 //               savedChild.age !== undefined &&
+
 //               savedChild.age !== null
+
 //                 ? String(savedChild.age)
+
 //                 : "",
 
 //             createdAt:
+
 //               savedChild.createdAt ||
+
 //               new Date().toISOString(),
+
 //           };
 
 //           console.log(
+
 //             "👧 Registration child:",
+
 //             childProfile
+
 //           );
+
 //         }
 
 //         // ---------------------------------------------------
+
 //         // PARENT PROFILE
+
 //         // ---------------------------------------------------
 
 //         const savedParent =
+
 //           getLocalStorageObject(
+
 //             "parentProfile"
+
 //           ) ||
+
 //           getLocalStorageObject(
+
 //             "tempParent"
+
 //           );
 
 //         if (savedParent) {
+
 //           parentProfile = {
+
 //             parentName:
+
 //               savedParent.parentName ||
+
 //               "",
 
 //             email:
+
 //               savedParent.email ||
+
 //               firebaseUser.email ||
+
 //               email,
+
 //           };
 
 //           console.log(
+
 //             "👨‍👩‍👧 Registration parent:",
+
 //             parentProfile
+
 //           );
+
 //         }
 
 //         // ---------------------------------------------------
+
 //         // JUNGLE FRIEND
+
 //         //
+
 //         // New user must choose friend separately.
+
 //         // ---------------------------------------------------
 
 //         jungleFriend = null;
 
 //         localStorage.removeItem(
+
 //           "jungleFriend"
+
 //         );
 
 //         console.log(
+
 //           "🦊 New user → friend will be selected later"
+
 //         );
+
 //       } else {
+
 //         // ===================================================
+
 //         // EXISTING USER
+
 //         //
+
 //         // Firebase is the only source of truth.
+
 //         // ===================================================
 
 //         console.log(
+
 //           "✅ EXISTING USER → Firebase data only"
+
 //         );
 
 //         console.log(
+
 //           "🚫 Ignoring temporary localStorage profile data"
+
 //         );
+
 //       }
 
 //       // =====================================================
+
 //       // 9. SAVE PROFILE TO UID DOCUMENT
+
 //       // =====================================================
 
 //       const profileData = {
+
 //         uid,
 
 //         email:
+
 //           firebaseUser.email ||
+
 //           email,
 
 //         verified: true,
 
 //         childProfile:
+
 //           childProfile || null,
 
 //         parentProfile:
+
 //           parentProfile || null,
 
 //         jungleFriend:
+
 //           jungleFriend || null,
 
 //         // Compatibility field
+
 //         name:
+
 //           childProfile?.name ||
+
 //           existingUser?.name ||
+
 //           "",
 
 //         avatar:
+
 //           existingUser?.avatar ||
+
 //           "🐵",
 
 //         createdAt:
+
 //           existingUser?.createdAt ||
+
 //           new Date().toISOString(),
 
 //         lastLogin:
+
 //           new Date().toISOString(),
+
 //       };
 
 //       await setDoc(
+
 //         userRef,
+
 //         profileData,
+
 //         {
+
 //           merge: true,
+
 //         }
+
 //       );
 
 //       console.log(
+
 //         "✅ User profile saved to UID document"
+
 //       );
 
 //       // =====================================================
+
 //       // 10. READ FINAL FIREBASE DATA
+
 //       // =====================================================
 
 //       const latestUserSnap =
+
 //         await getDoc(userRef);
 
 //       const firebaseUserData =
+
 //         latestUserSnap.exists()
+
 //           ? latestUserSnap.data()
+
 //           : {};
 
 //       console.log(
+
 //         "🔥 FINAL FIREBASE DATA:",
+
 //         firebaseUserData
+
 //       );
 
 //       // =====================================================
+
 //       // 11. UPDATE LOCAL STORAGE CACHE
+
 //       //
+
 //       // Firebase = source of truth
+
 //       // localStorage = cache only
+
 //       // =====================================================
 
 //       // -----------------------------------------------------
+
 //       // CHILD
+
 //       // -----------------------------------------------------
 
 //       if (
+
 //         firebaseUserData.childProfile
+
 //       ) {
+
 //         localStorage.setItem(
+
 //           "childProfile",
+
 //           JSON.stringify(
+
 //             firebaseUserData.childProfile
+
 //           )
+
 //         );
+
 //       } else {
+
 //         localStorage.removeItem(
+
 //           "childProfile"
+
 //         );
+
 //       }
 
 //       // -----------------------------------------------------
+
 //       // PARENT
+
 //       // -----------------------------------------------------
 
 //       if (
+
 //         firebaseUserData.parentProfile
+
 //       ) {
+
 //         localStorage.setItem(
+
 //           "parentProfile",
+
 //           JSON.stringify(
+
 //             firebaseUserData.parentProfile
+
 //           )
+
 //         );
+
 //       } else {
+
 //         localStorage.removeItem(
+
 //           "parentProfile"
+
 //         );
+
 //       }
 
 //       // -----------------------------------------------------
+
 //       // FRIEND
+
 //       // -----------------------------------------------------
 
 //       if (
+
 //         firebaseUserData.jungleFriend
+
 //       ) {
+
 //         localStorage.setItem(
+
 //           "jungleFriend",
+
 //           JSON.stringify(
+
 //             firebaseUserData.jungleFriend
+
 //           )
+
 //         );
+
 //       } else {
+
 //         localStorage.removeItem(
+
 //           "jungleFriend"
+
 //         );
+
 //       }
 
 //       // -----------------------------------------------------
+
 //       // EMAIL
+
 //       // -----------------------------------------------------
 
 //       localStorage.setItem(
+
 //         "loginEmail",
+
 //         firebaseUserData.email ||
+
 //           firebaseUser.email ||
+
 //           email
+
 //       );
 
 //       // =====================================================
+
 //       // 12. CREATE PROGRESS DOCUMENT IF NEEDED
+
 //       // =====================================================
 
 //       const progressRef = doc(
+
 //         db,
+
 //         "progress",
+
 //         uid
+
 //       );
 
 //       const progressSnap =
+
 //         await getDoc(progressRef);
 
 //       if (!progressSnap.exists()) {
+
 //         await setDoc(
+
 //           progressRef,
+
 //           {
+
 //             userId: uid,
+
 //             stars: 0,
+
 //             streak: 0,
+
 //             history: [],
+
 //             activeGames: {},
+
 //           }
+
 //         );
 
 //         console.log(
+
 //           "🌱 Progress document created"
+
 //         );
+
 //       } else {
+
 //         console.log(
+
 //           "📊 Progress document already exists"
+
 //         );
+
 //       }
 
 //       // =====================================================
+
 //       // 13. CHECK PROFILE COMPLETION
+
 //       // =====================================================
 
 //       const hasChildProfile =
+
 //         Boolean(
+
 //           firebaseUserData
+
 //             ?.childProfile
+
 //             ?.name
+
 //         ) &&
+
 //         Boolean(
+
 //           firebaseUserData
+
 //             ?.childProfile
+
 //             ?.age
+
 //         );
 
 //       const hasJungleFriend =
+
 //         Boolean(
+
 //           firebaseUserData
+
 //             ?.jungleFriend
+
 //             ?.name
+
 //         );
 
 //       console.log(
+
 //         "👧 Child profile:",
+
 //         firebaseUserData?.childProfile
+
 //       );
 
 //       console.log(
+
 //         "🦊 Jungle friend:",
+
 //         firebaseUserData?.jungleFriend
+
 //       );
 
 //       console.log(
+
 //         "👧 Child profile complete:",
+
 //         hasChildProfile
+
 //       );
 
 //       console.log(
+
 //         "🦊 Friend selected:",
+
 //         hasJungleFriend
+
 //       );
 
 //       // =====================================================
+
 //       // 14. ADMIN
+
 //       // =====================================================
 
 //       if (isAdmin) {
+
 //         console.log(
+
 //           "👑 Admin → /admin"
+
 //         );
 
 //         navigate("/admin");
 
 //         return;
+
 //       }
 
 //       // =====================================================
+
 //       // 15. BRAND NEW USER
+
 //       // =====================================================
 
 //       if (!userExists) {
+
 //         console.log(
+
 //           "🆕 BRAND NEW USER → Choose Friend"
+
 //         );
 
 //         localStorage.setItem(
+
 //           "appProgress",
+
 //           "child-created"
+
 //         );
 
 //         localStorage.removeItem(
+
 //           "jungleFriend"
+
 //         );
 
 //         navigate(
+
 //           "/choose-friend"
+
 //         );
 
 //         return;
+
 //       }
 
 //       // =====================================================
+
 //       // 16. EXISTING COMPLETE USER
+
 //       // =====================================================
 
 //       if (
+
 //         hasChildProfile &&
+
 //         hasJungleFriend
+
 //       ) {
+
 //         console.log(
+
 //           "✅ EXISTING COMPLETE USER → Jungle Hero"
+
 //         );
 
 //         localStorage.setItem(
+
 //           "appProgress",
+
 //           "friend-chosen"
+
 //         );
 
 //         navigate(
+
 //           "/jungle-hero"
+
 //         );
 
 //         return;
+
 //       }
 
 //       // =====================================================
+
 //       // 17. EXISTING INCOMPLETE USER
+
 //       // =====================================================
 
 //       console.log(
+
 //         "🆕 EXISTING INCOMPLETE USER → Choose Friend"
+
 //       );
 
 //       navigate(
+
 //         "/choose-friend"
+
 //       );
 
 //     } catch (error) {
+
 //       console.error(
+
 //         "❌ OTP verification error:",
+
 //         error
+
 //       );
 
 //       // Keep the useful Firebase error
+
 //       // in the console, but show a cleaner
+
 //       // message to the user.
 
 //       if (
+
 //         error?.code ===
+
 //         "permission-denied"
+
 //       ) {
+
 //         setError(
+
 //           "Firebase permission denied. Please check your Firestore rules."
+
 //         );
+
 //       } else {
+
 //         setError(
+
 //           error?.message ||
+
 //             "Something went wrong. Please try again."
+
 //         );
+
 //       }
 
 //     } finally {
+
 //       setLoading(false);
+
 //     }
+
 //   };
 
 //   // =========================================================
+
 //   // RESEND OTP
+
 //   // =========================================================
 
 //   const resendOtp = async () => {
+
 //     setError("");
 
 //     if (!email) {
+
 //       setError(
+
 //         "Email not found. Please login again."
+
 //       );
 
 //       return;
+
 //     }
 
 //     try {
+
 //       const response =
+
 //         await fetch(
-//           "http://localhost:5000/api/send-otp",
+
+//           `${import.meta.env.VITE_API_URL}/api/send-otp`,
+
 //           {
+
 //             method: "POST",
 
 //             headers: {
+
 //               "Content-Type":
+
 //                 "application/json",
+
 //             },
 
 //             body: JSON.stringify({
+
 //               email,
+
 //             }),
+
 //           }
+
 //         );
 
 //       const data =
+
 //         await response.json();
 
 //       if (!response.ok) {
+
 //         setError(
+
 //           data.message ||
+
 //             "Failed to resend OTP."
+
 //         );
 
 //         return;
+
 //       }
 
 //       setOtp(
+
 //         new Array(6).fill("")
+
 //       );
 
 //       setTimer(30);
@@ -1880,33 +3369,49 @@
 //       inputsRef.current[0]?.focus();
 
 //       alert(
+
 //         "OTP resent successfully 📧"
+
 //       );
 
 //     } catch (error) {
+
 //       console.error(
+
 //         "❌ Resend OTP error:",
+
 //         error
+
 //       );
 
 //       setError(
+
 //         "Failed to resend OTP."
+
 //       );
+
 //     }
+
 //   };
 
 //   // =========================================================
+
 //   // UI ONLY
+
 //   // =========================================================
 
 //   return (
+
 //     <div className="otp-page">
 
 //       {/* Background overlay */}
+
 //       <div className="otp-overlay"></div>
 
 //       {/* =====================================================
+
 //           BRAND
+
 //       ===================================================== */}
 
 //       <header className="otp-brand">
@@ -1914,55 +3419,79 @@
 //         <div className="otp-brand-title">
 
 //           <span className="otp-brand-curio">
+
 //             Curio
+
 //           </span>
 
 //           <span className="otp-brand-kids">
+
 //             Kids
+
 //           </span>
 
 //           <span className="otp-brand-sprout">
+
 //             🌱
+
 //           </span>
 
 //         </div>
 
 //         <div className="otp-brand-tagline">
+
 //           Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow
+
 //         </div>
 
 //       </header>
 
 //       {/* =====================================================
+
 //           DECORATIONS
+
 //       ===================================================== */}
 
 //       <div className="otp-leaf otp-leaf-one">
+
 //         🍃
+
 //       </div>
 
 //       <div className="otp-leaf otp-leaf-two">
+
 //         🌿
+
 //       </div>
 
 //       <div className="otp-leaf otp-leaf-three">
+
 //         🍃
+
 //       </div>
 
 //       <div className="otp-butterfly">
+
 //         🦋
+
 //       </div>
 
 //       <div className="otp-flower otp-flower-one">
+
 //         🌺
+
 //       </div>
 
 //       <div className="otp-flower otp-flower-two">
+
 //         🌸
+
 //       </div>
 
 //       {/* =====================================================
+
 //           MAIN
+
 //       ===================================================== */}
 
 //       <main className="otp-main">
@@ -1970,177 +3499,139 @@
 //         <div className="otp-card">
 
 //           {/* =================================================
+
 //               LOCK
+
 //           ================================================= */}
 
 //           <div className="otp-lock-area">
 
 //             <span className="otp-lock-sprout">
+
 //               🌱
+
 //             </span>
 
 //             <span className="otp-lock">
+
 //               🔐
+
 //             </span>
 
 //           </div>
 
 //           {/* =================================================
+
 //               HEADING
+
 //           ================================================= */}
 
 //           <h1>
-//             Verify Your Journey
+
+//             Complete Your Journey
+
 //           </h1>
 
 //           <p className="otp-subtitle">
-//             Enter the code we sent to your email
+
+//             Open the sign-in link sent to your email to continue
+
 //           </p>
 
 //           {/* =================================================
+
 //               EMAIL
+
 //           ================================================= */}
 
 //           <div className="otp-email-box">
 
 //             <span className="otp-email-icon">
+
 //               ✉️
+
 //             </span>
 
 //             <div className="otp-email-content">
 
 //               <small>
-//                 Verification code sent to
+
+//                 Sign-in link sent to
+
 //               </small>
 
 //               <strong>
+
 //                 {email || "your email"}
+
 //               </strong>
 
 //             </div>
 
 //           </div>
 
-//           {/* =================================================
-//               OTP INPUTS
-//           ================================================= */}
-
 //           <div className="otp-input-container">
-
-//             {otp.map(
-//               (digit, index) => (
-//                 <input
-//                   key={index}
-
-//                   ref={(element) => {
-//                     inputsRef.current[index] =
-//                       element;
-//                   }}
-
-//                   className={
-//                     `otp-box ${
-//                       digit
-//                         ? "otp-box-filled"
-//                         : ""
-//                     }`
-//                   }
-
-//                   type="text"
-
-//                   inputMode="numeric"
-
-//                   maxLength={1}
-
-//                   value={digit}
-
-//                   onChange={(event) =>
-//                     handleChange(
-//                       event.target.value,
-//                       index
-//                     )
-//                   }
-
-//                   onKeyDown={(event) =>
-//                     handleKeyDown(
-//                       event,
-//                       index
-//                     )
-//                   }
-
-//                   autoComplete={
-//                     index === 0
-//                       ? "one-time-code"
-//                       : "off"
-//                   }
-//                 />
-//               )
-//             )}
-
+//             <p className="otp-subtitle">
+//               🌱 Your secure sign-in is being completed. Please keep this page open.
+//             </p>
 //           </div>
 
 //           {/* =================================================
+
 //               ERROR
+
 //           ================================================= */}
 
 //           {error && (
+
 //             <div className="otp-error">
+
 //               ⚠️ {error}
+
 //             </div>
+
 //           )}
 
 //           {/* =================================================
+
 //               VERIFY
+
 //           ================================================= */}
 
 //           <button
+
 //             className="verify-otp-button"
+
 //             onClick={verifyOtp}
+
 //             disabled={loading}
+
 //           >
 
 //             <span>
+
 //               🌿
+
 //             </span>
 
 //             {loading
+
 //               ? "Verifying..."
-//               : "Verify OTP"}
+
+//               : "Complete Sign-in"}
 
 //           </button>
 
 //           {/* =================================================
-//               RESEND
-//           ================================================= */}
 
-//           <div className="otp-resend-area">
-
-//             {timer > 0 ? (
-//               <>
-//                 <span className="resend-label">
-//                   Didn’t receive the code?
-//                 </span>
-
-//                 <span className="resend-timer">
-//                   Resend OTP in {timer}s
-//                 </span>
-//               </>
-//             ) : (
-//               <button
-//                 onClick={resendOtp}
-//                 className="resend-button"
-//               >
-//                 🔄 Resend OTP
-//               </button>
-//             )}
-
-//           </div>
-
-//           {/* =================================================
 //               SECURITY NOTE
+
 //           ================================================= */}
 
 //           <div className="otp-security">
+
 //             🔐 Your verification is secure and private
+
 //           </div>
 
 //         </div>
@@ -2148,21 +3639,30 @@
 //       </main>
 
 //       {/* =====================================================
+
 //           CHATBOT
+
 //       ===================================================== */}
 
 //       <button
+
 //         className="otp-chatbot"
+
 //         type="button"
+
 //         aria-label="CurioKids assistant"
+
 //       >
+
 //         🤖
+
 //       </button>
 
 //     </div>
-//   );
-// }
 
+//   );
+
+// }
 
 
 
@@ -2173,2188 +3673,1482 @@ import { useState, useRef, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-
-
 import { auth, db } from "../firebase";
 
-
-
 import {
-
-  signInWithCustomToken,
-
-  getIdTokenResult,
-
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+  getIdTokenResult,
 } from "firebase/auth";
 
-
-
 import {
 
-  doc,
+  doc,
 
-  getDoc,
+  getDoc,
 
-  setDoc,
+  setDoc,
 
 } from "firebase/firestore";
 
-
-
 import "../styles/OtpVerify.css";
-
-const API_URL = import.meta.env.VITE_API_URL;
-
-
 
 export default function OtpVerify() {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  // =========================================================
 
+  // EMAIL
 
-  // =========================================================
+  // =========================================================
 
-  // EMAIL
+  const email = (
 
-  // =========================================================
+    localStorage.getItem("loginEmail") || ""
 
+  )
 
+    .trim()
 
-  const email = (
+    .toLowerCase();
 
-    localStorage.getItem("loginEmail") || ""
+  // =========================================================
 
-  )
+  // STATE
 
-    .trim()
+  // =========================================================
 
-    .toLowerCase();
+  const [otp, setOtp] = useState(
 
+    new Array(6).fill("")
 
+  );
 
-  // =========================================================
+  const [emailForSignIn, setEmailForSignIn] = useState(() =>
+    (localStorage.getItem("emailForSignIn") || localStorage.getItem("loginEmail") || "")
+      .trim()
+      .toLowerCase()
+  );
 
-  // STATE
+  const [error, setError] = useState("");
 
-  // =========================================================
+  const [loading, setLoading] = useState(false);
 
+  const [timer, setTimer] = useState(30);
 
+  const inputsRef = useRef([]);
 
-  const [otp, setOtp] = useState(
+  // Automatically complete sign-in when Firebase returns the user to this page.
+  useEffect(() => {
+    // Keep the email editable on the page before completing sign-in.
+    // This avoids browser prompts and lets the user correct a stale saved email.
+    // Run once on page entry; the Firebase link is the trigger.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    new Array(6).fill("")
+  // =========================================================
 
-  );
+  // RESEND TIMER
 
+  // =========================================================
 
+  useEffect(() => {
 
-  const [error, setError] = useState("");
+    if (timer <= 0) {
 
-  const [loading, setLoading] = useState(false);
+      return;
 
-  const [timer, setTimer] = useState(30);
+    }
 
+    const interval = setInterval(() => {
 
+      setTimer((prev) => prev - 1);
 
-  const inputsRef = useRef([]);
+    }, 1000);
 
+    return () => clearInterval(interval);
 
+  }, [timer]);
 
-  // =========================================================
+  // =========================================================
 
-  // RESEND TIMER
+  // OTP INPUT
 
-  // =========================================================
+  // =========================================================
 
+  const handleChange = (value, index) => {
 
+    if (!/^[0-9]?$/.test(value)) {
 
-  useEffect(() => {
+      return;
 
-    if (timer <= 0) {
+    }
 
-      return;
+    const newOtp = [...otp];
 
-    }
+    newOtp[index] = value;
 
+    setOtp(newOtp);
 
+    setError("");
 
-    const interval = setInterval(() => {
+    if (value && index < 5) {
 
-      setTimer((prev) => prev - 1);
+      inputsRef.current[index + 1]?.focus();
 
-    }, 1000);
+    }
 
+  };
 
+  // =========================================================
 
-    return () => clearInterval(interval);
+  // BACKSPACE
 
-  }, [timer]);
+  // =========================================================
 
+  const handleKeyDown = (event, index) => {
 
+    if (
 
-  // =========================================================
+      event.key === "Backspace" &&
 
-  // OTP INPUT
+      !otp[index] &&
 
-  // =========================================================
+      index > 0
 
+    ) {
 
+      inputsRef.current[index - 1]?.focus();
 
-  const handleChange = (value, index) => {
+    }
 
-    if (!/^[0-9]?$/.test(value)) {
+  };
 
-      return;
+  // =========================================================
 
-    }
+  // SAFE LOCAL STORAGE READER
 
+  // =========================================================
 
+  const getLocalStorageObject = (key) => {
 
-    const newOtp = [...otp];
+    try {
 
+      const value =
 
+        localStorage.getItem(key);
 
-    newOtp[index] = value;
+      if (!value) {
 
+        return null;
 
+      }
 
-    setOtp(newOtp);
+      return JSON.parse(value);
 
+    } catch (storageError) {
 
+      console.error(
 
-    setError("");
+        `❌ Failed to parse ${key}:`,
 
+        storageError
 
+      );
 
-    if (value && index < 5) {
+      return null;
 
-      inputsRef.current[index + 1]?.focus();
+    }
 
-    }
+  };
 
-  };
+  // =========================================================
 
+  // VERIFY OTP
 
+  // =========================================================
 
-  // =========================================================
+  const verifyOtp = async () => {
+    setError("");
 
-  // BACKSPACE
+    if (!isSignInWithEmailLink(auth, window.location.href)) {
+      setError("Please open the sign-in link sent to your email.");
+      return;
+    }
 
-  // =========================================================
+    setLoading(true);
 
+    try {
+      const normalizedEmail = emailForSignIn.trim().toLowerCase();
 
+      if (!normalizedEmail) {
+        setError("Enter the email address where you received this sign-in link.");
+        return;
+      }
 
-  const handleKeyDown = (event, index) => {
+      localStorage.setItem("emailForSignIn", normalizedEmail);
+      localStorage.setItem("loginEmail", normalizedEmail);
 
-    if (
+      const userCredential = await signInWithEmailLink(
+        auth,
+        normalizedEmail,
+        window.location.href
+      );
 
-      event.key === "Backspace" &&
+      const firebaseUser = userCredential.user;
+      const uid = firebaseUser.uid;
 
-      !otp[index] &&
+      localStorage.removeItem("emailForSignIn");
+      window.history.replaceState({}, document.title, "/otp");
 
-      index > 0
+      // 4. SAVE REAL FIREBASE UID
 
-    ) {
+      // =====================================================
 
-      inputsRef.current[index - 1]?.focus();
+      localStorage.setItem(
 
-    }
+        "userId",
 
-  };
+        uid
 
+      );
 
+      // =====================================================
 
-  // =========================================================
+      // 5. ADMIN CHECK
 
-  // SAFE LOCAL STORAGE READER
+      // =====================================================
 
-  // =========================================================
+      let isAdmin = false;
 
+      try {
 
+        const tokenResult =
 
-  const getLocalStorageObject = (key) => {
+          await getIdTokenResult(
 
-    try {
+            firebaseUser,
 
-      const value =
+            true
 
-        localStorage.getItem(key);
+          );
 
+        isAdmin =
 
+          tokenResult.claims.admin === true;
 
-      if (!value) {
+        console.log(
 
-        return null;
+          "👑 Admin:",
 
-      }
+          isAdmin
 
+        );
 
+      } catch (adminError) {
 
-      return JSON.parse(value);
+        console.warn(
 
-    } catch (storageError) {
+          "⚠️ Admin check failed:",
 
-      console.error(
+          adminError
 
-        `❌ Failed to parse ${key}:`,
+        );
 
-        storageError
+      }
 
-      );
+      // =====================================================
 
+      // 6. GET USER DOCUMENT
 
+      //
 
-      return null;
+      // IMPORTANT:
 
-    }
+      //
 
-  };
+      // We ONLY use:
 
+      //
 
+      // users/{firebaseUID}
 
-  // =========================================================
+      //
 
-  // VERIFY OTP
+      // We DO NOT try:
 
-  // =========================================================
+      //
 
+      // users/{email}
 
+      //
 
-  const verifyOtp = async () => {
+      // because Firestore rules are UID based.
 
-    setError("");
+      // =====================================================
 
+      const userRef = doc(
 
+        db,
 
-    const finalOtp = otp.join("");
+        "users",
 
+        uid
 
+      );
 
-    // =======================================================
+      const userSnap =
 
-    // VALIDATION
+        await getDoc(userRef);
 
-    // =======================================================
+      const userExists =
 
+        userSnap.exists();
 
+      const existingUser =
 
-    if (!email) {
+        userExists
 
-      setError(
+          ? userSnap.data()
 
-        "Email not found. Please login again."
+          : null;
 
-      );
+      console.log(
 
+        "🔥 User exists:",
 
+        userExists
 
-      return;
+      );
 
-    }
+      console.log(
 
+        "🔥 Existing Firebase data:",
 
+        existingUser
 
-    if (finalOtp.length !== 6) {
+      );
 
-      setError(
+      // =====================================================
 
-        "Please enter the complete OTP."
+      // 7. PROFILE DATA
 
-      );
+      // =====================================================
 
+      let childProfile =
 
+        existingUser?.childProfile ||
 
-      return;
+        null;
 
-    }
+      let parentProfile =
 
+        existingUser?.parentProfile ||
 
+        null;
 
-    setLoading(true);
+      let jungleFriend =
 
+        existingUser?.jungleFriend ||
 
+        null;
 
-    try {
+      // =====================================================
 
-      // =====================================================
+      // 8. BRAND NEW USER
 
-      // 1. VERIFY OTP WITH BACKEND
+      //
 
-      // =====================================================
+      // Only a brand-new Firebase user reads the registration
 
+      // information stored temporarily in localStorage.
 
+      // =====================================================
 
-      const response = await fetch(
+      if (!userExists) {
 
-        `${import.meta.env.VITE_API_URL}/api/verify-otp`,
+        console.log(
 
-        {
+          "🆕 NEW FIREBASE USER → reading registration data"
 
-          method: "POST",
+        );
 
+        // ---------------------------------------------------
 
+        // CHILD PROFILE
 
-          headers: {
+        // ---------------------------------------------------
 
-            "Content-Type": "application/json",
+        const savedChild =
 
-          },
+          getLocalStorageObject(
 
+            "childProfile"
 
+          );
 
-          body: JSON.stringify({
+        if (
 
-            email,
+          savedChild &&
 
-            otp: finalOtp,
+          savedChild.name
 
-          }),
+        ) {
 
-        }
+          childProfile = {
 
-      );
+            name: String(
 
+              savedChild.name
 
+            ).trim(),
 
-      const data = await response.json();
+            age:
 
+              savedChild.age !== undefined &&
 
+              savedChild.age !== null
 
-      console.log(
+                ? String(savedChild.age)
 
-        "🔐 OTP response:",
+                : "",
 
-        data
+            createdAt:
 
-      );
+              savedChild.createdAt ||
 
+              new Date().toISOString(),
 
+          };
 
-      if (!response.ok) {
+          console.log(
 
-        setError(
+            "👧 Registration child:",
 
-          data.message ||
+            childProfile
 
-            "Invalid OTP. Please try again."
+          );
 
-        );
+        }
 
+        // ---------------------------------------------------
 
+        // PARENT PROFILE
 
-        return;
+        // ---------------------------------------------------
 
-      }
+        const savedParent =
 
+          getLocalStorageObject(
 
+            "parentProfile"
 
-      // =====================================================
+          ) ||
 
-      // 2. FIREBASE CUSTOM TOKEN
+          getLocalStorageObject(
 
-      // =====================================================
+            "tempParent"
 
+          );
 
+        if (savedParent) {
 
-      if (!data.customToken) {
+          parentProfile = {
 
-        setError(
+            parentName:
 
-          "Firebase login token was not received."
+              savedParent.parentName ||
 
-        );
+              "",
 
+            email:
 
+              savedParent.email ||
 
-        return;
+              firebaseUser.email ||
 
-      }
+              email,
 
+          };
 
+          console.log(
 
-      // =====================================================
+            "👨‍👩‍👧 Registration parent:",
 
-      // 3. FIREBASE LOGIN
+            parentProfile
 
-      // =====================================================
+          );
 
+        }
 
+        // ---------------------------------------------------
 
-      console.log(
+        // JUNGLE FRIEND
 
-        "🔥 Signing into Firebase..."
+        //
 
-      );
+        // New user must choose friend separately.
 
+        // ---------------------------------------------------
 
+        jungleFriend = null;
 
-      const userCredential =
+        localStorage.removeItem(
 
-        await signInWithCustomToken(
+          "jungleFriend"
 
-          auth,
+        );
 
-          data.customToken
+        console.log(
 
-        );
+          "🦊 New user → friend will be selected later"
 
+        );
 
+      } else {
 
-      const firebaseUser =
+        // ===================================================
 
-        userCredential.user;
+        // EXISTING USER
 
+        //
 
+        // Firebase is the only source of truth.
 
-      const uid =
+        // ===================================================
 
-        firebaseUser.uid;
+        console.log(
 
+          "✅ EXISTING USER → Firebase data only"
 
+        );
 
-      console.log(
+        console.log(
 
-        "✅ Firebase login successful"
+          "🚫 Ignoring temporary localStorage profile data"
 
-      );
+        );
 
+      }
 
+      // =====================================================
 
-      console.log(
+      // 9. SAVE PROFILE TO UID DOCUMENT
 
-        "👤 Firebase UID:",
+      // =====================================================
 
-        uid
+      const profileData = {
 
-      );
+        uid,
 
+        email:
 
+          firebaseUser.email ||
 
-      // =====================================================
+          email,
 
-      // 4. SAVE REAL FIREBASE UID
+        verified: true,
 
-      // =====================================================
+        childProfile:
 
+          childProfile || null,
 
+        parentProfile:
 
-      localStorage.setItem(
+          parentProfile || null,
 
-        "userId",
+        jungleFriend:
 
-        uid
+          jungleFriend || null,
 
-      );
+        // Compatibility field
 
+        name:
 
+          childProfile?.name ||
 
-      // =====================================================
+          existingUser?.name ||
 
-      // 5. ADMIN CHECK
+          "",
 
-      // =====================================================
+        avatar:
 
+          existingUser?.avatar ||
 
+          "🐵",
 
-      let isAdmin = false;
+        createdAt:
 
+          existingUser?.createdAt ||
 
+          new Date().toISOString(),
 
-      try {
+        lastLogin:
 
-        const tokenResult =
+          new Date().toISOString(),
 
-          await getIdTokenResult(
+      };
 
-            firebaseUser,
+      await setDoc(
 
-            true
+        userRef,
 
-          );
+        profileData,
 
+        {
 
+          merge: true,
 
-        isAdmin =
+        }
 
-          tokenResult.claims.admin === true;
+      );
 
+      console.log(
 
+        "✅ User profile saved to UID document"
 
-        console.log(
+      );
 
-          "👑 Admin:",
+      // =====================================================
 
-          isAdmin
+      // 10. READ FINAL FIREBASE DATA
 
-        );
+      // =====================================================
 
-      } catch (adminError) {
+      const latestUserSnap =
 
-        console.warn(
+        await getDoc(userRef);
 
-          "⚠️ Admin check failed:",
+      const firebaseUserData =
 
-          adminError
+        latestUserSnap.exists()
 
-        );
+          ? latestUserSnap.data()
 
-      }
+          : {};
 
+      console.log(
 
+        "🔥 FINAL FIREBASE DATA:",
 
-      // =====================================================
+        firebaseUserData
 
-      // 6. GET USER DOCUMENT
+      );
 
-      //
+      // =====================================================
 
-      // IMPORTANT:
+      // 11. UPDATE LOCAL STORAGE CACHE
 
-      //
+      //
 
-      // We ONLY use:
+      // Firebase = source of truth
 
-      //
+      // localStorage = cache only
 
-      // users/{firebaseUID}
+      // =====================================================
 
-      //
+      // -----------------------------------------------------
 
-      // We DO NOT try:
+      // CHILD
 
-      //
+      // -----------------------------------------------------
 
-      // users/{email}
+      if (
 
-      //
+        firebaseUserData.childProfile
 
-      // because Firestore rules are UID based.
+      ) {
 
-      // =====================================================
+        localStorage.setItem(
 
+          "childProfile",
 
+          JSON.stringify(
 
-      const userRef = doc(
+            firebaseUserData.childProfile
 
-        db,
+          )
 
-        "users",
+        );
 
-        uid
+      } else {
 
-      );
+        localStorage.removeItem(
 
+          "childProfile"
 
+        );
 
-      const userSnap =
+      }
 
-        await getDoc(userRef);
+      // -----------------------------------------------------
 
+      // PARENT
 
+      // -----------------------------------------------------
 
-      const userExists =
+      if (
 
-        userSnap.exists();
+        firebaseUserData.parentProfile
 
+      ) {
 
+        localStorage.setItem(
 
-      const existingUser =
+          "parentProfile",
 
-        userExists
+          JSON.stringify(
 
-          ? userSnap.data()
+            firebaseUserData.parentProfile
 
-          : null;
+          )
 
+        );
 
+      } else {
 
-      console.log(
+        localStorage.removeItem(
 
-        "🔥 User exists:",
+          "parentProfile"
 
-        userExists
+        );
 
-      );
+      }
 
+      // -----------------------------------------------------
 
+      // FRIEND
 
-      console.log(
+      // -----------------------------------------------------
 
-        "🔥 Existing Firebase data:",
+      if (
 
-        existingUser
+        firebaseUserData.jungleFriend
 
-      );
+      ) {
 
+        localStorage.setItem(
 
+          "jungleFriend",
 
-      // =====================================================
+          JSON.stringify(
 
-      // 7. PROFILE DATA
+            firebaseUserData.jungleFriend
 
-      // =====================================================
+          )
 
+        );
 
+      } else {
 
-      let childProfile =
+        localStorage.removeItem(
 
-        existingUser?.childProfile ||
+          "jungleFriend"
 
-        null;
+        );
 
+      }
 
+      // -----------------------------------------------------
 
-      let parentProfile =
+      // EMAIL
 
-        existingUser?.parentProfile ||
+      // -----------------------------------------------------
 
-        null;
+      localStorage.setItem(
 
+        "loginEmail",
 
+        firebaseUserData.email ||
 
-      let jungleFriend =
+          firebaseUser.email ||
 
-        existingUser?.jungleFriend ||
+          email
 
-        null;
+      );
 
+      // =====================================================
 
+      // 12. CREATE PROGRESS DOCUMENT IF NEEDED
 
-      // =====================================================
+      // =====================================================
 
-      // 8. BRAND NEW USER
+      const progressRef = doc(
 
-      //
+        db,
 
-      // Only a brand-new Firebase user reads the registration
+        "progress",
 
-      // information stored temporarily in localStorage.
+        uid
 
-      // =====================================================
+      );
 
+      const progressSnap =
 
+        await getDoc(progressRef);
 
-      if (!userExists) {
+      if (!progressSnap.exists()) {
 
-        console.log(
+        await setDoc(
 
-          "🆕 NEW FIREBASE USER → reading registration data"
+          progressRef,
 
-        );
+          {
 
+            userId: uid,
 
+            stars: 0,
 
-        // ---------------------------------------------------
+            streak: 0,
 
-        // CHILD PROFILE
+            history: [],
 
-        // ---------------------------------------------------
+            activeGames: {},
 
+          }
 
+        );
 
-        const savedChild =
+        console.log(
 
-          getLocalStorageObject(
+          "🌱 Progress document created"
 
-            "childProfile"
+        );
 
-          );
+      } else {
 
+        console.log(
 
+          "📊 Progress document already exists"
 
-        if (
+        );
 
-          savedChild &&
+      }
 
-          savedChild.name
+      // =====================================================
 
-        ) {
+      // 13. CHECK PROFILE COMPLETION
 
-          childProfile = {
+      // =====================================================
 
-            name: String(
+      const hasChildProfile =
 
-              savedChild.name
+        Boolean(
 
-            ).trim(),
+          firebaseUserData
 
+            ?.childProfile
 
+            ?.name
 
-            age:
+        ) &&
 
-              savedChild.age !== undefined &&
+        Boolean(
 
-              savedChild.age !== null
+          firebaseUserData
 
-                ? String(savedChild.age)
+            ?.childProfile
 
-                : "",
+            ?.age
 
+        );
 
+      const hasJungleFriend =
 
-            createdAt:
+        Boolean(
 
-              savedChild.createdAt ||
+          firebaseUserData
 
-              new Date().toISOString(),
+            ?.jungleFriend
 
-          };
+            ?.name
 
+        );
 
+      console.log(
 
-          console.log(
+        "👧 Child profile:",
 
-            "👧 Registration child:",
+        firebaseUserData?.childProfile
 
-            childProfile
+      );
 
-          );
+      console.log(
 
-        }
+        "🦊 Jungle friend:",
 
+        firebaseUserData?.jungleFriend
 
+      );
 
-        // ---------------------------------------------------
+      console.log(
 
-        // PARENT PROFILE
+        "👧 Child profile complete:",
 
-        // ---------------------------------------------------
+        hasChildProfile
 
+      );
 
+      console.log(
 
-        const savedParent =
+        "🦊 Friend selected:",
 
-          getLocalStorageObject(
+        hasJungleFriend
 
-            "parentProfile"
+      );
 
-          ) ||
+      // =====================================================
 
-          getLocalStorageObject(
+      // 14. ADMIN
 
-            "tempParent"
+      // =====================================================
 
-          );
+      if (isAdmin) {
 
+        console.log(
 
+          "👑 Admin → /admin"
 
-        if (savedParent) {
+        );
 
-          parentProfile = {
+        navigate("/admin");
 
-            parentName:
+        return;
 
-              savedParent.parentName ||
+      }
 
-              "",
+      // =====================================================
 
+      // 15. BRAND NEW USER
 
+      // =====================================================
 
-            email:
+      if (!userExists) {
 
-              savedParent.email ||
+        console.log(
 
-              firebaseUser.email ||
+          "🆕 BRAND NEW USER → Choose Friend"
 
-              email,
+        );
 
-          };
+        localStorage.setItem(
 
+          "appProgress",
 
+          "child-created"
 
-          console.log(
+        );
 
-            "👨‍👩‍👧 Registration parent:",
+        localStorage.removeItem(
 
-            parentProfile
+          "jungleFriend"
 
-          );
+        );
 
-        }
+        navigate(
 
+          "/choose-friend"
 
+        );
 
-        // ---------------------------------------------------
+        return;
 
-        // JUNGLE FRIEND
+      }
 
-        //
+      // =====================================================
 
-        // New user must choose friend separately.
+      // 16. EXISTING COMPLETE USER
 
-        // ---------------------------------------------------
+      // =====================================================
 
+      if (
 
+        hasChildProfile &&
 
-        jungleFriend = null;
+        hasJungleFriend
 
+      ) {
 
+        console.log(
 
-        localStorage.removeItem(
+          "✅ EXISTING COMPLETE USER → Jungle Hero"
 
-          "jungleFriend"
+        );
 
-        );
+        localStorage.setItem(
 
+          "appProgress",
 
+          "friend-chosen"
 
-        console.log(
+        );
 
-          "🦊 New user → friend will be selected later"
+        navigate(
 
-        );
+          "/jungle-hero"
 
-      } else {
+        );
 
-        // ===================================================
+        return;
 
-        // EXISTING USER
+      }
 
-        //
+      // =====================================================
 
-        // Firebase is the only source of truth.
+      // 17. EXISTING INCOMPLETE USER
 
-        // ===================================================
+      // =====================================================
 
+      console.log(
 
+        "🆕 EXISTING INCOMPLETE USER → Choose Friend"
 
-        console.log(
+      );
 
-          "✅ EXISTING USER → Firebase data only"
+      navigate(
 
-        );
+        "/choose-friend"
 
+      );
 
+    } catch (error) {
 
-        console.log(
+      console.error(
 
-          "🚫 Ignoring temporary localStorage profile data"
+        "❌ OTP verification error:",
 
-        );
+        error
 
-      }
+      );
 
+      // Keep the useful Firebase error
 
+      // in the console, but show a cleaner
 
-      // =====================================================
+      // message to the user.
 
-      // 9. SAVE PROFILE TO UID DOCUMENT
+      if (
 
-      // =====================================================
+        error?.code ===
 
+        "permission-denied"
 
+      ) {
 
-      const profileData = {
+        setError(
 
-        uid,
+          "Firebase permission denied. Please check your Firestore rules."
 
+        );
 
+      } else {
 
-        email:
+        setError(
 
-          firebaseUser.email ||
+          error?.message ||
 
-          email,
+            "Something went wrong. Please try again."
 
+        );
 
+      }
 
-        verified: true,
+    } finally {
 
+      setLoading(false);
 
+    }
 
-        childProfile:
+  };
 
-          childProfile || null,
+  // =========================================================
 
+  // RESEND OTP
 
+  // =========================================================
 
-        parentProfile:
+  const resendOtp = async () => {
 
-          parentProfile || null,
+    setError("");
 
+    if (!email) {
 
+      setError(
 
-        jungleFriend:
+        "Email not found. Please login again."
 
-          jungleFriend || null,
+      );
 
+      return;
 
+    }
 
-        // Compatibility field
+    try {
 
-        name:
+      const response =
 
-          childProfile?.name ||
+        await fetch(
 
-          existingUser?.name ||
+          `${import.meta.env.VITE_API_URL}/api/send-otp`,
 
-          "",
+          {
 
+            method: "POST",
 
+            headers: {
 
-        avatar:
+              "Content-Type":
 
-          existingUser?.avatar ||
+                "application/json",
 
-          "🐵",
+            },
 
+            body: JSON.stringify({
 
+              email,
 
-        createdAt:
+            }),
 
-          existingUser?.createdAt ||
+          }
 
-          new Date().toISOString(),
+        );
 
+      const data =
 
+        await response.json();
 
-        lastLogin:
+      if (!response.ok) {
 
-          new Date().toISOString(),
+        setError(
 
-      };
+          data.message ||
 
+            "Failed to resend OTP."
 
+        );
 
-      await setDoc(
+        return;
 
-        userRef,
+      }
 
-        profileData,
+      setOtp(
 
-        {
+        new Array(6).fill("")
 
-          merge: true,
+      );
 
-        }
+      setTimer(30);
 
-      );
+      inputsRef.current[0]?.focus();
 
+      alert(
 
+        "OTP resent successfully 📧"
 
-      console.log(
+      );
 
-        "✅ User profile saved to UID document"
+    } catch (error) {
 
-      );
+      console.error(
 
+        "❌ Resend OTP error:",
 
+        error
 
-      // =====================================================
+      );
 
-      // 10. READ FINAL FIREBASE DATA
+      setError(
 
-      // =====================================================
+        "Failed to resend OTP."
 
+      );
 
+    }
 
-      const latestUserSnap =
+  };
 
-        await getDoc(userRef);
+  // =========================================================
 
+  // UI ONLY
 
+  // =========================================================
 
-      const firebaseUserData =
+  return (
 
-        latestUserSnap.exists()
+    <div className="otp-page">
 
-          ? latestUserSnap.data()
+      {/* Background overlay */}
 
-          : {};
+      <div className="otp-overlay"></div>
 
+      {/* =====================================================
 
+          BRAND
 
-      console.log(
+      ===================================================== */}
 
-        "🔥 FINAL FIREBASE DATA:",
+      <header className="otp-brand">
 
-        firebaseUserData
+        <div className="otp-brand-title">
 
-      );
+          <span className="otp-brand-curio">
 
+            Curio
 
+          </span>
 
-      // =====================================================
+          <span className="otp-brand-kids">
 
-      // 11. UPDATE LOCAL STORAGE CACHE
+            Kids
 
-      //
+          </span>
 
-      // Firebase = source of truth
+          <span className="otp-brand-sprout">
 
-      // localStorage = cache only
+            🌱
 
-      // =====================================================
+          </span>
 
+        </div>
 
+        <div className="otp-brand-tagline">
 
-      // -----------------------------------------------------
+          Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow
 
-      // CHILD
+        </div>
 
-      // -----------------------------------------------------
+      </header>
 
+      {/* =====================================================
 
+          DECORATIONS
 
-      if (
+      ===================================================== */}
 
-        firebaseUserData.childProfile
+      <div className="otp-leaf otp-leaf-one">
 
-      ) {
+        🍃
 
-        localStorage.setItem(
+      </div>
 
-          "childProfile",
+      <div className="otp-leaf otp-leaf-two">
 
-          JSON.stringify(
+        🌿
 
-            firebaseUserData.childProfile
+      </div>
 
-          )
+      <div className="otp-leaf otp-leaf-three">
 
-        );
+        🍃
 
-      } else {
+      </div>
 
-        localStorage.removeItem(
+      <div className="otp-butterfly">
 
-          "childProfile"
+        🦋
 
-        );
+      </div>
 
-      }
+      <div className="otp-flower otp-flower-one">
 
+        🌺
 
+      </div>
 
-      // -----------------------------------------------------
+      <div className="otp-flower otp-flower-two">
 
-      // PARENT
+        🌸
 
-      // -----------------------------------------------------
+      </div>
 
+      {/* =====================================================
 
+          MAIN
 
-      if (
+      ===================================================== */}
 
-        firebaseUserData.parentProfile
+      <main className="otp-main">
 
-      ) {
+        <div className="otp-card">
 
-        localStorage.setItem(
+          {/* =================================================
 
-          "parentProfile",
+              LOCK
 
-          JSON.stringify(
+          ================================================= */}
 
-            firebaseUserData.parentProfile
+          <div className="otp-lock-area">
 
-          )
+            <span className="otp-lock-sprout">
 
-        );
+              🌱
 
-      } else {
+            </span>
 
-        localStorage.removeItem(
+            <span className="otp-lock">
 
-          "parentProfile"
+              🔐
 
-        );
+            </span>
 
-      }
+          </div>
 
+          {/* =================================================
 
+              HEADING
 
-      // -----------------------------------------------------
+          ================================================= */}
 
-      // FRIEND
+          <h1>
 
-      // -----------------------------------------------------
+            Complete Your Journey
 
+          </h1>
 
+          <p className="otp-subtitle">
 
-      if (
+            Open the sign-in link sent to your email to continue
 
-        firebaseUserData.jungleFriend
+          </p>
 
-      ) {
+          {/* =================================================
 
-        localStorage.setItem(
+              EMAIL
 
-          "jungleFriend",
+          ================================================= */}
 
-          JSON.stringify(
+          <div className="otp-email-box">
 
-            firebaseUserData.jungleFriend
+            <span className="otp-email-icon">
 
-          )
+              ✉️
 
-        );
+            </span>
 
-      } else {
+            <div className="otp-email-content">
 
-        localStorage.removeItem(
+              <small>
 
-          "jungleFriend"
+                Sign-in link sent to
 
-        );
+              </small>
 
-      }
+              <strong>
 
+                {email || "your email"}
 
+              </strong>
 
-      // -----------------------------------------------------
+            </div>
 
-      // EMAIL
+          </div>
 
-      // -----------------------------------------------------
+          <div className="otp-input-container">
+            <label className="otp-email-fallback" style={{ display: "block", marginTop: "16px", textAlign: "left" }}>
+              <span style={{ display: "block", marginBottom: "8px" }}>Email address used to request the link</span>
+              <input
+                type="email"
+                value={emailForSignIn}
+                onChange={(event) => {
+                  setEmailForSignIn(event.target.value);
+                  setError("");
+                }}
+                placeholder="you@example.com"
+                autoComplete="email"
+                required
+                style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", border: "1px solid #cbd9bf", borderRadius: "12px", font: "inherit" }}
+              />
+            </label>
+            <p className="otp-subtitle">
+              🌱 Your secure sign-in is being completed. Please keep this page open.
+            </p>
+          </div>
 
+          {/* =================================================
 
+              ERROR
 
-      localStorage.setItem(
+          ================================================= */}
 
-        "loginEmail",
+          {error && (
 
-        firebaseUserData.email ||
+            <div className="otp-error">
 
-          firebaseUser.email ||
+              ⚠️ {error}
 
-          email
+            </div>
 
-      );
+          )}
 
+          {/* =================================================
 
+              VERIFY
 
-      // =====================================================
+          ================================================= */}
 
-      // 12. CREATE PROGRESS DOCUMENT IF NEEDED
+          <button
 
-      // =====================================================
+            className="verify-otp-button"
 
+            onClick={verifyOtp}
 
+            disabled={loading}
 
-      const progressRef = doc(
+          >
 
-        db,
+            <span>
 
-        "progress",
+              🌿
 
-        uid
+            </span>
 
-      );
+            {loading
 
+              ? "Verifying..."
 
+              : "Complete Sign-in"}
 
-      const progressSnap =
+          </button>
 
-        await getDoc(progressRef);
+          {/* =================================================
 
+              SECURITY NOTE
 
+          ================================================= */}
 
-      if (!progressSnap.exists()) {
+          <div className="otp-security">
 
-        await setDoc(
+            🔐 Your verification is secure and private
 
-          progressRef,
+          </div>
 
-          {
+        </div>
 
-            userId: uid,
+      </main>
 
-            stars: 0,
+      {/* =====================================================
 
-            streak: 0,
+          CHATBOT
 
-            history: [],
+      ===================================================== */}
 
-            activeGames: {},
+      <button
 
-          }
+        className="otp-chatbot"
 
-        );
+        type="button"
 
+        aria-label="CurioKids assistant"
 
+      >
 
-        console.log(
+        🤖
 
-          "🌱 Progress document created"
+      </button>
 
-        );
+    </div>
 
-      } else {
-
-        console.log(
-
-          "📊 Progress document already exists"
-
-        );
-
-      }
-
-
-
-      // =====================================================
-
-      // 13. CHECK PROFILE COMPLETION
-
-      // =====================================================
-
-
-
-      const hasChildProfile =
-
-        Boolean(
-
-          firebaseUserData
-
-            ?.childProfile
-
-            ?.name
-
-        ) &&
-
-        Boolean(
-
-          firebaseUserData
-
-            ?.childProfile
-
-            ?.age
-
-        );
-
-
-
-      const hasJungleFriend =
-
-        Boolean(
-
-          firebaseUserData
-
-            ?.jungleFriend
-
-            ?.name
-
-        );
-
-
-
-      console.log(
-
-        "👧 Child profile:",
-
-        firebaseUserData?.childProfile
-
-      );
-
-
-
-      console.log(
-
-        "🦊 Jungle friend:",
-
-        firebaseUserData?.jungleFriend
-
-      );
-
-
-
-      console.log(
-
-        "👧 Child profile complete:",
-
-        hasChildProfile
-
-      );
-
-
-
-      console.log(
-
-        "🦊 Friend selected:",
-
-        hasJungleFriend
-
-      );
-
-
-
-      // =====================================================
-
-      // 14. ADMIN
-
-      // =====================================================
-
-
-
-      if (isAdmin) {
-
-        console.log(
-
-          "👑 Admin → /admin"
-
-        );
-
-
-
-        navigate("/admin");
-
-
-
-        return;
-
-      }
-
-
-
-      // =====================================================
-
-      // 15. BRAND NEW USER
-
-      // =====================================================
-
-
-
-      if (!userExists) {
-
-        console.log(
-
-          "🆕 BRAND NEW USER → Choose Friend"
-
-        );
-
-
-
-        localStorage.setItem(
-
-          "appProgress",
-
-          "child-created"
-
-        );
-
-
-
-        localStorage.removeItem(
-
-          "jungleFriend"
-
-        );
-
-
-
-        navigate(
-
-          "/choose-friend"
-
-        );
-
-
-
-        return;
-
-      }
-
-
-
-      // =====================================================
-
-      // 16. EXISTING COMPLETE USER
-
-      // =====================================================
-
-
-
-      if (
-
-        hasChildProfile &&
-
-        hasJungleFriend
-
-      ) {
-
-        console.log(
-
-          "✅ EXISTING COMPLETE USER → Jungle Hero"
-
-        );
-
-
-
-        localStorage.setItem(
-
-          "appProgress",
-
-          "friend-chosen"
-
-        );
-
-
-
-        navigate(
-
-          "/jungle-hero"
-
-        );
-
-
-
-        return;
-
-      }
-
-
-
-      // =====================================================
-
-      // 17. EXISTING INCOMPLETE USER
-
-      // =====================================================
-
-
-
-      console.log(
-
-        "🆕 EXISTING INCOMPLETE USER → Choose Friend"
-
-      );
-
-
-
-      navigate(
-
-        "/choose-friend"
-
-      );
-
-
-
-    } catch (error) {
-
-      console.error(
-
-        "❌ OTP verification error:",
-
-        error
-
-      );
-
-
-
-      // Keep the useful Firebase error
-
-      // in the console, but show a cleaner
-
-      // message to the user.
-
-
-
-      if (
-
-        error?.code ===
-
-        "permission-denied"
-
-      ) {
-
-        setError(
-
-          "Firebase permission denied. Please check your Firestore rules."
-
-        );
-
-      } else {
-
-        setError(
-
-          error?.message ||
-
-            "Something went wrong. Please try again."
-
-        );
-
-      }
-
-
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  };
-
-
-
-  // =========================================================
-
-  // RESEND OTP
-
-  // =========================================================
-
-
-
-  const resendOtp = async () => {
-
-    setError("");
-
-
-
-    if (!email) {
-
-      setError(
-
-        "Email not found. Please login again."
-
-      );
-
-
-
-      return;
-
-    }
-
-
-
-    try {
-
-      const response =
-
-        await fetch(
-
-          `${import.meta.env.VITE_API_URL}/api/send-otp`,
-
-          {
-
-            method: "POST",
-
-
-
-            headers: {
-
-              "Content-Type":
-
-                "application/json",
-
-            },
-
-
-
-            body: JSON.stringify({
-
-              email,
-
-            }),
-
-          }
-
-        );
-
-
-
-      const data =
-
-        await response.json();
-
-
-
-      if (!response.ok) {
-
-        setError(
-
-          data.message ||
-
-            "Failed to resend OTP."
-
-        );
-
-
-
-        return;
-
-      }
-
-
-
-      setOtp(
-
-        new Array(6).fill("")
-
-      );
-
-
-
-      setTimer(30);
-
-
-
-      inputsRef.current[0]?.focus();
-
-
-
-      alert(
-
-        "OTP resent successfully 📧"
-
-      );
-
-
-
-    } catch (error) {
-
-      console.error(
-
-        "❌ Resend OTP error:",
-
-        error
-
-      );
-
-
-
-      setError(
-
-        "Failed to resend OTP."
-
-      );
-
-    }
-
-  };
-
-
-
-  // =========================================================
-
-  // UI ONLY
-
-  // =========================================================
-
-
-
-  return (
-
-    <div className="otp-page">
-
-
-
-      {/* Background overlay */}
-
-      <div className="otp-overlay"></div>
-
-
-
-      {/* =====================================================
-
-          BRAND
-
-      ===================================================== */}
-
-
-
-      <header className="otp-brand">
-
-
-
-        <div className="otp-brand-title">
-
-
-
-          <span className="otp-brand-curio">
-
-            Curio
-
-          </span>
-
-
-
-          <span className="otp-brand-kids">
-
-            Kids
-
-          </span>
-
-
-
-          <span className="otp-brand-sprout">
-
-            🌱
-
-          </span>
-
-
-
-        </div>
-
-
-
-        <div className="otp-brand-tagline">
-
-          Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow
-
-        </div>
-
-
-
-      </header>
-
-
-
-      {/* =====================================================
-
-          DECORATIONS
-
-      ===================================================== */}
-
-
-
-      <div className="otp-leaf otp-leaf-one">
-
-        🍃
-
-      </div>
-
-
-
-      <div className="otp-leaf otp-leaf-two">
-
-        🌿
-
-      </div>
-
-
-
-      <div className="otp-leaf otp-leaf-three">
-
-        🍃
-
-      </div>
-
-
-
-      <div className="otp-butterfly">
-
-        🦋
-
-      </div>
-
-
-
-      <div className="otp-flower otp-flower-one">
-
-        🌺
-
-      </div>
-
-
-
-      <div className="otp-flower otp-flower-two">
-
-        🌸
-
-      </div>
-
-
-
-      {/* =====================================================
-
-          MAIN
-
-      ===================================================== */}
-
-
-
-      <main className="otp-main">
-
-
-
-        <div className="otp-card">
-
-
-
-          {/* =================================================
-
-              LOCK
-
-          ================================================= */}
-
-
-
-          <div className="otp-lock-area">
-
-
-
-            <span className="otp-lock-sprout">
-
-              🌱
-
-            </span>
-
-
-
-            <span className="otp-lock">
-
-              🔐
-
-            </span>
-
-
-
-          </div>
-
-
-
-          {/* =================================================
-
-              HEADING
-
-          ================================================= */}
-
-
-
-          <h1>
-
-            Verify Your Journey
-
-          </h1>
-
-
-
-          <p className="otp-subtitle">
-
-            Enter the code we sent to your email
-
-          </p>
-
-
-
-          {/* =================================================
-
-              EMAIL
-
-          ================================================= */}
-
-
-
-          <div className="otp-email-box">
-
-
-
-            <span className="otp-email-icon">
-
-              ✉️
-
-            </span>
-
-
-
-            <div className="otp-email-content">
-
-
-
-              <small>
-
-                Verification code sent to
-
-              </small>
-
-
-
-              <strong>
-
-                {email || "your email"}
-
-              </strong>
-
-
-
-            </div>
-
-
-
-          </div>
-
-
-
-          {/* =================================================
-
-              OTP INPUTS
-
-          ================================================= */}
-
-
-
-          <div className="otp-input-container">
-
-
-
-            {otp.map(
-
-              (digit, index) => (
-
-                <input
-
-                  key={index}
-
-
-
-                  ref={(element) => {
-
-                    inputsRef.current[index] =
-
-                      element;
-
-                  }}
-
-
-
-                  className={
-
-                    `otp-box ${
-
-                      digit
-
-                        ? "otp-box-filled"
-
-                        : ""
-
-                    }`
-
-                  }
-
-
-
-                  type="text"
-
-
-
-                  inputMode="numeric"
-
-
-
-                  maxLength={1}
-
-
-
-                  value={digit}
-
-
-
-                  onChange={(event) =>
-
-                    handleChange(
-
-                      event.target.value,
-
-                      index
-
-                    )
-
-                  }
-
-
-
-                  onKeyDown={(event) =>
-
-                    handleKeyDown(
-
-                      event,
-
-                      index
-
-                    )
-
-                  }
-
-
-
-                  autoComplete={
-
-                    index === 0
-
-                      ? "one-time-code"
-
-                      : "off"
-
-                  }
-
-                />
-
-              )
-
-            )}
-
-
-
-          </div>
-
-
-
-          {/* =================================================
-
-              ERROR
-
-          ================================================= */}
-
-
-
-          {error && (
-
-            <div className="otp-error">
-
-              ⚠️ {error}
-
-            </div>
-
-          )}
-
-
-
-          {/* =================================================
-
-              VERIFY
-
-          ================================================= */}
-
-
-
-          <button
-
-            className="verify-otp-button"
-
-            onClick={verifyOtp}
-
-            disabled={loading}
-
-          >
-
-
-
-            <span>
-
-              🌿
-
-            </span>
-
-
-
-            {loading
-
-              ? "Verifying..."
-
-              : "Verify OTP"}
-
-
-
-          </button>
-
-
-
-          {/* =================================================
-
-              RESEND
-
-          ================================================= */}
-
-
-
-          <div className="otp-resend-area">
-
-
-
-            {timer > 0 ? (
-
-              <>
-
-                <span className="resend-label">
-
-                  Didn’t receive the code?
-
-                </span>
-
-
-
-                <span className="resend-timer">
-
-                  Resend OTP in {timer}s
-
-                </span>
-
-              </>
-
-            ) : (
-
-              <button
-
-                onClick={resendOtp}
-
-                className="resend-button"
-
-              >
-
-                🔄 Resend OTP
-
-              </button>
-
-            )}
-
-
-
-          </div>
-
-
-
-          {/* =================================================
-
-              SECURITY NOTE
-
-          ================================================= */}
-
-
-
-          <div className="otp-security">
-
-            🔐 Your verification is secure and private
-
-          </div>
-
-
-
-        </div>
-
-
-
-      </main>
-
-
-
-      {/* =====================================================
-
-          CHATBOT
-
-      ===================================================== */}
-
-
-
-      <button
-
-        className="otp-chatbot"
-
-        type="button"
-
-        aria-label="CurioKids assistant"
-
-      >
-
-        🤖
-
-      </button>
-
-
-
-    </div>
-
-  );
+  );
 
 }

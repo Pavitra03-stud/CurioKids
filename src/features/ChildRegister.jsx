@@ -35,8 +35,10 @@ export default function ChildRegister({ onComplete }) {
     // AGE
     // ---------------------------------------------------------
 
-    if (!age) {
-      newErrors.age = "Age is required";
+    if (!age.trim()) {
+      newErrors.age = "Please enter your age";
+    } else if (!Number.isFinite(Number(age)) || Number(age) <= 0) {
+      newErrors.age = "Please enter a valid age";
     }
 
     setErrors(newErrors);
@@ -163,15 +165,18 @@ export default function ChildRegister({ onComplete }) {
 
         <input
           type="number"
-          min="1"
-          step="1"
+          className="input age-input"
           placeholder="Enter your age"
-          className="input"
+          aria-label="Enter your age"
+          inputMode="numeric"
           value={age}
           onChange={(e) => {
-            setAge(e.target.value);
+            const value = e.target.value;
+            // Keep the field empty or accept whole-number typing only.
+            if (value === "" || /^\d+$/.test(value)) {
+              setAge(value);
+            }
 
-            // Clear age error while typing
             if (errors.age) {
               setErrors((prev) => ({
                 ...prev,
@@ -205,6 +210,7 @@ export default function ChildRegister({ onComplete }) {
         <p className="note">
           No email. No passwords. Just play.
         </p>
+
 
       </div>
     </div>

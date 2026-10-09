@@ -1392,7 +1392,7 @@ export default function DescendingOrderLearning() {
 
         <div className="top-section lesson-top">
 
-          <button
+          {/* <button
             type="button"
             className="back-btn"
             onPointerDown={
@@ -1402,7 +1402,7 @@ export default function DescendingOrderLearning() {
 
             ← Back
 
-          </button>
+          </button> */}
 
 
           <h1>

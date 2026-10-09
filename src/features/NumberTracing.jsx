@@ -21,7 +21,7 @@ export default function NumberTracing() {
       id: 1,
       title: "Level 1",
       subtitle: "Learn 1 to 10",
-      startNumber:1,
+      startNumber: 1,
       maxNumber: 10,
       className: "level-one",
     },
@@ -29,7 +29,7 @@ export default function NumberTracing() {
       id: 2,
       title: "Level 2",
       subtitle: "Learn 11 to 50",
-      startNumber:11,
+      startNumber: 11,
       maxNumber: 50,
       className: "level-two",
     },
@@ -37,7 +37,7 @@ export default function NumberTracing() {
       id: 3,
       title: "Level 3",
       subtitle: "Learn 51 to 100",
-      startNumber:51,
+      startNumber: 51,
       maxNumber: 100,
       className: "level-three",
     },
@@ -50,9 +50,9 @@ export default function NumberTracing() {
      CURRENT NUMBER
   ===================================================== */
 
- const [currentNumber, setCurrentNumber] = useState(
-  selectedLevel.startNumber
-); 
+  const [currentNumber, setCurrentNumber] = useState(
+    selectedLevel.startNumber
+  );
 
   /* =====================================================
      CANVAS
@@ -146,20 +146,18 @@ export default function NumberTracing() {
     isDrawing.current = false;
   };
 
+
   const clearCanvas = () => {
     const canvas = canvasRef.current;
 
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    ctx.clearRect(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
+
 
   /* =====================================================
      SPEAK NUMBER
@@ -474,8 +472,15 @@ export default function NumberTracing() {
               ← Previous
             </button>
 
-            <button
+            {/* <button
               className="nt-btn.clear"
+              onClick={clearCanvas}
+            >
+              🧹 Clear
+            </button> */}
+            <button
+              type="button"
+              className="nt-btn clear"
               onClick={clearCanvas}
             >
               🧹 Clear

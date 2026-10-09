@@ -1124,3 +1124,53 @@
       11px 14px;
   }
 }
+/* Clear button — CurioKids jungle theme */
+.nt-btn.clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 18px;
+  min-height: 44px;
+
+  background: #fff7e5;
+  color: #704321;
+  border: 2px solid #e8d8b9;
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(67, 37, 15, 0.12);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.nt-btn.clear:hover {
+  background: #ffedc8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(67, 37, 15, 0.18);
+}
+
+.nt-btn.clear:active {
+  transform: scale(0.96);
+}
+
+.nt-btn.clear:focus-visible {
+  outline: 3px solid #f39a32;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .nt-btn.clear {
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+}

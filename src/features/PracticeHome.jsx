@@ -99,14 +99,14 @@ const practiceActivities = [
     icon: "🧱",
     path: "/build-word",
   },
-  {
-    title: "Missing Letter",
-    description: "Find the missing letter and complete the word.",
-    helper: "FIND THE MISSING ONE",
-    category: "WORDS",
-    icon: "❓",
-    path: "/missing-letter",
-  },
+  // {
+  //   title: "Missing Letter",
+  //   description: "Find the missing letter and complete the word.",
+  //   helper: "FIND THE MISSING ONE",
+  //   category: "WORDS",
+  //   icon: "❓",
+  //   path: "/missing-letter",
+  // },
   {
     title: "Sight Words",
     description: "Practice common words and recognize them quickly.",

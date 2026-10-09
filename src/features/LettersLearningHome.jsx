@@ -272,13 +272,13 @@ export default function LettersLearningHome() {
           </strong>
         </div>
 
-        <button
+        {/* <button
           type="button"
           className="letters-learning-back"
           onClick={handleBack}
         >
           ← Back
-        </button>
+        </button> */}
 
       </header>
 

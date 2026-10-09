@@ -1297,7 +1297,7 @@ export default function CatchWord({ goBack }) {
               "0 0 10px",
 
             color:
-              "#fff",
+              "#173f31",
 
             fontSize:
               "clamp(22px, 3vw, 34px)",
@@ -1309,7 +1309,7 @@ export default function CatchWord({ goBack }) {
               800,
 
             textShadow:
-              "0 3px 0 rgba(50,70,40,.7)",
+              "0 2px 0 rgba(255,255,255,.45)",
           }}
         >
           Catch:{" "}
@@ -1317,7 +1317,10 @@ export default function CatchWord({ goBack }) {
           <strong
             style={{
               color:
-                "#fff1a8",
+                "#173f31",
+
+              textShadow:
+                "none",
             }}
           >
             {target}
@@ -1488,7 +1491,7 @@ export default function CatchWord({ goBack }) {
                   10,
 
                 color:
-                  "#fff7dc",
+                  "#2b1608",
 
                 fontFamily:
                   "'Baloo 2', sans-serif",

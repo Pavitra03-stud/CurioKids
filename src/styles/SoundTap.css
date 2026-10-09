@@ -803,3 +803,243 @@
     padding: 5px 2px !important;
   }
 }
+
+/* =====================================================
+   FINAL RESPONSIVE OVERRIDES
+   Keeps the existing game design and functionality.
+   ===================================================== */
+
+.soundtap-container,
+.soundtap-container * {
+  box-sizing: border-box;
+}
+
+.soundtap-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  padding-left: max(10px, env(safe-area-inset-left));
+  padding-right: max(10px, env(safe-area-inset-right));
+  overflow-x: clip;
+  background-attachment: scroll;
+}
+
+.soundtap-title {
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(28px, 5vw, 60px);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.soundtap-card {
+  width: min(620px, 100%);
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(18px, 4vw, 35px) clamp(12px, 5vw, 38px) 28px;
+}
+
+.soundtap-card > * {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.soundtap-card img,
+.soundtap-card .animal-image {
+  width: min(230px, 70vw) !important;
+  height: clamp(150px, 54vw, 260px) !important;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.soundtap-word {
+  font-size: clamp(28px, 6vw, 42px);
+  overflow-wrap: anywhere;
+}
+
+.soundtap-actions {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.audio-btn,
+.ai-btn,
+.next-btn {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.circle-container {
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(5px, 1.5vw, 14px);
+}
+
+.circle-container .circle {
+  min-width: 0 !important;
+  max-width: 100%;
+  padding: 8px 3px !important;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  font-size: clamp(9px, 1.6vw, 15px) !important;
+}
+
+.feedback {
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.result-title {
+  max-width: 100%;
+  font-size: clamp(28px, 6vw, 48px);
+  overflow-wrap: anywhere;
+}
+
+.result-score {
+  max-width: 100%;
+  font-size: clamp(18px, 4vw, 24px);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .soundtap-container {
+    padding-top: 24px;
+    padding-bottom: 28px;
+    background-attachment: scroll;
+  }
+
+  .soundtap-title {
+    margin-bottom: 18px;
+    font-size: clamp(27px, 7vw, 38px);
+  }
+
+  .soundtap-card {
+    width: 100%;
+    min-height: 0;
+    padding: 24px 14px 26px;
+    border-radius: 22px;
+  }
+
+  .soundtap-card::after {
+    top: 14px;
+    left: 14px;
+    font-size: 24px;
+  }
+
+  .soundtap-card img,
+  .soundtap-card .animal-image {
+    width: min(190px, 62vw) !important;
+    height: clamp(145px, 48vw, 220px) !important;
+    margin-bottom: 12px;
+  }
+
+  .soundtap-word {
+    margin-bottom: 14px;
+    font-size: clamp(28px, 8vw, 36px);
+  }
+
+  .soundtap-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .audio-btn {
+    width: min(145px, 46%);
+    height: 50px;
+    font-size: 14px;
+  }
+
+  .ai-btn {
+    width: min(135px, 46%);
+    height: 50px;
+    font-size: 13px;
+  }
+
+  .circle-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .circle-container .circle {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 8px 5px !important;
+    font-size: 12px !important;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .feedback {
+    min-height: 44px;
+    margin-top: 16px;
+    padding: 9px 10px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .next-btn {
+    width: min(150px, 100%);
+    height: 46px;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+
+  .result-card {
+    min-height: 330px;
+  }
+}
+
+@media (max-width: 380px) {
+  .soundtap-container {
+    padding: 18px 9px 24px;
+  }
+
+  .soundtap-title {
+    font-size: 27px;
+  }
+
+  .soundtap-card {
+    padding: 22px 10px 24px;
+  }
+
+  .soundtap-card img,
+  .soundtap-card .animal-image {
+    width: min(175px, 58vw) !important;
+    height: clamp(135px, 45vw, 195px) !important;
+  }
+
+  .audio-btn {
+    width: 46%;
+    font-size: 12px;
+  }
+
+  .ai-btn {
+    width: 46%;
+    font-size: 12px;
+  }
+
+  .circle-container {
+    gap: 7px;
+  }
+
+  .circle-container .circle {
+    font-size: 11px !important;
+  }
+}
+
+/* Keep touch devices from getting hover-only movement. */
+@media (hover: none) {
+  .audio-btn:hover,
+  .ai-btn:hover,
+  .next-btn:hover,
+  .circle-container .circle:hover {
+    transform: none !important;
+  }
+}

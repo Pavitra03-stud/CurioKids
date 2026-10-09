@@ -77,9 +77,8 @@ const animalData = [
 ];
 
 export default function SoundTap() {
-  const firstVisit = !localStorage.getItem("soundtapLearned");
-
-  const [mode, setMode] = useState(firstVisit ? "learn" : "game");
+  // Always open directly in Match the Sound, including on a fresh Vercel visit.
+  const [mode, setMode] = useState("game");
 
   const [learnIndex, setLearnIndex] = useState(0);
   const [gameIndex, setGameIndex] = useState(0);

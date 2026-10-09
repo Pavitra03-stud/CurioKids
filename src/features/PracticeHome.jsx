@@ -106,7 +106,7 @@ const practiceActivities = [
   //   category: "WORDS",
   //   icon: "❓",
   //   path: "/missing-letter",
-  // },
+  // },z
   {
     title: "Sight Words",
     description: "Practice common words and recognize them quickly.",

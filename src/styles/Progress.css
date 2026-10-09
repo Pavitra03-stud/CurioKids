@@ -2036,3 +2036,288 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   FINAL RESPONSIVE OVERRIDES
+   Layout-only changes. Existing content, colours and logic stay intact.
+   ========================================================= */
+
+.progress-page,
+.progress-page * { box-sizing: border-box; }
+
+.progress-page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.progress-header,
+.progress-stats,
+.progress-grid,
+.progress-grid-clean,
+.progress-footer { min-width: 0; }
+
+.progress-header > *,
+.stat-card > *,
+.progress-card > *,
+.card-heading > *,
+.progress-footer > * { min-width: 0; }
+
+.progress-header-text,
+.stat-content,
+.level-card-content,
+.activity-info {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.progress-header h1,
+.progress-header p,
+.card-heading h2,
+.progress-footer h3,
+.progress-footer p { overflow-wrap: anywhere; }
+
+.progress-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.progress-grid-clean { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.progress-grid-clean > .performance-card,
+.progress-grid-clean > .activity-card {
+  grid-column: auto;
+  grid-row: auto;
+}
+
+.progress-grid-clean > .achievements-card {
+  grid-column: 1 / -1;
+  grid-row: auto;
+  width: min(100%, 900px);
+  justify-self: center;
+}
+
+.performance-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.chart-wrapper,
+.performance-chart { min-width: 0; }
+
+.activity-item { min-width: 0; }
+.activity-score { flex-shrink: 0; }
+
+@media (max-width: 1000px) {
+  .progress-page {
+    padding: 22px 20px 36px;
+    background-attachment: scroll;
+  }
+
+  .progress-header,
+  .progress-stats,
+  .progress-grid,
+  .progress-grid-clean,
+  .progress-footer { width: 100%; }
+
+  .progress-grid-clean { grid-template-columns: minmax(0, 1fr); }
+
+  .progress-grid-clean > .performance-card,
+  .progress-grid-clean > .activity-card,
+  .progress-grid-clean > .achievements-card {
+    grid-column: 1;
+    grid-row: auto;
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .progress-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .stat-card { padding: 18px; gap: 12px; }
+  .progress-card { min-width: 0; }
+}
+
+@media (max-width: 700px) {
+  .progress-page { padding: 14px 12px 28px; }
+
+  .progress-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 14px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+  }
+
+  .progress-back-button {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border-radius: 12px;
+    font-size: 22px;
+  }
+
+  .progress-header-text { flex: 1 1 auto; }
+
+  .progress-header h1 {
+    font-size: clamp(19px, 5.4vw, 25px);
+    line-height: 1.2;
+  }
+
+  .progress-header p { font-size: 11px; line-height: 1.4; }
+  .progress-kicker { font-size: 9px; letter-spacing: 1.2px; }
+
+  .progress-header-avatar {
+    display: flex;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    font-size: 23px;
+  }
+
+  .progress-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    min-height: 92px;
+    padding: 15px;
+    border-radius: 20px;
+    gap: 14px;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 15px;
+    font-size: 25px;
+  }
+
+  .stat-content strong { font-size: 25px; }
+  .stat-label { font-size: 10px; letter-spacing: 1px; }
+  .stat-content small { font-size: 11px; }
+
+  .progress-grid-clean {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .progress-grid-clean > .performance-card,
+  .progress-grid-clean > .activity-card,
+  .progress-grid-clean > .achievements-card {
+    grid-column: 1;
+    grid-row: auto;
+    width: 100%;
+    min-width: 0;
+    padding: 16px 14px;
+    border-radius: 20px;
+  }
+
+  .card-heading { gap: 10px; margin-bottom: 17px; }
+
+  .card-heading-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    font-size: 22px;
+  }
+
+  .card-heading h2 {
+    font-size: clamp(18px, 5vw, 21px);
+    line-height: 1.2;
+  }
+
+  .card-heading span { font-size: 9px; letter-spacing: 1px; }
+
+  .performance-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .performance-summary > div { padding: 10px; min-width: 0; }
+  .performance-summary span { font-size: 9px; letter-spacing: 0.4px; }
+  .performance-summary strong { font-size: 21px; }
+
+  .chart-wrapper { height: 250px; overflow: hidden; }
+
+  .performance-chart { padding-left: 27px; padding-bottom: 38px; }
+  .chart-grid-line { left: 27px; }
+  .chart-grid-line span { left: -25px; font-size: 8px; }
+  .chart-bars { left: 34px; gap: 3px; }
+  .chart-column { min-width: 0; }
+  .performance-bar { width: min(18px, 75%); }
+  .bar-value { font-size: 8px; }
+  .bar-date { bottom: -25px; font-size: 7px; }
+
+  .activity-list { max-height: 360px; gap: 8px; }
+  .activity-item { gap: 8px; padding: 9px; border-radius: 14px; }
+
+  .activity-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    font-size: 17px;
+    border-radius: 10px;
+  }
+
+  .activity-info strong { font-size: 11px; }
+  .activity-info span { font-size: 9px; }
+  .activity-score strong { font-size: 11px; }
+  .activity-score span { font-size: 10px; }
+
+  .achievement-summary { gap: 10px; padding: 12px; margin-bottom: 16px; }
+
+  .achievement-big {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    font-size: 25px;
+  }
+
+  .achievement-summary strong { font-size: 24px; }
+  .badge-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+
+  .achievement-badge {
+    min-width: 0;
+    border-radius: 12px;
+    font-size: 20px;
+  }
+
+  .achievement-message { font-size: 11px; }
+
+  .progress-footer {
+    padding: 14px;
+    gap: 10px;
+    margin-top: 16px;
+    border-radius: 18px;
+  }
+
+  .footer-mascot {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    font-size: 22px;
+    border-radius: 13px;
+  }
+
+  .progress-footer h3 { font-size: 12px; line-height: 1.35; }
+  .progress-footer p { font-size: 10px; line-height: 1.4; }
+  .progress-decoration { display: none; }
+}
+
+@media (max-width: 380px) {
+  .progress-page { padding-right: 9px; padding-left: 9px; }
+  .progress-header { gap: 8px; padding: 13px 10px; }
+  .progress-header-avatar { display: none; }
+  .progress-header h1 { font-size: 19px; }
+  .progress-card { padding: 13px 11px; }
+  .performance-summary > div { padding: 9px 8px; }
+  .activity-item { gap: 6px; padding: 8px 7px; }
+  .activity-info strong { max-width: 115px; }
+  .badge-grid { gap: 5px; }
+  .achievement-badge { font-size: 18px; border-radius: 10px; }
+  .progress-footer { align-items: flex-start; }
+}

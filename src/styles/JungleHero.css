@@ -1327,3 +1327,434 @@
     ),
     url("../assets/gamesHome.png") center top / cover fixed no-repeat;
 }
+/* =========================================================
+   FINAL FIX: RESPONSIVE LAYOUT + NO INFO-CARD HOVER CHANGE
+   Keeps existing content, colours, and application logic.
+   ========================================================= */
+
+/* Cards must look the same whether the pointer is over them or not. */
+.jungle-hero-page .info-card,
+.jungle-hero-page .info-card:hover,
+.jungle-hero-page .info-card:focus,
+.jungle-hero-page .info-card:focus-within,
+.jungle-hero-page .info-card:active {
+  background: rgba(20, 61, 43, 0.82) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(216, 243, 184, 0.7) !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18) !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+.jungle-hero-page .info-card h3,
+.jungle-hero-page .info-card:hover h3,
+.jungle-hero-page .info-card p,
+.jungle-hero-page .info-card:hover p {
+  color: #fff8df !important;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.45) !important;
+}
+
+.jungle-hero-page .info-card p,
+.jungle-hero-page .info-card:hover p {
+  color: rgba(255, 255, 255, 0.96) !important;
+}
+
+/* Desktop: show the three dyslexia information cards in one aligned row. */
+@media (min-width: 1001px) {
+  .jungle-hero-page .info-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .jungle-hero-page .info-card {
+    min-width: 0;
+    height: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Tablets and small laptops. */
+@media (min-width: 621px) and (max-width: 1000px) {
+  .jungle-hero-page .hero-content-wrapper {
+    width: min(100% - 32px, 900px);
+  }
+
+  .jungle-hero-page .info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px;
+  }
+
+  .jungle-hero-page .info-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .jungle-hero-page .hero-section {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: 24px;
+  }
+}
+
+/* Phones: prevent horizontal overflow and stack content cleanly. */
+@media (max-width: 620px) {
+  .jungle-hero-page {
+    min-height: 100vh;
+    background-attachment: scroll !important;
+  }
+
+  .jungle-hero-page .hero-navbar {
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 14px;
+  }
+
+  .jungle-hero-page .hero-content-wrapper {
+    width: calc(100% - 24px);
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 16px 0 32px;
+  }
+
+  .jungle-hero-page .hero-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    min-height: 0;
+    padding: 26px 16px;
+    border-radius: 22px;
+  }
+
+  .jungle-hero-page .hero-content,
+  .jungle-hero-page .hero-friend {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .jungle-hero-page .hero-content h1 {
+    overflow-wrap: anywhere;
+    line-height: 1.05;
+  }
+
+  .jungle-hero-page .hero-content p,
+  .jungle-hero-page .intro,
+  .jungle-hero-page .info-card p,
+  .jungle-hero-page .step-card p,
+  .jungle-hero-page .motivation-box p {
+    overflow-wrap: anywhere;
+  }
+
+  .jungle-hero-page .hero-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .jungle-hero-page .hero-btn {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .jungle-hero-page .hero-friend {
+    min-height: 0;
+    padding: 22px 16px;
+  }
+
+  .jungle-hero-page .info-grid,
+  .jungle-hero-page .steps,
+  .jungle-hero-page .footer-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .jungle-hero-page .info-card:last-child {
+    grid-column: auto;
+  }
+
+  .jungle-hero-page .dyslexia-section,
+  .jungle-hero-page .how-section {
+    margin-top: 20px;
+    padding: 24px 14px;
+    border-radius: 20px;
+  }
+
+  .jungle-hero-page .info-card,
+  .jungle-hero-page .step-card {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .jungle-hero-page .hero-footer {
+    padding: 28px 16px 18px;
+    border-radius: 22px 22px 0 0;
+  }
+}
+
+/* Reduce motion for people who request it, without affecting layout. */
+@media (prefers-reduced-motion: reduce) {
+  .jungle-hero-page *,
+  .jungle-hero-page *::before,
+  .jungle-hero-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   FINAL RESPONSIVE OVERRIDES
+   Fix narrow phone layout without changing content or logic.
+   ========================================================= */
+.jungle-hero-page,
+.jungle-hero-page * {
+  box-sizing: border-box;
+}
+
+.jungle-hero-page {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.jungle-hero-page .hero-content-wrapper {
+  width: min(1180px, calc(100% - 32px));
+  max-width: 100%;
+}
+
+.jungle-hero-page .hero-section {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
+  align-items: center;
+  gap: clamp(18px, 3vw, 36px);
+}
+
+.jungle-hero-page .hero-content,
+.jungle-hero-page .hero-friend {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.jungle-hero-page .hero-content h1 {
+  max-width: 100%;
+  font-size: clamp(2.4rem, 5.5vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.jungle-hero-page .hero-content h1 span {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.jungle-hero-page .hero-content p,
+.jungle-hero-page .intro,
+.jungle-hero-page .info-card p,
+.jungle-hero-page .step-card p,
+.jungle-hero-page .motivation-box p,
+.jungle-hero-page .footer-grid p,
+.jungle-hero-page .footer-grid li {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.jungle-hero-page .hero-friend img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.jungle-hero-page .info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.jungle-hero-page .info-card,
+.jungle-hero-page .step-card {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 1000px) {
+  .jungle-hero-page .hero-section {
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 0.75fr);
+    padding: clamp(24px, 4vw, 42px);
+  }
+
+  .jungle-hero-page .hero-content h1 {
+    font-size: clamp(2.2rem, 5.2vw, 3.8rem);
+  }
+}
+
+@media (max-width: 700px) {
+  .jungle-hero-page {
+    background-attachment: scroll !important;
+  }
+
+  .jungle-hero-page .hero-navbar {
+    height: auto;
+    min-height: 62px;
+    padding: 12px 16px;
+  }
+
+  .jungle-hero-page .navbar-title {
+    font-size: clamp(1.2rem, 5vw, 1.65rem);
+  }
+
+  .jungle-hero-page .hero-content-wrapper {
+    width: calc(100% - 24px);
+    padding: 16px 0 30px;
+  }
+
+  .jungle-hero-page .hero-section {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 24px;
+    min-height: 0;
+    padding: 26px 18px;
+    border-radius: 24px;
+  }
+
+  .jungle-hero-page .hero-content {
+    width: 100%;
+    padding: 0;
+    text-align: center;
+  }
+
+  .jungle-hero-page .hero-badge {
+    max-width: 100%;
+    white-space: normal;
+    justify-content: center;
+    margin-bottom: 18px;
+    font-size: 0.88rem;
+  }
+
+  .jungle-hero-page .hero-content h1 {
+    width: 100%;
+    margin-inline: auto;
+    font-size: clamp(2.15rem, 9.5vw, 3.3rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .jungle-hero-page .hero-content h1 br {
+    display: none;
+  }
+
+  .jungle-hero-page .hero-content h1 span {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .jungle-hero-page .hero-content p {
+    max-width: 38rem;
+    margin: 18px auto 0;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .jungle-hero-page .hero-buttons {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .jungle-hero-page .hero-btn {
+    width: 100%;
+    min-width: 0;
+    padding: 14px 18px;
+  }
+
+  .jungle-hero-page .hero-friend {
+    width: 100%;
+    min-height: 0;
+    padding: 24px 16px;
+  }
+
+  .jungle-hero-page .hero-friend img {
+    width: min(220px, 72%);
+    max-height: 220px;
+  }
+
+  .jungle-hero-page .dyslexia-section,
+  .jungle-hero-page .how-section {
+    margin-top: 22px;
+    padding: 25px 16px;
+    border-radius: 22px;
+  }
+
+  .jungle-hero-page .dyslexia-section h2,
+  .jungle-hero-page .how-section h2 {
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+    line-height: 1.15;
+  }
+
+  .jungle-hero-page .intro {
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .jungle-hero-page .info-grid,
+  .jungle-hero-page .steps,
+  .jungle-hero-page .footer-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px;
+  }
+
+  .jungle-hero-page .info-card {
+    min-height: 0;
+    padding: 22px 18px;
+  }
+
+  .jungle-hero-page .step-card {
+    padding: 22px 16px;
+  }
+
+  .jungle-hero-page .motivation-box {
+    padding: 22px 16px;
+  }
+
+  .jungle-hero-page .hero-footer {
+    margin-top: 24px;
+    padding: 28px 18px 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .jungle-hero-page .hero-content-wrapper {
+    width: calc(100% - 16px);
+  }
+
+  .jungle-hero-page .hero-section {
+    padding: 22px 13px;
+  }
+
+  .jungle-hero-page .hero-content h1 {
+    font-size: clamp(1.95rem, 9vw, 2.5rem);
+  }
+
+  .jungle-hero-page .hero-badge {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+  }
+
+  .jungle-hero-page .dyslexia-section,
+  .jungle-hero-page .how-section {
+    padding: 22px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jungle-hero-page .hero-friend img {
+    animation: none !important;
+  }
+}

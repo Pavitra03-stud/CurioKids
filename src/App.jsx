@@ -9,7 +9,8 @@ import ParentRegister from "./features/ParentRegister";
 
 /* 🔐 Auth */
 import Login from "./features/Login";
-import OtpVerify from "./features/OtpVerify";
+//import OtpVerify from "./features/OtpVerify";
+import ForgotPassword from "./features/ForgotPassword";
 
 /* 🐾 Onboarding */
 import ChooseFriend from "./features/ChooseFriend";
@@ -124,9 +125,10 @@ export default function App() {
         {/* 🌱 Entry */}
         <Route path="/" element={<PublicHome />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/child-register" element={<ChildRegister />} />
         <Route path="/parent-register" element={<ParentRegister />} />
-        <Route path="/otp" element={<OtpVerify />} />
+        {/* <Route path="/otp" element={<OtpVerify />} /> */}
 
         {/* 🐾 Onboarding */}
         <Route path="/choose-friend" element={<ChooseFriend />} />

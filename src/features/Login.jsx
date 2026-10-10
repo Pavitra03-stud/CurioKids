@@ -587,28 +587,446 @@
 
 
 
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import {
+//   signInWithEmailAndPassword,
+//   getIdTokenResult,
+//   signOut,
+// } from "firebase/auth";
+// import {
+//   doc,
+//   getDoc,
+//   setDoc,
+// } from "firebase/firestore";
+
+// import { auth, db } from "../firebase";
+// import "../styles/Auth.css";
+
+// export default function Login() {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState("");
+//   const [loading, setLoading] = useState(false);
+
+//   const navigate = useNavigate();
+
+//   const handleLogin = async (event) => {
+//     event.preventDefault();
+//     setError("");
+
+//     const cleanEmail = email.trim().toLowerCase();
+
+//     if (!cleanEmail || !password) {
+//       setError("Please enter your email and password 🌱");
+//       return;
+//     }
+
+//     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+//       setError("Please enter a valid email address 📧");
+//       return;
+//     }
+
+//     setLoading(true);
+
+//     try {
+//       // 1. Authenticate with Firebase.
+//       const credential = await signInWithEmailAndPassword(
+//         auth,
+//         cleanEmail,
+//         password
+//       );
+
+//       const user = credential.user;
+
+//       // 2. Preserve administrator access.
+//       const tokenResult = await getIdTokenResult(user, true);
+
+//       localStorage.setItem("userId", user.uid);
+//       localStorage.setItem("loginEmail", user.email || cleanEmail);
+
+//       if (tokenResult.claims.admin === true) {
+//         navigate("/admin", { replace: true });
+//         return;
+//       }
+
+//       // 3. Read the profile belonging to this authenticated UID.
+//       const userRef = doc(db, "users", user.uid);
+//       const userSnap = await getDoc(userRef);
+
+//       if (!userSnap.exists()) {
+//         setError(
+//           "Your login succeeded, but no profile was found for this account. Please contact support so we can recover your existing profile safely."
+//         );
+//         await signOut(auth);
+//         return;
+//       }
+
+//       const userData = userSnap.data();
+
+//       // 4. Update login metadata without deleting saved fields.
+//       await setDoc(
+//         userRef,
+//         {
+//           uid: user.uid,
+//           email: user.email || cleanEmail,
+//           lastLogin: new Date().toISOString(),
+//         },
+//         { merge: true }
+//       );
+
+//       // 5. Read saved profile information.
+//       // Some older profiles may also have child details at the top level.
+//       const savedChild =
+//         userData.childProfile ||
+//         (userData.childName || userData.age
+//           ? {
+//               name: userData.childName || userData.name || "",
+//               age: userData.age || "",
+//             }
+//           : null);
+
+//       const cachedChild = (() => {
+//         try {
+//           return JSON.parse(
+//             localStorage.getItem("childProfile") || "null"
+//           );
+//         } catch {
+//           return null;
+//         }
+//       })();
+
+//       const childProfile = savedChild || cachedChild;
+//       const jungleFriend =
+//         userData.jungleFriend ||
+//         (() => {
+//           try {
+//             return JSON.parse(
+//               localStorage.getItem("jungleFriend") || "null"
+//             );
+//           } catch {
+//             return null;
+//           }
+//         })();
+
+//       // 6. Refresh local caches from the available profile.
+//       if (userData.parentProfile) {
+//         localStorage.setItem(
+//           "parentProfile",
+//           JSON.stringify(userData.parentProfile)
+//         );
+
+//         if (userData.parentProfile.parentName) {
+//           localStorage.setItem(
+//             "userName",
+//             userData.parentProfile.parentName
+//           );
+//         }
+//       }
+
+//       if (childProfile) {
+//         localStorage.setItem(
+//           "childProfile",
+//           JSON.stringify(childProfile)
+//         );
+//       }
+
+//       if (jungleFriend) {
+//         localStorage.setItem(
+//           "jungleFriend",
+//           JSON.stringify(jungleFriend)
+//         );
+//       }
+
+//       // 7. Initialize progress only when it does not exist.
+//       // Never reset existing stars, streaks, history, or game results.
+//       const progressRef = doc(db, "progress", user.uid);
+//       const progressSnap = await getDoc(progressRef);
+
+//       if (!progressSnap.exists()) {
+//         await setDoc(progressRef, {
+//           userId: user.uid,
+//           stars: 0,
+//           streak: 0,
+//           history: [],
+//           activeGames: {},
+//         });
+//       }
+
+//       // 8. Decide where to navigate.
+//       const hasChildProfile = Boolean(
+//         childProfile?.name &&
+//         childProfile?.age !== undefined &&
+//         childProfile?.age !== null &&
+//         String(childProfile.age).trim() !== ""
+//       );
+
+//       const hasJungleFriend = Boolean(
+//         jungleFriend?.name ||
+//         (typeof jungleFriend === "string" && jungleFriend.trim())
+//       );
+
+//       if (hasChildProfile && hasJungleFriend) {
+//         localStorage.setItem("appProgress", "friend-chosen");
+//         navigate("/jungle-hero", { replace: true });
+//       } else if (hasChildProfile) {
+//         localStorage.setItem("appProgress", "child-created");
+//         navigate("/choose-friend", { replace: true });
+//       } else {
+//         // Do not silently overwrite the existing Firestore profile.
+//         setError(
+//           "Your account is signed in, but the child profile could not be identified. Please contact support to recover it."
+//         );
+//         await signOut(auth);
+//       }
+//     } catch (err) {
+//       console.error("CurioKids login error:", err.code, err.message);
+
+//       switch (err.code) {
+//         case "auth/invalid-email":
+//           setError("Please enter a valid email address 📧");
+//           break;
+
+//         case "auth/invalid-credential":
+//         case "auth/wrong-password":
+//         case "auth/user-not-found":
+//           setError("Incorrect email or password. Please try again.");
+//           break;
+
+//         case "auth/user-disabled":
+//           setError("This account has been disabled. Please contact support.");
+//           break;
+
+//         case "auth/too-many-requests":
+//           setError("Too many unsuccessful attempts. Please wait and try again.");
+//           break;
+
+//         case "auth/network-request-failed":
+//           setError("Network error. Please check your internet connection.");
+//           break;
+
+//         case "auth/operation-not-allowed":
+//           setError("Email/password login is not enabled in Firebase.");
+//           break;
+
+//         case "permission-denied":
+//         case "firestore/permission-denied":
+//           setError("Unable to access your profile. Please check account permissions.");
+//           break;
+
+//         default:
+//           setError(
+//             "Unable to complete login. Please try again. If this continues, check the browser console."
+//           );
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="login-page">
+//       <div className="login-overlay"></div>
+
+//       <header className="login-brand">
+//         <div className="brand-title">
+//           <span className="brand-curio">Curio</span>
+//           <span className="brand-kids">Kids</span>
+//           <span className="brand-sprout">🌱</span>
+//         </div>
+//         <div className="brand-tagline">
+//           Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow
+//         </div>
+//       </header>
+
+//       <div className="login-leaf leaf-one">🍃</div>
+//       <div className="login-leaf leaf-two">🌿</div>
+//       <div className="login-leaf leaf-three">🍃</div>
+//       <div className="login-butterfly">🦋</div>
+//       <div className="login-flower flower-one">🌺</div>
+//       <div className="login-flower flower-two">🌸</div>
+
+//       <main className="login-content">
+//         <div className="login-card">
+//           <div className="login-lock">
+//             <span className="lock-sprout">🌱</span>
+//             <span className="lock">🔒</span>
+//           </div>
+
+//           <h1>Welcome Back</h1>
+//           <p className="login-subtitle">
+//             Let's continue your learning adventure!
+//           </p>
+
+//           <form onSubmit={handleLogin}>
+//             <div className="login-input-wrapper">
+//               <span className="email-icon">✉️</span>
+//               <input
+//                 type="email"
+//                 placeholder="Enter your email"
+//                 value={email}
+//                 onChange={(event) => {
+//                   setEmail(event.target.value);
+//                   setError("");
+//                 }}
+//                 disabled={loading}
+//                 autoComplete="email"
+//                 required
+//               />
+//             </div>
+
+//             <div className="login-input-wrapper">
+//               <span className="email-icon">🔑</span>
+//               <input
+//                 type="password"
+//                 placeholder="Enter your password"
+//                 value={password}
+//                 onChange={(event) => {
+//                   setPassword(event.target.value);
+//                   setError("");
+//                 }}
+//                 disabled={loading}
+//                 autoComplete="current-password"
+//                 required
+//               />
+//             </div>
+
+//             {error && (
+//               <p className="login-error" role="alert">
+//                 {error}
+//               </p>
+//             )}
+
+//             <button
+//               className="send-otp-btn"
+//               type="submit"
+//               disabled={loading}
+//             >
+//               <span>🌿</span>
+//               {loading ? "Entering the jungle..." : "Enter the Jungle"}
+//             </button>
+//           </form>
+
+//           <p className="register-text">
+//             New here?{" "}
+//             <span
+//               onClick={() => !loading && navigate("/child-register")}
+//               role="button"
+//               tabIndex={0}
+//               onKeyDown={(event) => {
+//                 if (
+//                   !loading &&
+//                   (event.key === "Enter" || event.key === " ")
+//                 ) {
+//                   navigate("/child-register");
+//                 }
+//               }}
+//             >
+//               Register 🌱
+//             </span>
+//           </p>
+
+//           <p className="register-text">
+//             Forgot your password?{" "}
+//             <span
+//               onClick={() => !loading && navigate("/forgot-password")}
+//               role="button"
+//               tabIndex={0}
+//               onKeyDown={(event) => {
+//                 if (
+//                   !loading &&
+//                   (event.key === "Enter" || event.key === " ")
+//                 ) {
+//                   navigate("/forgot-password");
+//                 }
+//               }}
+//             >
+//               Reset it
+//             </span>
+//           </p>
+
+//           <div className="privacy-note">
+//             🔐 Your learning space is safe and private
+//           </div>
+//         </div>
+//       </main>
+
+//       <button
+//         className="login-chatbot"
+//         type="button"
+//         aria-label="CurioKids assistant"
+//       >
+//         🤖
+//       </button>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
   getIdTokenResult,
-  signOut,
 } from "firebase/auth";
-import {
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
-
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import "../styles/Auth.css";
+
+const firstNonEmpty = (...values) => {
+  for (const value of values) {
+    if (value !== undefined && value !== null && String(value).trim() !== "") {
+      return value;
+    }
+  }
+  return "";
+};
+
+// Normalize profile shapes used by current and older CurioKids documents.
+const normalizeChildProfile = (userData) => {
+  const nested = userData?.childProfile;
+  const source = nested && typeof nested === "object" && !Array.isArray(nested)
+    ? nested
+    : {};
+
+  const name = firstNonEmpty(
+    source.name,
+    source.childName,
+    userData?.childName,
+    userData?.name
+  );
+  const age = firstNonEmpty(
+    source.age,
+    source.childAge,
+    userData?.childAge,
+    userData?.age
+  );
+
+  if (!name || age === "") return null;
+  return { ...source, name: String(name).trim(), age };
+};
+
+const normalizeJungleFriend = (value) => {
+  if (typeof value === "string") {
+    const name = value.trim();
+    return name ? { name } : null;
+  }
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    const name = firstNonEmpty(value.name, value.friendName, value.title);
+    return name ? { ...value, name: String(name).trim() } : null;
+  }
+  return null;
+};
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
@@ -616,133 +1034,70 @@ export default function Login() {
     setError("");
 
     const cleanEmail = email.trim().toLowerCase();
-
     if (!cleanEmail || !password) {
       setError("Please enter your email and password 🌱");
       return;
     }
-
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
       setError("Please enter a valid email address 📧");
       return;
     }
 
     setLoading(true);
-
     try {
-      // 1. Authenticate with Firebase.
-      const credential = await signInWithEmailAndPassword(
-        auth,
-        cleanEmail,
-        password
-      );
-
+      const credential = await signInWithEmailAndPassword(auth, cleanEmail, password);
       const user = credential.user;
-
-      // 2. Preserve administrator access.
       const tokenResult = await getIdTokenResult(user, true);
 
       localStorage.setItem("userId", user.uid);
       localStorage.setItem("loginEmail", user.email || cleanEmail);
 
+      // Admin accounts go straight to the protected dashboard.
       if (tokenResult.claims.admin === true) {
         navigate("/admin", { replace: true });
         return;
       }
 
-      // 3. Read the profile belonging to this authenticated UID.
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
+      const userData = userSnap.exists() ? userSnap.data() : {};
 
-      if (!userSnap.exists()) {
-        setError(
-          "Your login succeeded, but no profile was found for this account. Please contact support so we can recover your existing profile safely."
-        );
-        await signOut(auth);
-        return;
-      }
+      // Support legacy field names without replacing or deleting existing fields.
+      const childProfile = normalizeChildProfile(userData);
+      const jungleFriend = normalizeJungleFriend(userData.jungleFriend);
+      const parentProfile =
+        userData.parentProfile && typeof userData.parentProfile === "object"
+          ? userData.parentProfile
+          : userData.parentName
+            ? { parentName: userData.parentName }
+            : null;
 
-      const userData = userSnap.data();
+      // Keep any existing document fields intact. If the document was missing,
+      // create only a minimal account record and send the user to profile setup.
+      const userPatch = {
+        uid: user.uid,
+        email: user.email || cleanEmail,
+        lastLogin: new Date().toISOString(),
+      };
+      if (childProfile && !userData.childProfile) userPatch.childProfile = childProfile;
+      if (parentProfile && !userData.parentProfile) userPatch.parentProfile = parentProfile;
+      if (jungleFriend && !userData.jungleFriend) userPatch.jungleFriend = jungleFriend;
+      await setDoc(userRef, userPatch, { merge: true });
 
-      // 4. Update login metadata without deleting saved fields.
-      await setDoc(
-        userRef,
-        {
-          uid: user.uid,
-          email: user.email || cleanEmail,
-          lastLogin: new Date().toISOString(),
-        },
-        { merge: true }
-      );
-
-      // 5. Read saved profile information.
-      // Some older profiles may also have child details at the top level.
-      const savedChild =
-        userData.childProfile ||
-        (userData.childName || userData.age
-          ? {
-              name: userData.childName || userData.name || "",
-              age: userData.age || "",
-            }
-          : null);
-
-      const cachedChild = (() => {
-        try {
-          return JSON.parse(
-            localStorage.getItem("childProfile") || "null"
-          );
-        } catch {
-          return null;
-        }
-      })();
-
-      const childProfile = savedChild || cachedChild;
-      const jungleFriend =
-        userData.jungleFriend ||
-        (() => {
-          try {
-            return JSON.parse(
-              localStorage.getItem("jungleFriend") || "null"
-            );
-          } catch {
-            return null;
-          }
-        })();
-
-      // 6. Refresh local caches from the available profile.
-      if (userData.parentProfile) {
-        localStorage.setItem(
-          "parentProfile",
-          JSON.stringify(userData.parentProfile)
-        );
-
-        if (userData.parentProfile.parentName) {
-          localStorage.setItem(
-            "userName",
-            userData.parentProfile.parentName
-          );
+      if (parentProfile) {
+        localStorage.setItem("parentProfile", JSON.stringify(parentProfile));
+        if (parentProfile.parentName) {
+          localStorage.setItem("userName", String(parentProfile.parentName));
         }
       }
+      if (childProfile) localStorage.setItem("childProfile", JSON.stringify(childProfile));
+      else localStorage.removeItem("childProfile");
+      if (jungleFriend) localStorage.setItem("jungleFriend", JSON.stringify(jungleFriend));
+      else localStorage.removeItem("jungleFriend");
 
-      if (childProfile) {
-        localStorage.setItem(
-          "childProfile",
-          JSON.stringify(childProfile)
-        );
-      }
-
-      if (jungleFriend) {
-        localStorage.setItem(
-          "jungleFriend",
-          JSON.stringify(jungleFriend)
-        );
-      }
-
-      // 7. Initialize progress only when it does not exist.
-      // Never reset existing stars, streaks, history, or game results.
+      // Never overwrite existing progress. Create defaults only when no progress doc exists.
       const progressRef = doc(db, "progress", user.uid);
       const progressSnap = await getDoc(progressRef);
-
       if (!progressSnap.exists()) {
         await setDoc(progressRef, {
           userId: user.uid,
@@ -753,71 +1108,47 @@ export default function Login() {
         });
       }
 
-      // 8. Decide where to navigate.
-      const hasChildProfile = Boolean(
-        childProfile?.name &&
-        childProfile?.age !== undefined &&
-        childProfile?.age !== null &&
-        String(childProfile.age).trim() !== ""
-      );
-
-      const hasJungleFriend = Boolean(
-        jungleFriend?.name ||
-        (typeof jungleFriend === "string" && jungleFriend.trim())
-      );
-
-      if (hasChildProfile && hasJungleFriend) {
+      if (childProfile && jungleFriend) {
         localStorage.setItem("appProgress", "friend-chosen");
         navigate("/jungle-hero", { replace: true });
-      } else if (hasChildProfile) {
+      } else if (childProfile) {
         localStorage.setItem("appProgress", "child-created");
         navigate("/choose-friend", { replace: true });
       } else {
-        // Do not silently overwrite the existing Firestore profile.
-        setError(
-          "Your account is signed in, but the child profile could not be identified. Please contact support to recover it."
-        );
-        await signOut(auth);
+        // Stay signed in: do not force existing users to authenticate again.
+        // The profile setup route can collect missing child details safely.
+        localStorage.setItem("appProgress", "profile-needed");
+        navigate("/child-register", { replace: true, state: { profileRecovery: true } });
       }
     } catch (err) {
       console.error("CurioKids login error:", err.code, err.message);
-
       switch (err.code) {
         case "auth/invalid-email":
           setError("Please enter a valid email address 📧");
           break;
-
         case "auth/invalid-credential":
         case "auth/wrong-password":
         case "auth/user-not-found":
           setError("Incorrect email or password. Please try again.");
           break;
-
         case "auth/user-disabled":
           setError("This account has been disabled. Please contact support.");
           break;
-
         case "auth/too-many-requests":
           setError("Too many unsuccessful attempts. Please wait and try again.");
           break;
-
         case "auth/network-request-failed":
           setError("Network error. Please check your internet connection.");
           break;
-
         case "auth/operation-not-allowed":
           setError("Email/password login is not enabled in Firebase.");
           break;
-
         case "permission-denied":
         case "firestore/permission-denied":
-          setError("Unable to access your profile. Please check account permissions.");
+          setError("Unable to access your profile. Please check your account permissions.");
           break;
-
         default:
-          setError(
-            "Unable to complete login. Please try again. If this continues, check the browser console."
-          );
+          setError("We couldn't finish signing you in. Please try again. If this continues, check the browser console.");
       }
     } finally {
       setLoading(false);
@@ -834,9 +1165,7 @@ export default function Login() {
           <span className="brand-kids">Kids</span>
           <span className="brand-sprout">🌱</span>
         </div>
-        <div className="brand-tagline">
-          Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow
-        </div>
+        <div className="brand-tagline">Play&nbsp; • &nbsp;Learn&nbsp; • &nbsp;Grow</div>
       </header>
 
       <div className="login-leaf leaf-one">🍃</div>
@@ -852,11 +1181,8 @@ export default function Login() {
             <span className="lock-sprout">🌱</span>
             <span className="lock">🔒</span>
           </div>
-
           <h1>Welcome Back</h1>
-          <p className="login-subtitle">
-            Let's continue your learning adventure!
-          </p>
+          <p className="login-subtitle">Let's continue your learning adventure!</p>
 
           <form onSubmit={handleLogin}>
             <div className="login-input-wrapper">
@@ -865,43 +1191,28 @@ export default function Login() {
                 type="email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                  setError("");
-                }}
+                onChange={(event) => { setEmail(event.target.value); setError(""); }}
                 disabled={loading}
                 autoComplete="email"
                 required
               />
             </div>
-
             <div className="login-input-wrapper">
               <span className="email-icon">🔑</span>
               <input
                 type="password"
                 placeholder="Enter your password"
                 value={password}
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                  setError("");
-                }}
+                onChange={(event) => { setPassword(event.target.value); setError(""); }}
                 disabled={loading}
                 autoComplete="current-password"
                 required
               />
             </div>
 
-            {error && (
-              <p className="login-error" role="alert">
-                {error}
-              </p>
-            )}
+            {error && <p className="login-error" role="alert">{error}</p>}
 
-            <button
-              className="send-otp-btn"
-              type="submit"
-              disabled={loading}
-            >
+            <button className="send-otp-btn" type="submit" disabled={loading}>
               <span>🌿</span>
               {loading ? "Entering the jungle..." : "Enter the Jungle"}
             </button>
@@ -909,55 +1220,21 @@ export default function Login() {
 
           <p className="register-text">
             New here?{" "}
-            <span
-              onClick={() => !loading && navigate("/child-register")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(event) => {
-                if (
-                  !loading &&
-                  (event.key === "Enter" || event.key === " ")
-                ) {
-                  navigate("/child-register");
-                }
-              }}
-            >
-              Register 🌱
-            </span>
+            <span role="button" tabIndex={0} onClick={() => !loading && navigate("/child-register")} onKeyDown={(event) => {
+              if (!loading && (event.key === "Enter" || event.key === " ")) navigate("/child-register");
+            }}>Register 🌱</span>
           </p>
-
           <p className="register-text">
             Forgot your password?{" "}
-            <span
-              onClick={() => !loading && navigate("/forgot-password")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(event) => {
-                if (
-                  !loading &&
-                  (event.key === "Enter" || event.key === " ")
-                ) {
-                  navigate("/forgot-password");
-                }
-              }}
-            >
-              Reset it
-            </span>
+            <span role="button" tabIndex={0} onClick={() => !loading && navigate("/forgot-password")} onKeyDown={(event) => {
+              if (!loading && (event.key === "Enter" || event.key === " ")) navigate("/forgot-password");
+            }}>Reset it</span>
           </p>
-
-          <div className="privacy-note">
-            🔐 Your learning space is safe and private
-          </div>
+          <div className="privacy-note">🔐 Your learning space is safe and private</div>
         </div>
       </main>
 
-      <button
-        className="login-chatbot"
-        type="button"
-        aria-label="CurioKids assistant"
-      >
-        🤖
-      </button>
+      <button className="login-chatbot" type="button" aria-label="CurioKids assistant">🤖</button>
     </div>
   );
 }

@@ -53,10 +53,10 @@ export default function KidsHome() {
 
           setUserName(
             childProfile.name ||
-              data.name ||
-              data.displayName ||
-              data.username ||
-              "Pavii"
+            data.name ||
+            data.displayName ||
+            data.username ||
+            "Pavii"
           );
         }
       } catch (error) {
@@ -327,7 +327,7 @@ export default function KidsHome() {
                   👤 My Profile
                 </button>
 
-                
+
 
                 <button
                   type="button"
@@ -370,13 +370,30 @@ export default function KidsHome() {
               to Learn and
               <span>Play</span>
               <br />
-              
+
             </h1>
+            <div className="hero-tagline">
+              <span className="hero-tagline-kicker">
+                ✨ YOUR NEXT ADVENTURE STARTS HERE
+              </span>
 
-            
+              <h2>
+                A World of <span>Wonder Awaits You</span>
+              </h2>
 
-          
+              <p>
+                Explore, discover, and grow — one little
+                adventure at a time. 🌱
+              </p>
 
+              <div className="hero-fireflies" aria-hidden="true">
+                <span>✦</span>
+                <span>✧</span>
+                <span>✦</span>
+                <span>✧</span>
+                <span>✦</span>
+              </div>
+            </div>
           </div>
 
         </section>

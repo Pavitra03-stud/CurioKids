@@ -820,84 +820,42 @@ export default function JungleHero() {
     logVisit();
   }, []);
 
-  // =========================================================
   // 🌐 BROWSER BACK BEHAVIOUR
-  //
-  // When the user reaches the main CurioKids experience,
-  // browser Back should leave CurioKids instead of going
-  // backwards through:
-  //
-  // Friend Intro
-  // Choose Friend
-  // OTP
-  // Register
-  // Login
-  //
-  // The actual previous external page is used when available.
-  // Google is used as the fallback.
-  // =========================================================
+  useEffect(() => {
+    // Add a history boundary when Jungle Hero opens.
+    window.history.pushState(
+      { curioKidsBoundary: true },
+      "",
+      window.location.href
+    );
 
-  // useEffect(() => {
-  //   // Create a history boundary specifically for Jungle Hero.
-  //   //
-  //   // Browser Back will trigger popstate from this boundary.
-  //   window.history.pushState(
-  //     {
-  //       curioKidsBoundary: true,
-  //     },
-  //     "",
-  //     window.location.href
-  //   );
+    const handleBrowserBack = () => {
+      // Return to the external page when available.
+      let externalPage = "https://www.google.com/";
 
-  //   let handlingBack = false;
+      try {
+        if (document.referrer) {
+          const referrer = new URL(document.referrer);
 
-  //   const handleBrowserBack = () => {
-  //     // Prevent repeated handling.
-  //     if (handlingBack) {
-  //       return;
-  //     }
+          if (referrer.hostname !== window.location.hostname) {
+            externalPage = referrer.href;
+          }
+        }
+      } catch (error) {
+        console.warn("Could not determine the previous page.", error);
+      }
 
-  //     handlingBack = true;
+      // Leave CurioKids without keeping Jungle Hero
+      // as the current history entry.
+      window.location.replace(externalPage);
+    };
 
-  //     // document.referrer keeps the page the user originally
-  //     // came from when the CurioKids SPA was opened.
-  //     //
-  //     // Example:
-  //     // Google → CurioKids
-  //     // document.referrer = Google
-  //     //
-  //     // If there is no external referrer, use Google.
-  //     const externalPage =
-  //       document.referrer &&
-  //       !document.referrer.includes(
-  //         window.location.hostname
-  //       )
-  //         ? document.referrer
-  //         : "https://www.google.com/";
+    window.addEventListener("popstate", handleBrowserBack);
 
-  //     console.log(
-  //       "🌐 Leaving CurioKids →",
-  //       externalPage
-  //     );
-
-  //     // Leave the SPA completely.
-  //     window.location.replace(
-  //       externalPage
-  //     );
-  //   };
-
-  //   window.addEventListener(
-  //     "popstate",
-  //     handleBrowserBack
-  //   );
-
-  //   return () => {
-  //     window.removeEventListener(
-  //       "popstate",
-  //       handleBrowserBack
-  //     );
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("popstate", handleBrowserBack);
+    };
+  }, []);
 
   // =========================================================
   // 📊 LOG PAGE VISIT
@@ -995,11 +953,11 @@ export default function JungleHero() {
       =================================================== */}
 
       <div className="hero-navbar">
-<div className="navbar-title">
-  <span className="brand-sprout">🌱</span>
-  <span className="brand-curio">Curio</span>
-  <span className="brand-kids">Kids</span>
-</div>
+        <div className="navbar-title">
+          <span className="brand-sprout">🌱</span>
+          <span className="brand-curio">Curio</span>
+          <span className="brand-kids">Kids</span>
+        </div>
 
       </div>
 

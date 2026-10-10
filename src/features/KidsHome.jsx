@@ -229,10 +229,10 @@ export default function KidsHome() {
 
         {/* Plain CurioKids text */}
         <div className="navbar-title">
-  <span className="brand-sprout">🌱</span>
-  <span className="brand-curio">Curio</span>
-  <span className="brand-kids">Kids</span>
-</div>
+          <span className="brand-sprout">🌱</span>
+          <span className="brand-curio">Curio</span>
+          <span className="brand-kids">Kids</span>
+        </div>
 
         <div className="navbar-right">
 
@@ -369,10 +369,29 @@ export default function KidsHome() {
               <br />
 
             </h1>
+            <div className="hero-tagline">
+              <span className="hero-tagline-kicker">
+                ✨ YOUR NEXT ADVENTURE STARTS HERE
+              </span>
 
-            
+              <h2>
+                A World of <span>Wonder Awaits You</span>
+              </h2>
 
-          
+              <p>
+                Explore, discover, and grow — one little
+                adventure at a time. 🌱
+              </p>
+
+              <div className="hero-fireflies" aria-hidden="true">
+                <span>✦</span>
+                <span>✧</span>
+                <span>✦</span>
+                <span>✧</span>
+                <span>✦</span>
+              </div>
+            </div>
+
 
           </div>
 

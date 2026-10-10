@@ -5,17 +5,14 @@ html,
 body,
 
 #root,
-
-.kids-home {
-
+.kids-navbar {
+  position: relative;
   width: 100%;
-
   max-width: none;
-
-  margin-left: 0;
-
-  margin-right: 0;
-
+  margin: 0;
+  left: auto;
+  right: auto;
+  box-sizing: border-box;
 }
 
 .kids-navbar {
@@ -70,7 +67,7 @@ button {
 
 }
 
-.kids-home {
+/* .kids-home {
 
   width: 100%;
 
@@ -88,6 +85,14 @@ button {
 
   background: #75bd58;
 
+} */
+ .kids-home {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
 }
 
 /* =========================================================
@@ -1941,5 +1946,183 @@ button {
 
     width: 235px;
 
+  }
+}
+/* ✨ CurioKids magical hero caption */
+.hero-tagline {
+  position: relative;
+  width: fit-content;
+  max-width: 650px;
+  margin: 24px auto 0;
+  padding: 18px 24px;
+  text-align: center;
+  isolation: isolate;
+}
+
+.hero-tagline-kicker {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 226, 143, 0.45);
+  border-radius: 999px;
+  background: rgba(37, 65, 35, 0.72);
+  color: #ffe7a3;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  line-height: 1.5;
+}
+
+.hero-tagline h2 {
+  margin: 18px 0 12px;
+  color: #fff7d6;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.18;
+  letter-spacing: -1px;
+  text-wrap: balance;
+  text-shadow:
+    0 3px 0 rgba(65, 46, 18, 0.35),
+    0 5px 20px rgba(0, 0, 0, 0.4);
+  animation: wonder-appear 0.8s ease-out both;
+}
+
+.hero-tagline h2 span {
+  display: inline;
+  color: #ffe08a;
+}
+.hero-tagline p {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 14px auto 0;
+  padding: 8px 14px;
+
+  color: #fffbea !important;
+  background: rgba(28, 61, 35, 0.72) !important;
+  border: 1px solid rgba(255, 231, 163, 0.35);
+  border-radius: 14px;
+
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.7;
+  text-align: center;
+
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
+}
+/* Floating magical sparkles */
+.hero-fireflies {
+  position: absolute;
+  inset: -10px -15px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-fireflies span {
+  position: absolute;
+  color: #ffe99c;
+  font-size: 1.3rem;
+  opacity: 0;
+  animation: firefly-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 230, 143, 0.9));
+}
+
+.hero-fireflies span:nth-child(1) {
+  top: 10%;
+  left: 3%;
+  animation-delay: 0s;
+}
+
+.hero-fireflies span:nth-child(2) {
+  top: 35%;
+  right: 2%;
+  animation-delay: 0.6s;
+}
+
+.hero-fireflies span:nth-child(3) {
+  bottom: 12%;
+  left: 12%;
+  animation-delay: 1.2s;
+}
+
+.hero-fireflies span:nth-child(4) {
+  top: 2%;
+  right: 15%;
+  animation-delay: 1.8s;
+}
+
+.hero-fireflies span:nth-child(5) {
+  bottom: 8%;
+  right: 10%;
+  animation-delay: 2.2s;
+}
+
+@keyframes wonder-appear {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes firefly-float {
+  0%, 100% {
+    opacity: 0.25;
+    transform: translateY(5px) scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-9px) scale(1.15);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .hero-tagline {
+    width: auto;
+    max-width: 100%;
+    margin: 18px 8px 0;
+    padding: 14px 8px;
+  }
+
+  .hero-tagline-kicker {
+    max-width: 100%;
+    padding: 7px 10px;
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+  }
+
+  .hero-tagline h2 {
+    margin: 15px 0 10px;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    letter-spacing: -0.5px;
+  }
+
+  .hero-tagline h2 span {
+    display: block;
+    margin-top: 3px;
+  }
+
+  .hero-tagline p {
+    max-width: 340px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+}
+
+/* Accessibility: respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hero-tagline h2,
+  .hero-fireflies span {
+    animation: none;
+  }
+
+  .hero-fireflies span {
+    opacity: 0.6;
   }
 }

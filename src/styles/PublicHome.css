@@ -1,3 +1,4 @@
+
 /* ===== PAGE ===== */
 .public-home {
   width: 100%;
@@ -24,13 +25,11 @@
   content: "";
   position: absolute;
   inset: 0;
-
   background: radial-gradient(
     circle at center,
     rgba(0, 0, 0, 0.05),
     rgba(0, 0, 0, 0.3)
   );
-
   z-index: 1;
   pointer-events: none;
 }
@@ -39,10 +38,8 @@
 .center-content {
   position: relative;
   z-index: 2;
-
   width: min(840px, 94vw);
   height: min(750px, 90dvh);
-
   min-height: 480px;
   max-width: 100%;
 }
@@ -51,10 +48,8 @@
 .board-img {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   object-fit: fill;
   pointer-events: none;
   user-select: none;
@@ -65,7 +60,6 @@
   position: absolute;
   inset: 0;
   z-index: 3;
-
   box-sizing: border-box;
   padding: 8% 12%;
 
@@ -78,24 +72,57 @@
   font-weight: 600;
 }
 
-/* ===== TITLE ===== */
-.board-content .title {
+/* ===== CURIOKIDS LOGO ===== */
+.board-content .welcome-logo {
+  position: relative;
+  display: inline-block;
   margin: 0 0 10px;
+  padding-top: 0;
 
-  font-size: clamp(1.8rem, 4vw, 3.1rem);
+  font-family: "Baloo 2", "Trebuchet MS", sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.1rem);
+  font-weight: 900;
   line-height: 1.15;
-
-  color: #134e2a;
-  font-family: Georgia, serif;
-  font-weight: 800;
-
+  text-align: center;
   text-shadow: 2px 2px 0 #e9ffe9;
+}
+
+.board-content .welcome-logo .brand-curio {
+  color: #185c43;
+}
+
+.board-content .welcome-logo .brand-kids {
+  color: #f1aa25;
+}
+
+/*
+   Put the sprout above the K.
+   The K is the first character in the second span,
+   so position the sprout relative to that span.
+*/
+.board-content .welcome-logo .brand-kids {
+  position: relative;
+  display: inline-block;
+}
+
+.board-content .welcome-logo .brand-kids::before {
+  content: "🌱";
+  position: absolute;
+  left: 0.05em;
+  top: -0.85em;
+
+  font-family: sans-serif;
+  font-size: 0.48em;
+  line-height: 1;
+
+  transform: translateX(-5%);
+  z-index: 5;
+  pointer-events: none;
 }
 
 /* ===== SUBTITLE ===== */
 .board-content .subtitle {
   margin: 0 0 18px;
-
   color: #2f6b3f;
   font-size: clamp(0.8rem, 1.5vw, 1.05rem);
   line-height: 1.4;
@@ -110,14 +137,18 @@
 
 .board-content .main-btn,
 .board-content .secondary-btn {
-  width: 100%;
+  width: 70%;
+  max-width: 340px;
   box-sizing: border-box;
-
   padding: 11px 14px;
   margin: 5px 0;
-
   border-radius: 22px;
   font-size: clamp(12px, 1.5vw, 16px);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
 }
 
 /* Register */
@@ -136,50 +167,7 @@
   box-shadow: 0 4px 0 #a77c35;
 }
 
-/* ===== LOCK NOTE ===== */
-.board-content .lock-note {
-  margin-top: 12px;
-
-  color: #2f6b3f;
-  font-size: clamp(0.7rem, 1.3vw, 0.9rem);
-  line-height: 1.4;
-}
-
-/* ===== HOVER ===== */
-.board-content .main-btn:hover,
-.board-content .secondary-btn:hover {
-  transform: translateY(-2px);
-}
-/* =====================================
-   🌼 BUTTONS ONLY — KEEP BOARD UNCHANGED
-   ===================================== */
-
-.board-content .main-btn,
-.board-content .secondary-btn {
-  width: 70%;
-  max-width: 340px;
-  box-sizing: border-box;
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    filter 0.25s ease;
-}
-
-/* Register button */
-.board-content .main-btn {
-  background: #ffcc00;
-  box-shadow: 0 4px 0 #d49c00;
-}
-
-/* Login button */
-.board-content .secondary-btn {
-  background: #fff4d0 !important;
-  border: 3px solid #d5ad4c;
-  box-shadow: 0 4px 0 #a77c35;
-}
-
-/* Gentle hover */
+/* Hover */
 .board-content .main-btn:hover,
 .board-content .secondary-btn:hover {
   transform: translateY(-3px);
@@ -193,12 +181,15 @@
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* =====================================
-   🍃 FLOATING JUNGLE DECORATIONS
-   No JSX changes needed
-   ===================================== */
+/* ===== LOCK NOTE ===== */
+.board-content .lock-note {
+  margin-top: 12px;
+  color: #2f6b3f;
+  font-size: clamp(0.7rem, 1.3vw, 0.9rem);
+  line-height: 1.4;
+}
 
-/* Floating flower */
+/* ===== FLOATING JUNGLE DECORATIONS ===== */
 .public-home::after {
   content: "🌸";
   position: absolute;
@@ -206,13 +197,10 @@
   left: 8%;
   z-index: 4;
   pointer-events: none;
-
   font-size: 24px;
-
   animation: jungleFlowerFloat 8s ease-in-out infinite;
 }
 
-/* Floating leaf */
 .center-content::before {
   content: "🍃";
   position: absolute;
@@ -220,13 +208,10 @@
   left: 8%;
   z-index: 4;
   pointer-events: none;
-
   font-size: 27px;
-
   animation: jungleLeafFloat 9s ease-in-out infinite;
 }
 
-/* Second flower */
 .center-content::after {
   content: "🌼";
   position: absolute;
@@ -234,78 +219,36 @@
   bottom: 15%;
   z-index: 4;
   pointer-events: none;
-
   font-size: 22px;
-
   animation: jungleFlowerFloat 10s ease-in-out infinite reverse;
 }
 
-/* Flower drifting gently */
+/* Flower animation */
 @keyframes jungleFlowerFloat {
   0%, 100% {
     transform: translate(0, 0) rotate(0deg);
   }
-
   25% {
     transform: translate(12px, -15px) rotate(10deg);
   }
-
   50% {
     transform: translate(20px, 4px) rotate(-8deg);
   }
-
   75% {
     transform: translate(5px, -10px) rotate(6deg);
   }
 }
 
-/* Leaf swaying in the breeze */
+/* Leaf animation */
 @keyframes jungleLeafFloat {
   0%, 100% {
     transform: translate(0, 0) rotate(-15deg);
   }
-
   30% {
     transform: translate(15px, 12px) rotate(15deg);
   }
-
   65% {
     transform: translate(5px, 25px) rotate(35deg);
-  }
-}
-
-/* Smaller decorations on phones */
-@media (max-width: 600px) {
-  .board-content .main-btn,
-  .board-content .secondary-btn {
-    width: 78%;
-    max-width: 280px;
-  }
-
-  .public-home::after {
-    font-size: 18px;
-  }
-
-  .center-content::before {
-    font-size: 21px;
-  }
-
-  .center-content::after {
-    font-size: 18px;
-  }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .public-home::after,
-  .center-content::before,
-  .center-content::after {
-    animation: none;
-  }
-
-  .board-content .main-btn,
-  .board-content .secondary-btn {
-    transition: none;
   }
 }
 
@@ -325,8 +268,13 @@
     padding: 8% 12%;
   }
 
-  .board-content .title {
-    font-size: clamp(1.5rem, 6vw, 2.1rem);
+  .board-content .welcome-logo {
+    font-size: clamp(1.8rem, 7vw, 2.3rem);
+  }
+
+  .board-content .welcome-logo .brand-kids::before {
+    top: -0.8em;
+    font-size: 0.45em;
   }
 
   .board-content .subtitle {
@@ -340,6 +288,8 @@
 
   .board-content .main-btn,
   .board-content .secondary-btn {
+    width: 78%;
+    max-width: 280px;
     padding: 9px 8px;
     font-size: 12px;
   }
@@ -347,4 +297,38 @@
   .board-content .lock-note {
     font-size: 0.7rem;
   }
+
+  .public-home::after {
+    font-size: 18px;
+  }
+
+  .center-content::before {
+    font-size: 21px;
+  }
+
+  .center-content::after {
+    font-size: 18px;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .public-home::after,
+  .center-content::before,
+  .center-content::after {
+    animation: none;
+  }
+
+  .board-content .main-btn,
+  .board-content .secondary-btn {
+    transition: none;
+  }
+}
+/* Hide chatbot only on the CurioKids welcome page */
+.public-home .chatbot,
+.public-home .chatbot-container,
+.public-home .chatbot-widget,
+.public-home .chatbot-toggle,
+.public-home .chatbot-button {
+  display: none !important;
 }

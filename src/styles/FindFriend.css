@@ -930,3 +930,70 @@
     font-size: 14px;
   }
 }
+
+/* =====================================================
+   FIND FRIEND: RESPONSIVE FEEDBACK + GAME BOARD
+   ===================================================== */
+
+/* Hide the empty cream feedback bar */
+.find-page .feedback:empty {
+  display: none !important;
+}
+
+/* Show feedback only as a compact message */
+.find-page .feedback:not(:empty) {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  margin: 20px auto 0;
+  padding: 8px 22px;
+  overflow-wrap: anywhere;
+}
+
+/* Keep the wooden board within the screen */
+.find-page .find-grid {
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: repeat(3, minmax(0, 105px));
+  gap: clamp(10px, 2vw, 24px);
+  padding: clamp(18px, 3vw, 36px);
+}
+
+/* Make each animal tile adapt to the available space */
+.find-page .find-cell {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+/* Smaller screens */
+@media (max-width: 480px) {
+  .find-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .find-page .find-grid {
+    grid-template-columns: repeat(3, minmax(0, 75px));
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .find-page .find-cell {
+    border-radius: 14px;
+  }
+
+  .find-page .feedback:not(:empty) {
+    font-size: 1rem;
+    padding: 7px 14px;
+  }
+}

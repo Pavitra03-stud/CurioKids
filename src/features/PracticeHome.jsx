@@ -258,24 +258,13 @@ function PracticeHome() {
 
       <header className="practice-header">
 
-        <div
-          className="practice-brand"
-          onClick={() => navigate("/")}
-        >
-          <div className="practice-brand-icon">
-            🌴
-          </div>
-
-          <div className="practice-brand-text">
-            <h1>CurioKids</h1>
-            <span>JUNGLE PRACTICE</span>
-          </div>
-        </div>
-
-        <div className="practice-header-message">
-          <span>🌱</span>
-          <strong>Choose a skill and explore!</strong>
-        </div>
+        <header className="practice-header">
+  <div className="practice-brand">
+    <div className="practice-brand-text">
+      <h1>🌿 Practice Zone</h1>
+    </div>
+  </div>
+</header>
 
       </header>
 

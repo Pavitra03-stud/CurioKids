@@ -155,7 +155,7 @@ export default function KidsHome() {
       subtitle: "Play, explore & have fun",
       description: "Fun challenges made for curious minds",
       color: "green",
-      path: "/games-home",
+      path: "/games-play",
       speech: "Let's play fun games!",
       tag: "PLAY",
     },
@@ -228,14 +228,11 @@ export default function KidsHome() {
       <header className="kids-navbar">
 
         {/* Plain CurioKids text */}
-        <button
-          type="button"
-          className="brand"
-          onClick={() => navigate("/kids-home")}
-          aria-label="CurioKids home"
-        >
-          CurioKids
-        </button>
+        <div className="navbar-title">
+  <span className="brand-sprout">🌱</span>
+  <span className="brand-curio">Curio</span>
+  <span className="brand-kids">Kids</span>
+</div>
 
         <div className="navbar-right">
 
@@ -372,28 +369,11 @@ export default function KidsHome() {
               <br />
 
             </h1>
-            <div className="hero-tagline">
-              <span className="hero-tagline-kicker">
-                ✨ YOUR NEXT ADVENTURE STARTS HERE
-              </span>
 
-              <h2>
-                A World of <span>Wonder Awaits You</span>
-              </h2>
+            
 
-              <p>
-                Explore, discover, and grow — one little
-                adventure at a time. 🌱
-              </p>
+          
 
-              <div className="hero-fireflies" aria-hidden="true">
-                <span>✦</span>
-                <span>✧</span>
-                <span>✦</span>
-                <span>✧</span>
-                <span>✦</span>
-              </div>
-            </div>
           </div>
 
         </section>

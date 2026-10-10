@@ -261,41 +261,45 @@ button {
    NAVBAR
 
    ========================================================= */
+/* =========================================================
+   NAVBAR: MATCH JUNGLE HERO
+   ========================================================= */
 
 .kids-navbar {
 
   position: sticky;
-
   top: 0;
+  left: 0;
 
   z-index: 1000;
 
-  width: 100vw;
-
-  max-width: none;
-
-  margin-left: calc(50% - 50vw);
+  width: 100%;
 
   min-height: 70px;
 
   padding: 8px 28px;
 
   display: flex;
-
+  justify-content: space-between;
   align-items: center;
 
-  justify-content: space-between;
+  padding: 0 34px;
 
-  background: #075d3f;
+  background: linear-gradient(
+    180deg,
+    rgba(48, 30, 17, 0.78),
+    rgba(48, 30, 17, 0.58)
+  );
 
-  border-bottom: 3px solid #e9c72d;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
-  box-shadow: 0 7px 20px rgba(7, 58, 38, 0.3);
+  border-bottom: 3px solid rgba(255, 216, 77, 0.6);
+
+  box-shadow:
+    0 7px 20px rgba(7, 58, 38, 0.3);
 
   box-sizing: border-box;
-
-  border-radius: 0;
-
 }
 
 /* PLAIN CURIOKIDS TEXT */
@@ -769,7 +773,6 @@ button {
     0 8px 18px rgba(14, 71, 48, 0.18);
 
 }
-
 .hero-copy h1 span {
 
   display: block;
@@ -777,9 +780,7 @@ button {
   color: #fff19a;
 
   text-shadow:
-
     0 5px 0 rgba(113, 91, 23, 0.25);
-
 }
 
 .hero-copy h1 strong {
@@ -1941,432 +1942,4 @@ button {
     width: 235px;
 
   }
-
-}
-
-/* ✨ CurioKids magical hero caption */
-
-.hero-tagline {
-
-  position: relative;
-
-  width: fit-content;
-
-  max-width: 650px;
-
-  margin: 24px auto 0;
-
-  padding: 18px 24px;
-
-  text-align: center;
-
-  isolation: isolate;
-
-}
-
-.hero-tagline-kicker {
-
-  display: inline-block;
-
-  padding: 8px 14px;
-
-  border: 1px solid rgba(255, 226, 143, 0.45);
-
-  border-radius: 999px;
-
-  background: rgba(72, 104, 65, 0.72);
-
-  color: #ffe7a3;
-
-  font-size: 0.72rem;
-
-  font-weight: 800;
-
-  letter-spacing: 1.5px;
-
-  line-height: 1.5;
-
-}
-
-.hero-tagline h2 {
-
-  margin: 18px 0 12px;
-
-  color: #fff7d6;
-
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-
-  font-weight: 900;
-
-  line-height: 1.18;
-
-  letter-spacing: -1px;
-
-  text-wrap: balance;
-
-  text-shadow:
-
-    0 3px 0 rgba(65, 46, 18, 0.35),
-
-    0 5px 20px rgba(0, 0, 0, 0.4);
-
-  animation: wonder-appear 0.8s ease-out both;
-
-}
-
-.hero-tagline h2 span {
-
-  display: inline;
-
-  color: #ffe08a;
-
-}
-
-.hero-tagline p {
-
-  max-width: 480px;
-
-  margin: 0 auto;
-
-  color: #fffdf1;
-
-  font-size: clamp(0.95rem, 1.7vw, 1.15rem);
-
-  font-weight: 500;
-
-  line-height: 1.8;
-
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
-
-}
-
-/* Floating magical sparkles */
-
-.hero-fireflies {
-
-  position: absolute;
-
-  inset: -10px -15px;
-
-  z-index: -1;
-
-  pointer-events: none;
-
-}
-
-.hero-fireflies span {
-
-  position: absolute;
-
-  color: #ffe99c;
-
-  font-size: 1.3rem;
-
-  opacity: 0;
-
-  animation: firefly-float 3s ease-in-out infinite;
-
-  filter: drop-shadow(0 0 8px rgba(255, 230, 143, 0.9));
-
-}
-
-.hero-fireflies span:nth-child(1) {
-
-  top: 10%;
-
-  left: 3%;
-
-  animation-delay: 0s;
-
-}
-
-.hero-fireflies span:nth-child(2) {
-
-  top: 35%;
-
-  right: 2%;
-
-  animation-delay: 0.6s;
-
-}
-
-.hero-fireflies span:nth-child(3) {
-
-  bottom: 12%;
-
-  left: 12%;
-
-  animation-delay: 1.2s;
-
-}
-
-.hero-fireflies span:nth-child(4) {
-
-  top: 2%;
-
-  right: 15%;
-
-  animation-delay: 1.8s;
-
-}
-
-.hero-fireflies span:nth-child(5) {
-
-  bottom: 8%;
-
-  right: 10%;
-
-  animation-delay: 2.2s;
-
-}
-
-@keyframes wonder-appear {
-
-  from {
-
-    opacity: 0;
-
-    transform: translateY(16px);
-
-  }
-
-  to {
-
-    opacity: 1;
-
-    transform: translateY(0);
-
-  }
-
-}
-
-@keyframes firefly-float {
-
-  0%, 100% {
-
-    opacity: 0.25;
-
-    transform: translateY(5px) scale(0.8);
-
-  }
-
-  50% {
-
-    opacity: 1;
-
-    transform: translateY(-9px) scale(1.15);
-
-  }
-
-}
-
-/* Mobile responsive */
-
-@media (max-width: 600px) {
-
-  .hero-tagline {
-
-    width: auto;
-
-    max-width: 100%;
-
-    margin: 18px 8px 0;
-
-    padding: 14px 8px;
-
-  }
-
-  .hero-tagline-kicker {
-
-    max-width: 100%;
-
-    padding: 7px 10px;
-
-    font-size: 0.62rem;
-
-    letter-spacing: 1px;
-
-  }
-
-  .hero-tagline h2 {
-
-    margin: 15px 0 10px;
-
-    font-size: clamp(1.8rem, 8vw, 2.5rem);
-
-    letter-spacing: -0.5px;
-
-  }
-
-  .hero-tagline h2 span {
-
-    display: block;
-
-    margin-top: 3px;
-
-  }
-
-  .hero-tagline p {
-
-    max-width: 340px;
-
-    font-size: 0.95rem;
-
-    line-height: 1.65;
-
-  }
-
-}
-
-/* Accessibility: respect reduced-motion preferences */
-
-@media (prefers-reduced-motion: reduce) {
-
-  .hero-tagline h2,
-
-  .hero-fireflies span {
-
-    animation: none;
-
-  }
-
-  .hero-fireflies span {
-
-    opacity: 0.6;
-
-  }
-
-}
-
-.hero-tagline p {
-
-  position: relative;
-
-  z-index: 2;
-
-  max-width: 600px;
-
-  margin: 14px auto 0;
-
-  padding: 8px 14px;
-
-  color: #fffbea !important;
-
-  background: rgba(28, 61, 35, 0.72) !important;
-
-  border: 1px solid rgba(255, 231, 163, 0.35);
-
-  border-radius: 14px;
-
-  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-
-  font-weight: 700;
-
-  line-height: 1.7;
-
-  text-align: center;
-
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
-
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
-
-}
-
-/* =========================================================
-
-   FULL-WIDTH NAVBAR FIX
-
-   Keeps the existing navbar design and colors unchanged.
-
-   ========================================================= */
-
-.kids-home > .kids-navbar,
-
-.kids-navbar {
-
-  position: sticky;
-
-  top: 0;
-
-  left: 0;
-
-  width: 100vw;
-
-  max-width: none;
-
-  margin-left: calc(50% - 50vw);
-
-  margin-right: 0;
-
-  border-radius: 0;
-
-  box-sizing: border-box;
-
-}
-
-/* Ensure the page root does not add an outer gap */
-
-html,
-
-body,
-
-#root {
-
-  width: 100%;
-
-  min-height: 100%;
-
-  margin: 0;
-
-  padding: 0;
-
-}
-
-/* =========================================================
-   FULL-WIDTH LAYOUT FIX
-   Preserves the existing CurioKids design and component styles.
-   ========================================================= */
-
-html,
-body,
-#root {
-  width: 100%;
-  min-width: 0;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  overflow-x: clip;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-/* Make the page itself span the viewport, even inside a narrower wrapper. */
-.kids-home {
-  width: 100vw;
-  max-width: none;
-  min-width: 0;
-  margin-left: calc(50% - 50vw);
-  margin-right: 0;
-  box-sizing: border-box;
-}
-
-/* Keep the navbar aligned to the full-width .kids-home container. */
-.kids-home > .kids-navbar,
-.kids-navbar {
-  position: sticky;
-  top: 0;
-  left: auto;
-  right: auto;
-  width: 100%;
-  max-width: none;
-  margin-left: 0;
-  margin-right: 0;
-  box-sizing: border-box;
-  border-radius: 0;
 }

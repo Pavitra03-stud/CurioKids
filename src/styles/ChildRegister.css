@@ -1,88 +1,263 @@
+/* =========================================================
+   CURIOKIDS CHILD REGISTRATION
+   Same jungle background and wooden palette as GamesPlayHome.
+   Visual-only update. Keep ChildRegister.jsx logic unchanged.
+   ========================================================= */
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
 
 .child-register {
-  width: 100vw;
-  height: 100vh;
-  background-image: url("../assets/login.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px 16px;
+  overflow-x: hidden;
+
+  font-family: "Trebuchet MS", "Comic Sans MS", sans-serif;
+
+  /* Same jungle background asset used on the Games page */
+  background:
+    linear-gradient(
+      rgba(7, 58, 37, 0.10),
+      rgba(7, 58, 37, 0.14)
+    ),
+    url("../assets/gamesHome.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Main wooden board: same colors, border, depth and grain as Games cards */
+.child-register .register-card,
+.child-register .child-register-card,
+.child-register .register-container {
+  box-sizing: border-box;
+  width: min(440px, 100%);
+  max-width: 100%;
   position: relative;
-}
+  isolation: isolate;
+  padding: clamp(26px, 4vw, 38px);
+  text-align: center;
 
-.register-card {
-  padding-top: 45px;
-   padding-right: 45px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(92, 54, 25, 0.14) 0px,
+      rgba(92, 54, 25, 0.14) 2px,
+      transparent 2px,
+      transparent 17px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(139, 91, 43, 0.98),
+      rgba(170, 111, 52, 0.97) 48%,
+      rgba(126, 78, 37, 0.98)
+    ) !important;
+
+  border: 4px solid #e0b66d;
   border-radius: 24px;
-  width: 380px;
-  text-align: center;
-  z-index: 2;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(92, 54, 25, 0.45),
+    inset 0 0 25px rgba(72, 39, 18, 0.25),
+    0 6px 0 #70421f,
+    0 14px 28px rgba(35, 65, 38, 0.28);
 }
 
-.register-card h1 {
-  font-size: 28px;
-  color: #2d6a4f;
-}
-
-.register-card p {
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 15px;
-  border-radius: 14px;
-  border: 2px solid #cde8d5;
-  font-size: 16px;
-}
-
-.note {
-  font-size: 13px;
-  color: #777;
-  margin-top: 10px;
-}
-.register-card button {
-  width: 80%;
-  padding: 18px 28px;
-  font-size: 1.2rem;
-  border-radius: 999px;
-}
-
-.error-text {
-  color: #d32f2f;
-  font-size: 14px;
-  margin: 8px 0;
-  text-align: center;
-}
-.back-btn {
+/* Fine horizontal grain from the games wooden cards */
+.child-register .register-card::before,
+.child-register .child-register-card::before,
+.child-register .register-container::before {
+  content: "";
   position: absolute;
-  top: 20px;
-  left: 20px;
-  background: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
+  inset: 7px;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid rgba(255, 218, 151, 0.42);
+  border-radius: 16px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 15px,
+    rgba(255, 216, 148, 0.10) 16px,
+    rgba(75, 42, 19, 0.12) 18px
+  );
 }
 
-.save-btn {
-  background: #ffcc00;
-  border: none;
-  padding: 12px;
-  border-radius: 25px;
+.child-register h1,
+.child-register h2 {
+  color: #fff3c4;
+  font-family: "Trebuchet MS", "Comic Sans MS", sans-serif;
+  font-weight: 900;
+  text-shadow:
+    0 3px 0 #70421f,
+    0 5px 10px rgba(0, 0, 0, 0.30);
+}
+
+.child-register p {
+  color: #fff0c9;
+  text-shadow: 0 2px 5px rgba(45, 28, 12, 0.55);
+}
+
+.child-register input,
+.child-register select {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  margin: 7px 0;
+  border: 3px solid #8b5a2b;
+  border-radius: 12px;
+  background: #fff7e8;
+  color: #4b2d19;
+  font: inherit;
   font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-weight: bold;
+  outline: none;
+  box-shadow:
+    inset 0 2px 3px rgba(70, 40, 18, 0.12),
+    0 3px 0 #70421f;
 }
 
-.save-btn:hover {
-  background: #ff9900;
-  transform: scale(1.05);
+.child-register input::placeholder {
+  color: #80684f;
+  opacity: 1;
+}
+
+.child-register input:focus,
+.child-register select:focus {
+  border-color: #f0ce83;
+  box-shadow:
+    0 0 0 3px rgba(255, 226, 160, 0.28),
+    0 3px 0 #70421f;
+}
+
+/* Green action button retained, with the same wood-toned depth */
+.child-register button,
+.child-register .save-btn,
+.child-register .register-btn {
+  box-sizing: border-box;
+  max-width: 100%;
+  border: 4px solid #e0b66d;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4caf50, #238447);
+  color: #fff7dc;
+  font-family: "Trebuchet MS", "Comic Sans MS", sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 2px rgba(17, 75, 40, 0.35),
+    0 5px 0 #70421f,
+    0 9px 16px rgba(35, 65, 38, 0.25);
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.child-register button:hover,
+.child-register .save-btn:hover,
+.child-register .register-btn:hover {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+}
+
+.child-register button:active,
+.child-register .save-btn:active,
+.child-register .register-btn:active {
+  transform: translateY(2px);
+}
+
+.child-register .error,
+.child-register .error-text {
+  color: #7b1515;
+  background: #fff0ed;
+  border: 2px solid #d46a55;
+  border-radius: 10px;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+}
+
+/* Learn / Play / Grow mini tiles, when present */
+.child-register .learning-grid,
+.child-register .feature-grid,
+.child-register .wood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.child-register .learning-grid > *,
+.child-register .feature-grid > *,
+.child-register .wood-grid > * {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 10px 6px;
+  border: 3px solid #8b5a2b;
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(92, 54, 25, 0.12) 0px,
+      rgba(92, 54, 25, 0.12) 2px,
+      transparent 2px,
+      transparent 14px
+    ),
+    linear-gradient(135deg, #b77a3f, #8b5a2b 70%, #7e4e25);
+  color: #fff3c4;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 216, 148, 0.22),
+    0 4px 0 #70421f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .child-register {
+    padding: 18px 12px;
+    background-attachment: scroll;
+    background-position: center center;
+  }
+
+  .child-register .register-card,
+  .child-register .child-register-card,
+  .child-register .register-container {
+    width: 100%;
+    padding: 26px 18px;
+    border-radius: 20px;
+  }
+
+  .child-register input,
+  .child-register select {
+    font-size: 15px;
+  }
+
+  .child-register .learning-grid,
+  .child-register .feature-grid,
+  .child-register .wood-grid {
+    gap: 7px;
+  }
+}
+
+@media (max-height: 650px) {
+  .child-register {
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .child-register button,
+  .child-register .save-btn,
+  .child-register .register-btn {
+    transition: none;
+  }
 }

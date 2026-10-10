@@ -1,79 +1,271 @@
+/* =========================================================
+   CURIOKIDS PARENT REGISTRATION
+   Uses the same jungle background and wooden card style as Games.
+   JSX, Firebase logic, form fields and navigation remain unchanged.
+   ========================================================= */
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
 .parent-register {
-  width: 100vw;
-  height: 100vh;
-  /* background-image: url("src/assets/login.png"); */
-  background-image: url("../assets/login.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow-x: hidden;
+  padding: 28px 16px;
+
+  font-family: "Trebuchet MS", "Comic Sans MS", sans-serif;
+  color: #fff6d8;
+
+  /* Exact jungle background asset used by Games */
+  background:
+    linear-gradient(
+      rgba(7, 58, 37, 0.10),
+      rgba(7, 58, 37, 0.14)
+    ),
+    url("../assets/gamesHome.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
+/* Wooden board styled after the Games grid cards */
 .parent-card {
-padding-top: 100px;
-   padding-right: 45px;
-  border-radius: 24px;
-  width: 380px;
-  text-align: center;
+  position: relative;
   z-index: 2;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: min(520px, 100%);
+  padding: clamp(28px, 5vw, 42px);
+  text-align: center;
+  border: 4px solid #e0b66d;
+  border-radius: 24px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(92, 54, 25, 0.13) 0px,
+      rgba(92, 54, 25, 0.13) 2px,
+      transparent 2px,
+      transparent 17px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(170, 111, 52, 0.98),
+      rgba(139, 91, 43, 0.98) 48%,
+      rgba(126, 78, 37, 0.98)
+    );
+
+  box-shadow:
+    inset 0 0 0 2px rgba(92, 54, 25, 0.45),
+    inset 0 0 25px rgba(72, 39, 18, 0.25),
+    0 6px 0 #70421f,
+    0 14px 28px rgba(15, 45, 25, 0.38);
+}
+
+/* Warm highlights and grain like the game cards */
+.parent-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid rgba(255, 218, 151, 0.45);
+  border-radius: 16px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 16px,
+      rgba(255, 216, 148, 0.10) 17px,
+      rgba(75, 42, 19, 0.12) 19px
+    );
 }
 
 .parent-card h1 {
-  font-size: 26px;
-  color: #1b4332;
+  margin: 0 0 8px;
+  color: #fff3c4;
+  font-size: clamp(24px, 4vw, 32px);
+  line-height: 1.2;
+  font-weight: 900;
+  text-shadow:
+    0 3px 0 #70421f,
+    0 5px 10px rgba(0, 0, 0, 0.30);
 }
 
-.parent-card p {
-  color: #555;
-  margin-bottom: 20px;
+.parent-card > p {
+  color: #fff0c9;
+  text-shadow: 0 2px 5px rgba(45, 28, 12, 0.55);
+  margin: 0 0 18px;
 }
 
-.note {
-  font-size: 13px;
-  color: #666;
-  margin-top: 12px;
+.parent-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.error-text {
-  color: #d32f2f;
-  font-size: 14px;
-  margin: 8px 0;
-  text-align: center;
+
+.parent-card .input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 3px solid #8b5a2b;
+  border-radius: 12px;
+  background: #fff7e8;
+  color: #4b2d19;
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+  box-shadow:
+    inset 0 2px 3px rgba(70, 40, 18, 0.12),
+    0 3px 0 #70421f;
 }
-.login-link {
-  margin-top: 12px;
-  cursor: pointer;
-  color: #2e7d32;
-  font-weight: 500;
+
+.parent-card .input::placeholder {
+  color: #80684f;
+  opacity: 1;
 }
-.back-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
+
+.parent-card .input:focus {
+  border-color: #f0ce83;
+  box-shadow:
+    0 0 0 3px rgba(255, 226, 160, 0.28),
+    0 3px 0 #70421f;
 }
 
 .save-btn {
-  background: #4caf50;
-  border: none;
-  padding: 12px;
-  border-radius: 25px;
   width: 100%;
-  font-size: 16px;
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding: 14px 18px;
+  border: 4px solid #e0b66d;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #4caf50, #238447);
+  color: #fff7dc;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 900;
   cursor: pointer;
-  margin-top: 10px;
-  color: white;
-  font-weight: bold;
+  box-shadow:
+    inset 0 0 0 2px rgba(17, 75, 40, 0.35),
+    0 5px 0 #70421f,
+    0 9px 16px rgba(35, 65, 38, 0.25);
+  transition: transform 0.18s ease, filter 0.18s ease;
 }
 
-.save-btn:hover {
-  background: #2e7d32;
-  transform: scale(1.05);
+.save-btn:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+}
+
+.save-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 0 0 2px rgba(17, 75, 40, 0.35),
+    0 2px 0 #70421f;
+}
+
+.save-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login-link {
+  margin: 16px 0 0;
+  color: #fff0c9;
+  font-weight: 800;
+  text-shadow: 0 2px 5px rgba(45, 28, 12, 0.55);
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: #fff7dc;
+  text-decoration: underline;
+}
+
+.note {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #fff0c9;
+  text-shadow: 0 2px 5px rgba(45, 28, 12, 0.55);
+}
+
+.error-text,
+.success-text {
+  margin: 8px 0;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.error-text {
+  color: #7b1515;
+  background: #fff0ed;
+  border: 2px solid #d46a55;
+}
+
+.success-text {
+  color: #155b32;
+  background: #efffeb;
+  border: 2px solid #7ebd78;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .parent-register {
+    padding: 18px 12px;
+    background-attachment: scroll;
+    background-position: center center;
+  }
+
+  .parent-card {
+    width: 100%;
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+
+  .parent-card h1 {
+    font-size: clamp(22px, 6vw, 28px);
+  }
+
+  .parent-card .input,
+  .save-btn {
+    font-size: 15px;
+  }
+}
+
+@media (max-height: 650px) {
+  .parent-register {
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .parent-card {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-btn {
+    transition: none;
+  }
 }

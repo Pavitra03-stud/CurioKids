@@ -60,41 +60,15 @@
    HEADER
    ========================================================= */
 
-.number-games-topbar {
-  position: relative;
-  z-index: 5;
+  .number-games-topbar {
+    height: 60px;
+    min-height: 60px;
+    padding: 7px 15px;
+  }
 
-  width: 100%;
-  min-height: 68px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 8px 30px;
-
-  background: rgba(5, 75, 48, 0.94);
-
-  border-bottom: 3px solid #e7c34a;
-
-  box-shadow:
-    0 4px 18px rgba(0, 0, 0, 0.18);
-
-  border-radius: 0 0 18px 18px;
-}
-
-
-.number-games-title {
-  margin: 0;
-
-  font-size: 27px;
-  font-weight: 900;
-
-  color: #ffffff;
-
-  text-shadow:
-    0 2px 3px rgba(0, 0, 0, 0.25);
-}
+  .number-games-title {
+    font-size: 21px;
+  }
 
 
 /* =========================================================
@@ -983,5 +957,104 @@
     height: 21px;
 
     font-size: 13px;
+  }
+}
+
+/* Navbar responsive sizing */
+@media (max-width: 650px) {
+  .number-games-topbar {
+    height: 60px;
+    min-height: 60px;
+    padding: 7px 15px;
+  }
+
+  .number-games-title {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 400px) {
+  .number-games-title {
+    font-size: 19px;
+  }
+}
+/* =========================================================
+   NUMBERS HOME NAVBAR
+   MATCH PRACTICE HOME EXACTLY
+   ========================================================= */
+
+.numbers-home-header {
+  position: sticky !important;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+
+  width: 100%;
+  height: 78px;
+  min-height: 78px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 5.2vw;
+
+  background: linear-gradient(
+    180deg,
+    rgba(31, 43, 18, 0.90),
+    rgba(31, 43, 18, 0.76)
+  ) !important;
+
+  border-bottom: 3px solid rgba(231, 198, 79, 0.85);
+  border-radius: 0;
+
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.numbers-home-header h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: max-content;
+  max-width: 90%;
+  margin: 0;
+
+  color: #fff4d2 !important;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 29px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  text-align: center;
+
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Keep the back button from shifting the centered title */
+.numbers-home-header .numbers-back-btn {
+  position: absolute;
+  left: 20px;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+  .numbers-home-header {
+    height: 60px;
+    min-height: 60px;
+    padding: 7px 15px;
+  }
+
+  .numbers-home-header h1 {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 400px) {
+  .numbers-home-header h1 {
+    font-size: 19px;
   }
 }

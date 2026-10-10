@@ -64,8 +64,10 @@ export default function PublicHome() {
         />
 
         <div className="board-content">
-          <h1 className="title">CurioKids</h1>
-
+          <h1 className="welcome-logo">
+  <span className="brand-curio">Curio</span>
+  <span className="brand-kids">Kids</span>
+</h1>
           <p className="subtitle">
             A jungle world where learning grows through play 🌱
           </p>

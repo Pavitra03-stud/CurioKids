@@ -348,9 +348,9 @@ export default function Progress() {
         {/* LEVEL */}
 <div className="stat-card level-card">
 
-  <div className="level-card-icon">
+  {/* <div className="level-card-icon">
     {level.emoji}
-  </div>
+  </div> */}
 
   <div className="level-card-content">
 

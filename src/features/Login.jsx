@@ -997,8 +997,8 @@ const normalizeChildProfile = (userData) => {
 
   const source =
     nested &&
-    typeof nested === "object" &&
-    !Array.isArray(nested)
+      typeof nested === "object" &&
+      !Array.isArray(nested)
       ? nested
       : {};
 
@@ -1120,7 +1120,7 @@ export default function Login() {
 
       const parentProfile =
         userData.parentProfile &&
-        typeof userData.parentProfile === "object"
+          typeof userData.parentProfile === "object"
           ? userData.parentProfile
           : userData.parentName
             ? { parentName: userData.parentName }
@@ -1197,20 +1197,13 @@ export default function Login() {
 
       // 8. Navigate according to the saved profile.
       if (childProfile && jungleFriend) {
-        localStorage.setItem("appProgress", "friend-chosen");
-
         navigate("/jungle-hero", { replace: true });
       } else if (childProfile) {
-        localStorage.setItem("appProgress", "child-created");
-
         navigate("/choose-friend", { replace: true });
       } else {
-        localStorage.setItem("appProgress", "profile-needed");
-
-        navigate("/child-register", {
-          replace: true,
-          state: { profileRecovery: true },
-        });
+        // Existing user without a recognized profile:
+        // do not send them to registration automatically.
+        navigate("/jungle-hero", { replace: true });
       }
     } catch (err) {
       console.error(

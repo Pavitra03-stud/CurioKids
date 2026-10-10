@@ -93,18 +93,11 @@
 
 .board-content .welcome-logo .brand-kids {
   color: #f1aa25;
-}
-
-/*
-   Put the sprout above the K.
-   The K is the first character in the second span,
-   so position the sprout relative to that span.
-*/
-.board-content .welcome-logo .brand-kids {
   position: relative;
   display: inline-block;
 }
 
+/* Sprout above the K */
 .board-content .welcome-logo .brand-kids::before {
   content: "🌱";
   position: absolute;
@@ -122,10 +115,14 @@
 
 /* ===== SUBTITLE ===== */
 .board-content .subtitle {
-  margin: 0 0 18px;
+  width: 100%;
+  max-width: 260px;
+  margin: 0 0 12px;
   color: #2f6b3f;
-  font-size: clamp(0.8rem, 1.5vw, 1.05rem);
+  font-size: clamp(0.72rem, 3vw, 0.9rem);
   line-height: 1.4;
+  text-align: center;
+  text-wrap: balance;
 }
 
 /* ===== BUTTONS ===== */
@@ -223,53 +220,92 @@
   animation: jungleFlowerFloat 10s ease-in-out infinite reverse;
 }
 
-/* Flower animation */
+/* ===== FLOWER ANIMATION ===== */
 @keyframes jungleFlowerFloat {
   0%, 100% {
     transform: translate(0, 0) rotate(0deg);
   }
+
   25% {
     transform: translate(12px, -15px) rotate(10deg);
   }
+
   50% {
     transform: translate(20px, 4px) rotate(-8deg);
   }
+
   75% {
     transform: translate(5px, -10px) rotate(6deg);
   }
 }
 
-/* Leaf animation */
+/* ===== LEAF ANIMATION ===== */
 @keyframes jungleLeafFloat {
   0%, 100% {
     transform: translate(0, 0) rotate(-15deg);
   }
+
   30% {
     transform: translate(15px, 12px) rotate(15deg);
   }
+
   65% {
     transform: translate(5px, 25px) rotate(35deg);
   }
 }
 
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media screen and (max-width: 768px) {
   .public-home {
-    padding: 10px;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 12px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .center-content {
+    position: relative;
     width: 100%;
+    max-width: 460px;
     height: min(570px, 85dvh);
     min-height: 400px;
+    margin: auto;
+  }
+
+  .board-img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    object-fit: fill;
   }
 
   .board-content {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     padding: 8% 12%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
   }
 
   .board-content .welcome-logo {
     font-size: clamp(1.8rem, 7vw, 2.3rem);
+    line-height: 1.15;
+    margin: 0 0 10px;
   }
 
   .board-content .welcome-logo .brand-kids::before {
@@ -278,24 +314,35 @@
   }
 
   .board-content .subtitle {
-    margin-bottom: 12px;
-    font-size: 0.78rem;
+    max-width: 100%;
+    margin: 0 0 12px;
+    font-size: clamp(0.72rem, 3vw, 0.9rem);
+    line-height: 1.4;
   }
 
   .board-content .game-button {
     width: 88%;
+    max-width: 300px;
+    margin: 5px 0;
   }
 
   .board-content .main-btn,
   .board-content .secondary-btn {
     width: 78%;
     max-width: 280px;
-    padding: 9px 8px;
+    min-height: 42px;
+    box-sizing: border-box;
+    padding: 9px 10px;
+    margin: 5px 0;
     font-size: 12px;
+    line-height: 1.35;
   }
 
   .board-content .lock-note {
+    max-width: 100%;
+    margin-top: 8px;
     font-size: 0.7rem;
+    line-height: 1.4;
   }
 
   .public-home::after {
@@ -308,6 +355,41 @@
 
   .center-content::after {
     font-size: 18px;
+  }
+}
+
+/* ===== SMALL MOBILE SCREENS ===== */
+@media screen and (max-width: 380px) {
+  .public-home {
+    padding: 8px;
+  }
+
+  .center-content {
+    width: 100%;
+    height: min(500px, 82dvh);
+    min-height: 380px;
+  }
+
+  .board-content {
+    padding: 8% 10%;
+  }
+
+  .board-content .welcome-logo {
+    font-size: clamp(1.55rem, 7vw, 1.8rem);
+    margin-bottom: 8px;
+  }
+
+  .board-content .subtitle {
+    font-size: 0.7rem;
+    margin-bottom: 8px;
+  }
+
+  .board-content .main-btn,
+  .board-content .secondary-btn {
+    width: 88%;
+    min-height: 40px;
+    padding: 8px;
+    font-size: 12px;
   }
 }
 
@@ -324,7 +406,8 @@
     transition: none;
   }
 }
-/* Hide chatbot only on the CurioKids welcome page */
+
+/* ===== HIDE CHATBOT ON WELCOME PAGE ===== */
 .public-home .chatbot,
 .public-home .chatbot-container,
 .public-home .chatbot-widget,

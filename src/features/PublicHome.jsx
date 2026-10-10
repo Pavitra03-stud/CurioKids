@@ -69,7 +69,8 @@ export default function PublicHome() {
   <span className="brand-kids">Kids</span>
 </h1>
           <p className="subtitle">
-            A jungle world where learning grows through play 🌱
+            A jungle world where
+           <br/>  learning grows through play 🌱
           </p>
 
           {/* 🌱 REGISTER */}

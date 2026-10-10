@@ -837,67 +837,67 @@ export default function JungleHero() {
   // Google is used as the fallback.
   // =========================================================
 
-  useEffect(() => {
-    // Create a history boundary specifically for Jungle Hero.
-    //
-    // Browser Back will trigger popstate from this boundary.
-    window.history.pushState(
-      {
-        curioKidsBoundary: true,
-      },
-      "",
-      window.location.href
-    );
+  // useEffect(() => {
+  //   // Create a history boundary specifically for Jungle Hero.
+  //   //
+  //   // Browser Back will trigger popstate from this boundary.
+  //   window.history.pushState(
+  //     {
+  //       curioKidsBoundary: true,
+  //     },
+  //     "",
+  //     window.location.href
+  //   );
 
-    let handlingBack = false;
+  //   let handlingBack = false;
 
-    const handleBrowserBack = () => {
-      // Prevent repeated handling.
-      if (handlingBack) {
-        return;
-      }
+  //   const handleBrowserBack = () => {
+  //     // Prevent repeated handling.
+  //     if (handlingBack) {
+  //       return;
+  //     }
 
-      handlingBack = true;
+  //     handlingBack = true;
 
-      // document.referrer keeps the page the user originally
-      // came from when the CurioKids SPA was opened.
-      //
-      // Example:
-      // Google → CurioKids
-      // document.referrer = Google
-      //
-      // If there is no external referrer, use Google.
-      const externalPage =
-        document.referrer &&
-        !document.referrer.includes(
-          window.location.hostname
-        )
-          ? document.referrer
-          : "https://www.google.com/";
+  //     // document.referrer keeps the page the user originally
+  //     // came from when the CurioKids SPA was opened.
+  //     //
+  //     // Example:
+  //     // Google → CurioKids
+  //     // document.referrer = Google
+  //     //
+  //     // If there is no external referrer, use Google.
+  //     const externalPage =
+  //       document.referrer &&
+  //       !document.referrer.includes(
+  //         window.location.hostname
+  //       )
+  //         ? document.referrer
+  //         : "https://www.google.com/";
 
-      console.log(
-        "🌐 Leaving CurioKids →",
-        externalPage
-      );
+  //     console.log(
+  //       "🌐 Leaving CurioKids →",
+  //       externalPage
+  //     );
 
-      // Leave the SPA completely.
-      window.location.replace(
-        externalPage
-      );
-    };
+  //     // Leave the SPA completely.
+  //     window.location.replace(
+  //       externalPage
+  //     );
+  //   };
 
-    window.addEventListener(
-      "popstate",
-      handleBrowserBack
-    );
+  //   window.addEventListener(
+  //     "popstate",
+  //     handleBrowserBack
+  //   );
 
-    return () => {
-      window.removeEventListener(
-        "popstate",
-        handleBrowserBack
-      );
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener(
+  //       "popstate",
+  //       handleBrowserBack
+  //     );
+  //   };
+  // }, []);
 
   // =========================================================
   // 📊 LOG PAGE VISIT
